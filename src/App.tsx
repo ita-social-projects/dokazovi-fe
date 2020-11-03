@@ -1,19 +1,18 @@
 import React from 'react';
 import './App.css';
-import {BrowserRouter} from 'react-router-dom'
+import {RenderRoutes} from "./navigation/Router"; 
+import {ROUTER_CONFIG} from "./navigation/routerConfig"; 
 
-import Router from "./navigation/Router"; 
 
 function App() {
-  return (
-    <BrowserRouter>
+  
+  return (    
     <div className="App">
-      <header className="App-header">      
-      </header>
-      
-      <Router /> {/*router component*/} 
-    </div>
-    </BrowserRouter>
+      <header className="App-header"> 
+      <h1>Header</h1>     
+      </header>      
+      <RenderRoutes routes={ROUTER_CONFIG}/>  
+    </div>    
   );
 }
 
