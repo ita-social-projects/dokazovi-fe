@@ -42,7 +42,5 @@
       "last 1 safari version"
     ]
   },
-  "devDependencies": {
-    "@types/query-string": "^6.3.0"
-  }
+  "devDependencies": {}
 }
