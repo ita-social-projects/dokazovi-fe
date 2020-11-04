@@ -1,8 +1,9 @@
 import DirectionView from "../modules/direction/components/DirectionView";
 import MainView from "../modules/main/components/MainView";
 import { RenderRoutes } from "./Router";
+import { IRouterConfig } from './types'
 
-export const ROUTER_CONFIG = [
+export const ROUTER_CONFIG: Array<IRouterConfig> = [
     {
         component: MainView,
         path: '/main',

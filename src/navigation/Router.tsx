@@ -1,5 +1,6 @@
 import React from 'react';
 import { Route, Switch } from "react-router-dom";
+import { IRouterConfig } from "./types";
 
 export function RenderRoutes ({routes}) {
     return (        
@@ -16,9 +17,8 @@ export function RenderRoutes ({routes}) {
     )
 }
 
-function RouteWithSubRoutes(route) {
-    console.log(route);
-    return (
+function RouteWithSubRoutes(route: IRouterConfig) {
+    return (      
       <Route
         path={route.path}
         exact={route.exact}        

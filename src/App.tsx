@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
-import {RenderRoutes} from "./navigation/Router"; 
-import {ROUTER_CONFIG} from "./navigation/routerConfig"; 
+import { RenderRoutes } from "./navigation/Router"; 
+import { ROUTER_CONFIG } from "./navigation/routerConfig"; 
 
 
 function App() {
