@@ -1,2 +1,3 @@
 // router cfg will go here
-export const ROUTER_CONFIG = {}
+const ROUTER_CONFIG = {};
+export default ROUTER_CONFIG;

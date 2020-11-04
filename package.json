@@ -21,10 +21,10 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "lint": "eslint --quiet --fix",
-    "lint:all": "eslint 'src/**/*.{js,jsx,ts,tsx}' --quiet --fix",
-    "format": "prettier --write",
-    "format:all": "prettier --write 'src/**/*.{js,jsx,json,ts,tsx,css,md}'"
+    "lint": "eslint --quiet",
+    "lint:all": "eslint 'src/**/*.{js,jsx,ts,tsx}' --quiet",
+    "prettier-format": "prettier --write",
+    "prettier-format:all": "prettier --write 'src/**/*.{js,jsx,json,ts,tsx,css,md}'"
   },
   "browserslist": {
     "production": [
@@ -50,5 +50,10 @@
     "eslint-plugin-react-hooks": "^4.0.0",
     "husky": "^4.3.0",
     "lint-staged": "^10.5.1"
+  },
+  "husky": {
+    "hooks": {
+      "pre-push": "npm run lint:all"
+    }
   }
 }
