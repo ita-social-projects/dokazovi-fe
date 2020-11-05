@@ -6,7 +6,7 @@ export interface IDirectionViewProps {
 
 const DirectionView: React.FC<IDirectionViewProps> = (props) => {
   return (
-    <React.Fragment>DirectionView</React.Fragment>
+    <>DirectionView</>
   );
 };
 
