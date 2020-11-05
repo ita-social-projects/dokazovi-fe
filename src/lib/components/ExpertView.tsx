@@ -4,13 +4,13 @@ export interface IExpertViewProps {
   name: string,
 }
 
-const ExpertView: React.FC<IExpertViewProps> = (props) => {
+const ExpertView: React.FC<IExpertViewProps> = ({name}) => {
 
   return (
-    <React.Fragment>
+    <>
       <span>ExpertView</span>
-      <span>{props.name}</span>
-    </React.Fragment>
+      <span>{name}</span>
+    </>
   );
 };
 
