@@ -21,8 +21,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "lint": "eslint --quiet",
-    "lint:all": "eslint 'src/**/*.{js,jsx,ts,tsx}' --quiet",
+    "lint": "eslint src/**/*.{js,jsx,ts,tsx} --quiet",
+    "lint:fix": "eslint src/**/*.{js,jsx,ts,tsx} --quiet --fix",
     "prettier-format": "prettier --write",
     "prettier-format:all": "prettier --write 'src/**/*.{js,jsx,json,ts,tsx,css,md}'"
   },
@@ -53,7 +53,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-push": "npm run lint:all"
+      "pre-push": "npm run lint"
     }
   }
 }
