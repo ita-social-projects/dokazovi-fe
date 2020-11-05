@@ -2,12 +2,11 @@ import React from 'react';
 import { Route, Switch } from "react-router-dom";
 import { IRouterConfig } from "./types";
 
-export function RenderRoutes ({routes}) {
+export const RenderRoutes: React.FC<{ routes: IRouterConfig[] }> = ({routes}) => {
     return (        
         <Switch>           
             {routes.map((route, i) => {
-              return <RouteWithSubRoutes 
-                        key={route.key}
+              return <RouteWithSubRoutes                        
                         {...route}
               />;
         })}
@@ -17,12 +16,24 @@ export function RenderRoutes ({routes}) {
     )
 }
 
-function RouteWithSubRoutes(route: IRouterConfig) {
+
+export const RouteWithSubRoutes: React.FC<IRouterConfig> = (route) => {
+  if (route.routes) {
     return (      
       <Route
         path={route.path}
         exact={route.exact}        
-        render={props => <route.component {...props} routes={route.routes} />}
+        render={props => <route.component {...props} routes={route.routes!} />}
       />
     );
+    }
+    else {
+      return (
+      <Route
+        path={route.path}
+        exact={route.exact}  
+        component={route.component}   
+      />
+    );
+    }
   }

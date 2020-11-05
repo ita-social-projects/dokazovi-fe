@@ -7,5 +7,5 @@ export interface IRouterConfig {
     path: string,
     key: string,
     exact?: boolean,
-    routes?: IRouterConfig[],
+    routes?: IRouterConfig[]
   }

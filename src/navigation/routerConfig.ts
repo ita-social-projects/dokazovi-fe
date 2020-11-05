@@ -31,3 +31,5 @@ export const ROUTER_CONFIG: Array<IRouterConfig> = [
         ]
     }
 ]
+
+
