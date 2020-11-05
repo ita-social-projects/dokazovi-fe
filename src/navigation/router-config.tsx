@@ -1,13 +1,13 @@
 import { lazy } from 'react';
-import { RenderRoutes } from './Router'
+import { RenderRoutes } from './Router';
 import { IRouterConfig } from "./types";
 
 
 const DirectionView = lazy(() => import('../modules/direction/components/DirectionView'));
-const MainView = lazy(() => import('../modules/main/components/MainView'))
+const MainView = lazy(() => import('../modules/main/components/MainView'));
 
 // router cfg will go here
-export const ROUTER_CONFIG: IRouterConfig[] = [
+const ROUTER_CONFIG: IRouterConfig[] = [
     { path: "/", key: "ROOT", exact: true, component: MainView },
     {
         path: "/direction",
@@ -31,5 +31,5 @@ export const ROUTER_CONFIG: IRouterConfig[] = [
     },
 ];
 
-
+export default ROUTER_CONFIG;
 

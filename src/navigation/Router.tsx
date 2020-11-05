@@ -1,29 +1,45 @@
 import React from "react";
-import {
-  Route, Switch
-} from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import { IRouterConfig } from "./types";
 
-export const RouteWithSubRoutes: React.FC<IRouterConfig> = (route: IRouterConfig) => {
-  if (route.routes) {
+export const RouteWithSubRoutes: React.FC<IRouterConfig> = (
+  route: IRouterConfig,
+) => {
+  const { routes } = route;
+  if (routes === undefined) {
     return (
-      <Route path={route.path} exact={route.exact}
-        render={props => (<route.component {...props} routes={route.routes!}></route.component>)}></Route>
-    )
-  } else return (
-    <Route path={route.path} exact={route.exact} component={route.component}>
-    </Route>
-  )
-}
+      <Route
+        path={route.path}
+        exact={route.exact}
+        component={route.component}
+      />
+    );
+  }
 
-export const RenderRoutes: React.FC<{ routes: IRouterConfig[]; }> = (route: { routes: IRouterConfig[] }) => {
+  return (
+    <Route
+      path={route.path}
+      exact={route.exact}
+      render={() => <route.component routes={routes} />}
+    />
+  );
+};
+
+export const RenderRoutes: React.FC<{ routes: IRouterConfig[] }> = (routes: {
+  routes: IRouterConfig[];
+}) => {
   return (
     <Switch>
-      {route.routes.map((route: IRouterConfig) => {
-        return <RouteWithSubRoutes key={route.key} {...route} />;
+      {routes.routes.map((route: IRouterConfig) => {
+        return (
+          <RouteWithSubRoutes
+            key={route.key}
+            component={route.component}
+            path={route.path}
+          />
+        );
       })}
       <Route component={() => <h1>Not Found!</h1>} />
     </Switch>
   );
-}
-
+};

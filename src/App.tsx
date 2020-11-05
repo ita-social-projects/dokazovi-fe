@@ -1,11 +1,10 @@
-import React, { Suspense } from 'react';
-import './App.css';
-import logo from './logo.svg';
-import { RenderRoutes } from './navigation/Router'
-import { ROUTER_CONFIG } from './navigation/router-config'
+import React, { Suspense } from "react";
+import "./App.css";
+import logo from "./logo.svg";
+import { RenderRoutes } from "./navigation/Router";
+import ROUTER_CONFIG from "./navigation/router-config";
 
- 
-function App() {
+function App(): JSX.Element {
   return (
     <Suspense fallback={<div>Загрузка...</div>}>
       <div className="App">
@@ -13,7 +12,7 @@ function App() {
           <img src={logo} className="App-logo" alt="logo" />
           <p>
             Edit <code>src/App.tsx</code> and save to reload.
-      </p>
+          </p>
           <a
             className="App-link"
             href="https://reactjs.org"
@@ -21,7 +20,7 @@ function App() {
             rel="noopener noreferrer"
           >
             Learn React
-      </a>
+          </a>
         </header>
         <RenderRoutes routes={ROUTER_CONFIG} />
       </div>

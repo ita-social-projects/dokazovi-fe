@@ -40,9 +40,6 @@
       "last 1 safari version"
     ]
   },
-<<<<<<< HEAD
-  "devDependencies": {}
-=======
   "devDependencies": {
     "eslint": "^7.12.1",
     "prettier": "2.1.2",
@@ -61,5 +58,4 @@
       "pre-push": "npm run lint:all"
     }
   }
->>>>>>> develop
 }
