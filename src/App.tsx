@@ -4,7 +4,7 @@ import logo from './logo.svg';
 import { RenderRoutes } from './navigation/Router'
 import { ROUTER_CONFIG } from './navigation/router-config'
 
-
+ 
 function App() {
   return (
     <Suspense fallback={<div>Загрузка...</div>}>

@@ -22,13 +22,11 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+    "eject": "react-scripts eject",
+    "lint": "eslint --quiet",
+    "lint:all": "eslint 'src/**/*.{js,jsx,ts,tsx}' --quiet",
+    "prettier-format": "prettier --write",
+    "prettier-format:all": "prettier --write 'src/**/*.{js,jsx,json,ts,tsx,css,md}'"
   },
   "browserslist": {
     "production": [
@@ -42,5 +40,26 @@
       "last 1 safari version"
     ]
   },
+<<<<<<< HEAD
   "devDependencies": {}
+=======
+  "devDependencies": {
+    "eslint": "^7.12.1",
+    "prettier": "2.1.2",
+    "@typescript-eslint/eslint-plugin": "^4.6.0",
+    "eslint-config-airbnb-typescript": "^12.0.0",
+    "eslint-config-prettier": "^6.15.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-react": "^7.21.5",
+    "eslint-plugin-react-hooks": "^4.0.0",
+    "husky": "^4.3.0",
+    "lint-staged": "^10.5.1"
+  },
+  "husky": {
+    "hooks": {
+      "pre-push": "npm run lint:all"
+    }
+  }
+>>>>>>> develop
 }
