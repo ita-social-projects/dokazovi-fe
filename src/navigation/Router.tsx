@@ -2,33 +2,28 @@ import React from "react";
 import {
   Route, Switch
 } from "react-router-dom";
+import { IRouterConfig } from "./types";
 
-// todo discuss is it okay?
-interface ExtendedRoute {
-  routes: ExtendedRoute[];
-  path: string | string[];
-  exact: boolean;
-  component: React.ComponentClass<{
-    routes: ExtendedRoute[];
-  }>;
-}
-
-function RouteWithSubRoutes(route: ExtendedRoute) {
-  return (
-    <Route path={route.path} exact={route.exact}
-      render={props => (<route.component {...props} routes={route.routes}></route.component>)}
-    >
+export const RouteWithSubRoutes: React.FC<IRouterConfig> = (route: IRouterConfig) => {
+  if (route.routes) {
+    return (
+      <Route path={route.path} exact={route.exact}
+        render={props => (<route.component {...props} routes={route.routes!}></route.component>)}></Route>
+    )
+  } else return (
+    <Route path={route.path} exact={route.exact} component={route.component}>
     </Route>
-  );
+  )
 }
 
-export function RenderRoutes({ routes }) {
+export const RenderRoutes: React.FC<{ routes: IRouterConfig[]; }> = (route: { routes: IRouterConfig[] }) => {
   return (
     <Switch>
-      {routes.map((route: JSX.IntrinsicAttributes & ExtendedRoute) => {
+      {route.routes.map((route: IRouterConfig) => {
         return <RouteWithSubRoutes key={route.key} {...route} />;
       })}
       <Route component={() => <h1>Not Found!</h1>} />
     </Switch>
   );
 }
+

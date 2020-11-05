@@ -1,10 +1,13 @@
-import MainView from "../modules/main/components/MainView";
-import DirectionView from "../modules/direction/components/DirectionView";
+import { lazy } from 'react';
 import { RenderRoutes } from './Router'
+import { IRouterConfig } from "./types";
 
+
+const DirectionView = lazy(() => import('../modules/direction/components/DirectionView'));
+const MainView = lazy(() => import('../modules/main/components/MainView'))
 
 // router cfg will go here
-export const ROUTER_CONFIG = [
+export const ROUTER_CONFIG: IRouterConfig[] = [
     { path: "/", key: "ROOT", exact: true, component: MainView },
     {
         path: "/direction",
