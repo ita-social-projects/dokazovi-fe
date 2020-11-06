@@ -30,6 +30,9 @@ module.exports = {
       },
     ],
     semi: ["error", "always"],
-    "react/prop-types": [1],
+    "eol-last": ["error", "always"],
+    "react/prop-types": "off",
+    "import/prefer-default-export": "off",
+    "@typescript-eslint/no-use-before-define": "off",
   },
 };
