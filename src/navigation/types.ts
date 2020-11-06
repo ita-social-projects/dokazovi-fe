@@ -1,5 +1,3 @@
-
-
 export interface IRouterConfig {
     component: React.ComponentType<{
         routes: IRouterConfig[]

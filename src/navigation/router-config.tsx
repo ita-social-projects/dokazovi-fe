@@ -31,4 +31,3 @@ const ROUTER_CONFIG: IRouterConfig[] = [
 ];
 
 export default ROUTER_CONFIG;
-
