@@ -5,7 +5,7 @@ import { IRouterConfig } from "./types";
 export const RouteWithSubRoutes: React.FC<IRouterConfig> = (props) => {
   const { routes, path, exact } = props;
 
-  if (routes === undefined) {
+  if (!routes) {
     const routeWithoutRoutes = props;
     return (
       <Route path={path} exact={exact}>
