@@ -26,9 +26,10 @@ export const RouteWithSubRoutes: React.FC<IRouterConfig> = (
 export const RenderRoutes: React.FC<{ routes: IRouterConfig[] }> = (routes: {
   routes: IRouterConfig[];
 }) => {
+  const allRoutes = routes.routes;
   return (
     <Switch>
-      {routes.routes.map((route: IRouterConfig) => {
+      {allRoutes.map((route: IRouterConfig) => {
         return (
           <RouteWithSubRoutes
             key={route.key}
