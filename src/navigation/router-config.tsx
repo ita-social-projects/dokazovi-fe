@@ -2,7 +2,6 @@ import { lazy } from 'react';
 import { RenderRoutes } from './Router';
 import { IRouterConfig } from "./types";
 
-
 const DirectionView = lazy(() => import('../modules/direction/components/DirectionView'));
 const MainView = lazy(() => import('../modules/main/components/MainView'));
 
