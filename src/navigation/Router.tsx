@@ -15,11 +15,9 @@ export const RouteWithSubRoutes: React.FC<IRouterConfig> = (
     );
   }
   return (
-    <Route
-      path={route.path}
-      exact={route.exact}
-      render={() => <route.component routes={routes} />}
-    />
+    <Route path={route.path} exact={route.exact}>
+      <route.component routes={routes} />
+    </Route>
   );
 };
 

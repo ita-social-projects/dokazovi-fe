@@ -17,4 +17,3 @@ export interface IRouterConfigWithoutRoutes {
     exact?: boolean,
     routes?: IRouterConfig[],
 }
-
