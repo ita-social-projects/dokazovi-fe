@@ -1,18 +1,18 @@
 import {
   LoadData,
-  MainActions,
+  DirectionActions,
   IMaterialsItem,
   IExpertsItem,
 } from './actionTypes';
 
-export function loadMaterials(payload: IMaterialsItem[]): MainActions {
+export function loadMaterials(payload: IMaterialsItem[]): DirectionActions {
   return {
     type: LoadData.LOAD_MATERIALS,
     value: payload,
   };
 }
 
-export function loadExperts(payload: IExpertsItem[]): MainActions {
+export function loadExperts(payload: IExpertsItem[]): DirectionActions {
   return {
     type: LoadData.LOAD_EXPERTS,
     value: payload,

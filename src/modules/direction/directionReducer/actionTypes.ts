@@ -7,11 +7,6 @@ export interface IMaterialsItem {}
 
 export interface IExpertsItem {}
 
-export interface MainState {
-  materials: IMaterialsItem[];
-  experts: IExpertsItem[];
-}
-
 export interface IMaterialsAction {
   type: LoadData.LOAD_MATERIALS;
   value: IMaterialsItem[];
@@ -21,4 +16,4 @@ export interface IExpertsAction {
   value: IExpertsItem[];
 }
 
-export type MainActions = IMaterialsAction | IExpertsAction;
+export type DirectionActions = IMaterialsAction | IExpertsAction;

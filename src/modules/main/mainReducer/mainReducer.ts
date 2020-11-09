@@ -1,15 +1,27 @@
-import { MainActions, MainState, LoadData } from './actionTypes';
+import {
+  MainActions,
+  INewestItem,
+  IImportantItem,
+  IExpertsItem,
+  LoadData,
+} from './actionTypes';
 
-const initialState: MainState = {
+export interface IMainState {
+  newest: INewestItem[];
+  important: IImportantItem[];
+  experts: IExpertsItem[];
+}
+
+const initialState: IMainState = {
   newest: [],
   important: [],
   experts: [],
 };
 
-export default function mainReducer(
+export function mainReducer(
   state = initialState,
   action: MainActions,
-): MainState {
+): IMainState {
   switch (action.type) {
     case LoadData.LOAD_NEWEST:
       return {

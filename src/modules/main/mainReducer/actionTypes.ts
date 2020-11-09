@@ -10,12 +10,6 @@ export interface IImportantItem {}
 
 export interface IExpertsItem {}
 
-export interface MainState {
-  newest: INewestItem[];
-  important: IImportantItem[];
-  experts: IExpertsItem[];
-}
-
 export interface INewestAction {
   type: LoadData.LOAD_NEWEST;
   value: INewestItem[];

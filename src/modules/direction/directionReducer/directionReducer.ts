@@ -1,14 +1,24 @@
-import { MainActions, MainState, LoadData } from './actionTypes';
+import {
+  DirectionActions,
+  IMaterialsItem,
+  IExpertsItem,
+  LoadData,
+} from './actionTypes';
 
-const initialState: MainState = {
+export interface IDirectionState {
+  materials: IMaterialsItem[];
+  experts: IExpertsItem[];
+}
+
+const initialState: IDirectionState = {
   materials: [],
   experts: [],
 };
 
-export default function mainReducer(
+export function directionReducer(
   state = initialState,
-  action: MainActions,
-): MainState {
+  action: DirectionActions,
+): IDirectionState {
   switch (action.type) {
     case LoadData.LOAD_MATERIALS:
       return {
