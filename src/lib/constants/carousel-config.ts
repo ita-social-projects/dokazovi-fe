@@ -24,11 +24,11 @@ export const settings: Settings = {
   ],
 };
 
-interface Styles {
+interface IStyles {
   [propName: string]: React.CSSProperties;
 }
 
-export const styles: Styles = {
+export const styles: IStyles = {
   wrapper: {
     position: 'relative',
   },

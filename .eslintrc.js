@@ -29,6 +29,18 @@ module.exports = {
         allowSingleExtends: false,
       },
     ],
+    // this rule breaks store.ts
+    // "@typescript-eslint/naming-convention": [
+    //   "error",
+    //   {
+    //     "selector": "interface",
+    //     "format": ["PascalCase"],
+    //     "custom": {
+    //       "regex": "^I[A-Z]",
+    //       "match": true
+    //     }
+    //   }
+    // ],
     semi: ["error", "always"],
     "eol-last": ["error", "always"],
     "react/prop-types": "off",
