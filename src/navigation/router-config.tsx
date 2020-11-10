@@ -4,11 +4,9 @@ import { IRouterConfig } from './types';
 
 const DirectionView = lazy(() => import('../modules/direction/components/DirectionView'));
 const MainView = lazy(() => import('../modules/main/components/MainView'));
-const Header = lazy(() => import('../modules/main/components/Header/Header'));
 
 // router cfg will go here
 const ROUTER_CONFIG: IRouterConfig[] = [
-    { path: '/', key: 'HEADER', exact: false, component: Header },
     { path: '/', key: 'ROOT', exact: true, component: MainView },
     {
         path: '/direction',

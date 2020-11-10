@@ -9,6 +9,7 @@ const App: React.FC  =() => {
   return (
     <Suspense fallback={<div>Загрузка...</div>}>
       <div className='App'>
+        <Header/>
         <RenderRoutes routes={ROUTER_CONFIG} />
       </div>
     </Suspense>
