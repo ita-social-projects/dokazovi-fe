@@ -2,7 +2,8 @@ export interface IExpert {
     status: ExpertStatus,
     firstName: string,
     secondName: string,
-    role: IExpertRole,
+    email: string,
+    phone: string,
 }
 
 enum ExpertStatus {
@@ -11,17 +12,8 @@ enum ExpertStatus {
     DELETED = 'DELETED',
 }
 
-interface IExpertRole {
-    roleId: number,
-    userId: number
-}
-
 export interface IPost {
-    postId: number,
-    authorId: number,
-    directionId: number,
     direction: DirectionEnum,
-    typeId: string,
     title: string,
     content: string,
     status: PostStatus,
