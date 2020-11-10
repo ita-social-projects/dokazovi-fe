@@ -30,6 +30,7 @@ export interface IPost {
     createdAt: Date,
     modifiedAt: Date,
     postType: PostTypeEnum,
+    preview: string,
 }
 
 enum PostStatus {
