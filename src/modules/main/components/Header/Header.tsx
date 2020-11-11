@@ -1,16 +1,11 @@
 import React from 'react';
 import {
-  Switch,
-  Route,
-  Link,
+  Link
 } from "react-router-dom";
 
 import './Header.css';
 
-import DirectionView from "../../../direction/components/DirectionView";
-
-
-function Header() {
+const Header: React.FC = () => {
   return (
     <div className="header">
 
@@ -34,17 +29,9 @@ function Header() {
           <li>Переклади</li>
           <li>Навчання</li>
         </ul>
-
-        <Switch>
-          <Route path="/covid-19" component={DirectionView}/>
-          <Route path="#"/>
-          <Route path="#"/>
-          <Route path="#"/>
-          <Route path="#"/>
-        </Switch>
       </div>
     </div>
   );
-}
+};
 
 export default Header;
