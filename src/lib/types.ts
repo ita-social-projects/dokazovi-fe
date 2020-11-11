@@ -1,9 +1,11 @@
 export interface IExpert {
-  status: ExpertStatus;
+  status?: ExpertStatus;
   firstName: string;
   secondName: string;
-  email: string;
-  phone: string;
+  email?: string;
+  phone?: string;
+  photo: string;
+  workPlace: string;
 }
 
 enum ExpertStatus {
