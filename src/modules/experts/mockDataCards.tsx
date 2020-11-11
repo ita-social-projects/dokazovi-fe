@@ -1,4 +1,4 @@
-import { IExpert, ExpertStatus } from '../types';
+import { IExpert, ExpertStatus } from '../../lib/types';
 
 const cards: IExpert[] = [
   {

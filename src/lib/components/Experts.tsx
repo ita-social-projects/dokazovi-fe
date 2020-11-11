@@ -1,11 +1,11 @@
 import React from 'react';
 import { ExpertBlock } from './ExpertBlock';
-import cards from '../constants/mockDataCards';
+import cards from '../../modules/experts/mockDataCards';
 
 export const Experts: React.FC = () => {
   return (
     <div>
-      <ExpertBlock infoCards={cards}/>
+      <ExpertBlock expert={cards}/>
     </div>
   );
 };

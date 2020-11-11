@@ -1,26 +1,20 @@
 import React from 'react';
-import cards from '../constants/mockDataCards';
+import { IExpert } from '../types';
 
-interface IExpertProps{
-  infoCards: typeof cards;
+interface IExpertProps {
+  expert: IExpert[];
 }
 
-export const ExpertBlock:React.FC<IExpertProps> = (props)=> {
-  const {infoCards} = props;
-  return (
-    <div>
-      <h4>Experts</h4>
-      <div className="row">{infoCards.map((card) => {
+export const ExpertBlock: React.FC<IExpertProps> = (props) => {
+  const { expert } = props;
+  const Cards = expert.map((card) => {
     return (
-      <div className="col m3" key={card.phone}>
-        <div className="card small">
-          <div className="card-image waves-effect waves-block waves-light">
-            <img className="activator" src={card.photo} alt="doctor" />
-          </div>
-        </div>
-      </div>
+      <img
+        src={card.photo}
+        alt="doctor"
+        key={card.phone}
+      />
     );
-  })}</div>
-    </div>
-  );
+  });
+  return <div>{Cards}</div>;
 };
