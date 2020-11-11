@@ -1,13 +1,22 @@
 import {
   IPost,
-  IExpert,
   DirectionEnum,
   PostStatus,
+  ExpertStatus,
   PostTypeEnum,
 } from '../types';
 import IMAGE from '../images/1.png';
 
 export const MOCK_DATA: IPost = {
+  author: {
+    status: ExpertStatus.NEW,
+    firstName: 'Ivan',
+    secondName: 'Pavlov',
+    email: 'pavlov_ivan@gmail.com',
+    phone: '+30960535353',
+    photo: IMAGE,
+    workPlace: 'Kyiv, KMKL #17',
+  },
   direction: DirectionEnum.COVID19,
   title: 'Mock title',
   content: 'Lorem ipsum lorem ipsum',
@@ -18,11 +27,4 @@ export const MOCK_DATA: IPost = {
   modifiedAt: new Date(),
   postType: PostTypeEnum.ARTICLE,
   preview: 'Lorem ipsum',
-};
-
-export const MOCK_DATA_USER: IExpert = {
-  firstName: 'Ivan',
-  secondName: 'Pavlov',
-  workPlace: 'Kyiv, KMKL #17',
-  photo: IMAGE,
 };

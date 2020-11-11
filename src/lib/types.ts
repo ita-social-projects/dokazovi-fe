@@ -1,20 +1,21 @@
 export interface IExpert {
-  status?: ExpertStatus;
+  status: ExpertStatus;
   firstName: string;
   secondName: string;
-  email?: string;
-  phone?: string;
+  email: string;
+  phone: string;
   photo: string;
   workPlace: string;
 }
 
-enum ExpertStatus {
+export enum ExpertStatus {
   NEW = 'NEW',
   ACTIVE = 'ACTIVE',
   DELETED = 'DELETED',
 }
 
 export interface IPost {
+  author?: IExpert;
   direction: DirectionEnum;
   title: string;
   content: string;
