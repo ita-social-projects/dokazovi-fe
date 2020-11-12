@@ -3,11 +3,14 @@ import './App.css';
 import { RenderRoutes } from './navigation/Router';
 import ROUTER_CONFIG from './navigation/router-config';
 
-const App: React.FC = () => {
+
+import Header from './lib/components/Header/Header';
+
+const App: React.FC  =() => {
   return (
     <Suspense fallback={<div>Загрузка...</div>}>
       <div className="App">
-        <header className="App-header" />
+        <Header/>
         <RenderRoutes routes={ROUTER_CONFIG} />
       </div>
     </Suspense>
