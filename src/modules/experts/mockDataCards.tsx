@@ -28,6 +28,78 @@ const cards: IExpert[] = [
     photo:
       'https://purepng.com/public/uploads/large/purepng.com-manmanadult-malemale-childboy-beingmens-1421526920869cscbo.png',
   },
+  {
+    status: ExpertStatus.NEW,
+    firstName: 'Leonid',
+    secondName: 'Liah',
+    email: 'liah@gmail.com',
+    phone: '+380988090000',
+    photo:
+      'https://purepng.com/public/uploads/large/purepng.com-manmanadult-malemale-childboy-beingmens-1421526920869cscbo.png',
+  },
+  {
+    status: ExpertStatus.NEW,
+    firstName: 'Leonid',
+    secondName: 'Liah',
+    email: 'liah@gmail.com',
+    phone: '+380988090000',
+    photo:
+      'https://purepng.com/public/uploads/large/purepng.com-manmanadult-malemale-childboy-beingmens-1421526920869cscbo.png',
+  },
+  {
+    status: ExpertStatus.NEW,
+    firstName: 'Leonid',
+    secondName: 'Liah',
+    email: 'liah@gmail.com',
+    phone: '+380988090000',
+    photo:
+      'https://purepng.com/public/uploads/large/purepng.com-manmanadult-malemale-childboy-beingmens-1421526920869cscbo.png',
+  },
+  {
+    status: ExpertStatus.NEW,
+    firstName: 'Leonid',
+    secondName: 'Liah',
+    email: 'liah@gmail.com',
+    phone: '+380988090000',
+    photo:
+      'https://purepng.com/public/uploads/large/purepng.com-manmanadult-malemale-childboy-beingmens-1421526920869cscbo.png',
+  },
+  {
+    status: ExpertStatus.NEW,
+    firstName: 'Leonid',
+    secondName: 'Liah',
+    email: 'liah@gmail.com',
+    phone: '+380988090000',
+    photo:
+      'https://purepng.com/public/uploads/large/purepng.com-manmanadult-malemale-childboy-beingmens-1421526920869cscbo.png',
+  },
+  {
+    status: ExpertStatus.NEW,
+    firstName: 'Leonid',
+    secondName: 'Liah',
+    email: 'liah@gmail.com',
+    phone: '+380988090000',
+    photo:
+      'https://purepng.com/public/uploads/large/purepng.com-manmanadult-malemale-childboy-beingmens-1421526920869cscbo.png',
+  },
+  {
+    status: ExpertStatus.NEW,
+    firstName: 'Leonid',
+    secondName: 'Liah',
+    email: 'liah@gmail.com',
+    phone: '+380988090000',
+    photo:
+      'https://purepng.com/public/uploads/large/purepng.com-manmanadult-malemale-childboy-beingmens-1421526920869cscbo.png',
+  },
+  {
+    status: ExpertStatus.NEW,
+    firstName: 'Leonid',
+    secondName: 'Liah',
+    email: 'liah@gmail.com',
+    phone: '+380988090000',
+    photo:
+      'https://purepng.com/public/uploads/large/purepng.com-manmanadult-malemale-childboy-beingmens-1421526920869cscbo.png',
+  },
 ];
 
 export default cards;
