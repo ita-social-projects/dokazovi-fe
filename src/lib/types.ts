@@ -5,7 +5,7 @@ export interface IExpert {
   email: string;
   phone: string;
   photo: string;
-  workPlace: string;
+  workPlace?: string;
 }
 
 export enum ExpertStatus {
