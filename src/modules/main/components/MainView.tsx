@@ -1,13 +1,9 @@
 import React from 'react';
 
-export interface IMainViewProps {
-
-}
+export interface IMainViewProps {}
 
 const MainView: React.FC<IMainViewProps> = (props) => {
-  return (
-    <>MainView</>
-  );
+  return <>MainView</>;
 };
 
 export default MainView;
