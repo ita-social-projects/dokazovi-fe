@@ -1,15 +1,15 @@
+import { IPost } from '../../../lib/types';
 import {
   LoadData,
   MainActions,
   IExpertsItem,
-  IImportantItem,
   INewestItem,
 } from './actionTypes';
 
-export function loadImportant(payload: IImportantItem[]): MainActions {
+export function loadImportant(payload: IPost[]): MainActions {
   return {
     type: LoadData.LOAD_IMPORTANT,
-    value: payload,
+    payload,
   };
 }
 

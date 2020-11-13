@@ -1,7 +1,11 @@
 import { combineReducers } from 'redux';
 
 import { directionReducer } from '../modules/direction/store/directionReducer';
-import { mainReducer } from '../modules/main/store/mainReducer';
+import { IMainState, mainReducer } from '../modules/main/store/mainReducer';
+
+export interface IRootState {
+  main: IMainState
+}
 
 export default combineReducers({
   main: mainReducer,
