@@ -1,24 +1,23 @@
 import React from 'react';
-import { useStyles } from '../../modules/experts/styles/ExpertBlock.style';
 import { IExpert } from '../types';
+import { useStyles } from '../styles/ExpertBlock.styles';
 
 interface IExpertProps {
   expert: IExpert;
-  nameClass: string;
 }
 
 export const ExpertBlock: React.FC<IExpertProps> = (props) => {
   const classes = useStyles();
 
-  const { expert, nameClass } = props;
+  const { expert } = props;
   return (
-    <div className={classes[nameClass] as string}>
+    <>
       <img
         src={expert.photo}
         alt="doctor"
         key={expert.phone}
         className={classes.photo}
       />
-    </div>
+    </>
   );
 };

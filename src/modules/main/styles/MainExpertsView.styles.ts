@@ -1,6 +1,16 @@
 import { makeStyles } from '@material-ui/core';
 
 export const useStyles = makeStyles(() => ({
+  container: {
+    display: 'grid',
+    width: '70rem',
+    height: '18rem',
+    gridTemplateColumns: '4fr 2fr 4fr 1fr 2fr 4fr',
+    gridTemplateRows: '1fr 1fr 1fr 1fr',
+    columnGap: '1rem',
+    rowGap: '1rem',
+    margin: '0 auto',
+  },
   item_0: {
     gridArea: '1 / 1 / 5 / 2',
   },
@@ -33,10 +43,5 @@ export const useStyles = makeStyles(() => ({
   },
   item_10: {
     gridArea: '1 / 6 / 5 / 7',
-  },
-  photo: {
-    width: '100%',
-    height: '100%',
-    objectFit: 'cover',
   },
 }));
