@@ -3,8 +3,8 @@ import {
   MainActions,
   IExpertsItem,
   IImportantItem,
-  INewestItem,
 } from './actionTypes';
+import { IPost } from '../../../lib/types';
 
 export function loadImportant(payload: IImportantItem[]): MainActions {
   return {
@@ -13,7 +13,7 @@ export function loadImportant(payload: IImportantItem[]): MainActions {
   };
 }
 
-export function loadNewest(payload: INewestItem[]): MainActions {
+export function loadNewest(payload: IPost[]): MainActions {
   return {
     type: LoadData.LOAD_NEWEST,
     value: payload,

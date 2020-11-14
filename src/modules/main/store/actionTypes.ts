@@ -1,3 +1,5 @@
+import { IPost } from '../../../lib/types';
+
 export enum LoadData {
   LOAD_NEWEST = 'LOAD_NEWEST',
   LOAD_IMPORTANT = 'LOAD_IMPORTANT',
@@ -12,7 +14,7 @@ export interface IExpertsItem {}
 
 export interface INewestAction {
   type: LoadData.LOAD_NEWEST;
-  value: INewestItem[];
+  value: IPost[];
 }
 
 export interface IImportantAction {
