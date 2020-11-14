@@ -1,0 +1,4 @@
+const NUMBER_OF_POSTS = 50;
+const LOAD_POSTS_LIMIT = 3;
+
+export { NUMBER_OF_POSTS, LOAD_POSTS_LIMIT };
