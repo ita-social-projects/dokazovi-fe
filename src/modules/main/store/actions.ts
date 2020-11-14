@@ -1,7 +1,8 @@
+import { IExpert } from '../../../lib/types';
+
 import {
   LoadData,
   MainActions,
-  IExpertsItem,
   IImportantItem,
   INewestItem,
 } from './actionTypes';
@@ -20,7 +21,7 @@ export function loadNewest(payload: INewestItem[]): MainActions {
   };
 }
 
-export function loadExperts(payload: IExpertsItem[]): MainActions {
+export function loadExperts(payload: IExpert[]): MainActions {
   return {
     type: LoadData.LOAD_EXPERTS,
     value: payload,

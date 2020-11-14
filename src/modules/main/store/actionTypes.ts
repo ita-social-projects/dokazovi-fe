@@ -1,3 +1,5 @@
+import { IExpert } from '../../../lib/types';
+
 export enum LoadData {
   LOAD_NEWEST = 'LOAD_NEWEST',
   LOAD_IMPORTANT = 'LOAD_IMPORTANT',
@@ -7,8 +9,6 @@ export enum LoadData {
 export interface INewestItem {}
 
 export interface IImportantItem {}
-
-export interface IExpertsItem {}
 
 export interface INewestAction {
   type: LoadData.LOAD_NEWEST;
@@ -22,7 +22,7 @@ export interface IImportantAction {
 
 export interface IExpertsAction {
   type: LoadData.LOAD_EXPERTS;
-  value: IExpertsItem[];
+  value: IExpert[];
 }
 
 export type MainActions = INewestAction | IImportantAction | IExpertsAction;
