@@ -1,11 +1,10 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { ExpertBlock } from '../../../lib/components/ExpertBlock';
 import { useStyles } from '../styles/MainExpertsView.styles';
 import { IExpert } from '../../../lib/types';
-import { store } from '../../../store/store';
 import mockCards from '../mockDataExperts';
-import { LoadData } from '../store/actionTypes';
+import { loadExperts } from '../../direction/store/actions';
 
 interface IRootState {
   main: {
@@ -14,16 +13,13 @@ interface IRootState {
 }
 
 const cardsClasses = Array.from(Array(11).keys()).map((el) => `item_${el}`);
-
-const MOCK_DATA_EXPERTS = {
-  type: LoadData.LOAD_EXPERTS,
-  value: mockCards,
-};
-store.dispatch(MOCK_DATA_EXPERTS);
+const selectExperts = (state: IRootState) => state.main.experts;
 
 export const MainExpertsView: React.FC = () => {
-  const experts = (state: IRootState) => state.main.experts;
-  const cards = useSelector(experts);
+  const dispatch = useDispatch();
+  dispatch(loadExperts(mockCards));
+
+  const cards = useSelector(selectExperts);
   const classes = useStyles();
 
   const allExperts = cards.map((card, key) => (
