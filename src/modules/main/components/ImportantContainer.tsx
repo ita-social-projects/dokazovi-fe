@@ -13,7 +13,7 @@ const ImportantContainer: React.FC = () => {
 
   useEffect(() => {
     dispatch(loadImportant());
-  }, [dispatch]);
+  }, []);
 
   return (
     <div>
