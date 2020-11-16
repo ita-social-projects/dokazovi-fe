@@ -18,9 +18,8 @@ const ImportantContainer: React.FC = () => {
   return (
     <div>
       <Carousel>
-        {posts.map((p, i) => (
-          // eslint-disable-next-line react/no-array-index-key
-          <div key={i}>
+        {posts.map((p) => (
+          <div key={p.title}>
             <PostCard post={p} />
           </div>
         ))}

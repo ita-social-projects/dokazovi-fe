@@ -14,7 +14,7 @@ import {
 } from './actionTypes';
 
 export function loadImportant(): ThunkAction<
-  void, // return type
+  Promise<unknown>, // return type
   IRootState,
   null, // extra arguments passed to the ThunkAction
   Action<IImportantAction>
