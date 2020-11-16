@@ -17,3 +17,5 @@ export const store = createStore(
   rootReducer,
   composeEnhancers(applyMiddleware(...middleWares)),
 );
+
+export type AppDispatch = typeof store.dispatch;
