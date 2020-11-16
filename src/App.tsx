@@ -12,7 +12,6 @@ const App: React.FC = () => {
     <Suspense fallback={<div>Загрузка...</div>}>
       <div className="App">
         <Header />
-        <PostPreviewCard data={MOCK_DATA} />
         <RenderRoutes routes={ROUTER_CONFIG} />
       </div>
     </Suspense>
