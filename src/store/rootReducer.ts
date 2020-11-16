@@ -5,11 +5,6 @@ import { IExpert } from '../lib/types';
 import { directionReducer } from '../modules/direction/store/directionReducer';
 import { mainReducer } from '../modules/main/store/mainReducer';
 
-export default combineReducers({
-  main: mainReducer,
-  direction: directionReducer,
-});
-
 export interface IRootState {
   main: {
     important: any;
@@ -17,3 +12,8 @@ export interface IRootState {
     experts: IExpert[];
   };
 }
+
+export default combineReducers({
+  main: mainReducer,
+  direction: directionReducer,
+});
