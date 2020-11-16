@@ -6,10 +6,6 @@ export enum LoadData {
   LOAD_EXPERTS = 'LOAD_EXPERTS',
 }
 
-export interface INewestItem {}
-
-export interface IImportantItem {}
-
 export interface IExpertsItem {}
 
 export interface INewestAction {
@@ -19,7 +15,7 @@ export interface INewestAction {
 
 export interface IImportantAction {
   type: LoadData.LOAD_IMPORTANT;
-  value: IImportantItem[];
+  payload: IPost[];
 }
 
 export interface IExpertsAction {

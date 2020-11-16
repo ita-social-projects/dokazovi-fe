@@ -6,7 +6,7 @@ import {
 } from '../modules/direction/store/directionReducer';
 import { mainReducer, IMainState } from '../modules/main/store/mainReducer';
 
-export interface IAppState {
+export interface IRootState {
   main: IMainState;
   direction: IDirectionState;
 }

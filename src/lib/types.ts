@@ -1,10 +1,10 @@
 export interface IExpert {
-  status: ExpertStatus;
+  status?: ExpertStatus;
   firstName: string;
   secondName: string;
-  email: string;
-  phone: string;
-  photo: string;
+  email?: string;
+  phone?: string;
+  photo?: string;
   workPlace?: string;
 }
 
@@ -18,12 +18,12 @@ export interface IPost {
   author?: IExpert;
   direction: DirectionEnum;
   title: string;
-  content: string;
-  status: PostStatus;
-  important: boolean;
-  tags: string[];
+  content?: string;
+  status?: PostStatus;
+  important?: boolean;
+  tags?: string[];
   createdAt: Date;
-  modifiedAt: Date;
+  modifiedAt?: Date;
   postType: PostTypeEnum;
   preview: string;
 }
@@ -45,5 +45,6 @@ export enum PostTypeEnum {
 export enum DirectionEnum {
   CARDIOLOGY = 'CARDIOLOGY',
   PEDIATRICS = 'PEDIATRICS',
+  THERAPY = 'THERAPY',
   COVID19 = 'COVID19',
 }
