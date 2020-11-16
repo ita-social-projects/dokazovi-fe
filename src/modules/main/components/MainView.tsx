@@ -1,9 +1,14 @@
 import React from 'react';
+import ImportantContainer from './ImportantContainer';
 
 export interface IMainViewProps {}
 
 const MainView: React.FC<IMainViewProps> = (props) => {
-  return <>MainView</>;
+  return (
+    <>
+      <ImportantContainer />
+    </>
+  );
 };
 
 export default MainView;
