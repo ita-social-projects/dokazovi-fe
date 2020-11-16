@@ -1,16 +1,11 @@
 import { combineReducers } from 'redux';
 
-import { IExpert } from '../lib/types';
-
-import { directionReducer } from '../modules/direction/store/directionReducer';
-import { mainReducer } from '../modules/main/store/mainReducer';
+import { directionReducer, IDirectionState } from '../modules/direction/store/directionReducer';
+import { mainReducer, IMainState } from '../modules/main/store/mainReducer';
 
 export interface IRootState {
-  main: {
-    important: any;
-    newest: any;
-    experts: IExpert[];
-  };
+  main: IMainState;
+  direction: IDirectionState;
 }
 
 export default combineReducers({

@@ -1,4 +1,4 @@
-import { IExpert } from '../../../lib/types';
+import cards from '../mockDataExperts';
 
 import {
   LoadData,
@@ -21,7 +21,9 @@ export function loadNewest(payload: INewestItem[]): MainActions {
   };
 }
 
-export function loadExperts(payload: IExpert[]): MainActions {
+export function loadExperts(): MainActions {
+  const payload = cards;
+   
   return {
     type: LoadData.LOAD_EXPERTS,
     value: payload,
