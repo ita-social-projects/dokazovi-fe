@@ -1,38 +1,25 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Container, Paper, Grid, Button } from '@material-ui/core';
+import { Container, Grid, Button } from '@material-ui/core';
 import { IMainState } from '../store/mainReducer';
-import { IAppState } from '../../../store/rootReducer';
-import { generatedMockData } from './constants/newestPostsMock-data';
-import { loadNewest } from '../store/actions';
-import {
-  NUMBER_OF_POSTS,
-  LOAD_POSTS_LIMIT,
-} from './constants/newestPostsPagination-config';
+import { IRootState } from '../../../store/rootReducer';
+import { loadNewestThunk } from '../store/actions';
+import PostPreviewCard from '../../../lib/components/PostPreview/PostPreviewCard';
 
 const NewestContainer: React.FC = () => {
-  const [showMore, setShowMore] = useState(true);
-  const [index, setIndex] = useState(0);
-
   const dispatch = useDispatch();
-  const setNewest = (posts) => dispatch(loadNewest(posts));
+  const setNewest = () => dispatch(loadNewestThunk());
 
-  const newestPosts = useSelector<IAppState, IMainState['newest']>((state) => {
+  const { posts: newestPosts, meta } = useSelector<
+    IRootState,
+    IMainState['newest']
+  >((state) => {
     return state.main.newest;
   });
 
   useEffect(() => {
-    loadMorePost();
+    setNewest();
   }, []);
-
-  const loadMorePost = () => {
-    const newIndex = index + LOAD_POSTS_LIMIT;
-    const newShowMore = newIndex < NUMBER_OF_POSTS - 1;
-    const newList = [...generatedMockData.slice(index, newIndex)];
-    setIndex(newIndex);
-    setNewest(newList);
-    setShowMore(newShowMore);
-  };
 
   return (
     <>
@@ -40,18 +27,14 @@ const NewestContainer: React.FC = () => {
         <h2>Найновіше</h2>
         <Grid container spacing={2} direction="row" alignItems="center">
           {newestPosts.map((post) => (
-            <Grid key={post.author?.phone} item xs={12} lg={4} md={6}>
-              <Paper>
-                <img src={post.author?.photo} alt="" />
-                <br />
-                <span>{post.title}</span>
-              </Paper>
+            <Grid item xs={12} lg={4} md={6} key={post.author?.phone}>
+              <PostPreviewCard data={post} />
             </Grid>
           ))}
         </Grid>
 
-        {showMore ? (
-          <Button variant="contained" onClick={loadMorePost}>
+        {meta.showMore ? (
+          <Button variant="contained" onClick={setNewest}>
             Більше матеріалів
           </Button>
         ) : (
