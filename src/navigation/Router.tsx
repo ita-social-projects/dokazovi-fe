@@ -1,6 +1,6 @@
-import React from "react";
-import { Route, Switch } from "react-router-dom";
-import { IRouterConfig } from "./types";
+import React from 'react';
+import { Route, Switch } from 'react-router-dom';
+import { IRouterConfig } from './types';
 
 export const RouteWithSubRoutes: React.FC<IRouterConfig> = (props) => {
   const { routes, path, exact } = props;
