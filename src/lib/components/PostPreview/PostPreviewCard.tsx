@@ -1,5 +1,4 @@
 import React from 'react';
-import { makeStyles, createStyles } from '@material-ui/core';
 import Card from '@material-ui/core/Card';
 import Box from '@material-ui/core/Box';
 import CardActions from '@material-ui/core/CardActions';
@@ -9,25 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import { directionProperties } from './direction-properties';
 import { postTypeProperties } from './post-type-properties';
 import { IPost } from '../../types';
-
-const useStyles = makeStyles(
-  (theme) =>
-    createStyles({
-      root: {
-        maxWidth: 300,
-        position: 'relative',
-      },
-      media: {
-        height: 58,
-        width: 46,
-        paddingTop: 13,
-        paddingLeft: 13,
-      },
-    }),
-  {
-    name: 'PostPreviewCard',
-  },
-);
+import { useStyles } from '../../styles/PostPreviewCard.styles';
 
 export interface IPostPreviewCardProps {
   data: IPost;
