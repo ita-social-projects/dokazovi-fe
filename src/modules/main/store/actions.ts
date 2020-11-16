@@ -4,11 +4,11 @@ import { IRootState } from '../../../store/rootReducer';
 import { AppDispatch } from '../../../store/store';
 import { IPost } from '../../../lib/types';
 import { MOCK_DATA } from '../../../lib/constants/mock-data';
+import MOCK_CARDS from '../mockDataExperts';
 
 import {
   LoadData,
   MainActions,
-  IExpertsItem,
   INewestItem,
   IImportantAction,
 } from './actionTypes';
@@ -36,7 +36,9 @@ export function loadNewest(payload: INewestItem[]): MainActions {
   };
 }
 
-export function loadExperts(payload: IExpertsItem[]): MainActions {
+export function loadExperts(): MainActions {
+  const payload = MOCK_CARDS;
+   
   return {
     type: LoadData.LOAD_EXPERTS,
     value: payload,
