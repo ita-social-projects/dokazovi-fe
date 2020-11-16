@@ -1,15 +1,13 @@
-import { IExpert } from '../../../lib/types';
-
+import { IPost, IExpert } from '../../../lib/types';
 import {
   MainActions,
   INewestItem,
-  IImportantItem,
   LoadData,
 } from './actionTypes';
 
 export interface IMainState {
   newest: INewestItem[];
-  important: IImportantItem[];
+  important: IPost[];
   experts: IExpert[];
 }
 
@@ -32,7 +30,7 @@ export function mainReducer(
     case LoadData.LOAD_IMPORTANT:
       return {
         ...state,
-        important: action.value,
+        important: action.payload,
       };
     case LoadData.LOAD_EXPERTS:
       return {
