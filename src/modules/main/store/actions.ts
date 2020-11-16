@@ -4,6 +4,7 @@ import { IRootState } from '../../../store/rootReducer';
 import { AppDispatch, store } from '../../../store/store';
 import { IPost } from '../../../lib/types';
 import { MOCK_DATA } from '../../../lib/constants/mock-data';
+import MOCK_CARDS from '../mockDataExperts';
 
 import {
   LoadData,
@@ -70,7 +71,9 @@ export function loadNewest(payload: INewestPosts): MainActions {
   };
 }
 
-export function loadExperts(payload: IExpertsItem[]): MainActions {
+export function loadExperts(): MainActions {
+  const payload = MOCK_CARDS;
+
   return {
     type: LoadData.LOAD_EXPERTS,
     value: payload,
