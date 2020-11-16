@@ -8,9 +8,21 @@ export enum LoadData {
 
 export interface IExpertsItem {}
 
+export interface IMeta {
+  totalNewestPosts?: number;
+  limit?: number;
+  currentIndex: number;
+  showMore: boolean;
+}
+
+export interface INewestPosts {
+  posts: IPost[];
+  meta: IMeta;
+}
+
 export interface INewestAction {
   type: LoadData.LOAD_NEWEST;
-  value: IPost[];
+  payload: INewestPosts;
 }
 
 export interface IImportantAction {

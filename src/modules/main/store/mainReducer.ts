@@ -1,14 +1,27 @@
 import { IPost } from '../../../lib/types';
-import { MainActions, IExpertsItem, LoadData } from './actionTypes';
+import {
+  MainActions,
+  IExpertsItem,
+  LoadData,
+  INewestPosts,
+} from './actionTypes';
 
 export interface IMainState {
-  newest: IPost[];
+  newest: INewestPosts;
   important: IPost[];
   experts: IExpertsItem[];
 }
 
 const initialState: IMainState = {
-  newest: [],
+  newest: {
+    posts: [],
+    meta: {
+      limit: 0,
+      totalNewestPosts: 50,
+      currentIndex: 0,
+      showMore: true,
+    },
+  },
   important: [],
   experts: [],
 };
@@ -21,7 +34,10 @@ export function mainReducer(
     case LoadData.LOAD_NEWEST:
       return {
         ...state,
-        newest: [...state.newest, ...action.value],
+        newest: {
+          posts: [...state.newest.posts, ...action.payload.posts],
+          meta: action.payload.meta,
+        },
       };
     case LoadData.LOAD_IMPORTANT:
       return {
