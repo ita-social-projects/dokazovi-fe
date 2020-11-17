@@ -10,12 +10,11 @@ const NewestContainer: React.FC = () => {
   const dispatch = useDispatch();
   const setNewest = () => dispatch(loadNewestThunk());
 
-  const { posts: newestPosts, meta } = useSelector<
-    IRootState,
-    IMainState['newest']
-  >((state) => {
-    return state.main.newest;
-  });
+  const { newestPosts, meta } = useSelector<IRootState, IMainState['newest']>(
+    (state) => {
+      return state.main.newest;
+    },
+  );
 
   useEffect(() => {
     setNewest();

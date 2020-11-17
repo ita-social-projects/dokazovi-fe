@@ -58,7 +58,7 @@ export function loadNewestThunk(): ThunkAction<
   return (dispatch: AppDispatch) =>
     dispatch(
       loadNewest({
-        posts: newList,
+        newestPosts: newList,
         meta: {
           totalNewestPosts: isTotalNewPosts(),
           currentIndex: newIndex,

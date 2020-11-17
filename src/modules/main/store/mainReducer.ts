@@ -9,7 +9,7 @@ export interface IMainState {
 
 const initialState: IMainState = {
   newest: {
-    posts: [],
+    newestPosts: [],
     meta: {
       currentIndex: 0,
     },
@@ -27,7 +27,10 @@ export function mainReducer(
       return {
         ...state,
         newest: {
-          posts: [...state.newest.posts, ...action.payload.posts],
+          newestPosts: [
+            ...state.newest.newestPosts,
+            ...action.payload.newestPosts,
+          ],
           meta: action.payload.meta,
         },
       };

@@ -16,7 +16,7 @@ export interface IMeta {
 }
 
 export interface INewestPostPayload {
-  posts: IPost[];
+  newestPosts: IPost[];
   meta: IMeta;
 }
 
