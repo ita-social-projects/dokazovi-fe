@@ -50,10 +50,7 @@ export function loadNewestThunk(): ThunkAction<
 
   const newIndex = meta.currentIndex + LOAD_POSTS_LIMIT;
   const newShowMore = newIndex < isTotalNewPosts() - 1;
-  const newList = Array.from(NEWEST_POSTS_DATA_MOCK).slice(
-    meta.currentIndex,
-    newIndex,
-  );
+  const newList = Array.from(NEWEST_POSTS_DATA_MOCK).slice(0, newIndex);
 
   return (dispatch: AppDispatch) =>
     dispatch(

@@ -27,10 +27,7 @@ export function mainReducer(
       return {
         ...state,
         newest: {
-          newestPosts: [
-            ...state.newest.newestPosts,
-            ...action.payload.newestPosts,
-          ],
+          newestPosts: [...action.payload.newestPosts],
           meta: action.payload.meta,
         },
       };
