@@ -15,14 +15,14 @@ export interface IMeta {
   showMore: boolean;
 }
 
-export interface INewestPosts {
+export interface INewestPostPayload {
   posts: IPost[];
   meta: IMeta;
 }
 
 export interface INewestAction {
   type: LoadData.LOAD_NEWEST;
-  payload: INewestPosts;
+  payload: INewestPostPayload;
 }
 
 export interface IImportantAction {

@@ -1,8 +1,8 @@
 import { IPost, IExpert } from '../../../lib/types';
-import { MainActions, LoadData, INewestPosts } from './actionTypes';
+import { MainActions, LoadData, INewestPostPayload } from './actionTypes';
 
 export interface IMainState {
-  newest: INewestPosts;
+  newest: INewestPostPayload;
   important: IPost[];
   experts: IExpert[];
 }

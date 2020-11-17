@@ -12,7 +12,7 @@ import {
   IExpertsItem,
   IImportantAction,
   INewestAction,
-  INewestPosts,
+  INewestPostPayload,
 } from './actionTypes';
 
 import {
@@ -65,7 +65,7 @@ export function loadNewestThunk(): ThunkAction<
     );
 }
 
-export function loadNewest(payload: INewestPosts): MainActions {
+export function loadNewest(payload: INewestPostPayload): MainActions {
   return {
     type: LoadData.LOAD_NEWEST,
     payload,
