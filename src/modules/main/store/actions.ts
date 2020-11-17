@@ -19,7 +19,7 @@ import {
   NUMBER_OF_POSTS,
   LOAD_POSTS_LIMIT,
 } from '../components/constants/newestPostsPagination-config';
-import { NEWEST_POSTS_MOCK_DATA } from '../components/constants/newestPostsMock-data';
+import { NEWEST_POSTS_DATA_MOCK } from '../components/constants/newestPosts-mock';
 
 export function loadImportant(): ThunkAction<
   Promise<unknown>, // return type
@@ -47,9 +47,10 @@ export function loadNewestThunk(): ThunkAction<
   const { meta } = store.getState().main.newest;
   const newIndex = meta.currentIndex + LOAD_POSTS_LIMIT;
   const newShowMore = newIndex < meta.totalNewestPosts! - 1;
-  const newList = [
-    ...NEWEST_POSTS_MOCK_DATA.slice(meta.currentIndex, newIndex),
-  ];
+  const newList = Array.from(NEWEST_POSTS_DATA_MOCK).slice(
+    meta.currentIndex,
+    newIndex,
+  );
 
   return (dispatch: AppDispatch) =>
     dispatch(
