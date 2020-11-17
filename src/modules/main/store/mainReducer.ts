@@ -11,10 +11,7 @@ const initialState: IMainState = {
   newest: {
     posts: [],
     meta: {
-      limit: 0,
-      totalNewestPosts: 50,
       currentIndex: 0,
-      showMore: true,
     },
   },
   important: [],

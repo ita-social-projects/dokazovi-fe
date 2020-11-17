@@ -15,10 +15,7 @@ import {
   INewestPostPayload,
 } from './actionTypes';
 
-import {
-  NUMBER_OF_POSTS,
-  LOAD_POSTS_LIMIT,
-} from '../components/constants/newestPostsPagination-config';
+import { LOAD_POSTS_LIMIT } from '../components/constants/newestPostsPagination-config';
 import { NEWEST_POSTS_DATA_MOCK } from '../components/constants/newestPosts-mock';
 
 export function loadImportant(): ThunkAction<
@@ -45,8 +42,14 @@ export function loadNewestThunk(): ThunkAction<
   Action<INewestAction>
 > {
   const { meta } = store.getState().main.newest;
+
+  const isTotalNewPosts = () =>
+    meta.totalNewestPosts!
+      ? meta.totalNewestPosts!
+      : NEWEST_POSTS_DATA_MOCK.length;
+
   const newIndex = meta.currentIndex + LOAD_POSTS_LIMIT;
-  const newShowMore = newIndex < meta.totalNewestPosts! - 1;
+  const newShowMore = newIndex < isTotalNewPosts() - 1;
   const newList = Array.from(NEWEST_POSTS_DATA_MOCK).slice(
     meta.currentIndex,
     newIndex,
@@ -57,9 +60,9 @@ export function loadNewestThunk(): ThunkAction<
       loadNewest({
         posts: newList,
         meta: {
+          totalNewestPosts: isTotalNewPosts(),
           currentIndex: newIndex,
           showMore: newShowMore,
-          totalNewestPosts: NUMBER_OF_POSTS,
         },
       }),
     );

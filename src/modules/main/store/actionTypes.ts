@@ -12,7 +12,7 @@ export interface IMeta {
   totalNewestPosts?: number;
   limit?: number;
   currentIndex: number;
-  showMore: boolean;
+  showMore?: boolean;
 }
 
 export interface INewestPostPayload {
