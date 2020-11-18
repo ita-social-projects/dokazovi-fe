@@ -1,4 +1,4 @@
-import React, { ReactNode, useState } from 'react';
+import React, { ReactNode } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Popover from '@material-ui/core/Popover';
 
@@ -12,7 +12,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export const ExpertPopover: React.FC<{
-  // children?: React.FC<IExpertProps>;
   children?: ReactNode;
   anchorEl: HTMLDivElement | null;
   handlePopoverClose: () => void;
@@ -41,9 +40,6 @@ export const ExpertPopover: React.FC<{
         }}
         disableRestoreFocus
       >
-        {/* <Typography className={classes.typography}>
-          The content of the Popover.
-        </Typography> */}
         {children}
       </Popover>
     </div>
