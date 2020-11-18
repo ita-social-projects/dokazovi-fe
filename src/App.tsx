@@ -1,12 +1,17 @@
+/* eslint-disable import/no-named-as-default-member */
 import React, { Suspense } from 'react';
 import './App.css';
 import { RenderRoutes } from './navigation/Router';
 import ROUTER_CONFIG from './navigation/router-config';
 
-
 import Header from './lib/components/Header/Header';
+// import navBarElems from './lib/components/Header/header-state';
 
+<<<<<<< HEAD
 const App: React.FC = () => {
+=======
+const App: React.FC  = () => {
+>>>>>>> header logic and material ua styles
   return (
     <Suspense fallback={<div>Загрузка...</div>}>
       <div className="App">

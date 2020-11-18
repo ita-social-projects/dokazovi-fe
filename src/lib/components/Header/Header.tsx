@@ -1,36 +1,58 @@
 import React from 'react';
-import {
-  Link
-} from "react-router-dom";
 
 import './Header.css';
-import {DropDownMenu} from './DropDownMenu';
+
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import Box from '@material-ui/core/Box';
+import ListItems from './ListItems';
+
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      flexGrow: 1,
+      justifyContent: "space-between",
+    },
+    menuButton: {
+      marginRight: theme.spacing(2),
+    }, 
+    image: {
+      width: "2px",
+      marginRight: "10px",
+      fontSize: "10px",
+    }, 
+    logInBlock: {
+      display: "flex",
+      justifyContent: "flex-end",
+    }, 
+    navBar: {
+      justifyContent: "space-between",
+    }, 
+  }),
+);
 
 const Header: React.FC = () => {
+  const classes = useStyles();
   return (
-    <div className="header">
-
-      <div className="general">
-        <div className="logo">  
-          <img src="#" alt="logo" className="logo-img"/>
-        </div>
-        <div className="log-in">
-          <img src="#" alt="user" className="img-log-in"/>
-          <button type="button">Log in</button>
-          <button type="button">Register</button>
-        </div>  
-      </div>
-
-      <div className="navigation">
-        <ul className="nav-list">
-          <li><Link to="/">Головна</Link></li>
-          <li><Link to="/direction/covid-19">Covid-19</Link></li>
-          <li><DropDownMenu/></li>
-          <li>Експерти</li>
-          <li>Переклади</li>
-          <li>Навчання</li>
-        </ul>
-      </div>
+    <div className={classes.root}>
+      <AppBar position="static">
+        <Toolbar className={classes.navBar}>
+          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
+            <img className={classes.image} src="#" alt="logo"/>
+          </IconButton>
+          <IconButton edge="end" className={classes.logInBlock}>
+            <img className={classes.image} src="#" alt="user"/>
+            <Button color="inherit">Log in</Button>
+            <Button color="inherit">Register</Button>
+          </IconButton>
+        </Toolbar>
+        <Box display="flex" flexDirection="row" justifyContent="flex-start" alignItems="center" p={1}>
+          <ListItems/>
+        </Box>
+      </AppBar>
     </div>
   );
 };
