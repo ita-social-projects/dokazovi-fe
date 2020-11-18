@@ -1,11 +1,11 @@
 /* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit';
-import { MOCK_DATA } from '../../../lib/constants/mock-data';
+import MOCK_POSTS from '../../../lib/constants/mock-data';
+import MOCK_EXPERTS from '../mockDataExperts';
 import { IPost, IExpert } from '../../../lib/types';
-import { INewestItem } from './actionTypes';
 
 export interface IMainState {
-  newest: INewestItem[];
+  newest: IPost[];
   important: IPost[];
   experts: IExpert[];
 }
@@ -26,12 +26,22 @@ export const mainSlice = createSlice({
   // single case statement in a switch.
   reducers: {
     loadImportant: (state) => {
-      const payload: IPost[] = [MOCK_DATA]; // Array(8).fill(MOCK_DATA);
+      // const payload: IPost[] = Array(8).fill(MOCK_DATA) wouldn't work here:
+      // Unsafe assignment of type any[] to a variable of type IPost[].
+      const payload: IPost[] = MOCK_POSTS; 
       state.important = payload;
     },
-  }
+    loadExperts: (state) => {
+      const payload: IExpert[] = MOCK_EXPERTS;
+      state.experts = payload;
+    },
+    loadNewest: (state) => {
+      const payload: IPost[] = MOCK_POSTS; // Array(8).fill(MOCK_DATA);
+      state.newest = payload;
+    },
+  },
 });
 
-export const { loadImportant, } = mainSlice.actions;
+export const { loadImportant, loadExperts, loadNewest } = mainSlice.actions;
 
 export default mainSlice.reducer;

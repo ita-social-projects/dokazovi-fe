@@ -2,11 +2,11 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ExpertBlock } from '../../../lib/components/ExpertBlock';
 import { useStyles } from '../styles/MainExpertsView.styles';
-import { loadExperts } from '../store/actions';
-import { IRootState } from '../../../store/rootReducer';
+import { loadExperts } from '../store/mainSlice';
+import { RootState } from '../../../store/store';
 
 const cardsClasses = Array.from(Array(11).keys()).map((el) => `item_${el}`);
-const selectExperts = (state: IRootState) => state.main.experts;
+const selectExperts = (state: RootState) => state.main.experts;
 
 export const MainExpertsView: React.FC = () => {
   const dispatch = useDispatch();
