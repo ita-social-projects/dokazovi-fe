@@ -1,21 +1,20 @@
-/* eslint-disable @typescript-eslint/naming-convention */
-import { createStore, applyMiddleware, compose } from 'redux';
-import thunk from 'redux-thunk';
-import rootReducer from './rootReducer';
+import { configureStore } from '@reduxjs/toolkit';
+import mainReducer from '../modules/main/store/mainSlice';
 
-declare global {
-  interface Window {
-    __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
-  }
-}
+export const store = configureStore({
+  /* to create a root reducer combineReducers() is called behind the scenes */
+  reducer: {
+    main: mainReducer,
+    // direction: directionReducer,
+  },
+  /* these are passed to applyMiddleware()
+   * if not provided, getDefaultMiddleware is called, the defaults are
+   * [thunk, immutableStateInvariant, serializableStateInvariant] */
+  // middleware: [thunk],
+  /* Redux DevTools Extension is enabled by default */
+  // devTools: true,
+});
 
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-
-const middleWares = [thunk];
-
-export const store = createStore(
-  rootReducer,
-  composeEnhancers(applyMiddleware(...middleWares)),
-);
+export type RootState = ReturnType<typeof store.getState>;
 
 export type AppDispatch = typeof store.dispatch;
