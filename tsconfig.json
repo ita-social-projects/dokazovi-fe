@@ -27,7 +27,7 @@
     "noImplicitAny": false
   },
   "include": [
-    "src"
+    "src", "babel.config.js"
   ],
   "exclude": [
     "node_modules",

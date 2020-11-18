@@ -33,7 +33,7 @@ const cards: IExpert[] = [
     firstName: 'Leonid',
     secondName: 'Liah',
     email: 'liah@gmail.com',
-    phone: '+380988090000',
+    phone: '+380988090001',
     photo:
       'https://purepng.com/public/uploads/large/purepng.com-manmanadult-malemale-childboy-beingmens-1421526920869cscbo.png',
   },
@@ -42,7 +42,7 @@ const cards: IExpert[] = [
     firstName: 'Leonid',
     secondName: 'Liah',
     email: 'liah@gmail.com',
-    phone: '+380988090000',
+    phone: '+380988090002',
     photo:
       'https://purepng.com/public/uploads/large/purepng.com-manmanadult-malemale-childboy-beingmens-1421526920869cscbo.png',
   },
@@ -51,7 +51,7 @@ const cards: IExpert[] = [
     firstName: 'Leonid',
     secondName: 'Liah',
     email: 'liah@gmail.com',
-    phone: '+380988090000',
+    phone: '+380988090003',
     photo:
       'https://purepng.com/public/uploads/large/purepng.com-manmanadult-malemale-childboy-beingmens-1421526920869cscbo.png',
   },
@@ -60,7 +60,7 @@ const cards: IExpert[] = [
     firstName: 'Leonid',
     secondName: 'Liah',
     email: 'liah@gmail.com',
-    phone: '+380988090000',
+    phone: '+380988090004',
     photo:
       'https://purepng.com/public/uploads/large/purepng.com-manmanadult-malemale-childboy-beingmens-1421526920869cscbo.png',
   },
@@ -69,7 +69,7 @@ const cards: IExpert[] = [
     firstName: 'Leonid',
     secondName: 'Liah',
     email: 'liah@gmail.com',
-    phone: '+380988090000',
+    phone: '+380988090005',
     photo:
       'https://purepng.com/public/uploads/large/purepng.com-manmanadult-malemale-childboy-beingmens-1421526920869cscbo.png',
   },
@@ -78,7 +78,7 @@ const cards: IExpert[] = [
     firstName: 'Leonid',
     secondName: 'Liah',
     email: 'liah@gmail.com',
-    phone: '+380988090000',
+    phone: '+380988090006',
     photo:
       'https://purepng.com/public/uploads/large/purepng.com-manmanadult-malemale-childboy-beingmens-1421526920869cscbo.png',
   },
@@ -87,7 +87,7 @@ const cards: IExpert[] = [
     firstName: 'Leonid',
     secondName: 'Liah',
     email: 'liah@gmail.com',
-    phone: '+380988090000',
+    phone: '+380988090007',
     photo:
       'https://purepng.com/public/uploads/large/purepng.com-manmanadult-malemale-childboy-beingmens-1421526920869cscbo.png',
   },
@@ -96,7 +96,7 @@ const cards: IExpert[] = [
     firstName: 'Leonid',
     secondName: 'Liah',
     email: 'liah@gmail.com',
-    phone: '+380988090000',
+    phone: '+380988090008',
     photo:
       'https://purepng.com/public/uploads/large/purepng.com-manmanadult-malemale-childboy-beingmens-1421526920869cscbo.png',
   },
