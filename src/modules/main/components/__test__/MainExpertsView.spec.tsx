@@ -14,6 +14,4 @@ describe('MainExpertsView', () => {
     const images = screen.queryAllByAltText('doctor');
     expect(images).toHaveLength(11);
   });
-
- 
 });
