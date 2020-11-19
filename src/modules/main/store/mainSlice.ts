@@ -37,16 +37,9 @@ const initialState: IMainState = {
 };
 
 export const mainSlice = createSlice({
-  // a string that is used as the prefix for generated action types
-  // e.g. "main/loadImportant"
   name: 'main',
   initialState,
-  // An object of "case reducers" (functions intended to handle a specific
-  // action type). Key names will be used to generate actions, equivalent to a
-  // single case statement in a switch.
   reducers: {
-    // thunks should call these reducers, passing them action payload.
-    // they have to be defined separate from the reducer logic.
     loadImportant: (state, action: PayloadAction<IPost[]>) => {
       state.important = action.payload;
     },
