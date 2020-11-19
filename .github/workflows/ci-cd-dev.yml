@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - 'release'
+      - 'test-docker'
 
 jobs:
   build:
