@@ -2,10 +2,12 @@ export interface IExpert {
   status?: ExpertStatus;
   firstName: string;
   secondName: string;
+  direction?: DirectionEnum;
   email?: string;
   phone?: string;
   photo?: string;
   workPlace?: string;
+  lastPost?: string;
 }
 
 export enum ExpertStatus {
