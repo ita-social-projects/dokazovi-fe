@@ -23,7 +23,7 @@ export const DropDownMenu: React.FC<IDropDownMenu>  = (props) => {
 
   console.log(props);
 
-  const allLinks: any =  Object.entries(dropdownElements).map(([key, value]) => {
+  const allLinks =  Object.entries(dropdownElements).map(([key, value]) => {
   return <MenuItem key={key}>{key}</MenuItem>;
   });
 
