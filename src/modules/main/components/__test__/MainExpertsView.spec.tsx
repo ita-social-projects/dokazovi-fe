@@ -27,7 +27,18 @@ function renderUI(props: Partial<ComponentProps> = {}) {
 }
 
 describe('MainExpertsView', () => {
-  it('renders images', () => {
+  it('renders ExpertBlocks equal to experts fetched', () => {
+    render(
+      <Provider store={store}>
+        <MainExpertsView />
+      </Provider>,
+    );
+    const resultLength = store.getState().main.experts.length;
+    const blocks = screen.queryAllByTestId('expertBlock');
+    expect(blocks).toHaveLength(resultLength);
+  });
+
+  it('renders images equal to number of experts', () => {
     render(
       <Provider store={store}>
         <MainExpertsView />

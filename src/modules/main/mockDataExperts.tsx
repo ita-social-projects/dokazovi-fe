@@ -45,7 +45,7 @@ const cards: IExpert[] = [
     workPlace: 'Kyiv',
     lastPost: 'Post title',
     email: 'liah@gmail.com',
-    phone: '+380988090001',
+    phone: '+380988090000',
     photo:
       'https://purepng.com/public/uploads/large/purepng.com-manmanadult-malemale-childboy-beingmens-1421526920869cscbo.png',
   },
@@ -57,7 +57,7 @@ const cards: IExpert[] = [
     workPlace: 'Kyiv',
     lastPost: 'Post title',
     email: 'liah@gmail.com',
-    phone: '+380988090002',
+    phone: '+380988090000',
     photo:
       'https://purepng.com/public/uploads/large/purepng.com-manmanadult-malemale-childboy-beingmens-1421526920869cscbo.png',
   },
@@ -69,7 +69,7 @@ const cards: IExpert[] = [
     workPlace: 'Kyiv',
     lastPost: 'Post title',
     email: 'liah@gmail.com',
-    phone: '+380988090003',
+    phone: '+380988090000',
     photo:
       'https://purepng.com/public/uploads/large/purepng.com-manmanadult-malemale-childboy-beingmens-1421526920869cscbo.png',
   },
@@ -81,7 +81,7 @@ const cards: IExpert[] = [
     workPlace: 'Kyiv',
     lastPost: 'Post title',
     email: 'liah@gmail.com',
-    phone: '+380988090004',
+    phone: '+380988090000',
     photo:
       'https://purepng.com/public/uploads/large/purepng.com-manmanadult-malemale-childboy-beingmens-1421526920869cscbo.png',
   },
@@ -93,7 +93,7 @@ const cards: IExpert[] = [
     workPlace: 'Kyiv',
     lastPost: 'Post title',
     email: 'liah@gmail.com',
-    phone: '+380988090005',
+    phone: '+380988090000',
     photo:
       'https://purepng.com/public/uploads/large/purepng.com-manmanadult-malemale-childboy-beingmens-1421526920869cscbo.png',
   },
@@ -105,7 +105,7 @@ const cards: IExpert[] = [
     workPlace: 'Kyiv',
     lastPost: 'Post title',
     email: 'liah@gmail.com',
-    phone: '+380988090006',
+    phone: '+380988090000',
     photo:
       'https://purepng.com/public/uploads/large/purepng.com-manmanadult-malemale-childboy-beingmens-1421526920869cscbo.png',
   },
@@ -117,7 +117,7 @@ const cards: IExpert[] = [
     workPlace: 'Kyiv',
     lastPost: 'Post title',
     email: 'liah@gmail.com',
-    phone: '+380988090007',
+    phone: '+380988090000',
     photo:
       'https://purepng.com/public/uploads/large/purepng.com-manmanadult-malemale-childboy-beingmens-1421526920869cscbo.png',
   },
@@ -129,7 +129,7 @@ const cards: IExpert[] = [
     workPlace: 'Kyiv',
     lastPost: 'Post title',
     email: 'liah@gmail.com',
-    phone: '+380988090008',
+    phone: '+380988090000',
     photo:
       'https://purepng.com/public/uploads/large/purepng.com-manmanadult-malemale-childboy-beingmens-1421526920869cscbo.png',
   },
