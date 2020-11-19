@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  api:
+    image: dokazovi_fe
+    container_name: dokazovi_fe
+    ports:
+      - '3000:3000'
+    logging:
+      driver: 'json-file'
+      options:
+        max-size: '10m'
+        max-file: '5'
