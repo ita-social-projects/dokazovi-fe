@@ -1,8 +1,9 @@
 /* eslint-disable no-param-reassign */
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import MOCK_POSTS from '../../../lib/constants/mock-data';
 import MOCK_EXPERTS from '../mockDataExperts';
 import { IPost, IExpert } from '../../../lib/types';
+import { AppThunk } from '../../../store/store';
 
 export interface IMainState {
   newest: IPost[];
@@ -25,19 +26,16 @@ export const mainSlice = createSlice({
   // action type). Key names will be used to generate actions, equivalent to a
   // single case statement in a switch.
   reducers: {
-    loadImportant: (state) => {
-      // const payload: IPost[] = Array(8).fill(MOCK_DATA) wouldn't work here:
-      // Unsafe assignment of type any[] to a variable of type IPost[].
-      const payload: IPost[] = MOCK_POSTS; 
-      state.important = payload;
+    // thunks should call these reducers, passing them action payload.
+    // they have to be defined separate from the reducer logic.
+    loadImportant: (state, action: PayloadAction<IPost[]>) => {
+      state.important = action.payload;
     },
-    loadExperts: (state) => {
-      const payload: IExpert[] = MOCK_EXPERTS;
-      state.experts = payload;
+    loadExperts: (state, action: PayloadAction<IExpert[]>) => {
+      state.experts = action.payload;
     },
-    loadNewest: (state) => {
-      const payload: IPost[] = MOCK_POSTS; // Array(8).fill(MOCK_DATA);
-      state.newest = payload;
+    loadNewest: (state, action: PayloadAction<IPost[]>) => {
+      state.newest = action.payload;
     },
   },
 });
@@ -45,3 +43,12 @@ export const mainSlice = createSlice({
 export const { loadImportant, loadExperts, loadNewest } = mainSlice.actions;
 
 export default mainSlice.reducer;
+
+export const fetchImportantPosts = (): AppThunk => async (dispatch) => {
+  try {
+    const posts = await Promise.resolve(MOCK_POSTS);
+    dispatch(loadImportant(posts));
+  } catch (e) {
+    console.log(e);
+  }
+};

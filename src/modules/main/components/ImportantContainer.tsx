@@ -3,16 +3,14 @@ import { useSelector, useDispatch } from 'react-redux';
 import Carousel from '../../../lib/components/Carousel';
 import { PostCard } from '../../../lib/components/PostCard';
 import { RootState } from '../../../store/rootReducer';
-import { loadImportant } from '../store/mainSlice';
-
-const selectImportant = (state: RootState) => state.main.important;
+import { fetchImportantPosts } from '../store/mainSlice';
 
 const ImportantContainer: React.FC = () => {
-  const posts = useSelector(selectImportant);
+  const posts = useSelector((state: RootState) => state.main.important);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(loadImportant());
+    dispatch(fetchImportantPosts());
   }, []);
 
   return (
