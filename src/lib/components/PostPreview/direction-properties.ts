@@ -7,7 +7,7 @@ export type DirectionPropertiesType = {
   };
 };
 
-export const directionProperties: DirectionPropertiesType = {
+export const DIRECTION_PROPERTIES: DirectionPropertiesType = {
   [DirectionEnum.CARDIOLOGY]: {
     color: 'violet',
     cyrillic: 'Кардіологія',
