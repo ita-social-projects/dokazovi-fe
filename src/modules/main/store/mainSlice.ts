@@ -52,3 +52,12 @@ export const fetchImportantPosts = (): AppThunk => async (dispatch) => {
     console.log(e);
   }
 };
+
+export const fetchExperts = (): AppThunk => async (dispatch) => {
+  try {
+    const experts = await Promise.resolve(MOCK_EXPERTS);
+    dispatch(loadExperts(experts));
+  } catch (e) {
+    console.log(e);
+  }
+};

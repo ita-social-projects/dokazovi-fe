@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ExpertBlock } from '../../../lib/components/ExpertBlock';
 import { useStyles } from '../styles/MainExpertsView.styles';
-import { loadExperts } from '../store/mainSlice';
+import { fetchExperts } from '../store/mainSlice';
 import { RootState } from '../../../store/rootReducer';
 import { ExpertPopover } from '../../../lib/components/ExpertPopover';
 import ExpertDataCard from '../../../lib/components/ExpertDataCard';
@@ -22,7 +22,7 @@ export const MainExpertsView: React.FC = () => {
   };
 
   const dispatch = useDispatch();
-  dispatch(loadExperts());
+  dispatch(fetchExperts());
 
   const cards = useSelector(selectExperts);
   const classes = useStyles();
