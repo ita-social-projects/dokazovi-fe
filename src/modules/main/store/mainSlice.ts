@@ -5,14 +5,31 @@ import MOCK_EXPERTS from '../mockDataExperts';
 import { IPost, IExpert } from '../../../lib/types';
 import { AppThunk } from '../../../store/store';
 
+interface IMeta {
+  totalNewestPosts?: number;
+  limit?: number;
+  currentIndex: number;
+  showMore?: boolean;
+}
+
+interface INewestPostPayload {
+  newestPosts: IPost[];
+  meta: IMeta;
+}
+
 export interface IMainState {
-  newest: IPost[];
+  newest: INewestPostPayload;
   important: IPost[];
   experts: IExpert[];
 }
 
 const initialState: IMainState = {
-  newest: [],
+  newest: {
+    newestPosts: [],
+    meta: {
+      currentIndex: 0,
+    },
+  },
   important: [],
   experts: [],
 };
@@ -34,7 +51,7 @@ export const mainSlice = createSlice({
     loadExperts: (state, action: PayloadAction<IExpert[]>) => {
       state.experts = action.payload;
     },
-    loadNewest: (state, action: PayloadAction<IPost[]>) => {
+    loadNewest: (state, action: PayloadAction<INewestPostPayload>) => {
       state.newest = action.payload;
     },
   },
