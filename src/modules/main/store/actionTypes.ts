@@ -6,11 +6,23 @@ export enum LoadData {
   LOAD_EXPERTS = 'LOAD_EXPERTS',
 }
 
-export interface INewestItem {}
+export interface IExpertsItem {}
+
+export interface IMeta {
+  totalNewestPosts?: number;
+  limit?: number;
+  currentIndex: number;
+  showMore?: boolean;
+}
+
+export interface INewestPostPayload {
+  newestPosts: IPost[];
+  meta: IMeta;
+}
 
 export interface INewestAction {
   type: LoadData.LOAD_NEWEST;
-  value: INewestItem[];
+  payload: INewestPostPayload;
 }
 
 export interface IImportantAction {

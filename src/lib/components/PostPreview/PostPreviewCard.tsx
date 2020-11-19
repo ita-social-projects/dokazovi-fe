@@ -5,7 +5,7 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
-import { directionProperties } from './direction-properties';
+import { DIRECTION_PROPERTIES } from './direction-properties';
 import { postTypeProperties } from './post-type-properties';
 import { IPost } from '../../types';
 import { useStyles } from '../../styles/PostPreviewCard.styles';
@@ -67,10 +67,10 @@ const PostPreviewCard: React.FC<IPostPreviewCardProps> = (props) => {
               variant="subtitle2"
               component="h3"
               style={{
-                backgroundColor: directionProperties[data.direction].color,
+                backgroundColor: DIRECTION_PROPERTIES[data.direction].color,
               }}
             >
-              {directionProperties[data.direction].cyrillic}
+              {DIRECTION_PROPERTIES[data.direction].cyrillic}
             </Typography>
             <Typography
               style={{ fontStyle: 'italic' }}

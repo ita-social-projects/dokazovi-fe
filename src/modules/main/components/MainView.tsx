@@ -1,4 +1,5 @@
 import React from 'react';
+import NewestContainer from './NewestContainer';
 import ImportantContainer from './ImportantContainer';
 import { MainExpertsView } from './MainExpertsView';
 
@@ -8,6 +9,7 @@ const MainView: React.FC<IMainViewProps> = () => {
   return (
     <>
       <ImportantContainer />
+      <NewestContainer />
       <MainExpertsView />
     </>
   );

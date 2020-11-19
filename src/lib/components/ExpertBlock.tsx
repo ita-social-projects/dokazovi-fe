@@ -2,7 +2,7 @@ import React from 'react';
 import { IExpert } from '../types';
 import { useStyles } from '../styles/ExpertBlock.styles';
 
-interface IExpertProps {
+export interface IExpertProps {
   expert: IExpert;
 }
 
