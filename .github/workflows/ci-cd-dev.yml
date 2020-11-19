@@ -20,6 +20,14 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
+      - name: npm Install
+        run: npm i
+      - name: Cache node modules
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: v1-npm-deps-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: v1-npm-deps-
       - name: Install, build, test
         run: |
           npm ci
@@ -27,13 +35,6 @@ jobs:
           npm test
         env:
           CI: true
-      - name: Cache node modules
-        uses: actions/cache@v2
-        with:
-          path: ~/.npm
-          key: v1-npm-deps-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: v1-npm-deps-
-      
 - name: Build the tagged Docker image
   run: docker build -f .docker/dokazovi.fe.Dockerfile -t dokazovi_fe .
 - name: Deploy on heroku
