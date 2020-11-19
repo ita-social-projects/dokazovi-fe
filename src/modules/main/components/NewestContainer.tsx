@@ -2,15 +2,15 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Container, Grid, Button } from '@material-ui/core';
 import { IMainState } from '../store/mainReducer';
-import { IRootState } from '../../../store/rootReducer';
-import { loadNewestThunk } from '../store/actions';
+import { RootState } from '../../../store/rootReducer';
+import { fetchNewestPosts } from '../store/mainSlice';
 import PostPreviewCard from '../../../lib/components/PostPreview/PostPreviewCard';
 
 const NewestContainer: React.FC = () => {
   const dispatch = useDispatch();
-  const setNewest = () => dispatch(loadNewestThunk());
+  const setNewest = () => dispatch(fetchNewestPosts());
 
-  const { newestPosts, meta } = useSelector<IRootState, IMainState['newest']>(
+  const { newestPosts, meta } = useSelector<RootState, IMainState['newest']>(
     (state) => {
       return state.main.newest;
     },

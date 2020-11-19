@@ -6,7 +6,7 @@ import {
   ExpertStatus,
 } from '../../../../lib/types';
 
-export const NEWEST_POSTS_DATA_MOCK: IPost[] = [
+const NEWEST_POSTS_DATA_MOCK: IPost[] = [
   {
     author: {
       status: ExpertStatus.NEW,
@@ -1158,3 +1158,5 @@ export const NEWEST_POSTS_DATA_MOCK: IPost[] = [
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
   },
 ];
+
+export default NEWEST_POSTS_DATA_MOCK;

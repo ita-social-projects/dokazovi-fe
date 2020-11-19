@@ -2,8 +2,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import MOCK_POSTS from '../../../lib/constants/mock-data';
 import MOCK_EXPERTS from '../mockDataExperts';
+import MOCK_NEWEST from '../components/constants/newestPosts-mock';
 import { IPost, IExpert } from '../../../lib/types';
 import { AppThunk } from '../../../store/store';
+import { LOAD_POSTS_LIMIT } from '../components/constants/newestPostsPagination-config';
 
 interface IMeta {
   totalNewestPosts?: number;
@@ -77,4 +79,24 @@ export const fetchExperts = (): AppThunk => async (dispatch) => {
   } catch (e) {
     console.log(e);
   }
+};
+
+export const fetchNewestPosts = (): AppThunk => (dispatch, getState) => {
+  const { meta } = getState().main.newest;
+
+  const totalNewestPosts =  meta.totalNewestPosts || MOCK_NEWEST.length;
+  const newIndex = meta.currentIndex + LOAD_POSTS_LIMIT;
+  const newShowMore = newIndex < totalNewestPosts - 1;
+  const newList = MOCK_NEWEST.slice(0, newIndex);
+
+  dispatch(
+    loadNewest({
+      newestPosts: newList,
+      meta: {
+        totalNewestPosts,
+        currentIndex: newIndex,
+        showMore: newShowMore,
+      },
+    }),
+  );
 };
