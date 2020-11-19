@@ -4,7 +4,7 @@ import MOCK_POSTS from '../../../lib/constants/mock-data';
 import MOCK_EXPERTS from '../mockDataExperts';
 import MOCK_NEWEST from '../components/constants/newestPosts-mock';
 import { IPost, IExpert } from '../../../lib/types';
-import { AppThunk } from '../../../store/store';
+import type { AppThunk } from '../../../store/store';
 import { LOAD_POSTS_LIMIT } from '../components/constants/newestPostsPagination-config';
 
 interface IMeta {
