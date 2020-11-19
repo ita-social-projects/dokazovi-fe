@@ -38,16 +38,6 @@ describe('MainExpertsView', () => {
     expect(blocks).toHaveLength(resultLength);
   });
 
-  it('renders images', () => {
-    render(
-      <Provider store={store}>
-        <MainExpertsView />
-      </Provider>,
-    );
-    const images = screen.queryAllByAltText('doctor');
-    expect(images).toBeTruthy();
-  });
-
   it("reacts to expert change", () => {
     const { rerender } = renderUI(baseProps);
 
