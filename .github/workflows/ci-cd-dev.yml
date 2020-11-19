@@ -21,12 +21,12 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - name: Build the tagged Docker image
-        run: docker build -f .docker/dokazovi.fe.Dockerfile -t dokazovi_fe .
+        run: docker build -f Dockerfile.prod -t dokazovi_fe .
       - name: Deploy on heroku
         id: heroku
         uses: snithyanantham/docker-compose-multiple-apps-heroku-deploy@v1.0
         with:
           email: ${{ secrets.HEROKU_EMAIL }}
           api_key: ${{ secrets.HEROKU_API_KEY }}
-          docker_compose_file: ".docker/docker-compose.yml"
+          docker_compose_file: "docker-compose.prod.yml"
           heroku_apps: '[{"imagename":"dokazovi_fe","appname":"dokazovi-fe","apptype":"web"}]'
