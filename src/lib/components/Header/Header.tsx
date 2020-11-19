@@ -1,7 +1,5 @@
 import React from 'react';
 
-import './Header.css';
-
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
