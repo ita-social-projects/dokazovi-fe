@@ -7,6 +7,7 @@ import { IRootState } from '../../../store/rootReducer';
 import { loadNewestThunk } from '../store/actions';
 import PostPreviewCard from '../../../lib/components/PostPreview/PostPreviewCard';
 import { useStyles } from './styles/NewestContainer.style';
+import BorderBottom from '../../../lib/components/Border';
 
 const NewestContainer: React.FC = () => {
   const classes = useStyles();
@@ -50,6 +51,7 @@ const NewestContainer: React.FC = () => {
             <span>Більше нових матеріалів немає</span>
           )}
         </Grid>
+        <BorderBottom />
       </Container>
     </>
   );
