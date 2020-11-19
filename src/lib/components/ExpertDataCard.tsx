@@ -14,7 +14,7 @@ export interface IExpertDataCardProps {
 const ExpertDataCard: React.FC<IExpertDataCardProps> = (props) => {
   const { expert } = props;
 
-  const fullName = `${expert.firstName} {expert.secondName}`;
+  const fullName = `${expert.firstName} ${expert.secondName}`;
 
   const directionCyrillic = expert.direction
     ? DIRECTION_PROPERTIES[expert.direction].cyrillic
