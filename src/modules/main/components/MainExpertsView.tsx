@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ExpertBlock } from '../../../lib/components/ExpertBlock';
 import { useStyles } from '../styles/MainExpertsView.styles';
 import { loadExperts } from '../store/mainSlice';
-import { RootState } from '../../../store/store';
+import { RootState } from '../../../store/rootReducer';
 
 const cardsClasses = Array.from(Array(11).keys()).map((el) => `item_${el}`);
 const selectExperts = (state: RootState) => state.main.experts;
