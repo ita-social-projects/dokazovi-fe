@@ -11,7 +11,8 @@ describe('MainExpertsView', () => {
         <MainExpertsView />
       </Provider>,
     );
+    const resultLength = store.getState().main.experts.length;
     const images = screen.queryAllByAltText('doctor');
-    expect(images).toHaveLength(11);
+    expect(images).toHaveLength(resultLength);
   });
 });
