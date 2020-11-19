@@ -1,5 +1,6 @@
-import { configureStore } from '@reduxjs/toolkit';
-import rootReducer from './rootReducer';
+import { configureStore, Action } from '@reduxjs/toolkit';
+import { ThunkAction } from 'redux-thunk';
+import rootReducer, { RootState } from './rootReducer';
 
 export const store = configureStore({
   reducer: rootReducer,
@@ -16,5 +17,7 @@ export const store = configureStore({
   /* Redux DevTools Extension is enabled by default */
   // devTools: true,
 });
+
+export type AppThunk = ThunkAction<void, RootState, unknown, Action<string>>;
 
 export type AppDispatch = typeof store.dispatch;
