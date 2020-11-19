@@ -39,11 +39,7 @@ describe('MainExpertsView', () => {
   });
 
   it("reacts to expert change", () => {
-    const { rerender } = renderUI({expert:{
-      firstName: 'Myhailo',
-      secondName: 'Ordynskyi',
-      phone: '+380987089024'
-    }});
+    const { rerender } = renderUI(baseProps);
 
     rerender({expert:{
       firstName: 'Myhailo',
