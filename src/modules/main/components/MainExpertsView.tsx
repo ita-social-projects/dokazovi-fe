@@ -6,14 +6,20 @@ import { loadExperts } from '../store/actions';
 import { IRootState } from '../../../store/rootReducer';
 import { ExpertPopover } from '../../../lib/components/ExpertPopover';
 import ExpertDataCard from '../../../lib/components/ExpertDataCard';
+import { IExpert } from '../../../lib/types';
 
 const cardsClasses = Array.from(Array(11).keys()).map((el) => `item_${el}`);
 const selectExperts = (state: IRootState) => state.main.experts;
 
 export const MainExpertsView: React.FC = () => {
   const [anchorEl, setAnchorEl] = useState<HTMLDivElement | null>(null);
+  const [popoverCard, setPopoverCard] = useState<IExpert | null>(null);
 
-  const handlePopoverOpen = (event: React.MouseEvent<HTMLDivElement>) => {
+  const handlePopoverOpen = (
+    event: React.MouseEvent<HTMLDivElement>,
+    card: IExpert,
+  ) => {
+    setPopoverCard(card);
     setAnchorEl(event.currentTarget);
   };
 
@@ -30,21 +36,25 @@ export const MainExpertsView: React.FC = () => {
   const allExperts = cards.map((card, key) => (
     <>
       <div
-        onMouseEnter={handlePopoverOpen}
+        onMouseEnter={(event) => handlePopoverOpen(event, card)}
         onMouseLeave={handlePopoverClose}
         key={card.phone}
         className={classes[cardsClasses[key]] as string}
       >
         <ExpertBlock expert={card} />
       </div>
+    </>
+  ));
+
+  return (
+    <div className={classes.container}>
+      {allExperts}
       <ExpertPopover
         anchorEl={anchorEl}
         handlePopoverClose={handlePopoverClose}
       >
-        <ExpertDataCard expert={card} />
+        <ExpertDataCard expert={popoverCard} />
       </ExpertPopover>
-    </>
-  ));
-
-  return <div className={classes.container}>{allExperts}</div>;
+    </div>
+  );
 };
