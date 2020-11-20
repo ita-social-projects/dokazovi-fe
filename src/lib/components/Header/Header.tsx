@@ -29,6 +29,12 @@ const useStyles = makeStyles((theme: Theme) =>
     navBar: {
       justifyContent: "space-between",
     }, 
+    list: {
+      display: "flex", 
+      flexDirection: "row", 
+      justifyContent: "flex-start", 
+      alignItems: "center"
+    }
   }),
 );
 
@@ -47,7 +53,7 @@ const Header: React.FC = () => {
             <Button color="inherit">Register</Button>
           </IconButton>
         </Toolbar>
-        <Box display="flex" flexDirection="row" justifyContent="flex-start" alignItems="center" p={1}>
+        <Box className={classes.list}>
           <ListItems/>
         </Box>
       </AppBar>

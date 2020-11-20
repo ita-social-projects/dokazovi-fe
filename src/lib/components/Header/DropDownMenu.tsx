@@ -1,7 +1,17 @@
 import React from 'react';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      margin: "0px",
+      padding: "0px",
+    }, 
+  }),
+);
 
 interface IDropDownMenu {
   [key: string]: string | React.FC;
@@ -10,6 +20,7 @@ interface IDropDownMenu {
 const dropdownElements =  {"Терапія": "", "Епідеміологія": "", "Вірусологія": "", "Кардіологія": "", "Офтальмологія": "", "Хірургія": ""};
 
 export const DropDownMenu: React.FC<IDropDownMenu>  = (props) => {
+  const classes = useStyles();
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
@@ -29,7 +40,10 @@ export const DropDownMenu: React.FC<IDropDownMenu>  = (props) => {
 
   return (
     <div>
-      <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick} className='drop-down-name'>
+      <Button className={classes.root}
+        aria-controls="simple-menu" 
+        aria-haspopup="true" 
+        onClick={handleClick}>
         Напрямки
       </Button>
       <Menu
