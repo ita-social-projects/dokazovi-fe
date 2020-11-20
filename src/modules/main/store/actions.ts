@@ -44,10 +44,8 @@ export function loadNewestThunk(): ThunkAction<
   const { meta } = store.getState().main.newest;
 
   const isTotalNewPosts = () =>
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     meta.totalNewestPosts!
-      ? // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        meta.totalNewestPosts!
+      ? meta.totalNewestPosts!
       : NEWEST_POSTS_DATA_MOCK.length;
 
   const newIndex = meta.currentIndex + LOAD_POSTS_LIMIT;
