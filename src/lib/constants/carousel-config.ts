@@ -31,9 +31,14 @@ interface IStyles {
 export const styles: IStyles = {
   wrapper: {
     position: 'relative',
+    margin: '10px 0 0 0',
   },
   controls: {
     position: 'absolute',
-    right: '5%',
+    top: '10px',
+    right: '0%',
+  },
+  buttons: {
+    backgroundColor: 'transparent',
   },
 };
