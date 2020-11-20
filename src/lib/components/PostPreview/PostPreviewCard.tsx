@@ -68,6 +68,8 @@ const PostPreviewCard: React.FC<IPostPreviewCardProps> = (props) => {
               component="h3"
               style={{
                 backgroundColor: DIRECTION_PROPERTIES[data.direction].color,
+                borderRadius: '15px',
+                padding: '0px 8px 0px 8px',
               }}
             >
               {DIRECTION_PROPERTIES[data.direction].cyrillic}

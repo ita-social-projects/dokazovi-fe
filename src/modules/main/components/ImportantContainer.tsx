@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import BorderBottom from '../../../lib/components/Border';
 import Carousel from '../../../lib/components/Carousel';
 import { PostCard } from '../../../lib/components/PostCard';
 import { RootStateType } from '../../../store/rootReducer';
@@ -22,6 +23,7 @@ const ImportantContainer: React.FC = () => {
           </div>
         ))}
       </Carousel>
+      <BorderBottom />
     </div>
   );
 };
