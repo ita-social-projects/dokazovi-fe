@@ -13,7 +13,6 @@ export const ExpertBlock: React.FC<IExpertProps> = (props) => {
   return (
     <>
       <img
-        data-testid='expertBlock'
         src={expert.photo}
         alt="doctor"
         key={expert.phone}

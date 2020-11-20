@@ -9,12 +9,13 @@ import { ExpertBlock } from '../../../../lib/components/ExpertBlock';
 type ComponentProps = React.ComponentProps<typeof ExpertBlock>;
 
 const baseProps: ComponentProps = {
- expert: {
-  firstName: 'Myhailo',
-  secondName: 'Ordynskyi',
-  phone: '+380987089024',
-  photo: 'https://images.theconversation.com/files/304957/original/file-20191203-66986-im7o5.jpg?ixlib=rb-1.1.0&q=45&auto=format&w=1200&h=1200.0&fit=crop',
- }
+  expert: {
+    firstName: 'Myhailo',
+    secondName: 'Ordynskyi',
+    phone: '+380987089024',
+    photo:
+      'https://images.theconversation.com/files/304957/original/file-20191203-66986-im7o5.jpg?ixlib=rb-1.1.0&q=45&auto=format&w=1200&h=1200.0&fit=crop',
+  },
 };
 
 function renderUI(props: Partial<ComponentProps> = {}) {
@@ -22,7 +23,9 @@ function renderUI(props: Partial<ComponentProps> = {}) {
   return {
     ...rtlProps,
     rerender: (newProps: Partial<ComponentProps>) =>
-      rtlProps.rerender(<ExpertBlock {...baseProps} {...props} {...newProps} />)
+      rtlProps.rerender(
+        <ExpertBlock {...baseProps} {...props} {...newProps} />,
+      ),
   };
 }
 
@@ -34,18 +37,29 @@ describe('MainExpertsView', () => {
       </Provider>,
     );
     const resultLength = store.getState().main.experts.length;
-    const blocks = screen.queryAllByTestId('expertBlock');
+    const blocks = screen.queryAllByAltText('doctor');
     expect(blocks).toHaveLength(resultLength);
   });
 
-  it("reacts to expert change", () => {
+  it('has title Experts', () => {
+    render(
+      <Provider store={store}>
+        <MainExpertsView />
+      </Provider>,
+    );
+    const renderedMainExpertsView = screen.queryAllByText('Експерти');
+    expect(renderedMainExpertsView).toBeTruthy();
+  });
+
+  it('reacts to expert change', () => {
     const { rerender } = renderUI(baseProps);
 
-    rerender({expert:{
-      firstName: 'Myhailo',
-      secondName: 'Ordynskyi',
-      phone: '+3809870890rg'
-    }
+    rerender({
+      expert: {
+        firstName: 'Myhailo',
+        secondName: 'Ordynskyi',
+        phone: '+3809870890rg',
+      },
     });
   });
 });
