@@ -9,19 +9,19 @@ export type DirectionPropertiesType = {
 
 export const DIRECTION_PROPERTIES: DirectionPropertiesType = {
   [DirectionEnum.CARDIOLOGY]: {
-    color: 'violet',
+    color: '#d1c4e9',
     cyrillic: 'Кардіологія',
   },
   [DirectionEnum.PEDIATRICS]: {
-    color: 'yellow',
+    color: '#ffee58',
     cyrillic: 'Педіатрія',
   },
   [DirectionEnum.THERAPY]: {
-    color: 'yellow',
+    color: '#ffee58',
     cyrillic: 'Терапія',
   },
   [DirectionEnum.COVID19]: {
-    color: 'red',
-    cyrillic: 'Covid-19',
+    color: '#ef5350',
+    cyrillic: 'COVID-19',
   },
 };
