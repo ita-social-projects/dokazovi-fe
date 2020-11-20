@@ -1,11 +1,10 @@
 import React from 'react';
-import './Header.css';
+// import './Header.css';
 import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 
-
-export const DropDownMenu: React.FC  = () => {
+export const DropDownMenu: React.FC = () => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -18,7 +17,14 @@ export const DropDownMenu: React.FC  = () => {
 
   return (
     <div>
-      <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick} className='drop-down-name'>
+      <Button
+        aria-controls="simple-menu"
+        aria-haspopup="true"
+        onClick={handleClick}
+        // className="drop-down-name"
+        color="inherit"
+        variant="text"
+      >
         Напрямки
       </Button>
       <Menu

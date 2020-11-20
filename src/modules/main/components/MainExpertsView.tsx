@@ -47,14 +47,17 @@ export const MainExpertsView: React.FC = () => {
   ));
 
   return (
-    <div className={classes.container}>
-      {allExperts}
-      <ExpertPopover
-        anchorEl={anchorEl}
-        handlePopoverClose={handlePopoverClose}
-      >
-        <ExpertDataCard expert={popoverCard} />
-      </ExpertPopover>
-    </div>
+    <>
+      <h2>Експерти</h2>
+      <div className={classes.container}>
+        {allExperts}
+        <ExpertPopover
+          anchorEl={anchorEl}
+          handlePopoverClose={handlePopoverClose}
+        >
+          <ExpertDataCard expert={popoverCard} />
+        </ExpertPopover>
+      </div>
+    </>
   );
 };
