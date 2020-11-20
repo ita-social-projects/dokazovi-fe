@@ -23,6 +23,6 @@ jobs:
       - name: Install, build, test, lint
         run: |
           npm install
-          npm build
+          npm run build
           npm test
           npm run lint
