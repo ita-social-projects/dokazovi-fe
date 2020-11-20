@@ -46,5 +46,10 @@ export const MainExpertsView: React.FC = () => {
     </>
   ));
 
-  return <div className={classes.container}>{allExperts}</div>;
+  return (
+    <>
+      <h2>Експерти</h2>
+      <div className={classes.container}> {allExperts}</div>
+    </>
+  );
 };
