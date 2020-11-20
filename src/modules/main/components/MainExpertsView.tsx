@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Container, Typography } from '@material-ui/core';
 import { ExpertBlock } from '../../../lib/components/ExpertBlock';
 import { useStyles } from '../styles/MainExpertsView.styles';
 import { loadExperts } from '../store/actions';
@@ -47,8 +48,8 @@ export const MainExpertsView: React.FC = () => {
   ));
 
   return (
-    <>
-      <h2>Експерти</h2>
+    <Container>
+      <Typography variant="h4">Експерти</Typography>
       <div className={classes.container}>
         {allExperts}
         <ExpertPopover
@@ -58,6 +59,6 @@ export const MainExpertsView: React.FC = () => {
           <ExpertDataCard expert={popoverCard} />
         </ExpertPopover>
       </div>
-    </>
+    </Container>
   );
 };
