@@ -4,7 +4,7 @@ import MOCK_POSTS from '../../../lib/constants/mock-data';
 import MOCK_EXPERTS from '../mockDataExperts';
 import MOCK_NEWEST from '../components/constants/newestPosts-mock';
 import { IPost, IExpert } from '../../../lib/types';
-import type { AppThunk } from '../../../store/store';
+import type { AppThunkType } from '../../../store/store';
 import { LOAD_POSTS_LIMIT } from '../components/constants/newestPostsPagination-config';
 
 interface IMeta {
@@ -56,7 +56,7 @@ export const { loadImportant, loadExperts, loadNewest } = mainSlice.actions;
 
 export default mainSlice.reducer;
 
-export const fetchImportantPosts = (): AppThunk => async (dispatch) => {
+export const fetchImportantPosts = (): AppThunkType => async (dispatch) => {
   try {
     const posts = await Promise.resolve(MOCK_POSTS);
     dispatch(loadImportant(posts));
@@ -65,7 +65,7 @@ export const fetchImportantPosts = (): AppThunk => async (dispatch) => {
   }
 };
 
-export const fetchExperts = (): AppThunk => async (dispatch) => {
+export const fetchExperts = (): AppThunkType => async (dispatch) => {
   try {
     const experts = await Promise.resolve(MOCK_EXPERTS);
     dispatch(loadExperts(experts));
@@ -74,7 +74,7 @@ export const fetchExperts = (): AppThunk => async (dispatch) => {
   }
 };
 
-export const fetchNewestPosts = (): AppThunk => (dispatch, getState) => {
+export const fetchNewestPosts = (): AppThunkType => (dispatch, getState) => {
   const { meta } = getState().main.newest;
 
   const totalNewestPosts =  meta.totalNewestPosts || MOCK_NEWEST.length;

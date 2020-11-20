@@ -7,6 +7,11 @@ export const store = configureStore({
   reducer: rootReducer,
 });
 
-export type AppThunk = ThunkAction<void, RootStateType, unknown, Action<string>>;
+export type AppThunkType = ThunkAction<
+  void,
+  RootStateType,
+  unknown,
+  Action<string>
+>;
 
-export type AppDispatch = typeof store.dispatch;
+export type AppDispatchType = typeof store.dispatch;
