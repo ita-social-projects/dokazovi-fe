@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Container, Grid, Button } from '@material-ui/core';
-import { RootState } from '../../../store/rootReducer';
+import { RootStateType } from '../../../store/rootReducer';
 import { fetchNewestPosts, IMainState } from '../store/mainSlice';
 import PostPreviewCard from '../../../lib/components/PostPreview/PostPreviewCard';
 
@@ -9,7 +9,7 @@ const NewestContainer: React.FC = () => {
   const dispatch = useDispatch();
   const setNewest = () => dispatch(fetchNewestPosts());
 
-  const { newestPosts, meta } = useSelector<RootState, IMainState['newest']>(
+  const { newestPosts, meta } = useSelector<RootStateType, IMainState['newest']>(
     (state) => {
       return state.main.newest;
     },

@@ -3,12 +3,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ExpertBlock } from '../../../lib/components/ExpertBlock';
 import { useStyles } from '../styles/MainExpertsView.styles';
 import { fetchExperts } from '../store/mainSlice';
-import { RootState } from '../../../store/rootReducer';
+import { RootStateType } from '../../../store/rootReducer';
 import { ExpertPopover } from '../../../lib/components/ExpertPopover';
 import ExpertDataCard from '../../../lib/components/ExpertDataCard';
 
 const cardsClasses = Array.from(Array(11).keys()).map((el) => `item_${el}`);
-const selectExperts = (state: RootState) => state.main.experts;
+const selectExperts = (state: RootStateType) => state.main.experts;
 
 export const MainExpertsView: React.FC = () => {
   const [anchorEl, setAnchorEl] = useState<HTMLDivElement | null>(null);
