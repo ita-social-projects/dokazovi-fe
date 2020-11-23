@@ -6,9 +6,9 @@ import { MainExpertsView } from '../MainExpertsView';
 import { store } from '../../../../store/store';
 import { ExpertBlock } from '../../../../lib/components/ExpertBlock';
 
-type ComponentProps = React.ComponentProps<typeof ExpertBlock>;
+type ComponentPropsType = React.ComponentProps<typeof ExpertBlock>;
 
-const baseProps: ComponentProps = {
+const baseProps: ComponentPropsType = {
   expert: {
     firstName: 'Myhailo',
     secondName: 'Ordynskyi',
@@ -18,11 +18,11 @@ const baseProps: ComponentProps = {
   },
 };
 
-function renderUI(props: Partial<ComponentProps> = {}) {
+function renderUI(props: Partial<ComponentPropsType> = {}) {
   const rtlProps = render(<ExpertBlock {...baseProps} {...props} />);
   return {
     ...rtlProps,
-    rerender: (newProps: Partial<ComponentProps>) =>
+    rerender: (newProps: Partial<ComponentPropsType>) =>
       rtlProps.rerender(
         <ExpertBlock {...baseProps} {...props} {...newProps} />,
       ),
