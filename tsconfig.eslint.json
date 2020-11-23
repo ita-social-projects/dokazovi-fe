@@ -6,6 +6,8 @@
     "src/**/*.js",
     "src/**/*.jsx",
     "test/**/*.ts",
-    ".eslintrc.js"
+    ".eslintrc.js",
+    "jest.config.js",
+    "jest-config/*.js"
   ]
 }
