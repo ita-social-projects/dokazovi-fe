@@ -56,7 +56,7 @@ export const MainExpertsView: React.FC = () => {
           anchorEl={anchorEl}
           handlePopoverClose={handlePopoverClose}
         >
-          <ExpertDataCard expert={popoverCard} />
+          {popoverCard && <ExpertDataCard expert={popoverCard} />}
         </ExpertPopover>
       </div>
     </Container>

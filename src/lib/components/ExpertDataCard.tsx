@@ -8,7 +8,7 @@ import { DIRECTION_PROPERTIES } from './PostPreview/direction-properties';
 import { useStyles } from '../styles/ExpertDataCard.styles';
 
 export interface IExpertDataCardProps {
-  expert: IExpert | null;
+  expert: IExpert;
 }
 
 const ExpertDataCard: React.FC<IExpertDataCardProps> = (props) => {
