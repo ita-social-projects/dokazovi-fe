@@ -28,10 +28,10 @@ jobs:
           npm run build --if-present
           npm test
           npm run lint
+        env:
+          CI: false
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        env:
-          CI: false
