@@ -1,10 +1,8 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Container, Grid, Button, Typography } from '@material-ui/core';
-
-import { IMainState } from '../store/mainReducer';
-import { IRootState } from '../../../store/rootReducer';
-import { loadNewestThunk } from '../store/actions';
+import { RootStateType } from '../../../store/rootReducer';
+import { fetchNewestPosts, IMainState } from '../store/mainSlice';
 import PostPreviewCard from '../../../lib/components/PostPreview/PostPreviewCard';
 import { useStyles } from './styles/NewestContainer.style';
 import BorderBottom from '../../../lib/components/Border';
@@ -13,9 +11,9 @@ const NewestContainer: React.FC = () => {
   const classes = useStyles();
 
   const dispatch = useDispatch();
-  const setNewest = () => dispatch(loadNewestThunk());
+  const setNewest = () => dispatch(fetchNewestPosts());
 
-  const { newestPosts, meta } = useSelector<IRootState, IMainState['newest']>(
+  const { newestPosts, meta } = useSelector<RootStateType, IMainState['newest']>(
     (state) => {
       return state.main.newest;
     },

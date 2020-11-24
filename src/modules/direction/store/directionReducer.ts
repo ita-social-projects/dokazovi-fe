@@ -1,5 +1,5 @@
 import {
-  DirectionActions,
+  DirectionActionsType,
   IMaterialsItem,
   IExpertsItem,
   LoadData,
@@ -17,7 +17,7 @@ const initialState: IDirectionState = {
 
 export function directionReducer(
   state = initialState,
-  action: DirectionActions,
+  action: DirectionActionsType,
 ): IDirectionState {
   switch (action.type) {
     case LoadData.LOAD_MATERIALS:
