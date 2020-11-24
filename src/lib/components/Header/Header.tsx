@@ -1,61 +1,46 @@
 import React from 'react';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import Box from '@material-ui/core/Box';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import LocalHospitalIcon from '@material-ui/icons/LocalHospital';
+import { Grid, Link, Toolbar, Typography } from '@material-ui/core';
+import ListItem from '@material-ui/core/ListItem/ListItem';
+import List from '@material-ui/core/List/List';
 import ListItems from './ListItems';
-
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      flexGrow: 1,
-      justifyContent: "space-between",
-    },
-    menuButton: {
-      marginRight: theme.spacing(2),
-    }, 
-    image: {
-      width: "2px",
-      marginRight: "10px",
-      fontSize: "10px",
-    }, 
-    logInBlock: {
-      display: "flex",
-      justifyContent: "flex-end",
-    }, 
-    navBar: {
-      justifyContent: "space-between",
-    }, 
-    list: {
-      display: "flex", 
-      flexDirection: "row", 
-      justifyContent: "flex-start", 
-      alignItems: "center"
-    }
-  }),
-);
+import { useStyles } from './Header.styles';
 
 const Header: React.FC = () => {
   const classes = useStyles();
   return (
-    <div className={classes.root}>
-      <AppBar position="static">
-        <Toolbar className={classes.navBar}>
-          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-            <img className={classes.image} src="#" alt="logo"/>
-          </IconButton>
-          <IconButton edge="end" className={classes.logInBlock}>
-            <img className={classes.image} src="#" alt="user"/>
-            <Button color="inherit">Log in</Button>
-            <Button color="inherit">Register</Button>
-          </IconButton>
-        </Toolbar>
-        <Box className={classes.list}>
-          <ListItems/>
-        </Box>
-      </AppBar>
+    <div className="header">
+      <Grid container>
+        <Grid item xs={12}>
+          <Toolbar className={classes.toolbar}>
+            <div className={classes.logo}>
+              <LocalHospitalIcon fontSize="large" />
+              <Typography
+                component="h2"
+                variant="h5"
+                color="inherit"
+                align="center"
+                noWrap
+              >
+                Dokazovi
+              </Typography>
+            </div>
+
+            <div className={classes.logIn}>
+              <AccountCircleIcon fontSize="large" />
+              <Link href="/">Log in</Link>/<Link href="/">Register</Link>
+            </div>
+          </Toolbar>
+        </Grid>
+        <Grid item xs={12}>
+          <List className={classes.generalNavigation}>
+            <ListItem>
+                <ListItems id='' label=''/>
+            </ListItem>
+          </List>
+        </Grid>
+      </Grid>
     </div>
   );
 };
