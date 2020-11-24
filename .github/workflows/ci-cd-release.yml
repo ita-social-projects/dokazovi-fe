@@ -3,7 +3,7 @@ name: Dokazovi-fe CI/CD Heroku
 on:
   workflow_run:
   workflows: ['Assemble']
-  branches: [release]
+  branches: [develop]
   types:
     - completed
 
