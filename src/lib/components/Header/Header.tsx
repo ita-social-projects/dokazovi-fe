@@ -4,11 +4,50 @@ import LocalHospitalIcon from '@material-ui/icons/LocalHospital';
 import { Grid, Link, Toolbar, Typography } from '@material-ui/core';
 import ListItem from '@material-ui/core/ListItem/ListItem';
 import List from '@material-ui/core/List/List';
-import ListItems from './ListItems';
 import { useStyles } from './Header.styles';
+
+interface IHeaderProps {
+  id: string, 
+  label: string,
+  url?: string,
+  }
+
+export const navElems: IHeaderProps [] = [
+  {
+    id: "main",
+    label: "Головна",
+    url: "/"
+  },
+  {
+    id: "covid-19",
+    label: "Covid-19",
+    url: "direction/covid-19",
+ },
+ {
+  id: "directions",
+  label: "Напрямки",
+},
+{
+  id: "experts",
+  label: "Експерти",
+},
+{
+  id: "translates",
+  label: "Переклади",
+},
+{
+  id: "study",
+  label: "Навчання",
+}
+];
 
 const Header: React.FC = () => {
   const classes = useStyles();
+
+  const allLinks: any = navElems.map((item) => {
+    return <a key={item.id} href={item.url} className={classes.items}>{item.label}</a>;
+  });
+
   return (
     <div className="header">
       <Grid container>
@@ -36,7 +75,7 @@ const Header: React.FC = () => {
         <Grid item xs={12}>
           <List className={classes.generalNavigation}>
             <ListItem>
-                <ListItems id='' label=''/>
+                {allLinks}
             </ListItem>
           </List>
         </Grid>
