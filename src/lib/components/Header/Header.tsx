@@ -1,16 +1,11 @@
 import React from 'react';
-import {
-  Link as RouterLink,
-  LinkProps as RouterLinkProps,
-} from 'react-router-dom';
-
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import LocalHospitalIcon from '@material-ui/icons/LocalHospital';
 import { Grid, Link, Toolbar, Typography } from '@material-ui/core';
 import ListItem from '@material-ui/core/ListItem/ListItem';
 import List from '@material-ui/core/List/List';
+import ListItems from './ListItems';
 import { useStyles } from './Header.styles';
-import { DropDownMenu } from './DropDownMenu';
 
 const Header: React.FC = () => {
   const classes = useStyles();
@@ -41,28 +36,7 @@ const Header: React.FC = () => {
         <Grid item xs={12}>
           <List className={classes.generalNavigation}>
             <ListItem>
-              <Link component={RouterLink} to="/">
-                Головна
-              </Link>
-            </ListItem>
-
-            <ListItem>
-              <Link component={RouterLink} to="/direction/covid-19" noWrap>
-                Covid-19
-              </Link>
-            </ListItem>
-
-            <ListItem>
-              <DropDownMenu />
-            </ListItem>
-            <ListItem>
-              <Link href="/">Експерти</Link>
-            </ListItem>
-            <ListItem>
-              <Link href="/">Переклади</Link>
-            </ListItem>
-            <ListItem>
-              <Link href="/">Навчання</Link>
+                <ListItems id='' label=''/>
             </ListItem>
           </List>
         </Grid>
