@@ -16,4 +16,4 @@ export interface IExpertsAction {
   value: IExpertsItem[];
 }
 
-export type DirectionActions = IMaterialsAction | IExpertsAction;
+export type DirectionActionsType = IMaterialsAction | IExpertsAction;
