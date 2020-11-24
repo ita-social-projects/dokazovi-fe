@@ -29,12 +29,13 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "jest --coverage",
+    "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "eslint --ext .tsx,.ts src/ --quiet",
     "lint:fix": "eslint --ext .tsx,.ts src/ --quiet --fix",
     "prettier-format": "prettier --write",
-    "prettier-format:all": "prettier --write 'src/**/*.{js,jsx,json,ts,tsx,css,md}'"
+    "prettier-format:all": "prettier --write 'src/**/*.{js,jsx,json,ts,tsx,css,md}'",
+    "jest": "jest --coverage"
   },
   "browserslist": {
     "production": [
