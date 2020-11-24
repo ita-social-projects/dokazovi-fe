@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - develop
-  pull_request:
-    types: [opened, synchronize, reopened]
 
 jobs:
   build:
@@ -14,11 +12,18 @@ jobs:
     strategy:
       matrix:
         node-version: [12.x]
+
     steps:
       - name: Copy all sources
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Jest collect code coverage
+        run: npm run jest
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
