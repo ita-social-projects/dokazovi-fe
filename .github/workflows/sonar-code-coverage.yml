@@ -23,7 +23,9 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - name: Jest collect code coverage
-        run: npm run jest
+        run: |
+          npm run assemble
+          npm run jest
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:

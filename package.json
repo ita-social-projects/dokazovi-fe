@@ -34,7 +34,9 @@
     "lint": "eslint --ext .tsx,.ts src/ --quiet",
     "lint:fix": "eslint --ext .tsx,.ts src/ --quiet --fix",
     "prettier-format": "prettier --write",
-    "prettier-format:all": "prettier --write 'src/**/*.{js,jsx,json,ts,tsx,css,md}'"
+    "prettier-format:all": "prettier --write 'src/**/*.{js,jsx,json,ts,tsx,css,md}'",
+    "assemble": "npm i && npm run lint && npm run build --if-present && npm test",
+    "jest": "jest --coverage"
   },
   "browserslist": {
     "production": [
