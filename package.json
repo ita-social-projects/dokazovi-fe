@@ -36,7 +36,7 @@
     "prettier-format": "prettier --write",
     "prettier-format:all": "prettier --write 'src/**/*.{js,jsx,json,ts,tsx,css,md}'",
     "assemble": "npm i && npm run lint && npm run build --if-present && npm test",
-    "jest": "jest --coverage"
+    "coverage": "npm test -- --coverage --watchAll=false"
   },
   "browserslist": {
     "production": [
@@ -70,5 +70,11 @@
     "hooks": {
       "pre-push": "npm run lint"
     }
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.{ts,tsx}",
+      "!<rootDir>/node_modules/"
+    ]
   }
 }
