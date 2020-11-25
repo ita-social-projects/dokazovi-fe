@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Container, Typography } from '@material-ui/core';
 import { ExpertBlock } from '../../../lib/components/ExpertBlock';
@@ -8,6 +8,7 @@ import { IRootState } from '../../../store/rootReducer';
 import { ExpertPopover } from '../../../lib/components/ExpertPopover';
 import ExpertDataCard from '../../../lib/components/ExpertDataCard';
 import { IExpert } from '../../../lib/types';
+import { getPosts } from '../../../lib/utilities/API/api';
 
 const cardsClasses = Array.from(Array(11).keys()).map((el) => `item_${el}`);
 const selectExperts = (state: IRootState) => state.main.experts;
@@ -30,6 +31,12 @@ export const MainExpertsView: React.FC = () => {
 
   const dispatch = useDispatch();
   dispatch(loadExperts());
+
+  useEffect(() => {
+    getPosts('important')
+      .then((res) => console.log(res.data))
+      .catch((err) => console.log(err));
+  }, []);
 
   const cards = useSelector(selectExperts);
   const classes = useStyles();

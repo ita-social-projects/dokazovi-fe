@@ -1,12 +1,16 @@
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
 import { BASE_URL } from './baseURL';
-import { GetImportantResponseType } from './types';
+import {
+  GetPostsResponseType,
+  ImportantPostResponseType,
+  LatestPostResponseType,
+} from './types';
 
 const instance = axios.create({
   baseURL: BASE_URL,
 });
 
-type GetImportantConfigType = {
+type GetPostConfigType = {
   params: {
     page?: number;
     size?: number;
@@ -14,14 +18,26 @@ type GetImportantConfigType = {
   };
 };
 
-export const getImportant = (
-  config?: GetImportantConfigType,
-): Promise<AxiosResponse<GetImportantResponseType>> => {
-  return instance.get<GetImportantResponseType>(`/post/important`, config);
-};
+type PostsTypeType = 'important' | 'latest';
 
-export const getLatest = () => {
-  return instance.get(`/post/latest`);
+export const getPosts = (
+  postsType: PostsTypeType,
+  config?: GetPostConfigType,
+): Promise<
+  AxiosResponse<
+    GetPostsResponseType<ImportantPostResponseType | LatestPostResponseType>
+  >
+> => {
+  if (postsType === 'important') {
+    return instance.get<GetPostsResponseType<ImportantPostResponseType>>(
+      `/post/${postsType}`,
+      config,
+    );
+  }
+  return instance.get<GetPostsResponseType<LatestPostResponseType>>(
+    `/post/${postsType}`,
+    config,
+  );
 };
 
 export const getExperts = () => {
@@ -31,5 +47,3 @@ export const getExperts = () => {
 export const getVersion = () => {
   return instance.get(`/version`);
 };
-
-getImportant().then((res) => res.data);

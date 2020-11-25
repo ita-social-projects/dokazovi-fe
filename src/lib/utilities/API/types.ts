@@ -1,4 +1,4 @@
-export interface IPostResponseType {
+export type LatestPostResponseType = {
   id: number;
   title: string;
   author: {
@@ -19,15 +19,18 @@ export interface IPostResponseType {
     id: number;
     name: string;
   };
+  content: string;
   createdAt: string;
   direction: {
     id: number;
     name: string;
   };
-}
+};
 
-export type GetImportantResponseType = {
-  content: IPostResponseType[];
+export type ImportantPostResponseType = Omit<LatestPostResponseType, 'content'>;
+
+export type GetPostsResponseType<T> = {
+  content: T[];
   pageable: {
     sort: {
       unsorted: boolean;
