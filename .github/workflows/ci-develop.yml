@@ -4,6 +4,9 @@ on:
   pull_request:
     branches:
       - develop
+  push:
+    branches:
+      - develop
 
 jobs:
   build:
@@ -26,10 +29,3 @@ jobs:
         run: npm run assemble
         env:
           CI: false
-      - name: Jest collect code coverage
-        run: npm run coverage
-      - name: SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
