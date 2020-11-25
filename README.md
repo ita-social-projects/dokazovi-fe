@@ -2,7 +2,7 @@
 
 # Dokazovo
 
-![Build Status](https://github.com/ita-social-projects/dokazovi-fe/workflows/Dokazovi%20build%status/badge.svg)
+![Build Status](https://github.com/ita-social-projects/dokazovi-fe/workflows/Dokazovi%20build%20status/badge.svg)
 [![Coverage Status](https://sonarcloud.io/api/project_badges/measure?project=ita-social-projects_dokazovi-fe&metric=coverage)](https://sonarcloud.io/dashboard?id=ita-social-projects_dokazovi-fe)
 ![Github Issues](https://img.shields.io/github/issues/ita-social-projects/dokazovi-fe)
 ![Pending Pull-Requests](https://img.shields.io/github/issues-pr/ita-social-projects/dokazovi-fe)
