@@ -1,5 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import Axios from 'axios';
 import MOCK_POSTS from '../../../lib/constants/mock-data';
 import MOCK_EXPERTS from '../mockDataExperts';
 import MOCK_NEWEST from '../components/constants/newestPosts-mock';
@@ -58,8 +59,11 @@ export default mainSlice.reducer;
 
 export const fetchImportantPosts = (): AppThunkType => async (dispatch) => {
   try {
-    const posts = await Promise.resolve(MOCK_POSTS);
-    dispatch(loadImportant(posts));
+    const posts = await Axios.get(
+      'https://abe717b5de32.ngrok.io/api/post/important',
+    );
+    console.log(posts.data);
+    dispatch(loadImportant(posts.data));
   } catch (e) {
     console.log(e);
   }
@@ -77,7 +81,7 @@ export const fetchExperts = (): AppThunkType => async (dispatch) => {
 export const fetchNewestPosts = (): AppThunkType => (dispatch, getState) => {
   const { meta } = getState().main.newest;
 
-  const totalNewestPosts =  meta.totalNewestPosts || MOCK_NEWEST.length;
+  const totalNewestPosts = meta.totalNewestPosts || MOCK_NEWEST.length;
   const newIndex = meta.currentIndex + LOAD_POSTS_LIMIT;
   const newShowMore = newIndex < totalNewestPosts - 1;
   const newList = MOCK_NEWEST.slice(0, newIndex);
