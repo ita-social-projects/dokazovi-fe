@@ -3,7 +3,7 @@ name: Dokazovi-fe CI/CD Heroku
 on:
   push:
     branches:
-      - 'release'
+      - release
 
 jobs:
   build:
