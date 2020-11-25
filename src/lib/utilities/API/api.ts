@@ -1,7 +1,7 @@
-import axios, { AxiosInstance, AxiosResponse } from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { BASE_URL } from './baseURL';
 import {
-  GetPostsResponseType,
+  GetResponseType,
   ImportantPostResponseType,
   LatestPostResponseType,
 } from './types';
@@ -25,16 +25,16 @@ export const getPosts = (
   config?: GetPostConfigType,
 ): Promise<
   AxiosResponse<
-    GetPostsResponseType<ImportantPostResponseType | LatestPostResponseType>
+    GetResponseType<ImportantPostResponseType | LatestPostResponseType>
   >
 > => {
   if (postsType === 'important') {
-    return instance.get<GetPostsResponseType<ImportantPostResponseType>>(
+    return instance.get<GetResponseType<ImportantPostResponseType>>(
       `/post/${postsType}`,
       config,
     );
   }
-  return instance.get<GetPostsResponseType<LatestPostResponseType>>(
+  return instance.get<GetResponseType<LatestPostResponseType>>(
     `/post/${postsType}`,
     config,
   );

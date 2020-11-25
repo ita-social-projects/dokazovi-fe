@@ -1,23 +1,17 @@
 export type LatestPostResponseType = {
-  id: number;
-  title: string;
   author: {
-    id: number;
-    firstName: string;
-    lastName: string;
     avatar: string;
+    firstName: string;
+    id: number;
+    lastName: string;
     mainInstitution: {
-      id: number;
-      name: string;
       city: {
         id: number;
         name: string;
       };
+      id: number;
+      name: string;
     };
-  };
-  type: {
-    id: number;
-    name: string;
   };
   content: string;
   createdAt: string;
@@ -25,35 +19,57 @@ export type LatestPostResponseType = {
     id: number;
     name: string;
   };
+  id: number;
+  title: string;
+  type: {
+    id: number;
+    name: string;
+  };
 };
 
 export type ImportantPostResponseType = Omit<LatestPostResponseType, 'content'>;
 
-export type GetPostsResponseType<T> = {
+export type GetResponseType<T> = {
   content: T[];
-  pageable: {
-    sort: {
-      unsorted: boolean;
-      sorted: boolean;
-      empty: boolean;
-    };
-    offset: number;
-    pageNumber: number;
-    pageSize: number;
-    paged: boolean;
-    unpaged: boolean;
-  };
-  totalPages: number;
-  totalElements: number;
+  empty: boolean;
+  first: boolean;
   last: boolean;
   number: number;
-  sort: {
-    unsorted: false;
-    sorted: boolean;
-    empty: boolean;
-  };
-  size: number;
   numberOfElements: number;
-  first: boolean;
-  empty: boolean;
+  size: number;
+  sort: {
+    empty: boolean;
+    sorted: boolean;
+    unsorted: boolean;
+  };
+  totalElements: number;
+  totalPages: number;
+};
+
+export type ExpertsResponseType = {
+  content: [
+    {
+      avatar: string;
+      firstName: string;
+      id: number;
+      lastAddedPost: {
+        id: number;
+        title: string;
+      };
+      lastName: string;
+      mainDirection: {
+        id: number;
+        name: string;
+      };
+      mainInstitution: {
+        city: {
+          id: number;
+          name: string;
+        };
+        id: number;
+        name: string;
+      };
+      qualification: string;
+    },
+  ];
 };
