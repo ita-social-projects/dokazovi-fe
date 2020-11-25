@@ -73,3 +73,14 @@ export type ExpertsResponseType = {
     },
   ];
 };
+
+export type PostTagResponseType = {
+  id: number;
+  tag: string;
+};
+
+export type GetTagResponseType = PostTagResponseType[];
+
+export type GetVersionType = {
+  version: string;
+};

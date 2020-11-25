@@ -2,8 +2,11 @@ import axios, { AxiosResponse } from 'axios';
 import { BASE_URL } from './baseURL';
 import {
   GetResponseType,
+  GetTagResponseType,
+  GetVersionType,
   ImportantPostResponseType,
   LatestPostResponseType,
+  PostTagResponseType,
 } from './types';
 
 const instance = axios.create({
@@ -16,6 +19,17 @@ type GetPostConfigType = {
     size?: number;
     sort?: string[];
   };
+};
+
+type GetTagConfigType = {
+  params: {
+    value: string;
+    limit?: number;
+  };
+};
+
+type PostTagRequestBodyType = {
+  tag: string;
 };
 
 type PostsTypeType = 'important' | 'latest';
@@ -44,6 +58,18 @@ export const getExperts = () => {
   return instance.get(`/user/experts`);
 };
 
-export const getVersion = () => {
+export const postTag = (
+  requestBody: PostTagRequestBodyType,
+): Promise<AxiosResponse<PostTagResponseType>> => {
+  return instance.post(`/tag`, requestBody);
+};
+
+export const getTag = (
+  config: GetTagConfigType,
+): Promise<AxiosResponse<GetTagResponseType>> => {
+  return instance.get(`/tag/findByValue`, config);
+};
+
+export const getVersion = (): Promise<AxiosResponse<GetVersionType>> => {
   return instance.get(`/version`);
 };

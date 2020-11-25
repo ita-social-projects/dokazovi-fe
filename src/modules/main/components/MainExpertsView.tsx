@@ -32,12 +32,6 @@ export const MainExpertsView: React.FC = () => {
   const dispatch = useDispatch();
   dispatch(loadExperts());
 
-  useEffect(() => {
-    getPosts('important')
-      .then((res) => console.log(res.data))
-      .catch((err) => console.log(err));
-  }, []);
-
   const cards = useSelector(selectExperts);
   const classes = useStyles();
 
