@@ -1,4 +1,4 @@
-name: Dokazovi-fe CI on Develop
+name: Dokazovi build status
 
 on:
   pull_request:
@@ -16,15 +16,20 @@ jobs:
     steps:
       - name: Copy all sources
         uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
       - name: Install, build, test, lint
-        run: |
-          npm i
-          npm run build --if-present
-          npm test
-          npm run lint
+        run: npm run assemble
         env:
           CI: false
+      - name: Jest collect code coverage
+        run: npm run coverage
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
