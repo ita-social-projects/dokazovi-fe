@@ -20,6 +20,10 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
+      - name: Install, build, test, lint
+        run: npm run assemble
+        env:
+          CI: false
       - name: Build the tagged Docker image
         run: docker build -f Dockerfile.prod -t dokazovi_fe .
       - name: Deploy on heroku

@@ -38,7 +38,12 @@ module.exports = {
           "regex": "^I[A-Z]",
           "match": true
         }
-      }
+      },
+      {
+        "selector": "typeAlias",
+        "format": ["PascalCase"],
+        "suffix": ["Type"],
+      },
     ],
     semi: ["error", "always"],
     "eol-last": ["error", "always"],

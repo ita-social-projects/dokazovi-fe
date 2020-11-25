@@ -27,4 +27,7 @@ export const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
   },
+  items: {
+    marginRight: '10px',
+  },
 }));

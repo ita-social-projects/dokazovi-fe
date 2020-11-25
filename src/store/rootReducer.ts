@@ -1,17 +1,10 @@
 import { combineReducers } from 'redux';
+import mainReducer from '../modules/main/store/mainSlice';
 
-import {
-  directionReducer,
-  IDirectionState,
-} from '../modules/direction/store/directionReducer';
-import { mainReducer, IMainState } from '../modules/main/store/mainReducer';
-
-export interface IRootState {
-  main: IMainState;
-  direction: IDirectionState;
-}
-
-export default combineReducers({
+const rootReducer = combineReducers({
   main: mainReducer,
-  direction: directionReducer,
 });
+
+export type RootStateType = ReturnType<typeof rootReducer>;
+
+export default rootReducer;
