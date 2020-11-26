@@ -1,4 +1,4 @@
-export type LatestPostResponseType = {
+export type PostResponseType = {
   author: {
     avatar: string;
     firstName: string;
@@ -13,7 +13,7 @@ export type LatestPostResponseType = {
       name: string;
     };
   };
-  content: string;
+  content?: string;
   createdAt: string;
   direction: {
     id: number;
@@ -26,8 +26,6 @@ export type LatestPostResponseType = {
     name: string;
   };
 };
-
-export type ImportantPostResponseType = Omit<LatestPostResponseType, 'content'>;
 
 export type GetResponseType<T> = {
   content: T[];
@@ -46,32 +44,28 @@ export type GetResponseType<T> = {
   totalPages: number;
 };
 
-export type ExpertsResponseType = {
-  content: [
-    {
-      avatar: string;
-      firstName: string;
+export type ExpertResponseType = {
+  avatar: string;
+  firstName: string;
+  id: number;
+  lastAddedPost: {
+    id: number;
+    title: string;
+  };
+  lastName: string;
+  mainDirection: {
+    id: number;
+    name: string;
+  };
+  mainInstitution: {
+    city: {
       id: number;
-      lastAddedPost: {
-        id: number;
-        title: string;
-      };
-      lastName: string;
-      mainDirection: {
-        id: number;
-        name: string;
-      };
-      mainInstitution: {
-        city: {
-          id: number;
-          name: string;
-        };
-        id: number;
-        name: string;
-      };
-      qualification: string;
-    },
-  ];
+      name: string;
+    };
+    id: number;
+    name: string;
+  };
+  qualification: string;
 };
 
 export type PostTagResponseType = {
