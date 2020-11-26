@@ -57,16 +57,32 @@ export const { loadImportant, loadExperts, loadNewest } = mainSlice.actions;
 
 export default mainSlice.reducer;
 
-export const fetchImportantPosts = (): AppThunkType => async (dispatch) => {
-  try {
-    const posts = await Axios.get(
-      'https://abe717b5de32.ngrok.io/api/post/important',
-    );
-    console.log(posts.data);
-    dispatch(loadImportant(posts.data));
-  } catch (e) {
-    console.log(e);
-  }
+interface IImportantResponse {
+  content: IPost[];
+  empty: boolean;
+  first: boolean;
+  last: boolean;
+  number: number;
+  numberOfElements: number;
+  size: number;
+  sort: {
+    empty: boolean;
+    sorted: boolean;
+    unsorted: boolean;
+  };
+  totalElements: number;
+  totalPages: number;
+}
+
+export const fetchImportantPosts = (): AppThunkType => (dispatch) => {
+    Axios.get('https://dokazovi-be.herokuapp.com/api/post/important')
+    .then(response   => {
+      const allResponse = response.data as IImportantResponse ;
+      const posts = allResponse.content;
+    console.log(posts);
+    dispatch(loadImportant(posts));
+    })
+  .catch (e => console.log(e));
 };
 
 export const fetchExperts = (): AppThunkType => async (dispatch) => {
