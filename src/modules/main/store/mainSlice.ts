@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import Axios from 'axios';
-import MOCK_POSTS from '../../../lib/constants/mock-data';
+import { getPosts } from '../../../lib/utilities/API/api';
+import { PostResponseType } from '../../../lib/utilities/API/types';
 import MOCK_EXPERTS from '../mockDataExperts';
 import MOCK_NEWEST from '../components/constants/newestPosts-mock';
 import { IPost, IExpert } from '../../../lib/types';
@@ -22,7 +22,7 @@ interface INewestPostPayload {
 
 export interface IMainState {
   newest: INewestPostPayload;
-  important: IPost[];
+  important: PostResponseType[];
   experts: IExpert[];
 }
 
@@ -41,7 +41,7 @@ export const mainSlice = createSlice({
   name: 'main',
   initialState,
   reducers: {
-    loadImportant: (state, action: PayloadAction<IPost[]>) => {
+    loadImportant: (state, action: PayloadAction<PostResponseType[]>) => {
       state.important = action.payload;
     },
     loadExperts: (state, action: PayloadAction<IExpert[]>) => {
@@ -57,32 +57,14 @@ export const { loadImportant, loadExperts, loadNewest } = mainSlice.actions;
 
 export default mainSlice.reducer;
 
-interface IImportantResponse {
-  content: IPost[];
-  empty: boolean;
-  first: boolean;
-  last: boolean;
-  number: number;
-  numberOfElements: number;
-  size: number;
-  sort: {
-    empty: boolean;
-    sorted: boolean;
-    unsorted: boolean;
-  };
-  totalElements: number;
-  totalPages: number;
-}
-
-export const fetchImportantPosts = (): AppThunkType => (dispatch) => {
-    Axios.get('https://dokazovi-be.herokuapp.com/api/post/important')
-    .then(response   => {
-      const allResponse = response.data as IImportantResponse ;
-      const posts = allResponse.content;
-    console.log(posts);
-    dispatch(loadImportant(posts));
-    })
-  .catch (e => console.log(e));
+export const fetchImportantPosts = (): AppThunkType => async (dispatch) => {
+  try {
+    const posts = await Promise.resolve(getPosts('important'));
+    const loadedPosts = posts.data.content;
+    dispatch(loadImportant(loadedPosts));
+  } catch (e) {
+    console.log(e);
+  }
 };
 
 export const fetchExperts = (): AppThunkType => async (dispatch) => {
