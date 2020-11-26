@@ -6,7 +6,6 @@ import {
   GetVersionType,
   PostResponseType,
   PostTagResponseType,
-  ExpertResponseType,
 } from './types';
 
 const instance = axios.create({
