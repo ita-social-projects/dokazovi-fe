@@ -1,16 +1,18 @@
 import React from 'react';
 import { Container, Grid, Typography, Box } from '@material-ui/core';
-import StopIcon from '@material-ui/icons/Stop';
 import { useLocation } from 'react-router-dom';
 import { useStyles } from './styles/DirectionView.styles';
-import { DIRECTION_PROPERTIES } from '../../../lib/components/PostPreview/direction-properties';
+import { DIRECTION_PROPERTIES } from '../../../lib/constants/direction-properties';
+import BorderBottom from '../../../lib/components/Border';
 
 export interface IDirectionViewProps {}
 
 const DirectionView: React.FC<IDirectionViewProps> = () => {
-  const location = useLocation();
-  console.log(location);
-  const { color, cyrillic } = DIRECTION_PROPERTIES.COVID19;
+  const { pathname } = useLocation();
+  const directions = Object.values(DIRECTION_PROPERTIES);
+  const currentDirection = directions.find(
+    (value) => value.route === pathname.split('/')[2],
+  );
   const classes = useStyles();
   return (
     <>
@@ -20,10 +22,11 @@ const DirectionView: React.FC<IDirectionViewProps> = () => {
             <Box
               color="disabled"
               className={classes.icon}
-              style={{ backgroundColor: color }}
+              style={{ backgroundColor: currentDirection?.color }}
             />
-            <Typography variant="h2">{cyrillic}</Typography>
+            <Typography variant="h2">{currentDirection?.name}</Typography>
           </Grid>
+          <BorderBottom />
           <Grid item xs={12}>
             {/* <ExpertsView /> */}
           </Grid>
