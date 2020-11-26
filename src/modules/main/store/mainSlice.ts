@@ -59,7 +59,7 @@ export default mainSlice.reducer;
 
 export const fetchImportantPosts = (): AppThunkType => async (dispatch) => {
   try {
-    const posts = await Promise.resolve(getPosts('important'));
+    const posts = await getPosts('important');
     const loadedPosts = posts.data.content;
     dispatch(loadImportant(loadedPosts));
   } catch (e) {
