@@ -1,12 +1,9 @@
-name: Dokazovi-fe CI develop
+name: Dokazovi build status
 
 on:
-  pull_request:
-    branches:
-      - develop
   push:
     branches:
-      - develop
+      - master
 
 jobs:
   build:
@@ -19,8 +16,6 @@ jobs:
     steps:
       - name: Copy all sources
         uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
@@ -29,6 +24,8 @@ jobs:
         run: npm run assemble
         env:
           CI: false
+      - name: Build the tagged Docker image
+        run: docker build -f Dockerfile.prod -t dokazovi_fe .
       - name: Jest collect code coverage
         run: npm run coverage
       - name: SonarCloud Scan
@@ -36,3 +33,11 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      # - name: Deploy on heroku
+      #   id: heroku
+      #   uses: snithyanantham/docker-compose-multiple-apps-heroku-deploy@v1.0
+      #   with:
+      #     email: ${{ secrets.HEROKU_EMAIL }}
+      #     api_key: ${{ secrets.HEROKU_API_KEY }}
+      #     docker_compose_file: 'docker-compose.prod.yml'
+      #     heroku_apps: '[{"imagename":"dokazovi_fe","appname":"dokazovi-fe","apptype":"web"}]'

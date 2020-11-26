@@ -1,9 +1,9 @@
-name: Dokazovi-fe CI/CD Heroku
+name: Dokazovi-fe CI/CD release
 
 on:
   push:
     branches:
-      - 'release'
+      - release
 
 jobs:
   build:
