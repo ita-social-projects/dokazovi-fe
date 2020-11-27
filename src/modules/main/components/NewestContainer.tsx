@@ -3,9 +3,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Container, Grid, Button, Typography } from '@material-ui/core';
 import { RootStateType } from '../../../store/rootReducer';
 import { fetchNewestPosts, IMainState } from '../store/mainSlice';
-import PostPreviewCard from '../../../lib/components/PostPreview/PostPreviewCard';
 import { useStyles } from './styles/NewestContainer.style';
 import BorderBottom from '../../../lib/components/Border';
+import PostsGridView from '../../../lib/components/PostsGridView';
 
 const NewestContainer: React.FC = () => {
   const classes = useStyles();
@@ -27,14 +27,7 @@ const NewestContainer: React.FC = () => {
     <>
       <Container>
         <Typography variant="h4">Найновіше</Typography>
-        <Grid container spacing={2} direction="row" alignItems="center">
-          {newestPosts.map((post) => (
-            <Grid item xs={12} lg={4} md={6} key={post.author?.phone}>
-              <PostPreviewCard data={post} />
-            </Grid>
-          ))}
-        </Grid>
-
+        <PostsGridView posts={newestPosts}/>
         <Grid
           container
           direction="column"
