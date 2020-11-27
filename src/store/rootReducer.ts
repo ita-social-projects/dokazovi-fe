@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { directionReducer } from '../modules/direction/store/directionReducer';
+import directionReducer from '../modules/direction/store/directionSlice';
 import mainReducer from '../modules/main/store/mainSlice';
 
 const rootReducer = combineReducers({
