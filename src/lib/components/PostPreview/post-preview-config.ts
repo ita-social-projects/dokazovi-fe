@@ -13,7 +13,7 @@ export const MOCK_DATA: IPost = {
   content:
     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
   tags: ['therapy'],
-  createdAt: new Date(),
+  createdAt: '27.11.2020',
   postType: PostTypeEnum.ARTICLE,
   preview:
     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',

@@ -1,10 +1,9 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { IPost, IExpert, DirectionEnum, PostTypeEnum } from '../../../lib/types';
 import { getPosts } from '../../../lib/utilities/API/api';
-import { PostResponseType } from '../../../lib/utilities/API/types';
 import MOCK_EXPERTS from '../mockDataExperts';
 import MOCK_NEWEST from '../components/constants/newestPosts-mock';
-import { IPost, IExpert } from '../../../lib/types';
 import type { AppThunkType } from '../../../store/store';
 import { LOAD_POSTS_LIMIT } from '../components/constants/newestPostsPagination-config';
 
@@ -22,7 +21,7 @@ interface INewestPostPayload {
 
 export interface IMainState {
   newest: INewestPostPayload;
-  important: PostResponseType[];
+  important: IPost[];
   experts: IExpert[];
 }
 
@@ -41,7 +40,7 @@ export const mainSlice = createSlice({
   name: 'main',
   initialState,
   reducers: {
-    loadImportant: (state, action: PayloadAction<PostResponseType[]>) => {
+    loadImportant: (state, action: PayloadAction<IPost[]>) => {
       state.important = action.payload;
     },
     loadExperts: (state, action: PayloadAction<IExpert[]>) => {
@@ -60,7 +59,28 @@ export default mainSlice.reducer;
 export const fetchImportantPosts = (): AppThunkType => async (dispatch) => {
   try {
     const posts = await getPosts('important');
-    const loadedPosts = posts.data.content;
+    const loadedPosts = posts.data.content.map((post) => {
+      return {
+        author: {
+          photo: post.author.avatar,
+          firstName: post.author.firstName,
+          id: post.author.id,
+          secondName: post.author.lastName,
+          mainInstitution: {
+            city: {
+              id: post.author.mainInstitution.city.id,
+              name: post.author.mainInstitution.city.name
+            },
+            id: post.author.mainInstitution.id,
+            name: post.author.mainInstitution.name
+          }
+        },
+        createdAt: post.createdAt,
+        direction: post.direction.name as DirectionEnum,
+        title: post.title,
+        postType: post.type.name as PostTypeEnum,
+      };
+    });
     dispatch(loadImportant(loadedPosts));
   } catch (e) {
     console.log(e);
