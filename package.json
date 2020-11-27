@@ -4,8 +4,8 @@
   "private": true,
   "dependencies": {
     "@material-ui/core": "^4.11.0",
-    "@reduxjs/toolkit": "^1.4.0",
     "@material-ui/icons": "^4.9.1",
+    "@reduxjs/toolkit": "^1.4.0",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
@@ -15,6 +15,7 @@
     "@types/react-redux": "^7.1.11",
     "@types/react-router-dom": "^5.1.6",
     "@types/react-slick": "^0.23.4",
+    "axios": "^0.21.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-redux": "^7.2.2",
@@ -35,7 +36,9 @@
     "lint": "eslint --ext .tsx,.ts src/ --quiet",
     "lint:fix": "eslint --ext .tsx,.ts src/ --quiet --fix",
     "prettier-format": "prettier --write",
-    "prettier-format:all": "prettier --write 'src/**/*.{js,jsx,json,ts,tsx,css,md}'"
+    "prettier-format:all": "prettier --write 'src/**/*.{js,jsx,json,ts,tsx,css,md}'",
+    "assemble": "npm i && npm run lint && npm run build --if-present && npm test",
+    "coverage": "npm test -- --coverage --watchAll=false"
   },
   "browserslist": {
     "production": [
@@ -68,6 +71,20 @@
   "husky": {
     "hooks": {
       "pre-push": "npm run lint"
+    }
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.{ts,tsx}",
+      "!<rootDir>/node_modules/"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 0,
+        "functions": 0,
+        "lines": 0,
+        "statements": 0
+      }
     }
   }
 }

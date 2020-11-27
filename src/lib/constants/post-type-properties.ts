@@ -1,19 +1,19 @@
-import { PostTypeEnum } from '../../types';
+import { PostTypeEnum } from '../types';
 
 export type PostTypePropertiesType = {
   [key in PostTypeEnum]: {
-    cyrillic: string;
+    name: string;
   };
 };
 
 export const postTypeProperties: PostTypePropertiesType = {
   [PostTypeEnum.DOPYS]: {
-    cyrillic: 'Допис',
+    name: 'Допис',
   },
   [PostTypeEnum.ARTICLE]: {
-    cyrillic: 'Стаття',
+    name: 'Стаття',
   },
   [PostTypeEnum.VIDEO]: {
-    cyrillic: 'Відео',
+    name: 'Відео',
   },
 };

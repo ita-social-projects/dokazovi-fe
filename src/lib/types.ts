@@ -49,6 +49,9 @@ export enum DirectionEnum {
   PEDIATRICS = 'PEDIATRICS',
   THERAPY = 'THERAPY',
   COVID19 = 'COVID19',
+  OPHTHALMOLOGY = 'OPHTHALMOLOGY',
+  VIROLOGY = 'VIROLOGY',
+  SURGERY = 'SURGERY',
 }
 
 export interface ICourse {}
