@@ -53,3 +53,5 @@ export enum DirectionEnum {
   VIROLOGY = 'VIROLOGY',
   SURGERY = 'SURGERY',
 }
+
+export interface ICourse {}
