@@ -1,18 +1,19 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { Container, Typography } from '@material-ui/core';
-import { ExpertBlock } from '../../../lib/components/ExpertBlock';
-import { useStyles } from '../styles/MainExpertsView.styles';
-import { fetchExperts } from '../store/mainSlice';
-import { RootStateType } from '../../../store/rootReducer';
-import { ExpertPopover } from '../../../lib/components/ExpertPopover';
-import ExpertDataCard from '../../../lib/components/ExpertDataCard';
-import { IExpert } from '../../../lib/types';
+import { ExpertBlock } from './ExpertBlock';
+import { useStyles } from '../../modules/main/styles/MainExpertsView.styles';
+import { ExpertPopover } from './ExpertPopover';
+import ExpertDataCard from './ExpertDataCard';
+import { IExpert } from '../types';
 
 const cardsClasses = Array.from(Array(11).keys()).map((el) => `item_${el}`);
-const selectExperts = (state: RootStateType) => state.main.experts;
 
-export const MainExpertsView: React.FC = () => {
+export interface IExpertsViewProps {
+  cards: IExpert[];
+}
+
+export const ExpertsView: React.FC<IExpertsViewProps> = (props) => {
+  const { cards } = props;
   const [anchorEl, setAnchorEl] = useState<HTMLDivElement | null>(null);
   const [popoverCard, setPopoverCard] = useState<IExpert | null>(null);
 
@@ -28,10 +29,6 @@ export const MainExpertsView: React.FC = () => {
     setAnchorEl(null);
   };
 
-  const dispatch = useDispatch();
-  dispatch(fetchExperts());
-
-  const cards = useSelector(selectExperts);
   const classes = useStyles();
 
   const allExperts = cards.map((card, key) => (
