@@ -42,10 +42,10 @@ export interface IPost {
 }
 
 export interface IExpert {
-  photo?: string;
+  avatar?: string;
   firstName: string;
   id?: number;
-  secondName: string;
+  lastName: string;
   mainInstitution?: {
     city: {
       id: number;

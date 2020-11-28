@@ -19,7 +19,7 @@ export const PostCard: React.FC<IPostCardProps> = (props) => {
       <Box className={classes.leftPart}>
         <CardMedia
           className={classes.photo}
-          image={post.author?.photo}
+          image={post.author?.avatar}
           title="doctor"
         />
         <Typography
@@ -29,7 +29,7 @@ export const PostCard: React.FC<IPostCardProps> = (props) => {
           gutterBottom
           align="center"
         >
-          {post.author?.firstName} {post.author?.secondName}
+          {post.author?.firstName} {post.author?.lastName}
         </Typography>
         <Typography component="p" variant="body2" gutterBottom align="center">
           {post.author?.mainInstitution?.name}

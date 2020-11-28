@@ -3,9 +3,9 @@ import { DirectionEnum, PostTypeEnum, IPost } from '../../types';
 export const MOCK_DATA: IPost = {
   author: {
     firstName: 'Микола',
-    secondName: 'Амосов',
+    lastName: 'Амосов',
     workPlace: 'Київ',
-    photo:
+    avatar:
       'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcS4FrYZFgHV0yy2J--h8TeyhRA8BN0QM7M7jA&usqp=CAU',
   },
   direction: DirectionEnum.THERAPY,

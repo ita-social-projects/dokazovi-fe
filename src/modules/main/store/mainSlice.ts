@@ -1,6 +1,12 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { IPost, IExpert, DirectionEnum, PostTypeEnum } from '../../../lib/types';
+import * as _ from 'lodash';
+import {
+  IPost,
+  IExpert,
+  DirectionEnum,
+  PostTypeEnum,
+} from '../../../lib/types';
 import { getPosts } from '../../../lib/utilities/API/api';
 import MOCK_EXPERTS from '../mockDataExperts';
 import MOCK_NEWEST from '../components/constants/newestPosts-mock';
@@ -60,23 +66,17 @@ export const fetchImportantPosts = (): AppThunkType => async (dispatch) => {
   try {
     const posts = await getPosts('important');
     const loadedPosts = posts.data.content.map((post) => {
+      const postAuthor = _.pick(post.author, [
+        'avatar',
+        'firstName',
+        'id',
+        'lastName',
+        'mainInstitution',
+      ]) as IExpert;
       return {
-        author: {
-          photo: post.author.avatar,
-          firstName: post.author.firstName,
-          id: post.author.id,
-          secondName: post.author.lastName,
-          mainInstitution: {
-            city: {
-              id: post.author.mainInstitution.city.id,
-              name: post.author.mainInstitution.city.name
-            },
-            id: post.author.mainInstitution.id,
-            name: post.author.mainInstitution.name
-          }
-        },
+        author: postAuthor,
         createdAt: post.createdAt,
-        direction: post.direction.name as DirectionEnum,
+        direction: post.mainDirection.name as DirectionEnum,
         title: post.title,
         postType: post.type.name as PostTypeEnum,
       };
