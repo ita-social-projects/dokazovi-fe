@@ -4,6 +4,7 @@ import { useLocation } from 'react-router-dom';
 import { useStyles } from './styles/DirectionView.styles';
 import { DIRECTION_PROPERTIES } from '../../../lib/constants/direction-properties';
 import BorderBottom from '../../../lib/components/Border';
+import DirectionCourses from './directionCourses/DirectionCourses';
 
 export interface IDirectionViewProps {}
 
@@ -34,7 +35,7 @@ const DirectionView: React.FC<IDirectionViewProps> = () => {
             {/* <MaterialsView /> */}
           </Grid>
           <Grid item xs={12}>
-            {/* <CoursesView /> */}
+            <DirectionCourses/>
           </Grid>
         </Grid>
       </Container>
