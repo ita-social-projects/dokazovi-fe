@@ -1,35 +1,8 @@
-export interface IExpert {
-  status?: ExpertStatus;
-  firstName: string;
-  secondName: string;
-  direction?: DirectionEnum;
-  email?: string;
-  phone?: string;
-  photo?: string;
-  workPlace?: string;
-  lastPost?: string;
-}
-
 export enum ExpertStatus {
   NEW = 'NEW',
   ACTIVE = 'ACTIVE',
   DELETED = 'DELETED',
 }
-
-export interface IPost {
-  author?: IExpert;
-  direction: DirectionEnum;
-  title: string;
-  content?: string;
-  status?: PostStatus;
-  important?: boolean;
-  tags?: string[];
-  createdAt: Date;
-  modifiedAt?: Date;
-  postType: PostTypeEnum;
-  preview: string;
-}
-
 export enum PostStatus {
   DRAFT = 'DRAFT',
   MODERATION_FIRST_SIGN = 'MODERATION_FIRST_SIGN',
@@ -52,4 +25,39 @@ export enum DirectionEnum {
   OPHTHALMOLOGY = 'OPHTHALMOLOGY',
   VIROLOGY = 'VIROLOGY',
   SURGERY = 'SURGERY',
+}
+
+export interface IPost {
+  author?: IExpert;
+  createdAt: string;
+  direction: DirectionEnum;
+  title: string;
+  content?: string;
+  status?: PostStatus;
+  important?: boolean;
+  tags?: string[];
+  modifiedAt?: string;
+  postType: PostTypeEnum;
+  preview?: string;
+}
+
+export interface IExpert {
+  avatar?: string;
+  firstName: string;
+  id?: number;
+  lastName: string;
+  mainInstitution?: {
+    city: {
+      id: number;
+      name: string;
+    };
+    id: number;
+    name: string;
+  };
+  status?: ExpertStatus;
+  direction?: DirectionEnum;
+  email?: string;
+  phone?: string;
+  workPlace?: string;
+  lastPost?: string;
 }
