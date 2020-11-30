@@ -1,4 +1,4 @@
-import { DirectionEnum, PostTypeEnum, IPost } from '../../types';
+import { IPost } from '../../types';
 
 export const MOCK_DATA: IPost = {
   author: {
@@ -8,13 +8,17 @@ export const MOCK_DATA: IPost = {
     avatar:
       'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcS4FrYZFgHV0yy2J--h8TeyhRA8BN0QM7M7jA&usqp=CAU',
   },
-  direction: DirectionEnum.THERAPY,
+  mainDirection: {
+    id: 4,
+    color: '#ffee58',
+    name: 'Терапія',
+  },
   title: 'Назва статті',
   content:
     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-  tags: ['therapy'],
+  tags: [{ id: 5, tag: 'covid19' }],
   createdAt: '27.11.2020',
-  postType: PostTypeEnum.ARTICLE,
+  postType: { name: 'Допис' },
   preview:
     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
 };

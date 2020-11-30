@@ -4,7 +4,6 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import { IExpert } from '../types';
-import { DIRECTION_PROPERTIES } from '../constants/direction-properties';
 import { useStyles } from '../styles/ExpertDataCard.styles';
 
 export interface IExpertDataCardProps {
@@ -16,8 +15,8 @@ const ExpertDataCard: React.FC<IExpertDataCardProps> = (props) => {
 
   const fullName = `${expert.firstName} ${expert.lastName}`;
 
-  const directionName = expert.direction
-    ? DIRECTION_PROPERTIES[expert.direction].name
+  const directionName = expert.mainDirection
+    ? expert.mainDirection.name
     : '';
 
   const classes = useStyles();

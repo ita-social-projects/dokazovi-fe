@@ -1,17 +1,13 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import * as _ from 'lodash';
-import {
-  IPost,
-  IExpert,
-  DirectionEnum,
-  PostTypeEnum,
-} from '../../../lib/types';
+import { IPost, IExpert } from '../../../lib/types';
 import { getPosts } from '../../../lib/utilities/API/api';
 import MOCK_EXPERTS from '../mockDataExperts';
 import MOCK_NEWEST from '../components/constants/newestPosts-mock';
 import type { AppThunkType } from '../../../store/store';
 import { LOAD_POSTS_LIMIT } from '../components/constants/newestPostsPagination-config';
+import { DIRECTION_PROPERTIES } from '../../../lib/constants/direction-properties';
 
 interface IMeta {
   totalNewestPosts?: number;
@@ -76,10 +72,10 @@ export const fetchImportantPosts = (): AppThunkType => async (dispatch) => {
       return {
         author: postAuthor,
         createdAt: post.createdAt,
-        direction: post.mainDirection.name as DirectionEnum,
+        mainDirection: DIRECTION_PROPERTIES[post.mainDirection.id.toString()],
         title: post.title,
-        postType: post.type.name as PostTypeEnum,
-      };
+        postType: DIRECTION_PROPERTIES[post.type.id.toString()],
+      }; 
     });
     dispatch(loadImportant(loadedPosts));
   } catch (e) {

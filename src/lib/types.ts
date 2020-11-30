@@ -17,35 +17,32 @@ export enum PostTypeEnum {
   VIDEO = 'VIDEO',
 }
 
-export enum DirectionEnum {
-  CARDIOLOGY = 'CARDIOLOGY',
-  PEDIATRICS = 'PEDIATRICS',
-  THERAPY = 'THERAPY',
-  COVID19 = 'COVID19',
-  OPHTHALMOLOGY = 'OPHTHALMOLOGY',
-  VIROLOGY = 'VIROLOGY',
-  SURGERY = 'SURGERY',
-}
-
 export interface IPost {
-  author?: IExpert;
-  createdAt: string;
-  direction: DirectionEnum;
+  id?: number;
   title: string;
   content?: string;
+  author?: IExpert;
+  mainDirection: {
+    id?: number;
+    color: string;
+    name: string;
+    route?: string;
+  };
+  directions?: IPostDirection[];
+  tags?: IPostTag[];
+  postType: IPostType;
+  createdAt: string;
+  modifiedAt?: string;
   status?: PostStatus;
   important?: boolean;
-  tags?: string[];
-  modifiedAt?: string;
-  postType: PostTypeEnum;
   preview?: string;
 }
 
 export interface IExpert {
-  avatar?: string;
-  firstName: string;
   id?: number;
+  firstName: string;
   lastName: string;
+  avatar?: string;
   mainInstitution?: {
     city: {
       id: number;
@@ -55,9 +52,28 @@ export interface IExpert {
     name: string;
   };
   status?: ExpertStatus;
-  direction?: DirectionEnum;
-  email?: string;
-  phone?: string;
+  mainDirection?: {
+    id?: number;
+    color: string;
+    name: string;
+    route?: string;
+  };
   workPlace?: string;
   lastPost?: string;
+  email?: string;
+  phone?: string;
+}
+
+export interface IPostDirection {
+  id: number;
+  name: string;
+}
+
+export interface IPostTag {
+  id: number;
+  tag: string;
+}
+
+export interface IPostType {
+  name: string;
 }
