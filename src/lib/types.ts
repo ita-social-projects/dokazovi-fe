@@ -39,6 +39,7 @@ export interface IPost {
   modifiedAt?: string;
   postType: PostTypeEnum;
   preview?: string;
+  id?: number;
 }
 
 export interface IExpert {
