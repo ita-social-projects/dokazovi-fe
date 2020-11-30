@@ -54,4 +54,19 @@ export enum DirectionEnum {
   SURGERY = 'SURGERY',
 }
 
-export interface ICourse {}
+export interface ICourse {
+  photo?: string;
+  courseType: CourseTypeEnum;
+  direction: CourseEnum;
+  title: string;
+  createdAt: Date;
+  course: boolean;
+}
+
+export enum CourseEnum {
+  STUDY = 'STUDY',
+}
+
+export enum CourseTypeEnum {
+  COURSE = 'COURSE',
+}
