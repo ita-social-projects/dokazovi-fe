@@ -1,5 +1,4 @@
 import {
-  PostTypeEnum,
   IPost,
   PostStatus,
   ExpertStatus,
