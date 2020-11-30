@@ -4,6 +4,7 @@ import { useLocation } from 'react-router-dom';
 import { useStyles } from './styles/DirectionView.styles';
 import { DIRECTION_PROPERTIES } from '../../../lib/constants/direction-properties';
 import BorderBottom from '../../../lib/components/Border';
+import MaterialsContainer from './MaterialsContainer';
 
 export interface IDirectionViewProps {}
 
@@ -31,7 +32,7 @@ const DirectionView: React.FC<IDirectionViewProps> = () => {
             {/* <ExpertsView /> */}
           </Grid>
           <Grid item xs={12}>
-            {/* <MaterialsView /> */}
+            <MaterialsContainer /> {/* direction={currentDirection} */}
           </Grid>
           <Grid item xs={12}>
             {/* <CoursesView /> */}
