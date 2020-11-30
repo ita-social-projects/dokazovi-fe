@@ -2,6 +2,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Container, Grid, Typography, Box } from '@material-ui/core';
 import { useLocation } from 'react-router-dom';
+import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import { useStyles } from './styles/DirectionView.styles';
 import { DIRECTION_PROPERTIES } from '../../../lib/constants/direction-properties';
 import BorderBottom from '../../../lib/components/Border';
@@ -42,6 +43,12 @@ const DirectionView: React.FC<IDirectionViewProps> = () => {
           <BorderBottom />
           <Grid item xs={12}>
             <ExpertsView cards={expertsCards} />
+            <Box className={classes.moreExperts}>
+              <Typography variant="h5" align="right" display="inline">
+                Більше експертів
+              </Typography>
+              <ArrowForwardIosIcon />
+            </Box>
           </Grid>
           <BorderBottom />
           <Grid item xs={12}>
