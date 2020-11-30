@@ -20,7 +20,7 @@ export interface IPost {
   author?: IExpert;
   direction: DirectionEnum;
   title: string;
-  content?: string;
+  content: string;
   status?: PostStatus;
   important?: boolean;
   tags?: string[];

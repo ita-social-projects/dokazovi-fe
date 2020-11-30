@@ -14,6 +14,7 @@ const instance = axios.create({
 
 type GetConfigType = {
   params: {
+    direction: number;
     page?: number;
     size?: number;
     sort?: string[];
@@ -31,7 +32,7 @@ type PostTagRequestBodyType = {
   tag: string;
 };
 
-type PostsTypeType = 'important' | 'latest';
+type PostsTypeType = 'important' | 'latest' | 'latest-by-direction';
 
 export const getPosts = (
   postsType: PostsTypeType,
