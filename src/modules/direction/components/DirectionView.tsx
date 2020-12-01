@@ -32,8 +32,7 @@ const DirectionView: React.FC<IDirectionViewProps> = () => {
             {/* <ExpertsView /> */}
           </Grid>
           <Grid item xs={12}>
-            {/* Provided fallback value since currentDirection is possibly undefined. Non-null assertion doesn't help here */}
-            <MaterialsContainer directionID={currentDirection?.id || 1}/>
+            <MaterialsContainer directionID={currentDirection?.id as number}/>
           </Grid>
           <Grid item xs={12}>
             {/* <CoursesView /> */}
