@@ -11,7 +11,6 @@ import PostsGridView from '../../../lib/components/PostsGridView';
 import {
   fetchMaterials,
   setMaterialsLoadingStatus,
-  IDirectionState,
 } from '../store/directionSlice';
 import { RootStateType } from '../../../store/rootReducer';
 import { useStyles } from './styles/MaterialsContainer.styles';
@@ -25,10 +24,9 @@ const MaterialsContainer: React.FC<IMaterialsContainerProps> = ({
 }) => {
   const classes = useStyles();
 
-  const { posts, meta } = useSelector<
-    RootStateType,
-    IDirectionState['materials']
-  >((state) => state.direction.materials);
+  const { posts, meta } = useSelector(
+    (state: RootStateType) => state.direction.materials,
+  );
 
   const dispatch = useDispatch();
 
