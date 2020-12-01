@@ -16,12 +16,13 @@ import {
 import { RootStateType } from '../../../store/rootReducer';
 import { useStyles } from './styles/MaterialsContainer.styles';
 
-// interface IMaterialsContainerProps {
-//   direction: DirectionEnum;
-// };
+interface IMaterialsContainerProps {
+  directionID: number;
+}
 
-// should take direction id as a prop
-const MaterialsContainer: React.FC = () => {
+const MaterialsContainer: React.FC<IMaterialsContainerProps> = ({
+  directionID,
+}) => {
   const classes = useStyles();
 
   const { posts, meta } = useSelector<
@@ -33,8 +34,7 @@ const MaterialsContainer: React.FC = () => {
 
   const dispatchFetchAction = () => {
     dispatch(setMaterialsLoadingStatus());
-    // should specify directionID as argument
-    dispatch(fetchMaterials());
+    dispatch(fetchMaterials(directionID));
   };
 
   useEffect(() => {

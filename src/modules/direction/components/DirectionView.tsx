@@ -12,7 +12,7 @@ const DirectionView: React.FC<IDirectionViewProps> = () => {
   const { pathname } = useLocation();
   const directions = Object.values(DIRECTION_PROPERTIES);
   const currentDirection = directions.find(
-    (value) => value.route === pathname.split('/')[2],
+    (direction) => direction.route === pathname.split('/')[2],
   );
   const classes = useStyles();
   return (
@@ -32,7 +32,8 @@ const DirectionView: React.FC<IDirectionViewProps> = () => {
             {/* <ExpertsView /> */}
           </Grid>
           <Grid item xs={12}>
-            <MaterialsContainer /> {/* direction={currentDirection} */}
+            {/* Provided fallback value since currentDirection is possibly undefined. Non-null assertion doesn't help here */}
+            <MaterialsContainer directionID={currentDirection?.id || 1}/>
           </Grid>
           <Grid item xs={12}>
             {/* <CoursesView /> */}

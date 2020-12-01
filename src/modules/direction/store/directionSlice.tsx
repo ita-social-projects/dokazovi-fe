@@ -31,7 +31,7 @@ const initialState: IDirectionState = {
     meta: {
       last: false,
       isLoading: false,
-      pageNumber: -1, // pages are zero-indexed?
+      pageNumber: -1, // since pages are zero-indexed
     },
   },
   courses: [],
@@ -65,7 +65,7 @@ export const {
 
 export default directionSlice.reducer;
 
-export const fetchMaterials = (): AppThunkType => async (
+export const fetchMaterials = (directionID: number): AppThunkType => async (
   dispatch,
   getState,
 ) => {
@@ -73,7 +73,7 @@ export const fetchMaterials = (): AppThunkType => async (
 
   const response = await getPosts('latest-by-direction', {
     params: {
-      direction: 1, // get directionID argument from MaterialsContainer
+      direction: directionID,
       page: meta.pageNumber + 1,
       size: LOAD_POSTS_LIMIT,
     },
