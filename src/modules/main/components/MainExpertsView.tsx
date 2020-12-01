@@ -31,18 +31,17 @@ export const MainExpertsView: React.FC = () => {
   const dispatch = useDispatch();
   dispatch(fetchExperts());
 
-  const cards = useSelector(selectExperts);
   const classes = useStyles();
 
-  const allExperts = cards.map((card, key) => (
+  const experts = useSelector(selectExperts).map((expert, key) => (
     <>
       <div
-        onMouseEnter={(event) => handlePopoverOpen(event, card)}
+        onMouseEnter={(event) => handlePopoverOpen(event, expert)}
         onMouseLeave={handlePopoverClose}
-        key={card.phone}
+        key={expert.id}
         className={classes[cardsClasses[key]] as string}
       >
-        <ExpertBlock expert={card} />
+        <ExpertBlock expert={expert} />
       </div>
     </>
   ));
@@ -51,7 +50,7 @@ export const MainExpertsView: React.FC = () => {
     <Container>
       <Typography variant="h4">Експерти</Typography>
       <div className={classes.container}>
-        {allExperts}
+        {experts}
         <ExpertPopover
           anchorEl={anchorEl}
           handlePopoverClose={handlePopoverClose}

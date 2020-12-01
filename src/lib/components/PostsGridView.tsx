@@ -11,7 +11,7 @@ const PostsGridView: React.FC<PostsGridViewPropsType> = ({ posts }) => {
   return (
     <Grid container spacing={2} direction="row" alignItems="center">
       {posts.map((post) => (
-        <Grid item xs={12} lg={4} md={6} key={post.author?.phone}>
+        <Grid item xs={12} lg={4} md={6} key={post.author?.id}>
           <PostPreviewCard data={post} />
         </Grid>
       ))}

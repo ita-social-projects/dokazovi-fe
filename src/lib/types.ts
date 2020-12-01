@@ -33,8 +33,6 @@ export interface IPost {
   postType: IPostType;
   createdAt: string;
   modifiedAt?: string;
-  status?: PostStatus;
-  important?: boolean;
   preview?: string;
 }
 
@@ -58,10 +56,7 @@ export interface IExpert {
     name: string;
     route?: string;
   };
-  workPlace?: string;
   lastPost?: string;
-  email?: string;
-  phone?: string;
 }
 
 export interface IPostDirection {

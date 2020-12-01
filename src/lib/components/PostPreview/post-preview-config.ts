@@ -4,7 +4,14 @@ export const MOCK_DATA: IPost = {
   author: {
     firstName: 'Микола',
     lastName: 'Амосов',
-    workPlace: 'Київ',
+    mainInstitution: {
+      city: {
+        id: 1,
+        name: 'Київ',
+      },
+      id: 1,
+      name: 'Hospital #6',
+    },
     avatar:
       'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcS4FrYZFgHV0yy2J--h8TeyhRA8BN0QM7M7jA&usqp=CAU',
   },
