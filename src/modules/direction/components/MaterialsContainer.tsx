@@ -42,7 +42,9 @@ const MaterialsContainer: React.FC<IMaterialsContainerProps> = ({
   const gridRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    gridRef.current?.scrollIntoView({ behavior: 'smooth' });
+    if (meta.pageNumber > 0) {
+      gridRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }
   }, [meta.pageNumber]);
 
   return (
