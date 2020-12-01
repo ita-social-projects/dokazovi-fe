@@ -15,9 +15,9 @@ const initialState: IMainState = {
     meta: {
       currentPage: 0,
       isLastPage: false,
+      loading: 'idle',
+      error: null,
     },
-    loading: 'idle',
-    error: null,
   },
   important: [],
   experts: [],
@@ -29,20 +29,20 @@ describe('newest', () => {
 
     const rootState: RootStateType['main'] = { ...newState };
 
-    expect(rootState.newest.loading).toEqual('pending');
+    expect(rootState.newest.meta.loading).toEqual('pending');
   });
 
   it('should set loading state on succeeded when API call is pending', async () => {
     await store.dispatch(fetchNewestPosts());
 
-    expect(store.getState().main.newest.loading).toEqual('succeeded');
+    expect(store.getState().main.newest.meta.loading).toEqual('succeeded');
   });
   it('should set loading state on failed when API call is rejected', () => {
     const newState = mainSlice.reducer(initialState, fetchNewestPosts.rejected);
 
     const rootState: RootStateType['main'] = { ...newState };
 
-    expect(rootState.newest.loading).toEqual('failed');
+    expect(rootState.newest.meta.loading).toEqual('failed');
   });
 
   it('initial render NewestContainer posts equal to LIMIT number', () => {
