@@ -8,6 +8,7 @@ import MOCK_NEWEST from '../components/constants/newestPosts-mock';
 import type { AppThunkType } from '../../../store/store';
 import { LOAD_POSTS_LIMIT } from '../components/constants/newestPostsPagination-config';
 import { DIRECTION_PROPERTIES } from '../../../lib/constants/direction-properties';
+import { postTypeProperties } from '../../../lib/constants/post-type-properties';
 
 interface IMeta {
   totalNewestPosts?: number;
@@ -74,7 +75,7 @@ export const fetchImportantPosts = (): AppThunkType => async (dispatch) => {
         createdAt: post.createdAt,
         mainDirection: DIRECTION_PROPERTIES[post.mainDirection.id.toString()],
         title: post.title,
-        postType: DIRECTION_PROPERTIES[post.type.id.toString()],
+        postType: postTypeProperties[post.type.id.toString()],
       }; 
     });
     dispatch(loadImportant(loadedPosts));

@@ -8,14 +8,6 @@ export type DirectionPropertiesType = {
 };
 
 export const DIRECTION_PROPERTIES: DirectionPropertiesType = {
-  // [DirectionEnum.CARDIOLOGY]: {
-  //   color: '#d1c4e9',
-  //   name: 'Кардіологія',
-  // },
-  // [DirectionEnum.PEDIATRICS]: {
-  //   color: '#ffee58',
-  //   name: 'Педіатрія',
-  // },
   '1': {
     id: 1,
     color: '#ef5350',
@@ -41,5 +33,13 @@ export const DIRECTION_PROPERTIES: DirectionPropertiesType = {
     id: 5,
     color: '#da80e8',
     name: 'Вірусологія',
+  },
+  '6': {
+    color: '#d1c4e9',
+    name: 'Кардіологія',
+  },
+  '7': {
+    color: '#ffee58',
+    name: 'Педіатрія',
   },
 };
