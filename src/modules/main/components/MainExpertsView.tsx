@@ -39,7 +39,7 @@ export const MainExpertsView: React.FC = () => {
       <div
         onMouseEnter={(event) => handlePopoverOpen(event, card)}
         onMouseLeave={handlePopoverClose}
-        key={card.phone}
+        key={card.id}
         className={classes[cardsClasses[key]] as string}
       >
         <ExpertBlock expert={card} />

@@ -1,19 +1,19 @@
-import {
-  IPost,
-  PostStatus,
-  ExpertStatus,
-} from '../../../../lib/types';
+import { IPost } from '../../../../lib/types';
 
 const NEWEST_POSTS_DATA_MOCK: IPost[] = [
   {
     author: {
-      status: ExpertStatus.NEW,
       firstName: 'Ivan',
       lastName: 'Pavlov',
-      email: 'pavlov_ivan@gmail.com',
-      phone: '301445431956241',
       avatar: 'https://i.pravatar.cc/100?img=1',
-      workPlace: 'Kyiv, KMKL #17',
+      mainInstitution: {
+        city: {
+          id: 1,
+          name: 'Київ',
+        },
+        id: 1,
+        name: 'КОКЛ',
+      },
     },
     mainDirection: {
       color: '#d1c4e9',
@@ -22,50 +22,56 @@ const NEWEST_POSTS_DATA_MOCK: IPost[] = [
     title: 'Mock title',
     content:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    status: PostStatus.PUBLISHED,
-    important: true,
+
     tags: [{ id: 5, tag: 'covid19' }],
     createdAt: '26.11.2020',
     modifiedAt: '11.12.2020',
-   postType: { name: 'Стаття'},
+    postType: { name: 'Стаття' },
     preview:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
   },
   {
     author: {
-      status: ExpertStatus.NEW,
       firstName: 'Ivan',
       lastName: 'Pavlov',
-      email: 'pavlov_ivan@gmail.com',
-      phone: '301445431956242',
       avatar: 'https://i.pravatar.cc/100?img=2',
-      workPlace: 'Kyiv, KMKL #17',
-    },
-    mainDirection: {
-        color: '#ffee58',
-        name: 'Педіатрія',
+      mainInstitution: {
+        city: {
+          id: 1,
+          name: 'Київ',
+        },
+        id: 1,
+        name: 'КОКЛ',
       },
+    },
+    mainDirection: {
+      color: '#ffee58',
+      name: 'Педіатрія',
+    },
     title: 'Mock title',
     content:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    status: PostStatus.PUBLISHED,
-    important: true,
+
     tags: [{ id: 5, tag: 'covid19' }],
     createdAt: '26.11.2020',
     modifiedAt: '11.12.2020',
-   postType: { name: 'Відео'},
+    postType: { name: 'Відео' },
     preview:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
   },
   {
     author: {
-      status: ExpertStatus.NEW,
       firstName: 'Ivan',
       lastName: 'Pavlov',
-      email: 'pavlov_ivan@gmail.com',
-      phone: '301445431956243',
       avatar: 'https://i.pravatar.cc/100?img=3',
-      workPlace: 'Kyiv, KMKL #17',
+      mainInstitution: {
+        city: {
+          id: 1,
+          name: 'Київ',
+        },
+        id: 1,
+        name: 'КОКЛ',
+      },
     },
     mainDirection: {
       id: 1,
@@ -76,24 +82,27 @@ const NEWEST_POSTS_DATA_MOCK: IPost[] = [
     title: 'Mock title',
     content:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    status: PostStatus.PUBLISHED,
-    important: true,
+
     tags: [{ id: 5, tag: 'covid19' }],
     createdAt: '26.11.2020',
     modifiedAt: '11.12.2020',
-   postType: { name: 'Стаття'},
+    postType: { name: 'Стаття' },
     preview:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
   },
   {
     author: {
-      status: ExpertStatus.NEW,
       firstName: 'Ivan',
       lastName: 'Pavlov',
-      email: 'pavlov_ivan@gmail.com',
-      phone: '301445431956244',
       avatar: 'https://i.pravatar.cc/100?img=4',
-      workPlace: 'Kyiv, KMKL #17',
+      mainInstitution: {
+        city: {
+          id: 1,
+          name: 'Київ',
+        },
+        id: 1,
+        name: 'КОКЛ',
+      },
     },
     mainDirection: {
       id: 1,
@@ -104,24 +113,27 @@ const NEWEST_POSTS_DATA_MOCK: IPost[] = [
     title: 'Mock title',
     content:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    status: PostStatus.PUBLISHED,
-    important: true,
+
     tags: [{ id: 5, tag: 'covid19' }],
     createdAt: '26.11.2020',
     modifiedAt: '11.12.2020',
-    postType: {name: 'Допис'},
+    postType: { name: 'Допис' },
     preview:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
   },
   {
     author: {
-      status: ExpertStatus.NEW,
       firstName: 'Ivan',
       lastName: 'Pavlov',
-      email: 'pavlov_ivan@gmail.com',
-      phone: '301445431956245',
       avatar: 'https://i.pravatar.cc/100?img=5',
-      workPlace: 'Kyiv, KMKL #17',
+      mainInstitution: {
+        city: {
+          id: 1,
+          name: 'Київ',
+        },
+        id: 1,
+        name: 'КОКЛ',
+      },
     },
     mainDirection: {
       id: 4,
@@ -131,24 +143,27 @@ const NEWEST_POSTS_DATA_MOCK: IPost[] = [
     title: 'Mock title',
     content:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    status: PostStatus.PUBLISHED,
-    important: true,
+
     tags: [{ id: 5, tag: 'covid19' }],
     createdAt: '26.11.2020',
     modifiedAt: '11.12.2020',
-   postType: { name: 'Стаття'},
+    postType: { name: 'Стаття' },
     preview:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
   },
   {
     author: {
-      status: ExpertStatus.NEW,
       firstName: 'Ivan',
       lastName: 'Pavlov',
-      email: 'pavlov_ivan@gmail.com',
-      phone: '301445431956246',
       avatar: 'https://i.pravatar.cc/100?img=6',
-      workPlace: 'Kyiv, KMKL #17',
+      mainInstitution: {
+        city: {
+          id: 1,
+          name: 'Київ',
+        },
+        id: 1,
+        name: 'КОКЛ',
+      },
     },
     mainDirection: {
       id: 4,
@@ -158,24 +173,27 @@ const NEWEST_POSTS_DATA_MOCK: IPost[] = [
     title: 'Mock title',
     content:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    status: PostStatus.PUBLISHED,
-    important: true,
+
     tags: [{ id: 5, tag: 'covid19' }],
     createdAt: '26.11.2020',
     modifiedAt: '11.12.2020',
-   postType: { name: 'Стаття'},
+    postType: { name: 'Стаття' },
     preview:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
   },
   {
     author: {
-      status: ExpertStatus.NEW,
       firstName: 'Ivan',
       lastName: 'Pavlov',
-      email: 'pavlov_ivan@gmail.com',
-      phone: '301445431956247',
       avatar: 'https://i.pravatar.cc/100?img=7',
-      workPlace: 'Kyiv, KMKL #17',
+      mainInstitution: {
+        city: {
+          id: 1,
+          name: 'Київ',
+        },
+        id: 1,
+        name: 'КОКЛ',
+      },
     },
     mainDirection: {
       id: 4,
@@ -185,24 +203,27 @@ const NEWEST_POSTS_DATA_MOCK: IPost[] = [
     title: 'Mock title',
     content:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    status: PostStatus.PUBLISHED,
-    important: true,
+
     tags: [{ id: 5, tag: 'covid19' }],
     createdAt: '26.11.2020',
     modifiedAt: '11.12.2020',
-   postType: { name: 'Стаття'},
+    postType: { name: 'Стаття' },
     preview:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
   },
   {
     author: {
-      status: ExpertStatus.NEW,
       firstName: 'Ivan',
       lastName: 'Pavlov',
-      email: 'pavlov_ivan@gmail.com',
-      phone: '301445431956248',
       avatar: 'https://i.pravatar.cc/100?img=8',
-      workPlace: 'Kyiv, KMKL #17',
+      mainInstitution: {
+        city: {
+          id: 1,
+          name: 'Київ',
+        },
+        id: 1,
+        name: 'КОКЛ',
+      },
     },
     mainDirection: {
       id: 4,
@@ -212,24 +233,27 @@ const NEWEST_POSTS_DATA_MOCK: IPost[] = [
     title: 'Mock title',
     content:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    status: PostStatus.PUBLISHED,
-    important: true,
+
     tags: [{ id: 5, tag: 'covid19' }],
     createdAt: '26.11.2020',
     modifiedAt: '11.12.2020',
-   postType: { name: 'Стаття'},
+    postType: { name: 'Стаття' },
     preview:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
   },
   {
     author: {
-      status: ExpertStatus.NEW,
       firstName: 'Ivan',
       lastName: 'Pavlov',
-      email: 'pavlov_ivan@gmail.com',
-      phone: '301445431956249',
       avatar: 'https://i.pravatar.cc/100?img=9',
-      workPlace: 'Kyiv, KMKL #17',
+      mainInstitution: {
+        city: {
+          id: 1,
+          name: 'Київ',
+        },
+        id: 1,
+        name: 'КОКЛ',
+      },
     },
     mainDirection: {
       id: 4,
@@ -239,24 +263,27 @@ const NEWEST_POSTS_DATA_MOCK: IPost[] = [
     title: 'Mock title',
     content:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    status: PostStatus.PUBLISHED,
-    important: true,
+
     tags: [{ id: 5, tag: 'covid19' }],
     createdAt: '26.11.2020',
     modifiedAt: '11.12.2020',
-   postType: { name: 'Стаття'},
+    postType: { name: 'Стаття' },
     preview:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
   },
   {
     author: {
-      status: ExpertStatus.NEW,
       firstName: 'Ivan',
       lastName: 'Pavlov',
-      email: 'pavlov_ivan@gmail.com',
-      phone: '3014454319562410',
       avatar: 'https://i.pravatar.cc/100?img=10',
-      workPlace: 'Kyiv, KMKL #17',
+      mainInstitution: {
+        city: {
+          id: 1,
+          name: 'Київ',
+        },
+        id: 1,
+        name: 'КОКЛ',
+      },
     },
     mainDirection: {
       id: 4,
@@ -266,24 +293,27 @@ const NEWEST_POSTS_DATA_MOCK: IPost[] = [
     title: 'Mock title',
     content:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    status: PostStatus.PUBLISHED,
-    important: true,
+
     tags: [{ id: 5, tag: 'covid19' }],
     createdAt: '26.11.2020',
     modifiedAt: '11.12.2020',
-   postType: { name: 'Стаття'},
+    postType: { name: 'Стаття' },
     preview:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
   },
   {
     author: {
-      status: ExpertStatus.NEW,
       firstName: 'Ivan',
       lastName: 'Pavlov',
-      email: 'pavlov_ivan@gmail.com',
-      phone: '3014454319562411',
       avatar: 'https://i.pravatar.cc/100?img=11',
-      workPlace: 'Kyiv, KMKL #17',
+      mainInstitution: {
+        city: {
+          id: 1,
+          name: 'Київ',
+        },
+        id: 1,
+        name: 'КОКЛ',
+      },
     },
     mainDirection: {
       id: 4,
@@ -293,24 +323,27 @@ const NEWEST_POSTS_DATA_MOCK: IPost[] = [
     title: 'Mock title',
     content:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    status: PostStatus.PUBLISHED,
-    important: true,
+
     tags: [{ id: 5, tag: 'covid19' }],
     createdAt: '26.11.2020',
     modifiedAt: '11.12.2020',
-   postType: { name: 'Стаття'},
+    postType: { name: 'Стаття' },
     preview:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
   },
   {
     author: {
-      status: ExpertStatus.NEW,
       firstName: 'Ivan',
       lastName: 'Pavlov',
-      email: 'pavlov_ivan@gmail.com',
-      phone: '3014454319562412',
       avatar: 'https://i.pravatar.cc/100?img=12',
-      workPlace: 'Kyiv, KMKL #17',
+      mainInstitution: {
+        city: {
+          id: 1,
+          name: 'Київ',
+        },
+        id: 1,
+        name: 'КОКЛ',
+      },
     },
     mainDirection: {
       id: 4,
@@ -320,24 +353,27 @@ const NEWEST_POSTS_DATA_MOCK: IPost[] = [
     title: 'Mock title',
     content:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    status: PostStatus.PUBLISHED,
-    important: true,
+
     tags: [{ id: 5, tag: 'covid19' }],
     createdAt: '26.11.2020',
     modifiedAt: '11.12.2020',
-   postType: { name: 'Стаття'},
+    postType: { name: 'Стаття' },
     preview:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
   },
   {
     author: {
-      status: ExpertStatus.NEW,
       firstName: 'Ivan',
       lastName: 'Pavlov',
-      email: 'pavlov_ivan@gmail.com',
-      phone: '3014454319562413',
       avatar: 'https://i.pravatar.cc/100?img=13',
-      workPlace: 'Kyiv, KMKL #17',
+      mainInstitution: {
+        city: {
+          id: 1,
+          name: 'Київ',
+        },
+        id: 1,
+        name: 'КОКЛ',
+      },
     },
     mainDirection: {
       id: 4,
@@ -347,24 +383,27 @@ const NEWEST_POSTS_DATA_MOCK: IPost[] = [
     title: 'Mock title',
     content:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    status: PostStatus.PUBLISHED,
-    important: true,
+
     tags: [{ id: 5, tag: 'covid19' }],
     createdAt: '26.11.2020',
     modifiedAt: '11.12.2020',
-   postType: { name: 'Стаття'},
+    postType: { name: 'Стаття' },
     preview:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
   },
   {
     author: {
-      status: ExpertStatus.NEW,
       firstName: 'Ivan',
       lastName: 'Pavlov',
-      email: 'pavlov_ivan@gmail.com',
-      phone: '3014454319562414',
       avatar: 'https://i.pravatar.cc/100?img=14',
-      workPlace: 'Kyiv, KMKL #17',
+      mainInstitution: {
+        city: {
+          id: 1,
+          name: 'Київ',
+        },
+        id: 1,
+        name: 'КОКЛ',
+      },
     },
     mainDirection: {
       id: 4,
@@ -374,24 +413,27 @@ const NEWEST_POSTS_DATA_MOCK: IPost[] = [
     title: 'Mock title',
     content:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    status: PostStatus.PUBLISHED,
-    important: true,
+
     tags: [{ id: 5, tag: 'covid19' }],
     createdAt: '26.11.2020',
     modifiedAt: '11.12.2020',
-   postType: { name: 'Стаття'},
+    postType: { name: 'Стаття' },
     preview:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
   },
   {
     author: {
-      status: ExpertStatus.NEW,
       firstName: 'Ivan',
       lastName: 'Pavlov',
-      email: 'pavlov_ivan@gmail.com',
-      phone: '3014454319562415',
       avatar: 'https://i.pravatar.cc/100?img=15',
-      workPlace: 'Kyiv, KMKL #17',
+      mainInstitution: {
+        city: {
+          id: 1,
+          name: 'Київ',
+        },
+        id: 1,
+        name: 'КОКЛ',
+      },
     },
     mainDirection: {
       id: 4,
@@ -401,24 +443,27 @@ const NEWEST_POSTS_DATA_MOCK: IPost[] = [
     title: 'Mock title',
     content:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    status: PostStatus.PUBLISHED,
-    important: true,
+
     tags: [{ id: 5, tag: 'covid19' }],
     createdAt: '26.11.2020',
     modifiedAt: '11.12.2020',
-   postType: { name: 'Стаття'},
+    postType: { name: 'Стаття' },
     preview:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
   },
   {
     author: {
-      status: ExpertStatus.NEW,
       firstName: 'Ivan',
       lastName: 'Pavlov',
-      email: 'pavlov_ivan@gmail.com',
-      phone: '3014454319562416',
       avatar: 'https://i.pravatar.cc/100?img=16',
-      workPlace: 'Kyiv, KMKL #17',
+      mainInstitution: {
+        city: {
+          id: 1,
+          name: 'Київ',
+        },
+        id: 1,
+        name: 'КОКЛ',
+      },
     },
     mainDirection: {
       id: 4,
@@ -428,24 +473,27 @@ const NEWEST_POSTS_DATA_MOCK: IPost[] = [
     title: 'Mock title',
     content:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    status: PostStatus.PUBLISHED,
-    important: true,
+
     tags: [{ id: 5, tag: 'covid19' }],
     createdAt: '26.11.2020',
     modifiedAt: '11.12.2020',
-   postType: { name: 'Стаття'},
+    postType: { name: 'Стаття' },
     preview:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
   },
   {
     author: {
-      status: ExpertStatus.NEW,
       firstName: 'Ivan',
       lastName: 'Pavlov',
-      email: 'pavlov_ivan@gmail.com',
-      phone: '3014454319562417',
       avatar: 'https://i.pravatar.cc/100?img=17',
-      workPlace: 'Kyiv, KMKL #17',
+      mainInstitution: {
+        city: {
+          id: 1,
+          name: 'Київ',
+        },
+        id: 1,
+        name: 'КОКЛ',
+      },
     },
     mainDirection: {
       id: 4,
@@ -455,24 +503,27 @@ const NEWEST_POSTS_DATA_MOCK: IPost[] = [
     title: 'Mock title',
     content:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    status: PostStatus.PUBLISHED,
-    important: true,
+
     tags: [{ id: 5, tag: 'covid19' }],
     createdAt: '26.11.2020',
     modifiedAt: '11.12.2020',
-   postType: { name: 'Стаття'},
+    postType: { name: 'Стаття' },
     preview:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
   },
   {
     author: {
-      status: ExpertStatus.NEW,
       firstName: 'Ivan',
       lastName: 'Pavlov',
-      email: 'pavlov_ivan@gmail.com',
-      phone: '3014454319562418',
       avatar: 'https://i.pravatar.cc/100?img=18',
-      workPlace: 'Kyiv, KMKL #17',
+      mainInstitution: {
+        city: {
+          id: 1,
+          name: 'Київ',
+        },
+        id: 1,
+        name: 'КОКЛ',
+      },
     },
     mainDirection: {
       id: 4,
@@ -482,24 +533,27 @@ const NEWEST_POSTS_DATA_MOCK: IPost[] = [
     title: 'Mock title',
     content:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    status: PostStatus.PUBLISHED,
-    important: true,
+
     tags: [{ id: 5, tag: 'covid19' }],
     createdAt: '26.11.2020',
     modifiedAt: '11.12.2020',
-   postType: { name: 'Стаття'},
+    postType: { name: 'Стаття' },
     preview:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
   },
   {
     author: {
-      status: ExpertStatus.NEW,
       firstName: 'Ivan',
       lastName: 'Pavlov',
-      email: 'pavlov_ivan@gmail.com',
-      phone: '3014454319562419',
       avatar: 'https://i.pravatar.cc/100?img=19',
-      workPlace: 'Kyiv, KMKL #17',
+      mainInstitution: {
+        city: {
+          id: 1,
+          name: 'Київ',
+        },
+        id: 1,
+        name: 'КОКЛ',
+      },
     },
     mainDirection: {
       id: 4,
@@ -509,24 +563,27 @@ const NEWEST_POSTS_DATA_MOCK: IPost[] = [
     title: 'Mock title',
     content:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    status: PostStatus.PUBLISHED,
-    important: true,
+
     tags: [{ id: 5, tag: 'covid19' }],
     createdAt: '26.11.2020',
     modifiedAt: '11.12.2020',
-   postType: { name: 'Стаття'},
+    postType: { name: 'Стаття' },
     preview:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
   },
   {
     author: {
-      status: ExpertStatus.NEW,
       firstName: 'Ivan',
       lastName: 'Pavlov',
-      email: 'pavlov_ivan@gmail.com',
-      phone: '3014454319562420',
       avatar: 'https://i.pravatar.cc/100?img=20',
-      workPlace: 'Kyiv, KMKL #17',
+      mainInstitution: {
+        city: {
+          id: 1,
+          name: 'Київ',
+        },
+        id: 1,
+        name: 'КОКЛ',
+      },
     },
     mainDirection: {
       id: 4,
@@ -536,24 +593,27 @@ const NEWEST_POSTS_DATA_MOCK: IPost[] = [
     title: 'Mock title',
     content:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    status: PostStatus.PUBLISHED,
-    important: true,
+
     tags: [{ id: 5, tag: 'covid19' }],
     createdAt: '26.11.2020',
     modifiedAt: '11.12.2020',
-   postType: { name: 'Стаття'},
+    postType: { name: 'Стаття' },
     preview:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
   },
   {
     author: {
-      status: ExpertStatus.NEW,
       firstName: 'Ivan',
       lastName: 'Pavlov',
-      email: 'pavlov_ivan@gmail.com',
-      phone: '3014454319562421',
       avatar: 'https://i.pravatar.cc/100?img=21',
-      workPlace: 'Kyiv, KMKL #17',
+      mainInstitution: {
+        city: {
+          id: 1,
+          name: 'Київ',
+        },
+        id: 1,
+        name: 'КОКЛ',
+      },
     },
     mainDirection: {
       id: 4,
@@ -563,24 +623,27 @@ const NEWEST_POSTS_DATA_MOCK: IPost[] = [
     title: 'Mock title',
     content:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    status: PostStatus.PUBLISHED,
-    important: true,
+
     tags: [{ id: 5, tag: 'covid19' }],
     createdAt: '26.11.2020',
     modifiedAt: '11.12.2020',
-   postType: { name: 'Стаття'},
+    postType: { name: 'Стаття' },
     preview:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
   },
   {
     author: {
-      status: ExpertStatus.NEW,
       firstName: 'Ivan',
       lastName: 'Pavlov',
-      email: 'pavlov_ivan@gmail.com',
-      phone: '3014454319562422',
       avatar: 'https://i.pravatar.cc/100?img=22',
-      workPlace: 'Kyiv, KMKL #17',
+      mainInstitution: {
+        city: {
+          id: 1,
+          name: 'Київ',
+        },
+        id: 1,
+        name: 'КОКЛ',
+      },
     },
     mainDirection: {
       id: 4,
@@ -590,24 +653,27 @@ const NEWEST_POSTS_DATA_MOCK: IPost[] = [
     title: 'Mock title',
     content:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    status: PostStatus.PUBLISHED,
-    important: true,
+
     tags: [{ id: 5, tag: 'covid19' }],
     createdAt: '26.11.2020',
     modifiedAt: '11.12.2020',
-   postType: { name: 'Стаття'},
+    postType: { name: 'Стаття' },
     preview:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
   },
   {
     author: {
-      status: ExpertStatus.NEW,
       firstName: 'Ivan',
       lastName: 'Pavlov',
-      email: 'pavlov_ivan@gmail.com',
-      phone: '3014454319562423',
       avatar: 'https://i.pravatar.cc/100?img=23',
-      workPlace: 'Kyiv, KMKL #17',
+      mainInstitution: {
+        city: {
+          id: 1,
+          name: 'Київ',
+        },
+        id: 1,
+        name: 'КОКЛ',
+      },
     },
     mainDirection: {
       id: 4,
@@ -617,24 +683,27 @@ const NEWEST_POSTS_DATA_MOCK: IPost[] = [
     title: 'Mock title',
     content:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    status: PostStatus.PUBLISHED,
-    important: true,
+
     tags: [{ id: 5, tag: 'covid19' }],
     createdAt: '26.11.2020',
     modifiedAt: '11.12.2020',
-   postType: { name: 'Стаття'},
+    postType: { name: 'Стаття' },
     preview:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
   },
   {
     author: {
-      status: ExpertStatus.NEW,
       firstName: 'Ivan',
       lastName: 'Pavlov',
-      email: 'pavlov_ivan@gmail.com',
-      phone: '3014454319562424',
       avatar: 'https://i.pravatar.cc/100?img=24',
-      workPlace: 'Kyiv, KMKL #17',
+      mainInstitution: {
+        city: {
+          id: 1,
+          name: 'Київ',
+        },
+        id: 1,
+        name: 'КОКЛ',
+      },
     },
     mainDirection: {
       id: 4,
@@ -644,24 +713,27 @@ const NEWEST_POSTS_DATA_MOCK: IPost[] = [
     title: 'Mock title',
     content:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    status: PostStatus.PUBLISHED,
-    important: true,
+
     tags: [{ id: 5, tag: 'covid19' }],
     createdAt: '26.11.2020',
     modifiedAt: '11.12.2020',
-   postType: { name: 'Стаття'},
+    postType: { name: 'Стаття' },
     preview:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
   },
   {
     author: {
-      status: ExpertStatus.NEW,
       firstName: 'Ivan',
       lastName: 'Pavlov',
-      email: 'pavlov_ivan@gmail.com',
-      phone: '3014454319562425',
       avatar: 'https://i.pravatar.cc/100?img=25',
-      workPlace: 'Kyiv, KMKL #17',
+      mainInstitution: {
+        city: {
+          id: 1,
+          name: 'Київ',
+        },
+        id: 1,
+        name: 'КОКЛ',
+      },
     },
     mainDirection: {
       id: 4,
@@ -671,24 +743,27 @@ const NEWEST_POSTS_DATA_MOCK: IPost[] = [
     title: 'Mock title',
     content:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    status: PostStatus.PUBLISHED,
-    important: true,
+
     tags: [{ id: 5, tag: 'covid19' }],
     createdAt: '26.11.2020',
     modifiedAt: '11.12.2020',
-   postType: { name: 'Стаття'},
+    postType: { name: 'Стаття' },
     preview:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
   },
   {
     author: {
-      status: ExpertStatus.NEW,
       firstName: 'Ivan',
       lastName: 'Pavlov',
-      email: 'pavlov_ivan@gmail.com',
-      phone: '3014454319562426',
       avatar: 'https://i.pravatar.cc/100?img=26',
-      workPlace: 'Kyiv, KMKL #17',
+      mainInstitution: {
+        city: {
+          id: 1,
+          name: 'Київ',
+        },
+        id: 1,
+        name: 'КОКЛ',
+      },
     },
     mainDirection: {
       id: 4,
@@ -698,24 +773,27 @@ const NEWEST_POSTS_DATA_MOCK: IPost[] = [
     title: 'Mock title',
     content:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    status: PostStatus.PUBLISHED,
-    important: true,
+
     tags: [{ id: 5, tag: 'covid19' }],
     createdAt: '26.11.2020',
     modifiedAt: '11.12.2020',
-   postType: { name: 'Стаття'},
+    postType: { name: 'Стаття' },
     preview:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
   },
   {
     author: {
-      status: ExpertStatus.NEW,
       firstName: 'Ivan',
       lastName: 'Pavlov',
-      email: 'pavlov_ivan@gmail.com',
-      phone: '3014454319562427',
       avatar: 'https://i.pravatar.cc/100?img=27',
-      workPlace: 'Kyiv, KMKL #17',
+      mainInstitution: {
+        city: {
+          id: 1,
+          name: 'Київ',
+        },
+        id: 1,
+        name: 'КОКЛ',
+      },
     },
     mainDirection: {
       id: 4,
@@ -725,24 +803,27 @@ const NEWEST_POSTS_DATA_MOCK: IPost[] = [
     title: 'Mock title',
     content:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    status: PostStatus.PUBLISHED,
-    important: true,
+
     tags: [{ id: 5, tag: 'covid19' }],
     createdAt: '26.11.2020',
     modifiedAt: '11.12.2020',
-   postType: { name: 'Стаття'},
+    postType: { name: 'Стаття' },
     preview:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
   },
   {
     author: {
-      status: ExpertStatus.NEW,
       firstName: 'Ivan',
       lastName: 'Pavlov',
-      email: 'pavlov_ivan@gmail.com',
-      phone: '3014454319562428',
       avatar: 'https://i.pravatar.cc/100?img=28',
-      workPlace: 'Kyiv, KMKL #17',
+      mainInstitution: {
+        city: {
+          id: 1,
+          name: 'Київ',
+        },
+        id: 1,
+        name: 'КОКЛ',
+      },
     },
     mainDirection: {
       id: 4,
@@ -752,24 +833,27 @@ const NEWEST_POSTS_DATA_MOCK: IPost[] = [
     title: 'Mock title',
     content:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    status: PostStatus.PUBLISHED,
-    important: true,
+
     tags: [{ id: 5, tag: 'covid19' }],
     createdAt: '26.11.2020',
     modifiedAt: '11.12.2020',
-   postType: { name: 'Стаття'},
+    postType: { name: 'Стаття' },
     preview:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
   },
   {
     author: {
-      status: ExpertStatus.NEW,
       firstName: 'Ivan',
       lastName: 'Pavlov',
-      email: 'pavlov_ivan@gmail.com',
-      phone: '3014454319562429',
       avatar: 'https://i.pravatar.cc/100?img=29',
-      workPlace: 'Kyiv, KMKL #17',
+      mainInstitution: {
+        city: {
+          id: 1,
+          name: 'Київ',
+        },
+        id: 1,
+        name: 'КОКЛ',
+      },
     },
     mainDirection: {
       id: 4,
@@ -779,24 +863,27 @@ const NEWEST_POSTS_DATA_MOCK: IPost[] = [
     title: 'Mock title',
     content:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    status: PostStatus.PUBLISHED,
-    important: true,
+
     tags: [{ id: 5, tag: 'covid19' }],
     createdAt: '26.11.2020',
     modifiedAt: '11.12.2020',
-   postType: { name: 'Стаття'},
+    postType: { name: 'Стаття' },
     preview:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
   },
   {
     author: {
-      status: ExpertStatus.NEW,
       firstName: 'Ivan',
       lastName: 'Pavlov',
-      email: 'pavlov_ivan@gmail.com',
-      phone: '3014454319562430',
       avatar: 'https://i.pravatar.cc/100?img=30',
-      workPlace: 'Kyiv, KMKL #17',
+      mainInstitution: {
+        city: {
+          id: 1,
+          name: 'Київ',
+        },
+        id: 1,
+        name: 'КОКЛ',
+      },
     },
     mainDirection: {
       id: 4,
@@ -806,24 +893,27 @@ const NEWEST_POSTS_DATA_MOCK: IPost[] = [
     title: 'Mock title',
     content:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    status: PostStatus.PUBLISHED,
-    important: true,
+
     tags: [{ id: 5, tag: 'covid19' }],
     createdAt: '26.11.2020',
     modifiedAt: '11.12.2020',
-   postType: { name: 'Стаття'},
+    postType: { name: 'Стаття' },
     preview:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
   },
   {
     author: {
-      status: ExpertStatus.NEW,
       firstName: 'Ivan',
       lastName: 'Pavlov',
-      email: 'pavlov_ivan@gmail.com',
-      phone: '3014454319562431',
       avatar: 'https://i.pravatar.cc/100?img=31',
-      workPlace: 'Kyiv, KMKL #17',
+      mainInstitution: {
+        city: {
+          id: 1,
+          name: 'Київ',
+        },
+        id: 1,
+        name: 'КОКЛ',
+      },
     },
     mainDirection: {
       id: 4,
@@ -833,24 +923,27 @@ const NEWEST_POSTS_DATA_MOCK: IPost[] = [
     title: 'Mock title',
     content:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    status: PostStatus.PUBLISHED,
-    important: true,
+
     tags: [{ id: 5, tag: 'covid19' }],
     createdAt: '26.11.2020',
     modifiedAt: '11.12.2020',
-   postType: { name: 'Стаття'},
+    postType: { name: 'Стаття' },
     preview:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
   },
   {
     author: {
-      status: ExpertStatus.NEW,
       firstName: 'Ivan',
       lastName: 'Pavlov',
-      email: 'pavlov_ivan@gmail.com',
-      phone: '3014454319562432',
       avatar: 'https://i.pravatar.cc/100?img=32',
-      workPlace: 'Kyiv, KMKL #17',
+      mainInstitution: {
+        city: {
+          id: 1,
+          name: 'Київ',
+        },
+        id: 1,
+        name: 'КОКЛ',
+      },
     },
     mainDirection: {
       id: 4,
@@ -860,24 +953,27 @@ const NEWEST_POSTS_DATA_MOCK: IPost[] = [
     title: 'Mock title',
     content:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    status: PostStatus.PUBLISHED,
-    important: true,
+
     tags: [{ id: 5, tag: 'covid19' }],
     createdAt: '26.11.2020',
     modifiedAt: '11.12.2020',
-   postType: { name: 'Стаття'},
+    postType: { name: 'Стаття' },
     preview:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
   },
   {
     author: {
-      status: ExpertStatus.NEW,
       firstName: 'Ivan',
       lastName: 'Pavlov',
-      email: 'pavlov_ivan@gmail.com',
-      phone: '3014454319562433',
       avatar: 'https://i.pravatar.cc/100?img=33',
-      workPlace: 'Kyiv, KMKL #17',
+      mainInstitution: {
+        city: {
+          id: 1,
+          name: 'Київ',
+        },
+        id: 1,
+        name: 'КОКЛ',
+      },
     },
     mainDirection: {
       id: 4,
@@ -887,24 +983,27 @@ const NEWEST_POSTS_DATA_MOCK: IPost[] = [
     title: 'Mock title',
     content:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    status: PostStatus.PUBLISHED,
-    important: true,
+
     tags: [{ id: 5, tag: 'covid19' }],
     createdAt: '26.11.2020',
     modifiedAt: '11.12.2020',
-   postType: { name: 'Стаття'},
+    postType: { name: 'Стаття' },
     preview:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
   },
   {
     author: {
-      status: ExpertStatus.NEW,
       firstName: 'Ivan',
       lastName: 'Pavlov',
-      email: 'pavlov_ivan@gmail.com',
-      phone: '3014454319562434',
       avatar: 'https://i.pravatar.cc/100?img=34',
-      workPlace: 'Kyiv, KMKL #17',
+      mainInstitution: {
+        city: {
+          id: 1,
+          name: 'Київ',
+        },
+        id: 1,
+        name: 'КОКЛ',
+      },
     },
     mainDirection: {
       id: 4,
@@ -914,24 +1013,27 @@ const NEWEST_POSTS_DATA_MOCK: IPost[] = [
     title: 'Mock title',
     content:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    status: PostStatus.PUBLISHED,
-    important: true,
+
     tags: [{ id: 5, tag: 'covid19' }],
     createdAt: '26.11.2020',
     modifiedAt: '11.12.2020',
-   postType: { name: 'Стаття'},
+    postType: { name: 'Стаття' },
     preview:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
   },
   {
     author: {
-      status: ExpertStatus.NEW,
       firstName: 'Ivan',
       lastName: 'Pavlov',
-      email: 'pavlov_ivan@gmail.com',
-      phone: '3014454319562435',
       avatar: 'https://i.pravatar.cc/100?img=35',
-      workPlace: 'Kyiv, KMKL #17',
+      mainInstitution: {
+        city: {
+          id: 1,
+          name: 'Київ',
+        },
+        id: 1,
+        name: 'КОКЛ',
+      },
     },
     mainDirection: {
       id: 4,
@@ -941,24 +1043,27 @@ const NEWEST_POSTS_DATA_MOCK: IPost[] = [
     title: 'Mock title',
     content:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    status: PostStatus.PUBLISHED,
-    important: true,
+
     tags: [{ id: 5, tag: 'covid19' }],
     createdAt: '26.11.2020',
     modifiedAt: '11.12.2020',
-    postType: {name: 'Стаття'},
+    postType: { name: 'Стаття' },
     preview:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
   },
   {
     author: {
-      status: ExpertStatus.NEW,
       firstName: 'Ivan',
       lastName: 'Pavlov',
-      email: 'pavlov_ivan@gmail.com',
-      phone: '3014454319562436',
       avatar: 'https://i.pravatar.cc/100?img=36',
-      workPlace: 'Kyiv, KMKL #17',
+      mainInstitution: {
+        city: {
+          id: 1,
+          name: 'Київ',
+        },
+        id: 1,
+        name: 'КОКЛ',
+      },
     },
     mainDirection: {
       id: 4,
@@ -968,24 +1073,27 @@ const NEWEST_POSTS_DATA_MOCK: IPost[] = [
     title: 'Mock title',
     content:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    status: PostStatus.PUBLISHED,
-    important: true,
+
     tags: [{ id: 5, tag: 'covid19' }],
     createdAt: '26.11.2020',
     modifiedAt: '11.12.2020',
-    postType: { name: 'Стаття'},
+    postType: { name: 'Стаття' },
     preview:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
   },
   {
     author: {
-      status: ExpertStatus.NEW,
       firstName: 'Ivan',
       lastName: 'Pavlov',
-      email: 'pavlov_ivan@gmail.com',
-      phone: '3014454319562437',
       avatar: 'https://i.pravatar.cc/100?img=37',
-      workPlace: 'Kyiv, KMKL #17',
+      mainInstitution: {
+        city: {
+          id: 1,
+          name: 'Київ',
+        },
+        id: 1,
+        name: 'КОКЛ',
+      },
     },
     mainDirection: {
       id: 4,
@@ -995,24 +1103,27 @@ const NEWEST_POSTS_DATA_MOCK: IPost[] = [
     title: 'Mock title',
     content:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    status: PostStatus.PUBLISHED,
-    important: true,
+
     tags: [{ id: 5, tag: 'covid19' }],
     createdAt: '26.11.2020',
     modifiedAt: '11.12.2020',
-   postType: { name: 'Стаття'},
+    postType: { name: 'Стаття' },
     preview:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
   },
   {
     author: {
-      status: ExpertStatus.NEW,
       firstName: 'Ivan',
       lastName: 'Pavlov',
-      email: 'pavlov_ivan@gmail.com',
-      phone: '3014454319562438',
       avatar: 'https://i.pravatar.cc/100?img=38',
-      workPlace: 'Kyiv, KMKL #17',
+      mainInstitution: {
+        city: {
+          id: 1,
+          name: 'Київ',
+        },
+        id: 1,
+        name: 'КОКЛ',
+      },
     },
     mainDirection: {
       id: 4,
@@ -1022,24 +1133,27 @@ const NEWEST_POSTS_DATA_MOCK: IPost[] = [
     title: 'Mock title',
     content:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    status: PostStatus.PUBLISHED,
-    important: true,
+
     tags: [{ id: 5, tag: 'covid19' }],
     createdAt: '26.11.2020',
     modifiedAt: '11.12.2020',
-   postType: { name: 'Стаття'},
+    postType: { name: 'Стаття' },
     preview:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
   },
   {
     author: {
-      status: ExpertStatus.NEW,
       firstName: 'Ivan',
       lastName: 'Pavlov',
-      email: 'pavlov_ivan@gmail.com',
-      phone: '3014454319562439',
       avatar: 'https://i.pravatar.cc/100?img=39',
-      workPlace: 'Kyiv, KMKL #17',
+      mainInstitution: {
+        city: {
+          id: 1,
+          name: 'Київ',
+        },
+        id: 1,
+        name: 'КОКЛ',
+      },
     },
     mainDirection: {
       id: 4,
@@ -1049,24 +1163,27 @@ const NEWEST_POSTS_DATA_MOCK: IPost[] = [
     title: 'Mock title',
     content:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    status: PostStatus.PUBLISHED,
-    important: true,
+
     tags: [{ id: 5, tag: 'covid19' }],
     createdAt: '26.11.2020',
     modifiedAt: '11.12.2020',
-   postType: { name: 'Стаття'},
+    postType: { name: 'Стаття' },
     preview:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
   },
   {
     author: {
-      status: ExpertStatus.NEW,
       firstName: 'Ivan',
       lastName: 'Pavlov',
-      email: 'pavlov_ivan@gmail.com',
-      phone: '3014454319562440',
       avatar: 'https://i.pravatar.cc/100?img=40',
-      workPlace: 'Kyiv, KMKL #17',
+      mainInstitution: {
+        city: {
+          id: 1,
+          name: 'Київ',
+        },
+        id: 1,
+        name: 'КОКЛ',
+      },
     },
     mainDirection: {
       id: 4,
@@ -1076,24 +1193,27 @@ const NEWEST_POSTS_DATA_MOCK: IPost[] = [
     title: 'Mock title',
     content:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    status: PostStatus.PUBLISHED,
-    important: true,
+
     tags: [{ id: 5, tag: 'covid19' }],
     createdAt: '26.11.2020',
     modifiedAt: '11.12.2020',
-   postType: { name: 'Стаття'},
+    postType: { name: 'Стаття' },
     preview:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
   },
   {
     author: {
-      status: ExpertStatus.NEW,
       firstName: 'Ivan',
       lastName: 'Pavlov',
-      email: 'pavlov_ivan@gmail.com',
-      phone: '3014454319562441',
       avatar: 'https://i.pravatar.cc/100?img=41',
-      workPlace: 'Kyiv, KMKL #17',
+      mainInstitution: {
+        city: {
+          id: 1,
+          name: 'Київ',
+        },
+        id: 1,
+        name: 'КОКЛ',
+      },
     },
     mainDirection: {
       id: 4,
@@ -1103,24 +1223,27 @@ const NEWEST_POSTS_DATA_MOCK: IPost[] = [
     title: 'Mock title',
     content:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    status: PostStatus.PUBLISHED,
-    important: true,
+
     tags: [{ id: 5, tag: 'covid19' }],
     createdAt: '26.11.2020',
     modifiedAt: '11.12.2020',
-   postType: { name: 'Стаття'},
+    postType: { name: 'Стаття' },
     preview:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
   },
   {
     author: {
-      status: ExpertStatus.NEW,
       firstName: 'Ivan',
       lastName: 'Pavlov',
-      email: 'pavlov_ivan@gmail.com',
-      phone: '3014454319562442',
       avatar: 'https://i.pravatar.cc/100?img=42',
-      workPlace: 'Kyiv, KMKL #17',
+      mainInstitution: {
+        city: {
+          id: 1,
+          name: 'Київ',
+        },
+        id: 1,
+        name: 'КОКЛ',
+      },
     },
     mainDirection: {
       id: 4,
@@ -1130,24 +1253,27 @@ const NEWEST_POSTS_DATA_MOCK: IPost[] = [
     title: 'Mock title',
     content:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    status: PostStatus.PUBLISHED,
-    important: true,
+
     tags: [{ id: 5, tag: 'covid19' }],
     createdAt: '26.11.2020',
     modifiedAt: '11.12.2020',
-   postType: { name: 'Стаття'},
+    postType: { name: 'Стаття' },
     preview:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
   },
   {
     author: {
-      status: ExpertStatus.NEW,
       firstName: 'Ivan',
       lastName: 'Pavlov',
-      email: 'pavlov_ivan@gmail.com',
-      phone: '3014454319562443',
       avatar: 'https://i.pravatar.cc/100?img=43',
-      workPlace: 'Kyiv, KMKL #17',
+      mainInstitution: {
+        city: {
+          id: 1,
+          name: 'Київ',
+        },
+        id: 1,
+        name: 'КОКЛ',
+      },
     },
     mainDirection: {
       id: 4,
@@ -1157,24 +1283,27 @@ const NEWEST_POSTS_DATA_MOCK: IPost[] = [
     title: 'Mock title',
     content:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    status: PostStatus.PUBLISHED,
-    important: true,
+
     tags: [{ id: 5, tag: 'covid19' }],
     createdAt: '26.11.2020',
     modifiedAt: '11.12.2020',
-   postType: { name: 'Стаття'},
+    postType: { name: 'Стаття' },
     preview:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
   },
   {
     author: {
-      status: ExpertStatus.NEW,
       firstName: 'Ivan',
       lastName: 'Pavlov',
-      email: 'pavlov_ivan@gmail.com',
-      phone: '3014454319562444',
       avatar: 'https://i.pravatar.cc/100?img=44',
-      workPlace: 'Kyiv, KMKL #17',
+      mainInstitution: {
+        city: {
+          id: 1,
+          name: 'Київ',
+        },
+        id: 1,
+        name: 'КОКЛ',
+      },
     },
     mainDirection: {
       id: 4,
@@ -1184,24 +1313,27 @@ const NEWEST_POSTS_DATA_MOCK: IPost[] = [
     title: 'Mock title',
     content:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    status: PostStatus.PUBLISHED,
-    important: true,
+
     tags: [{ id: 5, tag: 'covid19' }],
     createdAt: '26.11.2020',
     modifiedAt: '11.12.2020',
-   postType: { name: 'Стаття'},
+    postType: { name: 'Стаття' },
     preview:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
   },
   {
     author: {
-      status: ExpertStatus.NEW,
       firstName: 'Ivan',
       lastName: 'Pavlov',
-      email: 'pavlov_ivan@gmail.com',
-      phone: '3014454319562445',
       avatar: 'https://i.pravatar.cc/100?img=45',
-      workPlace: 'Kyiv, KMKL #17',
+      mainInstitution: {
+        city: {
+          id: 1,
+          name: 'Київ',
+        },
+        id: 1,
+        name: 'КОКЛ',
+      },
     },
     mainDirection: {
       id: 4,
@@ -1211,24 +1343,27 @@ const NEWEST_POSTS_DATA_MOCK: IPost[] = [
     title: 'Mock title',
     content:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    status: PostStatus.PUBLISHED,
-    important: true,
+
     tags: [{ id: 5, tag: 'covid19' }],
     createdAt: '26.11.2020',
     modifiedAt: '11.12.2020',
-   postType: { name: 'Стаття'},
+    postType: { name: 'Стаття' },
     preview:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
   },
   {
     author: {
-      status: ExpertStatus.NEW,
       firstName: 'Ivan',
       lastName: 'Pavlov',
-      email: 'pavlov_ivan@gmail.com',
-      phone: '3014454319562446',
       avatar: 'https://i.pravatar.cc/100?img=46',
-      workPlace: 'Kyiv, KMKL #17',
+      mainInstitution: {
+        city: {
+          id: 1,
+          name: 'Київ',
+        },
+        id: 1,
+        name: 'КОКЛ',
+      },
     },
     mainDirection: {
       id: 4,
@@ -1238,24 +1373,27 @@ const NEWEST_POSTS_DATA_MOCK: IPost[] = [
     title: 'Mock title',
     content:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    status: PostStatus.PUBLISHED,
-    important: true,
+
     tags: [{ id: 5, tag: 'covid19' }],
     createdAt: '26.11.2020',
     modifiedAt: '11.12.2020',
-   postType: { name: 'Стаття'},
+    postType: { name: 'Стаття' },
     preview:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
   },
   {
     author: {
-      status: ExpertStatus.NEW,
       firstName: 'Ivan',
       lastName: 'Pavlov',
-      email: 'pavlov_ivan@gmail.com',
-      phone: '3014454319562447',
       avatar: 'https://i.pravatar.cc/100?img=47',
-      workPlace: 'Kyiv, KMKL #17',
+      mainInstitution: {
+        city: {
+          id: 1,
+          name: 'Київ',
+        },
+        id: 1,
+        name: 'КОКЛ',
+      },
     },
     mainDirection: {
       id: 4,
@@ -1265,24 +1403,27 @@ const NEWEST_POSTS_DATA_MOCK: IPost[] = [
     title: 'Mock title',
     content:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    status: PostStatus.PUBLISHED,
-    important: true,
+
     tags: [{ id: 5, tag: 'covid19' }],
     createdAt: '26.11.2020',
     modifiedAt: '11.12.2020',
-   postType: { name: 'Стаття'},
+    postType: { name: 'Стаття' },
     preview:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
   },
   {
     author: {
-      status: ExpertStatus.NEW,
       firstName: 'Ivan',
       lastName: 'Pavlov',
-      email: 'pavlov_ivan@gmail.com',
-      phone: '3014454319562448',
       avatar: 'https://i.pravatar.cc/100?img=48',
-      workPlace: 'Kyiv, KMKL #17',
+      mainInstitution: {
+        city: {
+          id: 1,
+          name: 'Київ',
+        },
+        id: 1,
+        name: 'КОКЛ',
+      },
     },
     mainDirection: {
       id: 4,
@@ -1292,24 +1433,27 @@ const NEWEST_POSTS_DATA_MOCK: IPost[] = [
     title: 'Mock title',
     content:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    status: PostStatus.PUBLISHED,
-    important: true,
+
     tags: [{ id: 5, tag: 'covid19' }],
     createdAt: '26.11.2020',
     modifiedAt: '11.12.2020',
-   postType: { name: 'Стаття'},
+    postType: { name: 'Стаття' },
     preview:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
   },
   {
     author: {
-      status: ExpertStatus.NEW,
       firstName: 'Ivan',
       lastName: 'Pavlov',
-      email: 'pavlov_ivan@gmail.com',
-      phone: '3014454319562449',
       avatar: 'https://i.pravatar.cc/100?img=49',
-      workPlace: 'Kyiv, KMKL #17',
+      mainInstitution: {
+        city: {
+          id: 1,
+          name: 'Київ',
+        },
+        id: 1,
+        name: 'КОКЛ',
+      },
     },
     mainDirection: {
       id: 4,
@@ -1319,24 +1463,27 @@ const NEWEST_POSTS_DATA_MOCK: IPost[] = [
     title: 'Mock title',
     content:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    status: PostStatus.PUBLISHED,
-    important: true,
+
     tags: [{ id: 5, tag: 'covid19' }],
     createdAt: '26.11.2020',
     modifiedAt: '11.12.2020',
-   postType: { name: 'Стаття'},
+    postType: { name: 'Стаття' },
     preview:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
   },
   {
     author: {
-      status: ExpertStatus.NEW,
       firstName: 'Ivan',
       lastName: 'Pavlov',
-      email: 'pavlov_ivan@gmail.com',
-      phone: '3014454319562450',
       avatar: 'https://i.pravatar.cc/100?img=50',
-      workPlace: 'Kyiv, KMKL #17',
+      mainInstitution: {
+        city: {
+          id: 1,
+          name: 'Київ',
+        },
+        id: 1,
+        name: 'КОКЛ',
+      },
     },
     mainDirection: {
       id: 4,
@@ -1346,12 +1493,11 @@ const NEWEST_POSTS_DATA_MOCK: IPost[] = [
     title: 'Mock title',
     content:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    status: PostStatus.PUBLISHED,
-    important: true,
+
     tags: [{ id: 5, tag: 'covid19' }],
     createdAt: '26.11.2020',
     modifiedAt: '11.12.2020',
-   postType: { name: 'Стаття'},
+    postType: { name: 'Стаття' },
     preview:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
   },

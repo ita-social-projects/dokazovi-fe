@@ -1,179 +1,265 @@
-import { IExpert, ExpertStatus } from '../../lib/types';
+import { IExpert } from '../../lib/types';
 
 const cards: IExpert[] = [
   {
-    status: ExpertStatus.ACTIVE,
     firstName: 'Oleksandr',
     lastName: 'Adamenko',
-    mainDirection:{
+    mainDirection: {
       id: 4,
       color: '#ffee58',
       name: 'Терапія',
     },
-    workPlace: 'Kyiv',
-    lastPost: 'Post title',
-    email: 'adamenko@gmail.com',
-    phone: '+380980000000',
+    mainInstitution: {
+      city: {
+        id: 1,
+        name: 'Київ',
+      },
+      id: 1,
+      name: 'КОКЛ',
+    },
+    lastAddedPost: {
+      id: 1,
+      title: 'Post title',
+    },
     avatar:
       'https://purepng.com/public/uploads/large/purepng.com-manmanadult-malemale-childboy-beingmens-1421526920869cscbo.png',
   },
   {
-    status: ExpertStatus.DELETED,
     firstName: 'Andriy',
     lastName: 'Bushyn',
-    mainDirection:{
+    mainDirection: {
       id: 4,
       color: '#ffee58',
       name: 'Терапія',
     },
-    workPlace: 'Kyiv',
-    lastPost: 'Post title',
-    email: 'byshin@gmail.com',
-    phone: '+380987770000',
+    mainInstitution: {
+      city: {
+        id: 1,
+        name: 'Київ',
+      },
+      id: 1,
+      name: 'КОКЛ',
+    },
+    lastAddedPost: {
+      id: 1,
+      title: 'Post title',
+    },
+
     avatar:
       'https://purepng.com/public/uploads/large/purepng.com-manmanadult-malemale-childboy-beingmens-1421526920869cscbo.png',
   },
   {
-    status: ExpertStatus.NEW,
     firstName: 'Leonid',
     lastName: 'Liah',
-    mainDirection:{
+    mainDirection: {
       id: 4,
       color: '#ffee58',
       name: 'Терапія',
     },
-    workPlace: 'Kyiv',
-    lastPost: 'Post title',
-    email: 'liah@gmail.com',
-    phone: '+380988090000',
+    mainInstitution: {
+      city: {
+        id: 1,
+        name: 'Київ',
+      },
+      id: 1,
+      name: 'КОКЛ',
+    },
+    lastAddedPost: {
+      id: 1,
+      title: 'Post title',
+    },
+
     avatar:
       'https://purepng.com/public/uploads/large/purepng.com-manmanadult-malemale-childboy-beingmens-1421526920869cscbo.png',
   },
   {
-    status: ExpertStatus.NEW,
     firstName: 'Leonid',
     lastName: 'Liah',
-    mainDirection:{
+    mainDirection: {
       id: 4,
       color: '#ffee58',
       name: 'Терапія',
     },
-    workPlace: 'Kyiv',
-    lastPost: 'Post title',
-    email: 'liah@gmail.com',
-    phone: '+380988090000',
+    mainInstitution: {
+      city: {
+        id: 1,
+        name: 'Київ',
+      },
+      id: 1,
+      name: 'КОКЛ',
+    },
+    lastAddedPost: {
+      id: 1,
+      title: 'Post title',
+    },
+
     avatar:
       'https://purepng.com/public/uploads/large/purepng.com-manmanadult-malemale-childboy-beingmens-1421526920869cscbo.png',
   },
   {
-    status: ExpertStatus.NEW,
     firstName: 'Leonid',
     lastName: 'Liah',
-    mainDirection:{
+    mainDirection: {
       id: 4,
       color: '#ffee58',
       name: 'Терапія',
     },
-    workPlace: 'Kyiv',
-    lastPost: 'Post title',
-    email: 'liah@gmail.com',
-    phone: '+380988090000',
+    mainInstitution: {
+      city: {
+        id: 1,
+        name: 'Київ',
+      },
+      id: 1,
+      name: 'КОКЛ',
+    },
+    lastAddedPost: {
+      id: 1,
+      title: 'Post title',
+    },
+
     avatar:
       'https://purepng.com/public/uploads/large/purepng.com-manmanadult-malemale-childboy-beingmens-1421526920869cscbo.png',
   },
   {
-    status: ExpertStatus.NEW,
     firstName: 'Leonid',
     lastName: 'Liah',
-    mainDirection:{
+    mainDirection: {
       id: 4,
       color: '#ffee58',
       name: 'Терапія',
     },
-    workPlace: 'Kyiv',
-    lastPost: 'Post title',
-    email: 'liah@gmail.com',
-    phone: '+380988090000',
+    mainInstitution: {
+      city: {
+        id: 1,
+        name: 'Київ',
+      },
+      id: 1,
+      name: 'КОКЛ',
+    },
+    lastAddedPost: {
+      id: 1,
+      title: 'Post title',
+    },
+
     avatar:
       'https://purepng.com/public/uploads/large/purepng.com-manmanadult-malemale-childboy-beingmens-1421526920869cscbo.png',
   },
   {
-    status: ExpertStatus.NEW,
     firstName: 'Leonid',
     lastName: 'Liah',
-    mainDirection:{
+    mainDirection: {
       id: 4,
       color: '#ffee58',
       name: 'Терапія',
     },
-    workPlace: 'Kyiv',
-    lastPost: 'Post title',
-    email: 'liah@gmail.com',
-    phone: '+380988090000',
+    mainInstitution: {
+      city: {
+        id: 1,
+        name: 'Київ',
+      },
+      id: 1,
+      name: 'КОКЛ',
+    },
+    lastAddedPost: {
+      id: 1,
+      title: 'Post title',
+    },
+
     avatar:
       'https://purepng.com/public/uploads/large/purepng.com-manmanadult-malemale-childboy-beingmens-1421526920869cscbo.png',
   },
   {
-    status: ExpertStatus.NEW,
     firstName: 'Leonid',
     lastName: 'Liah',
-    mainDirection:{
+    mainDirection: {
       id: 4,
       color: '#ffee58',
       name: 'Терапія',
     },
-    workPlace: 'Kyiv',
-    lastPost: 'Post title',
-    email: 'liah@gmail.com',
-    phone: '+380988090000',
+    mainInstitution: {
+      city: {
+        id: 1,
+        name: 'Київ',
+      },
+      id: 1,
+      name: 'КОКЛ',
+    },
+    lastAddedPost: {
+      id: 1,
+      title: 'Post title',
+    },
+
     avatar:
       'https://purepng.com/public/uploads/large/purepng.com-manmanadult-malemale-childboy-beingmens-1421526920869cscbo.png',
   },
   {
-    status: ExpertStatus.NEW,
     firstName: 'Leonid',
     lastName: 'Liah',
-    mainDirection:{
+    mainDirection: {
       id: 4,
       color: '#ffee58',
       name: 'Терапія',
     },
-    workPlace: 'Kyiv',
-    lastPost: 'Post title',
-    email: 'liah@gmail.com',
-    phone: '+380988090000',
+    mainInstitution: {
+      city: {
+        id: 1,
+        name: 'Київ',
+      },
+      id: 1,
+      name: 'КОКЛ',
+    },
+    lastAddedPost: {
+      id: 1,
+      title: 'Post title',
+    },
+
     avatar:
       'https://purepng.com/public/uploads/large/purepng.com-manmanadult-malemale-childboy-beingmens-1421526920869cscbo.png',
   },
   {
-    status: ExpertStatus.NEW,
     firstName: 'Leonid',
     lastName: 'Liah',
-    mainDirection:{
+    mainDirection: {
       id: 4,
       color: '#ffee58',
       name: 'Терапія',
     },
-    workPlace: 'Kyiv',
-    lastPost: 'Post title',
-    email: 'liah@gmail.com',
-    phone: '+380988090000',
+    mainInstitution: {
+      city: {
+        id: 1,
+        name: 'Київ',
+      },
+      id: 1,
+      name: 'КОКЛ',
+    },
+    lastAddedPost: {
+      id: 1,
+      title: 'Post title',
+    },
+
     avatar:
       'https://purepng.com/public/uploads/large/purepng.com-manmanadult-malemale-childboy-beingmens-1421526920869cscbo.png',
   },
   {
-    status: ExpertStatus.NEW,
     firstName: 'Leonid',
     lastName: 'Liah',
-    mainDirection:{
+    mainDirection: {
       id: 4,
       color: '#ffee58',
       name: 'Терапія',
     },
-    workPlace: 'Kyiv',
-    lastPost: 'Post title',
-    email: 'liah@gmail.com',
-    phone: '+380988090000',
+    mainInstitution: {
+      city: {
+        id: 1,
+        name: 'Київ',
+      },
+      id: 1,
+      name: 'КОКЛ',
+    },
+    lastAddedPost: {
+      id: 1,
+      title: 'Post title',
+    },
     avatar:
       'https://purepng.com/public/uploads/large/purepng.com-manmanadult-malemale-childboy-beingmens-1421526920869cscbo.png',
   },

@@ -1,21 +1,21 @@
-export enum ExpertStatus {
-  NEW = 'NEW',
-  ACTIVE = 'ACTIVE',
-  DELETED = 'DELETED',
-}
-export enum PostStatus {
-  DRAFT = 'DRAFT',
-  MODERATION_FIRST_SIGN = 'MODERATION_FIRST_SIGN',
-  MODERATION_SECOND_SIGN = 'MODERATION_SECOND_SIGN',
-  PUBLISHED = 'PUBLISHED',
-  ARCHIVED = 'ARCHIVED',
-}
+// export enum ExpertStatus {
+//   NEW = 'NEW',
+//   ACTIVE = 'ACTIVE',
+//   DELETED = 'DELETED',
+// }
+// export enum PostStatus {
+//   DRAFT = 'DRAFT',
+//   MODERATION_FIRST_SIGN = 'MODERATION_FIRST_SIGN',
+//   MODERATION_SECOND_SIGN = 'MODERATION_SECOND_SIGN',
+//   PUBLISHED = 'PUBLISHED',
+//   ARCHIVED = 'ARCHIVED',
+// }
 
-export enum PostTypeEnum {
-  ARTICLE = 'ARTICLE',
-  DOPYS = 'DOPYS',
-  VIDEO = 'VIDEO',
-}
+// export enum PostTypeEnum {
+//   ARTICLE = 'ARTICLE',
+//   DOPYS = 'DOPYS',
+//   VIDEO = 'VIDEO',
+// }
 
 export interface IPost {
   id?: number;
@@ -33,8 +33,6 @@ export interface IPost {
   postType: IPostType;
   createdAt: string;
   modifiedAt?: string;
-  status?: PostStatus;
-  important?: boolean;
   preview?: string;
 }
 
@@ -51,17 +49,17 @@ export interface IExpert {
     id: number;
     name: string;
   };
-  status?: ExpertStatus;
   mainDirection?: {
     id?: number;
     color: string;
     name: string;
     route?: string;
   };
-  workPlace?: string;
-  lastPost?: string;
-  email?: string;
-  phone?: string;
+  lastAddedPost?: {
+    id: number;
+    title: string;
+  };
+  qualification?: string;
 }
 
 export interface IPostDirection {

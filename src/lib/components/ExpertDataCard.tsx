@@ -37,13 +37,13 @@ const ExpertDataCard: React.FC<IExpertDataCardProps> = (props) => {
             Спеціалізація: {directionName}
           </Typography>
           <Typography className={classes.pos} variant="body1" component="h2">
-            {expert.workPlace}
+            {expert.mainInstitution?.city?.name}, {expert.mainInstitution?.name}
           </Typography>
           <Typography variant="body2" color="textSecondary">
             Останній доданий матеріал:
           </Typography>
           <Typography variant="h6" component="p">
-            {expert.lastPost}
+            {expert.lastAddedPost?.title}
           </Typography>
         </Box>
       </CardContent>
