@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   Container,
@@ -15,14 +15,14 @@ import PostsList from '../../../lib/components/PostsList';
 
 const NewestContainer: React.FC = () => {
   const classes = useStyles();
+  const gridRef = useRef<HTMLDivElement>(null);
 
   const dispatch = useDispatch();
   const setNewest = () => dispatch(fetchNewestPosts());
 
   const {
     newestPosts,
-    loading,
-    meta: { isLastPage },
+    meta: { isLastPage, loading },
   } = useSelector<RootStateType, IMainState['newest']>((state) => {
     return state.main.newest;
   });
@@ -35,7 +35,9 @@ const NewestContainer: React.FC = () => {
     return loading === 'pending' ? <CircularProgress /> : null;
   };
 
-  const renderError = (errorMsg: string) => {
+  const renderError = (
+    errorMsg = 'Не вдалося завантажити більше матеріалів',
+  ) => {
     return loading === 'failed' ? <span>{errorMsg}</span> : null;
   };
 
@@ -44,18 +46,27 @@ const NewestContainer: React.FC = () => {
 
     if (loading !== 'pending') {
       control = (
-        <Button variant="contained" onClick={setNewest}>
+        <Button
+          variant="contained"
+          onClick={() => {
+            setNewest();
+            scrollTo();
+          }}
+        >
           Більше матеріалів
         </Button>
       );
     }
 
     if (isLastPage) {
-      control = <span>Нових матеріалів немає</span>;
+      control = <span>Більше нових матеріалів немає</span>;
     }
 
     return control;
   };
+
+  const scrollTo = () =>
+    gridRef.current?.scrollIntoView({ behavior: 'smooth' });
 
   return (
     <>
@@ -66,7 +77,7 @@ const NewestContainer: React.FC = () => {
         </Grid>
         <Grid container direction="column" alignItems="center">
           {renderLoading()}
-          {renderError('Failed to load Newest Posts.')}
+          {renderError()}
         </Grid>
 
         <Grid
@@ -74,6 +85,7 @@ const NewestContainer: React.FC = () => {
           direction="column"
           alignItems="center"
           className={classes.showMore}
+          ref={gridRef}
         >
           {renderLoadControls()}
         </Grid>
