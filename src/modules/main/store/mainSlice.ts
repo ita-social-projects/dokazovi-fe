@@ -107,17 +107,15 @@ export const mainSlice = createSlice({
     builder.addCase(fetchNewestPosts.pending, (state) => {
       state.newest.loading = 'pending';
     });
-    builder.addCase(fetchNewestPosts.fulfilled, (state, action) => {
+    builder.addCase(fetchNewestPosts.fulfilled, (state, { payload }) => {
       state.newest.meta.currentPage += 1;
-      state.newest.meta.isLastPage = action.payload.isLastPage;
+      state.newest.meta.isLastPage = payload.isLastPage;
 
       state.newest.loading = 'succeeded';
 
-      state.newest.newestPosts.push(...action.payload.loadedPosts);
+      state.newest.newestPosts.push(...payload.loadedPosts);
     });
-    builder.addCase(fetchNewestPosts.rejected, (state, action) => {
-      state.newest.error = action.error.code;
-
+    builder.addCase(fetchNewestPosts.rejected, (state) => {
       state.newest.loading = 'failed';
     });
   },
