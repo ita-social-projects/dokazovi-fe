@@ -18,13 +18,13 @@ const POST_PREVIEW_LENGTH = 150;
 interface IMeta {
   currentPage: number;
   isLastPage?: boolean;
+  loading: 'idle' | 'pending' | 'succeeded' | 'failed';
+  error: null | string | undefined;
 }
 
 interface INewestPostPayload {
   newestPosts: IPost[];
   meta: IMeta;
-  loading: 'idle' | 'pending' | 'succeeded' | 'failed';
-  error: null | string | undefined;
 }
 
 interface IFetchNewestPosts {
@@ -43,9 +43,9 @@ const initialState: IMainState = {
     newestPosts: [],
     meta: {
       currentPage: 0,
+      loading: 'idle',
+      error: null,
     },
-    loading: 'idle',
-    error: null,
   },
   important: [],
   experts: [],
@@ -72,15 +72,18 @@ export const fetchNewestPosts = createAsyncThunk<IFetchNewestPosts>(
         'lastName',
         'mainInstitution',
       ]) as IExpert;
+
+      const preview = _.truncate(post.content, {
+        length: POST_PREVIEW_LENGTH,
+      });
+
       return {
         author: { ...postAuthor, workPlace: postAuthor.mainInstitution?.name },
         createdAt: post.createdAt,
         direction: post.mainDirection.name as DirectionEnum,
         title: post.title,
         postType: post.type.name as PostTypeEnum,
-        preview: _.truncate(post.content, {
-          length: POST_PREVIEW_LENGTH,
-        }),
+        preview,
         id: post.id,
       };
     });
@@ -105,18 +108,18 @@ export const mainSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(fetchNewestPosts.pending, (state) => {
-      state.newest.loading = 'pending';
+      state.newest.meta.loading = 'pending';
     });
     builder.addCase(fetchNewestPosts.fulfilled, (state, { payload }) => {
       state.newest.meta.currentPage += 1;
       state.newest.meta.isLastPage = payload.isLastPage;
 
-      state.newest.loading = 'succeeded';
+      state.newest.meta.loading = 'succeeded';
 
       state.newest.newestPosts.push(...payload.loadedPosts);
     });
     builder.addCase(fetchNewestPosts.rejected, (state) => {
-      state.newest.loading = 'failed';
+      state.newest.meta.loading = 'failed';
     });
   },
 });
