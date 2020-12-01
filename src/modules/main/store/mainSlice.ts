@@ -1,11 +1,13 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import MOCK_POSTS from '../../../lib/constants/mock-data';
+import * as _ from 'lodash';
+import { IPost, IExpert } from '../../../lib/types';
+import { getPosts } from '../../../lib/utilities/API/api';
 import MOCK_EXPERTS from '../mockDataExperts';
 import MOCK_NEWEST from '../components/constants/newestPosts-mock';
-import { IPost, IExpert } from '../../../lib/types';
 import type { AppThunkType } from '../../../store/store';
 import { LOAD_POSTS_LIMIT } from '../components/constants/newestPostsPagination-config';
+import { DIRECTION_PROPERTIES } from '../../../lib/constants/direction-properties';
 
 interface IMeta {
   totalNewestPosts?: number;
@@ -58,8 +60,24 @@ export default mainSlice.reducer;
 
 export const fetchImportantPosts = (): AppThunkType => async (dispatch) => {
   try {
-    const posts = await Promise.resolve(MOCK_POSTS);
-    dispatch(loadImportant(posts));
+    const posts = await getPosts('important');
+    const loadedPosts = posts.data.content.map((post) => {
+      const postAuthor = _.pick(post.author, [
+        'avatar',
+        'firstName',
+        'id',
+        'lastName',
+        'mainInstitution',
+      ]) as IExpert;
+      return {
+        author: postAuthor,
+        createdAt: post.createdAt,
+        mainDirection: DIRECTION_PROPERTIES[post.mainDirection.id.toString()],
+        title: post.title,
+        postType: DIRECTION_PROPERTIES[post.type.id.toString()],
+      }; 
+    });
+    dispatch(loadImportant(loadedPosts));
   } catch (e) {
     console.log(e);
   }
@@ -77,7 +95,7 @@ export const fetchExperts = (): AppThunkType => async (dispatch) => {
 export const fetchNewestPosts = (): AppThunkType => (dispatch, getState) => {
   const { meta } = getState().main.newest;
 
-  const totalNewestPosts =  meta.totalNewestPosts || MOCK_NEWEST.length;
+  const totalNewestPosts = meta.totalNewestPosts || MOCK_NEWEST.length;
   const newIndex = meta.currentIndex + LOAD_POSTS_LIMIT;
   const newShowMore = newIndex < totalNewestPosts - 1;
   const newList = MOCK_NEWEST.slice(0, newIndex);

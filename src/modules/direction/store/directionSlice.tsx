@@ -1,16 +1,13 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import _ from 'lodash';
 import { MOCK_COURSES } from '../courses/directionCourses.mock';
-import {
-  DirectionEnum,
-  ICourse,
-  IExpert,
-  IPost,
-  PostTypeEnum,
-} from '../../../lib/types';
+import { ICourse, IExpert, IPost } from '../../../lib/types';
 import type { AppThunkType } from '../../../store/store';
 import { getPosts } from '../../../lib/utilities/API/api';
 import { LOAD_POSTS_LIMIT } from '../../main/components/constants/newestPostsPagination-config';
+import { DIRECTION_PROPERTIES } from '../../../lib/constants/direction-properties';
+import { postTypeProperties } from '../../../lib/constants/post-type-properties';
 
 export interface IMaterialsPayload {
   posts: IPost[];
@@ -73,7 +70,7 @@ export const fetchMaterials = (): AppThunkType => async (
   getState,
 ) => {
   const { posts, meta } = getState().direction.materials;
-  
+
   const response = await getPosts('latest-by-direction', {
     params: {
       direction: 1, // get directionID argument from MaterialsContainer
@@ -83,37 +80,27 @@ export const fetchMaterials = (): AppThunkType => async (
   });
 
   const fetchedPosts = response.data.content.map((post) => {
-    const {
-      avatar,
-      firstName,
-      lastName,
-      mainInstitution: workPlace,
-    } = post.author;
-    const date = Date.parse(post.createdAt.split('.').reverse().join('-'));
-    const preview = post.content.length > 40
-      ? `${post.content.slice(0, 40)}...`
-      : post.content;
+    const author = _.pick(post.author, [
+      'avatar',
+      'firstName',
+      'id',
+      'lastName',
+      'mainInstitution',
+    ]);
+
+    const preview =
+      post.content.length > 40
+        ? `${post.content.slice(0, 40)}...`
+        : post.content;
 
     return {
-      author: {
-        firstName,
-        secondName: lastName,
-        photo: avatar,
-        workPlace: `${workPlace.city.name}, ${workPlace.name}`,
-      },
-      /* ATM using cyrillic in DirectionEnum & PostTypeEnum, as returned by the
-       * server to fix the mismatch below. Any other direction or post type 
-       * is commented-out globally (temporarily).
-       * Should instead use IDs from DirectionProperties.
-       */
-      // Type 'string' is not assignable to type 'DirectionEnum | undefined'.
-      direction: post.mainDirection.name as DirectionEnum,
-      // Type 'string' is not assignable to type 'PostTypeEnum'.
-      postType: post.type.name as PostTypeEnum,
+      author,
+      mainDirection: DIRECTION_PROPERTIES[post.mainDirection.id.toString()],
+      postType: postTypeProperties[post.type.id.toString()],
       title: post.title,
       content: post.content,
       preview,
-      createdAt: new Date(date),
+      createdAt: post.createdAt,
     };
   });
 
