@@ -61,3 +61,10 @@ export interface IExpert {
   workPlace?: string;
   lastPost?: string;
 }
+
+export interface IDirection {
+  id?: number;
+  color: string;
+  name: string;
+  route?: string;
+}

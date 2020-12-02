@@ -2,6 +2,7 @@ import { IExpert, ExpertStatus, DirectionEnum } from '../../lib/types';
 
 const cards: IExpert[] = [
   {
+    id: 1,
     status: ExpertStatus.ACTIVE,
     firstName: 'Oleksandr',
     lastName: 'Adamenko',
@@ -14,6 +15,7 @@ const cards: IExpert[] = [
       'https://purepng.com/public/uploads/large/purepng.com-manmanadult-malemale-childboy-beingmens-1421526920869cscbo.png',
   },
   {
+    id: 2,
     status: ExpertStatus.DELETED,
     firstName: 'Andriy',
     lastName: 'Bushyn',
@@ -26,6 +28,7 @@ const cards: IExpert[] = [
       'https://purepng.com/public/uploads/large/purepng.com-manmanadult-malemale-childboy-beingmens-1421526920869cscbo.png',
   },
   {
+    id: 3,
     status: ExpertStatus.NEW,
     firstName: 'Leonid',
     lastName: 'Liah',
@@ -38,6 +41,7 @@ const cards: IExpert[] = [
       'https://purepng.com/public/uploads/large/purepng.com-manmanadult-malemale-childboy-beingmens-1421526920869cscbo.png',
   },
   {
+    id: 4,
     status: ExpertStatus.NEW,
     firstName: 'Leonid',
     lastName: 'Liah',
@@ -50,6 +54,7 @@ const cards: IExpert[] = [
       'https://purepng.com/public/uploads/large/purepng.com-manmanadult-malemale-childboy-beingmens-1421526920869cscbo.png',
   },
   {
+    id: 5,
     status: ExpertStatus.NEW,
     firstName: 'Leonid',
     lastName: 'Liah',
@@ -62,6 +67,7 @@ const cards: IExpert[] = [
       'https://purepng.com/public/uploads/large/purepng.com-manmanadult-malemale-childboy-beingmens-1421526920869cscbo.png',
   },
   {
+    id: 6,
     status: ExpertStatus.NEW,
     firstName: 'Leonid',
     lastName: 'Liah',
@@ -74,6 +80,7 @@ const cards: IExpert[] = [
       'https://purepng.com/public/uploads/large/purepng.com-manmanadult-malemale-childboy-beingmens-1421526920869cscbo.png',
   },
   {
+    id: 7,
     status: ExpertStatus.NEW,
     firstName: 'Leonid',
     lastName: 'Liah',
@@ -86,6 +93,7 @@ const cards: IExpert[] = [
       'https://purepng.com/public/uploads/large/purepng.com-manmanadult-malemale-childboy-beingmens-1421526920869cscbo.png',
   },
   {
+    id: 8,
     status: ExpertStatus.NEW,
     firstName: 'Leonid',
     lastName: 'Liah',
@@ -98,6 +106,7 @@ const cards: IExpert[] = [
       'https://purepng.com/public/uploads/large/purepng.com-manmanadult-malemale-childboy-beingmens-1421526920869cscbo.png',
   },
   {
+    id: 9,
     status: ExpertStatus.NEW,
     firstName: 'Leonid',
     lastName: 'Liah',
@@ -110,6 +119,7 @@ const cards: IExpert[] = [
       'https://purepng.com/public/uploads/large/purepng.com-manmanadult-malemale-childboy-beingmens-1421526920869cscbo.png',
   },
   {
+    id: 10,
     status: ExpertStatus.NEW,
     firstName: 'Leonid',
     lastName: 'Liah',
@@ -122,6 +132,7 @@ const cards: IExpert[] = [
       'https://purepng.com/public/uploads/large/purepng.com-manmanadult-malemale-childboy-beingmens-1421526920869cscbo.png',
   },
   {
+    id: 11,
     status: ExpertStatus.NEW,
     firstName: 'Leonid',
     lastName: 'Liah',
