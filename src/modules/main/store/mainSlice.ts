@@ -6,6 +6,7 @@ import {
   IExpert,
   DirectionEnum,
   PostTypeEnum,
+  LoadingStatusEnum,
 } from '../../../lib/types';
 import { getPosts } from '../../../lib/utilities/API/api';
 import MOCK_EXPERTS from '../mockDataExperts';
@@ -15,16 +16,16 @@ import type { RootStateType } from '../../../store/rootReducer';
 
 const POST_PREVIEW_LENGTH = 150;
 
-interface IMeta {
+interface INewestMeta {
   currentPage: number;
-  isLastPage?: boolean;
-  loading: 'idle' | 'pending' | 'succeeded' | 'failed';
-  error: null | string | undefined;
+  isLastPage: boolean;
+  loading: LoadingStatusEnum;
+  error: null | string;
 }
 
 interface INewestPostPayload {
   newestPosts: IPost[];
-  meta: IMeta;
+  meta: INewestMeta;
 }
 
 interface IFetchNewestPosts {
@@ -43,7 +44,8 @@ const initialState: IMainState = {
     newestPosts: [],
     meta: {
       currentPage: 0,
-      loading: 'idle',
+      isLastPage: false,
+      loading: LoadingStatusEnum.iddle,
       error: null,
     },
   },
@@ -66,19 +68,17 @@ export const fetchNewestPosts = createAsyncThunk<IFetchNewestPosts>(
     });
 
     const loadedPosts = resp.data.content.map((post) => {
-      const postAuthor = _.pick(post.author, [
-        'avatar',
-        'firstName',
-        'lastName',
-        'mainInstitution',
-      ]) as IExpert;
+      const postAuthor = {
+        ..._.pick(post.author, ['avatar', 'firstName', 'lastName']),
+        workPlace: _.pick(post.author.mainInstitution, 'name').name,
+      } as IExpert;
 
       const preview = _.truncate(post.content, {
         length: POST_PREVIEW_LENGTH,
       });
 
       return {
-        author: { ...postAuthor, workPlace: postAuthor.mainInstitution?.name },
+        author: postAuthor,
         createdAt: post.createdAt,
         direction: post.mainDirection.name as DirectionEnum,
         title: post.title,
@@ -108,18 +108,22 @@ export const mainSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(fetchNewestPosts.pending, (state) => {
-      state.newest.meta.loading = 'pending';
+      state.newest.meta.loading = LoadingStatusEnum.pending;
     });
     builder.addCase(fetchNewestPosts.fulfilled, (state, { payload }) => {
       state.newest.meta.currentPage += 1;
       state.newest.meta.isLastPage = payload.isLastPage;
 
-      state.newest.meta.loading = 'succeeded';
+      state.newest.meta.loading = LoadingStatusEnum.succeeded;
 
       state.newest.newestPosts.push(...payload.loadedPosts);
     });
-    builder.addCase(fetchNewestPosts.rejected, (state) => {
-      state.newest.meta.loading = 'failed';
+    builder.addCase(fetchNewestPosts.rejected, (state, { error }) => {
+      if (error.message) {
+        state.newest.meta.error = error.message;
+      }
+
+      state.newest.meta.loading = LoadingStatusEnum.failed;
     });
   },
 });

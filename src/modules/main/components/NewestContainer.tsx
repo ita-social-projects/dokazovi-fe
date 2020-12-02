@@ -12,6 +12,7 @@ import { fetchNewestPosts, IMainState } from '../store/mainSlice';
 import { useStyles } from './styles/NewestContainer.style';
 import BorderBottom from '../../../lib/components/Border';
 import PostsList from '../../../lib/components/PostsList';
+import { LoadingStatusEnum } from '../../../lib/types';
 
 const NewestContainer: React.FC = () => {
   const classes = useStyles();
@@ -31,20 +32,18 @@ const NewestContainer: React.FC = () => {
     setNewest();
   }, []);
 
-  const renderLoading = () => {
-    return loading === 'pending' ? <CircularProgress /> : null;
-  };
+  const renderLoading = () =>
+    loading === LoadingStatusEnum.pending ? <CircularProgress /> : null;
 
-  const renderError = (
-    errorMsg = 'Не вдалося завантажити більше матеріалів',
-  ) => {
-    return loading === 'failed' ? <span>{errorMsg}</span> : null;
-  };
+  const renderError = (errorMsg = 'Не вдалося завантажити більше матеріалів') =>
+    loading === LoadingStatusEnum.failed ? <span>{errorMsg}</span> : null;
 
-  const renderLoadControls = (): JSX.Element => {
+  const renderLoadControls = (
+    lastPageMsg = 'Більше нових матеріалів немає',
+  ): JSX.Element => {
     let control: JSX.Element = <></>;
 
-    if (loading !== 'pending') {
+    if (loading !== LoadingStatusEnum.pending) {
       control = (
         <Button
           variant="contained"
@@ -59,7 +58,7 @@ const NewestContainer: React.FC = () => {
     }
 
     if (isLastPage) {
-      control = <span>Більше нових матеріалів немає</span>;
+      control = <span>{lastPageMsg}</span>;
     }
 
     return control;
