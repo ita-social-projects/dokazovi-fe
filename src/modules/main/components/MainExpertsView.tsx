@@ -9,8 +9,6 @@ import { RootStateType } from '../../../store/rootReducer';
 import { ExpertPopover } from '../../../lib/components/ExpertPopover';
 import ExpertDataCard from '../../../lib/components/ExpertDataCard';
 import { IExpert } from '../../../lib/types';
-import { getExperts } from '../../../lib/utilities/API/api';
-import { DIRECTION_PROPERTIES } from '../../../lib/constants/direction-properties';
 
 const cardsClasses = Array.from(Array(11).keys()).map((el) => `item_${el}`);
 const selectExperts = (state: RootStateType) => state.main.experts;
