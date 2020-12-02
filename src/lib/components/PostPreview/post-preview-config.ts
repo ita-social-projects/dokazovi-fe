@@ -2,7 +2,7 @@ import { DirectionEnum, PostTypeEnum, IPost } from '../../types';
 
 export const MOCK_DATA: IPost = {
   author: {
-    id: '1',
+    id: 1,
     firstName: 'Микола',
     lastName: 'Амосов',
     workPlace: 'Київ',
