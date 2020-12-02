@@ -54,12 +54,16 @@ export interface IExpert {
     id: number;
     name: string;
   };
-  status?: ExpertStatus;
-  direction?: DirectionEnum;
-  email?: string;
+  mainDirection?: IDirection;
+  lastAddedPost?: {
+    id: number;
+    title: string;
+  };
+  qualification?: string;
   phone?: string;
-  workPlace?: string;
-  lastPost?: string;
+  email?: string;
+  directions?: DirectionEnum;
+  bio?: string;
 }
 
 export interface IDirection {
