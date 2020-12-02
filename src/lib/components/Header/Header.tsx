@@ -8,12 +8,12 @@ import List from '@material-ui/core/List/List';
 import { useStyles } from './Header.styles';
 
 interface IHeaderProps {
-  id: string, 
+  id: string,
   label: string,
   url?: string,
-  }
+}
 
-export const navElems: IHeaderProps [] = [
+export const navElems: IHeaderProps[] = [
   {
     id: "main",
     label: "Головна",
@@ -23,23 +23,29 @@ export const navElems: IHeaderProps [] = [
     id: "covid-19",
     label: "Covid-19",
     url: "direction/covid-19",
- },
- {
-  id: "directions",
-  label: "Напрямки",
-},
-{
-  id: "experts",
-  label: "Експерти",
-},
-{
-  id: "translates",
-  label: "Переклади",
-},
-{
-  id: "study",
-  label: "Навчання",
-}
+  },
+  // TODO: remove therapy when a page with all the directions exists
+  {
+    id: "therapy",
+    label: "Therapy",
+    url: "direction/therapy",
+  },
+  {
+    id: "directions",
+    label: "Напрямки",
+  },
+  {
+    id: "experts",
+    label: "Експерти",
+  },
+  {
+    id: "translates",
+    label: "Переклади",
+  },
+  {
+    id: "study",
+    label: "Навчання",
+  }
 ];
 
 
@@ -77,7 +83,7 @@ const Header: React.FC = () => {
         <Grid item xs={12}>
           <List className={classes.generalNavigation}>
             <ListItem>
-                {allLinks}
+              {allLinks}
             </ListItem>
           </List>
         </Grid>

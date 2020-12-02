@@ -4,7 +4,10 @@ import MOCK_EXPERTS from '../../main/mockDataExperts';
 import { IExpert } from '../../../lib/types';
 import type { AppThunkType } from '../../../store/store';
 
-export type IDirectionsState = Record<string, IDirectionState>
+export interface IDirectionsState extends Record<string, IDirectionState> {
+  [key: string]: IDirectionState
+}
+
 export interface IDirectionState {
   experts: IExpert[];
 }

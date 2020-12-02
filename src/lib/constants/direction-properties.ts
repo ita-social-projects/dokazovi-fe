@@ -17,6 +17,7 @@ export const DIRECTION_PROPERTIES: DirectionPropertiesType = {
     id: 4,
     color: '#ffee58',
     name: 'Терапія',
+    route: 'therapy',
   },
   [DirectionEnum.COVID19]: {
     id: 1,

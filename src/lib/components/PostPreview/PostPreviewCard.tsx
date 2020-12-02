@@ -100,7 +100,7 @@ const PostPreviewCard: React.FC<IPostPreviewCardProps> = (props) => {
             align="right"
             variant="body2"
           >
-            {data.createdAt.toLocaleDateString()}
+            {data.createdAt}
           </Typography>
         </CardContent>
       </Box>

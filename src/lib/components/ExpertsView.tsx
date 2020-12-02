@@ -32,16 +32,14 @@ export const ExpertsView: React.FC<IExpertsViewProps> = (props) => {
   const classes = useStyles();
 
   const allExperts = cards.map((card, key) => (
-    <>
-      <div
-        onMouseEnter={(event) => handlePopoverOpen(event, card)}
-        onMouseLeave={handlePopoverClose}
-        key={card.phone}
-        className={classes[cardsClasses[key]] as string}
-      >
-        <ExpertBlock expert={card} />
-      </div>
-    </>
+    <div
+      onMouseEnter={(event) => handlePopoverOpen(event, card)}
+      onMouseLeave={handlePopoverClose}
+      key={card.id}
+      className={classes[cardsClasses[key]] as string}
+    >
+      <ExpertBlock expert={card} />
+    </div>
   ));
 
   return (

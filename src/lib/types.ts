@@ -29,12 +29,14 @@ export enum DirectionEnum {
 }
 
 export interface IExpert {
+  // TODO: make required when newest mocks are removed
+  id?: string;
   status?: ExpertStatus;
   firstName: string;
   secondName: string;
   direction?: DirectionEnum;
   email?: string;
-  phone?: string;
+  phone: string;
   photo?: string;
   workPlace?: string;
   lastPost?: string;
@@ -48,8 +50,8 @@ export interface IPost {
   status?: PostStatus;
   important?: boolean;
   tags?: string[];
-  createdAt: Date;
-  modifiedAt?: Date;
+  createdAt: string;
+  modifiedAt?: string;
   postType: PostTypeEnum;
   preview: string;
 }
