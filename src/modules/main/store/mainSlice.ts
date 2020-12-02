@@ -61,9 +61,11 @@ export default mainSlice.reducer;
 
 export const fetchImportantPosts = (): AppThunkType => async (dispatch) => {
   try {
-    const posts = await getPosts('important', {  params: {
-      size: 20,
-    }});
+    const posts = await getPosts('important', {
+      params: {
+        size: 20,
+      },
+    });
     const loadedPosts = posts.data.content.map((post) => {
       const postAuthor = _.pick(post.author, [
         'avatar',
@@ -78,7 +80,7 @@ export const fetchImportantPosts = (): AppThunkType => async (dispatch) => {
         mainDirection: DIRECTION_PROPERTIES[post.mainDirection.id.toString()],
         title: post.title,
         postType: postTypeProperties[post.type.id.toString()],
-      }; 
+      };
     });
     dispatch(loadImportant(loadedPosts));
   } catch (e) {
