@@ -40,13 +40,8 @@ export type PostTagRequestBodyType = {
   tag: string;
 };
 
-export type GeneralGetType =
-  | GetConfigType
-  | GetTagConfigType
-  | GetExpertsConfigType;
-
 const defaultConfig = {
-  paramsSerializer: (params: GeneralGetType): string => {
+  paramsSerializer: (params: { [key: string]: any }): string => {
     return qs.stringify(params, { arrayFormat: 'repeat' });
   },
 };
@@ -58,15 +53,15 @@ export const getPosts = (
   config?: GetConfigType,
 ): Promise<AxiosResponse<GetResponseType<PostResponseType>>> => {
   return instance.get<GetResponseType<PostResponseType>>(`/post/${postsType}`, {
-    ...config,
     ...defaultConfig,
+    ...config,
   });
 };
 
 export const getExperts = (
   config?: GetExpertsConfigType,
 ): Promise<AxiosResponse<GetResponseType<ExpertResponseType>>> => {
-  return instance.get(`/user/random-experts`, { ...config, ...defaultConfig });
+  return instance.get(`/user/random-experts`, { ...defaultConfig, ...config });
 };
 
 export const postTag = (
