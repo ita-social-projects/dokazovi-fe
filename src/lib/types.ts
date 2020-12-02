@@ -42,6 +42,7 @@ export enum CourseEnum {
 
 export enum CourseTypeEnum {
   COURSE = 'COURSE',
+}
 
 export interface IPost {
   author?: IExpert;
