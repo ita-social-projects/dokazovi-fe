@@ -1,12 +1,7 @@
-import { DirectionEnum } from '../types';
+import { DirectionEnum, IDirection } from '../types';
 
 export type DirectionPropertiesType = {
-  [key in DirectionEnum]: {
-    id?: number;
-    color: string;
-    name: string;
-    route?: string;
-  };
+  [key in DirectionEnum]: IDirection;
 };
 
 export const DIRECTION_PROPERTIES: DirectionPropertiesType = {

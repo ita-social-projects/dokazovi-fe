@@ -4,32 +4,49 @@ import MOCK_EXPERTS from '../../main/mockDataExperts';
 import { IExpert } from '../../../lib/types';
 import type { AppThunkType } from '../../../store/store';
 
+export type IDirectionsState = Record<string, IDirectionState>
 export interface IDirectionState {
   experts: IExpert[];
 }
 
-const initialState: IDirectionState = {
+const initialDirectionState: IDirectionState = {
   experts: [],
 };
 
-export const directionSlice = createSlice({
+export const directionsSlice = createSlice({
   name: 'direction',
-  initialState,
+  initialState: {} as IDirectionsState,
   reducers: {
-    loadExperts: (state, action: PayloadAction<IExpert[]>) => {
-      state.experts = action.payload;
+    setupDirection: (state, action: PayloadAction<string>) => {
+      state[action.payload] = initialDirectionState;
+    },
+    loadExperts: (
+      state,
+      action: PayloadAction<{
+        experts: IExpert[],
+        directionName: string,
+      }>
+    ) => {
+      const { directionName } = action.payload;
+      const direction = state[directionName] as IDirectionState;
+      if (direction) {
+        direction.experts = action.payload.experts;
+      }
     },
   },
 });
 
-export const { loadExperts } = directionSlice.actions;
+export const { loadExperts, setupDirection } = directionsSlice.actions;
 
-export default directionSlice.reducer;
+export const directionsReducer = directionsSlice.reducer;
 
-export const fetchExperts = (): AppThunkType => async (dispatch) => {
+export const fetchExperts = (directionName: string): AppThunkType => async (dispatch) => {
   try {
     const experts = await Promise.resolve(MOCK_EXPERTS);
-    dispatch(loadExperts(experts));
+    dispatch(loadExperts({
+      directionName,
+      experts,
+    }));
   } catch (e) {
     console.log(e);
   }

@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux';
+import { directionsReducer } from '../modules/direction/store/directionSlice';
 import mainReducer from '../modules/main/store/mainSlice';
-import directionReducer from '../modules/direction/store/directionSlice';
 
 const rootReducer = combineReducers({
   main: mainReducer,
-  direction: directionReducer,
+  directions: directionsReducer,
 });
 
 export type RootStateType = ReturnType<typeof rootReducer>;

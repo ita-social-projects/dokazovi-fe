@@ -1,33 +1,7 @@
-export interface IExpert {
-  status?: ExpertStatus;
-  firstName: string;
-  secondName: string;
-  direction?: DirectionEnum;
-  email?: string;
-  phone?: string;
-  photo?: string;
-  workPlace?: string;
-  lastPost?: string;
-}
-
 export enum ExpertStatus {
   NEW = 'NEW',
   ACTIVE = 'ACTIVE',
   DELETED = 'DELETED',
-}
-
-export interface IPost {
-  author?: IExpert;
-  direction: DirectionEnum;
-  title: string;
-  content?: string;
-  status?: PostStatus;
-  important?: boolean;
-  tags?: string[];
-  createdAt: Date;
-  modifiedAt?: Date;
-  postType: PostTypeEnum;
-  preview: string;
 }
 
 export enum PostStatus {
@@ -52,4 +26,37 @@ export enum DirectionEnum {
   OPHTHALMOLOGY = 'OPHTHALMOLOGY',
   VIROLOGY = 'VIROLOGY',
   SURGERY = 'SURGERY',
+}
+
+export interface IExpert {
+  status?: ExpertStatus;
+  firstName: string;
+  secondName: string;
+  direction?: DirectionEnum;
+  email?: string;
+  phone?: string;
+  photo?: string;
+  workPlace?: string;
+  lastPost?: string;
+}
+
+export interface IPost {
+  author?: IExpert;
+  direction: DirectionEnum;
+  title: string;
+  content?: string;
+  status?: PostStatus;
+  important?: boolean;
+  tags?: string[];
+  createdAt: Date;
+  modifiedAt?: Date;
+  postType: PostTypeEnum;
+  preview: string;
+}
+
+export interface IDirection {
+  id?: number;
+  color: string;
+  name: string;
+  route?: string;
 }
