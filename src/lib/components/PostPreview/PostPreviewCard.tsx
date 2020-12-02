@@ -18,8 +18,8 @@ const PostPreviewCard: React.FC<IPostPreviewCardProps> = (props) => {
   const { data } = props;
 
   let authorFullName = '';
-  if (data.author?.firstName && data.author?.secondName) {
-    authorFullName = `${data.author?.firstName} ${data.author?.secondName}`;
+  if (data.author?.firstName && data.author?.lastName) {
+    authorFullName = `${data.author?.firstName} ${data.author?.lastName}`;
   }
 
   const classes = useStyles();
@@ -41,7 +41,7 @@ const PostPreviewCard: React.FC<IPostPreviewCardProps> = (props) => {
           <CardMedia
             style={{ padding: '15px', height: '58px', width: 46 }}
             className={classes.media}
-            image={data.author?.photo}
+            image={data.author?.avatar}
             title={authorFullName}
           />
           <Box display="flex" flexDirection="column" justifyContent="start">

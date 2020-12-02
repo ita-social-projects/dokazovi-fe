@@ -5,143 +5,143 @@ const cards: IExpert[] = [
     id: '1',
     status: ExpertStatus.ACTIVE,
     firstName: 'Oleksandr',
-    secondName: 'Adamenko',
+    lastName: 'Adamenko',
     direction: DirectionEnum.THERAPY,
     workPlace: 'Kyiv',
     lastPost: 'Post title',
     email: 'adamenko@gmail.com',
     phone: '+380980000000',
-    photo:
+    avatar:
       'https://purepng.com/public/uploads/large/purepng.com-manmanadult-malemale-childboy-beingmens-1421526920869cscbo.png',
   },
   {
     id: '2',
     status: ExpertStatus.DELETED,
     firstName: 'Andriy',
-    secondName: 'Bushyn',
+    lastName: 'Bushyn',
     direction: DirectionEnum.THERAPY,
     workPlace: 'Kyiv',
     lastPost: 'Post title',
     email: 'byshin@gmail.com',
     phone: '+380987770000',
-    photo:
+    avatar:
       'https://purepng.com/public/uploads/large/purepng.com-manmanadult-malemale-childboy-beingmens-1421526920869cscbo.png',
   },
   {
     id: '3',
     status: ExpertStatus.NEW,
     firstName: 'Leonid',
-    secondName: 'Liah',
+    lastName: 'Liah',
     direction: DirectionEnum.THERAPY,
     workPlace: 'Kyiv',
     lastPost: 'Post title',
     email: 'liah@gmail.com',
     phone: '+380988090000',
-    photo:
+    avatar:
       'https://purepng.com/public/uploads/large/purepng.com-manmanadult-malemale-childboy-beingmens-1421526920869cscbo.png',
   },
   {
     id: '4',
     status: ExpertStatus.NEW,
     firstName: 'Leonid',
-    secondName: 'Liah',
+    lastName: 'Liah',
     direction: DirectionEnum.THERAPY,
     workPlace: 'Kyiv',
     lastPost: 'Post title',
     email: 'liah@gmail.com',
     phone: '+380988090000',
-    photo:
+    avatar:
       'https://purepng.com/public/uploads/large/purepng.com-manmanadult-malemale-childboy-beingmens-1421526920869cscbo.png',
   },
   {
     id: '5',
     status: ExpertStatus.NEW,
     firstName: 'Leonid',
-    secondName: 'Liah',
+    lastName: 'Liah',
     direction: DirectionEnum.THERAPY,
     workPlace: 'Kyiv',
     lastPost: 'Post title',
     email: 'liah@gmail.com',
     phone: '+380988090000',
-    photo:
+    avatar:
       'https://purepng.com/public/uploads/large/purepng.com-manmanadult-malemale-childboy-beingmens-1421526920869cscbo.png',
   },
   {
     id: '6',
     status: ExpertStatus.NEW,
     firstName: 'Leonid',
-    secondName: 'Liah',
+    lastName: 'Liah',
     direction: DirectionEnum.THERAPY,
     workPlace: 'Kyiv',
     lastPost: 'Post title',
     email: 'liah@gmail.com',
     phone: '+380988090000',
-    photo:
+    avatar:
       'https://purepng.com/public/uploads/large/purepng.com-manmanadult-malemale-childboy-beingmens-1421526920869cscbo.png',
   },
   {
     id: '7',
     status: ExpertStatus.NEW,
     firstName: 'Leonid',
-    secondName: 'Liah',
+    lastName: 'Liah',
     direction: DirectionEnum.THERAPY,
     workPlace: 'Kyiv',
     lastPost: 'Post title',
     email: 'liah@gmail.com',
     phone: '+380988090000',
-    photo:
+    avatar:
       'https://purepng.com/public/uploads/large/purepng.com-manmanadult-malemale-childboy-beingmens-1421526920869cscbo.png',
   },
   {
     id: '8',
     status: ExpertStatus.NEW,
     firstName: 'Leonid',
-    secondName: 'Liah',
+    lastName: 'Liah',
     direction: DirectionEnum.THERAPY,
     workPlace: 'Kyiv',
     lastPost: 'Post title',
     email: 'liah@gmail.com',
     phone: '+380988090000',
-    photo:
+    avatar:
       'https://purepng.com/public/uploads/large/purepng.com-manmanadult-malemale-childboy-beingmens-1421526920869cscbo.png',
   },
   {
     id: '9',
     status: ExpertStatus.NEW,
     firstName: 'Leonid',
-    secondName: 'Liah',
+    lastName: 'Liah',
     direction: DirectionEnum.THERAPY,
     workPlace: 'Kyiv',
     lastPost: 'Post title',
     email: 'liah@gmail.com',
     phone: '+380988090000',
-    photo:
+    avatar:
       'https://purepng.com/public/uploads/large/purepng.com-manmanadult-malemale-childboy-beingmens-1421526920869cscbo.png',
   },
   {
     id: '10',
     status: ExpertStatus.NEW,
     firstName: 'Leonid',
-    secondName: 'Liah',
+    lastName: 'Liah',
     direction: DirectionEnum.THERAPY,
     workPlace: 'Kyiv',
     lastPost: 'Post title',
     email: 'liah@gmail.com',
     phone: '+380988090000',
-    photo:
+    avatar:
       'https://purepng.com/public/uploads/large/purepng.com-manmanadult-malemale-childboy-beingmens-1421526920869cscbo.png',
   },
   {
     id: '11',
     status: ExpertStatus.NEW,
     firstName: 'Leonid',
-    secondName: 'Liah',
+    lastName: 'Liah',
     direction: DirectionEnum.THERAPY,
     workPlace: 'Kyiv',
     lastPost: 'Post title',
     email: 'liah@gmail.com',
     phone: '+380988090000',
-    photo:
+    avatar:
       'https://purepng.com/public/uploads/large/purepng.com-manmanadult-malemale-childboy-beingmens-1421526920869cscbo.png',
   },
 ];

@@ -3,7 +3,6 @@ export enum ExpertStatus {
   ACTIVE = 'ACTIVE',
   DELETED = 'DELETED',
 }
-
 export enum PostStatus {
   DRAFT = 'DRAFT',
   MODERATION_FIRST_SIGN = 'MODERATION_FIRST_SIGN',
@@ -28,37 +27,37 @@ export enum DirectionEnum {
   SURGERY = 'SURGERY',
 }
 
-export interface IExpert {
-  // TODO: make required when newest mocks are removed
-  id?: string;
-  status?: ExpertStatus;
-  firstName: string;
-  secondName: string;
-  direction?: DirectionEnum;
-  email?: string;
-  phone: string;
-  photo?: string;
-  workPlace?: string;
-  lastPost?: string;
-}
-
 export interface IPost {
   author?: IExpert;
+  createdAt: string;
   direction: DirectionEnum;
   title: string;
   content?: string;
   status?: PostStatus;
   important?: boolean;
   tags?: string[];
-  createdAt: string;
   modifiedAt?: string;
   postType: PostTypeEnum;
-  preview: string;
+  preview?: string;
 }
 
-export interface IDirection {
+export interface IExpert {
+  avatar?: string;
+  firstName: string;
   id?: number;
-  color: string;
-  name: string;
-  route?: string;
+  lastName: string;
+  mainInstitution?: {
+    city: {
+      id: number;
+      name: string;
+    };
+    id: number;
+    name: string;
+  };
+  status?: ExpertStatus;
+  direction?: DirectionEnum;
+  email?: string;
+  phone?: string;
+  workPlace?: string;
+  lastPost?: string;
 }
