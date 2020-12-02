@@ -67,19 +67,19 @@ const PostPreviewCard: React.FC<IPostPreviewCardProps> = (props) => {
               variant="subtitle2"
               component="h3"
               style={{
-                backgroundColor: DIRECTION_PROPERTIES[data.direction].color,
+                // backgroundColor: DIRECTION_PROPERTIES[data.direction].color,
                 borderRadius: '15px',
                 padding: '0px 8px 0px 8px',
               }}
             >
-              {DIRECTION_PROPERTIES[data.direction].name}
+              {data.direction}
             </Typography>
             <Typography
               style={{ fontStyle: 'italic' }}
               variant="subtitle2"
               component="h3"
             >
-              {postTypeProperties[data.postType].name}
+              {data.postType}
             </Typography>
           </Box>
         </Box>

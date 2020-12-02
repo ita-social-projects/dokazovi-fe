@@ -1,28 +1,36 @@
 /* eslint-disable no-param-reassign */
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import * as _ from 'lodash';
 import {
   IPost,
   IExpert,
   DirectionEnum,
   PostTypeEnum,
+  LoadingStatusEnum,
 } from '../../../lib/types';
 import { getPosts } from '../../../lib/utilities/API/api';
 import MOCK_EXPERTS from '../mockDataExperts';
-import MOCK_NEWEST from '../components/constants/newestPosts-mock';
 import type { AppThunkType } from '../../../store/store';
 import { LOAD_POSTS_LIMIT } from '../components/constants/newestPostsPagination-config';
+import type { RootStateType } from '../../../store/rootReducer';
 
-interface IMeta {
-  totalNewestPosts?: number;
-  limit?: number;
-  currentIndex: number;
-  showMore?: boolean;
+const POST_PREVIEW_LENGTH = 150;
+
+interface INewestMeta {
+  currentPage: number;
+  isLastPage: boolean;
+  loading: LoadingStatusEnum;
+  error: null | string;
 }
 
 interface INewestPostPayload {
   newestPosts: IPost[];
-  meta: IMeta;
+  meta: INewestMeta;
+}
+
+interface IFetchNewestPosts {
+  loadedPosts: IPost[];
+  isLastPage: boolean;
 }
 
 export interface IMainState {
@@ -35,12 +43,54 @@ const initialState: IMainState = {
   newest: {
     newestPosts: [],
     meta: {
-      currentIndex: 0,
+      currentPage: 0,
+      isLastPage: false,
+      loading: LoadingStatusEnum.iddle,
+      error: null,
     },
   },
   important: [],
   experts: [],
 };
+
+export const fetchNewestPosts = createAsyncThunk<IFetchNewestPosts>(
+  'main/loadNewest',
+  async (__, { getState }) => {
+    const {
+      main: { newest },
+    } = getState() as RootStateType;
+
+    const resp = await getPosts('latest', {
+      params: {
+        size: LOAD_POSTS_LIMIT,
+        page: newest.meta.currentPage,
+      },
+    });
+
+    const loadedPosts = resp.data.content.map((post) => {
+      const postAuthor = {
+        ..._.pick(post.author, ['avatar', 'firstName', 'lastName']),
+        workPlace: _.pick(post.author.mainInstitution, 'name').name,
+      } as IExpert;
+
+      const preview = _.truncate(post.content, {
+        length: POST_PREVIEW_LENGTH,
+      });
+
+      return {
+        author: postAuthor,
+        createdAt: post.createdAt,
+        direction: post.mainDirection.name as DirectionEnum,
+        title: post.title,
+        postType: post.type.name as PostTypeEnum,
+        preview,
+        id: post.id,
+      };
+    });
+
+    return { loadedPosts, isLastPage: resp.data.last };
+  },
+);
 
 export const mainSlice = createSlice({
   name: 'main',
@@ -55,6 +105,26 @@ export const mainSlice = createSlice({
     loadNewest: (state, action: PayloadAction<INewestPostPayload>) => {
       state.newest = action.payload;
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(fetchNewestPosts.pending, (state) => {
+      state.newest.meta.loading = LoadingStatusEnum.pending;
+    });
+    builder.addCase(fetchNewestPosts.fulfilled, (state, { payload }) => {
+      state.newest.meta.currentPage += 1;
+      state.newest.meta.isLastPage = payload.isLastPage;
+
+      state.newest.meta.loading = LoadingStatusEnum.succeeded;
+
+      state.newest.newestPosts.push(...payload.loadedPosts);
+    });
+    builder.addCase(fetchNewestPosts.rejected, (state, { error }) => {
+      if (error.message) {
+        state.newest.meta.error = error.message;
+      }
+
+      state.newest.meta.loading = LoadingStatusEnum.failed;
+    });
   },
 });
 
@@ -94,24 +164,4 @@ export const fetchExperts = (): AppThunkType => async (dispatch) => {
   } catch (e) {
     console.log(e);
   }
-};
-
-export const fetchNewestPosts = (): AppThunkType => (dispatch, getState) => {
-  const { meta } = getState().main.newest;
-
-  const totalNewestPosts = meta.totalNewestPosts || MOCK_NEWEST.length;
-  const newIndex = meta.currentIndex + LOAD_POSTS_LIMIT;
-  const newShowMore = newIndex < totalNewestPosts - 1;
-  const newList = MOCK_NEWEST.slice(0, newIndex);
-
-  dispatch(
-    loadNewest({
-      newestPosts: newList,
-      meta: {
-        totalNewestPosts,
-        currentIndex: newIndex,
-        showMore: newShowMore,
-      },
-    }),
-  );
 };

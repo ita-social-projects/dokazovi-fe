@@ -27,6 +27,13 @@ export enum DirectionEnum {
   SURGERY = 'SURGERY',
 }
 
+export enum LoadingStatusEnum {
+  iddle = 'idle',
+  pending = 'pending',
+  succeeded = 'succeeded',
+  failed = 'failed',
+}
+
 export interface IPost {
   author?: IExpert;
   createdAt: string;
@@ -39,6 +46,7 @@ export interface IPost {
   modifiedAt?: string;
   postType: PostTypeEnum;
   preview?: string;
+  id?: number;
 }
 
 export interface IExpert {
