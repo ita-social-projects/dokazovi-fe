@@ -90,6 +90,8 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 - [Naming conventions](https://github.com/ita-social-projects/dokazovi-fe/wiki/Naming-conventions)
 - [Unit tests](https://github.com/ita-social-projects/dokazovi-fe/wiki/Unit-Tests)
 - [Cypress Visual Regression](https://github.com/ita-social-projects/dokazovi-fe/wiki/Cypress-Visual-Regression)
+- [CI CD Pipeline with Docker and Github Actions with Heroku](https://github.com/ita-social-projects/dokazovi-fe/wiki/CI-CD-Pipeline-with-Docker-and-Github-Actions-with-Heroku)
+- [Sonar with Jest code coverage and Github Action](https://github.com/ita-social-projects/dokazovi-fe/wiki/Sonar-with-Jest-code-coverage-and--Github-Action)
 
 ---
 

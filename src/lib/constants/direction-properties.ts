@@ -1,13 +1,9 @@
-export type DirectionPropertiesType = {
-  [key: string]: IDirectionProperty;
-};
+/* eslint-disable import/no-cycle */
+import {IDirection } from '../types';
 
-export interface IDirectionProperty {
-  id?: number;
-  color: string;
-  name: string;
-  route?: string;
-}
+export type DirectionPropertiesType = {
+  [key: string]: IDirection;
+};
 
 export const DIRECTION_PROPERTIES: DirectionPropertiesType = {
   '1': {

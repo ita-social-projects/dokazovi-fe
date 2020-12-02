@@ -11,6 +11,12 @@ export const useStyles = makeStyles(
       height: 75,
       marginRight: 10,
     },
+    moreExperts: {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'flex-end',
+      cursor: 'pointer',
+    },
   },
   {
     name: 'DirectionView',

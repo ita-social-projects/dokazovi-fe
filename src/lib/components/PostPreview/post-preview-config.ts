@@ -2,6 +2,7 @@ import { IPost } from '../../types';
 
 export const MOCK_DATA: IPost = {
   author: {
+    id: 1,
     firstName: 'Микола',
     lastName: 'Амосов',
     mainInstitution: {

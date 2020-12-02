@@ -1,20 +1,23 @@
 import React, { Suspense } from 'react';
 import './App.css';
+import { BrowserRouter } from 'react-router-dom';
 import { RenderRoutes } from './navigation/Router';
 import ROUTER_CONFIG from './navigation/router-config';
 
 import Header from './lib/components/Header/Header';
 
 
-const App: React.FC  = () => {
+const App: React.FC = () => {
 
   return (
-    <Suspense fallback={<div>Загрузка...</div>}>
-      <div className="App">
+    <div className="App">
+      <BrowserRouter>
         <Header />
-        <RenderRoutes routes={ROUTER_CONFIG} />
+        <Suspense fallback={<div>Загрузка...</div>}>
+          <RenderRoutes routes={ROUTER_CONFIG} />
+        </Suspense>
+      </BrowserRouter>
       </div>
-    </Suspense>
   );
 };
 

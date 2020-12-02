@@ -1,5 +1,3 @@
-import { IDirectionProperty } from './constants/direction-properties';
-
 export enum ExpertStatus {
   NEW = 'NEW',
   ACTIVE = 'ACTIVE',
@@ -24,7 +22,7 @@ export interface IPost {
   title: string;
   content?: string;
   author?: IExpert;
-  mainDirection: IDirectionProperty;
+  mainDirection: IDirection;
   directions?: IPostDirection[];
   tags?: IPostTag[];
   postType: IPostType;
@@ -46,7 +44,7 @@ export interface IExpert {
     id: number;
     name: string;
   };
-  mainDirection?: IDirectionProperty;
+  mainDirection?: IDirection;
   lastAddedPost?: {
     id: number;
     title: string;
@@ -66,4 +64,11 @@ export interface IPostTag {
 
 export interface IPostType {
   name: string;
+}
+
+export interface IDirection {
+  id?: number;
+  color: string;
+  name: string;
+  route?: string;
 }
