@@ -8,6 +8,7 @@ import { fetchNewestPosts, IMainState, mainSlice } from '../../store/mainSlice';
 
 import { LOAD_POSTS_LIMIT } from '../constants/newestPostsPagination-config';
 import { RootStateType } from '../../../../store/rootReducer';
+import { LoadingStatusEnum } from '../../../../lib/types';
 
 const initialState: IMainState = {
   newest: {
@@ -15,7 +16,7 @@ const initialState: IMainState = {
     meta: {
       currentPage: 0,
       isLastPage: false,
-      loading: 'idle',
+      loading: LoadingStatusEnum.iddle,
       error: null,
     },
   },
@@ -38,7 +39,10 @@ describe('newest', () => {
     expect(store.getState().main.newest.meta.loading).toEqual('succeeded');
   });
   it('should set loading state on failed when API call is rejected', () => {
-    const newState = mainSlice.reducer(initialState, fetchNewestPosts.rejected);
+    const newState = mainSlice.reducer(initialState, {
+      type: fetchNewestPosts.rejected,
+      error: 'Network Error',
+    });
 
     const rootState: RootStateType['main'] = { ...newState };
 
