@@ -1,11 +1,13 @@
 export type DirectionPropertiesType = {
-  [key: string]: {
-    id?: number;
-    color: string;
-    name: string;
-    route?: string;
-  };
+  [key: string]: IDirectionProperty;
 };
+
+export interface IDirectionProperty {
+  id?: number;
+  color: string;
+  name: string;
+  route?: string;
+}
 
 export const DIRECTION_PROPERTIES: DirectionPropertiesType = {
   '1': {
@@ -35,10 +37,12 @@ export const DIRECTION_PROPERTIES: DirectionPropertiesType = {
     name: 'Вірусологія',
   },
   '6': {
+    id: 6,
     color: '#d1c4e9',
     name: 'Кардіологія',
   },
   '7': {
+    id: 7,
     color: '#ffee58',
     name: 'Педіатрія',
   },

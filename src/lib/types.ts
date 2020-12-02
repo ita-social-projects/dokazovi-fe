@@ -1,33 +1,30 @@
-// export enum ExpertStatus {
-//   NEW = 'NEW',
-//   ACTIVE = 'ACTIVE',
-//   DELETED = 'DELETED',
-// }
-// export enum PostStatus {
-//   DRAFT = 'DRAFT',
-//   MODERATION_FIRST_SIGN = 'MODERATION_FIRST_SIGN',
-//   MODERATION_SECOND_SIGN = 'MODERATION_SECOND_SIGN',
-//   PUBLISHED = 'PUBLISHED',
-//   ARCHIVED = 'ARCHIVED',
-// }
+import { IDirectionProperty } from './constants/direction-properties';
 
-// export enum PostTypeEnum {
-//   ARTICLE = 'ARTICLE',
-//   DOPYS = 'DOPYS',
-//   VIDEO = 'VIDEO',
-// }
+export enum ExpertStatus {
+  NEW = 'NEW',
+  ACTIVE = 'ACTIVE',
+  DELETED = 'DELETED',
+}
+export enum PostStatus {
+  DRAFT = 'DRAFT',
+  MODERATION_FIRST_SIGN = 'MODERATION_FIRST_SIGN',
+  MODERATION_SECOND_SIGN = 'MODERATION_SECOND_SIGN',
+  PUBLISHED = 'PUBLISHED',
+  ARCHIVED = 'ARCHIVED',
+}
+
+export enum PostTypeEnum {
+  ARTICLE = 'ARTICLE',
+  DOPYS = 'DOPYS',
+  VIDEO = 'VIDEO',
+}
 
 export interface IPost {
   id?: number;
   title: string;
   content?: string;
   author?: IExpert;
-  mainDirection: {
-    id?: number;
-    color: string;
-    name: string;
-    route?: string;
-  };
+  mainDirection: IDirectionProperty;
   directions?: IPostDirection[];
   tags?: IPostTag[];
   postType: IPostType;
@@ -49,12 +46,7 @@ export interface IExpert {
     id: number;
     name: string;
   };
-  mainDirection?: {
-    id?: number;
-    color: string;
-    name: string;
-    route?: string;
-  };
+  mainDirection?: IDirectionProperty;
   lastAddedPost?: {
     id: number;
     title: string;
