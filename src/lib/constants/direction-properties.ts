@@ -1,5 +1,5 @@
 /* eslint-disable import/no-cycle */
-import {IDirection } from '../types';
+import { IDirection } from '../types';
 
 export type DirectionPropertiesType = {
   [key: string]: IDirection;
@@ -26,6 +26,7 @@ export const DIRECTION_PROPERTIES: DirectionPropertiesType = {
     id: 4,
     color: '#ffee58',
     name: 'Терапія',
+    route: 'therapy',
   },
   '5': {
     id: 5,

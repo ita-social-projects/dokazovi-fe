@@ -15,9 +15,7 @@ const ExpertDataCard: React.FC<IExpertDataCardProps> = (props) => {
 
   const fullName = `${expert.firstName} ${expert.lastName}`;
 
-  const directionName = expert.mainDirection
-    ? expert.mainDirection.name
-    : '';
+  const directionName = expert.mainDirection?.name || '';
 
   const classes = useStyles();
 
