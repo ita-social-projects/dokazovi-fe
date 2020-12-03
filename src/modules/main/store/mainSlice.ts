@@ -1,17 +1,13 @@
 /* eslint-disable no-param-reassign */
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import * as _ from 'lodash';
-import {
-  IPost,
-  IExpert,
-  DirectionEnum,
-  PostTypeEnum,
-  LoadingStatusEnum,
-} from '../../../lib/types';
+import { IPost, IExpert, LoadingStatusEnum } from '../../../lib/types';
 import { getPosts } from '../../../lib/utilities/API/api';
 import MOCK_EXPERTS from '../mockDataExperts';
 import type { AppThunkType } from '../../../store/store';
 import { LOAD_POSTS_LIMIT } from '../components/constants/newestPostsPagination-config';
+import { DIRECTION_PROPERTIES } from '../../../lib/constants/direction-properties';
+import { postTypeProperties } from '../../../lib/constants/post-type-properties';
 import type { RootStateType } from '../../../store/rootReducer';
 
 const POST_PREVIEW_LENGTH = 150;
@@ -69,8 +65,12 @@ export const fetchNewestPosts = createAsyncThunk<IFetchNewestPosts>(
 
     const loadedPosts = resp.data.content.map((post) => {
       const postAuthor = {
-        ..._.pick(post.author, ['avatar', 'firstName', 'lastName']),
-        workPlace: _.pick(post.author.mainInstitution, 'name').name,
+        ..._.pick(post.author, [
+          'avatar',
+          'firstName',
+          'lastName',
+          'mainInstitution',
+        ]),
       } as IExpert;
 
       const preview = _.truncate(post.content, {
@@ -80,9 +80,9 @@ export const fetchNewestPosts = createAsyncThunk<IFetchNewestPosts>(
       return {
         author: postAuthor,
         createdAt: post.createdAt,
-        direction: post.mainDirection.name as DirectionEnum,
+        mainDirection: DIRECTION_PROPERTIES[post.mainDirection.id.toString()],
         title: post.title,
-        postType: post.type.name as PostTypeEnum,
+        postType: postTypeProperties[post.type.id.toString()],
         preview,
         id: post.id,
       };
@@ -134,7 +134,11 @@ export default mainSlice.reducer;
 
 export const fetchImportantPosts = (): AppThunkType => async (dispatch) => {
   try {
-    const posts = await getPosts('important');
+    const posts = await getPosts('important', {
+      params: {
+        size: 20,
+      },
+    });
     const loadedPosts = posts.data.content.map((post) => {
       const postAuthor = _.pick(post.author, [
         'avatar',
@@ -146,9 +150,9 @@ export const fetchImportantPosts = (): AppThunkType => async (dispatch) => {
       return {
         author: postAuthor,
         createdAt: post.createdAt,
-        direction: post.mainDirection.name as DirectionEnum,
+        mainDirection: DIRECTION_PROPERTIES[post.mainDirection.id.toString()],
         title: post.title,
-        postType: post.type.name as PostTypeEnum,
+        postType: postTypeProperties[post.type.id.toString()],
       };
     });
     dispatch(loadImportant(loadedPosts));

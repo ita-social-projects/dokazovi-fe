@@ -1,7 +1,9 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import PostPreviewCard from '../PostPreview/PostPreviewCard';
-import { DirectionEnum, PostTypeEnum } from '../../types';
+import MOCK_NEWEST from '../../../modules/main/components/constants/newestPosts-mock';
+
+const { mainDirection, postType } = MOCK_NEWEST[0];
 
 const POST_MOCK = {
   author: {
@@ -11,9 +13,9 @@ const POST_MOCK = {
     workPlace: 'Адоніс',
   },
   createdAt: '27.11.2020',
-  direction: DirectionEnum.VIROLOGY,
+  mainDirection,
   title: 'Ultrices eros in cursus',
-  postType: PostTypeEnum.VIDEO,
+  postType,
   preview: 'Dolor sit amet consectetur adipiscing elit ut aliquam purus.',
   id: 10,
 };
@@ -22,14 +24,17 @@ beforeEach(() => render(<PostPreviewCard data={POST_MOCK} />));
 
 describe('PostPreviewCard', () => {
   it('renders name direction', () => {
-    const renderedDirection = screen.getByText(POST_MOCK.direction);
+    const renderedDirection = screen.getByText(
+      mainDirection.name,
+    );
 
     expect(renderedDirection).toBeInTheDocument();
   });
 
   it('renders name postType', () => {
-    const renderedPostType = screen.getByText(POST_MOCK.postType);
-
+    const renderedPostType = screen.getByText(
+      postType.name,
+    );
     expect(renderedPostType).toBeInTheDocument();
   });
 });
