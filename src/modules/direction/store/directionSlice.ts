@@ -1,6 +1,5 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import * as _ from 'lodash';
 import { IExpert } from '../../../lib/types';
 import type { AppThunkType } from '../../../store/store';
 import { getExperts } from '../../../lib/utilities/API/api';
@@ -56,9 +55,9 @@ export const fetchExperts = (
       },
     });
 
-    const experts = loadedExperts.data.content.map((expert) => {
-      return { ...(expert as IExpert) };
-    });
+    const experts = loadedExperts.data.content.map((expert) => ({
+      ...(expert as IExpert),
+    }));
 
     dispatch(
       loadExperts({
