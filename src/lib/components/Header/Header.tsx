@@ -2,18 +2,19 @@
 import React from 'react';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import LocalHospitalIcon from '@material-ui/icons/LocalHospital';
-import { Grid, Link, Toolbar, Typography } from '@material-ui/core';
+import { Grid, Toolbar, Typography } from '@material-ui/core';
 import ListItem from '@material-ui/core/ListItem/ListItem';
 import List from '@material-ui/core/List/List';
+import { Link } from 'react-router-dom';
 import { useStyles } from './Header.styles';
 
 interface IHeaderProps {
-  id: string, 
+  id: string,
   label: string,
   url?: string,
-  }
+}
 
-export const navElems: IHeaderProps [] = [
+export const navElems: IHeaderProps[] = [
   {
     id: "main",
     label: "Головна",
@@ -23,32 +24,37 @@ export const navElems: IHeaderProps [] = [
     id: "covid-19",
     label: "Covid-19",
     url: "direction/covid-19",
- },
- {
-  id: "directions",
-  label: "Напрямки",
-},
-{
-  id: "experts",
-  label: "Експерти",
-},
-{
-  id: "translates",
-  label: "Переклади",
-},
-{
-  id: "study",
-  label: "Навчання",
-}
+  },
+  // TODO: remove therapy when a page with all the directions exists
+  {
+    id: "therapy",
+    label: "Therapy",
+    url: "direction/therapy",
+  },
+  {
+    id: "directions",
+    label: "Напрямки",
+  },
+  {
+    id: "experts",
+    label: "Експерти",
+  },
+  {
+    id: "translates",
+    label: "Переклади",
+  },
+  {
+    id: "study",
+    label: "Навчання",
+  }
 ];
 
 
 const Header: React.FC = () => {
   const classes = useStyles();
 
-  const allLinks: any = navElems.map((item) => {
-    return <a key={item.id} href={item.url} className={classes.items}>{item.label}</a>;
-  });
+  const allLinks = navElems.map((item) =>
+    <Link key={item.id} to={location => ({ ...location, pathname: item.url || '#' })} className={classes.items}>{item.label}</Link>);
 
   return (
     <div className="header">
@@ -70,14 +76,14 @@ const Header: React.FC = () => {
 
             <div className={classes.logIn}>
               <AccountCircleIcon fontSize="large" />
-              <Link href="/">Log in</Link>/<Link href="/">Register</Link>
+              <Link to="/">Log in</Link>/<Link to="/">Register</Link>
             </div>
           </Toolbar>
         </Grid>
         <Grid item xs={12}>
           <List className={classes.generalNavigation}>
             <ListItem>
-                {allLinks}
+              {allLinks}
             </ListItem>
           </List>
         </Grid>

@@ -2,17 +2,30 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import PostPreviewCard from '../PostPreview/PostPreviewCard';
 import MOCK_NEWEST from '../../../modules/main/components/constants/newestPosts-mock';
-import { DIRECTION_PROPERTIES } from '../../constants/direction-properties';
-import { postTypeProperties } from '../../constants/post-type-properties';
 
-const { direction, postType } = MOCK_NEWEST[0];
+const { mainDirection, postType } = MOCK_NEWEST[0];
 
-beforeEach(() => render(<PostPreviewCard data={MOCK_NEWEST[0]} />));
+const POST_MOCK = {
+  author: {
+    avatar: 'https://i.imgur.com/I80W1Q0.png',
+    firstName: 'Іван',
+    lastName: 'Іванов',
+    workPlace: 'Адоніс',
+  },
+  createdAt: '27.11.2020',
+  mainDirection,
+  title: 'Ultrices eros in cursus',
+  postType,
+  preview: 'Dolor sit amet consectetur adipiscing elit ut aliquam purus.',
+  id: 10,
+};
+
+beforeEach(() => render(<PostPreviewCard data={POST_MOCK} />));
 
 describe('PostPreviewCard', () => {
   it('renders name direction', () => {
     const renderedDirection = screen.getByText(
-      DIRECTION_PROPERTIES[direction].name,
+      mainDirection.name,
     );
 
     expect(renderedDirection).toBeInTheDocument();
@@ -20,9 +33,8 @@ describe('PostPreviewCard', () => {
 
   it('renders name postType', () => {
     const renderedPostType = screen.getByText(
-      postTypeProperties[postType].name,
+      postType.name,
     );
-
     expect(renderedPostType).toBeInTheDocument();
   });
 });

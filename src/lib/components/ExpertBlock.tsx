@@ -13,9 +13,9 @@ export const ExpertBlock: React.FC<IExpertProps> = (props) => {
   return (
     <>
       <img
-        src={expert.photo}
+        src={expert.avatar}
         alt="doctor"
-        key={expert.phone}
+        key={expert.id}
         className={classes.photo}
       />
     </>

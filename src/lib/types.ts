@@ -1,35 +1,8 @@
-export interface IExpert {
-  status?: ExpertStatus;
-  firstName: string;
-  secondName: string;
-  direction?: DirectionEnum;
-  email?: string;
-  phone?: string;
-  photo?: string;
-  workPlace?: string;
-  lastPost?: string;
-}
-
 export enum ExpertStatus {
   NEW = 'NEW',
   ACTIVE = 'ACTIVE',
   DELETED = 'DELETED',
 }
-
-export interface IPost {
-  author?: IExpert;
-  direction: DirectionEnum;
-  title: string;
-  content?: string;
-  status?: PostStatus;
-  important?: boolean;
-  tags?: string[];
-  createdAt: Date;
-  modifiedAt?: Date;
-  postType: PostTypeEnum;
-  preview: string;
-}
-
 export enum PostStatus {
   DRAFT = 'DRAFT',
   MODERATION_FIRST_SIGN = 'MODERATION_FIRST_SIGN',
@@ -44,14 +17,67 @@ export enum PostTypeEnum {
   VIDEO = 'VIDEO',
 }
 
-export enum DirectionEnum {
-  CARDIOLOGY = 'CARDIOLOGY',
-  PEDIATRICS = 'PEDIATRICS',
-  THERAPY = 'THERAPY',
-  COVID19 = 'COVID19',
-  OPHTHALMOLOGY = 'OPHTHALMOLOGY',
-  VIROLOGY = 'VIROLOGY',
-  SURGERY = 'SURGERY',
+export enum LoadingStatusEnum {
+  iddle = 'idle',
+  pending = 'pending',
+  succeeded = 'succeeded',
+  failed = 'failed',
+}
+
+export interface IPost {
+  id?: number;
+  title: string;
+  content?: string;
+  author?: IExpert;
+  mainDirection: IDirection;
+  directions?: IPostDirection[];
+  tags?: IPostTag[];
+  postType: IPostType;
+  createdAt: string;
+  modifiedAt?: string;
+  preview?: string;
+}
+
+export interface IExpert {
+  id?: number;
+  firstName: string;
+  lastName: string;
+  avatar?: string;
+  mainInstitution?: {
+    city: {
+      id: number;
+      name: string;
+    };
+    id: number;
+    name: string;
+  };
+  mainDirection?: IDirection;
+  lastAddedPost?: {
+    id: number;
+    title: string;
+  };
+  qualification?: string;
+}
+
+export interface IPostDirection {
+  id: number;
+  name: string;
+}
+
+export interface IPostTag {
+  id: number;
+  tag: string;
+}
+
+export interface IPostType {
+  name: string;
+}
+
+export interface IDirection {
+  id?: number;
+  color: string;
+  name: string;
+  route?: string;
 }
 
 export interface ICourse {}

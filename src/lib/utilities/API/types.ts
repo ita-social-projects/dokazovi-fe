@@ -15,7 +15,7 @@ export type PostResponseType = {
   };
   content?: string;
   createdAt: string;
-  direction: {
+  mainDirection: {
     id: number;
     name: string;
   };

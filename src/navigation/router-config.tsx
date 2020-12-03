@@ -18,10 +18,17 @@ const ROUTER_CONFIG: IRouterConfig[] = [
                 path: '/direction',
                 key: 'DIRECTION_ROOT',
                 exact: true,
+                // TODO: render list of all directions here
                 component: DirectionView,
             },
             {
                 path: '/direction/covid-19',
+                key: 'DIRECTION_COVID',
+                exact: true,
+                component: DirectionView,
+            },
+            {
+                path: '/direction/therapy',
                 key: 'DIRECTION_COVID',
                 exact: true,
                 component: DirectionView,
