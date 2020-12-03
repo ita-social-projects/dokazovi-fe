@@ -16,8 +16,13 @@ const ExpertDataCard: React.FC<IExpertDataCardProps> = (props) => {
 
   const fullName = `${expert.firstName} ${expert.lastName}`;
 
-  const directionName = expert.direction
-    ? DIRECTION_PROPERTIES[expert.direction].name
+  const directionName = expert.mainDirection ? expert.mainDirection.name : '';
+  const mainInsitutionCity =
+    expert.mainInstitution && expert.mainInstitution.city
+      ? expert.mainInstitution.city.name
+      : '';
+  const mainInsitutionName = expert.mainInstitution
+    ? expert.mainInstitution.name
     : '';
 
   const classes = useStyles();
@@ -34,18 +39,29 @@ const ExpertDataCard: React.FC<IExpertDataCardProps> = (props) => {
           }}
         >
           <Typography variant="h5">{fullName}</Typography>
-          <Typography variant="body1">
-            Спеціалізація: {directionName}
-          </Typography>
-          <Typography className={classes.pos} variant="body1" component="h2">
-            {expert.workPlace}
-          </Typography>
-          <Typography variant="body2" color="textSecondary">
-            Останній доданий матеріал:
-          </Typography>
-          <Typography variant="h6" component="p">
-            {expert.lastPost}
-          </Typography>
+          {directionName && (
+            <Typography variant="body1">
+              Спеціалізація: {directionName}
+            </Typography>
+          )}
+          <div>
+            <Typography variant="body1" component="h2">
+              {mainInsitutionCity}
+            </Typography>
+            <Typography className={classes.pos} variant="body1" component="h2">
+              {mainInsitutionName}
+            </Typography>
+          </div>
+          {expert.lastAddedPost && (
+            <div>
+              <Typography variant="body2" color="textSecondary">
+                Останній доданий матеріал:
+              </Typography>
+              <Typography variant="h6" component="p">
+                {expert.lastAddedPost}
+              </Typography>
+            </div>
+          )}
         </Box>
       </CardContent>
     </Card>

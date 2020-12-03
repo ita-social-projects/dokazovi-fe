@@ -8,8 +8,8 @@ import {
   PostTypeEnum,
   LoadingStatusEnum,
 } from '../../../lib/types';
-import { getPosts } from '../../../lib/utilities/API/api';
-import MOCK_EXPERTS from '../mockDataExperts';
+import { getExperts, getPosts } from '../../../lib/utilities/API/api';
+
 import type { AppThunkType } from '../../../store/store';
 import { LOAD_POSTS_LIMIT } from '../components/constants/newestPostsPagination-config';
 import type { RootStateType } from '../../../store/rootReducer';
@@ -70,7 +70,7 @@ export const fetchNewestPosts = createAsyncThunk<IFetchNewestPosts>(
     const loadedPosts = resp.data.content.map((post) => {
       const postAuthor = {
         ..._.pick(post.author, ['avatar', 'firstName', 'lastName']),
-        workPlace: _.pick(post.author.mainInstitution, 'name').name,
+        // mainInstitution: _.pick(post.author.mainInstitution, 'name').name,
       } as IExpert;
 
       const preview = _.truncate(post.content, {
@@ -157,10 +157,37 @@ export const fetchImportantPosts = (): AppThunkType => async (dispatch) => {
   }
 };
 
-export const fetchExperts = (): AppThunkType => async (dispatch) => {
+export const fetchExperts = (
+  directionName?: string,
+  directionId?: number | number[],
+): AppThunkType => async (dispatch) => {
   try {
-    const experts = await Promise.resolve(MOCK_EXPERTS);
-    dispatch(loadExperts(experts));
+    const experts = await getExperts({
+      params: {
+        size: 11,
+      },
+    });
+    const loadedExperts = experts.data.content.map((expert) => {
+      const mainInstitution = _.pick(expert.mainInstitution, [
+        'city',
+        'id',
+        'name',
+      ]);
+      const mainDirection = _.pick(expert.mainDirection, ['id', 'name']);
+      const lastAddedPost = _.pick(expert.lastAddedPost, ['title']);
+      return {
+        firstName: expert.firstName,
+        lastName: expert.lastName,
+        mainDirection,
+        bio: expert.bio,
+        avatar: expert.avatar,
+        id: expert.id,
+        lastAddedPost: lastAddedPost.title,
+        mainInstitution,
+      };
+    });
+
+    dispatch(loadExperts(loadedExperts));
   } catch (e) {
     console.log(e);
   }
