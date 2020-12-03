@@ -17,6 +17,13 @@ export enum PostTypeEnum {
   VIDEO = 'VIDEO',
 }
 
+export enum LoadingStatusEnum {
+  iddle = 'idle',
+  pending = 'pending',
+  succeeded = 'succeeded',
+  failed = 'failed',
+}
+
 export interface IPost {
   id?: number;
   title: string;

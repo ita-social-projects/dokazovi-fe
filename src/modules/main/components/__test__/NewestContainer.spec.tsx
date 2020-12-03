@@ -1,14 +1,54 @@
+/* eslint-disable @typescript-eslint/no-floating-promises */
 import React from 'react';
 import { Provider } from 'react-redux';
 import { render, screen } from '@testing-library/react';
 import NewestContainer from '../NewestContainer';
 import { store } from '../../../../store/store';
-import MOCK_NEWEST from '../constants/newestPosts-mock';
-import { fetchNewestPosts, loadNewest } from '../../store/mainSlice';
+import { fetchNewestPosts, IMainState, mainSlice } from '../../store/mainSlice';
 
 import { LOAD_POSTS_LIMIT } from '../constants/newestPostsPagination-config';
+import { RootStateType } from '../../../../store/rootReducer';
+import { LoadingStatusEnum } from '../../../../lib/types';
+
+const initialState: IMainState = {
+  newest: {
+    newestPosts: [],
+    meta: {
+      currentPage: 0,
+      isLastPage: false,
+      loading: LoadingStatusEnum.iddle,
+      error: null,
+    },
+  },
+  important: [],
+  experts: [],
+};
 
 describe('newest', () => {
+  it('should set loading state on pending when API call is pending', () => {
+    const newState = mainSlice.reducer(initialState, fetchNewestPosts.pending);
+
+    const rootState: RootStateType['main'] = { ...newState };
+
+    expect(rootState.newest.meta.loading).toEqual('pending');
+  });
+
+  it('should set loading state on succeeded when API call is pending', async () => {
+    await store.dispatch(fetchNewestPosts());
+
+    expect(store.getState().main.newest.meta.loading).toEqual('succeeded');
+  });
+  it('should set loading state on failed when API call is rejected', () => {
+    const newState = mainSlice.reducer(initialState, {
+      type: fetchNewestPosts.rejected,
+      error: 'Network Error',
+    });
+
+    const rootState: RootStateType['main'] = { ...newState };
+
+    expect(rootState.newest.meta.loading).toEqual('failed');
+  });
+
   it('initial render NewestContainer posts equal to LIMIT number', () => {
     render(
       <Provider store={store}>
@@ -20,38 +60,5 @@ describe('newest', () => {
       ?.childElementCount;
 
     expect(renderedPostCount).toEqual(LOAD_POSTS_LIMIT);
-  });
-
-  it('state posts number equal to posts mock number', () => {
-    const newState = loadNewest({
-      newestPosts: MOCK_NEWEST,
-      meta: { currentIndex: 0 },
-    });
-
-    expect(newState.payload.newestPosts.length).toEqual(MOCK_NEWEST.length);
-  });
-
-  it('appended posts equal on LIMIT number', () => {
-    const prevState = store.getState().main.newest.newestPosts.length;
-
-    store.dispatch(fetchNewestPosts());
-
-    const newState = store.getState().main.newest.newestPosts.length;
-
-    expect(newState).toEqual(prevState + LOAD_POSTS_LIMIT);
-  });
-
-  it('showMore is equal to false whe currentIndex >= total posts number', () => {
-    store.dispatch(
-      loadNewest({
-        newestPosts: MOCK_NEWEST,
-        meta: { currentIndex: MOCK_NEWEST.length - LOAD_POSTS_LIMIT },
-      }),
-    );
-
-    store.dispatch(fetchNewestPosts());
-
-    const { showMore } = store.getState().main.newest.meta;
-    expect(showMore).toBeFalsy();
   });
 });

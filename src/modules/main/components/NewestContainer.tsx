@@ -1,38 +1,82 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Container, Grid, Button, Typography } from '@material-ui/core';
+import {
+  Container,
+  Grid,
+  Button,
+  Typography,
+  CircularProgress,
+} from '@material-ui/core';
 import { RootStateType } from '../../../store/rootReducer';
 import { fetchNewestPosts, IMainState } from '../store/mainSlice';
-import PostPreviewCard from '../../../lib/components/PostPreview/PostPreviewCard';
 import { useStyles } from './styles/NewestContainer.style';
 import BorderBottom from '../../../lib/components/Border';
+import PostsList from '../../../lib/components/PostsList';
+import { LoadingStatusEnum } from '../../../lib/types';
 
 const NewestContainer: React.FC = () => {
   const classes = useStyles();
+  const gridRef = useRef<HTMLDivElement>(null);
 
   const dispatch = useDispatch();
   const setNewest = () => dispatch(fetchNewestPosts());
 
-  const { newestPosts, meta } = useSelector<RootStateType, IMainState['newest']>(
-    (state) => {
-      return state.main.newest;
-    },
-  );
+  const {
+    newestPosts,
+    meta: { isLastPage, loading },
+  } = useSelector<RootStateType, IMainState['newest']>((state) => {
+    return state.main.newest;
+  });
 
   useEffect(() => {
     setNewest();
   }, []);
+
+  const renderLoading = () =>
+    loading === LoadingStatusEnum.pending ? <CircularProgress /> : null;
+
+  const renderError = (errorMsg = 'Не вдалося завантажити більше матеріалів') =>
+    loading === LoadingStatusEnum.failed ? <span>{errorMsg}</span> : null;
+
+  const renderLoadControls = (
+    lastPageMsg = 'Більше нових матеріалів немає',
+  ): JSX.Element => {
+    let control: JSX.Element = <></>;
+
+    if (loading !== LoadingStatusEnum.pending) {
+      control = (
+        <Button
+          variant="contained"
+          onClick={() => {
+            setNewest();
+            scrollTo();
+          }}
+        >
+          Більше матеріалів
+        </Button>
+      );
+    }
+
+    if (isLastPage) {
+      control = <span>{lastPageMsg}</span>;
+    }
+
+    return control;
+  };
+
+  const scrollTo = () =>
+    gridRef.current?.scrollIntoView({ behavior: 'smooth' });
 
   return (
     <>
       <Container>
         <Typography variant="h4">Найновіше</Typography>
         <Grid container spacing={2} direction="row" alignItems="center">
-          {newestPosts.map((post) => (
-            <Grid item xs={12} lg={4} md={6} key={post.author?.id}>
-              <PostPreviewCard data={post} />
-            </Grid>
-          ))}
+          <PostsList postsList={newestPosts} />
+        </Grid>
+        <Grid container direction="column" alignItems="center">
+          {renderLoading()}
+          {renderError()}
         </Grid>
 
         <Grid
@@ -40,14 +84,9 @@ const NewestContainer: React.FC = () => {
           direction="column"
           alignItems="center"
           className={classes.showMore}
+          ref={gridRef}
         >
-          {meta.showMore ? (
-            <Button variant="contained" onClick={setNewest}>
-              Більше матеріалів
-            </Button>
-          ) : (
-            <span>Більше нових матеріалів немає</span>
-          )}
+          {renderLoadControls()}
         </Grid>
         <BorderBottom />
       </Container>

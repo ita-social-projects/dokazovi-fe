@@ -5,7 +5,22 @@ import MOCK_NEWEST from '../../../modules/main/components/constants/newestPosts-
 
 const { mainDirection, postType } = MOCK_NEWEST[0];
 
-beforeEach(() => render(<PostPreviewCard data={MOCK_NEWEST[0]} />));
+const POST_MOCK = {
+  author: {
+    avatar: 'https://i.imgur.com/I80W1Q0.png',
+    firstName: 'Іван',
+    lastName: 'Іванов',
+    workPlace: 'Адоніс',
+  },
+  createdAt: '27.11.2020',
+  mainDirection,
+  title: 'Ultrices eros in cursus',
+  postType,
+  preview: 'Dolor sit amet consectetur adipiscing elit ut aliquam purus.',
+  id: 10,
+};
+
+beforeEach(() => render(<PostPreviewCard data={POST_MOCK} />));
 
 describe('PostPreviewCard', () => {
   it('renders name direction', () => {
@@ -20,7 +35,6 @@ describe('PostPreviewCard', () => {
     const renderedPostType = screen.getByText(
       postType.name,
     );
-
     expect(renderedPostType).toBeInTheDocument();
   });
 });

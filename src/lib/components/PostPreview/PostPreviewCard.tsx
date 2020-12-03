@@ -57,7 +57,8 @@ const PostPreviewCard: React.FC<IPostPreviewCardProps> = (props) => {
               component="h3"
               style={{ padding: '5px' }}
             >
-              {data.author?.mainInstitution?.city.name}, {data.author?.mainInstitution?.name}
+              {data.author?.mainInstitution?.city.name},{' '}
+              {data.author?.mainInstitution?.name}
             </Typography>
           </Box>
           <Box>
