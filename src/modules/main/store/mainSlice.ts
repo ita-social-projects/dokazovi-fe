@@ -159,7 +159,7 @@ export const mainSlice = createSlice({
     });
     builder.addCase(fetchExperts.fulfilled, (state, { payload }) => {
       state.experts.meta.loading = LoadingStatusEnum.succeeded;
-      state.experts.experts.push(...payload);
+      state.experts.experts = payload;
     });
     builder.addCase(fetchExperts.rejected, (state, { error }) => {
       if (error.message) {
