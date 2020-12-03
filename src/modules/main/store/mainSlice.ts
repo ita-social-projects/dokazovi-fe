@@ -29,9 +29,19 @@ interface IFetchNewestPosts {
   isLastPage: boolean;
 }
 
+interface IImportantMeta {
+  loading: LoadingStatusEnum;
+  error: null | string;
+}
+
+interface IImportantPayload {
+  importantPosts: IPost[];
+  meta: IImportantMeta;
+}
+
 export interface IMainState {
   newest: INewestPostPayload;
-  important: IPost[];
+  important: IImportantPayload;
   experts: IExpert[];
 }
 
@@ -45,7 +55,13 @@ const initialState: IMainState = {
       error: null,
     },
   },
-  important: [],
+  important: {
+    importantPosts: [],
+    meta: {
+      loading: LoadingStatusEnum.iddle,
+      error: null,
+    },
+  },
   experts: [],
 };
 
@@ -96,8 +112,18 @@ export const mainSlice = createSlice({
   name: 'main',
   initialState,
   reducers: {
-    loadImportant: (state, action: PayloadAction<IPost[]>) => {
+    loadImportant: (state, action: PayloadAction<IImportantPayload>) => {
       state.important = action.payload;
+    },
+    setImportantLoadingStatus: (state) => {
+      state.important.meta.loading = LoadingStatusEnum.pending;
+    },
+    setImportantLoadingError: (
+      state,
+      action: PayloadAction<IImportantPayload>,
+    ) => {
+      state.important.meta.loading = LoadingStatusEnum.failed;
+      state.important.meta.error = action.payload.meta.error;
     },
     loadExperts: (state, action: PayloadAction<IExpert[]>) => {
       state.experts = action.payload;
@@ -128,7 +154,12 @@ export const mainSlice = createSlice({
   },
 });
 
-export const { loadImportant, loadExperts, loadNewest } = mainSlice.actions;
+export const {
+  loadImportant,
+  loadExperts,
+  loadNewest,
+  setImportantLoadingStatus,
+} = mainSlice.actions;
 
 export default mainSlice.reducer;
 
@@ -155,8 +186,25 @@ export const fetchImportantPosts = (): AppThunkType => async (dispatch) => {
         postType: postTypeProperties[post.type.id.toString()],
       };
     });
-    dispatch(loadImportant(loadedPosts));
+    dispatch(
+      loadImportant({
+        importantPosts: loadedPosts,
+        meta: {
+          loading: LoadingStatusEnum.succeeded,
+          error: null,
+        },
+      }),
+    );
   } catch (e) {
+    dispatch(
+      loadImportant({
+        importantPosts: [],
+        meta: {
+          loading: LoadingStatusEnum.failed,
+          error: 'Error',
+        },
+      }),
+    );
     console.log(e);
   }
 };
