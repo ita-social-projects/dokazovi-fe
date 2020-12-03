@@ -1,12 +1,11 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { CircularProgress, Container, Grid } from '@material-ui/core';
+import { Container, Grid } from '@material-ui/core';
 import NewestContainer from './NewestContainer';
 import ImportantContainer from './ImportantContainer';
 import { ExpertsView } from '../../../lib/components/ExpertsView';
 import { RootStateType } from '../../../store/rootReducer';
 import { fetchExperts } from '../store/mainSlice';
-import { LoadingStatusEnum } from '../../../lib/types';
 
 export interface IMainViewProps {}
 
@@ -24,12 +23,6 @@ const MainView: React.FC<IMainViewProps> = () => {
     meta: { loading },
   } = useSelector(selectMainExperts);
 
-  const renderError = (errorMsg = 'Не вдалося завантажити експертів') =>
-    loading === LoadingStatusEnum.failed ? <span>{errorMsg}</span> : null;
-
-  const renderLoading = () =>
-    loading === LoadingStatusEnum.pending ? <CircularProgress /> : null;
-
   return (
     <>
       <Container>
@@ -41,12 +34,7 @@ const MainView: React.FC<IMainViewProps> = () => {
             <NewestContainer />
           </Grid>
           <Grid item xs={12}>
-            <Grid container direction="column" alignItems="center">
-              {renderLoading()}
-              {renderError()}
-            </Grid>
-
-            <ExpertsView cards={experts} />
+            <ExpertsView cards={experts} loading={loading} />
           </Grid>
         </Grid>
       </Container>
