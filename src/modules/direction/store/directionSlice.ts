@@ -80,6 +80,7 @@ export const directionsSlice = createSlice({
 });
 
 export const {
+  setMaterialsLoadingStatus,
   loadMaterials,
   loadExperts,
   setupDirection,
@@ -107,8 +108,7 @@ export const fetchMaterials = (direction: IDirection): AppThunkType => async (
   dispatch,
   getState,
 ) => {
-  const directionState = getState()[direction.name] as IDirectionState;
-  const { posts, meta } = directionState.materials;
+  const { posts, meta } = getState().directions[direction.name].materials;
 
   const response = await getPosts('latest-by-direction', {
     params: {

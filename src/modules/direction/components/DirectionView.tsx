@@ -10,8 +10,9 @@ import { RootStateType } from '../../../store/rootReducer';
 import { fetchExperts, setupDirection } from '../store/directionSlice';
 import { ExpertsView } from '../../../lib/components/ExpertsView';
 import { IDirection } from '../../../lib/types';
+import MaterialsContainer from './MaterialsContainer';
 
-export interface IDirectionViewProps { }
+export interface IDirectionViewProps {}
 
 const DirectionView: React.FC<IDirectionViewProps> = () => {
   const { pathname } = useLocation();
@@ -30,8 +31,9 @@ const DirectionView: React.FC<IDirectionViewProps> = () => {
     dispatch(fetchExperts(currentDirection.name));
   }, []);
 
-  const expertsCards = useSelector((state: RootStateType) => state.directions[currentDirection.name]?.experts
-);
+  const expertsCards = useSelector(
+    (state: RootStateType) => state.directions[currentDirection.name]?.experts,
+  );
 
   const classes = useStyles();
 
@@ -59,7 +61,7 @@ const DirectionView: React.FC<IDirectionViewProps> = () => {
           </Grid>
           <BorderBottom />
           <Grid item xs={12}>
-            {/* <MaterialsView /> */}
+            <MaterialsContainer direction={currentDirection} />
           </Grid>
           <Grid item xs={12}>
             {/* <CoursesView /> */}
