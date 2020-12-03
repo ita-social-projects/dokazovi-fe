@@ -46,14 +46,7 @@ export interface IExpert {
   firstName: string;
   id?: number;
   lastName: string;
-  mainInstitution?: {
-    city: {
-      id: number;
-      name: string;
-    };
-    id: number;
-    name: string;
-  };
+  mainInstitution?: IInstitution;
   mainDirection?: IDirection;
   lastAddedPost?: {
     id: number;
@@ -64,11 +57,24 @@ export interface IExpert {
   email?: string;
   directions?: DirectionEnum;
   bio?: string;
+  status?: ExpertStatus;
+  direction?: DirectionEnum;
+  workPlace?: string;
+  lastPost?: string;
 }
 
 export interface IDirection {
   id?: number;
-  color: string;
+  color?: string;
   name: string;
   route?: string;
+}
+
+export interface IInstitution {
+  city: {
+    id?: number;
+    name: string;
+  };
+  id?: number;
+  name: string;
 }

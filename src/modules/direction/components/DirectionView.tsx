@@ -19,7 +19,6 @@ const DirectionView: React.FC<IDirectionViewProps> = () => {
   const currentDirection = directions.find(
     (direction) => direction.route === pathname.split('/')[2],
   ) as IDirection; // TODO: validate route!
-  console.log(currentDirection);
 
   const dispatch = useDispatch();
 
