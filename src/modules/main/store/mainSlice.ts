@@ -114,26 +114,9 @@ export const fetchExperts = createAsyncThunk('main/loadExperts', async () => {
       size: 11,
     },
   });
-  const loadedExperts = expertsResp.data.content.map((expert) => {
-    const {
-      firstName,
-      lastName,
-      mainDirection,
-      avatar,
-      id,
-      lastAddedPost,
-      mainInstitution,
-    } = expert;
-    return {
-      firstName,
-      lastName,
-      mainDirection,
-      avatar,
-      id,
-      lastAddedPost,
-      mainInstitution,
-    };
-  });
+  const loadedExperts = expertsResp.data.content.map((expert) => ({
+    ...(expert as IExpert),
+  }));
 
   return loadedExperts;
 });
