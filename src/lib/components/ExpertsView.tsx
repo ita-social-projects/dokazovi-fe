@@ -10,6 +10,7 @@ import { useStyles } from '../../modules/main/styles/MainExpertsView.styles';
 import { ExpertPopover } from './ExpertPopover';
 import ExpertDataCard from './ExpertDataCard';
 import { IExpert, LoadingStatusEnum } from '../types';
+import LoadingInfo from './LoadingInfo';
 
 const cardsClasses = Array.from(Array(11).keys()).map((el) => `item_${el}`);
 
@@ -20,6 +21,7 @@ export interface IExpertsViewProps {
 
 export const ExpertsView: React.FC<IExpertsViewProps> = (props) => {
   const { cards, loading } = props;
+
   const [anchorEl, setAnchorEl] = useState<HTMLDivElement | null>(null);
   const [popoverCard, setPopoverCard] = useState<IExpert | null>(null);
 
@@ -48,18 +50,13 @@ export const ExpertsView: React.FC<IExpertsViewProps> = (props) => {
     </div>
   ));
 
-  const renderError = (errorMsg = 'Не вдалося завантажити експертів') =>
-    loading === LoadingStatusEnum.failed ? <span>{errorMsg}</span> : null;
-
-  const renderLoading = () =>
-    loading === LoadingStatusEnum.pending ? <CircularProgress /> : null;
+  const errorMsg = 'Не вдалося завантажити експертів';
 
   return (
     <Container>
       <Typography variant="h4">Експерти</Typography>
       <Grid container direction="column" alignItems="center">
-        {renderLoading()}
-        {renderError()}
+        {loading && <LoadingInfo loading={loading} errorMsg={errorMsg} />}
       </Grid>
       <div className={classes.container}>
         {allExperts}
