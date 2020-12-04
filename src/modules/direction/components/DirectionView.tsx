@@ -23,9 +23,7 @@ const DirectionView: React.FC<IDirectionViewProps> = () => {
 
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(setupDirection(currentDirection.name));
-  }, []);
+  dispatch(setupDirection(currentDirection.name));
 
   useEffect(() => {
     dispatch(fetchExperts(currentDirection.name));
