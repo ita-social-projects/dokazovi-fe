@@ -7,7 +7,7 @@ import {
   Grid,
   Typography,
 } from '@material-ui/core';
-import PostsGridView from '../../../lib/components/PostsList';
+import PostList from '../../../lib/components/PostsList';
 import {
   fetchMaterials,
   setMaterialsLoadingStatus,
@@ -52,7 +52,7 @@ const MaterialsContainer: React.FC<IMaterialsContainerProps> = ({
     <Container>
       <Typography variant="h4">Матеріали</Typography>
       <Grid container spacing={2} direction="row" alignItems="center">
-        <PostsGridView postsList={posts} />
+        <PostList postsList={posts} />
       </Grid>
       <Grid
         container
