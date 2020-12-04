@@ -1,11 +1,11 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import MOCK_EXPERTS from '../../main/mockDataExperts';
 import { IExpert } from '../../../lib/types';
 import type { AppThunkType } from '../../../store/store';
+import { getExperts } from '../../../lib/utilities/API/api';
 
 export interface IDirectionsState extends Record<string, IDirectionState> {
-  [key: string]: IDirectionState
+  [key: string]: IDirectionState;
 }
 
 export interface IDirectionState {
@@ -26,9 +26,9 @@ export const directionsSlice = createSlice({
     loadExperts: (
       state,
       action: PayloadAction<{
-        experts: IExpert[],
-        directionName: string,
-      }>
+        experts: IExpert[];
+        directionName: string;
+      }>,
     ) => {
       const { directionName } = action.payload;
       const direction = state[directionName] as IDirectionState;
@@ -43,13 +43,28 @@ export const { loadExperts, setupDirection } = directionsSlice.actions;
 
 export const directionsReducer = directionsSlice.reducer;
 
-export const fetchExperts = (directionName: string): AppThunkType => async (dispatch) => {
+export const fetchExperts = (
+  directionName: string,
+  directionId: number,
+): AppThunkType => async (dispatch) => {
   try {
-    const experts = await Promise.resolve(MOCK_EXPERTS);
-    dispatch(loadExperts({
-      directionName,
-      experts,
+    const loadedExperts = await getExperts({
+      params: {
+        directions: [directionId],
+        size: 11,
+      },
+    });
+
+    const experts = loadedExperts.data.content.map((expert) => ({
+      ...(expert as IExpert),
     }));
+
+    dispatch(
+      loadExperts({
+        directionName,
+        experts,
+      }),
+    );
   } catch (e) {
     console.log(e);
   }
