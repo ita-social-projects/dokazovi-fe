@@ -32,7 +32,7 @@ const MaterialsContainer: React.FC<IMaterialsContainerProps> = ({
   const dispatch = useDispatch();
 
   const dispatchFetchAction = () => {
-    dispatch(setMaterialsLoadingStatus());
+    dispatch(setMaterialsLoadingStatus(direction));
     dispatch(fetchMaterials(direction));
   };
 

@@ -61,8 +61,8 @@ export const directionsSlice = createSlice({
         direction.experts = action.payload.experts;
       }
     },
-    setMaterialsLoadingStatus: (state) => {
-      // state.materials.meta.isLoading = true;
+    setMaterialsLoadingStatus: (state, action: PayloadAction<IDirection>) => {
+      state[action.payload.name].materials.meta.isLoading = true;
     },
     loadMaterials: (
       state,
@@ -105,6 +105,7 @@ export const fetchExperts = (directionName: string): AppThunkType => async (
   }
 };
 
+// TODO: use createAsyncThunk
 export const fetchMaterials = (direction: IDirection): AppThunkType => async (
   dispatch,
   getState,
