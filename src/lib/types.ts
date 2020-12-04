@@ -18,7 +18,7 @@ export enum PostTypeEnum {
 }
 
 export enum LoadingStatusEnum {
-  iddle = 'idle',
+  idle = 'idle',
   pending = 'pending',
   succeeded = 'succeeded',
   failed = 'failed',

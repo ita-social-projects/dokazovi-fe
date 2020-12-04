@@ -16,11 +16,17 @@ const initialState: IMainState = {
     meta: {
       currentPage: 0,
       isLastPage: false,
-      loading: LoadingStatusEnum.iddle,
+      loading: LoadingStatusEnum.idle,
       error: null,
     },
   },
-  important: [],
+  important: {
+    importantPosts: [],
+    meta: {
+      loading: LoadingStatusEnum.failed,
+      error: '',
+    },
+  },
   experts: [],
 };
 

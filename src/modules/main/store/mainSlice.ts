@@ -29,6 +29,15 @@ interface IFetchNewestPosts {
   isLastPage: boolean;
 }
 
+interface IImportantMeta {
+  loading: LoadingStatusEnum;
+  error: null | string;
+}
+
+interface IImportantPayload {
+  importantPosts: IPost[];
+  meta: IImportantMeta;
+}
 interface IExpertPayload {
   experts: IExpert[];
   meta: IExpertMeta;
@@ -41,7 +50,7 @@ interface IExpertMeta {
 
 export interface IMainState {
   newest: INewestPostPayload;
-  important: IPost[];
+  important: IImportantPayload;
   experts: IExpertPayload;
 }
 
@@ -51,15 +60,21 @@ const initialState: IMainState = {
     meta: {
       currentPage: 0,
       isLastPage: false,
-      loading: LoadingStatusEnum.iddle,
+      loading: LoadingStatusEnum.idle,
       error: null,
     },
   },
-  important: [],
+  important: {
+    importantPosts: [],
+    meta: {
+      loading: LoadingStatusEnum.idle,
+      error: null,
+    },
+  },
   experts: {
     experts: [],
     meta: {
-      loading: LoadingStatusEnum.iddle,
+      loading: LoadingStatusEnum.idle,
       error: null,
     },
   },
@@ -125,8 +140,18 @@ export const mainSlice = createSlice({
   name: 'main',
   initialState,
   reducers: {
-    loadImportant: (state, action: PayloadAction<IPost[]>) => {
+    loadImportant: (state, action: PayloadAction<IImportantPayload>) => {
       state.important = action.payload;
+    },
+    setImportantLoadingStatus: (state) => {
+      state.important.meta.loading = LoadingStatusEnum.pending;
+    },
+    setImportantLoadingError: (
+      state,
+      action: PayloadAction<IImportantPayload>,
+    ) => {
+      state.important.meta.loading = LoadingStatusEnum.failed;
+      state.important.meta.error = action.payload.meta.error;
     },
     loadExperts: (state, action: PayloadAction<IExpertPayload>) => {
       state.experts = action.payload;
@@ -171,7 +196,12 @@ export const mainSlice = createSlice({
   },
 });
 
-export const { loadImportant, loadExperts, loadNewest } = mainSlice.actions;
+export const {
+  loadImportant,
+  loadExperts,
+  loadNewest,
+  setImportantLoadingStatus,
+} = mainSlice.actions;
 
 export default mainSlice.reducer;
 
@@ -198,8 +228,25 @@ export const fetchImportantPosts = (): AppThunkType => async (dispatch) => {
         postType: postTypeProperties[post.type.id.toString()],
       };
     });
-    dispatch(loadImportant(loadedPosts));
+    dispatch(
+      loadImportant({
+        importantPosts: loadedPosts,
+        meta: {
+          loading: LoadingStatusEnum.succeeded,
+          error: null,
+        },
+      }),
+    );
   } catch (e) {
+    dispatch(
+      loadImportant({
+        importantPosts: [],
+        meta: {
+          loading: LoadingStatusEnum.failed,
+          error: 'Error',
+        },
+      }),
+    );
     console.log(e);
   }
 };
