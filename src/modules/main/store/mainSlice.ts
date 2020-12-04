@@ -2,8 +2,8 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import * as _ from 'lodash';
 import { IPost, IExpert, LoadingStatusEnum } from '../../../lib/types';
-import { getPosts } from '../../../lib/utilities/API/api';
-import MOCK_EXPERTS from '../mockDataExperts';
+import { getPosts, getExperts } from '../../../lib/utilities/API/api';
+
 import type { AppThunkType } from '../../../store/store';
 import { LOAD_POSTS_LIMIT } from '../components/constants/newestPostsPagination-config';
 import { DIRECTION_PROPERTIES } from '../../../lib/constants/direction-properties';
@@ -29,10 +29,29 @@ interface IFetchNewestPosts {
   isLastPage: boolean;
 }
 
+interface IImportantMeta {
+  loading: LoadingStatusEnum;
+  error: null | string;
+}
+
+interface IImportantPayload {
+  importantPosts: IPost[];
+  meta: IImportantMeta;
+}
+interface IExpertPayload {
+  experts: IExpert[];
+  meta: IExpertMeta;
+}
+
+interface IExpertMeta {
+  loading: LoadingStatusEnum;
+  error: null | string;
+}
+
 export interface IMainState {
   newest: INewestPostPayload;
-  important: IPost[];
-  experts: IExpert[];
+  important: IImportantPayload;
+  experts: IExpertPayload;
 }
 
 const initialState: IMainState = {
@@ -41,12 +60,24 @@ const initialState: IMainState = {
     meta: {
       currentPage: 0,
       isLastPage: false,
-      loading: LoadingStatusEnum.iddle,
+      loading: LoadingStatusEnum.idle,
       error: null,
     },
   },
-  important: [],
-  experts: [],
+  important: {
+    importantPosts: [],
+    meta: {
+      loading: LoadingStatusEnum.idle,
+      error: null,
+    },
+  },
+  experts: {
+    experts: [],
+    meta: {
+      loading: LoadingStatusEnum.idle,
+      error: null,
+    },
+  },
 };
 
 export const fetchNewestPosts = createAsyncThunk<IFetchNewestPosts>(
@@ -92,14 +123,37 @@ export const fetchNewestPosts = createAsyncThunk<IFetchNewestPosts>(
   },
 );
 
+export const fetchExperts = createAsyncThunk('main/loadExperts', async () => {
+  const expertsResp = await getExperts({
+    params: {
+      size: 11,
+    },
+  });
+  const loadedExperts = expertsResp.data.content.map((expert) => ({
+    ...(expert as IExpert),
+  }));
+
+  return loadedExperts;
+});
+
 export const mainSlice = createSlice({
   name: 'main',
   initialState,
   reducers: {
-    loadImportant: (state, action: PayloadAction<IPost[]>) => {
+    loadImportant: (state, action: PayloadAction<IImportantPayload>) => {
       state.important = action.payload;
     },
-    loadExperts: (state, action: PayloadAction<IExpert[]>) => {
+    setImportantLoadingStatus: (state) => {
+      state.important.meta.loading = LoadingStatusEnum.pending;
+    },
+    setImportantLoadingError: (
+      state,
+      action: PayloadAction<IImportantPayload>,
+    ) => {
+      state.important.meta.loading = LoadingStatusEnum.failed;
+      state.important.meta.error = action.payload.meta.error;
+    },
+    loadExperts: (state, action: PayloadAction<IExpertPayload>) => {
       state.experts = action.payload;
     },
     loadNewest: (state, action: PayloadAction<INewestPostPayload>) => {
@@ -125,10 +179,29 @@ export const mainSlice = createSlice({
 
       state.newest.meta.loading = LoadingStatusEnum.failed;
     });
+    builder.addCase(fetchExperts.pending, (state) => {
+      state.experts.meta.loading = LoadingStatusEnum.pending;
+    });
+    builder.addCase(fetchExperts.fulfilled, (state, { payload }) => {
+      state.experts.meta.loading = LoadingStatusEnum.succeeded;
+      state.experts.experts = payload;
+    });
+    builder.addCase(fetchExperts.rejected, (state, { error }) => {
+      if (error.message) {
+        state.experts.meta.error = error.message;
+      }
+
+      state.experts.meta.loading = LoadingStatusEnum.failed;
+    });
   },
 });
 
-export const { loadImportant, loadExperts, loadNewest } = mainSlice.actions;
+export const {
+  loadImportant,
+  loadExperts,
+  loadNewest,
+  setImportantLoadingStatus,
+} = mainSlice.actions;
 
 export default mainSlice.reducer;
 
@@ -155,17 +228,25 @@ export const fetchImportantPosts = (): AppThunkType => async (dispatch) => {
         postType: postTypeProperties[post.type.id.toString()],
       };
     });
-    dispatch(loadImportant(loadedPosts));
+    dispatch(
+      loadImportant({
+        importantPosts: loadedPosts,
+        meta: {
+          loading: LoadingStatusEnum.succeeded,
+          error: null,
+        },
+      }),
+    );
   } catch (e) {
-    console.log(e);
-  }
-};
-
-export const fetchExperts = (): AppThunkType => async (dispatch) => {
-  try {
-    const experts = await Promise.resolve(MOCK_EXPERTS);
-    dispatch(loadExperts(experts));
-  } catch (e) {
+    dispatch(
+      loadImportant({
+        importantPosts: [],
+        meta: {
+          loading: LoadingStatusEnum.failed,
+          error: 'Error',
+        },
+      }),
+    );
     console.log(e);
   }
 };

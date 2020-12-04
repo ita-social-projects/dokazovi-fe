@@ -1,10 +1,9 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import _ from 'lodash';
-import MOCK_EXPERTS from '../../main/mockDataExperts';
 import { IDirection, IExpert, IPost } from '../../../lib/types';
 import type { AppThunkType } from '../../../store/store';
-import { getPosts } from '../../../lib/utilities/API/api';
+import { getPosts, getExperts } from '../../../lib/utilities/API/api';
 import { LOAD_POSTS_LIMIT } from '../../main/components/constants/newestPostsPagination-config';
 import { DIRECTION_PROPERTIES } from '../../../lib/constants/direction-properties';
 import { postTypeProperties } from '../../../lib/constants/post-type-properties';
@@ -89,11 +88,22 @@ export const {
 
 export const directionsReducer = directionsSlice.reducer;
 
-export const fetchExperts = (directionName: string): AppThunkType => async (
-  dispatch,
-) => {
+export const fetchExperts = (
+  directionName: string,
+  directionId: number,
+): AppThunkType => async (dispatch) => {
   try {
-    const experts = await Promise.resolve(MOCK_EXPERTS);
+    const loadedExperts = await getExperts({
+      params: {
+        directions: [directionId],
+        size: 11,
+      },
+    });
+
+    const experts = loadedExperts.data.content.map((expert) => ({
+      ...(expert as IExpert),
+    }));
+
     dispatch(
       loadExperts({
         directionName,
@@ -129,13 +139,9 @@ export const fetchMaterials = (direction: IDirection): AppThunkType => async (
       'mainInstitution',
     ]);
 
-    let preview: string;
-    if (post.content)
-      preview =
-        post.content.length > 40 // TODO: use MAX_LEN constant
-          ? `${post.content.slice(0, 40)}...`
-          : post.content;
-    else preview = '';
+    const preview = _.truncate(post.content, {
+      length: 150, // TODO: use MAX_LEN constant
+    });
 
     return {
       author,

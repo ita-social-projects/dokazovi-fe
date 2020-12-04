@@ -1,18 +1,13 @@
 import React, { useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import {
-  Container,
-  Grid,
-  Button,
-  Typography,
-  CircularProgress,
-} from '@material-ui/core';
+import { Container, Grid, Button, Typography } from '@material-ui/core';
 import { RootStateType } from '../../../store/rootReducer';
 import { fetchNewestPosts, IMainState } from '../store/mainSlice';
 import { useStyles } from './styles/NewestContainer.style';
 import BorderBottom from '../../../lib/components/Border';
 import PostsList from '../../../lib/components/PostsList';
 import { LoadingStatusEnum } from '../../../lib/types';
+import LoadingInfo from '../../../lib/components/LoadingInfo';
 
 const NewestContainer: React.FC = () => {
   const classes = useStyles();
@@ -31,12 +26,6 @@ const NewestContainer: React.FC = () => {
   useEffect(() => {
     setNewest();
   }, []);
-
-  const renderLoading = () =>
-    loading === LoadingStatusEnum.pending ? <CircularProgress /> : null;
-
-  const renderError = (errorMsg = 'Не вдалося завантажити більше матеріалів') =>
-    loading === LoadingStatusEnum.failed ? <span>{errorMsg}</span> : null;
 
   const renderLoadControls = (
     lastPageMsg = 'Більше нових матеріалів немає',
@@ -75,8 +64,7 @@ const NewestContainer: React.FC = () => {
           <PostsList postsList={newestPosts} />
         </Grid>
         <Grid container direction="column" alignItems="center">
-          {renderLoading()}
-          {renderError()}
+          <LoadingInfo loading={loading} />
         </Grid>
 
         <Grid

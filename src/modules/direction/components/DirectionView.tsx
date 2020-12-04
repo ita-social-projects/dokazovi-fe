@@ -18,7 +18,7 @@ const DirectionView: React.FC<IDirectionViewProps> = () => {
   const { pathname } = useLocation();
   const directions = Object.values(DIRECTION_PROPERTIES);
   const currentDirection = directions.find(
-    (value) => value.route === pathname.split('/')[2],
+    (direction) => direction.route === pathname.split('/')[2],
   ) as IDirection; // TODO: validate route!
 
   const dispatch = useDispatch();
@@ -26,7 +26,9 @@ const DirectionView: React.FC<IDirectionViewProps> = () => {
   dispatch(setupDirection(currentDirection.name));
 
   useEffect(() => {
-    dispatch(fetchExperts(currentDirection.name));
+    dispatch(
+      fetchExperts(currentDirection.name, currentDirection.id as number),
+    );
   }, []);
 
   const expertsCards = useSelector(
@@ -37,35 +39,41 @@ const DirectionView: React.FC<IDirectionViewProps> = () => {
 
   return (
     <>
-      <Container>
-        <Grid container spacing={2} direction="row">
-          <Grid item xs={12} className={classes.header}>
-            <Box
-              color="disabled"
-              className={classes.icon}
-              style={{ backgroundColor: currentDirection?.color }}
-            />
-            <Typography variant="h2">{currentDirection?.name}</Typography>
+      {currentDirection ? (
+        <Container>
+          <Grid container spacing={2} direction="row">
+            <Grid item xs={12} className={classes.header}>
+              <Box
+                color="disabled"
+                className={classes.icon}
+                style={{ backgroundColor: currentDirection?.color }}
+              />
+              <Typography variant="h2">{currentDirection?.name}</Typography>
+            </Grid>
+            <BorderBottom />
+            <Grid item xs={12}>
+              {expertsCards && <ExpertsView cards={expertsCards} />}
+              <Box className={classes.moreExperts}>
+                <Typography variant="h5" align="right" display="inline">
+                  Більше експертів
+                </Typography>
+                <ArrowForwardIosIcon />
+              </Box>
+            </Grid>
+            <BorderBottom />
+            <Grid item xs={12}>
+              <MaterialsContainer direction={currentDirection} />
+            </Grid>
+            <Grid item xs={12}>
+              {/* <CoursesView /> */}
+            </Grid>
           </Grid>
-          <BorderBottom />
-          <Grid item xs={12}>
-            {expertsCards && <ExpertsView cards={expertsCards} />}
-            <Box className={classes.moreExperts}>
-              <Typography variant="h5" align="right" display="inline">
-                Більше експертів
-              </Typography>
-              <ArrowForwardIosIcon />
-            </Box>
-          </Grid>
-          <BorderBottom />
-          <Grid item xs={12}>
-            <MaterialsContainer direction={currentDirection} />
-          </Grid>
-          <Grid item xs={12}>
-            {/* <CoursesView /> */}
-          </Grid>
-        </Grid>
-      </Container>
+        </Container>
+      ) : (
+        <>
+          <Typography variant="h3">Direction not found</Typography>
+        </>
+      )}
     </>
   );
 };
