@@ -1,46 +1,125 @@
 /* eslint-disable no-param-reassign */
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import * as _ from 'lodash';
-import {
-  IPost,
-  IExpert,
-  DirectionEnum,
-  PostTypeEnum,
-} from '../../../lib/types';
-import { getPosts } from '../../../lib/utilities/API/api';
-import MOCK_EXPERTS from '../mockDataExperts';
-import MOCK_NEWEST from '../components/constants/newestPosts-mock';
+import { IPost, IExpert, LoadingStatusEnum } from '../../../lib/types';
+import { getPosts, getExperts } from '../../../lib/utilities/API/api';
+
 import type { AppThunkType } from '../../../store/store';
 import { LOAD_POSTS_LIMIT } from '../components/constants/newestPostsPagination-config';
+import { DIRECTION_PROPERTIES } from '../../../lib/constants/direction-properties';
+import { postTypeProperties } from '../../../lib/constants/post-type-properties';
+import type { RootStateType } from '../../../store/rootReducer';
 
-interface IMeta {
-  totalNewestPosts?: number;
-  limit?: number;
-  currentIndex: number;
-  showMore?: boolean;
+const POST_PREVIEW_LENGTH = 150;
+
+interface INewestMeta {
+  currentPage: number;
+  isLastPage: boolean;
+  loading: LoadingStatusEnum;
+  error: null | string;
 }
 
 interface INewestPostPayload {
   newestPosts: IPost[];
-  meta: IMeta;
+  meta: INewestMeta;
+}
+
+interface IFetchNewestPosts {
+  loadedPosts: IPost[];
+  isLastPage: boolean;
+}
+
+interface IExpertPayload {
+  experts: IExpert[];
+  meta: IExpertMeta;
+}
+
+interface IExpertMeta {
+  loading: LoadingStatusEnum;
+  error: null | string;
 }
 
 export interface IMainState {
   newest: INewestPostPayload;
   important: IPost[];
-  experts: IExpert[];
+  experts: IExpertPayload;
 }
 
 const initialState: IMainState = {
   newest: {
     newestPosts: [],
     meta: {
-      currentIndex: 0,
+      currentPage: 0,
+      isLastPage: false,
+      loading: LoadingStatusEnum.iddle,
+      error: null,
     },
   },
   important: [],
-  experts: [],
+  experts: {
+    experts: [],
+    meta: {
+      loading: LoadingStatusEnum.iddle,
+      error: null,
+    },
+  },
 };
+
+export const fetchNewestPosts = createAsyncThunk<IFetchNewestPosts>(
+  'main/loadNewest',
+  async (__, { getState }) => {
+    const {
+      main: { newest },
+    } = getState() as RootStateType;
+
+    const resp = await getPosts('latest', {
+      params: {
+        size: LOAD_POSTS_LIMIT,
+        page: newest.meta.currentPage,
+      },
+    });
+
+    const loadedPosts = resp.data.content.map((post) => {
+      const postAuthor = {
+        ..._.pick(post.author, [
+          'avatar',
+          'firstName',
+          'lastName',
+          'mainInstitution',
+        ]),
+      } as IExpert;
+
+      const preview = _.truncate(post.content, {
+        length: POST_PREVIEW_LENGTH,
+      });
+
+      return {
+        author: postAuthor,
+        createdAt: post.createdAt,
+        mainDirection: DIRECTION_PROPERTIES[post.mainDirection.id.toString()],
+        title: post.title,
+        postType: postTypeProperties[post.type.id.toString()],
+        preview,
+        id: post.id,
+      };
+    });
+
+    return { loadedPosts, isLastPage: resp.data.last };
+  },
+);
+
+export const fetchExperts = createAsyncThunk('main/loadExperts', async () => {
+  const expertsResp = await getExperts({
+    params: {
+      size: 11,
+    },
+  });
+  const loadedExperts = expertsResp.data.content.map((expert) => ({
+    ...(expert as IExpert),
+  }));
+
+  return loadedExperts;
+});
 
 export const mainSlice = createSlice({
   name: 'main',
@@ -49,12 +128,46 @@ export const mainSlice = createSlice({
     loadImportant: (state, action: PayloadAction<IPost[]>) => {
       state.important = action.payload;
     },
-    loadExperts: (state, action: PayloadAction<IExpert[]>) => {
+    loadExperts: (state, action: PayloadAction<IExpertPayload>) => {
       state.experts = action.payload;
     },
     loadNewest: (state, action: PayloadAction<INewestPostPayload>) => {
       state.newest = action.payload;
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(fetchNewestPosts.pending, (state) => {
+      state.newest.meta.loading = LoadingStatusEnum.pending;
+    });
+    builder.addCase(fetchNewestPosts.fulfilled, (state, { payload }) => {
+      state.newest.meta.currentPage += 1;
+      state.newest.meta.isLastPage = payload.isLastPage;
+
+      state.newest.meta.loading = LoadingStatusEnum.succeeded;
+
+      state.newest.newestPosts.push(...payload.loadedPosts);
+    });
+    builder.addCase(fetchNewestPosts.rejected, (state, { error }) => {
+      if (error.message) {
+        state.newest.meta.error = error.message;
+      }
+
+      state.newest.meta.loading = LoadingStatusEnum.failed;
+    });
+    builder.addCase(fetchExperts.pending, (state) => {
+      state.experts.meta.loading = LoadingStatusEnum.pending;
+    });
+    builder.addCase(fetchExperts.fulfilled, (state, { payload }) => {
+      state.experts.meta.loading = LoadingStatusEnum.succeeded;
+      state.experts.experts = payload;
+    });
+    builder.addCase(fetchExperts.rejected, (state, { error }) => {
+      if (error.message) {
+        state.experts.meta.error = error.message;
+      }
+
+      state.experts.meta.loading = LoadingStatusEnum.failed;
+    });
   },
 });
 
@@ -64,7 +177,11 @@ export default mainSlice.reducer;
 
 export const fetchImportantPosts = (): AppThunkType => async (dispatch) => {
   try {
-    const posts = await getPosts('important');
+    const posts = await getPosts('important', {
+      params: {
+        size: 20,
+      },
+    });
     const loadedPosts = posts.data.content.map((post) => {
       const postAuthor = _.pick(post.author, [
         'avatar',
@@ -76,42 +193,13 @@ export const fetchImportantPosts = (): AppThunkType => async (dispatch) => {
       return {
         author: postAuthor,
         createdAt: post.createdAt,
-        direction: post.mainDirection.name as DirectionEnum,
+        mainDirection: DIRECTION_PROPERTIES[post.mainDirection.id.toString()],
         title: post.title,
-        postType: post.type.name as PostTypeEnum,
+        postType: postTypeProperties[post.type.id.toString()],
       };
     });
     dispatch(loadImportant(loadedPosts));
   } catch (e) {
     console.log(e);
   }
-};
-
-export const fetchExperts = (): AppThunkType => async (dispatch) => {
-  try {
-    const experts = await Promise.resolve(MOCK_EXPERTS);
-    dispatch(loadExperts(experts));
-  } catch (e) {
-    console.log(e);
-  }
-};
-
-export const fetchNewestPosts = (): AppThunkType => (dispatch, getState) => {
-  const { meta } = getState().main.newest;
-
-  const totalNewestPosts = meta.totalNewestPosts || MOCK_NEWEST.length;
-  const newIndex = meta.currentIndex + LOAD_POSTS_LIMIT;
-  const newShowMore = newIndex < totalNewestPosts - 1;
-  const newList = MOCK_NEWEST.slice(0, newIndex);
-
-  dispatch(
-    loadNewest({
-      newestPosts: newList,
-      meta: {
-        totalNewestPosts,
-        currentIndex: newIndex,
-        showMore: newShowMore,
-      },
-    }),
-  );
 };

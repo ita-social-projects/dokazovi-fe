@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Container, Grid } from '@material-ui/core';
 import NewestContainer from './NewestContainer';
@@ -13,8 +13,15 @@ const selectMainExperts = (state: RootStateType) => state.main.experts;
 
 const MainView: React.FC<IMainViewProps> = () => {
   const dispatch = useDispatch();
-  dispatch(fetchExperts());
-  const expertsCards = useSelector(selectMainExperts);
+
+  useEffect(() => {
+    dispatch(fetchExperts());
+  }, []);
+
+  const {
+    experts,
+    meta: { loading },
+  } = useSelector(selectMainExperts);
 
   return (
     <>
@@ -27,7 +34,7 @@ const MainView: React.FC<IMainViewProps> = () => {
             <NewestContainer />
           </Grid>
           <Grid item xs={12}>
-            <ExpertsView cards={expertsCards} />
+            <ExpertsView cards={experts} loading={loading} />
           </Grid>
         </Grid>
       </Container>
