@@ -1,10 +1,5 @@
 import React, { useState } from 'react';
-import {
-  CircularProgress,
-  Container,
-  Grid,
-  Typography,
-} from '@material-ui/core';
+import { Container, Grid, Typography } from '@material-ui/core';
 import { ExpertBlock } from './ExpertBlock';
 import { useStyles } from '../../modules/main/styles/MainExpertsView.styles';
 import { ExpertPopover } from './ExpertPopover';
