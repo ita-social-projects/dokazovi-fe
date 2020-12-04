@@ -15,6 +15,13 @@ const ExpertDataCard: React.FC<IExpertDataCardProps> = (props) => {
 
   const fullName = `${expert.firstName} ${expert.lastName}`;
 
+  const mainInsitutionCity =
+    expert.mainInstitution && expert.mainInstitution.city
+      ? expert.mainInstitution.city.name
+      : '';
+
+  const mainInsitutionName = expert.mainInstitution?.name || '';
+
   const directionName = expert.mainDirection?.name || '';
 
   const classes = useStyles();
@@ -31,18 +38,29 @@ const ExpertDataCard: React.FC<IExpertDataCardProps> = (props) => {
           }}
         >
           <Typography variant="h5">{fullName}</Typography>
-          <Typography variant="body1">
-            Спеціалізація: {directionName}
-          </Typography>
-          <Typography className={classes.pos} variant="body1" component="h2">
-            {expert.mainInstitution?.city?.name}, {expert.mainInstitution?.name}
-          </Typography>
-          <Typography variant="body2" color="textSecondary">
-            Останній доданий матеріал:
-          </Typography>
-          <Typography variant="h6" component="p">
-            {expert.lastAddedPost?.title}
-          </Typography>
+          {directionName && (
+            <Typography variant="body1">
+              Спеціалізація: {directionName}
+            </Typography>
+          )}
+          <div>
+            <Typography variant="body1" component="h2">
+              {mainInsitutionCity}
+            </Typography>
+            <Typography className={classes.pos} variant="body1" component="h2">
+              {mainInsitutionName}
+            </Typography>
+          </div>
+          {expert.lastAddedPost && (
+            <div>
+              <Typography variant="body2" color="textSecondary">
+                Останній доданий матеріал:
+              </Typography>
+              <Typography variant="h6" component="p">
+                {expert.lastAddedPost?.title}
+              </Typography>
+            </div>
+          )}
         </Box>
       </CardContent>
     </Card>

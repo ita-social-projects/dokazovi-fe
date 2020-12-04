@@ -21,7 +21,7 @@ export type GetConfigType = {
     sort?: string[];
     direction?: number;
     type?: number;
-    tags?: string;
+    tag?: string;
   };
 };
 

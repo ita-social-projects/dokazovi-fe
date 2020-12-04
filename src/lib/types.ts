@@ -75,7 +75,16 @@ export interface IPostType {
 
 export interface IDirection {
   id?: number;
-  color: string;
+  color?: string;
   name: string;
   route?: string;
+}
+
+export interface IInstitution {
+  city: {
+    id: number;
+    name: string;
+  };
+  id: number;
+  name: string;
 }
