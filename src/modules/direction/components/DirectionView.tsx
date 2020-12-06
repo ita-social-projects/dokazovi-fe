@@ -42,7 +42,7 @@ const DirectionView: React.FC<IDirectionViewProps> = () => {
   }, []);
   
   const courseCards = useSelector((state: RootStateType) => state.directions[currentDirection.name]?.courses);
-  
+
   const expertsCards = useSelector(
     (state: RootStateType) => state.directions[currentDirection.name]?.experts,
   );
@@ -77,12 +77,13 @@ const DirectionView: React.FC<IDirectionViewProps> = () => {
               <MaterialsContainer direction={currentDirection} />
             </Grid>
             <Grid item xs={12}>
+            <Typography variant="h5" className={classes.courseTitle}>Рекомендовані курси</Typography>
             <Carousel>
-                {/* {courseCards.map((p) => (
+                {courseCards.map((p) => (
                   <div key={p.title}>
                     <CourseCard course={p} />
                   </div>
-                ))} */}
+                ))}
               </Carousel>
             </Grid>
           </Grid>

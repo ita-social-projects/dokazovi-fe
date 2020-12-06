@@ -1,21 +1,19 @@
-import { Grid } from '@material-ui/core';
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+import { Grid, Typography } from '@material-ui/core';
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Typography } from '@material-ui/core';
 import BorderBottom from '../../../lib/components/Border';
 import Carousel from '../../../lib/components/Carousel';
 import LoadingInfo from '../../../lib/components/LoadingInfo';
 import { PostCard } from '../../../lib/components/PostCard';
 import { RootStateType } from '../../../store/rootReducer';
-<<<<<<< HEAD
-import { fetchImportantPosts } from '../store/mainSlice';
 import { styles } from '../../../lib/constants/carousel-config';
-=======
 import {
   fetchImportantPosts,
   setImportantLoadingStatus,
 } from '../store/mainSlice';
->>>>>>> develop
 
 const ImportantContainer: React.FC = () => {
   const {
