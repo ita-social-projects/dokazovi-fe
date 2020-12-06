@@ -1,12 +1,12 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { combineReducers } from 'redux';
-import directionReducer from '../modules/direction/store/directionSlice';
+import { directionsReducer } from '../modules/direction/store/directionSlice';
 import mainReducer from '../modules/main/store/mainSlice';
 
-let directions = ['covid19', 'therapy'];
 
 const rootReducer = combineReducers({
-    main: mainReducer,
-    direction: directionReducer,
+  main: mainReducer,
+  directions: directionsReducer,
 });
 
 

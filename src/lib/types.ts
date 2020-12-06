@@ -17,14 +17,11 @@ export enum PostTypeEnum {
   VIDEO = 'VIDEO',
 }
 
-export enum DirectionEnum {
-  CARDIOLOGY = 'CARDIOLOGY',
-  PEDIATRICS = 'PEDIATRICS',
-  THERAPY = 'THERAPY',
-  COVID19 = 'COVID19',
-  OPHTHALMOLOGY = 'OPHTHALMOLOGY',
-  VIROLOGY = 'VIROLOGY',
-  SURGERY = 'SURGERY',
+export enum LoadingStatusEnum {
+  iddle = 'idle',
+  pending = 'pending',
+  succeeded = 'succeeded',
+  failed = 'failed',
 }
 
 export interface ICourse {
@@ -45,24 +42,24 @@ export enum CourseTypeEnum {
 }
 
 export interface IPost {
-  author?: IExpert;
-  createdAt: string;
-  direction: DirectionEnum;
+  id?: number;
   title: string;
   content?: string;
-  status?: PostStatus;
-  important?: boolean;
-  tags?: string[];
+  author?: IExpert;
+  mainDirection: IDirection;
+  directions?: IPostDirection[];
+  tags?: IPostTag[];
+  postType: IPostType;
+  createdAt: string;
   modifiedAt?: string;
-  postType: PostTypeEnum;
   preview?: string;
 }
 
 export interface IExpert {
-  avatar?: string;
-  firstName: string;
   id?: number;
+  firstName: string;
   lastName: string;
+  avatar?: string;
   mainInstitution?: {
     city: {
       id: number;
@@ -71,10 +68,31 @@ export interface IExpert {
     id: number;
     name: string;
   };
-  status?: ExpertStatus;
-  direction?: DirectionEnum;
-  email?: string;
-  phone?: string;
-  workPlace?: string;
-  lastPost?: string;
+  mainDirection?: IDirection;
+  lastAddedPost?: {
+    id: number;
+    title: string;
+  };
+  qualification?: string;
+}
+
+export interface IPostDirection {
+  id: number;
+  name: string;
+}
+
+export interface IPostTag {
+  id: number;
+  tag: string;
+}
+
+export interface IPostType {
+  name: string;
+}
+
+export interface IDirection {
+  id?: number;
+  color: string;
+  name: string;
+  route?: string;
 }

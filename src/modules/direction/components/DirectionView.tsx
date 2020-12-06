@@ -1,10 +1,20 @@
-import React from 'react';
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Container, Grid, Typography, Box } from '@material-ui/core';
 import { useLocation } from 'react-router-dom';
+import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import { useStyles } from './styles/DirectionView.styles';
 import { DIRECTION_PROPERTIES } from '../../../lib/constants/direction-properties';
 import BorderBottom from '../../../lib/components/Border';
-import DirectionCourses from '../courses/DirectionCourses';
+import { RootStateType } from '../../../store/rootReducer';
+import { fetchExperts, setupDirection, fetchCourses } from '../store/directionSlice';
+import { ExpertsView } from '../../../lib/components/ExpertsView';
+import { IDirection } from '../../../lib/types';
+import Carousel from '../../../lib/components/Carousel';
+import { CourseCard } from '../../../lib/components/CourseCard';
+
 
 export interface IDirectionViewProps {}
 
@@ -13,8 +23,30 @@ const DirectionView: React.FC<IDirectionViewProps> = () => {
   const directions = Object.values(DIRECTION_PROPERTIES);
   const currentDirection = directions.find(
     (value) => value.route === pathname.split('/')[2],
-  );
+  ) as IDirection; // TODO: validate route!
+  // console.log(currentDirection);
+
+  const dispatch = useDispatch();
+  
+  // useEffect(() => {
+    dispatch(setupDirection(currentDirection.name));
+  // }, []);
+
+  useEffect(() => {
+    dispatch(fetchExperts(currentDirection.name));
+  }, []);
+
+  useEffect(() => {
+    dispatch(fetchCourses(currentDirection.name));
+  }, []);
+  
+  const expertsCards = useSelector((state: RootStateType) => state.directions[currentDirection.name]?.experts);
+  const courseCards = useSelector((state: RootStateType) => state.directions[currentDirection.name]?.courses);
+  
+  console.log(courseCards);
+
   const classes = useStyles();
+
   return (
     <>
       <Container>
@@ -29,13 +61,28 @@ const DirectionView: React.FC<IDirectionViewProps> = () => {
           </Grid>
           <BorderBottom />
           <Grid item xs={12}>
-            {/* <ExpertsView /> */}
+            {expertsCards && <ExpertsView cards={expertsCards} />}
+            <Box className={classes.moreExperts}>
+              <Typography variant="h5" align="right" display="inline">
+                Більше експертів
+              </Typography>
+              <ArrowForwardIosIcon />
+            </Box>
           </Grid>
+          <BorderBottom />
           <Grid item xs={12}>
             {/* <MaterialsView /> */}
           </Grid>
           <Grid item xs={12}>
-            <DirectionCourses/>
+            <BorderBottom />
+              <Typography>Рекомендовані курси</Typography>
+              <Carousel>
+                {/* {courseCards.map((p) => (
+                  <div key={p.title}>
+                    <CourseCard course={p} />
+                  </div>
+                ))} */}
+              </Carousel>
           </Grid>
         </Grid>
       </Container>

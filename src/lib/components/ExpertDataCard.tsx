@@ -4,7 +4,6 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import { IExpert } from '../types';
-import { DIRECTION_PROPERTIES } from '../constants/direction-properties';
 import { useStyles } from '../styles/ExpertDataCard.styles';
 
 export interface IExpertDataCardProps {
@@ -16,9 +15,7 @@ const ExpertDataCard: React.FC<IExpertDataCardProps> = (props) => {
 
   const fullName = `${expert.firstName} ${expert.lastName}`;
 
-  const directionName = expert.direction
-    ? DIRECTION_PROPERTIES[expert.direction].name
-    : '';
+  const directionName = expert.mainDirection?.name || '';
 
   const classes = useStyles();
 
@@ -38,13 +35,13 @@ const ExpertDataCard: React.FC<IExpertDataCardProps> = (props) => {
             Спеціалізація: {directionName}
           </Typography>
           <Typography className={classes.pos} variant="body1" component="h2">
-            {expert.workPlace}
+            {expert.mainInstitution?.city?.name}, {expert.mainInstitution?.name}
           </Typography>
           <Typography variant="body2" color="textSecondary">
             Останній доданий матеріал:
           </Typography>
           <Typography variant="h6" component="p">
-            {expert.lastPost}
+            {expert.lastAddedPost?.title}
           </Typography>
         </Box>
       </CardContent>
