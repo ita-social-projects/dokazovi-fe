@@ -16,6 +16,7 @@ export const useStyles = makeStyles(
       alignItems: 'center',
       justifyContent: 'flex-end',
       cursor: 'pointer',
+      marginTop: 20,
     },
   },
   {

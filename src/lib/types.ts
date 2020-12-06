@@ -18,7 +18,7 @@ export enum PostTypeEnum {
 }
 
 export enum LoadingStatusEnum {
-  iddle = 'idle',
+  idle = 'idle',
   pending = 'pending',
   succeeded = 'succeeded',
   failed = 'failed',
@@ -60,14 +60,7 @@ export interface IExpert {
   firstName: string;
   lastName: string;
   avatar?: string;
-  mainInstitution?: {
-    city: {
-      id: number;
-      name: string;
-    };
-    id: number;
-    name: string;
-  };
+  mainInstitution?: IInstitution;
   mainDirection?: IDirection;
   lastAddedPost?: {
     id: number;
@@ -92,7 +85,16 @@ export interface IPostType {
 
 export interface IDirection {
   id?: number;
-  color: string;
+  color?: string;
   name: string;
   route?: string;
+}
+
+export interface IInstitution {
+  city: {
+    id: number;
+    name: string;
+  };
+  id: number;
+  name: string;
 }
