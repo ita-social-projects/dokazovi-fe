@@ -63,10 +63,7 @@ export const ExpertsView: React.FC<IExpertsViewProps> = (props) => {
       </Grid>
       <div className={classes.container}>
         {allExperts}
-        <ExpertPopover
-          anchorEl={anchorEl}
-          handlePopoverClose={handlePopoverClose}
-        >
+        <ExpertPopover anchorEl={anchorEl}>
           {popoverCard && <ExpertDataCard expert={popoverCard} />}
         </ExpertPopover>
       </div>
