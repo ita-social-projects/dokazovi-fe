@@ -29,17 +29,22 @@ const ImportantContainer: React.FC = () => {
 
   return (
     <div>
-      <Carousel>
-        {importantPosts.map((post) => (
-          <div key={post.title}>
-            <PostCard post={post} />
-          </div>
-        ))}
-      </Carousel>
-      <Grid container direction="column" alignItems="center">
-        <LoadingInfo loading={loading} />
-      </Grid>
-      <BorderBottom />
+      {loading === 'pending' ? (
+        <Grid container direction="column" alignItems="center">
+          <LoadingInfo loading={loading} />
+        </Grid>
+      ) : (
+        <>
+          <Carousel>
+            {importantPosts.map((post) => (
+              <div key={post.title}>
+                <PostCard post={post} />
+              </div>
+            ))}
+          </Carousel>
+          <BorderBottom />
+        </>
+      )}
     </div>
   );
 };
