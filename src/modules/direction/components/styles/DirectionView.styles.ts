@@ -18,6 +18,11 @@ export const useStyles = makeStyles(
       cursor: 'pointer',
       marginTop: 20,
     },
+    courseTitle: {
+      marginLeft: '22px',
+      fontSize: '30px',
+      fontWeight: 400,
+    }
   },
   {
     name: 'DirectionView',
