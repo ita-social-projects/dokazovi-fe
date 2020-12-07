@@ -35,10 +35,13 @@ export const styles: IStyles = {
   },
   controls: {
     position: 'absolute',
-    top: '10px',
+    top: '-40px',
     right: '0%',
   },
   buttons: {
     backgroundColor: 'transparent',
   },
+  title: {
+    margin: '10px 0 0 20px',
+  }
 };

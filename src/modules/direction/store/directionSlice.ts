@@ -1,8 +1,9 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import _ from 'lodash';
-import { IDirection, IExpert, IPost } from '../../../lib/types';
+import { IDirection, IExpert, ICourse, IPost } from '../../../lib/types';
 import type { AppThunkType } from '../../../store/store';
+import { MOCK_COURSES } from '../courses/directionCourses.mock';
 import { getPosts, getExperts } from '../../../lib/utilities/API/api';
 import { LOAD_POSTS_LIMIT } from '../../main/components/constants/newestPostsPagination-config';
 import { DIRECTION_PROPERTIES } from '../../../lib/constants/direction-properties';
@@ -13,6 +14,7 @@ export interface IDirectionsState extends Record<string, IDirectionState> {
 }
 
 export interface IDirectionState {
+  courses: ICourse[];
   experts: IExpert[];
   materials: IMaterialsState;
 }
@@ -27,6 +29,7 @@ const initialDirectionState: IDirectionState = {
       pageNumber: -1,
     },
   },
+  courses: [],
 };
 
 interface IMaterialsState {
@@ -60,6 +63,19 @@ export const directionsSlice = createSlice({
         direction.experts = action.payload.experts;
       }
     },
+    loadCourses: (
+      state,
+      action: PayloadAction<{
+        courses: ICourse[];
+        directionName: string;
+      }>, 
+    ) => {
+      const { directionName } = action.payload;
+      const direction = state[directionName] as IDirectionState;
+      if (direction) {
+        direction.courses = action.payload.courses;
+      }
+    },
     setMaterialsLoadingStatus: (state, action: PayloadAction<IDirection>) => {
       state[action.payload.name].materials.meta.isLoading = true;
     },
@@ -83,6 +99,7 @@ export const {
   setMaterialsLoadingStatus,
   loadMaterials,
   loadExperts,
+  loadCourses,
   setupDirection,
 } = directionsSlice.actions;
 
@@ -110,6 +127,18 @@ export const fetchExperts = (
         experts,
       }),
     );
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const fetchCourses = (directionName: string): AppThunkType => async (dispatch) => {
+  try {
+    const courses = await Promise.resolve(MOCK_COURSES);
+    dispatch(loadCourses({
+      directionName,
+      courses, 
+    }));
   } catch (e) {
     console.log(e);
   }
