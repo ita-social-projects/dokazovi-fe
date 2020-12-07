@@ -58,26 +58,32 @@ const NewestContainer: React.FC = () => {
 
   return (
     <>
-      <Container>
-        <Typography variant="h4">Найновіше</Typography>
-        <Grid container spacing={2} direction="row" alignItems="center">
-          <PostsList postsList={newestPosts} />
-        </Grid>
+      {loading === 'pending' ? (
         <Grid container direction="column" alignItems="center">
           <LoadingInfo loading={loading} />
         </Grid>
+      ) : (
+        <Container>
+          <Typography variant="h4">Найновіше</Typography>
+          <Grid container spacing={2} direction="row" alignItems="center">
+            <PostsList postsList={newestPosts} />
+          </Grid>
+          <Grid container direction="column" alignItems="center">
+            <LoadingInfo loading={loading} />
+          </Grid>
 
-        <Grid
-          container
-          direction="column"
-          alignItems="center"
-          className={classes.showMore}
-          ref={gridRef}
-        >
-          {renderLoadControls()}
-        </Grid>
-        <BorderBottom />
-      </Container>
+          <Grid
+            container
+            direction="column"
+            alignItems="center"
+            className={classes.showMore}
+            ref={gridRef}
+          >
+            {renderLoadControls()}
+          </Grid>
+          <BorderBottom />
+        </Container>
+      )}
     </>
   );
 };
