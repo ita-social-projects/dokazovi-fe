@@ -47,12 +47,16 @@ export const ExpertsView: React.FC<IExpertsViewProps> = (props) => {
 
   const errorMsg = 'Не вдалося завантажити експертів';
 
+  if (loading === 'pending') {
+    return (
+      <Grid container direction="column" alignItems="center">
+        <LoadingInfo loading={loading} errorMsg={errorMsg} />
+      </Grid>
+    );
+  }
   return (
     <Container>
       <Typography variant="h4">Експерти</Typography>
-      <Grid container direction="column" alignItems="center">
-        {loading && <LoadingInfo loading={loading} errorMsg={errorMsg} />}
-      </Grid>
       <div className={classes.container}>
         {allExperts}
         <ExpertPopover
