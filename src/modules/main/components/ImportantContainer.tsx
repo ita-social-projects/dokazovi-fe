@@ -1,6 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
 import { Grid, Typography } from '@material-ui/core';
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
