@@ -27,7 +27,10 @@ const initialState: IMainState = {
       error: '',
     },
   },
-  experts: [],
+  experts: {
+    experts: [],
+    meta: { loading: LoadingStatusEnum.failed, error: '' },
+  },
 };
 
 describe('newest', () => {
@@ -53,18 +56,5 @@ describe('newest', () => {
     const rootState: RootStateType['main'] = { ...newState };
 
     expect(rootState.newest.meta.loading).toEqual('failed');
-  });
-
-  it('initial render NewestContainer posts equal to LIMIT number', () => {
-    render(
-      <Provider store={store}>
-        <NewestContainer />
-      </Provider>,
-    );
-
-    const renderedPostCount = screen.getByText('Найновіше').nextElementSibling
-      ?.childElementCount;
-
-    expect(renderedPostCount).toEqual(LOAD_POSTS_LIMIT);
   });
 });
