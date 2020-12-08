@@ -47,22 +47,26 @@ export const ExpertsView: React.FC<IExpertsViewProps> = (props) => {
 
   const errorMsg = 'Не вдалося завантажити експертів';
 
-  if (loading === 'pending') {
-    return (
-      <Grid container direction="column" alignItems="center">
-        <LoadingInfo loading={loading} errorMsg={errorMsg} />
-      </Grid>
-    );
-  }
   return (
-    <Container>
-      <Typography variant="h4">Експерти</Typography>
-      <div className={classes.container}>
-        {allExperts}
-        <ExpertPopover anchorEl={anchorEl}>
-          {popoverCard && <ExpertDataCard expert={popoverCard} />}
-        </ExpertPopover>
-      </div>
-    </Container>
+    <>
+      {loading === 'pending' ? (
+        <Grid container direction="column" alignItems="center">
+          <LoadingInfo loading={loading} errorMsg={errorMsg} />
+        </Grid>
+      ) : (
+        <Container>
+          <Typography variant="h4">Експерти</Typography>
+          <div className={classes.container}>
+            {allExperts}
+            <ExpertPopover
+              anchorEl={anchorEl}
+              handlePopoverClose={handlePopoverClose}
+            >
+              {popoverCard && <ExpertDataCard expert={popoverCard} />}
+            </ExpertPopover>
+          </div>
+        </Container>
+      )}
+    </>
   );
 };
