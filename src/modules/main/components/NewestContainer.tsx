@@ -5,7 +5,7 @@ import { RootStateType } from '../../../store/rootReducer';
 import {
   fetchNewestPosts,
   IMainState,
-  initialNewestPosts,
+  fetchInitialNewestPosts,
 } from '../store/mainSlice';
 import { useStyles } from './styles/NewestContainer.style';
 import BorderBottom from '../../../lib/components/Border';
@@ -19,7 +19,7 @@ const NewestContainer: React.FC = () => {
 
   const dispatch = useDispatch();
   const setNewest = () => dispatch(fetchNewestPosts());
-  const setNewestInitial = () => dispatch(initialNewestPosts());
+  const setNewestInitial = () => dispatch(fetchInitialNewestPosts());
 
   const {
     newestPosts,

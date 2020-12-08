@@ -136,7 +136,7 @@ export const fetchExperts = createAsyncThunk('main/loadExperts', async () => {
   return loadedExperts;
 });
 
-export const initialNewestPosts = (): AppThunkType => async (
+export const fetchInitialNewestPosts = (): AppThunkType => async (
   dispatch,
   getState,
 ) => {
