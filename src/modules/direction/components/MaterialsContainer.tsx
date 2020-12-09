@@ -15,6 +15,17 @@ interface IMaterialsContainerProps {
   direction: IDirection;
 }
 
+const useEffectExceptOnMount = (
+  func: () => void | (() => (() => void)),
+  deps: React.DependencyList | undefined,
+) => {
+  const didMount = useRef(false);
+  useEffect(() => {
+    if (didMount.current) func();
+    else didMount.current = true;
+  }, deps);
+};
+
 const MaterialsContainer: React.FC<IMaterialsContainerProps> = ({
   direction,
 }) => {
@@ -45,7 +56,7 @@ const MaterialsContainer: React.FC<IMaterialsContainerProps> = ({
 
   const gridRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
+  useEffectExceptOnMount(() => {
     if (pageNumber > 0) {
       gridRef.current?.scrollIntoView({ behavior: 'smooth' });
     }
