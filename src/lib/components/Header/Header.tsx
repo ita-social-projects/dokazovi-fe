@@ -54,6 +54,7 @@ const Header: React.FC = () => {
   const classes = useStyles();
 
   const allLinks = navElems.map((item) =>
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     <Link key={item.id} to={location => ({ ...location, pathname: item.url || '#' })} className={classes.items}>{item.label}</Link>);
 
   return (
