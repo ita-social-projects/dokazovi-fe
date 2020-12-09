@@ -144,7 +144,7 @@ export const fetchInitialNewestPosts = (): AppThunkType => async (
     main: { newest },
   } = getState();
 
-  if (newest.newestPosts.length === 0) {
+  if (!newest.newestPosts.length) {
     await dispatch(fetchNewestPosts());
   }
 };
