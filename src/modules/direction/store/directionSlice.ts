@@ -1,7 +1,13 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import _ from 'lodash';
-import { IDirection, IExpert, ICourse, IPost } from '../../../lib/types';
+import {
+  IDirection,
+  IExpert,
+  ICourse,
+  IPost,
+  LoadingStatusEnum,
+} from '../../../lib/types';
 import type { AppThunkType } from '../../../store/store';
 import { MOCK_COURSES } from '../courses/directionCourses.mock';
 import { getPosts, getExperts } from '../../../lib/utilities/API/api';
@@ -13,14 +19,28 @@ export interface IDirectionsState extends Record<string, IDirectionState> {
   [key: string]: IDirectionState;
 }
 
+export interface IExpertsMeta {
+  loading: LoadingStatusEnum;
+  error: null | string;
+}
+
 export interface IDirectionState {
   courses: ICourse[];
-  experts: IExpert[];
+  experts: {
+    expertsCards: IExpert[];
+    meta: IExpertsMeta;
+  };
   materials: IMaterialsState;
 }
 
 const initialDirectionState: IDirectionState = {
-  experts: [],
+  experts: {
+    expertsCards: [],
+    meta: {
+      loading: LoadingStatusEnum.idle,
+      error: null,
+    },
+  },
   materials: {
     posts: [],
     meta: {
@@ -47,20 +67,45 @@ export const directionsSlice = createSlice({
   reducers: {
     setupDirection: (state, action: PayloadAction<string>) => {
       // TODO: use latin direction names, create labels for cyrillic?
-      if (!state[action.payload])
-        state[action.payload] = initialDirectionState;
+      if (!state[action.payload]) state[action.payload] = initialDirectionState;
+    },
+    setExpertsLoadingStatus: (
+      state,
+      action: PayloadAction<{
+        directionName: string;
+        status: LoadingStatusEnum;
+        error?: string;
+      }>,
+    ) => {
+      const { directionName, status, error } = action.payload;
+
+      switch (status) {
+        case LoadingStatusEnum.pending:
+          state[directionName].experts.meta.loading = LoadingStatusEnum.pending;
+          break;
+        case LoadingStatusEnum.failed:
+          state[directionName].experts.meta.loading = LoadingStatusEnum.failed;
+          state[directionName].experts.meta.error = error || null;
+          break;
+        default:
+          state[directionName].experts.meta.loading =
+            LoadingStatusEnum.succeeded;
+          break;
+      }
     },
     loadExperts: (
       state,
       action: PayloadAction<{
         experts: IExpert[];
+        meta: IExpertsMeta;
         directionName: string;
       }>,
     ) => {
       const { directionName } = action.payload;
       const direction = state[directionName] as IDirectionState;
       if (direction) {
-        direction.experts = action.payload.experts;
+        direction.experts.expertsCards = action.payload.experts;
+        direction.experts.meta = action.payload.meta;
       }
     },
     loadCourses: (
@@ -68,7 +113,7 @@ export const directionsSlice = createSlice({
       action: PayloadAction<{
         courses: ICourse[];
         directionName: string;
-      }>, 
+      }>,
     ) => {
       const { directionName } = action.payload;
       const direction = state[directionName] as IDirectionState;
@@ -98,6 +143,7 @@ export const directionsSlice = createSlice({
 export const {
   setMaterialsLoadingStatus,
   loadMaterials,
+  setExpertsLoadingStatus,
   loadExperts,
   loadCourses,
   setupDirection,
@@ -108,7 +154,9 @@ export const directionsReducer = directionsSlice.reducer;
 export const fetchExperts = (
   directionName: string,
   directionId: number,
-): AppThunkType => async (dispatch) => {
+): AppThunkType => async (dispatch, getState) => {
+  // const { meta } = getState().directions[directionName].experts;
+
   try {
     const loadedExperts = await getExperts({
       params: {
@@ -123,22 +171,36 @@ export const fetchExperts = (
 
     dispatch(
       loadExperts({
-        directionName,
         experts,
+        meta: {
+          loading: LoadingStatusEnum.succeeded,
+          error: null,
+        },
+        directionName,
       }),
     );
   } catch (e) {
-    console.log(e);
+    dispatch(
+      setExpertsLoadingStatus({
+        directionName,
+        status: LoadingStatusEnum.failed,
+        error: String(e),
+      }),
+    );
   }
 };
 
-export const fetchCourses = (directionName: string): AppThunkType => async (dispatch) => {
+export const fetchCourses = (directionName: string): AppThunkType => async (
+  dispatch,
+) => {
   try {
     const courses = await Promise.resolve(MOCK_COURSES);
-    dispatch(loadCourses({
-      directionName,
-      courses, 
-    }));
+    dispatch(
+      loadCourses({
+        directionName,
+        courses,
+      }),
+    );
   } catch (e) {
     console.log(e);
   }
