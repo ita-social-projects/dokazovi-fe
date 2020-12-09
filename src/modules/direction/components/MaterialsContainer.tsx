@@ -1,13 +1,11 @@
 import React, { useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import {
-  Button,
-  Container,
-  Grid,
-  Typography,
-} from '@material-ui/core';
+import { Button, Container, Grid, Typography } from '@material-ui/core';
 import PostList from '../../../lib/components/PostsList';
-import { fetchMaterials, setMaterialsLoadingStatus } from '../store/directionSlice';
+import {
+  fetchMaterials,
+  setMaterialsLoadingStatus,
+} from '../store/directionSlice';
 import { RootStateType } from '../../../store/rootReducer';
 import { useStyles } from './styles/MaterialsContainer.styles';
 import { IDirection, LoadingStatusEnum } from '../../../lib/types';
@@ -22,17 +20,22 @@ const MaterialsContainer: React.FC<IMaterialsContainerProps> = ({
 }) => {
   const classes = useStyles();
 
-  const { posts, meta: { loading, isLastPage, pageNumber } }  = useSelector(
+  const {
+    posts,
+    meta: { loading, isLastPage, pageNumber },
+  } = useSelector(
     (state: RootStateType) => state.directions[direction.name].materials,
   );
 
   const dispatch = useDispatch();
 
   const dispatchFetchAction = () => {
-    dispatch(setMaterialsLoadingStatus({
-      direction, 
-      status: LoadingStatusEnum.pending 
-    }));
+    dispatch(
+      setMaterialsLoadingStatus({
+        direction,
+        status: LoadingStatusEnum.pending,
+      }),
+    );
     dispatch(fetchMaterials(direction));
   };
 

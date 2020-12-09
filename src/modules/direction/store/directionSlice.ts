@@ -1,7 +1,13 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import _ from 'lodash';
-import { IDirection, IExpert, ICourse, IPost, LoadingStatusEnum } from '../../../lib/types';
+import {
+  IDirection,
+  IExpert,
+  ICourse,
+  IPost,
+  LoadingStatusEnum,
+} from '../../../lib/types';
 import type { AppThunkType } from '../../../store/store';
 import { MOCK_COURSES } from '../courses/directionCourses.mock';
 import { getPosts, getExperts } from '../../../lib/utilities/API/api';
@@ -49,8 +55,7 @@ export const directionsSlice = createSlice({
   reducers: {
     setupDirection: (state, action: PayloadAction<string>) => {
       // TODO: use latin direction names, create labels for cyrillic?
-      if (!state[action.payload])
-        state[action.payload] = initialDirectionState;
+      if (!state[action.payload]) state[action.payload] = initialDirectionState;
     },
     loadExperts: (
       state,
@@ -70,7 +75,7 @@ export const directionsSlice = createSlice({
       action: PayloadAction<{
         courses: ICourse[];
         directionName: string;
-      }>, 
+      }>,
     ) => {
       const { directionName } = action.payload;
       const direction = state[directionName] as IDirectionState;
@@ -79,31 +84,29 @@ export const directionsSlice = createSlice({
       }
     },
     setMaterialsLoadingStatus: (
-      state, 
+      state,
       action: PayloadAction<{
-        direction: IDirection,
-        status: LoadingStatusEnum,
-        error?: string
-      }>) => {
-        const { direction, status, error } = action.payload;
+        direction: IDirection;
+        status: LoadingStatusEnum;
+        error?: string;
+      }>,
+    ) => {
+      const { direction, status, error } = action.payload;
 
-        switch (status) {
-          case LoadingStatusEnum.pending:
-            state[direction.name].materials.meta.loading 
-              = LoadingStatusEnum.pending;
-            break;
-          case LoadingStatusEnum.failed:
-            state[direction.name].materials.meta.loading 
-              = LoadingStatusEnum.failed;
-            state[direction.name].materials.meta.error 
-              = error || null;
-            break;
-          default: 
-            state[direction.name].materials.meta.loading 
-              = LoadingStatusEnum.succeeded;
-        }
-            
-
+      switch (status) {
+        case LoadingStatusEnum.pending:
+          state[direction.name].materials.meta.loading =
+            LoadingStatusEnum.pending;
+          break;
+        case LoadingStatusEnum.failed:
+          state[direction.name].materials.meta.loading =
+            LoadingStatusEnum.failed;
+          state[direction.name].materials.meta.error = error || null;
+          break;
+        default:
+          state[direction.name].materials.meta.loading =
+            LoadingStatusEnum.succeeded;
+      }
     },
     loadMaterials: (
       state,
@@ -158,13 +161,17 @@ export const fetchExperts = (
   }
 };
 
-export const fetchCourses = (directionName: string): AppThunkType => async (dispatch) => {
+export const fetchCourses = (directionName: string): AppThunkType => async (
+  dispatch,
+) => {
   try {
     const courses = await Promise.resolve(MOCK_COURSES);
-    dispatch(loadCourses({
-      directionName,
-      courses, 
-    }));
+    dispatch(
+      loadCourses({
+        directionName,
+        courses,
+      }),
+    );
   } catch (e) {
     console.log(e);
   }
@@ -184,7 +191,7 @@ export const fetchMaterials = (direction: IDirection): AppThunkType => async (
         size: LOAD_POSTS_LIMIT,
       },
     });
-  
+
     const fetchedPosts: IPost[] = response.data.content.map((post) => {
       const author = _.pick(post.author, [
         'avatar',
@@ -193,11 +200,11 @@ export const fetchMaterials = (direction: IDirection): AppThunkType => async (
         'lastName',
         'mainInstitution',
       ]);
-  
+
       const preview = _.truncate(post.content, {
         length: 150, // TODO: use MAX_LEN constant
       });
-  
+
       return {
         author,
         mainDirection: DIRECTION_PROPERTIES[post.mainDirection.id.toString()],
@@ -208,7 +215,7 @@ export const fetchMaterials = (direction: IDirection): AppThunkType => async (
         createdAt: post.createdAt,
       };
     });
-  
+
     dispatch(
       loadMaterials({
         directionName: direction.name,
@@ -223,12 +230,13 @@ export const fetchMaterials = (direction: IDirection): AppThunkType => async (
         },
       }),
     );
-  }
-  catch (e) {
-    dispatch(setMaterialsLoadingStatus({
-      direction,
-      status: LoadingStatusEnum.failed,
-      error: String(e),
-    }));
+  } catch (e) {
+    dispatch(
+      setMaterialsLoadingStatus({
+        direction,
+        status: LoadingStatusEnum.failed,
+        error: String(e),
+      }),
+    );
   }
 };
