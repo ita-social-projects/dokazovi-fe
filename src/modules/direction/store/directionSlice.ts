@@ -154,9 +154,7 @@ export const directionsReducer = directionsSlice.reducer;
 export const fetchExperts = (
   directionName: string,
   directionId: number,
-): AppThunkType => async (dispatch, getState) => {
-  // const { meta } = getState().directions[directionName].experts;
-
+): AppThunkType => async (dispatch) => {
   try {
     const loadedExperts = await getExperts({
       params: {

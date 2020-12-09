@@ -87,6 +87,7 @@ export interface IDirection {
   id?: number;
   color?: string;
   name: string;
+  label?: string;
   route?: string;
 }
 

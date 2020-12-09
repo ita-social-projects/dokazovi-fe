@@ -28,6 +28,7 @@ const DirectionView: React.FC<IDirectionViewProps> = () => {
   const currentDirection = directions.find(
     (direction) => direction.route === pathname.split('/')[2],
   ) as IDirection; // TODO: validate route!
+  console.log(currentDirection);
 
   const dispatch = useDispatch();
 
@@ -73,7 +74,7 @@ const DirectionView: React.FC<IDirectionViewProps> = () => {
                 className={classes.icon}
                 style={{ backgroundColor: currentDirection?.color }}
               />
-              <Typography variant="h2">{currentDirection?.name}</Typography>
+              <Typography variant="h2">{currentDirection?.label}</Typography>
             </Grid>
             <BorderBottom />
             <Grid item xs={12}>
