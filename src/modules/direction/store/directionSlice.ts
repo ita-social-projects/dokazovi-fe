@@ -151,10 +151,10 @@ export const fetchCourses = (directionName: string): AppThunkType => async (
 export const fetchMaterials = (
   direction: IDirection,
   checkedTypes: number[],
-  shouldAdd = true,
+  shouldAdd: boolean,
 ): AppThunkType => async (dispatch, getState) => {
   const { posts, meta } = getState().directions[direction.name].materials;
- 
+
   const response = await getPosts('latest-by-direction', {
     params: {
       direction: direction.id,
