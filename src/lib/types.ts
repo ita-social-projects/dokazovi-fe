@@ -80,6 +80,7 @@ export interface IPostTag {
 }
 
 export interface IPostType {
+  id?: number;
   name: string;
 }
 

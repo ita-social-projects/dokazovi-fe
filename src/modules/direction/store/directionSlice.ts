@@ -47,8 +47,7 @@ export const directionsSlice = createSlice({
   reducers: {
     setupDirection: (state, action: PayloadAction<string>) => {
       // TODO: use latin direction names, create labels for cyrillic?
-      if (!state[action.payload])
-        state[action.payload] = initialDirectionState;
+      if (!state[action.payload]) state[action.payload] = initialDirectionState;
     },
     loadExperts: (
       state,
@@ -68,7 +67,7 @@ export const directionsSlice = createSlice({
       action: PayloadAction<{
         courses: ICourse[];
         directionName: string;
-      }>, 
+      }>,
     ) => {
       const { directionName } = action.payload;
       const direction = state[directionName] as IDirectionState;
@@ -132,30 +131,36 @@ export const fetchExperts = (
   }
 };
 
-export const fetchCourses = (directionName: string): AppThunkType => async (dispatch) => {
+export const fetchCourses = (directionName: string): AppThunkType => async (
+  dispatch,
+) => {
   try {
     const courses = await Promise.resolve(MOCK_COURSES);
-    dispatch(loadCourses({
-      directionName,
-      courses, 
-    }));
+    dispatch(
+      loadCourses({
+        directionName,
+        courses,
+      }),
+    );
   } catch (e) {
     console.log(e);
   }
 };
 
 // TODO: use createAsyncThunk
-export const fetchMaterials = (direction: IDirection): AppThunkType => async (
-  dispatch,
-  getState,
-) => {
+export const fetchMaterials = (
+  direction: IDirection,
+  checkedTypes: number[],
+  shouldAdd = true,
+): AppThunkType => async (dispatch, getState) => {
   const { posts, meta } = getState().directions[direction.name].materials;
-
+ 
   const response = await getPosts('latest-by-direction', {
     params: {
       direction: direction.id,
-      page: meta.pageNumber + 1,
+      page: shouldAdd ? meta.pageNumber + 1 : 0,
       size: LOAD_POSTS_LIMIT,
+      type: checkedTypes,
     },
   });
 
@@ -187,7 +192,7 @@ export const fetchMaterials = (direction: IDirection): AppThunkType => async (
     loadMaterials({
       directionName: direction.name,
       materials: {
-        posts: posts.concat(fetchedPosts),
+        posts: shouldAdd ? posts.concat(fetchedPosts) : fetchedPosts,
         meta: {
           isLastPage: response.data.last,
           isLoading: false,

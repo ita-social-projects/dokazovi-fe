@@ -1,5 +1,6 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import _ from 'lodash';
 import {
   Button,
   CircularProgress,
@@ -15,6 +16,7 @@ import {
 import { RootStateType } from '../../../store/rootReducer';
 import { useStyles } from './styles/MaterialsContainer.styles';
 import { IDirection } from '../../../lib/types';
+import { CheckboxMaterials } from './MaterialsCheckbox';
 
 interface IMaterialsContainerProps {
   direction: IDirection;
@@ -25,15 +27,18 @@ const MaterialsContainer: React.FC<IMaterialsContainerProps> = ({
 }) => {
   const classes = useStyles();
 
-  const { posts, meta }  = useSelector(
+  const { posts, meta } = useSelector(
     (state: RootStateType) => state.directions[direction.name].materials,
   );
 
   const dispatch = useDispatch();
 
-  const dispatchFetchAction = () => {
+  const dispatchFetchAction = (
+    checkedDirections = [1, 2, 3],
+    shouldAdd = true,
+  ) => {
     dispatch(setMaterialsLoadingStatus(direction));
-    dispatch(fetchMaterials(direction));
+    dispatch(fetchMaterials(direction, checkedDirections, shouldAdd));
   };
 
   useEffect(() => {
@@ -48,8 +53,36 @@ const MaterialsContainer: React.FC<IMaterialsContainerProps> = ({
     }
   }, [meta.pageNumber]);
 
+  const [checkedBoxes, setChecked] = useState({
+    '1': false,
+    '2': false,
+    '3': false,
+  });
+
+  const handler = useCallback(
+    _.debounce((checked) => {
+      dispatchFetchAction(checked, false);
+    }, 500),
+    [],
+  );
+
+  const handleBoxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const boxes = { ...checkedBoxes, [event.target.id]: event.target.checked };
+    setChecked(boxes);
+
+    const checkedDirections = Object.keys(boxes).filter((key) => {
+      return boxes[key] === true;
+    });
+    const checked = checkedDirections.map((el) => +el);
+    handler(checked);
+  };
+
   return (
     <Container>
+      <CheckboxMaterials
+        handleBoxChange={handleBoxChange}
+        checkedBoxes={checkedBoxes}
+      />
       <Typography variant="h4">Матеріали</Typography>
       <Grid container spacing={2} direction="row" alignItems="center">
         <PostList postsList={posts} />
@@ -63,7 +96,7 @@ const MaterialsContainer: React.FC<IMaterialsContainerProps> = ({
       >
         {meta.isLoading && <CircularProgress />}
         {!meta.isLoading && !meta.isLastPage && (
-          <Button variant="contained" onClick={dispatchFetchAction}>
+          <Button variant="contained" onClick={() => dispatchFetchAction()}>
             Більше матеріалів
           </Button>
         )}
