@@ -8,6 +8,7 @@ import Header from './lib/components/Header/Header';
 
 
 const App: React.FC = () => {
+  console.log(ROUTER_CONFIG);
 
   return (
     <div className="App">

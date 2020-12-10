@@ -25,15 +25,10 @@ export const navElems: IHeaderProps[] = [
     label: "Covid-19",
     url: "direction/covid-19",
   },
-  // TODO: remove therapy when a page with all the directions exists
-  {
-    id: "therapy",
-    label: "Therapy",
-    url: "direction/therapy",
-  },
   {
     id: "directions",
     label: "Напрямки",
+    url: '/direction',
   },
   {
     id: "experts",
