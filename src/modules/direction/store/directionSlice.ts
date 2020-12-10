@@ -240,3 +240,19 @@ export const fetchMaterials = (direction: IDirection): AppThunkType => async (
     );
   }
 };
+
+export const fetchInitialMaterials = (
+  direction: IDirection,
+): AppThunkType => (dispatch, getState) => {
+  const { posts } = getState().directions[direction.name].materials;
+
+  if (posts.length === 0) {
+    dispatch(
+      setMaterialsLoadingStatus({
+        direction,
+        status: LoadingStatusEnum.pending,
+      }),
+    );
+    dispatch(fetchMaterials(direction));
+  }
+};

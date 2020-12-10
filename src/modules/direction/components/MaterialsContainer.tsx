@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Button, Container, Grid, Typography } from '@material-ui/core';
 import PostList from '../../../lib/components/PostsList';
 import {
+  fetchInitialMaterials,
   fetchMaterials,
   setMaterialsLoadingStatus,
 } from '../store/directionSlice';
@@ -10,21 +11,11 @@ import { RootStateType } from '../../../store/rootReducer';
 import { useStyles } from './styles/MaterialsContainer.styles';
 import { IDirection, LoadingStatusEnum } from '../../../lib/types';
 import LoadingInfo from '../../../lib/components/LoadingInfo';
+import useEffectExceptOnMount from '../../../lib/hooks/useEffectExceptOnMount';
 
 interface IMaterialsContainerProps {
   direction: IDirection;
 }
-
-const useEffectExceptOnMount = (
-  func: () => void | (() => (() => void)),
-  deps: React.DependencyList | undefined,
-) => {
-  const didMount = useRef(false);
-  useEffect(() => {
-    if (didMount.current) func();
-    else didMount.current = true;
-  }, deps);
-};
 
 const MaterialsContainer: React.FC<IMaterialsContainerProps> = ({
   direction,
@@ -51,7 +42,7 @@ const MaterialsContainer: React.FC<IMaterialsContainerProps> = ({
   };
 
   useEffect(() => {
-    dispatchFetchAction();
+    dispatch(fetchInitialMaterials(direction));
   }, []);
 
   const gridRef = useRef<HTMLDivElement>(null);
