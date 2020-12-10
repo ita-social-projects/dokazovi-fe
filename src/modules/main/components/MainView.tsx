@@ -6,6 +6,7 @@ import ImportantContainer from './ImportantContainer';
 import { ExpertsView } from '../../../lib/components/ExpertsView';
 import { RootStateType } from '../../../store/rootReducer';
 import { fetchExperts } from '../store/mainSlice';
+import { FilterForm } from '../../../lib/components/FilterForm';
 
 export interface IMainViewProps {}
 
@@ -25,6 +26,7 @@ const MainView: React.FC<IMainViewProps> = () => {
 
   return (
     <>
+      <FilterForm />
       <Container>
         <Grid container spacing={2} direction="row" alignItems="center">
           <Grid item xs={12}>
