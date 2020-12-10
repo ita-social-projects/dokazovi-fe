@@ -8,8 +8,8 @@ export interface IExpertsState {
 }
 
 interface IMaterialsPayload {
-    posts: IPost[];
-    meta: 
+  posts: IPost[];
+  // meta:
 }
 
 const initialState: IExpertsState = {
@@ -26,27 +26,25 @@ const initialState: IExpertsState = {
 };
 
 export const expertsSlice = createSlice({
-    name: 'experts',
-    initialState,
-    reducers: {
-        loadExperts: (state, action: PayloadAction<IExpertPayload>) => {
-            state.experts = action.payload;
-        },
-        setExpertsRegion: (state, action: PayloadAction<number | number[]>) => {
-            state.experts.meta.regionFilter = action.payload;
-        },
-        setExpertsDirection: (state, action: PayloadAction<number | number[]>) => {
-            state.experts.meta.directionFilter = action.payload;
-        }
-
-    }
+  name: 'experts',
+  initialState,
+  reducers: {
+    loadExperts: (state, action: PayloadAction<IExpertPayload>) => {
+      state.experts = action.payload;
+    },
+    setExpertsRegion: (state, action: PayloadAction<number | number[]>) => {
+      state.experts.meta.regionFilter = action.payload;
+    },
+    setExpertsDirection: (state, action: PayloadAction<number | number[]>) => {
+      state.experts.meta.directionFilter = action.payload;
+    },
+  },
 });
 
 export const {
-    loadExperts,
-    setExpertsRegion,
-    setExpertsDirection,    
-  } = expertsSlice.actions;
-  
-  export const expertsReducer = expertsSlice.reducer;
- 
+  loadExperts,
+  setExpertsRegion,
+  setExpertsDirection,
+} = expertsSlice.actions;
+
+export const expertsReducer = expertsSlice.reducer;
