@@ -34,11 +34,11 @@ const MaterialsContainer: React.FC<IMaterialsContainerProps> = ({
   const dispatch = useDispatch();
 
   const dispatchFetchAction = (
-    checkedDirections = [1, 2, 3],
-    shouldAdd = true,
+    checkedTypes = ['1', '2', '3'],
+    loadMore = true,
   ) => {
     dispatch(setMaterialsLoadingStatus(direction));
-    dispatch(fetchMaterials(direction, checkedDirections, shouldAdd));
+    dispatch(fetchMaterials(direction, checkedTypes, loadMore));
   };
 
   useEffect(() => {
@@ -60,8 +60,8 @@ const MaterialsContainer: React.FC<IMaterialsContainerProps> = ({
   });
 
   const handler = useCallback(
-    _.debounce((checked) => {
-      dispatchFetchAction(checked, false);
+    _.debounce((checkedTypes) => {
+      dispatchFetchAction(checkedTypes, false);
     }, 500),
     [],
   );
@@ -70,11 +70,10 @@ const MaterialsContainer: React.FC<IMaterialsContainerProps> = ({
     const boxes = { ...checkedBoxes, [event.target.id]: event.target.checked };
     setChecked(boxes);
 
-    const checkedDirections = Object.keys(boxes).filter((key) => {
+    const checkedTypes = Object.keys(boxes).filter((key) => {
       return boxes[key] === true;
     });
-    const checked = checkedDirections.map((el) => +el);
-    handler(checked);
+    handler(checkedTypes);
   };
 
   return (

@@ -1,10 +1,11 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import _ from 'lodash';
+import { getPosts, getExperts } from '../../../lib/utilities/API/api';
 import { IDirection, IExpert, ICourse, IPost } from '../../../lib/types';
 import type { AppThunkType } from '../../../store/store';
 import { MOCK_COURSES } from '../courses/directionCourses.mock';
-import { getPosts, getExperts } from '../../../lib/utilities/API/api';
+
 import { LOAD_POSTS_LIMIT } from '../../main/components/constants/newestPostsPagination-config';
 import { DIRECTION_PROPERTIES } from '../../../lib/constants/direction-properties';
 import { postTypeProperties } from '../../../lib/constants/post-type-properties';
@@ -150,15 +151,15 @@ export const fetchCourses = (directionName: string): AppThunkType => async (
 // TODO: use createAsyncThunk
 export const fetchMaterials = (
   direction: IDirection,
-  checkedTypes: number[],
-  shouldAdd: boolean,
+  checkedTypes: string[],
+  loadMore: boolean,
 ): AppThunkType => async (dispatch, getState) => {
   const { posts, meta } = getState().directions[direction.name].materials;
 
   const response = await getPosts('latest-by-direction', {
     params: {
       direction: direction.id,
-      page: shouldAdd ? meta.pageNumber + 1 : 0,
+      page: loadMore ? meta.pageNumber + 1 : 0,
       size: LOAD_POSTS_LIMIT,
       type: checkedTypes,
     },
@@ -192,7 +193,7 @@ export const fetchMaterials = (
     loadMaterials({
       directionName: direction.name,
       materials: {
-        posts: shouldAdd ? posts.concat(fetchedPosts) : fetchedPosts,
+        posts: loadMore ? posts.concat(fetchedPosts) : fetchedPosts,
         meta: {
           isLastPage: response.data.last,
           isLoading: false,

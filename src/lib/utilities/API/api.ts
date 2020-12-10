@@ -20,7 +20,7 @@ export type GetConfigType = {
     size?: number;
     sort?: string[];
     direction?: number;
-    type?: number[];
+    type?: string[];
     tag?: string;
   };
 };
