@@ -29,7 +29,7 @@ export interface ICourse {
   courseType: CourseTypeEnum;
   direction: CourseEnum;
   title: string;
-  createdAt: Date;
+  createdAt: string;
   course: boolean;
 }
 
