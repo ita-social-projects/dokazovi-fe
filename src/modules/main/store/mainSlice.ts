@@ -38,14 +38,16 @@ interface IImportantPayload {
   importantPosts: IPost[];
   meta: IImportantMeta;
 }
-interface IExpertPayload {
+export interface IExpertPayload {
   experts: IExpert[];
   meta: IExpertMeta;
 }
 
-interface IExpertMeta {
+export interface IExpertMeta {
   loading: LoadingStatusEnum;
   error: null | string;
+  directionFilter: null | number | number[];
+  regionFilter: null | number | number[];
 }
 
 export interface IMainState {
@@ -76,6 +78,8 @@ const initialState: IMainState = {
     meta: {
       loading: LoadingStatusEnum.idle,
       error: null,
+      directionFilter: null,
+      regionFilter: null,
     },
   },
 };
