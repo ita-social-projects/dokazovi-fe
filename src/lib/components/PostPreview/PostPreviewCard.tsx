@@ -64,7 +64,7 @@ const PostPreviewCard: React.FC<IPostPreviewCardProps> = (props) => {
           </Box>
           <Box>
             <Chip
-              label={data.mainDirection.label}
+              label={data.mainDirection?.label}
               size="small"
               style={{
                 backgroundColor: data.mainDirection.color,
