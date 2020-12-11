@@ -31,15 +31,7 @@ const MaterialsContainer: React.FC<IMaterialsContainerProps> = ({
 
   const dispatch = useDispatch();
 
-  const dispatchFetchAction = () => {
-    dispatch(
-      setMaterialsLoadingStatus({
-        direction,
-        status: LoadingStatusEnum.pending,
-      }),
-    );
-    dispatch(fetchMaterials(direction));
-  };
+  const dispatchFetchAction = () => dispatch(fetchMaterials(direction));
 
   useEffect(() => {
     dispatch(fetchInitialMaterials(direction));

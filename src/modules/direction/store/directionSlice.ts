@@ -235,6 +235,11 @@ export const fetchMaterials = (direction: IDirection): AppThunkType => async (
   const { posts, meta } = getState().directions[direction.name].materials;
 
   try {
+    dispatch(setMaterialsLoadingStatus({
+      direction,
+      status: LoadingStatusEnum.pending,
+    }));
+
     const response = await getPosts('latest-by-direction', {
       params: {
         direction: direction.id,
@@ -298,12 +303,6 @@ export const fetchInitialMaterials = (
   const { posts } = getState().directions[direction.name].materials;
 
   if (posts.length === 0) {
-    dispatch(
-      setMaterialsLoadingStatus({
-        direction,
-        status: LoadingStatusEnum.pending,
-      }),
-    );
     dispatch(fetchMaterials(direction));
   }
 };
