@@ -28,10 +28,7 @@ const initialState: IMainState = {
   },
   experts: {
     experts: [],
-    meta: {
-      loading: LoadingStatusEnum.idle,
-      error: null,
-    },
+    meta: { loading: LoadingStatusEnum.failed, error: '' },
   },
 };
 
@@ -58,13 +55,5 @@ describe('newest', () => {
     const rootState: RootStateType['main'] = { ...newState };
 
     expect(rootState.newest.meta.loading).toEqual('failed');
-  });
-
-  it('initial render NewestContainer posts equal to LIMIT number', () => {
-    render(
-      <Provider store={store}>
-        <NewestContainer />
-      </Provider>,
-    );
   });
 });

@@ -2,7 +2,11 @@ import React, { useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Container, Grid, Button, Typography } from '@material-ui/core';
 import { RootStateType } from '../../../store/rootReducer';
-import { fetchNewestPosts, IMainState } from '../store/mainSlice';
+import {
+  fetchNewestPosts,
+  IMainState,
+  fetchInitialNewestPosts,
+} from '../store/mainSlice';
 import { useStyles } from './styles/NewestContainer.style';
 import BorderBottom from '../../../lib/components/Border';
 import PostsList from '../../../lib/components/PostsList';
@@ -15,6 +19,7 @@ const NewestContainer: React.FC = () => {
 
   const dispatch = useDispatch();
   const setNewest = () => dispatch(fetchNewestPosts());
+  const setNewestInitial = () => dispatch(fetchInitialNewestPosts());
 
   const {
     newestPosts,
@@ -24,7 +29,7 @@ const NewestContainer: React.FC = () => {
   });
 
   useEffect(() => {
-    setNewest();
+    setNewestInitial();
   }, []);
 
   const renderLoadControls = (

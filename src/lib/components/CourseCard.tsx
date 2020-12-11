@@ -13,7 +13,7 @@ export interface ICourseCardProps {
 export const CourseCard: React.FC<ICourseCardProps> = (props) => {
   const classes = useStyles();
   const { course } = props;
-
+  const courseDate = `${course.createdAt.split('T')[0]}`;
   return (
     <Card className={classes.root}>
       <Box className={classes.leftPart}>
@@ -25,20 +25,20 @@ export const CourseCard: React.FC<ICourseCardProps> = (props) => {
       </Box>
       <Box className={classes.rightPart}>
         <Box className={classes.chipRoot}>
-          <Chip label={course.courseType} size="small"/>
+          <Chip label={course.courseType} size="small" />
           <Chip label={course.direction} size="small" />
         </Box>
         <Typography variant="body1" component="p" align="center">
           {course.title}
         </Typography>
         <Typography
-            style={{ fontStyle: 'italic' }}
-            align="right"
-            variant="body2"
-            className={classes.createdAt}
-          >
-            {course.createdAt.toLocaleDateString()}
-          </Typography>
+          style={{ fontStyle: 'italic' }}
+          align="right"
+          variant="body2"
+          className={classes.createdAt}
+        >
+          {courseDate}
+        </Typography>
       </Box>
     </Card>
   );

@@ -38,12 +38,12 @@ interface IImportantPayload {
   importantPosts: IPost[];
   meta: IImportantMeta;
 }
-interface IExpertPayload {
+export interface IExpertPayload {
   experts: IExpert[];
   meta: IExpertMeta;
 }
 
-interface IExpertMeta {
+export interface IExpertMeta {
   loading: LoadingStatusEnum;
   error: null | string;
 }
@@ -135,6 +135,19 @@ export const fetchExperts = createAsyncThunk('main/loadExperts', async () => {
 
   return loadedExperts;
 });
+
+export const fetchInitialNewestPosts = (): AppThunkType => async (
+  dispatch,
+  getState,
+) => {
+  const {
+    main: { newest },
+  } = getState();
+
+  if (!newest.newestPosts.length) {
+    await dispatch(fetchNewestPosts());
+  }
+};
 
 export const mainSlice = createSlice({
   name: 'main',

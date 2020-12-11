@@ -29,7 +29,7 @@ export interface ICourse {
   courseType: CourseTypeEnum;
   direction: CourseEnum;
   title: string;
-  createdAt: Date;
+  createdAt: string;
   course: boolean;
 }
 
@@ -87,6 +87,7 @@ export interface IDirection {
   id?: number;
   color?: string;
   name: string;
+  label?: string;
   route?: string;
 }
 
@@ -97,4 +98,8 @@ export interface IInstitution {
   };
   id: number;
   name: string;
+}
+
+export interface IFilter {
+  value: any;
 }
