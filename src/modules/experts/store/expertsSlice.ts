@@ -5,12 +5,19 @@ import { IExpertPayload } from '../../main/store/mainSlice';
 
 export interface IExpertsState {
   experts: IExpertPayload;
-  materials: [];
+  materials: IMaterialsPayload[];
+}
+
+interface IMaterialsMeta {
+  loading: LoadingStatusEnum;
+  error: null | string;
+  typeFilter: null | number | number[];
 }
 
 interface IMaterialsPayload {
-  posts: IPost[];
-  // meta:
+  id: number;
+  loadedPosts: IPost[];
+  meta: IMaterialsMeta;
 }
 
 const initialState: IExpertsState = {
@@ -33,19 +40,28 @@ export const expertsSlice = createSlice({
     loadExperts: (state, action: PayloadAction<IExpertPayload>) => {
       state.experts = action.payload;
     },
-    setExpertsRegion: (state, action: PayloadAction<number | number[]>) => {
+    setExpertsRegionFilter: (
+      state,
+      action: PayloadAction<number | number[]>,
+    ) => {
       state.experts.meta.regionFilter = action.payload;
     },
-    setExpertsDirection: (state, action: PayloadAction<number | number[]>) => {
+    setExpertsDirectionFilter: (
+      state,
+      action: PayloadAction<number | number[]>,
+    ) => {
       state.experts.meta.directionFilter = action.payload;
+    },
+    loadMaterials: (state, action: PayloadAction<IMaterialsPayload>) => {
+      state.materials.push(action.payload);
     },
   },
 });
 
 export const {
   loadExperts,
-  setExpertsRegion,
-  setExpertsDirection,
+  setExpertsRegionFilter,
+  setExpertsDirectionFilter,
 } = expertsSlice.actions;
 
 export const expertsReducer = expertsSlice.reducer;
