@@ -19,14 +19,28 @@ export interface IDirectionsState extends Record<string, IDirectionState> {
   [key: string]: IDirectionState;
 }
 
+export interface IExpertsMeta {
+  loading: LoadingStatusEnum;
+  error: null | string;
+}
+
 export interface IDirectionState {
   courses: ICourse[];
-  experts: IExpert[];
+  experts: {
+    expertsCards: IExpert[];
+    meta: IExpertsMeta;
+  };
   materials: IMaterialsState;
 }
 
 const initialDirectionState: IDirectionState = {
-  experts: [],
+  experts: {
+    expertsCards: [],
+    meta: {
+      loading: LoadingStatusEnum.idle,
+      error: null,
+    },
+  },
   materials: {
     posts: [],
     meta: {
@@ -57,17 +71,43 @@ export const directionsSlice = createSlice({
       // TODO: use latin direction names, create labels for cyrillic?
       if (!state[action.payload]) state[action.payload] = initialDirectionState;
     },
+    setExpertsLoadingStatus: (
+      state,
+      action: PayloadAction<{
+        directionName: string;
+        status: LoadingStatusEnum;
+        error?: string;
+      }>,
+    ) => {
+      const { directionName, status, error } = action.payload;
+
+      switch (status) {
+        case LoadingStatusEnum.pending:
+          state[directionName].experts.meta.loading = LoadingStatusEnum.pending;
+          break;
+        case LoadingStatusEnum.failed:
+          state[directionName].experts.meta.loading = LoadingStatusEnum.failed;
+          state[directionName].experts.meta.error = error || null;
+          break;
+        default:
+          state[directionName].experts.meta.loading =
+            LoadingStatusEnum.succeeded;
+          break;
+      }
+    },
     loadExperts: (
       state,
       action: PayloadAction<{
         experts: IExpert[];
+        meta: IExpertsMeta;
         directionName: string;
       }>,
     ) => {
       const { directionName } = action.payload;
       const direction = state[directionName] as IDirectionState;
       if (direction) {
-        direction.experts = action.payload.experts;
+        direction.experts.expertsCards = action.payload.experts;
+        direction.experts.meta = action.payload.meta;
       }
     },
     loadCourses: (
@@ -127,6 +167,7 @@ export const directionsSlice = createSlice({
 export const {
   setMaterialsLoadingStatus,
   loadMaterials,
+  setExpertsLoadingStatus,
   loadExperts,
   loadCourses,
   setupDirection,
@@ -152,12 +193,22 @@ export const fetchExperts = (
 
     dispatch(
       loadExperts({
-        directionName,
         experts,
+        meta: {
+          loading: LoadingStatusEnum.succeeded,
+          error: null,
+        },
+        directionName,
       }),
     );
   } catch (e) {
-    console.log(e);
+    dispatch(
+      setExpertsLoadingStatus({
+        directionName,
+        status: LoadingStatusEnum.failed,
+        error: String(e),
+      }),
+    );
   }
 };
 

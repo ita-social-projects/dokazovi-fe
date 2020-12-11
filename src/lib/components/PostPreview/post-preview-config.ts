@@ -19,7 +19,8 @@ export const MOCK_DATA: IPost = {
   mainDirection: {
     id: 4,
     color: '#ffee58',
-    name: 'Терапія',
+    name: 'Therapy',
+    label: 'Терапія',
   },
   title: 'Назва статті',
   content:
