@@ -39,7 +39,7 @@ export const PostCard: React.FC<IPostCardProps> = (props) => {
         <Box className={classes.chipRoot}>
           <Chip label={post.postType.name} size="small" />
           <Chip
-            label={post.mainDirection.name}
+            label={post.mainDirection.label}
             size="small"
             style={{
               backgroundColor: post.mainDirection.color,
