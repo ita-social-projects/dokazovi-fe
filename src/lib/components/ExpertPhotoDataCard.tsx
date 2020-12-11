@@ -3,6 +3,8 @@ import { Box } from '@material-ui/core';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
+import CardMedia from '@material-ui/core/CardMedia';
+import PostDirectionChip from './PostDirectionChip';
 import { IExpert } from '../types';
 import { useStyles } from '../styles/ExpertPhotoDataCard.styles';
 
@@ -35,11 +37,10 @@ const ExpertDataCard: React.FC<IExpertDataCardProps> = (props) => {
         }}
       >
         <Box>
-          <img
-            src={expert.avatar}
-            alt="doctor"
-            key={expert.id}
+          <CardMedia
             className={classes.photo}
+            image={expert.avatar}
+            title="doctor"
           />
         </Box>
         <Box
@@ -53,7 +54,7 @@ const ExpertDataCard: React.FC<IExpertDataCardProps> = (props) => {
           <Typography variant="h5">{fullName}</Typography>
           {directionName && (
             <Typography variant="body1">
-              Спеціалізація: {directionName}
+              Спеціалізація: <PostDirectionChip labelName={directionName} />
             </Typography>
           )}
           <div>
