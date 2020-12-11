@@ -5,9 +5,9 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
-import { Chip } from '@material-ui/core';
 import { IPost } from '../../types';
 import { useStyles } from '../../styles/PostPreviewCard.styles';
+import PostDirectionChip from '../PostDirectionChip';
 
 export interface IPostPreviewCardProps {
   data: IPost;
@@ -63,14 +63,9 @@ const PostPreviewCard: React.FC<IPostPreviewCardProps> = (props) => {
             </Typography>
           </Box>
           <Box>
-            <Chip
-              label={data.mainDirection?.label}
-              size="small"
-              style={{
-                backgroundColor: data.mainDirection.color,
-                borderRadius: '15px',
-                padding: '0px 8px 0px 8px',
-              }}
+            <PostDirectionChip
+              backgroundColor={data.mainDirection.color}
+              labelName={data.mainDirection.name}
             />
             <Typography
               style={{ fontStyle: 'italic' }}
