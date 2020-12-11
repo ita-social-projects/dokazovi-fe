@@ -23,18 +23,8 @@ const POST_MOCK = {
 beforeEach(() => render(<PostPreviewCard data={POST_MOCK} />));
 
 describe('PostPreviewCard', () => {
-  it('renders name direction', () => {
-    const renderedDirection = screen.getByText(
-      mainDirection.name,
-    );
-
-    expect(renderedDirection).toBeInTheDocument();
-  });
-
   it('renders name postType', () => {
-    const renderedPostType = screen.getByText(
-      postType.name,
-    );
+    const renderedPostType = screen.getByText(postType?.name);
     expect(renderedPostType).toBeInTheDocument();
   });
 });
