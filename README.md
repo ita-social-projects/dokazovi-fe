@@ -83,7 +83,7 @@ You can learn more in the [Create React App documentation](https://facebook.gith
 
 To learn React, check out the [React documentation](https://reactjs.org/).
 
-## Documentation
+## How to contribute
 
 - [Branching Strategy](https://github.com/ita-social-projects/dokazovi-fe/wiki/Branching-Strategy)
 - [Issue flow](https://github.com/ita-social-projects/dokazovi-fe/wiki/Issue-flow)
