@@ -46,8 +46,6 @@ export interface IExpertPayload {
 export interface IExpertMeta {
   loading: LoadingStatusEnum;
   error: null | string;
-  directionFilter?: null | number | number[];
-  regionFilter?: null | number | number[];
 }
 
 export interface IMainState {

@@ -98,3 +98,7 @@ export interface IInstitution {
   id: number;
   name: string;
 }
+
+export interface IFilter {
+  value: any;
+}
