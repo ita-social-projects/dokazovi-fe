@@ -84,8 +84,8 @@ You can learn more in the [Create React App documentation](https://facebook.gith
 To learn React, check out the [React documentation](https://reactjs.org/).
 
 ## Project Deploy
-[Dokazovi - FE](https://dokazovi-fe.herokuapp.com/)
-[Dokazovi - BE - Swagger](https://dokazovi-be.herokuapp.com/api/swagger-ui/#/)
+- [Dokazovi - FE](https://dokazovi-fe.herokuapp.com/)
+- [Dokazovi - BE - Swagger](https://dokazovi-be.herokuapp.com/api/swagger-ui/#/)
 
 ## How to contribute
 
