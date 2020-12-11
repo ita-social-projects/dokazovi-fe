@@ -8,23 +8,23 @@ import PostDirectionChip from './PostDirectionChip';
 import { IExpert } from '../types';
 import { useStyles } from '../styles/ExpertPhotoDataCard.styles';
 
-export interface IExpertDataCardProps {
-  expert: IExpert;
+export interface IExpertPhotoDataCardProps {
+  detailExpert: IExpert;
 }
 
-const ExpertDataCard: React.FC<IExpertDataCardProps> = (props) => {
-  const { expert } = props;
+const ExpertPhotoDataCard: React.FC<IExpertPhotoDataCardProps> = (props) => {
+  const { detailExpert } = props;
 
-  const fullName = `${expert.firstName} ${expert.lastName}`;
+  const fullName = `${detailExpert.firstName} ${detailExpert.lastName}`;
 
   const mainInsitutionCity =
-    expert.mainInstitution && expert.mainInstitution.city
-      ? expert.mainInstitution.city.name
+    detailExpert.mainInstitution && detailExpert.mainInstitution.city
+      ? detailExpert.mainInstitution.city.name
       : '';
 
-  const mainInsitutionName = expert.mainInstitution?.name || '';
+  const mainInsitutionName = detailExpert.mainInstitution?.name || '';
 
-  const directionName = expert.mainDirection?.name || '';
+  const directionName = detailExpert.mainDirection?.name || '';
 
   const classes = useStyles();
 
@@ -39,7 +39,7 @@ const ExpertDataCard: React.FC<IExpertDataCardProps> = (props) => {
         <Box>
           <CardMedia
             className={classes.photo}
-            image={expert.avatar}
+            image={detailExpert.avatar}
             title="doctor"
           />
         </Box>
@@ -65,13 +65,13 @@ const ExpertDataCard: React.FC<IExpertDataCardProps> = (props) => {
               {mainInsitutionName}
             </Typography>
           </div>
-          {expert.lastAddedPost && (
+          {detailExpert.lastAddedPost && (
             <div>
               <Typography variant="body2" color="textSecondary">
                 Останній доданий матеріал:
               </Typography>
               <Typography variant="h6" component="p">
-                {expert.lastAddedPost?.title}
+                {detailExpert.lastAddedPost?.title}
               </Typography>
             </div>
           )}
@@ -81,4 +81,4 @@ const ExpertDataCard: React.FC<IExpertDataCardProps> = (props) => {
   );
 };
 
-export default ExpertDataCard;
+export default ExpertPhotoDataCard;
