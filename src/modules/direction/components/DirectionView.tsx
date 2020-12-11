@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import _ from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
 import { Container, Grid, Typography, Box } from '@material-ui/core';
 import { useLocation } from 'react-router-dom';
@@ -12,7 +13,7 @@ import { ExpertsView } from '../../../lib/components/ExpertsView';
 import { IDirection } from '../../../lib/types';
 import Carousel from '../../../lib/components/Carousel';
 import { CourseCard } from '../../../lib/components/CourseCard';
-
+import {PostTypeFilter} from './PostTypesFilter';
 
 import MaterialsContainer from './MaterialsContainer';
 
@@ -72,6 +73,7 @@ const DirectionView: React.FC<IDirectionViewProps> = () => {
             </Grid>
             <BorderBottom />
             <Grid item xs={12}>
+              <PostTypeFilter directionName={currentDirection.name}/>
               <MaterialsContainer direction={currentDirection} />
             </Grid>
             <Grid item xs={12}>

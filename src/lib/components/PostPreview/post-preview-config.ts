@@ -26,7 +26,7 @@ export const MOCK_DATA: IPost = {
     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
   tags: [{ id: 5, tag: 'covid19' }],
   createdAt: '27.11.2020',
-  postType: { name: 'Допис' },
+  postType: { id: 3, name: 'Допис' },
   preview:
     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
 };

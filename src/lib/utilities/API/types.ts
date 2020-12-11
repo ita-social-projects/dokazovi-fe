@@ -78,3 +78,11 @@ export type GetTagResponseType = PostTagResponseType[];
 export type GetVersionType = {
   version: string;
 };
+
+export type PostPostResponseType = {
+  id: number;
+  name: string;
+}
+
+export type GetPostResponseType = PostPostResponseType[]
+

@@ -1,14 +1,21 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import _ from 'lodash';
+import {
+  IDirection,
+  IExpert,
+  ICourse,
+  IPost,
+  IFilter,
+  DirectionFilterTypes,
+} from '../../../lib/types';
 import { getPosts, getExperts } from '../../../lib/utilities/API/api';
-import { IDirection, IExpert, ICourse, IPost } from '../../../lib/types';
+
 import type { AppThunkType } from '../../../store/store';
 import { MOCK_COURSES } from '../courses/directionCourses.mock';
 
 import { LOAD_POSTS_LIMIT } from '../../main/components/constants/newestPostsPagination-config';
 import { DIRECTION_PROPERTIES } from '../../../lib/constants/direction-properties';
-import { postTypeProperties } from '../../../lib/constants/post-type-properties';
 
 export interface IDirectionsState extends Record<string, IDirectionState> {
   [key: string]: IDirectionState;
@@ -18,6 +25,9 @@ export interface IDirectionState {
   courses: ICourse[];
   experts: IExpert[];
   materials: IMaterialsState;
+  filters?: {
+    [key in DirectionFilterTypes]?: IFilter;
+  };
 }
 
 const initialDirectionState: IDirectionState = {
@@ -92,6 +102,23 @@ export const directionsSlice = createSlice({
         direction.materials = action.payload.materials;
       }
     },
+    setPostFilters: (
+      state,
+      action: PayloadAction<{
+        key: DirectionFilterTypes;
+        filters: IFilter;
+        directionName: string;
+      }>,
+    ) => {
+      const { key, filters, directionName } = action.payload;
+      const direction = state[directionName] as IDirectionState;
+      if (direction) {
+        direction.filters = {
+          ...direction.filters,
+          [key]: filters,
+        };
+      }
+    },
   },
 });
 
@@ -101,6 +128,7 @@ export const {
   loadExperts,
   loadCourses,
   setupDirection,
+  setPostFilters,
 } = directionsSlice.actions;
 
 export const directionsReducer = directionsSlice.reducer;
@@ -149,22 +177,24 @@ export const fetchCourses = (directionName: string): AppThunkType => async (
 };
 
 // TODO: use createAsyncThunk
-export const fetchMaterials = (
-  direction: IDirection,
-  checkedTypes: string[],
-  loadMore: boolean,
-): AppThunkType => async (dispatch, getState) => {
+export const fetchMaterials = (direction: IDirection): AppThunkType => async (
+  dispatch,
+  getState,
+) => {
   const { posts, meta } = getState().directions[direction.name].materials;
-
+  const {filters} = getState().directions[direction.name];
+  const postTypes = filters?.PostTypes?.value;
   const response = await getPosts('latest-by-direction', {
     params: {
       direction: direction.id,
-      page: loadMore ? meta.pageNumber + 1 : 0,
+      page: postTypes? 0 : meta.pageNumber + 1,
       size: LOAD_POSTS_LIMIT,
-      type: checkedTypes,
+      type: postTypes,
     },
   });
 
+  console.log(filters);
+  
   const fetchedPosts: IPost[] = response.data.content.map((post) => {
     const author = _.pick(post.author, [
       'avatar',
@@ -181,7 +211,7 @@ export const fetchMaterials = (
     return {
       author,
       mainDirection: DIRECTION_PROPERTIES[post.mainDirection.id.toString()],
-      postType: postTypeProperties[post.type.id.toString()],
+      postType: post.type,
       title: post.title,
       content: post.content,
       preview,
@@ -193,7 +223,7 @@ export const fetchMaterials = (
     loadMaterials({
       directionName: direction.name,
       materials: {
-        posts: loadMore ? posts.concat(fetchedPosts) : fetchedPosts,
+        posts: postTypes? fetchedPosts : posts.concat(fetchedPosts),
         meta: {
           isLastPage: response.data.last,
           isLoading: false,

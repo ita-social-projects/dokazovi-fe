@@ -1,6 +1,5 @@
-import React, { useEffect, useRef, useState, useCallback } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import _ from 'lodash';
 import {
   Button,
   CircularProgress,
@@ -16,7 +15,6 @@ import {
 import { RootStateType } from '../../../store/rootReducer';
 import { useStyles } from './styles/MaterialsContainer.styles';
 import { IDirection } from '../../../lib/types';
-import { CheckboxMaterials } from './MaterialsCheckbox';
 
 interface IMaterialsContainerProps {
   direction: IDirection;
@@ -30,20 +28,20 @@ const MaterialsContainer: React.FC<IMaterialsContainerProps> = ({
   const { posts, meta } = useSelector(
     (state: RootStateType) => state.directions[direction.name].materials,
   );
+  const { filters } = useSelector(
+    (state: RootStateType) => state.directions[direction.name],
+  );
 
   const dispatch = useDispatch();
 
-  const dispatchFetchAction = (
-    checkedTypes = ['1', '2', '3'],
-    loadMore = true,
-  ) => {
+  const dispatchFetchAction = () => {
     dispatch(setMaterialsLoadingStatus(direction));
-    dispatch(fetchMaterials(direction, checkedTypes, loadMore));
+    dispatch(fetchMaterials(direction));
   };
 
   useEffect(() => {
     dispatchFetchAction();
-  }, []);
+  }, [filters]);
 
   const gridRef = useRef<HTMLDivElement>(null);
 
@@ -53,35 +51,8 @@ const MaterialsContainer: React.FC<IMaterialsContainerProps> = ({
     }
   }, [meta.pageNumber]);
 
-  const [checkedBoxes, setChecked] = useState({
-    '1': false,
-    '2': false,
-    '3': false,
-  });
-
-  const handler = useCallback(
-    _.debounce((checkedTypes) => {
-      dispatchFetchAction(checkedTypes, false);
-    }, 500),
-    [],
-  );
-
-  const handleBoxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const boxes = { ...checkedBoxes, [event.target.id]: event.target.checked };
-    setChecked(boxes);
-
-    const checkedTypes = Object.keys(boxes).filter((key) => {
-      return boxes[key] === true;
-    });
-    handler(checkedTypes);
-  };
-
   return (
     <Container>
-      <CheckboxMaterials
-        handleBoxChange={handleBoxChange}
-        checkedBoxes={checkedBoxes}
-      />
       <Typography variant="h4">Матеріали</Typography>
       <Grid container spacing={2} direction="row" alignItems="center">
         <PostList postsList={posts} />
