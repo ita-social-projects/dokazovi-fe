@@ -1,8 +1,15 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import _ from 'lodash';
-import { IDirection, IExpert, IPost } from '../../../lib/types';
+import {
+  IDirection,
+  IExpert,
+  ICourse,
+  IPost,
+  LoadingStatusEnum,
+} from '../../../lib/types';
 import type { AppThunkType } from '../../../store/store';
+import { MOCK_COURSES } from '../courses/directionCourses.mock';
 import { getPosts, getExperts } from '../../../lib/utilities/API/api';
 import { LOAD_POSTS_LIMIT } from '../../main/components/constants/newestPostsPagination-config';
 import { DIRECTION_PROPERTIES } from '../../../lib/constants/direction-properties';
@@ -12,13 +19,28 @@ export interface IDirectionsState extends Record<string, IDirectionState> {
   [key: string]: IDirectionState;
 }
 
+export interface IExpertsMeta {
+  loading: LoadingStatusEnum;
+  error: null | string;
+}
+
 export interface IDirectionState {
-  experts: IExpert[];
+  courses: ICourse[];
+  experts: {
+    expertsCards: IExpert[];
+    meta: IExpertsMeta;
+  };
   materials: IMaterialsState;
 }
 
 const initialDirectionState: IDirectionState = {
-  experts: [],
+  experts: {
+    expertsCards: [],
+    meta: {
+      loading: LoadingStatusEnum.idle,
+      error: null,
+    },
+  },
   materials: {
     posts: [],
     meta: {
@@ -27,6 +49,7 @@ const initialDirectionState: IDirectionState = {
       pageNumber: -1,
     },
   },
+  courses: [],
 };
 
 interface IMaterialsState {
@@ -44,20 +67,58 @@ export const directionsSlice = createSlice({
   reducers: {
     setupDirection: (state, action: PayloadAction<string>) => {
       // TODO: use latin direction names, create labels for cyrillic?
-      if (!state[action.payload])
-        state[action.payload] = initialDirectionState;
+      if (!state[action.payload]) state[action.payload] = initialDirectionState;
+    },
+    setExpertsLoadingStatus: (
+      state,
+      action: PayloadAction<{
+        directionName: string;
+        status: LoadingStatusEnum;
+        error?: string;
+      }>,
+    ) => {
+      const { directionName, status, error } = action.payload;
+
+      switch (status) {
+        case LoadingStatusEnum.pending:
+          state[directionName].experts.meta.loading = LoadingStatusEnum.pending;
+          break;
+        case LoadingStatusEnum.failed:
+          state[directionName].experts.meta.loading = LoadingStatusEnum.failed;
+          state[directionName].experts.meta.error = error || null;
+          break;
+        default:
+          state[directionName].experts.meta.loading =
+            LoadingStatusEnum.succeeded;
+          break;
+      }
     },
     loadExperts: (
       state,
       action: PayloadAction<{
         experts: IExpert[];
+        meta: IExpertsMeta;
         directionName: string;
       }>,
     ) => {
       const { directionName } = action.payload;
       const direction = state[directionName] as IDirectionState;
       if (direction) {
-        direction.experts = action.payload.experts;
+        direction.experts.expertsCards = action.payload.experts;
+        direction.experts.meta = action.payload.meta;
+      }
+    },
+    loadCourses: (
+      state,
+      action: PayloadAction<{
+        courses: ICourse[];
+        directionName: string;
+      }>,
+    ) => {
+      const { directionName } = action.payload;
+      const direction = state[directionName] as IDirectionState;
+      if (direction) {
+        direction.courses = action.payload.courses;
       }
     },
     setMaterialsLoadingStatus: (state, action: PayloadAction<IDirection>) => {
@@ -82,7 +143,9 @@ export const directionsSlice = createSlice({
 export const {
   setMaterialsLoadingStatus,
   loadMaterials,
+  setExpertsLoadingStatus,
   loadExperts,
+  loadCourses,
   setupDirection,
 } = directionsSlice.actions;
 
@@ -106,8 +169,34 @@ export const fetchExperts = (
 
     dispatch(
       loadExperts({
-        directionName,
         experts,
+        meta: {
+          loading: LoadingStatusEnum.succeeded,
+          error: null,
+        },
+        directionName,
+      }),
+    );
+  } catch (e) {
+    dispatch(
+      setExpertsLoadingStatus({
+        directionName,
+        status: LoadingStatusEnum.failed,
+        error: String(e),
+      }),
+    );
+  }
+};
+
+export const fetchCourses = (directionName: string): AppThunkType => async (
+  dispatch,
+) => {
+  try {
+    const courses = await Promise.resolve(MOCK_COURSES);
+    dispatch(
+      loadCourses({
+        directionName,
+        courses,
       }),
     );
   } catch (e) {

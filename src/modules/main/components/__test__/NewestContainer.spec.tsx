@@ -1,12 +1,11 @@
 /* eslint-disable @typescript-eslint/no-floating-promises */
 import React from 'react';
 import { Provider } from 'react-redux';
-import { render, screen } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import NewestContainer from '../NewestContainer';
 import { store } from '../../../../store/store';
 import { fetchNewestPosts, IMainState, mainSlice } from '../../store/mainSlice';
 
-import { LOAD_POSTS_LIMIT } from '../constants/newestPostsPagination-config';
 import { RootStateType } from '../../../../store/rootReducer';
 import { LoadingStatusEnum } from '../../../../lib/types';
 
@@ -27,7 +26,10 @@ const initialState: IMainState = {
       error: '',
     },
   },
-  experts: [],
+  experts: {
+    experts: [],
+    meta: { loading: LoadingStatusEnum.failed, error: '' },
+  },
 };
 
 describe('newest', () => {
@@ -53,18 +55,5 @@ describe('newest', () => {
     const rootState: RootStateType['main'] = { ...newState };
 
     expect(rootState.newest.meta.loading).toEqual('failed');
-  });
-
-  it('initial render NewestContainer posts equal to LIMIT number', () => {
-    render(
-      <Provider store={store}>
-        <NewestContainer />
-      </Provider>,
-    );
-
-    const renderedPostCount = screen.getByText('Найновіше').nextElementSibling
-      ?.childElementCount;
-
-    expect(renderedPostCount).toEqual(LOAD_POSTS_LIMIT);
   });
 });
