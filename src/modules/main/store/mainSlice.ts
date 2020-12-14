@@ -37,12 +37,12 @@ interface IImportantPayload {
   importantPosts: IPost[];
   meta: IImportantMeta;
 }
-interface IExpertPayload {
+export interface IExpertPayload {
   experts: IExpert[];
   meta: IExpertMeta;
 }
 
-interface IExpertMeta {
+export interface IExpertMeta {
   loading: LoadingStatusEnum;
   error: null | string;
 }
