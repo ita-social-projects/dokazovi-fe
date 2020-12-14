@@ -45,8 +45,9 @@ const initialDirectionState: IDirectionState = {
     posts: [],
     meta: {
       isLastPage: false,
-      isLoading: false,
       pageNumber: -1,
+      loading: LoadingStatusEnum.idle,
+      error: null,
     },
   },
   courses: [],
@@ -56,8 +57,9 @@ interface IMaterialsState {
   posts: IPost[];
   meta: {
     isLastPage: boolean;
-    isLoading: boolean;
     pageNumber: number;
+    loading: LoadingStatusEnum;
+    error: null | string;
   };
 }
 
@@ -121,8 +123,30 @@ export const directionsSlice = createSlice({
         direction.courses = action.payload.courses;
       }
     },
-    setMaterialsLoadingStatus: (state, action: PayloadAction<IDirection>) => {
-      state[action.payload.name].materials.meta.isLoading = true;
+    setMaterialsLoadingStatus: (
+      state,
+      action: PayloadAction<{
+        direction: IDirection;
+        status: LoadingStatusEnum;
+        error?: string;
+      }>,
+    ) => {
+      const { direction, status, error } = action.payload;
+
+      switch (status) {
+        case LoadingStatusEnum.pending:
+          state[direction.name].materials.meta.loading =
+            LoadingStatusEnum.pending;
+          break;
+        case LoadingStatusEnum.failed:
+          state[direction.name].materials.meta.loading =
+            LoadingStatusEnum.failed;
+          state[direction.name].materials.meta.error = error || null;
+          break;
+        default:
+          state[direction.name].materials.meta.loading =
+            LoadingStatusEnum.succeeded;
+      }
     },
     loadMaterials: (
       state,
@@ -204,56 +228,81 @@ export const fetchCourses = (directionName: string): AppThunkType => async (
   }
 };
 
-// TODO: use createAsyncThunk
 export const fetchMaterials = (direction: IDirection): AppThunkType => async (
   dispatch,
   getState,
 ) => {
   const { posts, meta } = getState().directions[direction.name].materials;
 
-  const response = await getPosts('latest-by-direction', {
-    params: {
-      direction: direction.id,
-      page: meta.pageNumber + 1,
-      size: LOAD_POSTS_LIMIT,
-    },
-  });
+  try {
+    dispatch(setMaterialsLoadingStatus({
+      direction,
+      status: LoadingStatusEnum.pending,
+    }));
 
-  const fetchedPosts: IPost[] = response.data.content.map((post) => {
-    const author = _.pick(post.author, [
-      'avatar',
-      'firstName',
-      'id',
-      'lastName',
-      'mainInstitution',
-    ]);
-
-    const preview = _.truncate(post.content, {
-      length: 150, // TODO: use MAX_LEN constant
+    const response = await getPosts('latest-by-direction', {
+      params: {
+        direction: direction.id,
+        page: meta.pageNumber + 1,
+        size: LOAD_POSTS_LIMIT,
+      },
     });
 
-    return {
-      author,
-      mainDirection: DIRECTION_PROPERTIES[post.mainDirection.id.toString()],
-      postType: postTypeProperties[post.type.id.toString()],
-      title: post.title,
-      content: post.content,
-      preview,
-      createdAt: post.createdAt,
-    };
-  });
+    const fetchedPosts: IPost[] = response.data.content.map((post) => {
+      const author = _.pick(post.author, [
+        'avatar',
+        'firstName',
+        'id',
+        'lastName',
+        'mainInstitution',
+      ]);
 
-  dispatch(
-    loadMaterials({
-      directionName: direction.name,
-      materials: {
-        posts: posts.concat(fetchedPosts),
-        meta: {
-          isLastPage: response.data.last,
-          isLoading: false,
-          pageNumber: response.data.number,
+      const preview = _.truncate(post.content, {
+        length: 150, // TODO: use MAX_LEN constant
+      });
+
+      return {
+        author,
+        mainDirection: DIRECTION_PROPERTIES[post.mainDirection.id.toString()],
+        postType: postTypeProperties[post.type.id.toString()],
+        title: post.title,
+        content: post.content,
+        preview,
+        createdAt: post.createdAt,
+      };
+    });
+
+    dispatch(
+      loadMaterials({
+        directionName: direction.name,
+        materials: {
+          posts: posts.concat(fetchedPosts),
+          meta: {
+            isLastPage: response.data.last,
+            loading: LoadingStatusEnum.succeeded,
+            pageNumber: response.data.number,
+            error: null,
+          },
         },
-      },
-    }),
-  );
+      }),
+    );
+  } catch (e) {
+    dispatch(
+      setMaterialsLoadingStatus({
+        direction,
+        status: LoadingStatusEnum.failed,
+        error: String(e),
+      }),
+    );
+  }
+};
+
+export const fetchInitialMaterials = (
+  direction: IDirection,
+): AppThunkType => (dispatch, getState) => {
+  const { posts } = getState().directions[direction.name].materials;
+
+  if (posts.length === 0) {
+    dispatch(fetchMaterials(direction));
+  }
 };
