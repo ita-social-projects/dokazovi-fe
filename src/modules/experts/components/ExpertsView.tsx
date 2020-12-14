@@ -1,6 +1,6 @@
 import React from 'react';
 import { Container, Grid } from '@material-ui/core';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { RootStateType } from '../../../store/rootReducer';
 import ExpertPhotoDataCard from '../../../lib/components/ExpertPhotoDataCard';
 
@@ -9,12 +9,7 @@ export interface IExpertsViewProps {}
 const selectMainExperts = (state: RootStateType) => state.main.experts;
 
 const ExpertsView: React.FC<IExpertsViewProps> = () => {
-  const dispatch = useDispatch();
-
-  const {
-    experts,
-    meta: { loading },
-  } = useSelector(selectMainExperts);
+  const { experts } = useSelector(selectMainExperts);
 
   return (
     <>

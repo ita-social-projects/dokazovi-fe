@@ -6,9 +6,6 @@ export const useStyles = makeStyles(
       display: 'flex',
       border: '1px solid rgba(0, 0, 0, 0.12)',
     },
-    photo: {
-      marginRight: 27,
-    },
   },
   {
     name: 'ExpertPhotoDataCard',
