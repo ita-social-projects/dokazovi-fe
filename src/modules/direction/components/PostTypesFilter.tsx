@@ -19,7 +19,7 @@ export const PostTypeFilter: React.FC<IPostTypeFilterProps> = ({
   const { control } = useForm();
 
   const postTypes = useSelector(
-    (state: RootStateType) => state.types.postTypes,
+    (state: RootStateType) => state.properties.postTypes,
   );
 
   const state = () => {
