@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import _ from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
 import { Container, Grid, Typography, Box } from '@material-ui/core';
 import { useLocation } from 'react-router-dom';

@@ -5,7 +5,6 @@ import PostList from '../../../lib/components/PostsList';
 import {
   fetchInitialMaterials,
   fetchMaterials,
-  setMaterialsLoadingStatus,
 } from '../store/directionSlice';
 import { RootStateType } from '../../../store/rootReducer';
 import { useStyles } from './styles/MaterialsContainer.styles';
@@ -34,7 +33,7 @@ const MaterialsContainer: React.FC<IMaterialsContainerProps> = ({
 
   const dispatch = useDispatch();
 
-  const dispatchFetchAction = () => dispatch(fetchMaterials(direction));
+const dispatchFetchAction = () => dispatch(fetchMaterials(direction));
 
   useEffect(() => {
     dispatch(fetchInitialMaterials(direction));

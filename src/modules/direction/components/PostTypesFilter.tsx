@@ -6,7 +6,7 @@ import { useForm, Controller } from 'react-hook-form';
 import Checkbox from '@material-ui/core/Checkbox';
 import { RootStateType } from '../../../store/rootReducer';
 import { setPostFilters } from '../store/directionSlice';
-import { DirectionFilterTypes } from '../../../lib/types';
+import { DirectionFilterTypes, IPostType } from '../../../lib/types';
 
 export interface IPostTypeFilterProps {
   directionName: string;
@@ -22,15 +22,9 @@ export const PostTypeFilter: React.FC<IPostTypeFilterProps> = ({
     (state: RootStateType) => state.properties.postTypes,
   );
 
-  const state = () => {
-    const initialTypeState = {};
-    postTypes?.forEach((type) => {
-      initialTypeState[type.id.toString()] = false;
-    });
-    return initialTypeState;
-  };
+  const initState = () => postTypes.reduce((acc: string[], next: IPostType) => [...acc, next.id.toString()], []);
 
-  const [checkedTypes, setChecked] = useState(state);
+  const [checkedTypes, setChecked] = useState(initState);
 
   const checkBoxes = postTypes?.map((type) => {
     const id = type.id.toString();

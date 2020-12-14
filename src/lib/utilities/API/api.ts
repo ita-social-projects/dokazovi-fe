@@ -61,7 +61,7 @@ export const getPosts = (
 
 export const getPostTypes = (): Promise<AxiosResponse<GetPostResponseType>> => {
   return instance.get(`/post/type`);
-};  
+};
 
 export const getExperts = (
   config?: GetExpertsConfigType,
