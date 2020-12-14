@@ -60,13 +60,17 @@ export interface IExpert {
   firstName: string;
   lastName: string;
   avatar?: string;
+  qualification?: string;
+  phone?: string;
+  email?: string;
+  bio?: string;
   mainInstitution?: IInstitution;
   mainDirection?: IDirection;
+  directions?: IDirection[];
   lastAddedPost?: {
     id: number;
     title: string;
   };
-  qualification?: string;
 }
 
 export interface IPostDirection {
