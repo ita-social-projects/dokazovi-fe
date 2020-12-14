@@ -2,7 +2,7 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import { render, screen } from '@testing-library/react';
-import { ExpertsView } from '../../../../lib/components/ExpertsView';
+import { ExpertsView } from '../../../../lib/components/ExpertsViewCard';
 import { store } from '../../../../store/store';
 import { ExpertBlock } from '../../../../lib/components/ExpertBlock';
 import cards from '../../mockDataExperts';
@@ -12,9 +12,8 @@ type ComponentPropsType = React.ComponentProps<typeof ExpertBlock>;
 const baseProps: ComponentPropsType = {
   expert: {
     firstName: 'Myhailo',
-    secondName: 'Ordynskyi',
-    phone: '+380987089024',
-    photo:
+    lastName: 'Ordynskyi',
+    avatar:
       'https://images.theconversation.com/files/304957/original/file-20191203-66986-im7o5.jpg?ixlib=rb-1.1.0&q=45&auto=format&w=1200&h=1200.0&fit=crop',
   },
 };
@@ -58,8 +57,7 @@ describe('MainExpertsView', () => {
     rerender({
       expert: {
         firstName: 'Myhailo',
-        secondName: 'Ordynskyi',
-        phone: '+3809870890rg',
+        lastName: 'Ordynskyi',
       },
     });
   });
