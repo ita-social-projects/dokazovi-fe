@@ -12,8 +12,8 @@ const initialState: ITypesState = {
   postTypes: [],
 };
 
-export const typesSlice = createSlice({
-  name: 'types',
+export const propertiesSlice = createSlice({
+  name: 'properties',
   initialState,
   reducers: {
     loadPostsTypes: (state, action: PayloadAction<IPostType[]>) => {
@@ -22,9 +22,9 @@ export const typesSlice = createSlice({
   },
 });
 
-export const { loadPostsTypes } = typesSlice.actions;
+export const { loadPostsTypes } = propertiesSlice.actions;
 
-export default typesSlice.reducer;
+export default propertiesSlice.reducer;
 
 export const fetchPostsTypes = (): AppThunkType => async (dispatch) => {
   const response = await getPostTypes();

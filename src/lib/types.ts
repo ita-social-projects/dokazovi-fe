@@ -106,5 +106,5 @@ export interface IInstitution {
 }
 
 export interface IFilter {
-  value: string[];
+  value: any;
 }

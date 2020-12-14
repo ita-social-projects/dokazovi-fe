@@ -157,6 +157,7 @@ export const directionsSlice = createSlice({
           ...direction.filters,
           [key]: filters,
         };
+       direction.materials.meta.pageNumber = -1; 
       }
     },
   },
@@ -234,17 +235,15 @@ export const fetchMaterials = (direction: IDirection): AppThunkType => async (
 ) => {
   const { posts, meta } = getState().directions[direction.name].materials;
   const {filters} = getState().directions[direction.name];
-  const postTypes = filters?.PostTypes?.value;
+  const postTypes = filters?.PostTypes?.value as string[];
   const response = await getPosts('latest-by-direction', {
     params: {
       direction: direction.id,
-      page: postTypes? 0 : meta.pageNumber + 1,
+      page: meta.pageNumber + 1,
       size: LOAD_POSTS_LIMIT,
       type: postTypes,
     },
   });
-
-  console.log(filters);
   
   const fetchedPosts: IPost[] = response.data.content.map((post) => {
     const author = _.pick(post.author, [
@@ -274,7 +273,7 @@ export const fetchMaterials = (direction: IDirection): AppThunkType => async (
     loadMaterials({
       directionName: direction.name,
       materials: {
-        posts: postTypes? fetchedPosts : posts.concat(fetchedPosts),
+        posts: meta.pageNumber === -1? fetchedPosts : posts.concat(fetchedPosts),
         meta: {
           isLastPage: response.data.last,
           isLoading: false,

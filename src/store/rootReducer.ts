@@ -1,12 +1,12 @@
 import { combineReducers } from 'redux';
 import { directionsReducer } from '../modules/direction/store/directionSlice';
 import mainReducer from '../modules/main/store/mainSlice';
-import typesReducer from './filterDataSlice';
+import propertiesReducer from './properties';
 
 const rootReducer = combineReducers({
   main: mainReducer,
   directions: directionsReducer,
-  types: typesReducer,
+  properties: propertiesReducer,
 });
 
 export type RootStateType = ReturnType<typeof rootReducer>;

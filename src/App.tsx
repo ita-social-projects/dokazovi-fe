@@ -6,7 +6,7 @@ import { RenderRoutes } from './navigation/Router';
 import ROUTER_CONFIG from './navigation/router-config';
 
 import Header from './lib/components/Header/Header';
-import { fetchPostsTypes } from './store/filterDataSlice';
+import { fetchPostsTypes } from './store/properties';
 
 
 const App: React.FC = () => {
