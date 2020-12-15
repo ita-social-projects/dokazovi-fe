@@ -1,7 +1,18 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { IFilter, IPost, LoadingStatusEnum } from '../../../lib/types';
+import {
+  FilterTypeEnum,
+  IFilter,
+  IPost,
+  LoadingStatusEnum,
+} from '../../../lib/types';
 import { IExpertPayload } from '../../main/store/mainSlice';
+
+interface IExpertFilters {
+  [key: FilterTypeEnum]: {
+    value: any;
+  };
+}
 
 interface IExpertsListPayload extends IExpertPayload {
   filters: IFilter[];

@@ -1,15 +1,17 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { IPostType } from '../lib/types';
-import { getPostTypes } from '../lib/utilities/API/api';
+import { IFilter, IPostType } from '../lib/types';
+import { getPostTypes, getRegions } from '../lib/utilities/API/api';
 import type { AppThunkType } from './store';
 
-export interface ITypesState {
+export interface IPropertiesState {
   postTypes: IPostType[];
+  regions: IFilter[];
 }
 
-const initialState: ITypesState = {
+const initialState: IPropertiesState = {
   postTypes: [],
+  regions: [],
 };
 
 export const propertiesSlice = createSlice({
@@ -19,12 +21,21 @@ export const propertiesSlice = createSlice({
     loadPostsTypes: (state, action: PayloadAction<IPostType[]>) => {
       state.postTypes = action.payload;
     },
+    loadRegions: (state, action: PayloadAction<IFilter[]>) => {
+      state.regions = action.payload;
+    },
   },
 });
 
-export const { loadPostsTypes } = propertiesSlice.actions;
+export const { loadPostsTypes, loadRegions } = propertiesSlice.actions;
 
 export default propertiesSlice.reducer;
+
+export const fetchRegions = (): AppThunkType => async (dispatch) => {
+  const response = await getRegions();
+  const regions = response.data;
+  dispatch(loadRegions(regions));
+};
 
 export const fetchPostsTypes = (): AppThunkType => async (dispatch) => {
   const response = await getPostTypes();
