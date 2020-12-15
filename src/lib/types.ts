@@ -24,9 +24,11 @@ export enum LoadingStatusEnum {
   failed = 'failed',
 }
 
-export enum DirectionFilterTypes {
-  PostTypes = 'PostTypes',
-  Tags = 'Tags',
+export enum FilterTypeEnum {
+  POST_TYPES = 'POST_TYPES',
+  DIRECTIONS = 'DIRECTIONS',
+  REGIONS = 'REGIONS',
+  TAGS = 'TAGS',
 }
 
 export enum CourseEnum {
