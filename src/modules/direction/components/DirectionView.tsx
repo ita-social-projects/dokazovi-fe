@@ -7,12 +7,17 @@ import { useStyles } from './styles/DirectionView.styles';
 import { DIRECTION_PROPERTIES } from '../../../lib/constants/direction-properties';
 import BorderBottom from '../../../lib/components/Border';
 import { RootStateType } from '../../../store/rootReducer';
-import { fetchExperts, setupDirection, fetchCourses } from '../store/directionSlice';
-import { ExpertsView } from '../../../lib/components/ExpertsView';
-import { IDirection } from '../../../lib/types';
+import {
+  fetchExperts,
+  setupDirection,
+  fetchCourses,
+  setExpertsLoadingStatus,
+} from '../store/directionSlice';
+import { ExpertsViewCard } from '../../../lib/components/ExpertsViewCard';
+import { IDirection, LoadingStatusEnum } from '../../../lib/types';
 import Carousel from '../../../lib/components/Carousel';
 import { CourseCard } from '../../../lib/components/CourseCard';
-
+import {PostTypeFilter} from './PostTypesFilter';
 
 import MaterialsContainer from './MaterialsContainer';
 
@@ -31,6 +36,12 @@ const DirectionView: React.FC<IDirectionViewProps> = () => {
 
   useEffect(() => {
     dispatch(
+      setExpertsLoadingStatus({
+        directionName: currentDirection.name,
+        status: LoadingStatusEnum.pending,
+      }),
+    );
+    dispatch(
       fetchExperts(currentDirection.name, currentDirection.id as number),
     );
   }, []);
@@ -38,10 +49,15 @@ const DirectionView: React.FC<IDirectionViewProps> = () => {
   useEffect(() => {
     dispatch(fetchCourses(currentDirection.name));
   }, []);
-  
-  const courseCards = useSelector((state: RootStateType) => state.directions[currentDirection.name]?.courses);
 
-  const expertsCards = useSelector(
+  const courseCards = useSelector(
+    (state: RootStateType) => state.directions[currentDirection.name]?.courses,
+  );
+
+  const {
+    expertsCards,
+    meta: { loading },
+  } = useSelector(
     (state: RootStateType) => state.directions[currentDirection.name]?.experts,
   );
 
@@ -58,11 +74,13 @@ const DirectionView: React.FC<IDirectionViewProps> = () => {
                 className={classes.icon}
                 style={{ backgroundColor: currentDirection?.color }}
               />
-              <Typography variant="h2">{currentDirection?.name}</Typography>
+              <Typography variant="h2">{currentDirection?.label}</Typography>
             </Grid>
             <BorderBottom />
             <Grid item xs={12}>
-              {expertsCards && <ExpertsView cards={expertsCards} />}
+              {expertsCards && (
+                <ExpertsViewCard cards={expertsCards} loading={loading} />
+              )}
               <Box className={classes.moreExperts}>
                 <Typography variant="h5" align="right" display="inline">
                   Більше експертів
@@ -72,11 +90,14 @@ const DirectionView: React.FC<IDirectionViewProps> = () => {
             </Grid>
             <BorderBottom />
             <Grid item xs={12}>
+              <PostTypeFilter directionName={currentDirection.name}/>
               <MaterialsContainer direction={currentDirection} />
             </Grid>
             <Grid item xs={12}>
-            <Typography variant="h5" className={classes.courseTitle}>Рекомендовані курси</Typography>
-            <Carousel>
+              <Typography variant="h5" className={classes.courseTitle}>
+                Рекомендовані курси
+              </Typography>
+              <Carousel>
                 {courseCards.map((p) => (
                   <div key={p.title}>
                     <CourseCard course={p} />

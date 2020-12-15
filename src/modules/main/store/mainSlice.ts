@@ -7,7 +7,6 @@ import { getPosts, getExperts } from '../../../lib/utilities/API/api';
 import type { AppThunkType } from '../../../store/store';
 import { LOAD_POSTS_LIMIT } from '../components/constants/newestPostsPagination-config';
 import { DIRECTION_PROPERTIES } from '../../../lib/constants/direction-properties';
-import { postTypeProperties } from '../../../lib/constants/post-type-properties';
 import type { RootStateType } from '../../../store/rootReducer';
 
 const POST_PREVIEW_LENGTH = 150;
@@ -38,12 +37,12 @@ interface IImportantPayload {
   importantPosts: IPost[];
   meta: IImportantMeta;
 }
-interface IExpertPayload {
+export interface IExpertPayload {
   experts: IExpert[];
   meta: IExpertMeta;
 }
 
-interface IExpertMeta {
+export interface IExpertMeta {
   loading: LoadingStatusEnum;
   error: null | string;
 }
@@ -113,7 +112,7 @@ export const fetchNewestPosts = createAsyncThunk<IFetchNewestPosts>(
         createdAt: post.createdAt,
         mainDirection: DIRECTION_PROPERTIES[post.mainDirection.id.toString()],
         title: post.title,
-        postType: postTypeProperties[post.type.id.toString()],
+        postType: post.type,
         preview,
         id: post.id,
       };
@@ -238,7 +237,7 @@ export const fetchImportantPosts = (): AppThunkType => async (dispatch) => {
         createdAt: post.createdAt,
         mainDirection: DIRECTION_PROPERTIES[post.mainDirection.id.toString()],
         title: post.title,
-        postType: postTypeProperties[post.type.id.toString()],
+        postType: post.type,
       };
     });
     dispatch(

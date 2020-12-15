@@ -1,20 +1,16 @@
 import React, { useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import {
-  Button,
-  CircularProgress,
-  Container,
-  Grid,
-  Typography,
-} from '@material-ui/core';
+import { Button, Container, Grid, Typography } from '@material-ui/core';
 import PostList from '../../../lib/components/PostsList';
 import {
+  fetchInitialMaterials,
   fetchMaterials,
-  setMaterialsLoadingStatus,
 } from '../store/directionSlice';
 import { RootStateType } from '../../../store/rootReducer';
 import { useStyles } from './styles/MaterialsContainer.styles';
-import { IDirection } from '../../../lib/types';
+import { IDirection, LoadingStatusEnum } from '../../../lib/types';
+import LoadingInfo from '../../../lib/components/LoadingInfo';
+import useEffectExceptOnMount from '../../../lib/hooks/useEffectExceptOnMount';
 
 interface IMaterialsContainerProps {
   direction: IDirection;
@@ -25,34 +21,40 @@ const MaterialsContainer: React.FC<IMaterialsContainerProps> = ({
 }) => {
   const classes = useStyles();
 
-  const { posts, meta }  = useSelector(
+  const {
+    posts,
+    meta: { loading, isLastPage, pageNumber },
+  } = useSelector(
     (state: RootStateType) => state.directions[direction.name].materials,
+  );
+  const { filters } = useSelector(
+    (state: RootStateType) => state.directions[direction.name],
   );
 
   const dispatch = useDispatch();
 
-  const dispatchFetchAction = () => {
-    dispatch(setMaterialsLoadingStatus(direction));
-    dispatch(fetchMaterials(direction));
-  };
+const dispatchFetchAction = () => dispatch(fetchMaterials(direction));
 
   useEffect(() => {
-    dispatchFetchAction();
-  }, []);
+    dispatch(fetchInitialMaterials(direction));
+  }, [filters]);
 
   const gridRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    if (meta.pageNumber > 0) {
+  useEffectExceptOnMount(() => {
+    if (pageNumber > 0) {
       gridRef.current?.scrollIntoView({ behavior: 'smooth' });
     }
-  }, [meta.pageNumber]);
+  }, [pageNumber]);
 
   return (
     <Container>
       <Typography variant="h4">Матеріали</Typography>
       <Grid container spacing={2} direction="row" alignItems="center">
         <PostList postsList={posts} />
+      </Grid>
+      <Grid container direction="column" alignItems="center">
+        <LoadingInfo loading={loading} />
       </Grid>
       <Grid
         container
@@ -61,13 +63,12 @@ const MaterialsContainer: React.FC<IMaterialsContainerProps> = ({
         className={classes.showMore}
         ref={gridRef}
       >
-        {meta.isLoading && <CircularProgress />}
-        {!meta.isLoading && !meta.isLastPage && (
+        {loading !== LoadingStatusEnum.pending && !isLastPage && (
           <Button variant="contained" onClick={dispatchFetchAction}>
             Більше матеріалів
           </Button>
         )}
-        {meta.isLastPage && <span>Більше нових матеріалів немає</span>}
+        {isLastPage && <span>Більше нових матеріалів немає</span>}
       </Grid>
     </Container>
   );
