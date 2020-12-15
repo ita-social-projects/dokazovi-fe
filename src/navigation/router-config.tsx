@@ -6,8 +6,8 @@ const DirectionView = lazy(
   () => import('../modules/direction/components/DirectionView'),
 );
 const MainView = lazy(() => import('../modules/main/components/MainView'));
-const ExpertView = lazy(
-  () => import('../modules/experts/components/ExpertView'),
+const ExpertProfileView = lazy(
+  () => import('../modules/experts/components/ExpertProfileView'),
 );
 
 // router cfg will go here
@@ -55,7 +55,7 @@ const ROUTER_CONFIG: IRouterConfig[] = [
         path: '/experts/:expertId',
         key: 'EXPERT_PROFILE',
         exact: true,
-        component: ExpertView,
+        component: ExpertProfileView,
       },
     ]
   }
