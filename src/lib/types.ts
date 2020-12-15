@@ -24,13 +24,9 @@ export enum LoadingStatusEnum {
   failed = 'failed',
 }
 
-export interface ICourse {
-  photo?: string;
-  courseType: CourseTypeEnum;
-  direction: CourseEnum;
-  title: string;
-  createdAt: string;
-  course: boolean;
+export enum DirectionFilterTypes {
+  PostTypes = 'PostTypes',
+  Tags = 'Tags',
 }
 
 export enum CourseEnum {
@@ -39,6 +35,14 @@ export enum CourseEnum {
 
 export enum CourseTypeEnum {
   COURSE = 'COURSE',
+}
+export interface ICourse {
+  photo?: string;
+  courseType: CourseTypeEnum;
+  direction: CourseEnum;
+  title: string;
+  createdAt: string;
+  course: boolean;
 }
 
 export interface IPost {
@@ -84,6 +88,7 @@ export interface IPostTag {
 }
 
 export interface IPostType {
+  id: number;
   name: string;
 }
 

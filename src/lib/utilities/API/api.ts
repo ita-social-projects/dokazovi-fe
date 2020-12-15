@@ -5,6 +5,7 @@ import {
   ExpertResponseType,
   GetResponseType,
   GetTagResponseType,
+  GetPostResponseType,
   GetVersionType,
   PostResponseType,
   PostTagResponseType,
@@ -20,7 +21,7 @@ export type GetConfigType = {
     size?: number;
     sort?: string[];
     direction?: number;
-    type?: number;
+    type?: string[];
     tag?: string;
   };
 };
@@ -56,6 +57,10 @@ export const getPosts = (
     ...defaultConfig,
     ...config,
   });
+};
+
+export const getPostTypes = (): Promise<AxiosResponse<GetPostResponseType>> => {
+  return instance.get(`/post/type`);
 };
 
 export const getExperts = (

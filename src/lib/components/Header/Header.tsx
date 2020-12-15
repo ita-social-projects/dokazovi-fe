@@ -37,6 +37,7 @@ export const navElems: IHeaderProps[] = [
   {
     id: 'experts',
     label: 'Експерти',
+    url: '/experts',
   },
   {
     id: 'translates',

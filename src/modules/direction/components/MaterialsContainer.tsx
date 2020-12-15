@@ -27,14 +27,17 @@ const MaterialsContainer: React.FC<IMaterialsContainerProps> = ({
   } = useSelector(
     (state: RootStateType) => state.directions[direction.name].materials,
   );
+  const { filters } = useSelector(
+    (state: RootStateType) => state.directions[direction.name],
+  );
 
   const dispatch = useDispatch();
 
-  const dispatchFetchAction = () => dispatch(fetchMaterials(direction));
+const dispatchFetchAction = () => dispatch(fetchMaterials(direction));
 
   useEffect(() => {
     dispatch(fetchInitialMaterials(direction));
-  }, []);
+  }, [filters]);
 
   const gridRef = useRef<HTMLDivElement>(null);
 
