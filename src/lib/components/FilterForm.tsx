@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { green } from '@material-ui/core/colors';
 import FormGroup from '@material-ui/core/FormGroup';
@@ -11,6 +11,9 @@ import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import Favorite from '@material-ui/icons/Favorite';
 import FavoriteBorder from '@material-ui/icons/FavoriteBorder';
 import { StaticRouter } from 'react-router-dom';
+import { AxiosResponse } from 'axios';
+import { getRegions } from '../utilities/API/api';
+import { GetRegionsType } from '../utilities/API/types';
 
 // const GreenCheckbox = withStyles({
 //   root: {
@@ -28,11 +31,13 @@ export type CheckedType = {
 
 export const FilterForm: React.FC = () => {
   // const {register, handleSubmit} = useForm();
-  const [state, setState] = React.useState<CheckedType>({
-    Kyiv: false,
-    Lviv: false,
-    Kharkiv: false,
-  });
+  const [state, setState] = useState<GetRegionsType[]>();
+
+  // const initialLocalState: GetRegionsType[] = [];
+  // const regions = getRegions()
+  const localState: GetRegionsType[] = [];
+
+  console.log(state);
 
   const regions = ['Kyiv', 'Lviv', 'Kharkiv'];
 

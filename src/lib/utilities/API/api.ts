@@ -3,11 +3,13 @@ import qs from 'qs';
 import { BASE_URL } from './baseURL';
 import {
   ExpertResponseType,
+  GetRegionsType,
   GetResponseType,
   GetTagResponseType,
   GetVersionType,
   PostResponseType,
   PostTagResponseType,
+  GetPostResponseType,
 } from './types';
 
 const instance = axios.create({
@@ -78,4 +80,12 @@ export const getTag = (
 
 export const getVersion = (): Promise<AxiosResponse<GetVersionType>> => {
   return instance.get(`/version`);
+};
+
+export const getPostTypes = (): Promise<AxiosResponse<GetPostResponseType>> => {
+  return instance.get('post/type');
+};
+
+export const getRegions = (): Promise<AxiosResponse<GetRegionsType[]>> => {
+  return instance.get(`/region`);
 };

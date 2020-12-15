@@ -41,6 +41,13 @@ export enum CourseTypeEnum {
   COURSE = 'COURSE',
 }
 
+export enum FilterTypeEnum {
+  POST_TYPES = 'POST_TYPES',
+  DIRECTIONS = 'DIRECTIONS',
+  REGIONS = 'REGIONS',
+  TAGS = 'TAGS',
+}
+
 export interface IPost {
   id?: number;
   title: string;

@@ -31,7 +31,11 @@ const initialState: IExpertsState = {
       loading: LoadingStatusEnum.idle,
       error: null,
     },
-    filters: [],
+    filters: {
+      enum: {
+        value: [],
+      },
+    },
   },
   materials: [],
 };
