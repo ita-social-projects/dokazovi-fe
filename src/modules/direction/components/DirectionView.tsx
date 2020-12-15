@@ -13,7 +13,7 @@ import {
   fetchCourses,
   setExpertsLoadingStatus,
 } from '../store/directionSlice';
-import { ExpertsView } from '../../../lib/components/ExpertsView';
+import { ExpertsViewCard } from '../../../lib/components/ExpertsViewCard';
 import { IDirection, LoadingStatusEnum } from '../../../lib/types';
 import Carousel from '../../../lib/components/Carousel';
 import { CourseCard } from '../../../lib/components/CourseCard';
@@ -79,7 +79,7 @@ const DirectionView: React.FC<IDirectionViewProps> = () => {
             <BorderBottom />
             <Grid item xs={12}>
               {expertsCards && (
-                <ExpertsView cards={expertsCards} loading={loading} />
+                <ExpertsViewCard cards={expertsCards} loading={loading} />
               )}
               <Box className={classes.moreExperts}>
                 <Typography variant="h5" align="right" display="inline">

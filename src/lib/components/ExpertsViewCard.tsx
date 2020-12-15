@@ -9,12 +9,12 @@ import LoadingInfo from './LoadingInfo';
 
 const cardsClasses = Array.from(Array(11).keys()).map((el) => `item_${el}`);
 
-export interface IExpertsViewProps {
+export interface IExpertsViewCardProps {
   cards: IExpert[];
   loading?: LoadingStatusEnum;
 }
 
-export const ExpertsView: React.FC<IExpertsViewProps> = (props) => {
+export const ExpertsViewCard: React.FC<IExpertsViewCardProps> = (props) => {
   const { cards, loading } = props;
 
   const [anchorEl, setAnchorEl] = useState<HTMLDivElement | null>(null);

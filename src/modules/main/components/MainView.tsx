@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Container, Grid } from '@material-ui/core';
 import NewestContainer from './NewestContainer';
 import ImportantContainer from './ImportantContainer';
-import { ExpertsView } from '../../../lib/components/ExpertsView';
+import { ExpertsViewCard } from '../../../lib/components/ExpertsViewCard';
 import { RootStateType } from '../../../store/rootReducer';
 import { fetchExperts } from '../store/mainSlice';
 
@@ -34,7 +34,7 @@ const MainView: React.FC<IMainViewProps> = () => {
             <NewestContainer />
           </Grid>
           <Grid item xs={12}>
-            <ExpertsView cards={experts} loading={loading} />
+            <ExpertsViewCard cards={experts} loading={loading} />
           </Grid>
         </Grid>
       </Container>
