@@ -17,6 +17,7 @@ import { ExpertsView } from '../../../lib/components/ExpertsView';
 import { IDirection, LoadingStatusEnum } from '../../../lib/types';
 import Carousel from '../../../lib/components/Carousel';
 import { CourseCard } from '../../../lib/components/CourseCard';
+import {PostTypeFilter} from './PostTypesFilter';
 
 import MaterialsContainer from './MaterialsContainer';
 
@@ -89,6 +90,7 @@ const DirectionView: React.FC<IDirectionViewProps> = () => {
             </Grid>
             <BorderBottom />
             <Grid item xs={12}>
+              <PostTypeFilter directionName={currentDirection.name}/>
               <MaterialsContainer direction={currentDirection} />
             </Grid>
             <Grid item xs={12}>
