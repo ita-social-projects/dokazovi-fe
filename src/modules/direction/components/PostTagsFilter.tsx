@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import React, { useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import _ from 'lodash';
@@ -6,18 +7,21 @@ import TextField from '@material-ui/core/TextField';
 import { RootStateType } from '../../../store/rootReducer';
 import { FilterTypeEnum, IPostTag } from '../../../lib/types';
 import { setPostFilters } from '../store/directionSlice';
+import { fetchPostsTags } from '../../../store/propertiesSlice';
 
 export interface IPostTagsFilterProps {
   directionName: string;
 }
 
-export const PostTagsFilter: React.FC<IPostTagsFilterProps> = ({directionName}) => {
+export const PostTagsFilter: React.FC<IPostTagsFilterProps> = ({
+  directionName,
+}) => {
   const dispatch = useDispatch();
   const postTags = useSelector(
     (state: RootStateType) => state.properties.postTags,
   );
 
-  const handler = useCallback(
+  const handlerFilters = useCallback(
     _.debounce((selectedTags: string[]) => {
       dispatch(
         setPostFilters({
@@ -28,17 +32,29 @@ export const PostTagsFilter: React.FC<IPostTagsFilterProps> = ({directionName}) 
           directionName,
         }),
       );
-    }, 2000),
+    }, 500),
     [],
   );
 
-  const handleChange = (event, tags: IPostTag[]) => {
-    const postSelectedTags = tags.reduce(
+  const handlerTags = useCallback(
+    _.debounce((inputValue) => {
+      dispatch(fetchPostsTags(inputValue));
+    }, 500),
+    [],
+  );
+
+  const handleSelectedFilters = (event, selectedTags: IPostTag[]) => {
+    const postSelectedTags = selectedTags.reduce(
       (acc: string[], next: IPostTag) => [...acc, next.id.toString()],
       [],
     );
-      handler(postSelectedTags);
+    handlerFilters(postSelectedTags);
   };
+
+  const handleTagsFetch = (event, inputValue: string) => {
+    handlerTags(inputValue);
+  };
+
   return (
     <form>
       <Autocomplete
@@ -47,10 +63,12 @@ export const PostTagsFilter: React.FC<IPostTagsFilterProps> = ({directionName}) 
         id="multiple-limit-tags"
         options={postTags}
         getOptionLabel={(option: IPostTag) => option.tag}
-        style={{ width: 300 }}
-        onChange={(event, tags) => handleChange(event, tags)}
+        style={{ width: 400 }}
+        onChange={(event, selectedTags) =>
+          handleSelectedFilters(event, selectedTags)
+        }
+        onInputChange={(event, inputValue) => handleTagsFetch(event, inputValue)}
         renderInput={(params) => (
-          // eslint-disable-next-line react/jsx-props-no-spreading
           <TextField {...params} label="Теги" variant="outlined" />
         )}
       />

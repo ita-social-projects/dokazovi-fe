@@ -39,10 +39,10 @@ export const fetchPostsTypes = (): AppThunkType => async (dispatch) => {
   dispatch(loadPostsTypes(postTypes));
 };
 
-export const fetchPostsTags = (): AppThunkType => async (dispatch) => {
+export const fetchPostsTags = (tagValue: string): AppThunkType => async (dispatch) => {
   const response = await getTag({
     params: {
-      value: 'а',
+      value: tagValue,
     },
   });
   const postTags = response.data;
