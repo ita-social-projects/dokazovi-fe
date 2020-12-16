@@ -259,8 +259,8 @@ export const fetchMaterials = (direction: IDirection): AppThunkType => async (
 ) => {
   const { posts, meta } = getState().directions[direction.name].materials;
   const { filters } = getState().directions[direction.name];
-  const postTypes = filters?.POST_TYPES?.value as string[];
-  const postTags = filters?.TAGS?.value as string[];
+  const postTypes = filters?.[FilterTypeEnum.POST_TYPES]?.value as string[];
+  const postTags = filters?.[FilterTypeEnum.TAGS]?.value as string[];
 
   try {
     dispatch(

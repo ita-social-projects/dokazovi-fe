@@ -1,6 +1,6 @@
+/* eslint-disable no-param-reassign */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { getTag, getPostTypes} from '../lib/utilities/API/api';
-/* eslint-disable no-param-reassign */
 import { IPostTag, IPostType } from '../lib/types';
 
 import type { AppThunkType } from './store';
