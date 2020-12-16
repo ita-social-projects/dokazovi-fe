@@ -1,11 +1,10 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
 import { makeStyles, Chip } from '@material-ui/core';
-import { DIRECTION_PROPERTIES } from '../constants/direction-properties';
 
 export interface IPostDirectionChipProps {
   labelName?: string;
   backgroundColor?: string;
+  handleClick?: () => void;
 }
 
 const useStyles = makeStyles(
@@ -21,17 +20,7 @@ const useStyles = makeStyles(
 
 const PostDirectionChip: React.FC<IPostDirectionChipProps> = (props) => {
   const classes = useStyles(props);
-  const { labelName } = props;
-  const history = useHistory();
-
-  const handleClick = () => {
-    const direction = Object.values(DIRECTION_PROPERTIES).find(
-      (d) => d.label === labelName,
-    );
-    if (direction?.route) {
-      history.push(`/direction/${direction.route}`);
-    }
-  };
+  const { labelName, handleClick } = props;
 
   return (
     <Chip

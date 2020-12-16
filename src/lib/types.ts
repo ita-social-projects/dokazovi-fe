@@ -51,7 +51,7 @@ export interface IPost {
   content?: string;
   author?: IExpert;
   mainDirection: IDirection;
-  directions?: IPostDirection[];
+  directions?: IDirection[];
   tags?: IPostTag[];
   postType: IPostType;
   createdAt: string;
@@ -75,11 +75,6 @@ export interface IExpert {
     id: number;
     title: string;
   };
-}
-
-export interface IPostDirection {
-  id: number;
-  name: string;
 }
 
 export interface IPostTag {

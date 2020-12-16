@@ -1,6 +1,6 @@
 import { Avatar, Divider, Grid, Typography } from '@material-ui/core';
 import React from 'react';
-import PostDirectionChip from '../../../lib/components/PostDirectionChip';
+import PostDirectionLink from '../../../lib/components/PostDirectionLink';
 import { IExpert } from '../../../lib/types';
 import { useStyles } from '../styles/ExpertInfo.styles';
 
@@ -36,9 +36,8 @@ const ExpertInfo: React.FC<IExpertInfoProps> = ({ expert }) => {
             Напрямки:{' '}
             {expert.directions?.map((d) => {
               return (
-                <PostDirectionChip
-                  backgroundColor={d.color}
-                  labelName={d.name}
+                <PostDirectionLink
+                  direction={d}
                   key={d.id}
                 />
               );
