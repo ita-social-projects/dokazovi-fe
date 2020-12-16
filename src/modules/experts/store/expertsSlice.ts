@@ -3,6 +3,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { IFilter, IPost, LoadingStatusEnum } from '../../../lib/types';
 import { getAllExperts } from '../../../lib/utilities/API/api';
 import { IExpertPayload } from '../../main/store/mainSlice';
+import type { RootStateType } from '../../../store/rootReducer';
 
 interface IExpertsListPayload extends IExpertPayload {
   filters: IFilter[];
@@ -29,8 +30,8 @@ const initialState: IExpertsState = {
   experts: {
     experts: [],
     meta: {
-      totalPages: 5,
-      pageNumber: 0,
+      totalPages: 0,
+      pageNumber: 1,
       loading: LoadingStatusEnum.idle,
       error: null,
     },
@@ -41,17 +42,17 @@ const initialState: IExpertsState = {
 
 export const fetchExperts = createAsyncThunk(
   'experts/loadExperts',
-  async () => {
+  async (__, { getState }) => {
     const {
-      data: { content: fetchedExperts },
-    } = await getAllExperts({
+      experts: { experts },
+    } = getState() as RootStateType;
+    const { data } = await getAllExperts({
       params: {
-        page: 0,
+        page: experts.meta.pageNumber,
       },
     });
-    console.log(fetchedExperts);
 
-    return fetchedExperts;
+    return data;
   },
 );
 
@@ -78,11 +79,10 @@ export const expertsSlice = createSlice({
       state.experts.meta.loading = LoadingStatusEnum.pending;
     });
     builder.addCase(fetchExperts.fulfilled, (state, { payload }) => {
-      state.experts.meta.pageNumber += 1;
-
       state.experts.meta.loading = LoadingStatusEnum.succeeded;
-
-      state.experts.experts.push(...payload);
+      state.experts.meta.pageNumber = payload.number;
+      state.experts.meta.totalPages = payload.totalPages;
+      state.experts.experts = payload.content;
     });
     builder.addCase(fetchExperts.rejected, (state, { error }) => {
       if (error.message) {

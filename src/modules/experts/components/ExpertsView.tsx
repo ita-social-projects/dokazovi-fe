@@ -4,8 +4,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Pagination } from '@material-ui/lab';
 import { fetchExperts, setExpertsPage } from '../store/expertsSlice';
 import { RootStateType } from '../../../store/rootReducer';
-import ExpertPhotoDataCard from '../../../lib/components/ExpertPhotoDataCard';
 import ExpertsList from '../../../lib/components/ExpertsList';
+import LoadingInfo from '../../../lib/components/LoadingInfo';
 import { useStyles } from '../styles/ExpertsView.styles';
 
 export interface IExpertsViewProps {}
@@ -18,7 +18,7 @@ const ExpertsView: React.FC<IExpertsViewProps> = () => {
 
   const {
     experts,
-    meta: { totalPages, pageNumber },
+    meta: { totalPages, pageNumber, loading },
   } = useSelector(selectExperts);
 
   const setExperts = () => dispatch(fetchExperts());
@@ -32,23 +32,29 @@ const ExpertsView: React.FC<IExpertsViewProps> = () => {
 
   useEffect(() => {
     setExperts();
-  }, []);
+  }, [pageNumber]);
 
   return (
     <>
-      <Container className={classes.root}>
-        <Grid container spacing={4} direction="row" alignItems="center">
-          <ExpertsList experts={experts} />
+      {loading === 'pending' ? (
+        <Grid container direction="column" alignItems="center">
+          <LoadingInfo loading={loading} />
         </Grid>
-        <Grid container spacing={2} direction="column" alignItems="center">
-          <Pagination
-            className={classes.pagination}
-            count={totalPages}
-            page={pageNumber}
-            onChange={handlePageChange}
-          />
-        </Grid>
-      </Container>
+      ) : (
+        <Container className={classes.root}>
+          <Grid container spacing={4} direction="row" alignItems="center">
+            <ExpertsList experts={experts} />
+          </Grid>
+          <Grid container spacing={2} direction="column" alignItems="center">
+            <Pagination
+              className={classes.pagination}
+              count={totalPages}
+              page={pageNumber}
+              onChange={handlePageChange}
+            />
+          </Grid>
+        </Container>
+      )}
     </>
   );
 };
