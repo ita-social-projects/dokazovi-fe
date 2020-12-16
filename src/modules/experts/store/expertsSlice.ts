@@ -1,6 +1,7 @@
 /* eslint-disable no-param-reassign */
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { IFilter, IPost, LoadingStatusEnum } from '../../../lib/types';
+import { getAllExperts } from '../../../lib/utilities/API/api';
 import { IExpertPayload } from '../../main/store/mainSlice';
 
 interface IExpertsListPayload extends IExpertPayload {
@@ -28,6 +29,8 @@ const initialState: IExpertsState = {
   experts: {
     experts: [],
     meta: {
+      totalPages: 5,
+      pageNumber: 0,
       loading: LoadingStatusEnum.idle,
       error: null,
     },
@@ -36,12 +39,31 @@ const initialState: IExpertsState = {
   materials: [],
 };
 
+export const fetchExperts = createAsyncThunk(
+  'experts/loadExperts',
+  async () => {
+    const {
+      data: { content: fetchedExperts },
+    } = await getAllExperts({
+      params: {
+        page: 0,
+      },
+    });
+    console.log(fetchedExperts);
+
+    return fetchedExperts;
+  },
+);
+
 export const expertsSlice = createSlice({
   name: 'experts',
   initialState,
   reducers: {
     loadExperts: (state, action: PayloadAction<IExpertsListPayload>) => {
       state.experts = action.payload;
+    },
+    setExpertsPage: (state, action: PayloadAction<number>) => {
+      state.experts.meta.pageNumber = action.payload;
     },
     setExpertsFilters: (state, action: PayloadAction<IFilter[]>) => {
       state.experts.filters = action.payload;
@@ -51,8 +73,31 @@ export const expertsSlice = createSlice({
       state.materials.push(action.payload);
     },
   },
+  extraReducers: (builder) => {
+    builder.addCase(fetchExperts.pending, (state) => {
+      state.experts.meta.loading = LoadingStatusEnum.pending;
+    });
+    builder.addCase(fetchExperts.fulfilled, (state, { payload }) => {
+      state.experts.meta.pageNumber += 1;
+
+      state.experts.meta.loading = LoadingStatusEnum.succeeded;
+
+      state.experts.experts.push(...payload);
+    });
+    builder.addCase(fetchExperts.rejected, (state, { error }) => {
+      if (error.message) {
+        state.experts.meta.error = error.message;
+      }
+
+      state.experts.meta.loading = LoadingStatusEnum.failed;
+    });
+  },
 });
 
-export const { loadExperts, setExpertsFilters } = expertsSlice.actions;
+export const {
+  loadExperts,
+  setExpertsFilters,
+  setExpertsPage,
+} = expertsSlice.actions;
 
 export const expertsReducer = expertsSlice.reducer;

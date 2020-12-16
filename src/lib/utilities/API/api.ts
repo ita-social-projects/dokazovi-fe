@@ -23,6 +23,7 @@ export type GetConfigType = {
     direction?: number;
     type?: string[];
     tag?: string;
+    region?: string[];
   };
 };
 
@@ -67,6 +68,12 @@ export const getExperts = (
   config?: GetExpertsConfigType,
 ): Promise<AxiosResponse<GetResponseType<ExpertResponseType>>> => {
   return instance.get(`/user/random-experts`, { ...defaultConfig, ...config });
+};
+
+export const getAllExperts = (
+  config?: GetExpertsConfigType,
+): Promise<AxiosResponse<GetResponseType<ExpertResponseType>>> => {
+  return instance.get('user/all-experts', { ...defaultConfig, ...config });
 };
 
 export const postTag = (
