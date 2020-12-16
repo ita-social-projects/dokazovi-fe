@@ -82,6 +82,7 @@ export const expertsSlice = createSlice({
       state.experts.meta.loading = LoadingStatusEnum.succeeded;
       state.experts.meta.pageNumber = payload.number;
       state.experts.meta.totalPages = payload.totalPages;
+      state.experts.meta.totalPages -= 1;
       state.experts.experts = payload.content;
     });
     builder.addCase(fetchExperts.rejected, (state, { error }) => {

@@ -23,12 +23,13 @@ const ExpertsView: React.FC<IExpertsViewProps> = () => {
 
   const setExperts = () => dispatch(fetchExperts());
 
-  const handlePageChange = (
-    event: React.ChangeEvent<unknown>,
-    page: number,
-  ) => {
+  const handlePageChange = (_, page: number) => {
     dispatch(setExpertsPage(page));
   };
+
+  useEffect(() => {
+    dispatch(setExpertsPage(1));
+  }, []);
 
   useEffect(() => {
     setExperts();
