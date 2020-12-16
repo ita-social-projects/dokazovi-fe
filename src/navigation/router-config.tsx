@@ -21,34 +21,19 @@ const ROUTER_CONFIG: IRouterConfig[] = [
   {
     path: '/direction',
     key: 'DIRECTION',
-    exact: false,
     component: RenderRoutes,
     routes: [
       {
         path: '/direction',
-        key: 'DIRECTION',
-        exact: false,
-        component: RenderRoutes,
-        routes: [
-          {
-            path: '/direction',
-            key: 'DIRECTION_ROOT',
-            exact: true,
-            component: DirectionsList,
-          },
-          {
-            path: '/direction/:id',
-            key: 'DIRECTION_COMPONENT',
-            exact: true,
-            component: DirectionView,
-          },
-        ],
+        key: 'DIRECTION_ROOT',
+        exact: true,
+        component: DirectionsList,
       },
       {
-        path: '/experts',
-        key: 'EXPERTS',
+        path: '/direction/:id',
+        key: 'DIRECTION_COMPONENT',
         exact: true,
-        component: ExpertsView,
+        component: DirectionView,
       },
     ],
   },
@@ -57,12 +42,12 @@ const ROUTER_CONFIG: IRouterConfig[] = [
     key: 'EXPERTS',
     component: RenderRoutes,
     routes: [
-      // {
-      //   path: '/experts',
-      //   key: 'EXPERTS_LIST',
-      //   exact: true,
-      //   component: ExpertsListView,
-      // },
+      {
+        path: '/experts',
+        key: 'EXPERTS_LIST',
+        exact: true,
+        component: ExpertsView,
+      },
       {
         path: '/experts/:expertId',
         key: 'EXPERT_PROFILE',
