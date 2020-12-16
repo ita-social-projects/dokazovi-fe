@@ -69,7 +69,7 @@ export const PostTagsFilter: React.FC<IPostTagsFilterProps> = ({
         }
         onInputChange={(event, inputValue) => handleTagsFetch(event, inputValue)}
         renderInput={(params) => (
-          <TextField {...params} label="Теги" variant="outlined" />
+          <TextField {...params} label="Введіть назву тега" variant="outlined" />
         )}
       />
     </form>
