@@ -26,7 +26,6 @@ const MainView: React.FC<IMainViewProps> = () => {
 
   return (
     <>
-      <FilterForm />
       <Container>
         <Grid container spacing={2} direction="row" alignItems="center">
           <Grid item xs={12}>

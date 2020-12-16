@@ -22,7 +22,11 @@ export const PostTypeFilter: React.FC<IPostTypeFilterProps> = ({
     (state: RootStateType) => state.properties.postTypes,
   );
 
-  const initState = () => postTypes.reduce((acc: string[], next: IPostType) => [...acc, next.id.toString()], []);
+  const initState = () =>
+    postTypes.reduce(
+      (acc: string[], next: IPostType) => [...acc, next.id.toString()],
+      [],
+    );
 
   const [checkedTypes, setChecked] = useState(initState);
 

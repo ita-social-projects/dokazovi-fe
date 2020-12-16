@@ -6,7 +6,6 @@ import {
   GetRegionsType,
   GetResponseType,
   GetTagResponseType,
-  GetPostResponseType,
   GetVersionType,
   PostResponseType,
   PostTagResponseType,
@@ -29,7 +28,7 @@ export type GetConfigType = {
 };
 
 export type GetExpertsConfigType = GetConfigType & {
-  params: { directions?: number[] };
+  params: { directions?: number[]; regions?: string[] };
 };
 
 export type GetTagConfigType = {
@@ -61,14 +60,16 @@ export const getPosts = (
   });
 };
 
-export const getPostTypes = (): Promise<AxiosResponse<GetPostResponseType>> => {
-  return instance.get(`/post/type`);
-};
-
 export const getExperts = (
   config?: GetExpertsConfigType,
 ): Promise<AxiosResponse<GetResponseType<ExpertResponseType>>> => {
   return instance.get(`/user/random-experts`, { ...defaultConfig, ...config });
+};
+
+export const getAllExperts = (
+  config?: GetExpertsConfigType,
+): Promise<AxiosResponse<GetResponseType<ExpertResponseType>>> => {
+  return instance.get('user/all-experts', { ...defaultConfig, ...config });
 };
 
 export const postTag = (

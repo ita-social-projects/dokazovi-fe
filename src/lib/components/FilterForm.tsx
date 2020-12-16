@@ -1,79 +1,86 @@
-import React, { useCallback, useState, useEffect } from 'react';
-import { withStyles } from '@material-ui/core/styles';
-import { green } from '@material-ui/core/colors';
+import React, { useCallback } from 'react';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-// import debounce from 'lodash.debounce';
 import _ from 'lodash';
-import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
-import CheckBoxIcon from '@material-ui/icons/CheckBox';
-import Favorite from '@material-ui/icons/Favorite';
-import FavoriteBorder from '@material-ui/icons/FavoriteBorder';
-import { StaticRouter } from 'react-router-dom';
-import { AxiosResponse } from 'axios';
-import { getRegions } from '../utilities/API/api';
-import { GetRegionsType } from '../utilities/API/types';
-
-// const GreenCheckbox = withStyles({
-//   root: {
-//     color: green[400],
-//     '&$checked': {
-//       color: green[600],
-//     },
-//   },
-//   checked: {},
-// })((props) => <Checkbox color="default" {...props} />);
+import { useDispatch, useSelector } from 'react-redux';
+import { Container, Grid, Typography } from '@material-ui/core';
+import { RootStateType } from '../../store/rootReducer';
+import { ExpertRegionType } from '../types';
+import { setExpertsRegionsFilter } from '../../modules/experts/store/expertsSlice';
 
 export type CheckedType = {
   [key: string]: boolean;
 };
 
-export const FilterForm: React.FC = () => {
-  // const {register, handleSubmit} = useForm();
-  const [state, setState] = useState<GetRegionsType[]>();
+export interface IInitLocalState {
+  [key: string]: boolean;
+}
 
-  // const initialLocalState: GetRegionsType[] = [];
-  // const regions = getRegions()
-  const localState: GetRegionsType[] = [];
+export interface ICheckboxes {
+  [key: number]: boolean;
+}
 
-  console.log(state);
+export interface IFilterFormProps {}
 
-  const regions = ['Kyiv', 'Lviv', 'Kharkiv'];
+export const FilterForm: React.FC<IFilterFormProps> = () => {
+  const dispatch = useDispatch();
+  const regions = useSelector(
+    (state: RootStateType) => state.properties.regions,
+  );
 
-  // const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   const checkboxName = event?.target?.name;
-  //   setState({ ...state, [checkboxName]: event.target.checked });
-  //   console.log(state);
-  // };
+  const initLocalState = () =>
+    regions.reduce((acc: IInitLocalState, next: ExpertRegionType) => {
+      return { ...acc, [next.id.toString()]: false };
+    }, {});
 
-  const stateLog = () => {
-    console.log(state);
-  };
+  const [checked, setChecked] = React.useState<IInitLocalState>(initLocalState);
 
-  const handler = useCallback(_.debounce(stateLog, 2000), []);
+  const handler = useCallback(
+    _.debounce((checkedTypes: ICheckboxes) => {
+      dispatch(
+        setExpertsRegionsFilter({
+          value: checkedTypes,
+        }),
+      );
+    }, 500),
+    [],
+  );
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const checkboxName = event?.target?.name;
-    setState({ ...state, [checkboxName]: event.target.checked });
-    // console.log(state);
-    handler();
+    const checkedTypes = {
+      ...initLocalState,
+      ...checked,
+      [event.target.id]: event.target.checked,
+    };
+    setChecked(checkedTypes);
+    handler(checkedTypes);
   };
 
   return (
     <>
-      <FormGroup row>
-        {regions.map((elem, index) => (
+      <Typography>Регіони:</Typography>
+      <FormGroup
+        style={{
+          height: '450px',
+          display: 'flex',
+          flexDirection: 'column',
+          flexWrap: 'wrap',
+        }}
+      >
+        {regions.map((type) => (
           <FormControlLabel
+            style={{ width: '100%' }}
             control={
               <Checkbox
-                checked={state ? state[elem] : false}
+                id={type.id.toString()}
+                checked={!!checked[type.id.toString()]}
                 onChange={handleChange}
-                name={elem}
+                name={type.name}
               />
             }
-            label={elem}
-            key={elem}
+            label={type.name}
+            key={type.name}
           />
         ))}
       </FormGroup>

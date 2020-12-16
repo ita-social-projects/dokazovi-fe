@@ -95,6 +95,8 @@ export interface IPostType {
   name: string;
 }
 
+export type ExpertRegionType = IPostDirection;
+
 export interface IDirection {
   id?: number;
   color?: string;
