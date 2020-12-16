@@ -30,7 +30,7 @@ const ROUTER_CONFIG: IRouterConfig[] = [
         component: DirectionsList,
       },
       {
-        path: '/direction/:id',
+        path: '/direction/:name',
         key: 'DIRECTION_COMPONENT',
         exact: true,
         component: DirectionView,
