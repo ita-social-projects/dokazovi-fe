@@ -3,10 +3,16 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import _ from 'lodash';
 import { DIRECTION_PROPERTIES } from '../../../lib/constants/direction-properties';
 import { IExpert, IFilter, IPost, LoadingStatusEnum } from '../../../lib/types';
-import { getExpertById, getPosts } from '../../../lib/utilities/API/api';
+import {
+  getAllExperts,
+  getExpertById,
+  getPosts,
+} from '../../../lib/utilities/API/api';
 import type { AppThunkType } from '../../../store/store';
 import { LOAD_POSTS_LIMIT } from '../../main/components/constants/newestPostsPagination-config';
+
 import { IExpertPayload } from '../../main/store/mainSlice';
+import type { RootStateType } from '../../../store/rootReducer';
 
 const POST_PREVIEW_LENGTH = 150;
 interface IExpertsListPayload extends IExpertPayload {
@@ -50,6 +56,8 @@ const initialState: IExpertsState = {
   experts: {
     experts: [],
     meta: {
+      totalPages: 0,
+      pageNumber: 1,
       loading: LoadingStatusEnum.idle,
       error: null,
     },
@@ -57,6 +65,22 @@ const initialState: IExpertsState = {
   },
   materials: {} as IMaterialsState,
 };
+
+export const fetchExperts = createAsyncThunk(
+  'experts/loadExperts',
+  async (__, { getState }) => {
+    const {
+      experts: { experts },
+    } = getState() as RootStateType;
+    const { data } = await getAllExperts({
+      params: {
+        page: experts.meta.pageNumber,
+      },
+    });
+
+    return data;
+  },
+);
 
 export const fetchExpertById = createAsyncThunk(
   'experts/loadExpertProfile',
@@ -77,6 +101,9 @@ export const expertsSlice = createSlice({
 
     loadExperts: (state, action: PayloadAction<IExpertsListPayload>) => {
       state.experts = action.payload;
+    },
+    setExpertsPage: (state, action: PayloadAction<number>) => {
+      state.experts.meta.pageNumber = action.payload;
     },
     setExpertsFilters: (state, action: PayloadAction<IFilter[]>) => {
       state.experts.filters = action.payload;
@@ -111,20 +138,36 @@ export const expertsSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder
-      .addCase(fetchExpertById.pending, (state) => {
-        state.experts.meta.loading = LoadingStatusEnum.pending;
-      })
-      .addCase(fetchExpertById.fulfilled, (state, { payload }) => {
-        state.experts.experts.push(payload);
-        state.experts.meta.loading = LoadingStatusEnum.succeeded;
-      })
-      .addCase(fetchExpertById.rejected, (state, { error }) => {
-        if (error.message) {
-          state.experts.meta.error = error.message;
-        }
-        state.experts.meta.loading = LoadingStatusEnum.failed;
-      });
+    builder.addCase(fetchExperts.pending, (state) => {
+      state.experts.meta.loading = LoadingStatusEnum.pending;
+    });
+    builder.addCase(fetchExperts.fulfilled, (state, { payload }) => {
+      state.experts.meta.loading = LoadingStatusEnum.succeeded;
+      state.experts.meta.pageNumber = payload.number;
+      state.experts.meta.totalPages = payload.totalPages;
+      state.experts.meta.totalPages -= 1;
+      state.experts.experts = payload.content;
+    });
+    builder.addCase(fetchExperts.rejected, (state, { error }) => {
+      if (error.message) {
+        state.experts.meta.error = error.message;
+      }
+
+      state.experts.meta.loading = LoadingStatusEnum.failed;
+    });
+    builder.addCase(fetchExpertById.pending, (state) => {
+      state.experts.meta.loading = LoadingStatusEnum.pending;
+    });
+    builder.addCase(fetchExpertById.fulfilled, (state, { payload }) => {
+      state.experts.experts.push(payload);
+      state.experts.meta.loading = LoadingStatusEnum.succeeded;
+    });
+    builder.addCase(fetchExpertById.rejected, (state, { error }) => {
+      if (error.message) {
+        state.experts.meta.error = error.message;
+      }
+      state.experts.meta.loading = LoadingStatusEnum.failed;
+    });
   },
 });
 
@@ -134,6 +177,7 @@ export const {
   setupExpertMaterialsID,
   loadMaterials,
   setMaterialsLoadingStatus,
+  setExpertsPage,
 } = expertsSlice.actions;
 
 export const expertsReducer = expertsSlice.reducer;
