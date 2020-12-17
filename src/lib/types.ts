@@ -51,7 +51,7 @@ export interface IPost {
   content?: string;
   author?: IExpert;
   mainDirection: IDirection;
-  directions?: IPostDirection[];
+  directions?: IDirection[];
   tags?: IPostTag[];
   postType: IPostType;
   createdAt: string;
@@ -64,18 +64,17 @@ export interface IExpert {
   firstName: string;
   lastName: string;
   avatar?: string;
+  qualification?: string;
+  phone?: string;
+  email?: string;
+  bio?: string;
   mainInstitution?: IInstitution;
   mainDirection?: IDirection;
+  directions?: IDirection[];
   lastAddedPost?: {
     id: number;
     title: string;
   };
-  qualification?: string;
-}
-
-export interface IPostDirection {
-  id: number;
-  name: string;
 }
 
 export interface IPostTag {

@@ -4,6 +4,7 @@ import { makeStyles, Chip } from '@material-ui/core';
 export interface IPostDirectionChipProps {
   labelName?: string;
   backgroundColor?: string;
+  handleClick?: () => void;
 }
 
 const useStyles = makeStyles(
@@ -19,10 +20,15 @@ const useStyles = makeStyles(
 
 const PostDirectionChip: React.FC<IPostDirectionChipProps> = (props) => {
   const classes = useStyles(props);
-  const { labelName } = props;
+  const { labelName, handleClick } = props;
 
   return (
-    <Chip className={classes.directionChip} label={labelName} size="small" />
+    <Chip
+      className={classes.directionChip}
+      label={labelName}
+      size="small"
+      onClick={handleClick}
+    />
   );
 };
 

@@ -69,6 +69,12 @@ export const getExperts = (
   return instance.get(`/user/random-experts`, { ...defaultConfig, ...config });
 };
 
+export const getExpertById = (
+  id: number,
+): Promise<AxiosResponse<ExpertResponseType>> => {
+  return instance.get(`/user/${id}`);
+};
+
 export const postTag = (
   requestBody: PostTagRequestBodyType,
 ): Promise<AxiosResponse<PostTagResponseType>> => {

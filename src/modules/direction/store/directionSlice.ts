@@ -73,8 +73,9 @@ export const directionsSlice = createSlice({
   initialState: {} as IDirectionsState,
   reducers: {
     setupDirection: (state, action: PayloadAction<string>) => {
-      // TODO: use latin direction names, create labels for cyrillic?
-      if (!state[action.payload]) state[action.payload] = initialDirectionState;
+      if (!state[action.payload]) {
+        state[action.payload] = initialDirectionState;
+      } 
     },
     setExpertsLoadingStatus: (
       state,
