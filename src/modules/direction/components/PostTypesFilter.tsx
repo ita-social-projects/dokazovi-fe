@@ -6,7 +6,7 @@ import { useForm, Controller } from 'react-hook-form';
 import Checkbox from '@material-ui/core/Checkbox';
 import { RootStateType } from '../../../store/rootReducer';
 import { setPostFilters } from '../store/directionSlice';
-import { DirectionFilterTypes, IPostType } from '../../../lib/types';
+import { FilterTypeEnum, IPostType } from '../../../lib/types';
 
 export interface IPostTypeFilterProps {
   directionName: string;
@@ -22,7 +22,14 @@ export const PostTypeFilter: React.FC<IPostTypeFilterProps> = ({
     (state: RootStateType) => state.properties.postTypes,
   );
 
-  const initState = () => postTypes.reduce((acc: string[], next: IPostType) => [...acc, next.id.toString()], []);
+  interface IInitState {
+    [key: string]: boolean;
+  }
+
+  const initState = () =>
+    postTypes.reduce((acc: IInitState, next: IPostType) => {
+      return { ...acc, [next.id.toString()]: false };
+    }, {});
 
   const [checkedTypes, setChecked] = useState(initState);
 
@@ -39,7 +46,7 @@ export const PostTypeFilter: React.FC<IPostTypeFilterProps> = ({
             name={type.name}
             id={id}
             color="primary"
-            checked={checkedTypes[id] as boolean}
+            checked={checkedTypes[id]}
             defaultValue={false}
           />
         }
@@ -52,7 +59,7 @@ export const PostTypeFilter: React.FC<IPostTypeFilterProps> = ({
     _.debounce((checked: string[]) => {
       dispatch(
         setPostFilters({
-          key: DirectionFilterTypes.PostTypes,
+          key: FilterTypeEnum.POST_TYPES,
           filters: {
             value: checked,
           },

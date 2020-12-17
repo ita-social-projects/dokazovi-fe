@@ -7,7 +7,7 @@ import {
   ICourse,
   IPost,
   IFilter,
-  DirectionFilterTypes,
+  FilterTypeEnum,
   LoadingStatusEnum,
 } from '../../../lib/types';
 import { getPosts, getExperts } from '../../../lib/utilities/API/api';
@@ -34,7 +34,7 @@ export interface IDirectionState {
   };
   materials: IMaterialsState;
   filters?: {
-    [key in DirectionFilterTypes]?: IFilter;
+    [key in FilterTypeEnum]?: IFilter;
   };
 }
 
@@ -73,8 +73,9 @@ export const directionsSlice = createSlice({
   initialState: {} as IDirectionsState,
   reducers: {
     setupDirection: (state, action: PayloadAction<string>) => {
-      // TODO: use latin direction names, create labels for cyrillic?
-      if (!state[action.payload]) state[action.payload] = initialDirectionState;
+      if (!state[action.payload]) {
+        state[action.payload] = initialDirectionState;
+      } 
     },
     setExpertsLoadingStatus: (
       state,
@@ -169,7 +170,7 @@ export const directionsSlice = createSlice({
     setPostFilters: (
       state,
       action: PayloadAction<{
-        key: DirectionFilterTypes;
+        key: FilterTypeEnum;
         filters: IFilter;
         directionName: string;
       }>,
@@ -259,7 +260,8 @@ export const fetchMaterials = (direction: IDirection): AppThunkType => async (
 ) => {
   const { posts, meta } = getState().directions[direction.name].materials;
   const { filters } = getState().directions[direction.name];
-  const postTypes = filters?.PostTypes?.value as string[];
+  const postTypes = filters?.[FilterTypeEnum.POST_TYPES]?.value as string[];
+  const postTags = filters?.[FilterTypeEnum.TAGS]?.value as string[];
 
   try {
     dispatch(
@@ -275,6 +277,7 @@ export const fetchMaterials = (direction: IDirection): AppThunkType => async (
         page: meta.pageNumber + 1,
         size: LOAD_POSTS_LIMIT,
         type: postTypes,
+        tag: postTags,
       },
     });
 
@@ -306,8 +309,7 @@ export const fetchMaterials = (direction: IDirection): AppThunkType => async (
       loadMaterials({
         directionName: direction.name,
         materials: {
-          posts:
-            meta.pageNumber === -1 ? fetchedPosts : posts.concat(fetchedPosts),
+          posts: posts.concat(fetchedPosts),
           meta: {
             isLastPage: response.data.last,
             loading: LoadingStatusEnum.succeeded,

@@ -12,42 +12,49 @@ const DirectionView = lazy(
 const ExpertsView = lazy(
   () => import('../modules/experts/components/ExpertsView'),
 );
+const ExpertProfileView = lazy(
+  () => import('../modules/experts/components/ExpertProfileView'),
+);
 
 const ROUTER_CONFIG: IRouterConfig[] = [
   { path: '/', key: 'ROOT', exact: true, component: MainView },
   {
     path: '/direction',
     key: 'DIRECTION',
-    exact: false,
     component: RenderRoutes,
     routes: [
       {
         path: '/direction',
-        key: 'DIRECTION',
-        exact: false,
-        component: RenderRoutes,
-        routes: [
-          {
-            path: '/direction',
-            key: 'DIRECTION_ROOT',
-            exact: true,
-            component: DirectionsList,
-          },
-          {
-            path: '/direction/:id',
-            key: 'DIRECTION_COMPONENT',
-            exact: true,
-            component: DirectionView,
-          },
-        ],
+        key: 'DIRECTION_ROOT',
+        exact: true,
+        component: DirectionsList,
+      },
+      {
+        path: '/direction/:name',
+        key: 'DIRECTION_COMPONENT',
+        exact: true,
+        component: DirectionView,
       },
     ],
   },
   {
     path: '/experts',
     key: 'EXPERTS',
-    exact: true,
-    component: ExpertsView,
+    component: RenderRoutes,
+    routes: [
+      {
+        path: '/experts',
+        key: 'EXPERTS_LIST',
+        exact: true,
+        component: ExpertsView,
+      },
+      {
+        path: '/experts/:expertId',
+        key: 'EXPERT_PROFILE',
+        exact: true,
+        component: ExpertProfileView,
+      },
+    ],
   },
 ];
 
