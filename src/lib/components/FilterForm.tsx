@@ -82,30 +82,33 @@ export const FilterForm: React.FC<IFilterFormProps> = () => {
 
   return (
     <>
-      <Grid container className={classes.root}>
+      <Grid container style={{ paddingLeft: '30px', marginTop: '20px' }}>
         <Grid item xs={1}>
           <Typography variant="h5">Регіони:</Typography>
         </Grid>
-        <FormControlLabel
-          style={{ width: '100%' }}
-          control={
-            <Checkbox
-              id="All"
-              checked={checked.id}
-              onChange={handleChangeAll}
-              name="All"
-            />
-          }
-          label="All"
-          key="All"
-        />
-
+        <Grid item xs={11}>
+          <FormControlLabel
+            style={{ width: '100%' }}
+            control={
+              <Checkbox
+                id="All"
+                checked={checked.id}
+                onChange={handleChangeAll}
+                name="All"
+              />
+            }
+            label="Всі"
+            key="All"
+          />
+        </Grid>
+        <Grid item xs={1} />
         <FormGroup
           style={{
             height: '450px',
             display: 'flex',
             flexDirection: 'column',
             flexWrap: 'wrap',
+            // paddingLeft: '50px',
           }}
         >
           {regions.map((type) => (
@@ -123,7 +126,7 @@ export const FilterForm: React.FC<IFilterFormProps> = () => {
               key={type.name}
             />
           ))}
-        </FormGroup>
+        </FormGroup>{' '}
       </Grid>
     </>
   );
