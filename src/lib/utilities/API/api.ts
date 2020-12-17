@@ -22,6 +22,7 @@ export type GetConfigType = {
     sort?: string[];
     direction?: number;
     type?: string[];
+    expert?: number;
     region?: string[];
     tag?: string[];
   };
@@ -48,7 +49,11 @@ const defaultConfig = {
   },
 };
 
-type PostsTypeType = 'important' | 'latest' | 'latest-by-direction';
+type PostsTypeType =
+  | 'important'
+  | 'latest'
+  | 'latest-by-direction'
+  | 'latest-by-expert';
 
 export const getPosts = (
   postsType: PostsTypeType,
