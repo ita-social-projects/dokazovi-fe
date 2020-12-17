@@ -74,7 +74,7 @@ export const FilterForm: React.FC<IFilterFormProps> = () => {
             control={
               <Checkbox
                 id={type.id.toString()}
-                checked={!!checked[type.id.toString()]}
+                checked={checked[type.id.toString()]}
                 onChange={handleChange}
                 name={type.name}
               />
