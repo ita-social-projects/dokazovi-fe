@@ -63,9 +63,6 @@ export const FilterForm: React.FC<IFilterFormProps> = () => {
 
     setChecked(checkedTypes);
     handler(checkedTypes);
-
-    console.log(checkedTypes);
-    console.log('event.target.id: ', event.target.id);
   };
 
   const handleChangeAll = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -75,9 +72,6 @@ export const FilterForm: React.FC<IFilterFormProps> = () => {
 
     setChecked(checkedTypes);
     handler(checkedTypes);
-
-    console.log(checkedTypes);
-    console.log('event.target.id: ', event.target.id);
   };
 
   return (
