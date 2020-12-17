@@ -25,7 +25,7 @@ const MaterialsContainer: React.FC<IMaterialsContainerProps> = ({
     (state: RootStateType) => state.directions[direction.name].materials,
   );
   const { filters } = useSelector(
-    (state: RootStateType) => state.directions[direction.name],
+    (state: RootStateType) => state.directions[direction.name].materials,
   );
 
   const dispatch = useDispatch();

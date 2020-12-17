@@ -43,6 +43,8 @@ export interface IExpertPayload {
 }
 
 export interface IExpertMeta {
+  totalPages?: number;
+  pageNumber: number;
   loading: LoadingStatusEnum;
   error: null | string;
 }
@@ -73,6 +75,7 @@ const initialState: IMainState = {
   experts: {
     experts: [],
     meta: {
+      pageNumber: 0,
       loading: LoadingStatusEnum.idle,
       error: null,
     },

@@ -2,10 +2,12 @@ import { Container, Grid } from '@material-ui/core';
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import BorderBottom from '../../../lib/components/Border';
 import LoadingInfo from '../../../lib/components/LoadingInfo';
 import { RootStateType } from '../../../store/rootReducer';
 import { fetchExpertById } from '../store/expertsSlice';
 import ExpertInfo from './ExpertInfo';
+import ExpertMaterialsContainer from './ExpertMaterialsContainer';
 
 const ExpertProfileView: React.FC = () => {
   const { expertId } = useParams<{ expertId: string }>();
@@ -27,7 +29,8 @@ const ExpertProfileView: React.FC = () => {
         <LoadingInfo loading={loading} />
       </Grid>
       {selectedExpert && <ExpertInfo expert={selectedExpert} />}
-      {/* <ExpertMaterials/> */}
+      <BorderBottom />
+      <ExpertMaterialsContainer id={expertId} />
     </Container>
   );
 };

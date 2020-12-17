@@ -3,14 +3,13 @@ import { makeStyles } from '@material-ui/core';
 export const useStyles = makeStyles(
   {
     root: {
-      display: 'inline-flex',
+      margin: 20,
     },
-    photo: {
-      minWidth: '300px',
-      minHeight: '302px',
+    pagination: {
+      margin: 20,
     },
   },
   {
-    name: 'ExpertPhotoDataCard',
+    name: 'ExpertsView',
   },
 );

@@ -17,7 +17,7 @@ const ExpertPhotoDataCard: React.FC<IExpertPhotoDataCardProps> = (props) => {
 
   return (
     <Card className={classes.root}>
-      <Box>
+      <Box className={classes.photo}>
         <ExpertBlock expert={expert} />
       </Box>
       <ExpertDataCard expert={expert} />
