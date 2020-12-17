@@ -26,6 +26,13 @@ export interface IExpertsMeta {
   error: null | string;
 }
 
+export interface IMaterialsMeta {
+  isLastPage: boolean;
+  pageNumber: number;
+  loading: LoadingStatusEnum;
+  error: null | string;
+}
+
 export interface IDirectionState {
   courses: ICourse[];
   experts: {
@@ -33,9 +40,6 @@ export interface IDirectionState {
     meta: IExpertsMeta;
   };
   materials: IMaterialsState;
-  filters?: {
-    [key in FilterTypeEnum]?: IFilter;
-  };
 }
 
 const initialDirectionState: IDirectionState = {
@@ -54,17 +58,16 @@ const initialDirectionState: IDirectionState = {
       loading: LoadingStatusEnum.idle,
       error: null,
     },
+    filters: {},
   },
   courses: [],
 };
 
 interface IMaterialsState {
   posts: IPost[];
-  meta: {
-    isLastPage: boolean;
-    pageNumber: number;
-    loading: LoadingStatusEnum;
-    error: null | string;
+  meta: IMaterialsMeta;
+  filters?: {
+    [key in FilterTypeEnum]?: IFilter;
   };
 }
 
@@ -157,14 +160,23 @@ export const directionsSlice = createSlice({
     loadMaterials: (
       state,
       action: PayloadAction<{
-        materials: IMaterialsState;
+        materials: {
+        posts: IPost[],
+        meta: {
+          isLastPage: boolean;
+          pageNumber: number;
+          loading: LoadingStatusEnum;
+          error: null | string;
+        };
+      }
         directionName: string;
       }>,
     ) => {
-      const { directionName } = action.payload;
+      const { directionName, materials } = action.payload;
       const direction = state[directionName] as IDirectionState;
       if (direction) {
-        direction.materials = action.payload.materials;
+        direction.materials.posts = materials.posts;
+        direction.materials.meta = materials.meta;
       }
     },
     setPostFilters: (
@@ -178,8 +190,8 @@ export const directionsSlice = createSlice({
       const { key, filters, directionName } = action.payload;
       const direction = state[directionName] as IDirectionState;
       if (direction) {
-        direction.filters = {
-          ...direction.filters,
+        direction.materials.filters = {
+          ...direction.materials.filters,
           [key]: filters,
         };
         direction.materials.meta.pageNumber = -1;
@@ -259,7 +271,7 @@ export const fetchMaterials = (direction: IDirection): AppThunkType => async (
   getState,
 ) => {
   const { posts, meta } = getState().directions[direction.name].materials;
-  const { filters } = getState().directions[direction.name];
+  const { filters } = getState().directions[direction.name].materials;
   const postTypes = filters?.[FilterTypeEnum.POST_TYPES]?.value as string[];
   const postTags = filters?.[FilterTypeEnum.TAGS]?.value as string[];
 
