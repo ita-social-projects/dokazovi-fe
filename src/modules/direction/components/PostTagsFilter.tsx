@@ -68,6 +68,7 @@ export const PostTagsFilter: React.FC<IPostTagsFilterProps> = ({
           handleSelectedFilters(event, selectedTags)
         }
         onInputChange={(event, inputValue) => handleTagsFetch(event, inputValue)}
+        noOptionsText="Тегів не знайдено"
         renderInput={(params) => (
           <TextField {...params} label="Введіть назву тега" variant="outlined" />
         )}
