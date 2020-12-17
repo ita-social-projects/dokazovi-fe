@@ -1,14 +1,6 @@
 import React, { useEffect, useRef } from 'react';
-import {
-  makeStyles,
-  createStyles,
-  Button,
-  Container,
-  Grid,
-  Typography,
-} from '@material-ui/core';
+import { Button, Container, Grid, Typography } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
-import _ from 'lodash';
 import BorderBottom from '../../../lib/components/Border';
 import LoadingInfo from '../../../lib/components/LoadingInfo';
 import PostsList from '../../../lib/components/PostsList';
@@ -21,10 +13,6 @@ import { RootStateType } from '../../../store/rootReducer';
 import { LoadingStatusEnum } from '../../../lib/types';
 import useEffectExceptOnMount from '../../../lib/hooks/useEffectExceptOnMount';
 
-const useStyles = makeStyles((theme) => createStyles({}), {
-  name: 'ExpertMaterialsContainer',
-});
-
 export interface IExpertMaterialsContainerProps {
   id: string;
 }
@@ -33,8 +21,10 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
   id,
 }) => {
   const dispatch = useDispatch();
-  const setMaterials = () => dispatch(fetchExpertPosts(Number(id)));
-  const setMaterialsInitial = () => dispatch(fetchInitialMaterials(Number(id)));
+  const dispatchFetchMaterialsAction = () =>
+    dispatch(fetchExpertPosts(Number(id)));
+  const dispatchFetchInitialMaterialsAction = () =>
+    dispatch(fetchInitialMaterials(Number(id)));
 
   dispatch(setupExpertMaterialsID(id));
 
@@ -46,10 +36,8 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
   });
 
   useEffect(() => {
-    setMaterialsInitial();
+    dispatchFetchInitialMaterialsAction();
   }, []);
-
-  const classes = useStyles();
 
   const gridRef = useRef<HTMLDivElement>(null);
 
@@ -69,7 +57,7 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
         <Button
           variant="contained"
           onClick={() => {
-            setMaterials();
+            dispatchFetchMaterialsAction();
           }}
         >
           Більше матеріалів
@@ -94,13 +82,7 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
           <LoadingInfo loading={loading} />
         </Grid>
 
-        <Grid
-          container
-          direction="column"
-          alignItems="center"
-          //   className={classes.showMore}
-          ref={gridRef}
-        >
+        <Grid container direction="column" alignItems="center" ref={gridRef}>
           {renderLoadControls()}
         </Grid>
         <BorderBottom />
