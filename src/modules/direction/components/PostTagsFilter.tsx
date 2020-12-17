@@ -38,7 +38,9 @@ export const PostTagsFilter: React.FC<IPostTagsFilterProps> = ({
 
   const handlerTags = useCallback(
     _.debounce((inputValue) => {
-      dispatch(fetchPostsTags(inputValue));
+      if (inputValue){
+        dispatch(fetchPostsTags(inputValue));
+      }
     }, 500),
     [],
   );
