@@ -43,6 +43,8 @@ export interface IExpertPayload {
 }
 
 export interface IExpertMeta {
+  totalPages?: number;
+  pageNumber: number;
   loading: LoadingStatusEnum;
   error: null | string;
 }
@@ -73,6 +75,7 @@ const initialState: IMainState = {
   experts: {
     experts: [],
     meta: {
+      pageNumber: 0,
       loading: LoadingStatusEnum.idle,
       error: null,
     },
@@ -123,12 +126,14 @@ export const fetchNewestPosts = createAsyncThunk<IFetchNewestPosts>(
 );
 
 export const fetchExperts = createAsyncThunk('main/loadExperts', async () => {
-  const { data: { content: fetchedExperts }} = await getExperts({
+  const {
+    data: { content: fetchedExperts },
+  } = await getExperts({
     params: {
       size: 11,
     },
   });
-  
+
   return fetchedExperts;
 });
 

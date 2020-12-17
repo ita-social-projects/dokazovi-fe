@@ -1,8 +1,10 @@
 /* eslint-disable no-param-reassign */
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { IFilter, IPost, LoadingStatusEnum } from '../../../lib/types';
-import { getExpertById } from '../../../lib/utilities/API/api';
+import { getAllExperts, getExpertById } from '../../../lib/utilities/API/api';
+
 import { IExpertPayload } from '../../main/store/mainSlice';
+import type { RootStateType } from '../../../store/rootReducer';
 
 interface IExpertsListPayload extends IExpertPayload {
   filters: IFilter[];
@@ -29,6 +31,8 @@ const initialState: IExpertsState = {
   experts: {
     experts: [],
     meta: {
+      totalPages: 0,
+      pageNumber: 1,
       loading: LoadingStatusEnum.idle,
       error: null,
     },
@@ -36,6 +40,22 @@ const initialState: IExpertsState = {
   },
   materials: [],
 };
+
+export const fetchExperts = createAsyncThunk(
+  'experts/loadExperts',
+  async (__, { getState }) => {
+    const {
+      experts: { experts },
+    } = getState() as RootStateType;
+    const { data } = await getAllExperts({
+      params: {
+        page: experts.meta.pageNumber,
+      },
+    });
+
+    return data;
+  },
+);
 
 export const fetchExpertById = createAsyncThunk(
   'experts/loadExpertProfile',
@@ -52,6 +72,9 @@ export const expertsSlice = createSlice({
     loadExperts: (state, action: PayloadAction<IExpertsListPayload>) => {
       state.experts = action.payload;
     },
+    setExpertsPage: (state, action: PayloadAction<number>) => {
+      state.experts.meta.pageNumber = action.payload;
+    },
     setExpertsFilters: (state, action: PayloadAction<IFilter[]>) => {
       state.experts.filters = action.payload;
     },
@@ -60,23 +83,43 @@ export const expertsSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder
-      .addCase(fetchExpertById.pending, (state) => {
-        state.experts.meta.loading = LoadingStatusEnum.pending;
-      })
-      .addCase(fetchExpertById.fulfilled, (state, { payload }) => {
-        state.experts.experts.push(payload);
-        state.experts.meta.loading = LoadingStatusEnum.succeeded;
-      })
-      .addCase(fetchExpertById.rejected, (state, { error }) => {
-        if (error.message) {
-          state.experts.meta.error = error.message;
-        }
-        state.experts.meta.loading = LoadingStatusEnum.failed;
-      });
-  }
+    builder.addCase(fetchExperts.pending, (state) => {
+      state.experts.meta.loading = LoadingStatusEnum.pending;
+    });
+    builder.addCase(fetchExperts.fulfilled, (state, { payload }) => {
+      state.experts.meta.loading = LoadingStatusEnum.succeeded;
+      state.experts.meta.pageNumber = payload.number;
+      state.experts.meta.totalPages = payload.totalPages;
+      state.experts.meta.totalPages -= 1;
+      state.experts.experts = payload.content;
+    });
+    builder.addCase(fetchExperts.rejected, (state, { error }) => {
+      if (error.message) {
+        state.experts.meta.error = error.message;
+      }
+
+      state.experts.meta.loading = LoadingStatusEnum.failed;
+    });
+    builder.addCase(fetchExpertById.pending, (state) => {
+      state.experts.meta.loading = LoadingStatusEnum.pending;
+    });
+    builder.addCase(fetchExpertById.fulfilled, (state, { payload }) => {
+      state.experts.experts.push(payload);
+      state.experts.meta.loading = LoadingStatusEnum.succeeded;
+    });
+    builder.addCase(fetchExpertById.rejected, (state, { error }) => {
+      if (error.message) {
+        state.experts.meta.error = error.message;
+      }
+      state.experts.meta.loading = LoadingStatusEnum.failed;
+    });
+  },
 });
 
-export const { loadExperts, setExpertsFilters } = expertsSlice.actions;
+export const {
+  loadExperts,
+  setExpertsFilters,
+  setExpertsPage,
+} = expertsSlice.actions;
 
 export const expertsReducer = expertsSlice.reducer;
