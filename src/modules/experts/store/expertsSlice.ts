@@ -1,16 +1,27 @@
 /* eslint-disable no-param-reassign */
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import type { ICheckboxes } from '../../../lib/components/FilterForm';
+import _ from 'lodash';
+import { DIRECTION_PROPERTIES } from '../../../lib/constants/direction-properties';
 import {
-  FilterTypeEnum,
+  IExpert,
   IFilter,
   IPost,
   LoadingStatusEnum,
+  FilterTypeEnum,
 } from '../../../lib/types';
-import { getAllExperts } from '../../../lib/utilities/API/api';
-import type { RootStateType } from '../../../store/rootReducer';
-import { IExpertPayload } from '../../main/store/mainSlice';
+import {
+  getAllExperts,
+  getExpertById,
+  getPosts,
+} from '../../../lib/utilities/API/api';
+import type { AppThunkType } from '../../../store/store';
+import { LOAD_POSTS_LIMIT } from '../../main/components/constants/newestPostsPagination-config';
 
+import { IExpertPayload } from '../../main/store/mainSlice';
+import type { RootStateType } from '../../../store/rootReducer';
+import type { ICheckboxes } from '../../../lib/components/FilterForm';
+
+const POST_PREVIEW_LENGTH = 150;
 interface IExpertsListPayload extends IExpertPayload {
   filters?: {
     [FilterTypeEnum.DIRECTIONS]: IFilter;
@@ -18,13 +29,18 @@ interface IExpertsListPayload extends IExpertPayload {
   };
 }
 
+interface IMaterialsState extends Record<string, IMaterialsPayload> {
+  [key: string]: IMaterialsPayload;
+}
+
 interface IMaterialsMeta {
   loading: LoadingStatusEnum;
   error: null | string;
+  isLastPage: boolean;
+  pageNumber: number;
 }
 
 interface IMaterialsPayload {
-  id: number;
   loadedPosts: IPost[];
   meta: IMaterialsMeta;
   filters: IFilter[];
@@ -32,8 +48,19 @@ interface IMaterialsPayload {
 
 export interface IExpertsState {
   experts: IExpertsListPayload;
-  materials: IMaterialsPayload[];
+  materials: IMaterialsState;
 }
+
+const materialsInitialState: IMaterialsPayload = {
+  loadedPosts: [],
+  meta: {
+    loading: LoadingStatusEnum.idle,
+    error: null,
+    isLastPage: false,
+    pageNumber: -1,
+  },
+  filters: [],
+};
 
 const initialState: IExpertsState = {
   experts: {
@@ -53,7 +80,7 @@ const initialState: IExpertsState = {
       },
     },
   },
-  materials: [],
+  materials: {} as IMaterialsState,
 };
 
 export const fetchExperts = createAsyncThunk(
@@ -67,7 +94,6 @@ export const fetchExperts = createAsyncThunk(
       params: {
         page: experts.meta?.pageNumber,
         regions: Object.keys(filterValues).filter((key) => filterValues[key]),
-        size: 22,
       },
     });
 
@@ -75,12 +101,28 @@ export const fetchExperts = createAsyncThunk(
   },
 );
 
+export const fetchExpertById = createAsyncThunk(
+  'experts/loadExpertProfile',
+  async (id: number) => {
+    const { data: expert } = await getExpertById(id);
+    return expert;
+  },
+);
+
 export const expertsSlice = createSlice({
   name: 'experts',
   initialState,
   reducers: {
-    loadExperts: (state, action: PayloadAction<IExpertPayload>) => {
+    setupExpertMaterialsID: (state, action: PayloadAction<string>) => {
+      if (!state.materials[action.payload])
+        state.materials[action.payload] = materialsInitialState;
+    },
+
+    loadExperts: (state, action: PayloadAction<IExpertsListPayload>) => {
       state.experts = action.payload;
+    },
+    setExpertsPage: (state, action: PayloadAction<number>) => {
+      state.experts.meta.pageNumber = action.payload;
     },
     setExpertsRegionsFilter: (state, action: PayloadAction<IFilter>) => {
       if (state.experts.filters) {
@@ -96,8 +138,33 @@ export const expertsSlice = createSlice({
         };
       }
     },
-    loadMaterials: (state, action: PayloadAction<IMaterialsPayload>) => {
-      state.materials.push(action.payload);
+    loadMaterials: (
+      state,
+      action: PayloadAction<{ expertId: number; materials: IMaterialsPayload }>,
+    ) => {
+      const { expertId } = action.payload;
+      state.materials[expertId] = action.payload.materials;
+    },
+    setMaterialsLoadingStatus: (
+      state,
+      action: PayloadAction<{
+        expertId: number;
+        status: LoadingStatusEnum;
+        error?: string;
+      }>,
+    ) => {
+      const { expertId, status, error } = action.payload;
+      switch (status) {
+        case LoadingStatusEnum.pending:
+          state.materials[expertId].meta.loading = LoadingStatusEnum.pending;
+          break;
+        case LoadingStatusEnum.failed:
+          state.materials[expertId].meta.loading = LoadingStatusEnum.failed;
+          state.materials[expertId].meta.error = error || null;
+          break;
+        default:
+          state.materials[expertId].meta.loading = LoadingStatusEnum.succeeded;
+      }
     },
   },
   extraReducers: (builder) => {
@@ -108,6 +175,7 @@ export const expertsSlice = createSlice({
       state.experts.meta.loading = LoadingStatusEnum.succeeded;
       state.experts.meta.pageNumber = payload.number;
       state.experts.meta.totalPages = payload.totalPages;
+      state.experts.meta.totalPages -= 1;
       state.experts.experts = payload.content;
     });
     builder.addCase(fetchExperts.rejected, (state, { error }) => {
@@ -117,6 +185,19 @@ export const expertsSlice = createSlice({
 
       state.experts.meta.loading = LoadingStatusEnum.failed;
     });
+    builder.addCase(fetchExpertById.pending, (state) => {
+      state.experts.meta.loading = LoadingStatusEnum.pending;
+    });
+    builder.addCase(fetchExpertById.fulfilled, (state, { payload }) => {
+      state.experts.experts.push(payload);
+      state.experts.meta.loading = LoadingStatusEnum.succeeded;
+    });
+    builder.addCase(fetchExpertById.rejected, (state, { error }) => {
+      if (error.message) {
+        state.experts.meta.error = error.message;
+      }
+      state.experts.meta.loading = LoadingStatusEnum.failed;
+    });
   },
 });
 
@@ -124,6 +205,96 @@ export const {
   loadExperts,
   setExpertsRegionsFilter,
   setExpertsDirectionsFilter,
+  setupExpertMaterialsID,
+  loadMaterials,
+  setMaterialsLoadingStatus,
+  setExpertsPage,
 } = expertsSlice.actions;
 
 export const expertsReducer = expertsSlice.reducer;
+
+export const fetchExpertPosts = (expertId: number): AppThunkType => async (
+  dispatch,
+  getState,
+) => {
+  const { meta, loadedPosts } = getState().experts.materials[expertId];
+  try {
+    dispatch(
+      setMaterialsLoadingStatus({
+        expertId,
+        status: LoadingStatusEnum.pending,
+      }),
+    );
+
+    const resp = await getPosts('latest-by-expert', {
+      params: {
+        size: LOAD_POSTS_LIMIT,
+        page: meta.pageNumber + 1,
+        expert: expertId,
+      },
+    });
+
+    const fetchedPosts: IPost[] = resp.data.content.map((post) => {
+      const postAuthor = {
+        ..._.pick(post.author, [
+          'avatar',
+          'firstName',
+          'lastName',
+          'mainInstitution',
+        ]),
+      } as IExpert;
+
+      const preview = _.truncate(post.content, {
+        length: POST_PREVIEW_LENGTH,
+      });
+
+      return {
+        author: postAuthor,
+        createdAt: post.createdAt,
+        mainDirection: DIRECTION_PROPERTIES[post.mainDirection.id.toString()],
+        title: post.title,
+        postType: { id: post.type.id, name: post.type.name },
+        preview,
+        id: post.id,
+      };
+    });
+
+    dispatch(
+      loadMaterials({
+        expertId,
+        materials: {
+          loadedPosts:
+            resp.data.number === -1
+              ? fetchedPosts
+              : loadedPosts.concat(fetchedPosts),
+          meta: {
+            loading: LoadingStatusEnum.succeeded,
+            error: null,
+            pageNumber: resp.data.number,
+            isLastPage: resp.data.last,
+          },
+          filters: [],
+        },
+      }),
+    );
+  } catch (e) {
+    dispatch(
+      setMaterialsLoadingStatus({
+        expertId,
+        status: LoadingStatusEnum.failed,
+        error: String(e),
+      }),
+    );
+  }
+};
+
+export const fetchInitialMaterials = (expertId: number): AppThunkType => (
+  dispatch,
+  getState,
+) => {
+  const { loadedPosts } = getState().experts.materials[expertId];
+
+  if (!loadedPosts.length) {
+    dispatch(fetchExpertPosts(expertId));
+  }
+};

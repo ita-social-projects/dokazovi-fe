@@ -11,10 +11,6 @@ import { fetchPostsTypes, fetchRegions } from './store/propertiesSlice';
 const App: React.FC = () => {
   const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   dispatch(fetchPostsTypes());
-  // }, [dispatch]);
-
   const fetchProperties = () => {
     dispatch(fetchPostsTypes());
     dispatch(fetchRegions());

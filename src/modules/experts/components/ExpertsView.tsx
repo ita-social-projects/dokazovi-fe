@@ -1,19 +1,41 @@
 import React, { useEffect } from 'react';
 import { Container, Grid } from '@material-ui/core';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { Pagination } from '@material-ui/lab';
+import { fetchExperts, setExpertsPage } from '../store/expertsSlice';
 import { RootStateType } from '../../../store/rootReducer';
-import ExpertPhotoDataCard from '../../../lib/components/ExpertPhotoDataCard';
+import ExpertsList from '../../../lib/components/ExpertsList';
+import LoadingInfo from '../../../lib/components/LoadingInfo';
+import { useStyles } from '../styles/ExpertsView.styles';
 import { FilterForm } from '../../../lib/components/FilterForm';
-import { fetchExperts } from '../store/expertsSlice';
 
 export interface IExpertsViewProps {}
 
-const selectExpertsList = (state: RootStateType) => state.experts.experts;
+const selectExperts = (state: RootStateType) => state.experts.experts;
 
 const ExpertsView: React.FC<IExpertsViewProps> = () => {
+  const classes = useStyles();
   const dispatch = useDispatch();
 
-  const { experts, filters } = useSelector(selectExpertsList);
+  const {
+    experts,
+    meta: { totalPages, pageNumber, loading },
+    filters,
+  } = useSelector(selectExperts);
+
+  const setExperts = () => dispatch(fetchExperts());
+
+  const handlePageChange = (_, page: number) => {
+    dispatch(setExpertsPage(page));
+  };
+
+  useEffect(() => {
+    dispatch(setExpertsPage(1));
+  }, []);
+
+  useEffect(() => {
+    setExperts();
+  }, [pageNumber]);
 
   useEffect(() => {
     dispatch(fetchExperts());
@@ -21,17 +43,29 @@ const ExpertsView: React.FC<IExpertsViewProps> = () => {
 
   return (
     <>
-      <Container>
-        <Grid container spacing={2} direction="row" alignItems="center">
-          <Grid item xs={5}>
-            <FilterForm />
-            {experts.map((expert) => (
-              <div key={expert.id}>
-                <ExpertPhotoDataCard expert={expert} />
-              </div>
-            ))}
-          </Grid>
+      <Container fixed>
+        <Grid container>
+          <FilterForm />
         </Grid>
+        {loading === 'pending' ? (
+          <Grid container direction="column" alignItems="center">
+            <LoadingInfo loading={loading} />
+          </Grid>
+        ) : (
+          <Container className={classes.root}>
+            <Grid container spacing={4} direction="row" alignItems="center">
+              <ExpertsList experts={experts} />
+            </Grid>
+            <Grid container spacing={2} direction="column" alignItems="center">
+              <Pagination
+                className={classes.pagination}
+                count={totalPages}
+                page={pageNumber}
+                onChange={handlePageChange}
+              />
+            </Grid>
+          </Container>
+        )}
       </Container>
     </>
   );

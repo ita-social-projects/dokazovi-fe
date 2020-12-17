@@ -3,9 +3,9 @@ import { Box } from '@material-ui/core';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
-import PostDirectionChip from './PostDirectionChip';
 import { IExpert } from '../types';
 import { useStyles } from '../styles/ExpertDataCard.styles';
+import PostDirectionLink from './PostDirectionLink';
 
 export interface IExpertDataCardProps {
   expert: IExpert;
@@ -15,15 +15,9 @@ const ExpertDataCard: React.FC<IExpertDataCardProps> = (props) => {
   const { expert } = props;
 
   const fullName = `${expert.firstName} ${expert.lastName}`;
-
-  const mainInsitutionCity =
-    expert.mainInstitution && expert.mainInstitution.city
-      ? expert.mainInstitution.city.name
-      : '';
-
+  const mainInsitutionCity = expert.mainInstitution?.city?.name || '';
   const mainInsitutionName = expert.mainInstitution?.name || '';
-
-  const directionName = expert.mainDirection?.name || '';
+  const direction = expert.mainDirection;
 
   const classes = useStyles();
 
@@ -39,9 +33,9 @@ const ExpertDataCard: React.FC<IExpertDataCardProps> = (props) => {
           }}
         >
           <Typography variant="h5">{fullName}</Typography>
-          {directionName && (
+          {direction && (
             <Typography variant="body1">
-              Спеціалізація: <PostDirectionChip labelName={directionName} />
+              Спеціалізація: <PostDirectionLink direction={direction} />
             </Typography>
           )}
           <div>
