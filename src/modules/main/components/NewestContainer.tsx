@@ -12,10 +12,10 @@ import BorderBottom from '../../../lib/components/Border';
 import PostsList from '../../../lib/components/PostsList';
 import { LoadingStatusEnum } from '../../../lib/types';
 import LoadingInfo from '../../../lib/components/LoadingInfo';
+import useEffectExceptOnMount from '../../../lib/hooks/useEffectExceptOnMount';
 
 const NewestContainer: React.FC = () => {
   const classes = useStyles();
-  const gridRef = useRef<HTMLDivElement>(null);
 
   const dispatch = useDispatch();
   const setNewest = () => dispatch(fetchNewestPosts());
@@ -23,7 +23,7 @@ const NewestContainer: React.FC = () => {
 
   const {
     newestPosts,
-    meta: { isLastPage, loading },
+    meta: { isLastPage, loading, currentPage },
   } = useSelector<RootStateType, IMainState['newest']>((state) => {
     return state.main.newest;
   });
@@ -43,7 +43,6 @@ const NewestContainer: React.FC = () => {
           variant="contained"
           onClick={() => {
             setNewest();
-            scrollTo();
           }}
         >
           Більше матеріалів
@@ -58,12 +57,17 @@ const NewestContainer: React.FC = () => {
     return control;
   };
 
-  const scrollTo = () =>
-    gridRef.current?.scrollIntoView({ behavior: 'smooth' });
+  const gridRef = useRef<HTMLDivElement>(null);
+
+  useEffectExceptOnMount(() => {
+    if (currentPage > 1) {
+      gridRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [currentPage]);
 
   return (
     <>
-      {loading === 'pending' ? (
+      {loading === LoadingStatusEnum.pending && currentPage < 1 ? (
         <Grid container direction="column" alignItems="center">
           <LoadingInfo loading={loading} />
         </Grid>
