@@ -74,7 +74,7 @@ export const expertsSlice = createSlice({
         }
         state.experts.meta.loading = LoadingStatusEnum.failed;
       });
-  }
+  },
 });
 
 export const { loadExperts, setExpertsFilters } = expertsSlice.actions;

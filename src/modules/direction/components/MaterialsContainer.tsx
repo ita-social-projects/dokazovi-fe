@@ -2,10 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Button, Container, Grid, Typography } from '@material-ui/core';
 import PostList from '../../../lib/components/PostsList';
-import {
-  fetchInitialMaterials,
-  fetchMaterials,
-} from '../store/directionSlice';
+import { fetchInitialMaterials, fetchMaterials } from '../store/directionSlice';
 import { RootStateType } from '../../../store/rootReducer';
 import { useStyles } from './styles/MaterialsContainer.styles';
 import { IDirection, LoadingStatusEnum } from '../../../lib/types';
@@ -33,7 +30,7 @@ const MaterialsContainer: React.FC<IMaterialsContainerProps> = ({
 
   const dispatch = useDispatch();
 
-const dispatchFetchAction = () => dispatch(fetchMaterials(direction));
+  const dispatchFetchAction = () => dispatch(fetchMaterials(direction));
 
   useEffect(() => {
     dispatch(fetchInitialMaterials(direction));

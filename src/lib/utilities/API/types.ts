@@ -82,7 +82,6 @@ export type GetVersionType = {
 export type PostPostResponseType = {
   id: number;
   name: string;
-}
+};
 
-export type GetPostResponseType = PostPostResponseType[]
-
+export type GetPostResponseType = PostPostResponseType[];

@@ -63,9 +63,7 @@ const PostPreviewCard: React.FC<IPostPreviewCardProps> = (props) => {
             </Typography>
           </Box>
           <Box>
-            <PostDirectionLink
-              direction={data.mainDirection}
-            />
+            <PostDirectionLink direction={data.mainDirection} />
             <Typography
               style={{ fontStyle: 'italic' }}
               variant="subtitle2"

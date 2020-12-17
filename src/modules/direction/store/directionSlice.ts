@@ -75,7 +75,7 @@ export const directionsSlice = createSlice({
     setupDirection: (state, action: PayloadAction<string>) => {
       if (!state[action.payload]) {
         state[action.payload] = initialDirectionState;
-      } 
+      }
     },
     setExpertsLoadingStatus: (
       state,

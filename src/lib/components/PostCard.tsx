@@ -39,9 +39,7 @@ export const PostCard: React.FC<IPostCardProps> = (props) => {
       <Box className={classes.rightPart}>
         <Box className={classes.chipRoot}>
           <Chip label={post.postType.name} size="small" />
-          <PostDirectionLink
-           direction={post.mainDirection}
-          />
+          <PostDirectionLink direction={post.mainDirection} />
         </Box>
         <Typography variant="body1" component="p" align="center">
           {post.title}

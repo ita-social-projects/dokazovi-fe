@@ -43,5 +43,5 @@ export const styles: IStyles = {
   },
   title: {
     margin: '10px 0 0 20px',
-  }
+  },
 };

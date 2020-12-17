@@ -22,7 +22,7 @@ export const useStyles = makeStyles(
       marginLeft: '22px',
       fontSize: '30px',
       fontWeight: 400,
-    }
+    },
   },
   {
     name: 'DirectionView',

@@ -9,9 +9,10 @@ import ExpertInfo from './ExpertInfo';
 
 const ExpertProfileView: React.FC = () => {
   const { expertId } = useParams<{ expertId: string }>();
-  const { experts, meta: { loading } } = useSelector(
-    (state: RootStateType) => state.experts.experts,
-  );
+  const {
+    experts,
+    meta: { loading },
+  } = useSelector((state: RootStateType) => state.experts.experts);
   const dispatch = useDispatch();
 
   const selectedExpert = experts.find((e) => e.id === Number(expertId));

@@ -123,12 +123,14 @@ export const fetchNewestPosts = createAsyncThunk<IFetchNewestPosts>(
 );
 
 export const fetchExperts = createAsyncThunk('main/loadExperts', async () => {
-  const { data: { content: fetchedExperts }} = await getExperts({
+  const {
+    data: { content: fetchedExperts },
+  } = await getExperts({
     params: {
       size: 11,
     },
   });
-  
+
   return fetchedExperts;
 });
 
