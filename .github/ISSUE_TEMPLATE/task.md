@@ -17,3 +17,6 @@ Show priority posts by api request
 1. - [ ] Implement api endpoint contorller for getting posts.
 2. - [ ] Implement service for getting all priority posts.
 3. - [ ] Implement repository for getting all priority posts.
+
+
+### [Estimating](https://docs.google.com/spreadsheets/d/14mClU39kUN25wvr-Di8eQHsuGhzPKMSsjcoCICIQJzU/edit#gid=2034526602) 
