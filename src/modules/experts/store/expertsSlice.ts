@@ -56,7 +56,7 @@ const initialState: IExpertsState = {
   experts: {
     experts: [],
     meta: {
-      totalPages: 0,
+      totalPages: undefined,
       pageNumber: 1,
       loading: LoadingStatusEnum.idle,
       error: null,
@@ -144,8 +144,7 @@ export const expertsSlice = createSlice({
     builder.addCase(fetchExperts.fulfilled, (state, { payload }) => {
       state.experts.meta.loading = LoadingStatusEnum.succeeded;
       state.experts.meta.pageNumber = payload.number;
-      state.experts.meta.totalPages = payload.totalPages;
-      state.experts.meta.totalPages -= 1;
+      state.experts.meta.totalPages = payload.totalPages - 1;
       state.experts.experts = payload.content;
     });
     builder.addCase(fetchExperts.rejected, (state, { error }) => {
