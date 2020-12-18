@@ -96,7 +96,6 @@ export const fetchExperts = createAsyncThunk(
         regions: Object.keys(filterValues).filter((key) => filterValues[key]),
       },
     });
-
     return data;
   },
 );

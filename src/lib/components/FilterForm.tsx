@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -42,6 +42,14 @@ export const FilterForm: React.FC<IFilterFormProps> = () => {
   const [checked, setChecked] = React.useState<IInitLocalState>(initLocalState);
 
   const expertsFilters = filters?.REGIONS?.value as ICheckboxes;
+
+  // const checkboxAll = React.useRef(null);
+
+  // useEffect(() => {
+  //   const checkedTypes = _.mapValues(checked, () => true);
+  //   setChecked(checkedTypes);
+  //   handler(checkedTypes);
+  // }, []);
 
   const handler = useCallback(
     _.debounce((checkedTypes: ICheckboxes) => {
@@ -89,6 +97,7 @@ export const FilterForm: React.FC<IFilterFormProps> = () => {
                 checked={checked.id}
                 onChange={handleChangeAll}
                 name="All"
+                defaultValue="true"
               />
             }
             label="Всі"
@@ -102,7 +111,6 @@ export const FilterForm: React.FC<IFilterFormProps> = () => {
             display: 'flex',
             flexDirection: 'column',
             flexWrap: 'wrap',
-            // paddingLeft: '50px',
           }}
         >
           {regions.map((type) => (
