@@ -29,9 +29,9 @@ const ImportantContainer: React.FC = () => {
   }, []);
 
   return (
-    <div>
+    <div style={styles.container}>
       {loading === 'pending' ? (
-        <Grid container direction="column" alignItems="center">
+        <Grid container direction="column" alignItems="center" style={styles.loading}>
           <LoadingInfo loading={loading} />
         </Grid>
       ) : (

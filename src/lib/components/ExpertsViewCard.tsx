@@ -48,15 +48,15 @@ export const ExpertsViewCard: React.FC<IExpertsViewCardProps> = (props) => {
   const errorMsg = 'Не вдалося завантажити експертів';
 
   return (
-    <>
+    <div className={classes.container}>
       {loading === 'pending' ? (
-        <Grid container direction="column" alignItems="center">
+        <Grid container direction="column" alignItems="center" className={classes.loading}>
           <LoadingInfo loading={loading} errorMsg={errorMsg} />
         </Grid>
       ) : (
         <Container>
           <Typography variant="h4">Експерти</Typography>
-          <div className={classes.container}>
+          <div className={classes.experts}>
             {allExperts}
             <ExpertPopover
               anchorEl={anchorEl}
@@ -67,6 +67,6 @@ export const ExpertsViewCard: React.FC<IExpertsViewCardProps> = (props) => {
           </div>
         </Container>
       )}
-    </>
+    </div>
   );
 };

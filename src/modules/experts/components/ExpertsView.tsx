@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import React, { useEffect } from 'react';
 import { Container, Grid } from '@material-ui/core';
 import { useSelector, useDispatch } from 'react-redux';
@@ -36,9 +37,9 @@ const ExpertsView: React.FC<IExpertsViewProps> = () => {
   }, [pageNumber]);
 
   return (
-    <>
-      {loading === 'pending' ? (
-        <Grid container direction="column" alignItems="center">
+    <div className={classes.container}>
+        {loading === 'pending' ? (
+        <Grid container direction="column" alignItems="center" className={classes.loading}>
           <LoadingInfo loading={loading} />
         </Grid>
       ) : (
@@ -56,7 +57,7 @@ const ExpertsView: React.FC<IExpertsViewProps> = () => {
           </Grid>
         </Container>
       )}
-    </>
+    </div>
   );
 };
 

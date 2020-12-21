@@ -8,6 +8,16 @@ export const useStyles = makeStyles(
     pagination: {
       margin: 20,
     },
+    container: {
+      minHeight: '1000px',
+      position: 'relative',
+    }, 
+    loading: {
+      position: 'absolute',
+      top: '50%',
+      msTransform: 'translateY(-50%)',
+      transform: 'translateY(-50%),'
+    },
   },
   {
     name: 'ExpertsView',
