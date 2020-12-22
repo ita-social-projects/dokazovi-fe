@@ -15,7 +15,6 @@ import {
 } from '../../../lib/utilities/API/api';
 import type { AppThunkType } from '../../../store/store';
 import { LOAD_POSTS_LIMIT } from '../../main/components/constants/newestPostsPagination-config';
-
 import { IExpertPayload } from '../../main/store/mainSlice';
 import type { RootStateType } from '../../../store/rootReducer';
 
@@ -92,9 +91,19 @@ export const fetchExperts = createAsyncThunk(
 
 export const fetchExpertById = createAsyncThunk(
   'experts/loadExpertProfile',
-  async (id: number) => {
-    const { data: expert } = await getExpertById(id);
-    return expert;
+  async (id: number, { getState }) => {
+    const {
+      experts: {
+        experts: { experts },
+      },
+    } = getState() as RootStateType;
+    const existingExpert = experts.find((expert) => expert.id === id);
+    if (existingExpert) {
+      return existingExpert;
+    }
+
+    const { data: fetchedExpert } = await getExpertById(id);
+    return fetchedExpert;
   },
 );
 
