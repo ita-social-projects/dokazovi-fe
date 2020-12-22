@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import ReactQuill from 'react-quill';
-import QuillToolbar, { formats, modules } from './QuillToolbar';
+import QuillToolbar from './QuillToolbar';
+import { modules, formats } from './utilities';
 import 'react-quill/dist/quill.snow.css';
 
 export interface IQuillEditorProps {}

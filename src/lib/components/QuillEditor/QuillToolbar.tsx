@@ -1,45 +1,33 @@
 import React from 'react';
-
-export const modules = {
-  toolbar: {
-    container: '#toolbar',
-  },
-  history: {
-    delay: 500,
-    maxStack: 100,
-    userOnly: true,
-  },
-};
-
-export const formats = [
-  'header',
-  'font',
-  'size',
-  'bold',
-  'italic',
-  'underline',
-  'align',
-  'strike',
-  'script',
-  'blockquote',
-  'background',
-  'list',
-  'bullet',
-  'indent',
-  'link',
-  'image',
-  'video',
-  'color',
-  'code-block',
-];
+import { Quill } from 'react-quill';
+import './editor.styles.css';
 
 export interface IQuillToolbarProps {}
+
+// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+const Font = Quill.import('formats/font');
+// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+const Size = Quill.import('formats/size');
+// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+Font.whitelist = [
+  'arial',
+  'comic-sans',
+  'courier-new',
+  'georgia',
+  'helvetica',
+  'lucida',
+];
+// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+Size.whitelist = ['extra-small', 'small', 'medium', 'large'];
+
+Quill.register(Size, true);
+Quill.register(Font, true);
 
 const QuillToolbar: React.FC<IQuillToolbarProps> = () => {
   return (
     <div id="toolbar">
       <span className="ql-formats">
-        <select className="ql-font" defaultValue="arial">
+        <select className="ql-font">
           <option value="arial">Arial</option>
           <option value="comic-sans">Comic Sans</option>
           <option value="courier-new">Courier New</option>
@@ -47,50 +35,75 @@ const QuillToolbar: React.FC<IQuillToolbarProps> = () => {
           <option value="helvetica">Helvetica</option>
           <option value="lucida">Lucida</option>
         </select>
-        <select className="ql-size" defaultValue="medium">
+        <select className="ql-size">
           <option value="extra-small">Size 1</option>
           <option value="small">Size 2</option>
           <option value="medium">Size 3</option>
           <option value="large">Size 4</option>
         </select>
-        <select className="ql-header" defaultValue="3">
+        <select className="ql-header">
           <option value="1">Heading</option>
           <option value="2">Subheading</option>
           <option value="3">Normal</option>
         </select>
       </span>
       <span className="ql-formats">
-        <button type="button" className="ql-bold" />
-        <button type="button" className="ql-italic" />
-        <button type="button" className="ql-underline" />
-        <button type="button" className="ql-strike" />
+        <button title="Bold" type="button" className="ql-bold" />
+        <button title="Italic" type="button" className="ql-italic" />
+        <button title="Underline" type="button" className="ql-underline" />
+        <button title="Strike" type="button" className="ql-strike" />
       </span>
       <span className="ql-formats">
-        <button type="button" className="ql-list" value="ordered" />
-        <button type="button" className="ql-list" value="bullet" />
-        <button type="button" className="ql-indent" value="-1" />
-        <button type="button" className="ql-indent" value="+1" />
+        <button
+          title="Ordered List"
+          type="button"
+          className="ql-list"
+          value="ordered"
+        />
+        <button
+          title="Unordered List"
+          type="button"
+          className="ql-list"
+          value="bullet"
+        />
+        <button
+          title="Left Indent"
+          type="button"
+          className="ql-indent"
+          value="-1"
+        />
+        <button
+          title="Right Indent"
+          type="button"
+          className="ql-indent"
+          value="+1"
+        />
       </span>
       <span className="ql-formats">
-        <button type="button" className="ql-script" value="super" />
-        <button type="button" className="ql-script" value="sub" />
-        <button type="button" className="ql-blockquote" />
-        <button type="button" className="ql-direction" />
+        <button
+          title="Super"
+          type="button"
+          className="ql-script"
+          value="super"
+        />
+        <button title="Sub" type="button" className="ql-script" value="sub" />
+        <button title="Blockquote" type="button" className="ql-blockquote" />
+        <button title="Direction" type="button" className="ql-direction" />
       </span>
       <span className="ql-formats">
-        <select className="ql-align" />
-        <select className="ql-color" />
-        <select className="ql-background" />
+        <select title="Align" className="ql-align" />
+        <select title="Color" className="ql-color" />
+        <select title="Background" className="ql-background" />
       </span>
       <span className="ql-formats">
-        <button type="button" className="ql-link" />
-        <button type="button" className="ql-image" />
-        <button type="button" className="ql-video" />
+        <button title="Link" type="button" className="ql-link" />
+        <button title="Image" type="button" className="ql-image" />
+        <button title="Video" type="button" className="ql-video" />
       </span>
       <span className="ql-formats">
-        <button type="button" className="ql-formula" />
-        <button type="button" className="ql-code-block" />
-        <button type="button" className="ql-clean" />
+        <button title="Formula" type="button" className="ql-formula" />
+        <button title="Code-block" type="button" className="ql-code-block" />
+        <button title="Clean formatting" type="button" className="ql-clean" />
       </span>
     </div>
   );

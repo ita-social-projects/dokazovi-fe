@@ -1,0 +1,49 @@
+.ql-font-arial,
+.ql-font span[data-value='arial']::before {
+  font-family: Arial, sans-serif;
+}
+.ql-font-comic-sans,
+.ql-font span[data-value='comic-sans']::before {
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+}
+.ql-font-courier-new,
+.ql-font span[data-value='courier-new']::before {
+  font-family: 'Courier New';
+}
+.ql-font-georgia,
+.ql-font span[data-value='georgia']::before {
+  font-family: Georgia, serif;
+}
+.ql-font-helvetica,
+.ql-font span[data-value='helvetica']::before {
+  font-family: Helvetica, sans-serif;
+}
+.ql-font-lucida,
+.ql-font span[data-value='lucida']::before {
+  font-family: 'Lucida Sans Unicode', 'Lucida Grande', sans-serif;
+}
+
+.ql-size-extra-small,
+.ql-size span[data-value='extra-small']::before {
+  font-size: 13px !important;
+}
+.ql-size-small,
+.ql-size span[data-value='small']::before {
+  font-size: 14px !important;
+}
+.ql-size-medium,
+.ql-size span[data-value='medium']::before {
+  font-size: 18px !important;
+}
+.ql-size-large,
+.ql-size span[data-value='large']::before {
+  font-size: 20px !important;
+}
+
+u {
+  text-decoration: underline;
+}
+
+s {
+  text-decoration: line-through;
+}
