@@ -1,8 +1,13 @@
 /* eslint-disable no-param-reassign */
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import _ from 'lodash';
-import { DIRECTION_PROPERTIES } from '../../../lib/constants/direction-properties';
-import { IExpert, IFilter, IPost, LoadingStatusEnum } from '../../../lib/types';
+import {
+  IExpert,
+  IFilter,
+  IPost,
+  LoadingStatusEnum,
+  FilterTypeEnum,
+} from '../../../lib/types';
 import {
   getAllExperts,
   getExpertById,
@@ -242,7 +247,7 @@ export const fetchExpertMaterials = (expertId: number): AppThunkType => async (
       return {
         author: postAuthor,
         createdAt: post.createdAt,
-        mainDirection: DIRECTION_PROPERTIES[post.mainDirection.id.toString()],
+        directions: post.directions,
         title: post.title,
         postType: post.type,
         preview,

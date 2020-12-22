@@ -15,7 +15,6 @@ import type { AppThunkType } from '../../../store/store';
 import { MOCK_COURSES } from '../courses/directionCourses.mock';
 
 import { LOAD_POSTS_LIMIT } from '../../main/components/constants/newestPostsPagination-config';
-import { DIRECTION_PROPERTIES } from '../../../lib/constants/direction-properties';
 
 export interface IDirectionsState extends Record<string, IDirectionState> {
   [key: string]: IDirectionState;
@@ -308,7 +307,7 @@ export const fetchMaterials = (direction: IDirection): AppThunkType => async (
 
       return {
         author,
-        mainDirection: DIRECTION_PROPERTIES[post.mainDirection.id.toString()],
+        directions: post.directions,
         postType: post.type,
         title: post.title,
         content: post.content,

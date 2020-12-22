@@ -6,7 +6,6 @@ import { getPosts, getExperts } from '../../../lib/utilities/API/api';
 
 import type { AppThunkType } from '../../../store/store';
 import { LOAD_POSTS_LIMIT } from '../components/constants/newestPostsPagination-config';
-import { DIRECTION_PROPERTIES } from '../../../lib/constants/direction-properties';
 import type { RootStateType } from '../../../store/rootReducer';
 
 const POST_PREVIEW_LENGTH = 150;
@@ -113,7 +112,7 @@ export const fetchNewestPosts = createAsyncThunk<IFetchNewestPosts>(
       return {
         author: postAuthor,
         createdAt: post.createdAt,
-        mainDirection: DIRECTION_PROPERTIES[post.mainDirection.id.toString()],
+        directions: post.directions,
         title: post.title,
         postType: post.type,
         preview,
@@ -237,7 +236,7 @@ export const fetchImportantPosts = (): AppThunkType => async (dispatch) => {
       return {
         author: postAuthor,
         createdAt: post.createdAt,
-        mainDirection: DIRECTION_PROPERTIES[post.mainDirection.id.toString()],
+        directions: post.directions,
         title: post.title,
         postType: post.type,
       };

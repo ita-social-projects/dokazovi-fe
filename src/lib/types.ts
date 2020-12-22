@@ -52,7 +52,6 @@ export interface IPost {
   title: string;
   content?: string;
   author?: IExpert;
-  mainDirection: IDirection;
   directions?: IDirection[];
   tags?: IPostTag[];
   postType: IPostType;
@@ -94,7 +93,7 @@ export interface IDirection {
   color?: string;
   name: string;
   label?: string;
-  route?: string;
+  route?: string; // remove
 }
 
 export interface IInstitution {
