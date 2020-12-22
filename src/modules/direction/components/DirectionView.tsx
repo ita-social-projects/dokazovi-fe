@@ -12,9 +12,10 @@ import {
   setupDirection,
   fetchCourses,
   setExpertsLoadingStatus,
+  setPostFilters
 } from '../store/directionSlice';
 import { ExpertsViewCard } from '../../../lib/components/ExpertsViewCard';
-import { IDirection, LoadingStatusEnum } from '../../../lib/types';
+import { IDirection, LoadingStatusEnum, FilterTypeEnum } from '../../../lib/types';
 import Carousel from '../../../lib/components/Carousel';
 import { CourseCard } from '../../../lib/components/CourseCard';
 import { PostTypeFilter } from './PostTypesFilter';
@@ -64,6 +65,18 @@ const DirectionView: React.FC<IDirectionViewProps> = () => {
 
   const classes = useStyles();
 
+  const dispatchFilters = (checked: string[], directionName: string) => {
+    dispatch(
+      setPostFilters({
+        key: FilterTypeEnum.POST_TYPES,
+        filters: {
+          value: checked,
+        },
+        directionName,
+      }),
+    );
+  };
+
   return (
     <>
       {currentDirection ? (
@@ -91,7 +104,11 @@ const DirectionView: React.FC<IDirectionViewProps> = () => {
             </Grid>
             <BorderBottom />
             <Grid item xs={12}>
+<<<<<<< HEAD
               <PostTypeFilter directionName={currentDirection.name} />
+=======
+              <PostTypeFilter directionName={currentDirection.name} dispatchFunction={dispatchFilters} />
+>>>>>>> develop
               <PostTagsFilter directionName={currentDirection.name} />
               <MaterialsContainer direction={currentDirection} />
             </Grid>
