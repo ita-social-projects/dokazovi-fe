@@ -5,7 +5,8 @@ import { useParams } from 'react-router-dom';
 import BorderBottom from '../../../lib/components/Border';
 import LoadingInfo from '../../../lib/components/LoadingInfo';
 import { RootStateType } from '../../../store/rootReducer';
-import { fetchExpertById } from '../store/expertsSlice';
+import { PostTypeFilter } from '../../direction/components/PostTypesFilter';
+import { fetchExpertById, setMaterialsTypes } from '../store/expertsSlice';
 import ExpertInfo from './ExpertInfo';
 import ExpertMaterialsContainer from './ExpertMaterialsContainer';
 
@@ -21,7 +22,21 @@ const ExpertProfileView: React.FC = () => {
 
   useEffect(() => {
     dispatch(fetchExpertById(Number(expertId)));
+    
+    return () => {
+      dispatch(setMaterialsTypes({
+        types: { value: undefined },
+        expertId,
+      })); 
+    };
   }, []);
+
+  const setFilters = (checked: string[]) => {
+    dispatch(setMaterialsTypes({
+      types: { value: checked },
+      expertId,
+    }));
+  };
 
   return (
     <Container>
@@ -30,6 +45,7 @@ const ExpertProfileView: React.FC = () => {
       </Grid>
       {selectedExpert && <ExpertInfo expert={selectedExpert} />}
       <BorderBottom />
+      <PostTypeFilter dispatchFunction={setFilters} />
       <ExpertMaterialsContainer id={expertId} />
     </Container>
   );
