@@ -1,4 +1,6 @@
 import { lazy } from 'react';
+import ArticleCreationView from '../modules/PostCreation/ArticleCreationView';
+import NoteCreationView from '../modules/PostCreation/NoteCreationView';
 import { RenderRoutes } from './Router';
 import { IRouterConfig } from './types';
 
@@ -56,6 +58,8 @@ const ROUTER_CONFIG: IRouterConfig[] = [
       },
     ],
   },
+  { path: '/create-article', key: 'ARTICLE', exact: true, component: ArticleCreationView },
+  { path: '/create-note', key: 'NOTE', exact: true, component: NoteCreationView },
 ];
 
 export default ROUTER_CONFIG;
