@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import React, { useEffect } from 'react';
 import { Container, Grid } from '@material-ui/core';
 import { useSelector, useDispatch } from 'react-redux';
