@@ -6,7 +6,6 @@ import ImportantContainer from './ImportantContainer';
 import { ExpertsViewCard } from '../../../lib/components/ExpertsViewCard';
 import { RootStateType } from '../../../store/rootReducer';
 import { fetchExperts } from '../store/mainSlice';
-import { FilterForm } from '../../../lib/components/FilterForm';
 
 export interface IMainViewProps {}
 
