@@ -26,6 +26,14 @@ export interface IExpertsMeta {
   error: null | string;
 }
 
+interface IMaterialsState {
+  posts: IPost[];
+  meta: IMaterialsMeta;
+  filters?: {
+    [key in FilterTypeEnum]?: IFilter;
+  };
+}
+
 export interface IMaterialsMeta {
   isLastPage: boolean;
   pageNumber: number;
@@ -62,14 +70,6 @@ const initialDirectionState: IDirectionState = {
   },
   courses: [],
 };
-
-interface IMaterialsState {
-  posts: IPost[];
-  meta: IMaterialsMeta;
-  filters?: {
-    [key in FilterTypeEnum]?: IFilter;
-  };
-}
 
 export const directionsSlice = createSlice({
   name: 'direction',

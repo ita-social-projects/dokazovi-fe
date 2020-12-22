@@ -5,7 +5,7 @@ import BorderBottom from '../../../lib/components/Border';
 import LoadingInfo from '../../../lib/components/LoadingInfo';
 import PostsList from '../../../lib/components/PostsList';
 import {
-  fetchExpertPosts,
+  fetchExpertMaterials,
   fetchInitialMaterials,
   setupExpertMaterialsID,
 } from '../store/expertsSlice';
@@ -22,7 +22,7 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
 }) => {
   const dispatch = useDispatch();
   const dispatchFetchMaterialsAction = () =>
-    dispatch(fetchExpertPosts(Number(id)));
+    dispatch(fetchExpertMaterials(Number(id)));
   const dispatchFetchInitialMaterialsAction = () =>
     dispatch(fetchInitialMaterials(Number(id)));
 
@@ -31,13 +31,12 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
   const {
     loadedPosts,
     meta: { loading, isLastPage, pageNumber },
-  } = useSelector((state: RootStateType) => {
-    return state.experts.materials[id];
-  });
+    filters,
+  } = useSelector((state: RootStateType) => state.experts.materials[id]);
 
   useEffect(() => {
     dispatchFetchInitialMaterialsAction();
-  }, []);
+  }, [filters]);
 
   const gridRef = useRef<HTMLDivElement>(null);
 

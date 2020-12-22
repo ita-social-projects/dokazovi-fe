@@ -22,6 +22,7 @@ import type { RootStateType } from '../../../store/rootReducer';
 import type { ICheckboxes } from '../../../lib/components/FilterForm';
 
 const POST_PREVIEW_LENGTH = 150;
+
 interface IExpertsListPayload extends IExpertPayload {
   filters?: {
     [FilterTypeEnum.DIRECTIONS]: IFilter;
@@ -43,12 +44,9 @@ interface IMaterialsMeta {
 interface IMaterialsPayload {
   loadedPosts: IPost[];
   meta: IMaterialsMeta;
-  filters: IFilter[];
-}
-
-export interface IExpertsState {
-  experts: IExpertsListPayload;
-  materials: IMaterialsState;
+  filters?: {
+    [FilterTypeEnum.POST_TYPES]?: IFilter;
+  };
 }
 
 const materialsInitialState: IMaterialsPayload = {
@@ -59,8 +57,13 @@ const materialsInitialState: IMaterialsPayload = {
     isLastPage: false,
     pageNumber: -1,
   },
-  filters: [],
+  filters: {},
 };
+
+export interface IExpertsState {
+  experts: IExpertsListPayload;
+  materials: IMaterialsState;
+}
 
 const initialState: IExpertsState = {
   experts: {
@@ -142,8 +145,9 @@ export const expertsSlice = createSlice({
       state,
       action: PayloadAction<{ expertId: number; materials: IMaterialsPayload }>,
     ) => {
-      const { expertId } = action.payload;
-      state.materials[expertId] = action.payload.materials;
+      const { expertId, materials: { loadedPosts, meta } } = action.payload;
+      state.materials[expertId].loadedPosts = loadedPosts;
+      state.materials[expertId].meta = meta;
     },
     setMaterialsLoadingStatus: (
       state,
@@ -165,6 +169,21 @@ export const expertsSlice = createSlice({
         default:
           state.materials[expertId].meta.loading = LoadingStatusEnum.succeeded;
       }
+    },
+    setMaterialsTypes: (
+      state,
+      action: PayloadAction<{
+        types: IFilter;
+        expertId: string;
+      }>,
+    ) => {
+      const { types, expertId } = action.payload;
+      const materials = state.materials[expertId];
+      materials.filters = {
+        [FilterTypeEnum.POST_TYPES]: types,
+      };
+      materials.meta.pageNumber = -1;
+      materials.loadedPosts = [];
     },
   },
   extraReducers: (builder) => {
@@ -208,15 +227,18 @@ export const {
   loadMaterials,
   setMaterialsLoadingStatus,
   setExpertsPage,
+  setMaterialsTypes,
 } = expertsSlice.actions;
 
 export const expertsReducer = expertsSlice.reducer;
 
-export const fetchExpertPosts = (expertId: number): AppThunkType => async (
+export const fetchExpertMaterials = (expertId: number): AppThunkType => async (
   dispatch,
   getState,
 ) => {
-  const { meta, loadedPosts } = getState().experts.materials[expertId];
+  const { meta, loadedPosts, filters } = getState().experts.materials[expertId];
+  const postTypes = filters?.[FilterTypeEnum.POST_TYPES]?.value as string[];
+
   try {
     dispatch(
       setMaterialsLoadingStatus({
@@ -230,6 +252,7 @@ export const fetchExpertPosts = (expertId: number): AppThunkType => async (
         size: LOAD_POSTS_LIMIT,
         page: meta.pageNumber + 1,
         expert: expertId,
+        type: postTypes,
       },
     });
 
@@ -252,7 +275,7 @@ export const fetchExpertPosts = (expertId: number): AppThunkType => async (
         createdAt: post.createdAt,
         mainDirection: DIRECTION_PROPERTIES[post.mainDirection.id.toString()],
         title: post.title,
-        postType: { id: post.type.id, name: post.type.name },
+        postType: post.type,
         preview,
         id: post.id,
       };
@@ -262,17 +285,13 @@ export const fetchExpertPosts = (expertId: number): AppThunkType => async (
       loadMaterials({
         expertId,
         materials: {
-          loadedPosts:
-            resp.data.number === -1
-              ? fetchedPosts
-              : loadedPosts.concat(fetchedPosts),
+          loadedPosts: loadedPosts.concat(fetchedPosts),
           meta: {
             loading: LoadingStatusEnum.succeeded,
             error: null,
             pageNumber: resp.data.number,
             isLastPage: resp.data.last,
           },
-          filters: [],
         },
       }),
     );
@@ -294,6 +313,6 @@ export const fetchInitialMaterials = (expertId: number): AppThunkType => (
   const { loadedPosts } = getState().experts.materials[expertId];
 
   if (!loadedPosts.length) {
-    dispatch(fetchExpertPosts(expertId));
+    dispatch(fetchExpertMaterials(expertId));
   }
 };
