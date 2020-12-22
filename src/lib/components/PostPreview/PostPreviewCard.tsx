@@ -62,7 +62,10 @@ const PostPreviewCard: React.FC<IPostPreviewCardProps> = (props) => {
               {data.author?.mainInstitution?.name}
             </Typography>
           </Box>
-          <Box>
+          <Box
+            display="flex"
+            flexDirection="column"
+          >
             {data.directions?.map((d) => {
               return <PostDirectionLink direction={d} key={d.id} />;
             })}
