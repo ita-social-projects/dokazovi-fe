@@ -24,10 +24,8 @@ const MaterialsContainer: React.FC<IMaterialsContainerProps> = ({
   const {
     posts,
     meta: { loading, isLastPage, pageNumber },
+    filters,
   } = useSelector(
-    (state: RootStateType) => state.directions[direction.name].materials,
-  );
-  const { filters } = useSelector(
     (state: RootStateType) => state.directions[direction.name].materials,
   );
 

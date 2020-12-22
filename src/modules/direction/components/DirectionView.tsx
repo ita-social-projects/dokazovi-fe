@@ -62,15 +62,14 @@ const DirectionView: React.FC<IDirectionViewProps> = () => {
     };
   }, []);
 
-  const courseCards = useSelector(
-    (state: RootStateType) => state.directions[currentDirection.name]?.courses,
-  );
-
   const {
-    expertsCards,
-    meta: { loading },
+    experts: {
+      expertsCards,
+      meta: { loading },
+    },
+    courses,
   } = useSelector(
-    (state: RootStateType) => state.directions[currentDirection.name]?.experts,
+    (state: RootStateType) => state.directions[currentDirection.name],
   );
 
   const classes = useStyles();
@@ -123,7 +122,7 @@ const DirectionView: React.FC<IDirectionViewProps> = () => {
                 Рекомендовані курси
               </Typography>
               <Carousel>
-                {courseCards.map((p) => (
+                {courses.map((p) => (
                   <div key={p.title}>
                     <CourseCard course={p} />
                   </div>
