@@ -46,10 +46,20 @@ const DirectionView: React.FC<IDirectionViewProps> = () => {
     dispatch(
       fetchExperts(currentDirection.name, currentDirection.id as number),
     );
-  }, []);
-
-  useEffect(() => {
     dispatch(fetchCourses(currentDirection.name));
+
+    return () => {
+      dispatchFilters([], currentDirection.name);
+      dispatch(
+        setPostFilters({
+          key: FilterTypeEnum.TAGS,
+          filters: {
+            value: [],
+          },
+          directionName: currentDirection.name,
+        }),
+      );
+    };
   }, []);
 
   const courseCards = useSelector(
