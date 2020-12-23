@@ -1,29 +1,36 @@
 import React from 'react';
-import { Quill } from 'react-quill';
 import './editor.styles.css';
 
 export interface IQuillToolbarProps {}
 
-interface IExtraQuillField extends Quill {
-  whitelist: string[];
-}
+// interface IExtraQuillField extends Quill {
+//   whitelist: string[];
+// }
 
-const Font = Quill.import('formats/font') as IExtraQuillField;
-const Size = Quill.import('formats/size') as IExtraQuillField;
+// const Font = Quill.import('formats/font') as IExtraQuillField;
+// const Size = Quill.import('formats/size') as IExtraQuillField;
 
-Font.whitelist = [
-  'arial',
-  'comic-sans',
-  'courier-new',
-  'georgia',
-  'helvetica',
-  'lucida',
-];
+// Font.whitelist = [
+//   'arial',
+//   'comic-sans',
+//   'courier-new',
+//   'georgia',
+//   'helvetica',
+//   'lucida',
+// ];
 
-Size.whitelist = ['extra-small', 'small', 'medium', 'large'];
+// Size.whitelist = ['extra-small', 'small', 'medium', 'large'];
 
-Quill.register(Size, true);
-Quill.register(Font, true);
+// Quill.register(Size, true);
+// Quill.register(Font, true);
+
+// function imageHandler() {
+//     const range = Quill.getSelection();
+//     const value = prompt('What is the image URL');
+//     if(value) {
+//       Quill.insertEmbed(range.index, 'image', value, Quill.sources.USER);
+//     }
+// };
 
 const QuillToolbar: React.FC<IQuillToolbarProps> = () => {
   return (
@@ -31,22 +38,23 @@ const QuillToolbar: React.FC<IQuillToolbarProps> = () => {
       <span className="ql-formats">
         <select className="ql-font">
           <option value="arial">Arial</option>
-          <option value="comic-sans">Comic Sans</option>
+          {/* <option value="comic-sans">Comic Sans</option>
           <option value="courier-new">Courier New</option>
           <option value="georgia">Georgia</option>
           <option value="helvetica">Helvetica</option>
-          <option value="lucida">Lucida</option>
+          <option value="lucida">Lucida</option> */}
         </select>
         <select className="ql-size">
-          <option value="extra-small">Size 1</option>
-          <option value="small">Size 2</option>
-          <option value="medium">Size 3</option>
-          <option value="large">Size 4</option>
+          {/* <option value="extra-small">Size 1</option>
+          <option value="small">Size 2</option> */}
+          <option value="medium">Size 1</option>
+          {/* <option value="large">Size 4</option> */}
         </select>
         <select className="ql-header">
-          <option value="1">Heading</option>
-          <option value="2">Subheading</option>
-          <option value="3">Normal</option>
+          <option value="1">Заголовок 1</option>
+          <option value="2">Заголовок 2</option>
+          <option selected />
+          {/* <option value="3">Звичайний</option> */}
         </select>
       </span>
       <span className="ql-formats">
@@ -90,12 +98,12 @@ const QuillToolbar: React.FC<IQuillToolbarProps> = () => {
         />
         <button title="Sub" type="button" className="ql-script" value="sub" />
         <button title="Blockquote" type="button" className="ql-blockquote" />
-        <button title="Direction" type="button" className="ql-direction" />
+        {/* <button title="Direction" type="button" className="ql-direction" /> */}
       </span>
       <span className="ql-formats">
         <select title="Align" className="ql-align" />
-        <select title="Color" className="ql-color" />
-        <select title="Background" className="ql-background" />
+        {/* <select title="Color" className="ql-color" /> */}
+        {/* <select title="Background" className="ql-background" /> */}
       </span>
       <span className="ql-formats">
         <button title="Link" type="button" className="ql-link" />
@@ -103,8 +111,8 @@ const QuillToolbar: React.FC<IQuillToolbarProps> = () => {
         <button title="Video" type="button" className="ql-video" />
       </span>
       <span className="ql-formats">
-        <button title="Formula" type="button" className="ql-formula" />
-        <button title="Code-block" type="button" className="ql-code-block" />
+        {/* <button title="Formula" type="button" className="ql-formula" /> */}
+        {/* <button title="Code-block" type="button" className="ql-code-block" /> */}
         <button title="Clean formatting" type="button" className="ql-clean" />
       </span>
     </div>

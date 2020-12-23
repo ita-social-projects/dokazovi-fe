@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import ReactQuill, { Quill } from 'react-quill';
+import ReactQuill from 'react-quill';
 import QuillToolbar from './QuillToolbar';
 import { modules, formats } from './utilities';
 import 'react-quill/dist/quill.snow.css';
@@ -22,7 +22,6 @@ const QuillEditor: React.FC<IQuillEditorProps> = () => {
           formats={formats}
         />
       </div>
-      {text}
     </>
   );
 };
