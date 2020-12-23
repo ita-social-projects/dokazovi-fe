@@ -4,11 +4,13 @@ import './editor.styles.css';
 
 export interface IQuillToolbarProps {}
 
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-const Font = Quill.import('formats/font');
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-const Size = Quill.import('formats/size');
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+interface IExtraQuillField extends Quill {
+  whitelist: string[];
+}
+
+const Font = Quill.import('formats/font') as IExtraQuillField;
+const Size = Quill.import('formats/size') as IExtraQuillField;
+
 Font.whitelist = [
   'arial',
   'comic-sans',
@@ -17,7 +19,7 @@ Font.whitelist = [
   'helvetica',
   'lucida',
 ];
-// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+
 Size.whitelist = ['extra-small', 'small', 'medium', 'large'];
 
 Quill.register(Size, true);
