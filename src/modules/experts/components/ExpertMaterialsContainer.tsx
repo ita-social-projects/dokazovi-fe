@@ -8,11 +8,13 @@ import {
   fetchExpertMaterials,
   fetchInitialMaterials,
   setupExpertMaterialsID,
+  setMaterialsTypes,
 } from '../store/expertsSlice';
 import { RootStateType } from '../../../store/rootReducer';
 import { LoadingStatusEnum } from '../../../lib/types';
 import useEffectExceptOnMount from '../../../lib/hooks/useEffectExceptOnMount';
 import { useStyles } from '../styles/ExpertProfileView.styles';
+import { PostTypeFilter } from '../../direction/components/PostTypesFilter';
 
 export interface IExpertMaterialsContainerProps {
   id: string;
@@ -38,6 +40,22 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
   useEffect(() => {
     dispatchFetchInitialMaterialsAction();
   }, [filters]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(setMaterialsTypes({
+        types: { value: undefined },
+        expertId: id,
+      })); 
+    };
+  }, []);
+
+  const setFilters = (checked: string[]) => {
+    dispatch(setMaterialsTypes({
+      types: { value: checked },
+      expertId: id,
+    }));
+  };
 
   const gridRef = useRef<HTMLDivElement>(null);
   const classes = useStyles();
@@ -72,10 +90,12 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
 
     return control;
   };
+
   return (
     <>
       <Container className={classes.container}>
         <Typography variant="h4">Матеріали</Typography>
+        <PostTypeFilter dispatchFunction={setFilters} />
         <Grid container spacing={2} direction="row" alignItems="center">
           <PostsList postsList={loadedPosts} />
         </Grid>

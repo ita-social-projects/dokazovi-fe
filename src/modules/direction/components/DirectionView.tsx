@@ -18,10 +18,7 @@ import { ExpertsViewCard } from '../../../lib/components/ExpertsViewCard';
 import { IDirection, LoadingStatusEnum, FilterTypeEnum } from '../../../lib/types';
 import Carousel from '../../../lib/components/Carousel';
 import { CourseCard } from '../../../lib/components/CourseCard';
-import { PostTypeFilter } from './PostTypesFilter';
-
 import MaterialsContainer from './MaterialsContainer';
-import { PostTagsFilter } from './PostTagsFilter';
 
 export interface IDirectionViewProps {}
 
@@ -47,19 +44,6 @@ const DirectionView: React.FC<IDirectionViewProps> = () => {
       fetchExperts(currentDirection.name, currentDirection.id as number),
     );
     dispatch(fetchCourses(currentDirection.name));
-
-    return () => {
-      dispatchFilters([], currentDirection.name);
-      dispatch(
-        setPostFilters({
-          key: FilterTypeEnum.TAGS,
-          filters: {
-            value: [],
-          },
-          directionName: currentDirection.name,
-        }),
-      );
-    };
   }, []);
 
   const {
@@ -73,18 +57,6 @@ const DirectionView: React.FC<IDirectionViewProps> = () => {
   );
 
   const classes = useStyles();
-
-  const dispatchFilters = (checked: string[], directionName: string) => {
-    dispatch(
-      setPostFilters({
-        key: FilterTypeEnum.POST_TYPES,
-        filters: {
-          value: checked,
-        },
-        directionName,
-      }),
-    );
-  };
 
   return (
     <>
@@ -113,8 +85,6 @@ const DirectionView: React.FC<IDirectionViewProps> = () => {
             </Grid>
             <BorderBottom />
             <Grid item xs={12} className={classes.containerMaterials}>
-              <PostTypeFilter directionName={currentDirection.name} dispatchFunction={dispatchFilters} />
-              <PostTagsFilter directionName={currentDirection.name} />
               <MaterialsContainer direction={currentDirection} />
             </Grid>
             <Grid item xs={12} className={classes.containerCourses}>

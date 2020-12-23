@@ -5,12 +5,15 @@ import PostList from '../../../lib/components/PostsList';
 import {
   fetchInitialMaterials,
   fetchMaterials,
+  setPostFilters,
 } from '../store/directionSlice';
 import { RootStateType } from '../../../store/rootReducer';
 import { useStyles } from './styles/MaterialsContainer.styles';
-import { IDirection, LoadingStatusEnum } from '../../../lib/types';
+import { FilterTypeEnum, IDirection, LoadingStatusEnum } from '../../../lib/types';
 import LoadingInfo from '../../../lib/components/LoadingInfo';
 import useEffectExceptOnMount from '../../../lib/hooks/useEffectExceptOnMount';
+import { PostTypeFilter } from './PostTypesFilter';
+import { PostTagsFilter } from './PostTagsFilter';
 
 interface IMaterialsContainerProps {
   direction: IDirection;
@@ -45,9 +48,41 @@ const dispatchFetchAction = () => dispatch(fetchMaterials(direction));
     }
   }, [pageNumber]);
 
+  const setFilters = (checked: string[], directionName: string) => {
+    dispatch(
+      setPostFilters({
+        key: FilterTypeEnum.POST_TYPES,
+        filters: {
+          value: checked,
+        },
+        directionName,
+      }),
+    );
+  };
+
+  useEffect(() => {
+    return () => {
+      setFilters([], direction.name);
+      dispatch(
+        setPostFilters({
+          key: FilterTypeEnum.TAGS,
+          filters: {
+            value: [],
+          },
+          directionName: direction.name,
+        }),
+      );
+    };
+  }, []);
+
   return (
     <Container>
       <Typography variant="h4">Матеріали</Typography>
+      <PostTypeFilter 
+        directionName={direction.name} 
+        dispatchFunction={setFilters} 
+      />
+      <PostTagsFilter directionName={direction.name} />
       <Grid container spacing={2} direction="row" alignItems="center">
         <PostList postsList={posts} />
       </Grid>
