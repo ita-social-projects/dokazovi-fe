@@ -103,12 +103,12 @@ const DirectionView: React.FC<IDirectionViewProps> = () => {
               </Box>
             </Grid>
             <BorderBottom />
-            <Grid item xs={12}>
+            <Grid item xs={12} className={classes.containerMaterials}>
               <PostTypeFilter directionName={currentDirection.name} dispatchFunction={dispatchFilters} />
               <PostTagsFilter directionName={currentDirection.name} />
               <MaterialsContainer direction={currentDirection} />
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} className={classes.containerCourses}>
               <Typography variant="h5" className={classes.courseTitle}>
                 Рекомендовані курси
               </Typography>
