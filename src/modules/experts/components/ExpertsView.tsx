@@ -7,7 +7,6 @@ import { RootStateType } from '../../../store/rootReducer';
 import ExpertsList from '../../../lib/components/ExpertsList';
 import LoadingInfo from '../../../lib/components/LoadingInfo';
 import { useStyles } from '../styles/ExpertsView.styles';
-import QuillEditor from '../../../lib/components/QuillEditor/QuillEditor';
 
 export interface IExpertsViewProps {}
 
@@ -44,9 +43,8 @@ const ExpertsView: React.FC<IExpertsViewProps> = () => {
         </Grid>
       ) : (
         <Container className={classes.root}>
-          <QuillEditor />
           <Grid container spacing={4} direction="row" alignItems="center">
-            {/* <ExpertsList experts={experts} /> */}
+            <ExpertsList experts={experts} />
           </Grid>
           <Grid container spacing={2} direction="column" alignItems="center">
             <Pagination
