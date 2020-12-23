@@ -22,7 +22,15 @@ export const useStyles = makeStyles(
       marginLeft: '22px',
       fontSize: '30px',
       fontWeight: 400,
-    }
+    },
+    containerMaterials: {
+      minHeight: '600px',
+      position: 'relative',
+    }, 
+    containerCourses: {
+      minHeight: '200px',
+      position: 'relative',
+    },
   },
   {
     name: 'DirectionView',

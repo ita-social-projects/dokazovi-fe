@@ -36,9 +36,9 @@ const ExpertsView: React.FC<IExpertsViewProps> = () => {
   }, [pageNumber]);
 
   return (
-    <>
-      {loading === 'pending' ? (
-        <Grid container direction="column" alignItems="center">
+    <div className={classes.container}>
+        {loading === 'pending' ? (
+        <Grid container direction="column" alignItems="center" className={classes.loading}>
           <LoadingInfo loading={loading} />
         </Grid>
       ) : (
@@ -56,7 +56,7 @@ const ExpertsView: React.FC<IExpertsViewProps> = () => {
           </Grid>
         </Container>
       )}
-    </>
+    </div>
   );
 };
 

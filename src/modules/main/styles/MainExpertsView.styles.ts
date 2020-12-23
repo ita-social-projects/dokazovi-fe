@@ -1,7 +1,7 @@
 import { makeStyles } from '@material-ui/core';
 
 export const useStyles = makeStyles(() => ({
-  container: {
+  experts: {
     display: 'grid',
     width: '70rem',
     height: '18rem',
@@ -10,6 +10,16 @@ export const useStyles = makeStyles(() => ({
     columnGap: '1rem',
     rowGap: '1rem',
     margin: '0 auto',
+  },
+  container: {
+    minHeight: '400px',
+    position: 'relative',
+  }, 
+  loading: {
+    position: 'absolute',
+    top: 'calc(50% - 30px)',
+    msTransform: 'translateY(-50%)',
+    transform: 'translateY(-50%),'
   },
   item_0: {
     gridArea: '1 / 1 / 5 / 2',
