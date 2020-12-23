@@ -15,6 +15,12 @@ const ExpertsView = lazy(
 const ExpertProfileView = lazy(
   () => import('../modules/experts/components/ExpertProfileView'),
 );
+const ArticleCreationView = lazy(
+  () => import('../modules/postCreation/ArticleCreationView'),
+);
+const NoteCreationView = lazy(
+  () => import('../modules/postCreation/NoteCreationView'),
+);
 
 const ROUTER_CONFIG: IRouterConfig[] = [
   { path: '/', key: 'ROOT', exact: true, component: MainView },
@@ -55,6 +61,18 @@ const ROUTER_CONFIG: IRouterConfig[] = [
         component: ExpertProfileView,
       },
     ],
+  },
+  {
+    path: '/create-article',
+    key: 'ARTICLE',
+    exact: true,
+    component: ArticleCreationView,
+  },
+  {
+    path: '/create-note',
+    key: 'NOTE',
+    exact: true,
+    component: NoteCreationView,
   },
 ];
 

@@ -51,7 +51,7 @@ const dispatchFetchAction = () => dispatch(fetchMaterials(direction));
       <Grid container spacing={2} direction="row" alignItems="center">
         <PostList postsList={posts} />
       </Grid>
-      <Grid container direction="column" alignItems="center">
+      <Grid container direction="column" alignItems="center" className={classes.loading}>
         <LoadingInfo loading={loading} />
       </Grid>
       <Grid

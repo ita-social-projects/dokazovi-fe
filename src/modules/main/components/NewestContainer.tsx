@@ -7,7 +7,7 @@ import {
   IMainState,
   fetchInitialNewestPosts,
 } from '../store/mainSlice';
-import { useStyles } from './styles/NewestContainer.style';
+import { useStyles, styles } from './styles/NewestContainer.style';
 import BorderBottom from '../../../lib/components/Border';
 import PostsList from '../../../lib/components/PostsList';
 import { LoadingStatusEnum } from '../../../lib/types';
@@ -66,9 +66,9 @@ const NewestContainer: React.FC = () => {
   }, [currentPage]);
 
   return (
-    <>
-      {loading === LoadingStatusEnum.pending && currentPage < 1 ? (
-        <Grid container direction="column" alignItems="center">
+    <div style={styles.container}>
+        {loading === LoadingStatusEnum.pending && currentPage < 1 ? (
+        <Grid container direction="column" alignItems="center" style={styles.loading}>
           <LoadingInfo loading={loading} />
         </Grid>
       ) : (
@@ -93,7 +93,7 @@ const NewestContainer: React.FC = () => {
           <BorderBottom />
         </Container>
       )}
-    </>
+    </div>
   );
 };
 

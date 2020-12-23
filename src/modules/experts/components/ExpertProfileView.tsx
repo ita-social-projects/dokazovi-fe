@@ -9,8 +9,10 @@ import { PostTypeFilter } from '../../direction/components/PostTypesFilter';
 import { fetchExpertById, setMaterialsTypes } from '../store/expertsSlice';
 import ExpertInfo from './ExpertInfo';
 import ExpertMaterialsContainer from './ExpertMaterialsContainer';
+import { useStyles } from '../styles/ExpertProfileView.styles';
 
 const ExpertProfileView: React.FC = () => {
+  const classes = useStyles();
   const { expertId } = useParams<{ expertId: string }>();
   const {
     experts,
@@ -40,11 +42,13 @@ const ExpertProfileView: React.FC = () => {
 
   return (
     <Container>
-      <Grid container direction="column" alignItems="center">
-        <LoadingInfo loading={loading} />
-      </Grid>
-      {selectedExpert && <ExpertInfo expert={selectedExpert} />}
-      <BorderBottom />
+      <Container className={classes.container}>
+        <Grid container direction="column" alignItems="center" className={classes.loading}>
+          <LoadingInfo loading={loading} />
+        </Grid>
+        {selectedExpert && <ExpertInfo expert={selectedExpert} />}
+        <BorderBottom />
+      </Container>
       <PostTypeFilter dispatchFunction={setFilters} />
       <ExpertMaterialsContainer id={expertId} />
     </Container>

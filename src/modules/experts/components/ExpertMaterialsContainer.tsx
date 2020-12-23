@@ -12,6 +12,7 @@ import {
 import { RootStateType } from '../../../store/rootReducer';
 import { LoadingStatusEnum } from '../../../lib/types';
 import useEffectExceptOnMount from '../../../lib/hooks/useEffectExceptOnMount';
+import { useStyles } from '../styles/ExpertProfileView.styles';
 
 export interface IExpertMaterialsContainerProps {
   id: string;
@@ -39,6 +40,7 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
   }, [filters]);
 
   const gridRef = useRef<HTMLDivElement>(null);
+  const classes = useStyles();
 
   useEffectExceptOnMount(() => {
     if (pageNumber > 0) {
@@ -72,12 +74,12 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
   };
   return (
     <>
-      <Container>
+      <Container className={classes.container}>
         <Typography variant="h4">Матеріали</Typography>
         <Grid container spacing={2} direction="row" alignItems="center">
           <PostsList postsList={loadedPosts} />
         </Grid>
-        <Grid container direction="column" alignItems="center">
+        <Grid container direction="column" alignItems="center" className={classes.loading}>
           <LoadingInfo loading={loading} />
         </Grid>
 

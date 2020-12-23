@@ -43,7 +43,7 @@ export interface IExpertPayload {
 
 export interface IExpertMeta {
   totalPages?: number;
-  pageNumber: number;
+  pageNumber?: number;
   loading: LoadingStatusEnum;
   error: null | string;
 }
