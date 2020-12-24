@@ -32,5 +32,6 @@ export const useStyles = makeStyles((theme) => ({
   },
   postCreationMenu: {
     marginLeft: 'auto',
+    marginRight: '20px',
   },
 }));

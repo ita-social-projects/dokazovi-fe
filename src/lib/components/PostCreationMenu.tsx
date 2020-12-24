@@ -49,7 +49,6 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     button: {
       padding: theme.spacing(2),
-      marginRight: theme.spacing(3),
       width: '250px',
       backgroundColor: 'white',
       boxShadow: 'none',
