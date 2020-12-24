@@ -6,6 +6,7 @@ import {
   GetResponseType,
   GetTagResponseType,
   GetPostResponseType,
+  GetDirectionType,
   GetVersionType,
   PostResponseType,
   PostTagResponseType,
@@ -102,3 +103,8 @@ export const getTag = (
 export const getVersion = (): Promise<AxiosResponse<GetVersionType>> => {
   return instance.get(`/version`);
 };
+
+export const getDirection = (): Promise<AxiosResponse<GetDirectionType>> => {
+  return instance.get(`/direction`);
+};
+
