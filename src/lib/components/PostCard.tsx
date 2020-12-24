@@ -39,9 +39,14 @@ export const PostCard: React.FC<IPostCardProps> = (props) => {
       <Box className={classes.rightPart}>
         <Box className={classes.chipRoot}>
           <Chip label={post.postType.name} size="small" />
-          <PostDirectionLink
-           direction={post.mainDirection}
-          />
+          <Box
+            display="flex"
+            flexDirection="column"
+          >
+            {post.directions?.map((d) => {
+              return <PostDirectionLink direction={d} key={d.id} />;
+            })}
+          </Box>
         </Box>
         <Typography variant="body1" component="p" align="center">
           {post.title}

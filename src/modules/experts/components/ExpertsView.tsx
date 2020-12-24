@@ -52,25 +52,38 @@ const ExpertsView: React.FC<IExpertsViewProps> = () => {
             <FilterForm />
           </Grid>
         )}
-        {loading === 'pending' ? (
-          <Grid container direction="column" alignItems="center">
-            <LoadingInfo loading={loading} />
-          </Grid>
-        ) : (
-          <Container className={classes.root}>
-            <Grid container spacing={4} direction="row" alignItems="center">
-              <ExpertsList experts={experts} />
+
+        <div className={classes.container}>
+          {loading === 'pending' ? (
+            <Grid
+              container
+              direction="column"
+              alignItems="center"
+              className={classes.loading}
+            >
+              <LoadingInfo loading={loading} />
             </Grid>
-            <Grid container spacing={2} direction="column" alignItems="center">
-              <Pagination
-                className={classes.pagination}
-                count={totalPages}
-                page={pageNumber}
-                onChange={handlePageChange}
-              />
-            </Grid>
-          </Container>
-        )}
+          ) : (
+            <Container className={classes.root}>
+              <Grid container spacing={4} direction="row" alignItems="center">
+                <ExpertsList experts={experts} />
+              </Grid>
+              <Grid
+                container
+                spacing={2}
+                direction="column"
+                alignItems="center"
+              >
+                <Pagination
+                  className={classes.pagination}
+                  count={totalPages}
+                  page={pageNumber}
+                  onChange={handlePageChange}
+                />
+              </Grid>
+            </Container>
+          )}
+        </div>
       </Container>
     </>
   );

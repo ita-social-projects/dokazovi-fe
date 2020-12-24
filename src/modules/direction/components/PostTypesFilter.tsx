@@ -1,21 +1,21 @@
 import React, { useState, useCallback } from 'react';
 import _ from 'lodash';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { useForm, Controller } from 'react-hook-form';
 import Checkbox from '@material-ui/core/Checkbox';
 import { RootStateType } from '../../../store/rootReducer';
-import { setPostFilters } from '../store/directionSlice';
-import { FilterTypeEnum, IPostType } from '../../../lib/types';
+import { IPostType } from '../../../lib/types';
 
 export interface IPostTypeFilterProps {
-  directionName: string;
+  directionName?: string;
+  dispatchFunction(checked?: string[], directionName?: string): void;
 }
 
 export const PostTypeFilter: React.FC<IPostTypeFilterProps> = ({
   directionName,
+  dispatchFunction,
 }) => {
-  const dispatch = useDispatch();
   const { control } = useForm();
 
   const postTypes = useSelector(
@@ -46,7 +46,7 @@ export const PostTypeFilter: React.FC<IPostTypeFilterProps> = ({
             name={type.name}
             id={id}
             color="primary"
-            checked={checkedTypes[id]}
+            checked={checkedTypes[id] || false}
             defaultValue={false}
           />
         }
@@ -56,17 +56,10 @@ export const PostTypeFilter: React.FC<IPostTypeFilterProps> = ({
   });
 
   const handler = useCallback(
-    _.debounce((checked: string[]) => {
-      dispatch(
-        setPostFilters({
-          key: FilterTypeEnum.POST_TYPES,
-          filters: {
-            value: checked,
-          },
-          directionName,
-        }),
-      );
-    }, 500),
+    _.debounce(
+      (checked: string[]) => dispatchFunction(checked, directionName),
+      500,
+    ),
     [],
   );
 
