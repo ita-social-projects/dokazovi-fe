@@ -6,8 +6,6 @@ import { getPosts, getExperts } from '../../../lib/utilities/API/api';
 
 import type { AppThunkType } from '../../../store/store';
 import { LOAD_POSTS_LIMIT } from '../components/constants/newestPostsPagination-config';
-import { DIRECTION_PROPERTIES } from '../../../lib/constants/direction-properties';
-import { postTypeProperties } from '../../../lib/constants/post-type-properties';
 import type { RootStateType } from '../../../store/rootReducer';
 
 const POST_PREVIEW_LENGTH = 150;
@@ -38,12 +36,14 @@ interface IImportantPayload {
   importantPosts: IPost[];
   meta: IImportantMeta;
 }
-interface IExpertPayload {
+export interface IExpertPayload {
   experts: IExpert[];
   meta: IExpertMeta;
 }
 
-interface IExpertMeta {
+export interface IExpertMeta {
+  totalPages?: number;
+  pageNumber?: number;
   loading: LoadingStatusEnum;
   error: null | string;
 }
@@ -74,6 +74,7 @@ const initialState: IMainState = {
   experts: {
     experts: [],
     meta: {
+      pageNumber: 0,
       loading: LoadingStatusEnum.idle,
       error: null,
     },
@@ -111,9 +112,9 @@ export const fetchNewestPosts = createAsyncThunk<IFetchNewestPosts>(
       return {
         author: postAuthor,
         createdAt: post.createdAt,
-        mainDirection: DIRECTION_PROPERTIES[post.mainDirection.id.toString()],
+        directions: post.directions,
         title: post.title,
-        postType: postTypeProperties[post.type.id.toString()],
+        postType: post.type,
         preview,
         id: post.id,
       };
@@ -124,16 +125,15 @@ export const fetchNewestPosts = createAsyncThunk<IFetchNewestPosts>(
 );
 
 export const fetchExperts = createAsyncThunk('main/loadExperts', async () => {
-  const expertsResp = await getExperts({
+  const {
+    data: { content: fetchedExperts },
+  } = await getExperts({
     params: {
       size: 11,
     },
   });
-  const loadedExperts = expertsResp.data.content.map((expert) => ({
-    ...(expert as IExpert),
-  }));
 
-  return loadedExperts;
+  return fetchedExperts;
 });
 
 export const fetchInitialNewestPosts = (): AppThunkType => async (
@@ -236,9 +236,9 @@ export const fetchImportantPosts = (): AppThunkType => async (dispatch) => {
       return {
         author: postAuthor,
         createdAt: post.createdAt,
-        mainDirection: DIRECTION_PROPERTIES[post.mainDirection.id.toString()],
+        directions: post.directions,
         title: post.title,
-        postType: postTypeProperties[post.type.id.toString()],
+        postType: post.type,
       };
     });
     dispatch(

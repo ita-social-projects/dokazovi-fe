@@ -1,10 +1,12 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import { Box } from '@material-ui/core';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import { IExpert } from '../types';
 import { useStyles } from '../styles/ExpertDataCard.styles';
+import PostDirectionLink from './PostDirectionLink';
 
 export interface IExpertDataCardProps {
   expert: IExpert;
@@ -12,17 +14,15 @@ export interface IExpertDataCardProps {
 
 const ExpertDataCard: React.FC<IExpertDataCardProps> = (props) => {
   const { expert } = props;
-
+  const history = useHistory();
   const fullName = `${expert.firstName} ${expert.lastName}`;
-
-  const mainInsitutionCity =
-    expert.mainInstitution && expert.mainInstitution.city
-      ? expert.mainInstitution.city.name
-      : '';
-
+  const mainInsitutionCity = expert.mainInstitution?.city?.name || '';
   const mainInsitutionName = expert.mainInstitution?.name || '';
+  const direction = expert.mainDirection;
 
-  const directionName = expert.mainDirection?.name || '';
+  const handleClick = () => {
+    history.push(`/experts/${expert.id as number}`);
+  };
 
   const classes = useStyles();
 
@@ -37,17 +37,28 @@ const ExpertDataCard: React.FC<IExpertDataCardProps> = (props) => {
             justifyContent: 'space-around',
           }}
         >
-          <Typography variant="h5">{fullName}</Typography>
-          {directionName && (
+          <Typography
+            className={classes.name}
+            onClick={handleClick}
+            variant="h5"
+          >
+            {fullName}
+          </Typography>
+          {direction && (
             <Typography variant="body1">
-              Спеціалізація: {directionName}
+              Спеціалізація: <PostDirectionLink direction={direction} />
             </Typography>
           )}
           <div>
             <Typography variant="body1" component="h2">
               {mainInsitutionCity}
             </Typography>
-            <Typography className={classes.pos} variant="body1" component="h2">
+            <Typography
+              className={classes.pos}
+              onClick={handleClick}
+              variant="body1"
+              component="h2"
+            >
               {mainInsitutionName}
             </Typography>
           </div>

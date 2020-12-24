@@ -13,11 +13,10 @@ import {
   fetchCourses,
   setExpertsLoadingStatus,
 } from '../store/directionSlice';
-import { ExpertsView } from '../../../lib/components/ExpertsView';
+import { ExpertsViewCard } from '../../../lib/components/ExpertsViewCard';
 import { IDirection, LoadingStatusEnum } from '../../../lib/types';
 import Carousel from '../../../lib/components/Carousel';
 import { CourseCard } from '../../../lib/components/CourseCard';
-
 import MaterialsContainer from './MaterialsContainer';
 
 export interface IDirectionViewProps {}
@@ -43,21 +42,17 @@ const DirectionView: React.FC<IDirectionViewProps> = () => {
     dispatch(
       fetchExperts(currentDirection.name, currentDirection.id as number),
     );
-  }, []);
-
-  useEffect(() => {
     dispatch(fetchCourses(currentDirection.name));
   }, []);
 
-  const courseCards = useSelector(
-    (state: RootStateType) => state.directions[currentDirection.name]?.courses,
-  );
-
   const {
-    expertsCards,
-    meta: { loading },
+    experts: {
+      expertsCards,
+      meta: { loading },
+    },
+    courses,
   } = useSelector(
-    (state: RootStateType) => state.directions[currentDirection.name]?.experts,
+    (state: RootStateType) => state.directions[currentDirection.name],
   );
 
   const classes = useStyles();
@@ -78,7 +73,7 @@ const DirectionView: React.FC<IDirectionViewProps> = () => {
             <BorderBottom />
             <Grid item xs={12}>
               {expertsCards && (
-                <ExpertsView cards={expertsCards} loading={loading} />
+                <ExpertsViewCard cards={expertsCards} loading={loading} />
               )}
               <Box className={classes.moreExperts}>
                 <Typography variant="h5" align="right" display="inline">
@@ -88,15 +83,15 @@ const DirectionView: React.FC<IDirectionViewProps> = () => {
               </Box>
             </Grid>
             <BorderBottom />
-            <Grid item xs={12}>
+            <Grid item xs={12} className={classes.containerMaterials}>
               <MaterialsContainer direction={currentDirection} />
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} className={classes.containerCourses}>
               <Typography variant="h5" className={classes.courseTitle}>
                 Рекомендовані курси
               </Typography>
               <Carousel>
-                {courseCards.map((p) => (
+                {courses.map((p) => (
                   <div key={p.title}>
                     <CourseCard course={p} />
                   </div>

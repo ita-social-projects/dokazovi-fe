@@ -9,12 +9,12 @@ import LoadingInfo from './LoadingInfo';
 
 const cardsClasses = Array.from(Array(11).keys()).map((el) => `item_${el}`);
 
-export interface IExpertsViewProps {
+export interface IExpertsViewCardProps {
   cards: IExpert[];
   loading?: LoadingStatusEnum;
 }
 
-export const ExpertsView: React.FC<IExpertsViewProps> = (props) => {
+export const ExpertsViewCard: React.FC<IExpertsViewCardProps> = (props) => {
   const { cards, loading } = props;
 
   const [anchorEl, setAnchorEl] = useState<HTMLDivElement | null>(null);
@@ -48,15 +48,15 @@ export const ExpertsView: React.FC<IExpertsViewProps> = (props) => {
   const errorMsg = 'Не вдалося завантажити експертів';
 
   return (
-    <>
+    <div className={classes.container}>
       {loading === 'pending' ? (
-        <Grid container direction="column" alignItems="center">
+        <Grid container direction="column" alignItems="center" className={classes.loading}>
           <LoadingInfo loading={loading} errorMsg={errorMsg} />
         </Grid>
       ) : (
         <Container>
           <Typography variant="h4">Експерти</Typography>
-          <div className={classes.container}>
+          <div className={classes.experts}>
             {allExperts}
             <ExpertPopover
               anchorEl={anchorEl}
@@ -67,6 +67,6 @@ export const ExpertsView: React.FC<IExpertsViewProps> = (props) => {
           </div>
         </Container>
       )}
-    </>
+    </div>
   );
 };

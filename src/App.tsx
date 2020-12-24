@@ -1,13 +1,23 @@
-import React, { Suspense } from 'react';
+import React, { Suspense, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import './App.css';
 import { BrowserRouter } from 'react-router-dom';
 import { RenderRoutes } from './navigation/Router';
 import ROUTER_CONFIG from './navigation/router-config';
 
 import Header from './lib/components/Header/Header';
-
+import { fetchPostsTypes } from './store/propertiesSlice';
 
 const App: React.FC = () => {
+  const dispatch = useDispatch();
+
+  const fetchProperties = () => {
+    dispatch(fetchPostsTypes());
+  };
+
+  useEffect(() => {
+    fetchProperties();
+  }, []);
 
   return (
     <div className="App">
@@ -17,7 +27,7 @@ const App: React.FC = () => {
           <RenderRoutes routes={ROUTER_CONFIG} />
         </Suspense>
       </BrowserRouter>
-      </div>
+    </div>
   );
 };
 

@@ -6,20 +6,36 @@ import {
   IExpert,
   ICourse,
   IPost,
+  IFilter,
+  FilterTypeEnum,
   LoadingStatusEnum,
 } from '../../../lib/types';
+import { getPosts, getExperts } from '../../../lib/utilities/API/api';
 import type { AppThunkType } from '../../../store/store';
 import { MOCK_COURSES } from '../courses/directionCourses.mock';
-import { getPosts, getExperts } from '../../../lib/utilities/API/api';
+
 import { LOAD_POSTS_LIMIT } from '../../main/components/constants/newestPostsPagination-config';
-import { DIRECTION_PROPERTIES } from '../../../lib/constants/direction-properties';
-import { postTypeProperties } from '../../../lib/constants/post-type-properties';
 
 export interface IDirectionsState extends Record<string, IDirectionState> {
   [key: string]: IDirectionState;
 }
 
 export interface IExpertsMeta {
+  loading: LoadingStatusEnum;
+  error: null | string;
+}
+
+interface IMaterialsState {
+  posts: IPost[];
+  meta: IMaterialsMeta;
+  filters?: {
+    [key in FilterTypeEnum]?: IFilter;
+  };
+}
+
+export interface IMaterialsMeta {
+  isLastPage: boolean;
+  pageNumber: number;
   loading: LoadingStatusEnum;
   error: null | string;
 }
@@ -45,29 +61,23 @@ const initialDirectionState: IDirectionState = {
     posts: [],
     meta: {
       isLastPage: false,
-      isLoading: false,
       pageNumber: -1,
+      loading: LoadingStatusEnum.idle,
+      error: null,
     },
+    filters: {},
   },
   courses: [],
 };
-
-interface IMaterialsState {
-  posts: IPost[];
-  meta: {
-    isLastPage: boolean;
-    isLoading: boolean;
-    pageNumber: number;
-  };
-}
 
 export const directionsSlice = createSlice({
   name: 'direction',
   initialState: {} as IDirectionsState,
   reducers: {
     setupDirection: (state, action: PayloadAction<string>) => {
-      // TODO: use latin direction names, create labels for cyrillic?
-      if (!state[action.payload]) state[action.payload] = initialDirectionState;
+      if (!state[action.payload]) {
+        state[action.payload] = initialDirectionState;
+      } 
     },
     setExpertsLoadingStatus: (
       state,
@@ -121,20 +131,70 @@ export const directionsSlice = createSlice({
         direction.courses = action.payload.courses;
       }
     },
-    setMaterialsLoadingStatus: (state, action: PayloadAction<IDirection>) => {
-      state[action.payload.name].materials.meta.isLoading = true;
+    setMaterialsLoadingStatus: (
+      state,
+      action: PayloadAction<{
+        direction: IDirection;
+        status: LoadingStatusEnum;
+        error?: string;
+      }>,
+    ) => {
+      const { direction, status, error } = action.payload;
+
+      switch (status) {
+        case LoadingStatusEnum.pending:
+          state[direction.name].materials.meta.loading =
+            LoadingStatusEnum.pending;
+          break;
+        case LoadingStatusEnum.failed:
+          state[direction.name].materials.meta.loading =
+            LoadingStatusEnum.failed;
+          state[direction.name].materials.meta.error = error || null;
+          break;
+        default:
+          state[direction.name].materials.meta.loading =
+            LoadingStatusEnum.succeeded;
+      }
     },
     loadMaterials: (
       state,
       action: PayloadAction<{
-        materials: IMaterialsState;
+        materials: {
+        posts: IPost[],
+        meta: {
+          isLastPage: boolean;
+          pageNumber: number;
+          loading: LoadingStatusEnum;
+          error: null | string;
+        };
+      }
         directionName: string;
       }>,
     ) => {
-      const { directionName } = action.payload;
+      const { directionName, materials } = action.payload;
       const direction = state[directionName] as IDirectionState;
       if (direction) {
-        direction.materials = action.payload.materials;
+        direction.materials.posts = materials.posts;
+        direction.materials.meta = materials.meta;
+      }
+    },
+    setPostFilters: (
+      state,
+      action: PayloadAction<{
+        key: FilterTypeEnum;
+        filters: IFilter;
+        directionName: string;
+      }>,
+    ) => {
+      const { key, filters, directionName } = action.payload;
+      const direction = state[directionName] as IDirectionState;
+      if (direction) {
+        direction.materials.filters = {
+          ...direction.materials.filters,
+          [key]: filters,
+        };
+        direction.materials.meta.pageNumber = -1;
+        direction.materials.posts.length = 0;
       }
     },
   },
@@ -147,6 +207,7 @@ export const {
   loadExperts,
   loadCourses,
   setupDirection,
+  setPostFilters,
 } = directionsSlice.actions;
 
 export const directionsReducer = directionsSlice.reducer;
@@ -204,56 +265,89 @@ export const fetchCourses = (directionName: string): AppThunkType => async (
   }
 };
 
-// TODO: use createAsyncThunk
 export const fetchMaterials = (direction: IDirection): AppThunkType => async (
   dispatch,
   getState,
 ) => {
   const { posts, meta } = getState().directions[direction.name].materials;
+  const { filters } = getState().directions[direction.name].materials;
+  const postTypes = filters?.[FilterTypeEnum.POST_TYPES]?.value as string[];
+  const postTags = filters?.[FilterTypeEnum.TAGS]?.value as string[];
 
-  const response = await getPosts('latest-by-direction', {
-    params: {
-      direction: direction.id,
-      page: meta.pageNumber + 1,
-      size: LOAD_POSTS_LIMIT,
-    },
-  });
+  try {
+    dispatch(
+      setMaterialsLoadingStatus({
+        direction,
+        status: LoadingStatusEnum.pending,
+      }),
+    );
 
-  const fetchedPosts: IPost[] = response.data.content.map((post) => {
-    const author = _.pick(post.author, [
-      'avatar',
-      'firstName',
-      'id',
-      'lastName',
-      'mainInstitution',
-    ]);
-
-    const preview = _.truncate(post.content, {
-      length: 150, // TODO: use MAX_LEN constant
+    const response = await getPosts('latest-by-direction', {
+      params: {
+        direction: direction.id,
+        page: meta.pageNumber + 1,
+        size: LOAD_POSTS_LIMIT,
+        type: postTypes,
+        tag: postTags,
+      },
     });
 
-    return {
-      author,
-      mainDirection: DIRECTION_PROPERTIES[post.mainDirection.id.toString()],
-      postType: postTypeProperties[post.type.id.toString()],
-      title: post.title,
-      content: post.content,
-      preview,
-      createdAt: post.createdAt,
-    };
-  });
+    const fetchedPosts: IPost[] = response.data.content.map((post) => {
+      const author = _.pick(post.author, [
+        'avatar',
+        'firstName',
+        'id',
+        'lastName',
+        'mainInstitution',
+      ]);
 
-  dispatch(
-    loadMaterials({
-      directionName: direction.name,
-      materials: {
-        posts: posts.concat(fetchedPosts),
-        meta: {
-          isLastPage: response.data.last,
-          isLoading: false,
-          pageNumber: response.data.number,
+      const preview = _.truncate(post.content, {
+        length: 150, // TODO: use MAX_LEN constant
+      });
+
+      return {
+        author,
+        directions: post.directions,
+        postType: post.type,
+        title: post.title,
+        content: post.content,
+        preview,
+        createdAt: post.createdAt,
+      };
+    });
+
+    dispatch(
+      loadMaterials({
+        directionName: direction.name,
+        materials: {
+          posts: posts.concat(fetchedPosts),
+          meta: {
+            isLastPage: response.data.last,
+            loading: LoadingStatusEnum.succeeded,
+            pageNumber: response.data.number,
+            error: null,
+          },
         },
-      },
-    }),
-  );
+      }),
+    );
+  } catch (e) {
+    dispatch(
+      setMaterialsLoadingStatus({
+        direction,
+        status: LoadingStatusEnum.failed,
+        error: String(e),
+      }),
+    );
+  }
+};
+
+export const fetchInitialMaterials = (direction: IDirection): AppThunkType => (
+  dispatch,
+  getState,
+) => {
+  const { posts } = getState().directions[direction.name].materials;
+
+  if (posts.length === 0) {
+    dispatch(fetchMaterials(direction));
+  }
 };

@@ -1,3 +1,5 @@
+import { IDirection } from "../../types";
+
 export type PostResponseType = {
   author: {
     avatar: string;
@@ -15,10 +17,7 @@ export type PostResponseType = {
   };
   content?: string;
   createdAt: string;
-  mainDirection: {
-    id: number;
-    name: string;
-  };
+  directions: IDirection[],
   id: number;
   title: string;
   type: {
@@ -78,3 +77,11 @@ export type GetTagResponseType = PostTagResponseType[];
 export type GetVersionType = {
   version: string;
 };
+
+export type PostPostResponseType = {
+  id: number;
+  name: string;
+}
+
+export type GetPostResponseType = PostPostResponseType[]
+

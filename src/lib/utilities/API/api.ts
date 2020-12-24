@@ -5,6 +5,7 @@ import {
   ExpertResponseType,
   GetResponseType,
   GetTagResponseType,
+  GetPostResponseType,
   GetVersionType,
   PostResponseType,
   PostTagResponseType,
@@ -20,8 +21,10 @@ export type GetConfigType = {
     size?: number;
     sort?: string[];
     direction?: number;
-    type?: number;
-    tag?: string;
+    type?: string[];
+    expert?: number;
+    region?: string[];
+    tag?: string[];
   };
 };
 
@@ -46,7 +49,11 @@ const defaultConfig = {
   },
 };
 
-type PostsTypeType = 'important' | 'latest' | 'latest-by-direction';
+type PostsTypeType =
+  | 'important'
+  | 'latest'
+  | 'latest-by-direction'
+  | 'latest-by-expert';
 
 export const getPosts = (
   postsType: PostsTypeType,
@@ -58,10 +65,26 @@ export const getPosts = (
   });
 };
 
+export const getPostTypes = (): Promise<AxiosResponse<GetPostResponseType>> => {
+  return instance.get(`/post/type`);
+};
+
 export const getExperts = (
   config?: GetExpertsConfigType,
 ): Promise<AxiosResponse<GetResponseType<ExpertResponseType>>> => {
   return instance.get(`/user/random-experts`, { ...defaultConfig, ...config });
+};
+
+export const getAllExperts = (
+  config?: GetExpertsConfigType,
+): Promise<AxiosResponse<GetResponseType<ExpertResponseType>>> => {
+  return instance.get('user/all-experts', { ...defaultConfig, ...config });
+};
+
+export const getExpertById = (
+  id: number,
+): Promise<AxiosResponse<ExpertResponseType>> => {
+  return instance.get(`/user/${id}`);
 };
 
 export const postTag = (
@@ -73,7 +96,7 @@ export const postTag = (
 export const getTag = (
   config: GetTagConfigType,
 ): Promise<AxiosResponse<GetTagResponseType>> => {
-  return instance.get(`/tag/findByValue`, { ...defaultConfig, ...config });
+  return instance.get(`/tag/find-by-value`, { ...defaultConfig, ...config });
 };
 
 export const getVersion = (): Promise<AxiosResponse<GetVersionType>> => {

@@ -24,13 +24,11 @@ export enum LoadingStatusEnum {
   failed = 'failed',
 }
 
-export interface ICourse {
-  photo?: string;
-  courseType: CourseTypeEnum;
-  direction: CourseEnum;
-  title: string;
-  createdAt: string;
-  course: boolean;
+export enum FilterTypeEnum {
+  POST_TYPES = 'POST_TYPES',
+  DIRECTIONS = 'DIRECTIONS',
+  REGIONS = 'REGIONS',
+  TAGS = 'TAGS',
 }
 
 export enum CourseEnum {
@@ -40,14 +38,21 @@ export enum CourseEnum {
 export enum CourseTypeEnum {
   COURSE = 'COURSE',
 }
+export interface ICourse {
+  photo?: string;
+  courseType: CourseTypeEnum;
+  direction: CourseEnum;
+  title: string;
+  createdAt: string;
+  course: boolean;
+}
 
 export interface IPost {
   id?: number;
   title: string;
   content?: string;
   author?: IExpert;
-  mainDirection: IDirection;
-  directions?: IPostDirection[];
+  directions?: IDirection[];
   tags?: IPostTag[];
   postType: IPostType;
   createdAt: string;
@@ -60,18 +65,17 @@ export interface IExpert {
   firstName: string;
   lastName: string;
   avatar?: string;
+  qualification?: string;
+  phone?: string;
+  email?: string;
+  bio?: string;
   mainInstitution?: IInstitution;
   mainDirection?: IDirection;
+  directions?: IDirection[];
   lastAddedPost?: {
     id: number;
     title: string;
   };
-  qualification?: string;
-}
-
-export interface IPostDirection {
-  id: number;
-  name: string;
 }
 
 export interface IPostTag {
@@ -80,6 +84,7 @@ export interface IPostTag {
 }
 
 export interface IPostType {
+  id: number;
   name: string;
 }
 
@@ -88,7 +93,7 @@ export interface IDirection {
   color?: string;
   name: string;
   label?: string;
-  route?: string;
+  route?: string; // remove
 }
 
 export interface IInstitution {
@@ -98,4 +103,8 @@ export interface IInstitution {
   };
   id: number;
   name: string;
+}
+
+export interface IFilter {
+  value: any;
 }

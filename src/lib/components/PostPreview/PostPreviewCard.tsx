@@ -7,7 +7,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 import { IPost } from '../../types';
 import { useStyles } from '../../styles/PostPreviewCard.styles';
-import PostDirectionChip from '../PostDirectionChip';
+import PostDirectionLink from '../PostDirectionLink';
 
 export interface IPostPreviewCardProps {
   data: IPost;
@@ -62,11 +62,13 @@ const PostPreviewCard: React.FC<IPostPreviewCardProps> = (props) => {
               {data.author?.mainInstitution?.name}
             </Typography>
           </Box>
-          <Box>
-            <PostDirectionChip
-              backgroundColor={data.mainDirection.color}
-              labelName={data.mainDirection.name}
-            />
+          <Box
+            display="flex"
+            flexDirection="column"
+          >
+            {data.directions?.map((d) => {
+              return <PostDirectionLink direction={d} key={d.id} />;
+            })}
             <Typography
               style={{ fontStyle: 'italic' }}
               variant="subtitle2"

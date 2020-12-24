@@ -24,19 +24,15 @@ export const navElems: IHeaderProps[] = [
     label: 'Covid-19',
     url: 'direction/covid-19',
   },
-  // TODO: remove therapy when a page with all the directions exists
   {
-    id: 'therapy',
-    label: 'Therapy',
-    url: 'direction/therapy',
-  },
-  {
-    id: 'directions',
-    label: 'Напрямки',
+    id: "directions",
+    label: "Напрямки",
+    url: '/direction',
   },
   {
     id: 'experts',
     label: 'Експерти',
+    url: '/experts',
   },
   {
     id: 'translates',
@@ -54,6 +50,7 @@ const Header: React.FC = () => {
   const allLinks = navElems.map((item) => (
     <Link
       key={item.id}
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
       to={(location) => ({ ...location, pathname: item.url || '#' })}
       className={classes.items}
     >

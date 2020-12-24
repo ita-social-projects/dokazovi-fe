@@ -5,7 +5,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 import { Box, Chip } from '@material-ui/core';
 import { useStyles } from '../styles/PostCard.styles';
 import { IPost } from '../types';
-import PostDirectionChip from './PostDirectionChip';
+import PostDirectionLink from './PostDirectionLink';
 
 export interface IPostCardProps {
   post: IPost;
@@ -39,10 +39,14 @@ export const PostCard: React.FC<IPostCardProps> = (props) => {
       <Box className={classes.rightPart}>
         <Box className={classes.chipRoot}>
           <Chip label={post.postType.name} size="small" />
-          <PostDirectionChip
-            backgroundColor={post.mainDirection.color}
-            labelName={post.mainDirection.name}
-          />
+          <Box
+            display="flex"
+            flexDirection="column"
+          >
+            {post.directions?.map((d) => {
+              return <PostDirectionLink direction={d} key={d.id} />;
+            })}
+          </Box>
         </Box>
         <Typography variant="body1" component="p" align="center">
           {post.title}
