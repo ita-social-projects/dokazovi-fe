@@ -50,11 +50,16 @@ const QuillToolbar: React.FC<IQuillToolbarProps> = () => {
           <option value="medium">Size 1</option>
           {/* <option value="large">Size 4</option> */}
         </select>
-        <select className="ql-header">
+        <select
+          className="ql-header"
+          defaultValue=""
+          onBlur={(e) => e.persist()}
+        >
           <option value="1">Заголовок 1</option>
           <option value="2">Заголовок 2</option>
-          <option selected />
-          {/* <option value="3">Звичайний</option> */}
+          <option value="" selected>
+            Звичайний
+          </option>
         </select>
       </span>
       <span className="ql-formats">

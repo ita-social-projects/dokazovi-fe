@@ -37,8 +37,13 @@ const ExpertsView: React.FC<IExpertsViewProps> = () => {
 
   return (
     <div className={classes.container}>
-        {loading === 'pending' ? (
-        <Grid container direction="column" alignItems="center" className={classes.loading}>
+      {loading === 'pending' ? (
+        <Grid
+          container
+          direction="column"
+          alignItems="center"
+          className={classes.loading}
+        >
           <LoadingInfo loading={loading} />
         </Grid>
       ) : (
