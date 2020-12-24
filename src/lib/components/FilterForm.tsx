@@ -4,11 +4,10 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import _ from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
-import { Container, Grid, Typography } from '@material-ui/core';
+import { Grid, Typography } from '@material-ui/core';
 import type { RootStateType } from '../../store/rootReducer';
 import { ExpertRegionType } from '../types';
 import { setExpertsRegionsFilter } from '../../modules/experts/store/expertsSlice';
-import { useStyles } from '../../modules/experts/styles/ExpertsView.styles';
 
 export type CheckedType = {
   [key: string]: boolean;
@@ -25,37 +24,36 @@ export interface ICheckboxes {
 export interface IFilterFormProps {}
 
 export const FilterForm: React.FC<IFilterFormProps> = () => {
-  const classes = useStyles();
   const dispatch = useDispatch();
   const regions = useSelector(
     (state: RootStateType) => state.properties?.regions,
   );
-  const { filters } = useSelector(
-    (state: RootStateType) => state.experts?.experts,
+
+  const initLocalState = regions.reduce(
+    (acc: IInitLocalState, next: ExpertRegionType) => {
+      return { ...acc, [next.id.toString()]: true };
+    },
+    {},
   );
 
-  const initLocalState = () =>
-    regions.reduce((acc: IInitLocalState, next: ExpertRegionType) => {
-      return { ...acc, [next.id.toString()]: false };
-    }, {});
-
   const [checked, setChecked] = React.useState<IInitLocalState>(initLocalState);
+  const [allChecked, setAllChecked] = React.useState<boolean>(true);
 
-  const expertsFilters = filters?.REGIONS?.value as ICheckboxes;
-
-  // const checkboxAll = React.useRef(null);
-
-  // useEffect(() => {
-  //   const checkedTypes = _.mapValues(checked, () => true);
-  //   setChecked(checkedTypes);
-  //   handler(checkedTypes);
-  // }, []);
-
-  const handler = useCallback(
-    _.debounce((checkedTypes: ICheckboxes) => {
+  useEffect(() => {
+    return () => {
       dispatch(
         setExpertsRegionsFilter({
-          value: checkedTypes,
+          value: {},
+        }),
+      );
+    };
+  }, []);
+
+  const setExpertsFilter = useCallback(
+    _.debounce((checkedTypes) => {
+      dispatch(
+        setExpertsRegionsFilter({
+          value: checkedTypes as IInitLocalState,
         }),
       );
     }, 500),
@@ -64,13 +62,12 @@ export const FilterForm: React.FC<IFilterFormProps> = () => {
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const checkedTypes = {
-      ...initLocalState,
       ...checked,
       [event.target.id]: event.target.checked,
     };
 
     setChecked(checkedTypes);
-    handler(checkedTypes);
+    setExpertsFilter(checkedTypes);
   };
 
   const handleChangeAll = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -79,7 +76,8 @@ export const FilterForm: React.FC<IFilterFormProps> = () => {
       : _.mapValues(checked, () => false);
 
     setChecked(checkedTypes);
-    handler(checkedTypes);
+    setAllChecked(event.target.checked);
+    setExpertsFilter(checkedTypes);
   };
 
   return (
@@ -94,10 +92,9 @@ export const FilterForm: React.FC<IFilterFormProps> = () => {
             control={
               <Checkbox
                 id="All"
-                checked={checked.id}
+                checked={allChecked}
                 onChange={handleChangeAll}
                 name="All"
-                defaultValue="true"
               />
             }
             label="Всі"

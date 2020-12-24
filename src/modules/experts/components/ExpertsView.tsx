@@ -22,63 +22,54 @@ const ExpertsView: React.FC<IExpertsViewProps> = () => {
     filters,
   } = useSelector(selectExperts);
 
+  const regions = useSelector(
+    (state: RootStateType) => state.properties?.regions,
+  );
+
   const setExperts = () => dispatch(fetchExperts());
 
   const handlePageChange = (_, page: number) => {
     dispatch(setExpertsPage(page));
   };
 
-  const someFilterIsTrue = Object.values(filters?.REGIONS.value).some(
-    (val) => val === true,
-  );
-
   useEffect(() => {
     dispatch(setExpertsPage(1));
   }, []);
 
   useEffect(() => {
-    if (someFilterIsTrue) {
-      setExperts();
-    }
+    setExperts();
   }, [pageNumber]);
 
   useEffect(() => {
-    if (someFilterIsTrue) {
-      dispatch(fetchExperts());
-    }
+    dispatch(fetchExperts());
   }, [filters?.REGIONS.value]);
 
   return (
     <>
       <Container fixed>
-        <Grid container>
-          <FilterForm />
-        </Grid>
+        {regions.length && (
+          <Grid container>
+            <FilterForm />
+          </Grid>
+        )}
         {loading === 'pending' ? (
           <Grid container direction="column" alignItems="center">
             <LoadingInfo loading={loading} />
           </Grid>
         ) : (
-          someFilterIsTrue && (
-            <Container className={classes.root}>
-              <Grid container spacing={4} direction="row" alignItems="center">
-                <ExpertsList experts={experts} />
-              </Grid>
-              <Grid
-                container
-                spacing={2}
-                direction="column"
-                alignItems="center"
-              >
-                <Pagination
-                  className={classes.pagination}
-                  count={totalPages}
-                  page={pageNumber}
-                  onChange={handlePageChange}
-                />
-              </Grid>
-            </Container>
-          )
+          <Container className={classes.root}>
+            <Grid container spacing={4} direction="row" alignItems="center">
+              <ExpertsList experts={experts} />
+            </Grid>
+            <Grid container spacing={2} direction="column" alignItems="center">
+              <Pagination
+                className={classes.pagination}
+                count={totalPages}
+                page={pageNumber}
+                onChange={handlePageChange}
+              />
+            </Grid>
+          </Container>
         )}
       </Container>
     </>
