@@ -38,7 +38,7 @@ const dispatchFetchAction = () => dispatch(fetchMaterials(direction));
 
   useEffect(() => {
     dispatch(fetchInitialMaterials(direction));
-  }, [filters]);
+  }, [filters, direction]);
 
   const gridRef = useRef<HTMLDivElement>(null);
 

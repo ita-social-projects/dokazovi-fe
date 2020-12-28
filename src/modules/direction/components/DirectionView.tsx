@@ -35,16 +35,10 @@ const DirectionView: React.FC<IDirectionViewProps> = () => {
 
   useEffect(() => {
     dispatch(
-      setExpertsLoadingStatus({
-        directionName: currentDirection.name,
-        status: LoadingStatusEnum.pending,
-      }),
-    );
-    dispatch(
       fetchExperts(currentDirection.name, currentDirection.id as number),
     );
     dispatch(fetchCourses(currentDirection.name));
-  }, []);
+  }, [currentDirection]);
 
   const {
     experts: {

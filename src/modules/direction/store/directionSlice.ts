@@ -216,6 +216,13 @@ export const fetchExperts = (
   directionName: string,
   directionId: number,
 ): AppThunkType => async (dispatch) => {
+  dispatch(
+    setExpertsLoadingStatus({
+      directionName,
+      status: LoadingStatusEnum.pending,
+    }),
+  );
+
   try {
     const loadedExperts = await getExperts({
       params: {
