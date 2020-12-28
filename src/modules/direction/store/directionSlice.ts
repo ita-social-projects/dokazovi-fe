@@ -351,3 +351,4 @@ export const fetchInitialMaterials = (direction: IDirection): AppThunkType => (
     dispatch(fetchMaterials(direction));
   }
 };
+

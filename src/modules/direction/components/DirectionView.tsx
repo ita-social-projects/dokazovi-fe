@@ -4,7 +4,6 @@ import { Container, Grid, Typography, Box } from '@material-ui/core';
 import { useLocation } from 'react-router-dom';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import { useStyles } from './styles/DirectionView.styles';
-import { DIRECTION_PROPERTIES } from '../../../lib/constants/direction-properties';
 import BorderBottom from '../../../lib/components/Border';
 import { RootStateType } from '../../../store/rootReducer';
 import {
@@ -12,6 +11,7 @@ import {
   setupDirection,
   fetchCourses,
   setExpertsLoadingStatus,
+  setPostFilters,
 } from '../store/directionSlice';
 import { ExpertsViewCard } from '../../../lib/components/ExpertsViewCard';
 import { IDirection, LoadingStatusEnum } from '../../../lib/types';
@@ -23,9 +23,11 @@ export interface IDirectionViewProps {}
 
 const DirectionView: React.FC<IDirectionViewProps> = () => {
   const { pathname } = useLocation();
-  const directions = Object.values(DIRECTION_PROPERTIES);
+  const directions = useSelector(
+    (state: RootStateType) => state.properties.directions,
+  );
   const currentDirection = directions.find(
-    (direction) => direction.route === pathname.split('/')[2],
+    (direction) => direction.name === pathname.split('/')[2],
   ) as IDirection; // TODO: validate route!
 
   const dispatch = useDispatch();

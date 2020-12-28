@@ -6,10 +6,11 @@ import {
   GetRegionsType,
   GetResponseType,
   GetTagResponseType,
+  GetPostResponseType,
+  GetDirectionType,
   GetVersionType,
   PostResponseType,
   PostTagResponseType,
-  GetPostResponseType,
 } from './types';
 
 const instance = axios.create({
@@ -106,4 +107,7 @@ export const getPostTypes = (): Promise<AxiosResponse<GetPostResponseType>> => {
 
 export const getRegions = (): Promise<AxiosResponse<GetRegionsType[]>> => {
   return instance.get(`/region`);
+};
+export const getDirection = (): Promise<AxiosResponse<GetDirectionType>> => {
+  return instance.get(`/direction`);
 };
