@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Container, Grid } from '@material-ui/core';
 import { useSelector, useDispatch } from 'react-redux';
 import { Pagination } from '@material-ui/lab';

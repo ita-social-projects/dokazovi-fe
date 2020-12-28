@@ -9,16 +9,8 @@ import type { RootStateType } from '../../store/rootReducer';
 import { ExpertRegionType } from '../types';
 import { setExpertsRegionsFilter } from '../../modules/experts/store/expertsSlice';
 
-export type CheckedType = {
-  [key: string]: boolean;
-};
-
-export interface IInitLocalState {
-  [key: string]: boolean;
-}
-
 export interface ICheckboxes {
-  [key: number]: boolean;
+  [key: string]: boolean;
 }
 
 export interface IFilterFormProps {}
@@ -30,13 +22,13 @@ export const FilterForm: React.FC<IFilterFormProps> = () => {
   );
 
   const initLocalState = regions.reduce(
-    (acc: IInitLocalState, next: ExpertRegionType) => {
+    (acc: ICheckboxes, next: ExpertRegionType) => {
       return { ...acc, [next.id.toString()]: true };
     },
     {},
   );
 
-  const [checked, setChecked] = React.useState<IInitLocalState>(initLocalState);
+  const [checked, setChecked] = React.useState<ICheckboxes>(initLocalState);
   const [allChecked, setAllChecked] = React.useState<boolean>(true);
 
   useEffect(() => {
@@ -53,7 +45,7 @@ export const FilterForm: React.FC<IFilterFormProps> = () => {
     _.debounce((checkedTypes) => {
       dispatch(
         setExpertsRegionsFilter({
-          value: checkedTypes as IInitLocalState,
+          value: checkedTypes as ICheckboxes,
         }),
       );
     }, 500),
