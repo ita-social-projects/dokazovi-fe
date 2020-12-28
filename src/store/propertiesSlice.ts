@@ -1,18 +1,20 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { getTag, getPostTypes} from '../lib/utilities/API/api';
-import { IPostTag, IPostType } from '../lib/types';
+import { getTag, getPostTypes, getDirection} from '../lib/utilities/API/api';
+import { IPostTag, IPostType, IDirection } from '../lib/types';
 
 import type { AppThunkType } from './store';
 
 export interface ITypesState {
   postTypes: IPostType[];
   postTags: IPostTag[];
+  directions: IDirection[]; 
 }
 
 const initialState: ITypesState = {
   postTypes: [],
   postTags: [],
+  directions: [],
 };
 
 export const propertiesSlice = createSlice({
@@ -25,10 +27,13 @@ export const propertiesSlice = createSlice({
     loadPostsTags: (state, action: PayloadAction<IPostTag[]>) => {
       state.postTags = action.payload;
     },
+    loadDirections: (state, action: PayloadAction<IDirection[]>) => {
+      state.directions = action.payload;
+    },
   },
 });
 
-export const { loadPostsTypes, loadPostsTags } = propertiesSlice.actions;
+export const { loadPostsTypes, loadPostsTags, loadDirections } = propertiesSlice.actions;
 
 export default propertiesSlice.reducer;
 
@@ -47,4 +52,10 @@ export const fetchPostsTags = (tagValue: string): AppThunkType => async (dispatc
   });
   const postTags = response.data;
   dispatch(loadPostsTags(postTags));
+};
+
+export const fetchDirections = (): AppThunkType => async (dispatch) => {
+  const response = await getDirection();
+  const direction = response.data;
+  dispatch(loadDirections(direction));
 };
