@@ -83,14 +83,14 @@ export type PostPostResponseType = {
   name: string;
 }
 
-export type PostDirectionType = {
+export type DirectionType = {
   id: number,
   name: string,
   label: string,
   color: string,
 };
 
-export type GetDirectionType = PostDirectionType[];
+export type GetDirectionType = DirectionType[];
 
 export type GetPostResponseType = PostPostResponseType[]
 

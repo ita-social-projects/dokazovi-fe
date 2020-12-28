@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
 import React, { Suspense, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import './App.css';
