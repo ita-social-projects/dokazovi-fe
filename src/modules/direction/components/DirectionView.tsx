@@ -14,7 +14,7 @@ import {
   setPostFilters,
 } from '../store/directionSlice';
 import { ExpertsViewCard } from '../../../lib/components/ExpertsViewCard';
-import { IDirection, LoadingStatusEnum, FilterTypeEnum } from '../../../lib/types';
+import { IDirection, LoadingStatusEnum } from '../../../lib/types';
 import Carousel from '../../../lib/components/Carousel';
 import { CourseCard } from '../../../lib/components/CourseCard';
 import MaterialsContainer from './MaterialsContainer';
