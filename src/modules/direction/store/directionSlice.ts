@@ -214,12 +214,12 @@ export const directionsReducer = directionsSlice.reducer;
 
 export const fetchExperts = (
   directionName: string,
-  directionId: number,
+  directionId: string,
 ): AppThunkType => async (dispatch) => {
   try {
     const loadedExperts = await getExperts({
       params: {
-        directions: [directionId.toString()],
+        directions: [directionId],
         size: 11,
       },
     });

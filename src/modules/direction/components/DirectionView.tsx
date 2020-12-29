@@ -42,7 +42,7 @@ const DirectionView: React.FC<IDirectionViewProps> = () => {
       }),
     );
     dispatch(
-      fetchExperts(currentDirection.name, currentDirection.id as number),
+      fetchExperts(currentDirection.name, currentDirection.id.toString()),
     );
     dispatch(fetchCourses(currentDirection.name));
   }, []);
