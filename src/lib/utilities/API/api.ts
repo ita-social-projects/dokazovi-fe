@@ -31,7 +31,7 @@ export type GetConfigType = {
 };
 
 export type GetExpertsConfigType = GetConfigType & {
-  params: { directions?: number[]; regions?: string[] };
+  params: { directions?: string[]; regions?: string[] };
 };
 
 export type GetTagConfigType = {

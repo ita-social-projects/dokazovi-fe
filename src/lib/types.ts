@@ -88,10 +88,10 @@ export interface IPostType {
   name: string;
 }
 
-export type ExpertRegionType = IPostType;
+export type ExpertPropertiesType = IPostType;
 
 export interface IDirection {
-  id?: number;
+  id: number;
   color?: string;
   name: string;
   label?: string;

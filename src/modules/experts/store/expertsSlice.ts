@@ -90,11 +90,20 @@ export const fetchExperts = createAsyncThunk(
     const {
       experts: { experts },
     } = getState() as RootStateType;
-    const filterValues = experts.filters?.REGIONS?.value as ICheckboxes;
+
+    const regionsFilterValues = experts.filters?.REGIONS?.value as ICheckboxes;
+    const directionsFilterValues = experts.filters?.DIRECTIONS
+      ?.value as ICheckboxes;
+
+    const getTrueValues = (filterValues: ICheckboxes) => {
+      return Object.keys(filterValues).filter((key) => filterValues[key]);
+    };
+
     const { data } = await getAllExperts({
       params: {
         page: experts.meta?.pageNumber,
-        regions: Object.keys(filterValues).filter((key) => filterValues[key]),
+        regions: getTrueValues(regionsFilterValues),
+        directions: getTrueValues(directionsFilterValues),
       },
     });
     return data;
@@ -140,12 +149,8 @@ export const expertsSlice = createSlice({
       }
     },
     setExpertsDirectionsFilter: (state, action: PayloadAction<IFilter>) => {
-      const value = action.payload;
       if (state.experts.filters) {
-        state.experts.filters.DIRECTIONS = {
-          ...state.experts.filters.DIRECTIONS,
-          value,
-        };
+        state.experts.filters.DIRECTIONS = action.payload;
       }
     },
     loadMaterials: (
