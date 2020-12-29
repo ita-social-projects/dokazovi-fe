@@ -3,6 +3,7 @@ import qs from 'qs';
 import { BASE_URL } from './baseURL';
 import {
   ExpertResponseType,
+  GetRegionsType,
   GetResponseType,
   GetTagResponseType,
   GetPostResponseType,
@@ -24,13 +25,13 @@ export type GetConfigType = {
     direction?: number;
     type?: string[];
     expert?: number;
-    region?: string[];
+    regions?: string[];
     tag?: string[];
   };
 };
 
 export type GetExpertsConfigType = GetConfigType & {
-  params: { directions?: number[] };
+  params: { directions?: number[]; regions?: string[] };
 };
 
 export type GetTagConfigType = {
@@ -64,10 +65,6 @@ export const getPosts = (
     ...defaultConfig,
     ...config,
   });
-};
-
-export const getPostTypes = (): Promise<AxiosResponse<GetPostResponseType>> => {
-  return instance.get(`/post/type`);
 };
 
 export const getExperts = (
@@ -104,7 +101,13 @@ export const getVersion = (): Promise<AxiosResponse<GetVersionType>> => {
   return instance.get(`/version`);
 };
 
+export const getPostTypes = (): Promise<AxiosResponse<GetPostResponseType>> => {
+  return instance.get('post/type');
+};
+
+export const getRegions = (): Promise<AxiosResponse<GetRegionsType[]>> => {
+  return instance.get(`/region`);
+};
 export const getDirection = (): Promise<AxiosResponse<GetDirectionType>> => {
   return instance.get(`/direction`);
 };
-
