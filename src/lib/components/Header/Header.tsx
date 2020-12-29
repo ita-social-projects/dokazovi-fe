@@ -23,7 +23,7 @@ export const navElems: IHeaderProps[] = [
   {
     id: 'covid-19',
     label: 'Covid-19',
-    url: 'direction/covid-19',
+    url: '/direction/covid-19',
   },
   {
     id: 'directions',
