@@ -45,7 +45,7 @@ describe('newest', () => {
   //   await store.dispatch(fetchNewestPosts());
   //   expect(store.getState().main.newest.meta.loading).toEqual('succeeded');
   // });
-  
+
   it('should set loading state on failed when API call is rejected', () => {
     const newState = mainSlice.reducer(initialState, {
       type: fetchNewestPosts.rejected,

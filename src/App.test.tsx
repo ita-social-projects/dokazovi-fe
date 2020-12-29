@@ -7,8 +7,8 @@ import { store } from './store/store';
 test('renders learn react link', () => {
   render(
     <Provider store={store}>
-    <App />
-    </Provider>
+      <App />
+    </Provider>,
   );
   expect(true).toBeTruthy();
 });
