@@ -10,21 +10,28 @@ import { DIRECTION_PROPERTIES } from '../../../lib/constants/direction-propertie
 const DirectionsList: React.FC = () => {
   const classes = useStyles();
 
-  const directions = Object.values(DIRECTION_PROPERTIES); 
-  const {id} = useParams<{id: string}>();
+  const directions = Object.values(DIRECTION_PROPERTIES);
+  const { id } = useParams<{ id: string }>();
 
-  const allLinks = directions.map((item) =>
-  <Link key={item.id} to={location => ({ ...location, pathname: `direction/${item.route}` || '#' })} className={classes.items}>{item.name}</Link>);
-
+  const allLinks = directions.map((item) => (
+    <Link
+      key={item.id}
+      to={(location) => ({
+        ...location,
+        pathname: `direction/${item.route}` || '#',
+      })}
+      className={classes.items}
+    >
+      {item.name}
+    </Link>
+  ));
 
   return (
     <div>
       <Breadcrumbs aria-label="breadcrumb">
-          <List>
-            <ListItem>
-              {allLinks}
-            </ListItem>
-          </List>
+        <List>
+          <ListItem>{allLinks}</ListItem>
+        </List>
       </Breadcrumbs>
     </div>
   );

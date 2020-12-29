@@ -129,7 +129,10 @@ export const expertsSlice = createSlice({
       state,
       action: PayloadAction<{ expertId: number; materials: IMaterialsPayload }>,
     ) => {
-      const { expertId, materials: { loadedPosts, meta } } = action.payload;
+      const {
+        expertId,
+        materials: { loadedPosts, meta },
+      } = action.payload;
       state.materials[expertId].loadedPosts = loadedPosts;
       state.materials[expertId].meta = meta;
     },

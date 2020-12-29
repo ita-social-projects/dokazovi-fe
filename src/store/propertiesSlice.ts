@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { getTag, getPostTypes} from '../lib/utilities/API/api';
+import { getTag, getPostTypes } from '../lib/utilities/API/api';
 import { IPostTag, IPostType } from '../lib/types';
 
 import type { AppThunkType } from './store';
@@ -39,7 +39,9 @@ export const fetchPostsTypes = (): AppThunkType => async (dispatch) => {
   dispatch(loadPostsTypes(postTypes));
 };
 
-export const fetchPostsTags = (tagValue: string): AppThunkType => async (dispatch) => {
+export const fetchPostsTags = (tagValue: string): AppThunkType => async (
+  dispatch,
+) => {
   const response = await getTag({
     params: {
       value: tagValue,

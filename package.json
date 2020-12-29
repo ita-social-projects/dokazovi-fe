@@ -76,8 +76,12 @@
   },
   "husky": {
     "hooks": {
-      "pre-push": "npm run lint"
+      "pre-push": "npm run lint",
+      "pre-commit": "lint-staged"
     }
+  },
+  "lint-staged": {
+    "*.{json,ts,tsx,css,md}": "prettier --write"
   },
   "jest": {
     "collectCoverageFrom": [
