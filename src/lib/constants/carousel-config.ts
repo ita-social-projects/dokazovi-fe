@@ -43,15 +43,15 @@ export const styles: IStyles = {
   },
   title: {
     margin: '10px 0 0 20px',
-  }, 
+  },
   container: {
     minHeight: '200px',
     position: 'relative',
-  }, 
+  },
   loading: {
     position: 'absolute',
     top: 'calc(50% - 30px)',
     msTransform: 'translateY(-50%)',
-    transform: 'translateY(-50%),'
-  }
+    transform: 'translateY(-50%),',
+  },
 };

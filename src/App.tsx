@@ -6,13 +6,19 @@ import { RenderRoutes } from './navigation/Router';
 import ROUTER_CONFIG from './navigation/router-config';
 
 import Header from './lib/components/Header/Header';
-import { fetchPostsTypes } from './store/propertiesSlice';
+import {
+  fetchDirections,
+  fetchPostsTypes,
+  fetchRegions,
+} from './store/propertiesSlice';
 
 const App: React.FC = () => {
   const dispatch = useDispatch();
 
   const fetchProperties = () => {
     dispatch(fetchPostsTypes());
+    dispatch(fetchRegions());
+    dispatch(fetchDirections());
   };
 
   useEffect(() => {

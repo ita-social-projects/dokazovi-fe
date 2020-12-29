@@ -9,7 +9,11 @@ import {
 } from '../store/directionSlice';
 import { RootStateType } from '../../../store/rootReducer';
 import { useStyles } from './styles/MaterialsContainer.styles';
-import { FilterTypeEnum, IDirection, LoadingStatusEnum } from '../../../lib/types';
+import {
+  FilterTypeEnum,
+  IDirection,
+  LoadingStatusEnum,
+} from '../../../lib/types';
 import LoadingInfo from '../../../lib/components/LoadingInfo';
 import useEffectExceptOnMount from '../../../lib/hooks/useEffectExceptOnMount';
 import { PostTypeFilter } from './PostTypesFilter';
@@ -34,7 +38,7 @@ const MaterialsContainer: React.FC<IMaterialsContainerProps> = ({
 
   const dispatch = useDispatch();
 
-const dispatchFetchAction = () => dispatch(fetchMaterials(direction));
+  const dispatchFetchAction = () => dispatch(fetchMaterials(direction));
 
   useEffect(() => {
     dispatch(fetchInitialMaterials(direction));
@@ -78,15 +82,20 @@ const dispatchFetchAction = () => dispatch(fetchMaterials(direction));
   return (
     <Container>
       <Typography variant="h4">Матеріали</Typography>
-      <PostTypeFilter 
-        directionName={direction.name} 
-        dispatchFunction={setFilters} 
+      <PostTypeFilter
+        directionName={direction.name}
+        dispatchFunction={setFilters}
       />
       <PostTagsFilter directionName={direction.name} />
       <Grid container spacing={2} direction="row" alignItems="center">
         <PostList postsList={posts} />
       </Grid>
-      <Grid container direction="column" alignItems="center" className={classes.loading}>
+      <Grid
+        container
+        direction="column"
+        alignItems="center"
+        className={classes.loading}
+      >
         <LoadingInfo loading={loading} />
       </Grid>
       <Grid

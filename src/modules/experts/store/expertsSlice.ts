@@ -17,11 +17,15 @@ import type { AppThunkType } from '../../../store/store';
 import { LOAD_POSTS_LIMIT } from '../../main/components/constants/newestPostsPagination-config';
 import { IExpertPayload } from '../../main/store/mainSlice';
 import type { RootStateType } from '../../../store/rootReducer';
+import type { ICheckboxes } from '../../../lib/components/FilterForm';
 
 const POST_PREVIEW_LENGTH = 150;
 
 interface IExpertsListPayload extends IExpertPayload {
-  filters: IFilter[];
+  filters?: {
+    [FilterTypeEnum.DIRECTIONS]: IFilter;
+    [FilterTypeEnum.REGIONS]: IFilter;
+  };
 }
 
 interface IMaterialsState extends Record<string, IMaterialsPayload> {
@@ -68,7 +72,14 @@ const initialState: IExpertsState = {
       loading: LoadingStatusEnum.idle,
       error: null,
     },
-    filters: [],
+    filters: {
+      [FilterTypeEnum.DIRECTIONS]: {
+        value: [],
+      },
+      [FilterTypeEnum.REGIONS]: {
+        value: [],
+      },
+    },
   },
   materials: {} as IMaterialsState,
 };
@@ -79,12 +90,13 @@ export const fetchExperts = createAsyncThunk(
     const {
       experts: { experts },
     } = getState() as RootStateType;
+    const filterValues = experts.filters?.REGIONS?.value as ICheckboxes;
     const { data } = await getAllExperts({
       params: {
-        page: experts.meta.pageNumber,
+        page: experts.meta?.pageNumber,
+        regions: Object.keys(filterValues).filter((key) => filterValues[key]),
       },
     });
-
     return data;
   },
 );
@@ -122,14 +134,28 @@ export const expertsSlice = createSlice({
     setExpertsPage: (state, action: PayloadAction<number>) => {
       state.experts.meta.pageNumber = action.payload;
     },
-    setExpertsFilters: (state, action: PayloadAction<IFilter[]>) => {
-      state.experts.filters = action.payload;
+    setExpertsRegionsFilter: (state, action: PayloadAction<IFilter>) => {
+      if (state.experts.filters) {
+        state.experts.filters.REGIONS = action.payload;
+      }
+    },
+    setExpertsDirectionsFilter: (state, action: PayloadAction<IFilter>) => {
+      const value = action.payload;
+      if (state.experts.filters) {
+        state.experts.filters.DIRECTIONS = {
+          ...state.experts.filters.DIRECTIONS,
+          value,
+        };
+      }
     },
     loadMaterials: (
       state,
       action: PayloadAction<{ expertId: number; materials: IMaterialsPayload }>,
     ) => {
-      const { expertId, materials: { loadedPosts, meta } } = action.payload;
+      const {
+        expertId,
+        materials: { loadedPosts, meta },
+      } = action.payload;
       state.materials[expertId].loadedPosts = loadedPosts;
       state.materials[expertId].meta = meta;
     },
@@ -205,7 +231,8 @@ export const expertsSlice = createSlice({
 
 export const {
   loadExperts,
-  setExpertsFilters,
+  setExpertsRegionsFilter,
+  setExpertsDirectionsFilter,
   setupExpertMaterialsID,
   loadMaterials,
   setMaterialsLoadingStatus,

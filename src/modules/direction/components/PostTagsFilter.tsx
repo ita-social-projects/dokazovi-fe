@@ -38,7 +38,7 @@ export const PostTagsFilter: React.FC<IPostTagsFilterProps> = ({
 
   const handlerTags = useCallback(
     _.debounce((inputValue) => {
-      if (inputValue){
+      if (inputValue) {
         dispatch(fetchPostsTags(inputValue));
       }
     }, 500),
@@ -69,10 +69,16 @@ export const PostTagsFilter: React.FC<IPostTagsFilterProps> = ({
         onChange={(event, selectedTags) =>
           handleSelectedFilters(event, selectedTags)
         }
-        onInputChange={(event, inputValue) => handleTagsFetch(event, inputValue)}
+        onInputChange={(event, inputValue) =>
+          handleTagsFetch(event, inputValue)
+        }
         noOptionsText="Тегів не знайдено"
         renderInput={(params) => (
-          <TextField {...params} label="Введіть назву тега" variant="outlined" />
+          <TextField
+            {...params}
+            label="Введіть назву тега"
+            variant="outlined"
+          />
         )}
       />
     </form>
