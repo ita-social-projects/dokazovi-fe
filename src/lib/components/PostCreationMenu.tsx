@@ -89,21 +89,21 @@ export const PostCreationMenu: React.FC = () => {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <StyledMenuItem>
-          <Link to="/create-article">
+        <Link to="/create-article">
+          <StyledMenuItem>
             <ListItemText primary="Створити статтю" />
-          </Link>
-        </StyledMenuItem>
-        <StyledMenuItem>
-          <Link to="/create-note">
+          </StyledMenuItem>
+        </Link>
+        <Link to="/create-note">
+          <StyledMenuItem>
             <ListItemText primary="Створити допис" />
-          </Link>
-        </StyledMenuItem>
-        <StyledMenuItem>
-          <Link to="/">
+          </StyledMenuItem>
+        </Link>
+        <Link to="/">
+          <StyledMenuItem>
             <ListItemText primary="Створити відео" />
-          </Link>
-        </StyledMenuItem>
+          </StyledMenuItem>
+        </Link>
       </StyledMenu>
     </div>
   );
