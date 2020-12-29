@@ -6,17 +6,7 @@ const ArticleEditorToolbar: React.FC = () => {
   return (
     <div id="toolbar">
       <span className="ql-formats">
-        <select className="ql-font">
-          <option value="arial">Arial</option>
-        </select>
-        <select className="ql-size">
-          <option value="medium">Size 1</option>
-        </select>
-        <select
-          className="ql-header"
-          defaultValue=""
-          onBlur={(e) => e.persist()}
-        >
+        <select className="ql-header" defaultValue="">
           <option value="1">Заголовок 1</option>
           <option value="2">Заголовок 2</option>
           <option value="" selected>
