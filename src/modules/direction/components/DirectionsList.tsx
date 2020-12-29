@@ -15,17 +15,26 @@ const DirectionsList: React.FC = () => {
   );
 
   const allLinks = directions.map((item) => {
-    return <Link key={item.id} to={location => ({ ...location, pathname: `direction/${item.name}` || '#' })} className={classes.items}>{item.label}</Link>;
+    return (
+      <Link
+        key={item.id}
+        to={(location) => ({
+          ...location,
+          pathname: `direction/${item.name}` || '#',
+        })}
+        className={classes.items}
+      >
+        {item.label}
+      </Link>
+    );
   });
 
   return (
     <div>
       <Breadcrumbs aria-label="breadcrumb">
-          <List>
-            <ListItem>
-              {allLinks}
-            </ListItem>
-          </List>
+        <List>
+          <ListItem>{allLinks}</ListItem>
+        </List>
       </Breadcrumbs>
     </div>
   );

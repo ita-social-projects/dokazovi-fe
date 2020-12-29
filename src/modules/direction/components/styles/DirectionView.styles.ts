@@ -26,7 +26,7 @@ export const useStyles = makeStyles(
     containerMaterials: {
       minHeight: '600px',
       position: 'relative',
-    }, 
+    },
     containerCourses: {
       minHeight: '200px',
       position: 'relative',

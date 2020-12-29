@@ -50,7 +50,12 @@ export const ExpertsViewCard: React.FC<IExpertsViewCardProps> = (props) => {
   return (
     <div className={classes.container}>
       {loading === 'pending' ? (
-        <Grid container direction="column" alignItems="center" className={classes.loading}>
+        <Grid
+          container
+          direction="column"
+          alignItems="center"
+          className={classes.loading}
+        >
           <LoadingInfo loading={loading} errorMsg={errorMsg} />
         </Grid>
       ) : (

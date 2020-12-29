@@ -8,6 +8,6 @@ export const useStyles = makeStyles({
     position: 'absolute',
     top: 'calc(50% - 30px)',
     msTransform: 'translateY(-50%)',
-    transform: 'translateY(-50%),'
+    transform: 'translateY(-50%),',
   },
 });

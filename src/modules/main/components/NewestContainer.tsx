@@ -67,8 +67,13 @@ const NewestContainer: React.FC = () => {
 
   return (
     <div style={styles.container}>
-        {loading === LoadingStatusEnum.pending && currentPage < 1 ? (
-        <Grid container direction="column" alignItems="center" style={styles.loading}>
+      {loading === LoadingStatusEnum.pending && currentPage < 1 ? (
+        <Grid
+          container
+          direction="column"
+          alignItems="center"
+          style={styles.loading}
+        >
           <LoadingInfo loading={loading} />
         </Grid>
       ) : (
