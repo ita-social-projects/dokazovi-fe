@@ -28,7 +28,12 @@ const ExpertProfileView: React.FC = () => {
   return (
     <Container>
       <Container className={classes.container}>
-        <Grid container direction="column" alignItems="center" className={classes.loading}>
+        <Grid
+          container
+          direction="column"
+          alignItems="center"
+          className={classes.loading}
+        >
           <LoadingInfo loading={loading} />
         </Grid>
         {selectedExpert && <ExpertInfo expert={selectedExpert} />}

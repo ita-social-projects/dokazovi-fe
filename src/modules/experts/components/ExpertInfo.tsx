@@ -35,12 +35,7 @@ const ExpertInfo: React.FC<IExpertInfoProps> = ({ expert }) => {
           >
             Напрямки:{' '}
             {expert.directions?.map((d) => {
-              return (
-                <PostDirectionLink
-                  direction={d}
-                  key={d.id}
-                />
-              );
+              return <PostDirectionLink direction={d} key={d.id} />;
             })}
           </Typography>
           {expert.mainInstitution && (

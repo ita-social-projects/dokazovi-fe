@@ -43,18 +43,22 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
 
   useEffect(() => {
     return () => {
-      dispatch(setMaterialsTypes({
-        types: { value: undefined },
-        expertId: id,
-      })); 
+      dispatch(
+        setMaterialsTypes({
+          types: { value: undefined },
+          expertId: id,
+        }),
+      );
     };
   }, []);
 
   const setFilters = (checked: string[]) => {
-    dispatch(setMaterialsTypes({
-      types: { value: checked },
-      expertId: id,
-    }));
+    dispatch(
+      setMaterialsTypes({
+        types: { value: checked },
+        expertId: id,
+      }),
+    );
   };
 
   const gridRef = useRef<HTMLDivElement>(null);
@@ -99,7 +103,12 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
         <Grid container spacing={2} direction="row" alignItems="center">
           <PostsList postsList={loadedPosts} />
         </Grid>
-        <Grid container direction="column" alignItems="center" className={classes.loading}>
+        <Grid
+          container
+          direction="column"
+          alignItems="center"
+          className={classes.loading}
+        >
           <LoadingInfo loading={loading} />
         </Grid>
 
