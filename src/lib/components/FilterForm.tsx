@@ -2,26 +2,35 @@ import React, { useCallback, useEffect } from 'react';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
+import Accordion from '@material-ui/core/Accordion';
+import AccordionSummary from '@material-ui/core/AccordionSummary';
+import AccordionDetails from '@material-ui/core/AccordionDetails';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import _ from 'lodash';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Grid, Typography } from '@material-ui/core';
-import type { RootStateType } from '../../store/rootReducer';
-import { ExpertPropertiesType } from '../types';
-import { setExpertsRegionsFilter } from '../../modules/experts/store/expertsSlice';
+
+import { ExpertPropertiesType, FilterTypeEnum, IPostType } from '../types';
 
 export interface ICheckboxes {
   [key: string]: boolean;
 }
 
-export interface IFilterFormProps {}
+export interface IObjForAction {
+  value: ICheckboxes;
+}
 
-export const FilterForm: React.FC<IFilterFormProps> = () => {
+export interface IFilterFormProps {
+  setExpertsListFilter: (obj: IObjForAction) => void;
+  expertsProperties: IPostType[];
+  filterType: FilterTypeEnum;
+}
+
+export const FilterForm: React.FC<IFilterFormProps> = (props) => {
+  const { setExpertsListFilter, expertsProperties, filterType } = props;
   const dispatch = useDispatch();
-  const regions = useSelector(
-    (state: RootStateType) => state.properties?.regions,
-  );
 
-  const initLocalState = regions.reduce(
+  const initLocalState = expertsProperties.reduce(
     (acc: ICheckboxes, next: ExpertPropertiesType) => {
       return { ...acc, [next.id.toString()]: true };
     },
@@ -31,10 +40,13 @@ export const FilterForm: React.FC<IFilterFormProps> = () => {
   const [checked, setChecked] = React.useState<ICheckboxes>(initLocalState);
   const [allChecked, setAllChecked] = React.useState<boolean>(true);
 
+  const filterTitle =
+    filterType === FilterTypeEnum.REGIONS ? 'Регіони:' : 'Напрямки:';
+
   useEffect(() => {
     return () => {
       dispatch(
-        setExpertsRegionsFilter({
+        setExpertsListFilter({
           value: {},
         }),
       );
@@ -44,7 +56,7 @@ export const FilterForm: React.FC<IFilterFormProps> = () => {
   const setExpertsFilter = useCallback(
     _.debounce((checkedTypes) => {
       dispatch(
-        setExpertsRegionsFilter({
+        setExpertsListFilter({
           value: checkedTypes as ICheckboxes,
         }),
       );
@@ -74,51 +86,70 @@ export const FilterForm: React.FC<IFilterFormProps> = () => {
 
   return (
     <>
-      <Grid container style={{ paddingLeft: '30px', marginTop: '20px' }}>
-        <Grid item xs={1}>
-          <Typography variant="h5">Регіони:</Typography>
-        </Grid>
-        <Grid item xs={11}>
-          <FormControlLabel
-            style={{ width: '100%' }}
-            control={
-              <Checkbox
-                id="All"
-                checked={allChecked}
-                onChange={handleChangeAll}
-                name="All"
-              />
-            }
-            label="Всі"
-            key="All"
-          />
-        </Grid>
-        <Grid item xs={1} />
-        <FormGroup
-          style={{
-            height: '450px',
-            display: 'flex',
-            flexDirection: 'column',
-            flexWrap: 'wrap',
-          }}
-        >
-          {regions.map((type) => (
-            <FormControlLabel
-              style={{ width: '100%' }}
-              control={
-                <Checkbox
-                  id={type.id.toString()}
-                  checked={checked[type.id.toString()]}
-                  onChange={handleChange}
-                  name={type.name}
+      <div style={{ width: '100%', paddingLeft: '30px', marginTop: '20px' }}>
+        <Accordion>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            aria-controls="panel1bh-content"
+            id="panel1bh-header"
+          >
+            <Grid container>
+              <Grid item xs={2} style={{ marginRight: '-30px' }}>
+                <Typography variant="h5">{filterTitle}</Typography>
+              </Grid>
+              <Grid item xs={10}>
+                {/* <div>Обране</div> */}
+              </Grid>
+            </Grid>
+          </AccordionSummary>
+
+          <AccordionDetails>
+            <Grid container>
+              <Grid item xs={2} style={{ marginRight: '-30px' }} />
+              <Grid item xs={10}>
+                <FormControlLabel
+                  style={{ width: '100%' }}
+                  control={
+                    <Checkbox
+                      id="All"
+                      checked={allChecked}
+                      onChange={handleChangeAll}
+                      name="All"
+                    />
+                  }
+                  label="Всі"
+                  key="All"
                 />
-              }
-              label={type.name}
-              key={type.name}
-            />
-          ))}
-        </FormGroup>{' '}
-      </Grid>
+              </Grid>
+              <Grid item xs={2} style={{ marginRight: '-30px' }} />
+              <FormGroup
+                style={{
+                  height: '450px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  flexWrap: 'wrap',
+                }}
+              >
+                {expertsProperties.map((type) => (
+                  <FormControlLabel
+                    style={{ width: '100%' }}
+                    control={
+                      <Checkbox
+                        id={type.id.toString()}
+                        checked={checked[type.id.toString()]}
+                        onChange={handleChange}
+                        name={type.name}
+                      />
+                    }
+                    label={type.name}
+                    key={type.name}
+                  />
+                ))}
+              </FormGroup>{' '}
+            </Grid>
+          </AccordionDetails>
+        </Accordion>
+      </div>
     </>
   );
 };

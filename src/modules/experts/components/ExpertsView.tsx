@@ -12,7 +12,7 @@ import { RootStateType } from '../../../store/rootReducer';
 import ExpertsList from '../../../lib/components/ExpertsList';
 import LoadingInfo from '../../../lib/components/LoadingInfo';
 import { useStyles } from '../styles/ExpertsView.styles';
-import { FilterForm } from '../../../lib/components/FilterFormCopy';
+import { FilterForm } from '../../../lib/components/FilterForm';
 import { FilterTypeEnum } from '../../../lib/types';
 
 export interface IExpertsViewProps {}
