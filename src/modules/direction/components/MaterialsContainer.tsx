@@ -42,7 +42,7 @@ const MaterialsContainer: React.FC<IMaterialsContainerProps> = ({
 
   useEffect(() => {
     dispatch(fetchInitialMaterials(direction));
-  }, [filters]);
+  }, [filters, direction]);
 
   const gridRef = useRef<HTMLDivElement>(null);
 
