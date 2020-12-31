@@ -1,8 +1,15 @@
 import React from 'react';
 import { Quill } from 'react-quill';
+import ImageHandlersContainer from '../CustomModules/ImageHandlersContainer';
 import '../generalEditor.styles.css';
 
-const ArticleEditorToolbar: React.FC = () => {
+interface IArticleEditorToolbarProps {
+  editor?: Quill;
+}
+
+const ArticleEditorToolbar: React.FC<IArticleEditorToolbarProps> = ({
+  editor,
+}) => {
   return (
     <div id="toolbar">
       <span className="ql-formats">
@@ -59,9 +66,7 @@ const ArticleEditorToolbar: React.FC = () => {
       <span className="ql-formats">
         <select title="Align" className="ql-align" />
       </span>
-      <span className="ql-formats">
-        <button title="З комп'ютера" type="button" className="ql-image" />
-      </span>
+      <ImageHandlersContainer editor={editor} />
     </div>
   );
 };
