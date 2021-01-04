@@ -291,7 +291,7 @@ export const fetchMaterials = (direction: IDirection): AppThunkType => async (
 
     const response = await getPosts('latest-by-direction', {
       params: {
-        direction: +direction.id,
+        direction: direction.id,
         page: meta.pageNumber + 1,
         size: LOAD_POSTS_LIMIT,
         type: postTypes,

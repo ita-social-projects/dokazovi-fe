@@ -62,13 +62,13 @@ const ExpertsView: React.FC<IExpertsViewProps> = () => {
         {expertsPropertiesLoaded && (
           <Grid container>
             <FilterForm
-              setExpertsListFilter={setExpertsRegionsFilter}
-              expertsProperties={regions}
+              setFilter={setExpertsRegionsFilter}
+              filterProperties={regions}
               filterType={FilterTypeEnum.REGIONS}
             />
             <FilterForm
-              setExpertsListFilter={setExpertsDirectionsFilter}
-              expertsProperties={directions}
+              setFilter={setExpertsDirectionsFilter}
+              filterProperties={directions}
               filterType={FilterTypeEnum.DIRECTIONS}
             />
           </Grid>

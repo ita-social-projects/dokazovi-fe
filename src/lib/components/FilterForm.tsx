@@ -21,24 +21,29 @@ export interface IObjForAction {
 }
 
 export interface IFilterFormProps {
-  setExpertsListFilter: (obj: IObjForAction) => void;
-  expertsProperties: IPostType[];
+  setFilter: (obj: IObjForAction) => void;
+  filterProperties: IPostType[];
   filterType: FilterTypeEnum;
 }
 
 export const FilterForm: React.FC<IFilterFormProps> = (props) => {
-  const { setExpertsListFilter, expertsProperties, filterType } = props;
+  const { setFilter, filterProperties, filterType } = props;
   const dispatch = useDispatch();
 
-  const initLocalState = expertsProperties.reduce(
+  const initLocalState = filterProperties.reduce(
     (acc: ICheckboxes, next: ExpertPropertiesType) => {
       return { ...acc, [next.id.toString()]: true };
     },
     {},
   );
 
+  const initNamesState = filterProperties.map((type) => type.name);
+
   const [checked, setChecked] = React.useState<ICheckboxes>(initLocalState);
   const [allChecked, setAllChecked] = React.useState<boolean>(true);
+  const [checkedNames, setCheckedNames] = React.useState<string[]>(
+    initNamesState,
+  );
 
   const filterTitle =
     filterType === FilterTypeEnum.REGIONS ? 'Регіони:' : 'Напрямки:';
@@ -46,32 +51,50 @@ export const FilterForm: React.FC<IFilterFormProps> = (props) => {
   useEffect(() => {
     return () => {
       dispatch(
-        setExpertsListFilter({
+        setFilter({
           value: {},
         }),
       );
     };
   }, []);
 
-  const setExpertsFilter = useCallback(
-    _.debounce((checkedTypes) => {
+  useEffect(() => {
+    if (Object.values(checked).every((elem) => elem)) {
+      setAllChecked(true);
+    }
+  }, [checked]);
+
+  const setFilterWithDebounce = useCallback(
+    _.debounce((checkedTypes: ICheckboxes) => {
       dispatch(
-        setExpertsListFilter({
-          value: checkedTypes as ICheckboxes,
+        setFilter({
+          value: checkedTypes,
         }),
       );
     }, 500),
     [],
   );
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    typeName: string,
+  ) => {
     const checkedTypes = {
       ...checked,
       [event.target.id]: event.target.checked,
     };
 
+    if (!event.target.checked && allChecked) {
+      setAllChecked(false);
+    }
+
+    const newCheckedNames = event.target.checked
+      ? [...checkedNames, typeName]
+      : checkedNames.filter((name) => name !== typeName);
+
     setChecked(checkedTypes);
-    setExpertsFilter(checkedTypes);
+    setCheckedNames(newCheckedNames);
+    setFilterWithDebounce(checkedTypes);
   };
 
   const handleChangeAll = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -79,9 +102,26 @@ export const FilterForm: React.FC<IFilterFormProps> = (props) => {
       ? _.mapValues(checked, () => true)
       : _.mapValues(checked, () => false);
 
+    const newCheckedNames = event.target.checked
+      ? filterProperties.map((type) => type.name)
+      : [];
+
     setChecked(checkedTypes);
     setAllChecked(event.target.checked);
-    setExpertsFilter(checkedTypes);
+    setCheckedNames(newCheckedNames);
+    setFilterWithDebounce(checkedTypes);
+  };
+
+  const checkedNamesString = () => {
+    if (allChecked) {
+      return 'Всі';
+    }
+    if (checkedNames.length < 4) {
+      return checkedNames.join(', ');
+    }
+    return `${checkedNames.slice(0, 3).join(', ')} + ${
+      checkedNames.length - 3
+    }`;
   };
 
   return (
@@ -98,7 +138,7 @@ export const FilterForm: React.FC<IFilterFormProps> = (props) => {
                 <Typography variant="h5">{filterTitle}</Typography>
               </Grid>
               <Grid item xs={10}>
-                {/* <div>Обране</div> */}
+                <Typography>{checkedNamesString()}</Typography>
               </Grid>
             </Grid>
           </AccordionSummary>
@@ -130,14 +170,14 @@ export const FilterForm: React.FC<IFilterFormProps> = (props) => {
                   flexWrap: 'wrap',
                 }}
               >
-                {expertsProperties.map((type) => (
+                {filterProperties.map((type) => (
                   <FormControlLabel
                     style={{ width: '100%' }}
                     control={
                       <Checkbox
                         id={type.id.toString()}
                         checked={checked[type.id.toString()]}
-                        onChange={handleChange}
+                        onChange={(event) => handleChange(event, type.name)}
                         name={type.name}
                       />
                     }
