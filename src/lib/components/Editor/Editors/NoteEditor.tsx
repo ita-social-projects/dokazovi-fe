@@ -5,15 +5,18 @@ import NoteEditorToolbar from './NoteEditorToolbar';
 
 const NoteEditor: React.FC = () => {
   const [editor, setEditor] = useState<Quill>();
-  const myref = useRef<ReactQuill | null>(null);
+  const noteEditor = useRef<ReactQuill | null>(null);
 
   useEffect(() => {
-    setEditor(myref.current?.getEditor());
+    if (noteEditor.current) setEditor(noteEditor.current.getEditor());
   }, []);
 
   return (
     <>
-      <GeneralEditor toolbar={<NoteEditorToolbar />} ref={myref} />
+      <GeneralEditor
+        toolbar={<NoteEditorToolbar editor={editor} />}
+        ref={noteEditor}
+      />
     </>
   );
 };

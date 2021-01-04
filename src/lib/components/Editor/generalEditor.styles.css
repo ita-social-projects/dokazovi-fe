@@ -57,3 +57,24 @@ h2,
 p {
   line-height: 2rem;
 }
+
+.show {
+  display: block;
+}
+
+.hide {
+  display: none !important;
+}
+
+.customSVGIcon {
+  fill: #2c2c2c;
+}
+
+.customSVGIcon:hover {
+  fill: #06c;
+}
+
+.ImageHandlersContainer {
+  display: flex;
+  flex-direction: row;
+}

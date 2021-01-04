@@ -1,12 +1,13 @@
 import React from 'react';
 import { Quill } from 'react-quill';
+import ImageHandlersContainer from '../CustomModules/ImageHandlersContainer';
 import '../generalEditor.styles.css';
 
 export interface INoteEditorToolbarProps {
   editor?: Quill;
 }
 
-const NoteEditorToolbar: React.FC<INoteEditorToolbarProps> = () => {
+const NoteEditorToolbar: React.FC<INoteEditorToolbarProps> = ({ editor }) => {
   return (
     <div id="toolbar">
       <span className="ql-formats">
@@ -14,10 +15,7 @@ const NoteEditorToolbar: React.FC<INoteEditorToolbarProps> = () => {
         <button title="Bold" type="button" className="ql-bold" />
         <button title="Italic" type="button" className="ql-italic" />
       </span>
-
-      <span className="ql-formats">
-        <button title="З комп'ютера" type="button" className="ql-image" />
-      </span>
+      <ImageHandlersContainer editor={editor} />
     </div>
   );
 };
