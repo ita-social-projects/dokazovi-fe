@@ -34,7 +34,7 @@ const DirectionView: React.FC<IDirectionViewProps> = () => {
 
   useEffect(() => {
     if (directionData) {
-      dispatch(fetchExperts(directionData.name, directionData.id as number));
+      dispatch(fetchExperts(directionData.name, directionData.id?.toString()));
       dispatch(fetchCourses(directionData.name));
     }
   }, [directionData]);

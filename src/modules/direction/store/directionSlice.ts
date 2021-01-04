@@ -214,7 +214,7 @@ export const directionsReducer = directionsSlice.reducer;
 
 export const fetchExperts = (
   directionName: string,
-  directionId: number,
+  directionId: string,
 ): AppThunkType => async (dispatch) => {
   dispatch(
     setExpertsLoadingStatus({
