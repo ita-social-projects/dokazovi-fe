@@ -88,7 +88,7 @@ export interface IPostType {
   name: string;
 }
 
-export type ExpertPropertiesType = IPostType;
+export type FilterPropertiesType = IPostType;
 
 export interface IDirection {
   id: number;

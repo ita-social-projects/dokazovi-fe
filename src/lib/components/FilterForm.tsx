@@ -10,7 +10,7 @@ import _ from 'lodash';
 import { useDispatch } from 'react-redux';
 import { Grid, Typography } from '@material-ui/core';
 
-import { ExpertPropertiesType, FilterTypeEnum, IPostType } from '../types';
+import { FilterPropertiesType, FilterTypeEnum, IPostType } from '../types';
 
 export interface ICheckboxes {
   [key: string]: boolean;
@@ -22,7 +22,7 @@ export interface IObjForAction {
 
 export interface IFilterFormProps {
   setFilter: (obj: IObjForAction) => void;
-  filterProperties: IPostType[];
+  filterProperties: FilterPropertiesType[];
   filterType: FilterTypeEnum;
 }
 
@@ -31,7 +31,7 @@ export const FilterForm: React.FC<IFilterFormProps> = (props) => {
   const dispatch = useDispatch();
 
   const initLocalState = filterProperties.reduce(
-    (acc: ICheckboxes, next: ExpertPropertiesType) => {
+    (acc: ICheckboxes, next: FilterPropertiesType) => {
       return { ...acc, [next.id.toString()]: true };
     },
     {},
