@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Container, Grid, Typography, Box } from '@material-ui/core';
+import { Container, Grid, Typography, Box, Link } from '@material-ui/core';
 import { useParams } from 'react-router-dom';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import { useStyles } from './styles/DirectionView.styles';
@@ -69,9 +69,11 @@ const DirectionView: React.FC<IDirectionViewProps> = () => {
               )}
               <Box className={classes.moreExperts}>
                 <Typography variant="h5" align="right" display="inline">
-                  Більше експертів
+                  <Link href="/experts">
+                    Більше експертів
+                    <ArrowForwardIosIcon />
+                  </Link>
                 </Typography>
-                <ArrowForwardIosIcon />
               </Box>
             </Grid>
             <BorderBottom />
