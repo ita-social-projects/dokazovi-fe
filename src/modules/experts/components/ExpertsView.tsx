@@ -2,11 +2,18 @@ import React, { useEffect } from 'react';
 import { Container, Grid } from '@material-ui/core';
 import { useSelector, useDispatch } from 'react-redux';
 import { Pagination } from '@material-ui/lab';
-import { fetchExperts, setExpertsPage } from '../store/expertsSlice';
+import {
+  fetchExperts,
+  setExpertsPage,
+  setExpertsRegionsFilter,
+  setExpertsDirectionsFilter,
+} from '../store/expertsSlice';
 import { RootStateType } from '../../../store/rootReducer';
 import ExpertsList from '../../../lib/components/ExpertsList';
 import LoadingInfo from '../../../lib/components/LoadingInfo';
 import { useStyles } from '../styles/ExpertsView.styles';
+import { FilterForm } from '../../../lib/components/FilterForm';
+import { FilterTypeEnum } from '../../../lib/types';
 
 export interface IExpertsViewProps {}
 
@@ -15,11 +22,21 @@ const selectExperts = (state: RootStateType) => state.experts.experts;
 const ExpertsView: React.FC<IExpertsViewProps> = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-
   const {
     experts,
     meta: { totalPages, pageNumber, loading },
+    filters,
   } = useSelector(selectExperts);
+
+  const regions = useSelector(
+    (state: RootStateType) => state.properties?.regions,
+  );
+
+  const directions = useSelector(
+    (state: RootStateType) => state.properties?.directions,
+  );
+
+  const expertsPropertiesLoaded = !!regions.length && !!directions.length;
 
   const setExperts = () => dispatch(fetchExperts());
 
@@ -35,33 +52,60 @@ const ExpertsView: React.FC<IExpertsViewProps> = () => {
     setExperts();
   }, [pageNumber]);
 
+  useEffect(() => {
+    dispatch(fetchExperts());
+  }, [filters?.REGIONS.value, filters?.DIRECTIONS.value]);
+
   return (
-    <div className={classes.container}>
-      {loading === 'pending' ? (
-        <Grid
-          container
-          direction="column"
-          alignItems="center"
-          className={classes.loading}
-        >
-          <LoadingInfo loading={loading} />
-        </Grid>
-      ) : (
-        <Container className={classes.root}>
-          <Grid container spacing={4} direction="row" alignItems="center">
-            <ExpertsList experts={experts} />
-          </Grid>
-          <Grid container spacing={2} direction="column" alignItems="center">
-            <Pagination
-              className={classes.pagination}
-              count={totalPages}
-              page={pageNumber}
-              onChange={handlePageChange}
+    <>
+      <Container fixed>
+        {expertsPropertiesLoaded && (
+          <Grid container>
+            <FilterForm
+              setFilter={setExpertsRegionsFilter}
+              filterProperties={regions}
+              filterType={FilterTypeEnum.REGIONS}
+            />
+            <FilterForm
+              setFilter={setExpertsDirectionsFilter}
+              filterProperties={directions}
+              filterType={FilterTypeEnum.DIRECTIONS}
             />
           </Grid>
-        </Container>
-      )}
-    </div>
+        )}
+        <div className={classes.container}>
+          {loading === 'pending' ? (
+            <Grid
+              container
+              direction="column"
+              alignItems="center"
+              className={classes.loading}
+            >
+              <LoadingInfo loading={loading} />
+            </Grid>
+          ) : (
+            <Container className={classes.root}>
+              <Grid container spacing={4} direction="row" alignItems="center">
+                <ExpertsList experts={experts} />
+              </Grid>
+              <Grid
+                container
+                spacing={2}
+                direction="column"
+                alignItems="center"
+              >
+                <Pagination
+                  className={classes.pagination}
+                  count={totalPages}
+                  page={pageNumber}
+                  onChange={handlePageChange}
+                />
+              </Grid>
+            </Container>
+          )}
+        </div>
+      </Container>
+    </>
   );
 };
 

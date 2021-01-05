@@ -77,7 +77,7 @@ export const directionsSlice = createSlice({
     setupDirection: (state, action: PayloadAction<string>) => {
       if (!state[action.payload]) {
         state[action.payload] = initialDirectionState;
-      } 
+      }
     },
     setExpertsLoadingStatus: (
       state,
@@ -160,14 +160,14 @@ export const directionsSlice = createSlice({
       state,
       action: PayloadAction<{
         materials: {
-        posts: IPost[],
-        meta: {
-          isLastPage: boolean;
-          pageNumber: number;
-          loading: LoadingStatusEnum;
-          error: null | string;
+          posts: IPost[];
+          meta: {
+            isLastPage: boolean;
+            pageNumber: number;
+            loading: LoadingStatusEnum;
+            error: null | string;
+          };
         };
-      }
         directionName: string;
       }>,
     ) => {
@@ -214,8 +214,15 @@ export const directionsReducer = directionsSlice.reducer;
 
 export const fetchExperts = (
   directionName: string,
-  directionId: number,
+  directionId: string,
 ): AppThunkType => async (dispatch) => {
+  dispatch(
+    setExpertsLoadingStatus({
+      directionName,
+      status: LoadingStatusEnum.pending,
+    }),
+  );
+
   try {
     const loadedExperts = await getExperts({
       params: {

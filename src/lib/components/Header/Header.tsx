@@ -6,6 +6,7 @@ import ListItem from '@material-ui/core/ListItem/ListItem';
 import List from '@material-ui/core/List/List';
 import { Link } from 'react-router-dom';
 import { useStyles } from './Header.styles';
+import { PostCreationMenu } from '../PostCreationMenu';
 
 interface IHeaderProps {
   id: string;
@@ -22,11 +23,11 @@ export const navElems: IHeaderProps[] = [
   {
     id: 'covid-19',
     label: 'Covid-19',
-    url: 'direction/covid-19',
+    url: '/direction/covid-19',
   },
   {
-    id: "directions",
-    label: "Напрямки",
+    id: 'directions',
+    label: 'Напрямки',
     url: '/direction',
   },
   {
@@ -74,6 +75,10 @@ const Header: React.FC = () => {
               >
                 Dokazovi
               </Typography>
+            </div>
+
+            <div className={classes.postCreationMenu}>
+              <PostCreationMenu />
             </div>
 
             <div className={classes.logIn}>

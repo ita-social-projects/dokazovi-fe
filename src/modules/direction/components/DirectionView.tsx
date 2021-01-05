@@ -1,20 +1,18 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Container, Grid, Typography, Box } from '@material-ui/core';
-import { useLocation } from 'react-router-dom';
+import { Container, Grid, Typography, Box, Link } from '@material-ui/core';
+import { useParams } from 'react-router-dom';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import { useStyles } from './styles/DirectionView.styles';
-import { DIRECTION_PROPERTIES } from '../../../lib/constants/direction-properties';
 import BorderBottom from '../../../lib/components/Border';
 import { RootStateType } from '../../../store/rootReducer';
 import {
   fetchExperts,
   setupDirection,
   fetchCourses,
-  setExpertsLoadingStatus,
 } from '../store/directionSlice';
 import { ExpertsViewCard } from '../../../lib/components/ExpertsViewCard';
-import { IDirection, LoadingStatusEnum } from '../../../lib/types';
+import { IDirection } from '../../../lib/types';
 import Carousel from '../../../lib/components/Carousel';
 import { CourseCard } from '../../../lib/components/CourseCard';
 import MaterialsContainer from './MaterialsContainer';
@@ -22,28 +20,24 @@ import MaterialsContainer from './MaterialsContainer';
 export interface IDirectionViewProps {}
 
 const DirectionView: React.FC<IDirectionViewProps> = () => {
-  const { pathname } = useLocation();
-  const directions = Object.values(DIRECTION_PROPERTIES);
-  const currentDirection = directions.find(
-    (direction) => direction.route === pathname.split('/')[2],
+  const { name: directionName } = useParams<{ name: string }>();
+  const directions = useSelector(
+    (state: RootStateType) => state.properties.directions,
+  );
+  const directionData = directions.find(
+    (direction) => direction.name === directionName,
   ) as IDirection; // TODO: validate route!
 
   const dispatch = useDispatch();
 
-  dispatch(setupDirection(currentDirection.name));
+  dispatch(setupDirection(directionName));
 
   useEffect(() => {
-    dispatch(
-      setExpertsLoadingStatus({
-        directionName: currentDirection.name,
-        status: LoadingStatusEnum.pending,
-      }),
-    );
-    dispatch(
-      fetchExperts(currentDirection.name, currentDirection.id as number),
-    );
-    dispatch(fetchCourses(currentDirection.name));
-  }, []);
+    if (directionData) {
+      dispatch(fetchExperts(directionData.name, directionData.id?.toString()));
+      dispatch(fetchCourses(directionData.name));
+    }
+  }, [directionData]);
 
   const {
     experts: {
@@ -51,24 +45,22 @@ const DirectionView: React.FC<IDirectionViewProps> = () => {
       meta: { loading },
     },
     courses,
-  } = useSelector(
-    (state: RootStateType) => state.directions[currentDirection.name],
-  );
+  } = useSelector((state: RootStateType) => state.directions[directionName]);
 
   const classes = useStyles();
 
   return (
     <>
-      {currentDirection ? (
+      {directionData ? (
         <Container>
           <Grid container spacing={2} direction="row">
             <Grid item xs={12} className={classes.header}>
               <Box
                 color="disabled"
                 className={classes.icon}
-                style={{ backgroundColor: currentDirection?.color }}
+                style={{ backgroundColor: directionData?.color }}
               />
-              <Typography variant="h2">{currentDirection?.label}</Typography>
+              <Typography variant="h2">{directionData?.label}</Typography>
             </Grid>
             <BorderBottom />
             <Grid item xs={12}>
@@ -77,14 +69,16 @@ const DirectionView: React.FC<IDirectionViewProps> = () => {
               )}
               <Box className={classes.moreExperts}>
                 <Typography variant="h5" align="right" display="inline">
-                  Більше експертів
+                  <Link href="/experts">
+                    Більше експертів
+                    <ArrowForwardIosIcon />
+                  </Link>
                 </Typography>
-                <ArrowForwardIosIcon />
               </Box>
             </Grid>
             <BorderBottom />
             <Grid item xs={12} className={classes.containerMaterials}>
-              <MaterialsContainer direction={currentDirection} />
+              <MaterialsContainer direction={directionData} />
             </Grid>
             <Grid item xs={12} className={classes.containerCourses}>
               <Typography variant="h5" className={classes.courseTitle}>
@@ -101,9 +95,11 @@ const DirectionView: React.FC<IDirectionViewProps> = () => {
           </Grid>
         </Container>
       ) : (
-        <>
-          <Typography variant="h3">Direction not found</Typography>
-        </>
+        directions.length && (
+          <>
+            <Typography variant="h3">Direction not found</Typography>
+          </>
+        )
       )}
     </>
   );
