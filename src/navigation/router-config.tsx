@@ -23,7 +23,13 @@ const NoteCreationView = lazy(
 );
 
 const ROUTER_CONFIG: IRouterConfig[] = [
-  { path: '/', key: 'ROOT', exact: true, component: MainView },
+  {
+    path: '/',
+    key: 'ROOT',
+    exact: true,
+    component: MainView,
+    title: 'Головна',
+  },
   {
     path: '/direction',
     key: 'DIRECTION',
@@ -34,6 +40,7 @@ const ROUTER_CONFIG: IRouterConfig[] = [
         key: 'DIRECTION_ROOT',
         exact: true,
         component: DirectionsList,
+        title: 'Напрямки',
       },
       {
         path: '/direction/:name',
@@ -53,6 +60,7 @@ const ROUTER_CONFIG: IRouterConfig[] = [
         key: 'EXPERTS_LIST',
         exact: true,
         component: ExpertsView,
+        title: 'Експерти',
       },
       {
         path: '/experts/:expertId',
@@ -67,12 +75,14 @@ const ROUTER_CONFIG: IRouterConfig[] = [
     key: 'ARTICLE',
     exact: true,
     component: ArticleCreationView,
+    title: 'Створити статтю',
   },
   {
     path: '/create-note',
     key: 'NOTE',
     exact: true,
     component: NoteCreationView,
+    title: 'Створити допис',
   },
 ];
 
