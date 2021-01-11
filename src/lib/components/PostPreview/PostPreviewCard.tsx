@@ -1,4 +1,5 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import Card from '@material-ui/core/Card';
 import Box from '@material-ui/core/Box';
 import CardActions from '@material-ui/core/CardActions';
@@ -15,11 +16,16 @@ export interface IPostPreviewCardProps {
 
 const PostPreviewCard: React.FC<IPostPreviewCardProps> = (props) => {
   const { data } = props;
+  const history = useHistory();
 
   let authorFullName = '';
   if (data.author?.firstName && data.author?.lastName) {
     authorFullName = `${data.author?.firstName} ${data.author?.lastName}`;
   }
+
+  const handleClick = () => {
+    history.push(`/posts/${data.id as number}`);
+  };
 
   const classes = useStyles();
   return (
@@ -76,7 +82,13 @@ const PostPreviewCard: React.FC<IPostPreviewCardProps> = (props) => {
           </Box>
         </Box>
         <CardContent>
-          <Typography gutterBottom align="left" variant="h6" component="h3">
+          <Typography
+            gutterBottom
+            align="left"
+            variant="h6"
+            component="h3"
+            onClick={handleClick}
+          >
             {data.title}
           </Typography>
           <Typography
