@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect } from 'react';
 import _ from 'lodash';
 import { useDispatch } from 'react-redux';
-import { FilterPropertiesType, FilterTypeEnum, IPostType } from '../types';
+import { FilterPropertiesType, FilterTypeEnum } from '../types';
 import { FilterForm } from './FilterForm';
 
 export interface ICheckboxes {
