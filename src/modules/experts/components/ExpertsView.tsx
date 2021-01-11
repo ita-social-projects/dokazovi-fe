@@ -12,8 +12,8 @@ import { RootStateType } from '../../../store/rootReducer';
 import ExpertsList from '../../../lib/components/ExpertsList';
 import LoadingInfo from '../../../lib/components/LoadingInfo';
 import { useStyles } from '../styles/ExpertsView.styles';
-import { FilterForm } from '../../../lib/components/FilterForm';
 import { FilterTypeEnum } from '../../../lib/types';
+import { FilterFormContainer } from '../../../lib/components/FilterFormContainer';
 
 export interface IExpertsViewProps {}
 
@@ -61,12 +61,12 @@ const ExpertsView: React.FC<IExpertsViewProps> = () => {
       <Container fixed>
         {expertsPropertiesLoaded && (
           <Grid container>
-            <FilterForm
+            <FilterFormContainer
               setFilter={setExpertsRegionsFilter}
               filterProperties={regions}
               filterType={FilterTypeEnum.REGIONS}
             />
-            <FilterForm
+            <FilterFormContainer
               setFilter={setExpertsDirectionsFilter}
               filterProperties={directions}
               filterType={FilterTypeEnum.DIRECTIONS}
