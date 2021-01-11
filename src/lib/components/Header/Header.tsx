@@ -64,18 +64,20 @@ const Header: React.FC = () => {
       <Grid container>
         <Grid item xs={12}>
           <Toolbar className={classes.toolbar}>
-            <div className={classes.logo}>
-              <LocalHospitalIcon fontSize="large" />
-              <Typography
-                component="h2"
-                variant="h5"
-                color="inherit"
-                align="center"
-                noWrap
-              >
-                Dokazovi
-              </Typography>
-            </div>
+            <Link to="/">
+              <div className={classes.logo}>
+                <LocalHospitalIcon fontSize="large" />
+                <Typography
+                  component="h2"
+                  variant="h5"
+                  color="inherit"
+                  align="center"
+                  noWrap
+                >
+                  Dokazovi
+                </Typography>
+              </div>
+            </Link>
 
             <div className={classes.postCreationMenu}>
               <PostCreationMenu />

@@ -16,6 +16,7 @@ import { IDirection } from '../../../lib/types';
 import Carousel from '../../../lib/components/Carousel';
 import { CourseCard } from '../../../lib/components/CourseCard';
 import MaterialsContainer from './MaterialsContainer';
+import PageTitleComponent from '../../../lib/components/PageTitleComponent';
 
 export interface IDirectionViewProps {}
 
@@ -51,6 +52,7 @@ const DirectionView: React.FC<IDirectionViewProps> = () => {
 
   return (
     <>
+      <PageTitleComponent title={directionData?.label} />
       {directionData ? (
         <Container>
           <Grid container spacing={2} direction="row">
