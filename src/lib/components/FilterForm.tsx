@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React from 'react';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -6,11 +6,8 @@ import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import _ from 'lodash';
-import { useDispatch } from 'react-redux';
 import { Grid, Typography } from '@material-ui/core';
-
-import { FilterPropertiesType, FilterTypeEnum, IPostType } from '../types';
+import { FilterPropertiesType } from '../types';
 
 export interface ICheckboxes {
   [key: string]: boolean;
@@ -20,109 +17,31 @@ export interface IObjForAction {
   value: ICheckboxes;
 }
 
+export type FilterTiltleType = 'Регіони:' | 'Напрямки:';
+
 export interface IFilterFormProps {
-  setFilter: (obj: IObjForAction) => void;
   filterProperties: FilterPropertiesType[];
-  filterType: FilterTypeEnum;
+  filterTitle: FilterTiltleType;
+  checkedNamesString: () => string;
+  allChecked: boolean;
+  checked: ICheckboxes;
+  onCheckboxAllChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onCheckboxChange: (
+    event: React.ChangeEvent<HTMLInputElement>,
+    typeName: string,
+  ) => void;
 }
 
 export const FilterForm: React.FC<IFilterFormProps> = (props) => {
-  const { setFilter, filterProperties, filterType } = props;
-  const dispatch = useDispatch();
-
-  const initLocalState = filterProperties.reduce(
-    (acc: ICheckboxes, next: FilterPropertiesType) => {
-      return { ...acc, [next.id.toString()]: true };
-    },
-    {},
-  );
-
-  const initNamesState = filterProperties.map((type) => type.name);
-
-  const [checked, setChecked] = React.useState<ICheckboxes>(initLocalState);
-  const [allChecked, setAllChecked] = React.useState<boolean>(true);
-  const [checkedNames, setCheckedNames] = React.useState<string[]>(
-    initNamesState,
-  );
-
-  const filterTitle =
-    filterType === FilterTypeEnum.REGIONS ? 'Регіони:' : 'Напрямки:';
-
-  useEffect(() => {
-    return () => {
-      dispatch(
-        setFilter({
-          value: {},
-        }),
-      );
-    };
-  }, []);
-
-  useEffect(() => {
-    if (Object.values(checked).every((elem) => elem)) {
-      setAllChecked(true);
-    }
-  }, [checked]);
-
-  const setFilterWithDebounce = useCallback(
-    _.debounce((checkedTypes: ICheckboxes) => {
-      dispatch(
-        setFilter({
-          value: checkedTypes,
-        }),
-      );
-    }, 500),
-    [],
-  );
-
-  const handleChange = (
-    event: React.ChangeEvent<HTMLInputElement>,
-    typeName: string,
-  ) => {
-    const checkedTypes = {
-      ...checked,
-      [event.target.id]: event.target.checked,
-    };
-
-    if (!event.target.checked && allChecked) {
-      setAllChecked(false);
-    }
-
-    const newCheckedNames = event.target.checked
-      ? [...checkedNames, typeName]
-      : checkedNames.filter((name) => name !== typeName);
-
-    setChecked(checkedTypes);
-    setCheckedNames(newCheckedNames);
-    setFilterWithDebounce(checkedTypes);
-  };
-
-  const handleChangeAll = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const checkedTypes = event.target.checked
-      ? _.mapValues(checked, () => true)
-      : _.mapValues(checked, () => false);
-
-    const newCheckedNames = event.target.checked
-      ? filterProperties.map((type) => type.name)
-      : [];
-
-    setChecked(checkedTypes);
-    setAllChecked(event.target.checked);
-    setCheckedNames(newCheckedNames);
-    setFilterWithDebounce(checkedTypes);
-  };
-
-  const checkedNamesString = () => {
-    if (allChecked) {
-      return 'Всі';
-    }
-    if (checkedNames.length < 4) {
-      return checkedNames.join(', ');
-    }
-    return `${checkedNames.slice(0, 3).join(', ')} + ${
-      checkedNames.length - 3
-    }`;
-  };
+  const {
+    filterProperties,
+    filterTitle,
+    checkedNamesString,
+    allChecked,
+    checked,
+    onCheckboxAllChange,
+    onCheckboxChange,
+  } = props;
 
   return (
     <>
@@ -153,7 +72,7 @@ export const FilterForm: React.FC<IFilterFormProps> = (props) => {
                     <Checkbox
                       id="All"
                       checked={allChecked}
-                      onChange={handleChangeAll}
+                      onChange={onCheckboxAllChange}
                       name="All"
                     />
                   }
@@ -177,7 +96,7 @@ export const FilterForm: React.FC<IFilterFormProps> = (props) => {
                       <Checkbox
                         id={type.id.toString()}
                         checked={checked[type.id.toString()]}
-                        onChange={(event) => handleChange(event, type.name)}
+                        onChange={(event) => onCheckboxChange(event, type.name)}
                         name={type.name}
                       />
                     }
