@@ -7,8 +7,6 @@ import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
-  FormControl,
-  FormHelperText,
   Grid,
   Typography,
 } from '@material-ui/core';

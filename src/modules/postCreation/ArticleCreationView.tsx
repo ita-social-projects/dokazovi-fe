@@ -4,7 +4,7 @@ import { Box, Container, TextField, Typography } from '@material-ui/core';
 import ArticleEditor from '../../lib/components/Editor/Editors/ArticleEditor';
 import { RootStateType } from '../../store/rootReducer';
 import { setPostDirections } from './store/postCreationSlice';
-import { ArticleTopics } from './ArticleTopics';
+import { PostTopicSelector } from './PostTopicSelector';
 
 const ArticleCreationView: React.FC = () => {
   const directions = useSelector(
@@ -19,7 +19,7 @@ const ArticleCreationView: React.FC = () => {
   return (
     <Container fixed>
       {directions.length && (
-        <ArticleTopics setTopics={setPostDirections} topics={directions} />
+        <PostTopicSelector setTopics={setPostDirections} topics={directions} />
       )}
       <Box display="flex">
         <Typography variant="h5">Заголовок статті: </Typography>

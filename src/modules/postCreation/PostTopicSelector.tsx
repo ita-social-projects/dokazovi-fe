@@ -13,7 +13,7 @@ export interface IArticleTopics {
   topics: FilterPropertiesType[];
 }
 
-export const ArticleTopics: React.FC<IArticleTopics> = (props) => {
+export const PostTopicSelector: React.FC<IArticleTopics> = (props) => {
   const { setTopics, topics } = props;
   const dispatch = useDispatch();
 
@@ -53,11 +53,11 @@ export const ArticleTopics: React.FC<IArticleTopics> = (props) => {
 
     setError('');
     if (newDisplayedTopicNames.length > 3) {
-      setError('Choose 3 topics at most');
+      setError('Виберіть не більше трьох тем');
       return;
     }
     if (newDisplayedTopicNames.length < 1) {
-      setError('Choose at least 1 topic');
+      setError('Виберіть принаймні одну тему');
     }
 
     setChecked(checkedTopics);
