@@ -1,12 +1,17 @@
 import React from 'react';
-import FormGroup from '@material-ui/core/FormGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import Accordion from '@material-ui/core/Accordion';
-import AccordionSummary from '@material-ui/core/AccordionSummary';
-import AccordionDetails from '@material-ui/core/AccordionDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import { Grid, Typography } from '@material-ui/core';
+import {
+  FormGroup,
+  FormControlLabel,
+  Checkbox,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  FormControl,
+  FormHelperText,
+  Grid,
+  Typography,
+} from '@material-ui/core';
 import { FilterPropertiesType } from '../types';
 
 export interface ICheckboxes {
@@ -23,9 +28,10 @@ export interface IFilterFormProps {
   filterProperties: FilterPropertiesType[];
   filterTitle: FilterTiltleType;
   checkedNamesString: () => string;
-  allChecked: boolean;
+  allChecked?: boolean;
   checked: ICheckboxes;
-  onCheckboxAllChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  error?: string;
+  onCheckboxAllChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onCheckboxChange: (
     event: React.ChangeEvent<HTMLInputElement>,
     typeName: string,
@@ -39,6 +45,7 @@ export const FilterForm: React.FC<IFilterFormProps> = (props) => {
     checkedNamesString,
     allChecked,
     checked,
+    error,
     onCheckboxAllChange,
     onCheckboxChange,
   } = props;
@@ -57,7 +64,7 @@ export const FilterForm: React.FC<IFilterFormProps> = (props) => {
                 <Typography variant="h5">{filterTitle}</Typography>
               </Grid>
               <Grid item xs={10}>
-                <Typography>{checkedNamesString()}</Typography>
+                <Typography>{error || checkedNamesString()}</Typography>
               </Grid>
             </Grid>
           </AccordionSummary>
@@ -66,19 +73,21 @@ export const FilterForm: React.FC<IFilterFormProps> = (props) => {
             <Grid container>
               <Grid item xs={2} style={{ marginRight: '-30px' }} />
               <Grid item xs={10}>
-                <FormControlLabel
-                  style={{ width: '100%' }}
-                  control={
-                    <Checkbox
-                      id="All"
-                      checked={allChecked}
-                      onChange={onCheckboxAllChange}
-                      name="All"
-                    />
-                  }
-                  label="Всі"
-                  key="All"
-                />
+                {allChecked !== undefined && (
+                  <FormControlLabel
+                    style={{ width: '100%' }}
+                    control={
+                      <Checkbox
+                        id="All"
+                        checked={allChecked}
+                        onChange={onCheckboxAllChange}
+                        name="All"
+                      />
+                    }
+                    label="Всі"
+                    key="All"
+                  />
+                )}
               </Grid>
               <Grid item xs={2} style={{ marginRight: '-30px' }} />
               <FormGroup
