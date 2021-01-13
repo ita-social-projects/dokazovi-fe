@@ -49,38 +49,50 @@ const ContentPreviewContainer: React.FC<IContentPreviewContainerProps> = ({
   //  TODO trunc preview text in PostPreviewCard
   return (
     <>
-      <Typography variant="h4">Текст картки матеріалу:</Typography>
-      <Grid container spacing={2} direction="row" alignItems="flex-start">
-        <Grid item xs={12} lg={8} md={6}>
-          <TextField
-            aria-label="minimum height"
-            defaultValue={textFieldValue}
-            multiline
-            variant="outlined"
-            onChange={(e) => {
-              onChangeHandler(e);
-            }}
-            onKeyPress={() => {
-              onKeyPressHandler();
-            }}
-            InputProps={{
-              inputProps: {
-                maxLength: MAX_LENGTH,
-                style: {
-                  height: '165px',
+      <Grid container spacing={2} direction="row" alignItems="stretch">
+        <Grid
+          item
+          container
+          xs={12}
+          lg={8}
+          md={6}
+          direction="column"
+          alignItems="stretch"
+        >
+          <Grid item>
+            <Typography variant="h4">Текст картки матеріалу:</Typography>
+          </Grid>
+          <Grid item>
+            <TextField
+              aria-label="minimum height"
+              defaultValue={textFieldValue}
+              multiline
+              variant="outlined"
+              onChange={(e) => {
+                onChangeHandler(e);
+              }}
+              onKeyPress={() => {
+                onKeyPressHandler();
+              }}
+              InputProps={{
+                inputProps: {
+                  maxLength: MAX_LENGTH,
+                  style: {
+                    height: '165px',
+                  },
                 },
-              },
-            }}
-            style={{
-              width: '100%',
-            }}
-            error={!isPreviewValid}
-            helperText={
-              (!isPreviewValid &&
-                `Максимальна довжина тексту ${MAX_LENGTH} символів!`) ||
-              `Довжина тексту ${textFieldValue.length}`
-            }
-          />
+              }}
+              style={{
+                width: '100%',
+              }}
+              error={!isPreviewValid}
+              helperText={
+                (!isPreviewValid &&
+                  `Максимальна довжина тексту ${MAX_LENGTH} символів!`) ||
+                `Довжина тексту ${textFieldValue.length}`
+              }
+            />
+          </Grid>
         </Grid>
         <Grid item xs={12} lg={4} md={6}>
           <PostPreviewCard data={mockData} />
