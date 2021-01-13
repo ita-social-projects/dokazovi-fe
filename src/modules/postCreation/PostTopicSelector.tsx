@@ -25,6 +25,7 @@ export const PostTopicSelector: React.FC<IArticleTopics> = (props) => {
   );
 
   const [checked, setChecked] = useState<ICheckboxes>(initLocalState);
+  const [isMax, setIsMax] = useState(false);
   const [error, setError] = useState('');
   const [displayedTopicNames, setDisplayedTopicNames] = useState<string[]>([]);
 
@@ -52,9 +53,9 @@ export const PostTopicSelector: React.FC<IArticleTopics> = (props) => {
       : displayedTopicNames.filter((name) => name !== typeName);
 
     setError('');
-    if (newDisplayedTopicNames.length > 3) {
-      setError('Виберіть не більше трьох тем');
-      return;
+    setIsMax(false);
+    if (newDisplayedTopicNames.length === 3) {
+      setIsMax(true);
     }
     if (newDisplayedTopicNames.length < 1) {
       setError('Виберіть принаймні одну тему');
@@ -77,6 +78,7 @@ export const PostTopicSelector: React.FC<IArticleTopics> = (props) => {
       filterTitle="Напрямки:"
       checkedNamesString={getDisplayedTopics}
       checked={checked}
+      max={isMax}
       error={error}
       onCheckboxChange={handleChange}
     />

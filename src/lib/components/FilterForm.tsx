@@ -28,6 +28,7 @@ export interface IFilterFormProps {
   checkedNamesString: () => string;
   allChecked?: boolean;
   checked: ICheckboxes;
+  max?: boolean;
   error?: string;
   onCheckboxAllChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onCheckboxChange: (
@@ -43,6 +44,7 @@ export const FilterForm: React.FC<IFilterFormProps> = (props) => {
     checkedNamesString,
     allChecked,
     checked,
+    max,
     error,
     onCheckboxAllChange,
     onCheckboxChange,
@@ -103,6 +105,7 @@ export const FilterForm: React.FC<IFilterFormProps> = (props) => {
                       <Checkbox
                         id={type.id.toString()}
                         checked={checked[type.id.toString()]}
+                        disabled={!checked[type.id.toString()] && max}
                         onChange={(event) => onCheckboxChange(event, type.name)}
                         name={type.name}
                       />
