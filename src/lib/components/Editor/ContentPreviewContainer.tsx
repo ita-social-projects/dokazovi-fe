@@ -1,4 +1,4 @@
-import { Grid, TextareaAutosize } from '@material-ui/core';
+import { Grid, TextField } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import PostPreviewCard from '../PostPreview/PostPreviewCard';
 import { mockUser } from './mock/mockUser';
@@ -19,46 +19,66 @@ const trunkLength = (str: string) => {
 const ContentPreviewContainer: React.FC<IContentPreviewContainerProps> = ({
   previewText,
 }) => {
-  const [textAreaValue, setTextAreaValue] = useState<string>();
-  const [isTextAreaManualyChanged, setisTextAreaManualyChanged] = useState<
+  const [textFieldValue, setTextFieldValue] = useState<string>('');
+  const [isTextFieldManualyChanged, setisTextFieldManualyChanged] = useState<
     boolean
   >(false);
+  const [isPreviewValid, setIsPreviewValid] = useState<boolean>(true);
 
   useEffect(() => {
-    if (!isTextAreaManualyChanged) {
-      setTextAreaValue(trunkLength(previewText));
+    if (!isTextFieldManualyChanged) {
+      setTextFieldValue(trunkLength(previewText));
     }
-  }, [textAreaValue, previewText]);
+  }, [textFieldValue, previewText]);
 
-  const onChangeHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setisTextAreaManualyChanged(true);
-    setTextAreaValue(e.target.value);
+  const onChangeHandler = (
+    e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
+  ) => {
+    setisTextFieldManualyChanged(true);
+    setTextFieldValue(e.target.value);
+    setIsPreviewValid(true);
   };
 
-  const onKeyPressHandler = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.currentTarget.value.length === MAX_LENGTH) {
-      alert('Максимальна довжина тексту 150 символів!');
+  const onKeyPressHandler = () => {
+    if (textFieldValue.length === MAX_LENGTH) {
+      setIsPreviewValid(false);
     }
   };
 
-  const mockData = { ...mockUser, preview: `${textAreaValue || ''} ...` };
+  const mockData = { ...mockUser, preview: `${textFieldValue || ''} ...` };
   //  TODO trunc preview text in PostPreviewCard
   return (
     <>
       <Grid container spacing={2} direction="row" alignItems="flex-start">
         <Grid item xs={12} lg={8} md={6}>
-          <TextareaAutosize
+          <TextField
             aria-label="minimum height"
-            rowsMin={19}
-            defaultValue={textAreaValue}
+            defaultValue={textFieldValue}
+            multiline
+            variant="outlined"
             onChange={(e) => {
               onChangeHandler(e);
             }}
-            onKeyPress={(e) => {
-              onKeyPressHandler(e);
+            onKeyPress={() => {
+              onKeyPressHandler();
             }}
-            maxLength={MAX_LENGTH}
-            style={{ width: '100%', border: '1px solid #ccc' }}
+            InputProps={{
+              inputProps: {
+                maxLength: MAX_LENGTH,
+                style: {
+                  height: '165px',
+                },
+              },
+            }}
+            style={{
+              width: '100%',
+            }}
+            error={!isPreviewValid}
+            helperText={
+              (!isPreviewValid &&
+                `Максимальна довжина тексту ${MAX_LENGTH} символів!`) ||
+              `Довжина тексту ${textFieldValue.length}`
+            }
           />
         </Grid>
         <Grid item xs={12} lg={4} md={6}>
