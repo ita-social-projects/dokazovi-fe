@@ -7,7 +7,7 @@ export interface IContentPreviewContainerProps {
   previewText: string;
 }
 
-const MAX_LENGTH = 146;
+const MAX_LENGTH = 150;
 
 const trunkLength = (str: string) => {
   if (str.length > MAX_LENGTH) {
