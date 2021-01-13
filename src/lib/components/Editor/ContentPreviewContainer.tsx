@@ -1,4 +1,4 @@
-import { Grid, TextField } from '@material-ui/core';
+import { Grid, TextField, Typography } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import PostPreviewCard from '../PostPreview/PostPreviewCard';
 import { mockUser } from './mock/mockUser';
@@ -49,6 +49,7 @@ const ContentPreviewContainer: React.FC<IContentPreviewContainerProps> = ({
   //  TODO trunc preview text in PostPreviewCard
   return (
     <>
+      <Typography variant="h4">Текст картки матеріалу:</Typography>
       <Grid container spacing={2} direction="row" alignItems="flex-start">
         <Grid item xs={12} lg={8} md={6}>
           <TextField
