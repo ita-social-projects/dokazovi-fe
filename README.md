@@ -61,7 +61,7 @@ Instead, it will copy all the configuration files and the transitive dependencie
 
 You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-### Running the tests
+## Running the tests
 
 ```shell
 npm test
@@ -70,7 +70,7 @@ npm test
 Launches the test runner in the interactive watch mode.\
 See more - [running tests](https://facebook.github.io/create-react-app/docs/running-tests)
 
-### Deployment
+## Deployment
 
 ```shell
 npm build
@@ -84,11 +84,11 @@ Your app is ready to be deployed!
 
 See more - [deployment](https://facebook.github.io/create-react-app/docs/deployment)
 
-### Built With
+## Built With
 
 React - A JavaScript library for building user interfaces
 
-### Contributing
+## Contributing
 
 - [Branching Strategy](https://github.com/ita-social-projects/dokazovi-fe/wiki/Branching-Strategy)
 - [Issue flow](https://github.com/ita-social-projects/dokazovi-fe/wiki/Issue-flow)
@@ -98,13 +98,13 @@ React - A JavaScript library for building user interfaces
 - [CI CD Pipeline with Docker and Github Actions with Heroku](https://github.com/ita-social-projects/dokazovi-fe/wiki/CI-CD-Pipeline-with-Docker-and-Github-Actions-with-Heroku)
 - [Sonar with Jest code coverage and Github Action](https://github.com/ita-social-projects/dokazovi-fe/wiki/Sonar-with-Jest-code-coverage-and--Github-Action)
 
-### Learn More
+## Learn More
 
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
 
-### License
+## License
 
 [![License](http://img.shields.io/:license-mit-blue.svg?style=flat-square)](http://badges.mit-license.org)
 
