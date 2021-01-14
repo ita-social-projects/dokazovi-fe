@@ -12,6 +12,7 @@ import {
   fetchPostsTypes,
   fetchRegions,
 } from './store/propertiesSlice';
+import { LoginModal } from './lib/components/Modals/LoginModal';
 
 const App: React.FC = () => {
   const dispatch = useDispatch();
@@ -30,6 +31,7 @@ const App: React.FC = () => {
     <div className="App">
       <BrowserRouter>
         <Header />
+        <LoginModal />
         <Suspense fallback={<CircularProgress className="mainLoading" />}>
           <RenderRoutes routes={ROUTER_CONFIG} />
         </Suspense>
