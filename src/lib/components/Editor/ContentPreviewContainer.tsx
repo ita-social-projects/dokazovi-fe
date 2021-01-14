@@ -34,15 +34,11 @@ const ContentPreviewContainer: React.FC<IContentPreviewContainerProps> = ({
   const onChangeHandler = (
     e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
   ) => {
-    setisTextFieldManualyChanged(true);
-    setTextFieldValue(e.target.value);
-    setIsPreviewValid(true);
-  };
+    const targetValue = e.target.value;
 
-  const onKeyPressHandler = () => {
-    if (textFieldValue.length === MAX_LENGTH) {
-      setIsPreviewValid(false);
-    }
+    setisTextFieldManualyChanged(true);
+    setTextFieldValue(targetValue);
+    setIsPreviewValid(targetValue.length <= MAX_LENGTH);
   };
 
   const mockData = { ...mockUser, preview: `${textFieldValue || ''} ...` };
@@ -71,12 +67,8 @@ const ContentPreviewContainer: React.FC<IContentPreviewContainerProps> = ({
               onChange={(e) => {
                 onChangeHandler(e);
               }}
-              onKeyPress={() => {
-                onKeyPressHandler();
-              }}
               InputProps={{
                 inputProps: {
-                  maxLength: MAX_LENGTH,
                   style: {
                     height: '165px',
                   },
