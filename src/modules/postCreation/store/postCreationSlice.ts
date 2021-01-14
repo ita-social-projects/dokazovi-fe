@@ -1,27 +1,50 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { FilterTypeEnum, IFilter } from '../../../lib/types';
+import { ICheckboxes } from '../PostTopicSelector';
 
 export interface IPostCreationState {
-  [FilterTypeEnum.DIRECTIONS]: IFilter;
+  // nest following inside 'article' & 'note'?
+  topics: ICheckboxes;
+  title: string;
+  htmlContent: string;
+  preview: string;
 }
 
 const initialState: IPostCreationState = {
-  [FilterTypeEnum.DIRECTIONS]: {
-    value: [],
-  },
+  topics: {},
+  title: '',
+  htmlContent: '',
+  preview: '',
 };
 
 export const postCreationSlice = createSlice({
   name: 'postCreation',
   initialState,
   reducers: {
-    setPostDirections: (state, action: PayloadAction<IFilter>) => {
-      state.DIRECTIONS = action.payload;
+    // use same reducers for updating both article & note state ?
+    saveNewPostDraft: (state, action: PayloadAction<IPostCreationState>) => {
+      state = action.payload;
+    },
+    setPostTopics: (
+      state,
+      action: PayloadAction<IPostCreationState['topics']>,
+    ) => {
+      state.topics = action.payload;
+    },
+    setPostTitle: (
+      state,
+      action: PayloadAction<IPostCreationState['title']>,
+    ) => {
+      state.title = action.payload;
     },
   },
 });
 
-export const { setPostDirections } = postCreationSlice.actions;
+export const {
+  saveNewPostDraft,
+  setPostTopics,
+  setPostTitle,
+} = postCreationSlice.actions;
 
-export const postCreationReducer = postCreationSlice.reducer;
+const postCreationReducer = postCreationSlice.reducer;
+export default postCreationReducer;

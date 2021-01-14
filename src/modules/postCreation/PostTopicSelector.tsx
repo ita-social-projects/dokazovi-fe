@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import _ from 'lodash';
 import { useDispatch } from 'react-redux';
 import { FilterForm } from '../../lib/components/FilterForm';
@@ -9,48 +9,57 @@ export interface ICheckboxes {
 }
 
 export interface IArticleTopics {
-  setTopics: (action: { value: ICheckboxes }) => void;
-  topics: FilterPropertiesType[];
+  setTopics: (action: ICheckboxes) => void;
+  topicList: FilterPropertiesType[];
+  prevCheckedTopics?: ICheckboxes;
 }
 
-export const PostTopicSelector: React.FC<IArticleTopics> = (props) => {
-  const { setTopics, topics } = props;
+export const PostTopicSelector: React.FC<IArticleTopics> = ({
+  setTopics,
+  topicList,
+  prevCheckedTopics,
+}) => {
   const dispatch = useDispatch();
-
-  const initLocalState = topics.reduce(
+  const initialCheckboxState = topicList.reduce(
     (acc: ICheckboxes, next: FilterPropertiesType) => {
       return { ...acc, [next.id.toString()]: false };
     },
     {},
   );
 
-  const [checked, setChecked] = useState<ICheckboxes>(initLocalState);
-  const [isMax, setIsMax] = useState(false);
+  const [checkedTopics, setCheckedTopics] = useState<ICheckboxes>(
+    prevCheckedTopics || initialCheckboxState,
+  );
+  const [isMax, setIsMax] = useState(
+    _.keys(_.pickBy(prevCheckedTopics)).length === 3 || false,
+  );
   const [error, setError] = useState('');
-  const [displayedTopicNames, setDisplayedTopicNames] = useState<string[]>([]);
 
-  useEffect(() => {
-    return () => {
-      dispatch(
-        setTopics({
-          value: {},
-        }),
-      );
-    };
-  }, []);
+  const prevCheckedTopicNames =
+    prevCheckedTopics &&
+    topicList
+      .filter((topic) => {
+        const truthyCheckboxIDs = _.keys(_.pickBy(prevCheckedTopics));
+        return truthyCheckboxIDs.includes(String(topic.id));
+      })
+      .map((topic) => topic.name);
+
+  const [displayedTopicNames, setDisplayedTopicNames] = useState<string[]>(
+    prevCheckedTopicNames || [],
+  );
 
   const handleChange = (
     event: React.ChangeEvent<HTMLInputElement>,
-    typeName: string,
+    topicName: string,
   ) => {
-    const checkedTopics = {
-      ...checked,
+    const newCheckedTopics = {
+      ...checkedTopics,
       [event.target.id]: event.target.checked,
     };
 
     const newDisplayedTopicNames = event.target.checked
-      ? [...displayedTopicNames, typeName]
-      : displayedTopicNames.filter((name) => name !== typeName);
+      ? [...displayedTopicNames, topicName]
+      : displayedTopicNames.filter((name) => name !== topicName);
 
     setError('');
     setIsMax(false);
@@ -61,23 +70,19 @@ export const PostTopicSelector: React.FC<IArticleTopics> = (props) => {
       setError('Виберіть принаймні одну тему');
     }
 
-    setChecked(checkedTopics);
+    setCheckedTopics(newCheckedTopics);
     setDisplayedTopicNames(newDisplayedTopicNames);
-    dispatch(
-      setTopics({
-        value: checkedTopics,
-      }),
-    );
+    dispatch(setTopics(newCheckedTopics));
   };
 
   const getDisplayedTopics = () => displayedTopicNames.join(', ');
 
   return (
     <FilterForm
-      filterProperties={topics}
+      filterProperties={topicList}
       filterTitle="Напрямки:"
       checkedNamesString={getDisplayedTopics}
-      checked={checked}
+      checked={checkedTopics}
       max={isMax}
       error={error}
       onCheckboxChange={handleChange}
