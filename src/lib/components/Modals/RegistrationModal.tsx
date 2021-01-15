@@ -90,16 +90,10 @@ export const LoginModal: React.FC = () => {
                   }
                   label="Remember me"
                 />
-                {/* <div style={{display: 'flex', justify: 'space-between'}}> */}
-                <div style={{ display: 'flex' }}>
-                  <Button
-                    type="submit"
-                    variant="outlined"
-                    style={{ marginRight: '0px' }}
-                  >
-                    Sign in
-                  </Button>
-                </div>
+
+                <Button type="submit" variant="outlined">
+                  Sign in
+                </Button>
               </Grid>
               <Grid item xs={12}>
                 {/* <Link href="#" variant="body2">
