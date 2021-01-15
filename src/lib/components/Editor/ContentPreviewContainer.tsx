@@ -26,6 +26,8 @@ const ContentPreviewContainer: React.FC<IContentPreviewContainerProps> = ({
   const [isPreviewValid, setIsPreviewValid] = useState<boolean>(true);
 
   useEffect(() => {
+    setIsPreviewValid(textFieldValue.length <= MAX_LENGTH);
+
     if (!isTextFieldManualyChanged) {
       setTextFieldValue(trunkLength(previewText));
     }
@@ -38,7 +40,6 @@ const ContentPreviewContainer: React.FC<IContentPreviewContainerProps> = ({
 
     setisTextFieldManualyChanged(true);
     setTextFieldValue(targetValue);
-    setIsPreviewValid(targetValue.length <= MAX_LENGTH);
   };
 
   const mockData = { ...mockUser, preview: `${textFieldValue || ''} ...` };
