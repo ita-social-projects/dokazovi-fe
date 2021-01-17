@@ -14,6 +14,7 @@ const NoteEditor: React.FC = () => {
   return (
     <>
       <GeneralEditor
+        type="DOPYS"
         dispatchContent={(s) => ''} // tmp stub
         toolbar={<NoteEditorToolbar editor={editor} />}
         ref={noteEditor}

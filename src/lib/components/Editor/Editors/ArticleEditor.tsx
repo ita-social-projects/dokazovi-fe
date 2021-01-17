@@ -18,6 +18,7 @@ const ArticleEditor: React.FC<IArticleEditorProps> = ({ dispatchContent }) => {
   return (
     <>
       <GeneralEditor
+        type="ARTICLE"
         dispatchContent={dispatchContent}
         toolbar={<ArticleEditorToolbar editor={editor} />}
         ref={articleEditor}

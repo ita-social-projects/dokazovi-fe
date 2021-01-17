@@ -17,6 +17,7 @@ import {
   setPostBody,
 } from './store/postCreationSlice';
 import { ICheckboxes, PostTopicSelector } from './PostTopicSelector';
+import { PostTypeEnum } from '../../lib/types';
 
 const ArticleCreationView: React.FC = () => {
   const dispatch = useDispatch();
@@ -30,7 +31,7 @@ const ArticleCreationView: React.FC = () => {
   );
 
   const [title, setTitle] = useState({
-    value: savedPostDraft.title || '',
+    value: savedPostDraft.ARTICLE.title || '',
     error: '',
   });
 
@@ -48,19 +49,21 @@ const ArticleCreationView: React.FC = () => {
   // });
 
   const dispatchTopics = (topics: ICheckboxes) => {
-    dispatch(setPostTopics(topics));
+    dispatch(setPostTopics({ postType: PostTypeEnum.ARTICLE, value: topics }));
   };
 
   const dispatchTitle = useCallback(
     _.debounce((storedTitle: string) => {
-      dispatch(setPostTitle(storedTitle));
+      dispatch(
+        setPostTitle({ postType: PostTypeEnum.ARTICLE, value: storedTitle }),
+      );
     }, 1000),
     [],
   );
 
   const dispatchHtmlContent = useCallback(
     _.debounce((content: string) => {
-      dispatch(setPostBody(content));
+      dispatch(setPostBody({ postType: PostTypeEnum.ARTICLE, value: content }));
     }, 2000),
     [],
   );
@@ -72,7 +75,9 @@ const ArticleCreationView: React.FC = () => {
           dispatchTopics={dispatchTopics}
           topicList={directions}
           prevCheckedTopics={
-            _.isEmpty(savedPostDraft.topics) ? undefined : savedPostDraft.topics
+            _.isEmpty(savedPostDraft.ARTICLE.topics)
+              ? undefined
+              : savedPostDraft.ARTICLE.topics
           }
         />
       ) : (

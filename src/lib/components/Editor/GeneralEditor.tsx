@@ -7,14 +7,15 @@ import 'react-quill/dist/quill.snow.css';
 import { RootStateType } from '../../../store/rootReducer';
 
 export interface IQuillEditorProps {
+  type: 'ARTICLE' | 'DOPYS';
   toolbar: React.ReactNode;
   dispatchContent: (s: string) => void;
 }
 
 const GeneralEditor = React.forwardRef<ReactQuill, IQuillEditorProps>(
-  ({ toolbar, dispatchContent }, ref) => {
+  ({ type, toolbar, dispatchContent }, ref) => {
     const savedContent = useSelector(
-      (state: RootStateType) => state.newPostDraft.htmlContent,
+      (state: RootStateType) => state.newPostDraft[type].htmlContent,
     );
     const [text, setText] = useState<string>(savedContent);
 
