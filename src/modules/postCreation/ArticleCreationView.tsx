@@ -1,14 +1,27 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import _ from 'lodash';
 import { useSelector, useDispatch } from 'react-redux';
-import { Box, Container, TextField, Typography } from '@material-ui/core';
+import { useHistory } from 'react-router-dom';
+import {
+  Box,
+  CircularProgress,
+  Container,
+  TextField,
+  Typography,
+} from '@material-ui/core';
 import ArticleEditor from '../../lib/components/Editor/Editors/ArticleEditor';
 import { RootStateType } from '../../store/rootReducer';
-import { setPostTopics, setPostTitle } from './store/postCreationSlice';
-import { PostTopicSelector } from './PostTopicSelector';
+import {
+  setPostTopics,
+  setPostTitle,
+  setPostBody,
+} from './store/postCreationSlice';
+import { ICheckboxes, PostTopicSelector } from './PostTopicSelector';
 
 const ArticleCreationView: React.FC = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
+
   const directions = useSelector(
     (state: RootStateType) => state.properties?.directions,
   );
@@ -29,16 +42,41 @@ const ArticleCreationView: React.FC = () => {
   //   };
   // }, []);
 
+  // this works fine
+  // history.listen(() => {
+  //   dispatch(setPostTitle(title.value));
+  // });
+
+  const dispatchTopics = (topics: ICheckboxes) => {
+    dispatch(setPostTopics(topics));
+  };
+
+  const dispatchTitle = useCallback(
+    _.debounce((storedTitle: string) => {
+      dispatch(setPostTitle(storedTitle));
+    }, 1000),
+    [],
+  );
+
+  const dispatchHtmlContent = useCallback(
+    _.debounce((content: string) => {
+      dispatch(setPostBody(content));
+    }, 2000),
+    [],
+  );
+
   return (
     <Container fixed>
-      {directions.length && (
+      {directions.length ? (
         <PostTopicSelector
-          setTopics={setPostTopics}
+          dispatchTopics={dispatchTopics}
           topicList={directions}
           prevCheckedTopics={
             _.isEmpty(savedPostDraft.topics) ? undefined : savedPostDraft.topics
           }
         />
+      ) : (
+        <CircularProgress />
       )}
       <Box display="flex">
         <Typography variant="h5">Заголовок статті: </Typography>
@@ -51,12 +89,12 @@ const ArticleCreationView: React.FC = () => {
           value={title.value}
           onChange={(e) => {
             setTitle({ ...title, value: e.target.value });
-            dispatch(setPostTitle(e.target.value));
+            dispatchTitle(e.target.value);
           }}
         />
       </Box>
       <Typography variant="h5">Текст статті:</Typography>
-      <ArticleEditor />;
+      <ArticleEditor dispatchContent={dispatchHtmlContent} />;
     </Container>
   );
 };

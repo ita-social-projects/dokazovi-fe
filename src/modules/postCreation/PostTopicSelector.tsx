@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import _ from 'lodash';
-import { useDispatch } from 'react-redux';
 import { FilterForm } from '../../lib/components/FilterForm';
 import { FilterPropertiesType } from '../../lib/types';
 
@@ -9,17 +8,16 @@ export interface ICheckboxes {
 }
 
 export interface IArticleTopics {
-  setTopics: (action: ICheckboxes) => void;
+  dispatchTopics: (action: ICheckboxes) => void;
   topicList: FilterPropertiesType[];
   prevCheckedTopics?: ICheckboxes;
 }
 
 export const PostTopicSelector: React.FC<IArticleTopics> = ({
-  setTopics,
+  dispatchTopics,
   topicList,
   prevCheckedTopics,
 }) => {
-  const dispatch = useDispatch();
   const initialCheckboxState = topicList.reduce(
     (acc: ICheckboxes, next: FilterPropertiesType) => {
       return { ...acc, [next.id.toString()]: false };
@@ -72,7 +70,7 @@ export const PostTopicSelector: React.FC<IArticleTopics> = ({
 
     setCheckedTopics(newCheckedTopics);
     setDisplayedTopicNames(newDisplayedTopicNames);
-    dispatch(setTopics(newCheckedTopics));
+    dispatchTopics(newCheckedTopics);
   };
 
   const getDisplayedTopics = () => displayedTopicNames.join(', ');

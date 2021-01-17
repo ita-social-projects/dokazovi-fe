@@ -3,7 +3,11 @@ import ReactQuill, { Quill } from 'react-quill';
 import GeneralEditor from '../GeneralEditor';
 import ArticleEditorToolbar from './ArticleEditorToolbar';
 
-const ArticleEditor: React.FC = () => {
+interface IArticleEditorProps {
+  dispatchContent: (content: string) => void;
+}
+
+const ArticleEditor: React.FC<IArticleEditorProps> = ({ dispatchContent }) => {
   const [editor, setEditor] = useState<Quill>();
   const articleEditor = useRef<ReactQuill | null>(null);
 
@@ -14,6 +18,7 @@ const ArticleEditor: React.FC = () => {
   return (
     <>
       <GeneralEditor
+        dispatchContent={dispatchContent}
         toolbar={<ArticleEditorToolbar editor={editor} />}
         ref={articleEditor}
       />
