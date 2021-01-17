@@ -1,53 +1,82 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { PostTypeEnum } from '../../../lib/types';
 import { ICheckboxes } from '../PostTopicSelector';
 
-export interface IPostCreationState {
-  // nest following inside 'article' & 'note'?
+interface INewPostDraft {
   topics: ICheckboxes;
-  title: string;
+  title?: string;
   htmlContent: string;
   preview: string;
 }
 
+export interface IPostCreationState {
+  [PostTypeEnum.ARTICLE]: INewPostDraft;
+  [PostTypeEnum.DOPYS]: INewPostDraft;
+}
+
 const initialState: IPostCreationState = {
-  topics: {},
-  title: '',
-  htmlContent: '',
-  preview: '',
+  [PostTypeEnum.ARTICLE]: {
+    topics: {},
+    title: '',
+    htmlContent: '',
+    preview: '',
+  },
+  [PostTypeEnum.DOPYS]: {
+    topics: {},
+    htmlContent: '',
+    preview: '',
+  },
 };
 
 export const postCreationSlice = createSlice({
   name: 'postCreation',
   initialState,
   reducers: {
-    // use same reducers for updating both article & note state ?
-    saveNewPostDraft: (state, action: PayloadAction<IPostCreationState>) => {
-      state = action.payload;
-    },
+    // saveNewPostDraft: (state, action: PayloadAction<IPostCreationState>) => {
+    //   state = action.payload;
+    // },
     setPostTopics: (
       state,
-      action: PayloadAction<IPostCreationState['topics']>,
+      action: PayloadAction<{
+        postType: PostTypeEnum;
+        value: INewPostDraft['topics'];
+      }>,
     ) => {
-      state.topics = action.payload;
+      state[action.payload.postType].topics = action.payload.value;
     },
     setPostTitle: (
       state,
-      action: PayloadAction<IPostCreationState['title']>,
+      action: PayloadAction<{
+        postType: PostTypeEnum;
+        value: INewPostDraft['title'];
+      }>,
     ) => {
-      state.title = action.payload;
+      state[action.payload.postType].title = action.payload.value;
     },
     setPostBody: (
       state,
-      action: PayloadAction<IPostCreationState['htmlContent']>,
+      action: PayloadAction<{
+        postType: PostTypeEnum;
+        value: INewPostDraft['htmlContent'];
+      }>,
     ) => {
-      state.htmlContent = action.payload;
+      state[action.payload.postType].htmlContent = action.payload.value;
+    },
+    setPostPreview: (
+      state,
+      action: PayloadAction<{
+        postType: PostTypeEnum;
+        value: INewPostDraft['preview'];
+      }>,
+    ) => {
+      state[action.payload.postType].preview = action.payload.value;
     },
   },
 });
 
 export const {
-  saveNewPostDraft,
+  // saveNewPostDraft,
   setPostTopics,
   setPostTitle,
   setPostBody,
