@@ -4,7 +4,6 @@ import _ from 'lodash';
 import {
   IDirection,
   IExpert,
-  ICourse,
   IPost,
   IFilter,
   FilterTypeEnum,
@@ -12,7 +11,6 @@ import {
 } from '../../../lib/types';
 import { getPosts, getExperts } from '../../../lib/utilities/API/api';
 import type { AppThunkType } from '../../../store/store';
-import { MOCK_COURSES } from '../courses/directionCourses.mock';
 
 import { LOAD_POSTS_LIMIT } from '../../main/components/constants/newestPostsPagination-config';
 
@@ -41,7 +39,6 @@ export interface IMaterialsMeta {
 }
 
 export interface IDirectionState {
-  courses: ICourse[];
   experts: {
     expertsCards: IExpert[];
     meta: IExpertsMeta;
@@ -67,7 +64,6 @@ const initialDirectionState: IDirectionState = {
     },
     filters: {},
   },
-  courses: [],
 };
 
 export const directionsSlice = createSlice({
@@ -116,19 +112,6 @@ export const directionsSlice = createSlice({
       if (direction) {
         direction.experts.expertsCards = action.payload.experts;
         direction.experts.meta = action.payload.meta;
-      }
-    },
-    loadCourses: (
-      state,
-      action: PayloadAction<{
-        courses: ICourse[];
-        directionName: string;
-      }>,
-    ) => {
-      const { directionName } = action.payload;
-      const direction = state[directionName] as IDirectionState;
-      if (direction) {
-        direction.courses = action.payload.courses;
       }
     },
     setMaterialsLoadingStatus: (
@@ -205,7 +188,6 @@ export const {
   loadMaterials,
   setExpertsLoadingStatus,
   loadExperts,
-  loadCourses,
   setupDirection,
   setPostFilters,
 } = directionsSlice.actions;
@@ -214,7 +196,7 @@ export const directionsReducer = directionsSlice.reducer;
 
 export const fetchExperts = (
   directionName: string,
-  directionId: number,
+  directionId: string,
 ): AppThunkType => async (dispatch) => {
   dispatch(
     setExpertsLoadingStatus({
@@ -253,22 +235,6 @@ export const fetchExperts = (
         error: String(e),
       }),
     );
-  }
-};
-
-export const fetchCourses = (directionName: string): AppThunkType => async (
-  dispatch,
-) => {
-  try {
-    const courses = await Promise.resolve(MOCK_COURSES);
-    dispatch(
-      loadCourses({
-        directionName,
-        courses,
-      }),
-    );
-  } catch (e) {
-    console.log(e);
   }
 };
 

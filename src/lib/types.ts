@@ -24,22 +24,6 @@ export enum LoadingStatusEnum {
   failed = 'failed',
 }
 
-export enum CourseEnum {
-  STUDY = 'STUDY',
-}
-
-export enum CourseTypeEnum {
-  COURSE = 'COURSE',
-}
-export interface ICourse {
-  photo?: string;
-  courseType: CourseTypeEnum;
-  direction: CourseEnum;
-  title: string;
-  createdAt: string;
-  course: boolean;
-}
-
 export enum FilterTypeEnum {
   POST_TYPES = 'POST_TYPES',
   DIRECTIONS = 'DIRECTIONS',
@@ -88,10 +72,10 @@ export interface IPostType {
   name: string;
 }
 
-export type ExpertRegionType = IPostType;
+export type FilterPropertiesType = IPostType;
 
 export interface IDirection {
-  id?: number;
+  id: number;
   color?: string;
   name: string;
   label?: string;

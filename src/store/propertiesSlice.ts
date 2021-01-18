@@ -7,7 +7,7 @@ import {
   getDirection,
 } from '../lib/utilities/API/api';
 import {
-  ExpertRegionType,
+  FilterPropertiesType,
   IPostTag,
   IPostType,
   IDirection,
@@ -17,7 +17,7 @@ import type { AppThunkType } from './store';
 
 export interface IPropertiesState {
   postTypes: IPostType[];
-  regions: ExpertRegionType[];
+  regions: FilterPropertiesType[];
   postTags: IPostTag[];
   directions: IDirection[];
 }
@@ -36,7 +36,7 @@ export const propertiesSlice = createSlice({
     loadPostsTypes: (state, action: PayloadAction<IPostType[]>) => {
       state.postTypes = action.payload;
     },
-    loadRegions: (state, action: PayloadAction<ExpertRegionType[]>) => {
+    loadRegions: (state, action: PayloadAction<FilterPropertiesType[]>) => {
       state.regions = action.payload;
     },
     loadPostsTags: (state, action: PayloadAction<IPostTag[]>) => {

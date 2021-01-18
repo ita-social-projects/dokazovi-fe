@@ -2,12 +2,18 @@ import React, { useEffect } from 'react';
 import { Container, Grid } from '@material-ui/core';
 import { useSelector, useDispatch } from 'react-redux';
 import { Pagination } from '@material-ui/lab';
-import { fetchExperts, setExpertsPage } from '../store/expertsSlice';
+import {
+  fetchExperts,
+  setExpertsPage,
+  setExpertsRegionsFilter,
+  setExpertsDirectionsFilter,
+} from '../store/expertsSlice';
 import { RootStateType } from '../../../store/rootReducer';
 import ExpertsList from '../../../lib/components/ExpertsList';
 import LoadingInfo from '../../../lib/components/LoadingInfo';
 import { useStyles } from '../styles/ExpertsView.styles';
-import { FilterForm } from '../../../lib/components/FilterForm';
+import { FilterTypeEnum } from '../../../lib/types';
+import { FilterFormContainer } from '../../../lib/components/FilterFormContainer';
 
 export interface IExpertsViewProps {}
 
@@ -26,6 +32,12 @@ const ExpertsView: React.FC<IExpertsViewProps> = () => {
     (state: RootStateType) => state.properties?.regions,
   );
 
+  const directions = useSelector(
+    (state: RootStateType) => state.properties?.directions,
+  );
+
+  const expertsPropertiesLoaded = !!regions.length && !!directions.length;
+
   const setExperts = () => dispatch(fetchExperts());
 
   const handlePageChange = (_, page: number) => {
@@ -42,17 +54,25 @@ const ExpertsView: React.FC<IExpertsViewProps> = () => {
 
   useEffect(() => {
     dispatch(fetchExperts());
-  }, [filters?.REGIONS.value]);
+  }, [filters?.REGIONS.value, filters?.DIRECTIONS.value]);
 
   return (
     <>
       <Container fixed>
-        {regions.length && (
+        {expertsPropertiesLoaded && (
           <Grid container>
-            <FilterForm />
+            <FilterFormContainer
+              setFilter={setExpertsRegionsFilter}
+              filterProperties={regions}
+              filterType={FilterTypeEnum.REGIONS}
+            />
+            <FilterFormContainer
+              setFilter={setExpertsDirectionsFilter}
+              filterProperties={directions}
+              filterType={FilterTypeEnum.DIRECTIONS}
+            />
           </Grid>
         )}
-
         <div className={classes.container}>
           {loading === 'pending' ? (
             <Grid

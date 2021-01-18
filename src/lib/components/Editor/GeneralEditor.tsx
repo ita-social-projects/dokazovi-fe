@@ -8,7 +8,7 @@ export interface IQuillEditorProps {
   toolbar: React.ReactNode;
 }
 
-const QuillEditorComp = React.forwardRef<ReactQuill | null, IQuillEditorProps>(
+const GeneralEditor = React.forwardRef<ReactQuill, IQuillEditorProps>(
   ({ toolbar }, ref) => {
     const [text, setText] = useState<string>('');
     return (
@@ -30,4 +30,4 @@ const QuillEditorComp = React.forwardRef<ReactQuill | null, IQuillEditorProps>(
   },
 );
 
-export default QuillEditorComp;
+export default GeneralEditor;

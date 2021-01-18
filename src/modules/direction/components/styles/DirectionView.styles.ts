@@ -27,10 +27,6 @@ export const useStyles = makeStyles(
       minHeight: '600px',
       position: 'relative',
     },
-    containerCourses: {
-      minHeight: '200px',
-      position: 'relative',
-    },
   },
   {
     name: 'DirectionView',

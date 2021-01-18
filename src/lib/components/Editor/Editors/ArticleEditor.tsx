@@ -5,15 +5,18 @@ import ArticleEditorToolbar from './ArticleEditorToolbar';
 
 const ArticleEditor: React.FC = () => {
   const [editor, setEditor] = useState<Quill>();
-  const myref = useRef<ReactQuill | null>(null);
+  const articleEditor = useRef<ReactQuill | null>(null);
 
   useEffect(() => {
-    setEditor(myref.current?.getEditor());
+    if (articleEditor.current) setEditor(articleEditor.current.getEditor());
   }, []);
 
   return (
     <>
-      <GeneralEditor toolbar={<ArticleEditorToolbar />} ref={myref} />
+      <GeneralEditor
+        toolbar={<ArticleEditorToolbar editor={editor} />}
+        ref={articleEditor}
+      />
     </>
   );
 };

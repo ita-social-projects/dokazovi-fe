@@ -1,21 +1,16 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Container, Grid, Typography, Box } from '@material-ui/core';
+import { Container, Grid, Typography, Box, Link } from '@material-ui/core';
 import { useParams } from 'react-router-dom';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import { useStyles } from './styles/DirectionView.styles';
 import BorderBottom from '../../../lib/components/Border';
 import { RootStateType } from '../../../store/rootReducer';
-import {
-  fetchExperts,
-  setupDirection,
-  fetchCourses,
-} from '../store/directionSlice';
+import { fetchExperts, setupDirection } from '../store/directionSlice';
 import { ExpertsViewCard } from '../../../lib/components/ExpertsViewCard';
 import { IDirection } from '../../../lib/types';
-import Carousel from '../../../lib/components/Carousel';
-import { CourseCard } from '../../../lib/components/CourseCard';
 import MaterialsContainer from './MaterialsContainer';
+import PageTitleComponent from '../../../lib/components/PageTitleComponent';
 
 export interface IDirectionViewProps {}
 
@@ -34,8 +29,7 @@ const DirectionView: React.FC<IDirectionViewProps> = () => {
 
   useEffect(() => {
     if (directionData) {
-      dispatch(fetchExperts(directionData.name, directionData.id as number));
-      dispatch(fetchCourses(directionData.name));
+      dispatch(fetchExperts(directionData.name, directionData.id?.toString()));
     }
   }, [directionData]);
 
@@ -44,13 +38,13 @@ const DirectionView: React.FC<IDirectionViewProps> = () => {
       expertsCards,
       meta: { loading },
     },
-    courses,
   } = useSelector((state: RootStateType) => state.directions[directionName]);
 
   const classes = useStyles();
 
   return (
     <>
+      <PageTitleComponent title={directionData?.label} />
       {directionData ? (
         <Container>
           <Grid container spacing={2} direction="row">
@@ -69,26 +63,16 @@ const DirectionView: React.FC<IDirectionViewProps> = () => {
               )}
               <Box className={classes.moreExperts}>
                 <Typography variant="h5" align="right" display="inline">
-                  Більше експертів
+                  <Link href="/experts">
+                    Більше експертів
+                    <ArrowForwardIosIcon />
+                  </Link>
                 </Typography>
-                <ArrowForwardIosIcon />
               </Box>
             </Grid>
             <BorderBottom />
             <Grid item xs={12} className={classes.containerMaterials}>
               <MaterialsContainer direction={directionData} />
-            </Grid>
-            <Grid item xs={12} className={classes.containerCourses}>
-              <Typography variant="h5" className={classes.courseTitle}>
-                Рекомендовані курси
-              </Typography>
-              <Carousel>
-                {courses.map((p) => (
-                  <div key={p.title}>
-                    <CourseCard course={p} />
-                  </div>
-                ))}
-              </Carousel>
             </Grid>
           </Grid>
         </Container>

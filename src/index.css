@@ -21,3 +21,9 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.mainLoading {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+}
