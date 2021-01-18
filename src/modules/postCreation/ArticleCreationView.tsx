@@ -82,7 +82,7 @@ const ArticleCreationView: React.FC = () => {
         />
       </Box>
       <Typography variant="h5">Текст статті:</Typography>
-      <ArticleEditor dispatchContent={dispatchHtmlContent} />;
+      <ArticleEditor dispatchContent={dispatchHtmlContent} />
     </Container>
   );
 };

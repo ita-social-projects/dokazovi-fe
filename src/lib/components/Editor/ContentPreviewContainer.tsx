@@ -1,10 +1,19 @@
 import { Grid, TextField, Typography } from '@material-ui/core';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
+import _ from 'lodash';
+import { useSelector, useDispatch } from 'react-redux';
+import {
+  setPostPreviewText,
+  setPostPreviewManuallyChanged,
+} from '../../../modules/postCreation/store/postCreationSlice';
+import { PostTypeEnum } from '../../types';
 import PostPreviewCard from '../PostPreview/PostPreviewCard';
 import { mockUser } from './mock/mockUser';
+import { RootStateType } from '../../../store/rootReducer';
 
 export interface IContentPreviewContainerProps {
   previewText: string;
+  previewType: PostTypeEnum;
 }
 
 const MAX_LENGTH = 150;
@@ -18,7 +27,13 @@ const trunkLength = (str: string) => {
 
 const ContentPreviewContainer: React.FC<IContentPreviewContainerProps> = ({
   previewText,
+  previewType,
 }) => {
+  const dispatch = useDispatch();
+  const { title, preview } = useSelector(
+    (state: RootStateType) => state.newPostDraft[previewType],
+  );
+
   const [textFieldValue, setTextFieldValue] = useState<string>('');
   const [isTextFieldManualyChanged, setisTextFieldManualyChanged] = useState<
     boolean
@@ -26,12 +41,25 @@ const ContentPreviewContainer: React.FC<IContentPreviewContainerProps> = ({
   const [isPreviewValid, setIsPreviewValid] = useState<boolean>(true);
 
   useEffect(() => {
-    setIsPreviewValid(textFieldValue.length <= MAX_LENGTH);
+    setTextFieldValue(preview.value);
+  }, []);
 
-    if (!isTextFieldManualyChanged) {
+  useEffect(() => {
+    if (!preview.isManuallyChanged) {
       setTextFieldValue(trunkLength(previewText));
     }
-  }, [textFieldValue, previewText]);
+  }, [previewText]);
+
+  useEffect(() => {
+    setIsPreviewValid(textFieldValue.length <= MAX_LENGTH);
+    dispatchPreview(trunkLength(textFieldValue));
+  }, [textFieldValue]);
+
+  useEffect(() => {
+    if (isTextFieldManualyChanged) {
+      dispatchPostPreviewManuallyChanged(true);
+    }
+  }, [isTextFieldManualyChanged]);
 
   const onChangeHandler = (
     e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
@@ -42,7 +70,30 @@ const ContentPreviewContainer: React.FC<IContentPreviewContainerProps> = ({
     setTextFieldValue(targetValue);
   };
 
-  const mockData = { ...mockUser, preview: `${textFieldValue || ''} ...` };
+  const dispatchPostPreviewManuallyChanged = (val: boolean) => {
+    dispatch(
+      setPostPreviewManuallyChanged({ postType: previewType, value: val }),
+    );
+  };
+
+  const dispatchPreview = useCallback(
+    _.debounce((storedPreview: string) => {
+      dispatch(
+        setPostPreviewText({
+          postType: previewType,
+          value: storedPreview,
+        }),
+      );
+    }, 1000),
+    [],
+  );
+
+  const mockData = {
+    ...mockUser,
+    title: title || '',
+    preview: `${trunkLength(textFieldValue)} ...`,
+  };
+
   //  TODO trunc preview text in PostPreviewCard
   return (
     <>

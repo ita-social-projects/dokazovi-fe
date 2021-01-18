@@ -1,6 +1,7 @@
 import { Container } from '@material-ui/core';
 import React, { useEffect, useRef, useState } from 'react';
 import ReactQuill, { Quill } from 'react-quill';
+import { PostTypeEnum } from '../../../types';
 import BorderBottom from '../../Border';
 import ContentPreviewContainer from '../ContentPreviewContainer';
 import GeneralEditor from '../GeneralEditor';
@@ -16,7 +17,10 @@ const NoteEditor: React.FC<INoteEditorProps> = ({ dispatchContent }) => {
   const [editorContent, setEditorContent] = useState<string>('');
 
   useEffect(() => {
-    if (noteEditor.current) setEditor(noteEditor.current.getEditor());
+    if (noteEditor.current) {
+      setEditor(noteEditor.current.getEditor());
+      setEditorContent(noteEditor.current.getEditor().getText().slice(0, -1)); // slice removes additional \n added by Quill
+    }
   }, []);
 
   editor?.on('text-change', () => {
@@ -33,7 +37,10 @@ const NoteEditor: React.FC<INoteEditorProps> = ({ dispatchContent }) => {
           ref={noteEditor}
         />
         <BorderBottom />
-        <ContentPreviewContainer previewText={editorContent} />
+        <ContentPreviewContainer
+          previewText={editorContent}
+          previewType={PostTypeEnum.DOPYS}
+        />
       </Container>
     </>
   );

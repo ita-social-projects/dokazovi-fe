@@ -43,7 +43,7 @@ const NoteCreationView: React.FC = () => {
         <CircularProgress />
       )}
       <Typography variant="h5">Текст статті:</Typography>
-      <NoteEditor dispatchContent={dispatchHtmlContent} />;
+      <NoteEditor dispatchContent={dispatchHtmlContent} />
     </Container>
   );
 };
