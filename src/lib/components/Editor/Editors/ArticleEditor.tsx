@@ -6,7 +6,11 @@ import ContentPreviewContainer from '../ContentPreviewContainer';
 import GeneralEditor from '../GeneralEditor';
 import ArticleEditorToolbar from './ArticleEditorToolbar';
 
-const ArticleEditor: React.FC = () => {
+interface IArticleEditorProps {
+  dispatchContent: (content: string) => void;
+}
+
+const ArticleEditor: React.FC<IArticleEditorProps> = ({ dispatchContent }) => {
   const [editor, setEditor] = useState<Quill>();
   const articleEditor = useRef<ReactQuill | null>(null);
   const [editorContent, setEditorContent] = useState<string>('');
@@ -23,6 +27,8 @@ const ArticleEditor: React.FC = () => {
     <>
       <Container>
         <GeneralEditor
+          type="ARTICLE"
+          dispatchContent={dispatchContent}
           toolbar={<ArticleEditorToolbar editor={editor} />}
           ref={articleEditor}
         />

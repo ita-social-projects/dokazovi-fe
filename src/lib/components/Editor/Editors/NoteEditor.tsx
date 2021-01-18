@@ -6,7 +6,11 @@ import ContentPreviewContainer from '../ContentPreviewContainer';
 import GeneralEditor from '../GeneralEditor';
 import NoteEditorToolbar from './NoteEditorToolbar';
 
-const NoteEditor: React.FC = () => {
+interface INoteEditorProps {
+  dispatchContent: (content: string) => void;
+}
+
+const NoteEditor: React.FC<INoteEditorProps> = ({ dispatchContent }) => {
   const [editor, setEditor] = useState<Quill>();
   const noteEditor = useRef<ReactQuill | null>(null);
   const [editorContent, setEditorContent] = useState<string>('');
@@ -23,6 +27,8 @@ const NoteEditor: React.FC = () => {
     <>
       <Container>
         <GeneralEditor
+          type="DOPYS"
+          dispatchContent={dispatchContent}
           toolbar={<NoteEditorToolbar editor={editor} />}
           ref={noteEditor}
         />
