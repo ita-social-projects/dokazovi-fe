@@ -8,16 +8,10 @@ export interface IPostInfoProps {
   post: IPost;
 }
 
-const ExpertInfo: React.FC<IPostInfoProps> = ({ post }) => {
+const PostInfo: React.FC<IPostInfoProps> = ({ post }) => {
   console.log(post);
   const classes = useStyles();
-  return (
-    <Grid container spacing={2} className={classes.container}>
-      <Grid container className={classes.personalInfo}>
-        <h1>{post.title}</h1>
-      </Grid>
-    </Grid>
-  );
+  return <div>PostInfo</div>;
 };
 
-export default ExpertInfo;
+export default PostInfo;

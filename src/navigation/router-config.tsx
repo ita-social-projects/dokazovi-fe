@@ -15,9 +15,7 @@ const ExpertsView = lazy(
 const ExpertProfileView = lazy(
   () => import('../modules/experts/components/ExpertProfileView'),
 );
-const PostProfileView = lazy(
-  () => import('../modules/posts/components/PostProfileView'),
-);
+const PostView = lazy(() => import('../modules/posts/components/PostView'));
 const ArticleCreationView = lazy(
   () => import('../modules/postCreation/ArticleCreationView'),
 );
@@ -81,7 +79,7 @@ const ROUTER_CONFIG: IRouterConfig[] = [
     path: '/posts/:postId',
     key: 'POST_PROFILE',
     exact: true,
-    component: PostProfileView,
+    component: PostView,
   },
 ];
 
