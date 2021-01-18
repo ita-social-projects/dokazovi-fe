@@ -27,11 +27,11 @@ const ArticleCreationView: React.FC = () => {
     (state: RootStateType) => state.properties?.directions,
   );
   const savedPostDraft = useSelector(
-    (state: RootStateType) => state.newPostDraft,
+    (state: RootStateType) => state.newPostDraft.ARTICLE,
   );
 
   const [title, setTitle] = useState({
-    value: savedPostDraft.ARTICLE.title || '',
+    value: savedPostDraft.title || '',
     error: '',
   });
 
@@ -75,9 +75,7 @@ const ArticleCreationView: React.FC = () => {
           dispatchTopics={dispatchTopics}
           topicList={directions}
           prevCheckedTopics={
-            _.isEmpty(savedPostDraft.ARTICLE.topics)
-              ? undefined
-              : savedPostDraft.ARTICLE.topics
+            _.isEmpty(savedPostDraft.topics) ? undefined : savedPostDraft.topics
           }
         />
       ) : (

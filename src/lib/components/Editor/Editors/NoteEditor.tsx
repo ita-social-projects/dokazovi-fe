@@ -3,7 +3,11 @@ import ReactQuill, { Quill } from 'react-quill';
 import GeneralEditor from '../GeneralEditor';
 import NoteEditorToolbar from './NoteEditorToolbar';
 
-const NoteEditor: React.FC = () => {
+interface INoteEditorProps {
+  dispatchContent: (content: string) => void;
+}
+
+const NoteEditor: React.FC<INoteEditorProps> = ({ dispatchContent }) => {
   const [editor, setEditor] = useState<Quill>();
   const noteEditor = useRef<ReactQuill | null>(null);
 
@@ -15,7 +19,7 @@ const NoteEditor: React.FC = () => {
     <>
       <GeneralEditor
         type="DOPYS"
-        dispatchContent={(s) => ''} // tmp stub
+        dispatchContent={dispatchContent}
         toolbar={<NoteEditorToolbar editor={editor} />}
         ref={noteEditor}
       />
