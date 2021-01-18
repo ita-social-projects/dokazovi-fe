@@ -1,7 +1,6 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import _ from 'lodash';
 import { useSelector, useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
 import {
   Box,
   CircularProgress,
@@ -21,7 +20,6 @@ import { PostTypeEnum } from '../../lib/types';
 
 const ArticleCreationView: React.FC = () => {
   const dispatch = useDispatch();
-  const history = useHistory();
 
   const directions = useSelector(
     (state: RootStateType) => state.properties?.directions,
@@ -34,19 +32,6 @@ const ArticleCreationView: React.FC = () => {
     value: savedPostDraft.title || '',
     error: '',
   });
-
-  // that will always dispatch initial state instead of latest one if deps is empty.
-  // if deps are included, it will dispatch every update except the latest one.
-  // useEffect(() => {
-  //   return () => {
-  //     dispatch(setPostTitle(title.value));
-  //   };
-  // }, []);
-
-  // this works fine
-  // history.listen(() => {
-  //   dispatch(setPostTitle(title.value));
-  // });
 
   const dispatchTopics = (topics: ICheckboxes) => {
     dispatch(setPostTopics({ postType: PostTypeEnum.ARTICLE, value: topics }));

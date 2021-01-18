@@ -33,9 +33,6 @@ export const postCreationSlice = createSlice({
   name: 'postCreation',
   initialState,
   reducers: {
-    // saveNewPostDraft: (state, action: PayloadAction<IPostCreationState>) => {
-    //   state = action.payload;
-    // },
     setPostTopics: (
       state,
       action: PayloadAction<{
@@ -76,7 +73,6 @@ export const postCreationSlice = createSlice({
 });
 
 export const {
-  // saveNewPostDraft,
   setPostTopics,
   setPostTitle,
   setPostBody,
