@@ -29,12 +29,14 @@ const MaterialsContainer: React.FC<IMaterialsContainerProps> = ({
   const classes = useStyles();
 
   const {
-    posts,
+    postsIds,
     meta: { loading, isLastPage, pageNumber },
     filters,
   } = useSelector(
     (state: RootStateType) => state.directions[direction.name].materials,
   );
+  const { posts } = useSelector((state: RootStateType) => state.data);
+  const materials = postsIds.map((id) => posts[id]);
 
   const dispatch = useDispatch();
 
@@ -88,7 +90,7 @@ const MaterialsContainer: React.FC<IMaterialsContainerProps> = ({
       />
       <PostTagsFilter directionName={direction.name} />
       <Grid container spacing={2} direction="row" alignItems="center">
-        <PostList postsList={posts} />
+        <PostList postsList={materials} />
       </Grid>
       <Grid
         container

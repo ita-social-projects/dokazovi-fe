@@ -1,16 +1,12 @@
 /* eslint-disable no-param-reassign */
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import * as _ from 'lodash';
-import { IPost, IExpert, LoadingStatusEnum } from '../../../lib/types';
+import { IExpert, LoadingStatusEnum } from '../../../lib/types';
 import { getPosts, getExperts } from '../../../lib/utilities/API/api';
 
 import type { AppThunkType } from '../../../store/store';
 import { LOAD_POSTS_LIMIT } from '../components/constants/newestPostsPagination-config';
 import type { RootStateType } from '../../../store/rootReducer';
-import { PostResponseType } from '../../../lib/utilities/API/types';
-import { loadPosts } from '../../../store/dataSlice';
-
-const POST_PREVIEW_LENGTH = 150;
+import { loadPosts, mapFetchedPosts } from '../../../store/dataSlice';
 
 interface INewestMeta {
   currentPage: number;
@@ -81,39 +77,6 @@ const initialState: IMainState = {
       error: null,
     },
   },
-};
-
-const mapFetchedPosts = (posts: PostResponseType[]) => {
-  const ids: string[] = [];
-
-  const mappedPosts = posts.map((post) => {
-    ids.push(String(post.id));
-
-    const postAuthor = {
-      ..._.pick(post.author, [
-        'avatar',
-        'firstName',
-        'lastName',
-        'mainInstitution',
-      ]),
-    };
-
-    const preview = _.truncate(post.content, {
-      length: POST_PREVIEW_LENGTH,
-    });
-
-    return {
-      author: postAuthor,
-      createdAt: post.createdAt,
-      directions: post.directions,
-      title: post.title,
-      postType: post.type,
-      preview,
-      id: post.id,
-    };
-  });
-
-  return { mappedPosts, ids };
 };
 
 export const fetchNewestPosts = createAsyncThunk<IFetchNewestPosts>(

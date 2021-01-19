@@ -1,15 +1,14 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import _ from 'lodash';
 import {
   IDirection,
   IExpert,
-  IPost,
   IFilter,
   FilterTypeEnum,
   LoadingStatusEnum,
 } from '../../../lib/types';
 import { getPosts, getExperts } from '../../../lib/utilities/API/api';
+import { loadPosts, mapFetchedPosts } from '../../../store/dataSlice';
 import type { AppThunkType } from '../../../store/store';
 
 import { LOAD_POSTS_LIMIT } from '../../main/components/constants/newestPostsPagination-config';
@@ -24,7 +23,7 @@ export interface IExpertsMeta {
 }
 
 interface IMaterialsState {
-  posts: IPost[];
+  postsIds: string[];
   meta: IMaterialsMeta;
   filters?: {
     [key in FilterTypeEnum]?: IFilter;
@@ -55,7 +54,7 @@ const initialDirectionState: IDirectionState = {
     },
   },
   materials: {
-    posts: [],
+    postsIds: [],
     meta: {
       isLastPage: false,
       pageNumber: -1,
@@ -142,22 +141,14 @@ export const directionsSlice = createSlice({
     loadMaterials: (
       state,
       action: PayloadAction<{
-        materials: {
-          posts: IPost[];
-          meta: {
-            isLastPage: boolean;
-            pageNumber: number;
-            loading: LoadingStatusEnum;
-            error: null | string;
-          };
-        };
+        materials: IMaterialsState;
         directionName: string;
       }>,
     ) => {
       const { directionName, materials } = action.payload;
-      const direction = state[directionName] as IDirectionState;
+      const direction = state[directionName];
       if (direction) {
-        direction.materials.posts = materials.posts;
+        direction.materials.postsIds = materials.postsIds;
         direction.materials.meta = materials.meta;
       }
     },
@@ -177,7 +168,7 @@ export const directionsSlice = createSlice({
           [key]: filters,
         };
         direction.materials.meta.pageNumber = -1;
-        direction.materials.posts.length = 0;
+        direction.materials.postsIds.length = 0;
       }
     },
   },
@@ -242,8 +233,7 @@ export const fetchMaterials = (direction: IDirection): AppThunkType => async (
   dispatch,
   getState,
 ) => {
-  const { posts, meta } = getState().directions[direction.name].materials;
-  const { filters } = getState().directions[direction.name].materials;
+  const { meta, filters } = getState().directions[direction.name].materials;
   const postTypes = filters?.[FilterTypeEnum.POST_TYPES]?.value as string[];
   const postTags = filters?.[FilterTypeEnum.TAGS]?.value as string[];
 
@@ -265,35 +255,15 @@ export const fetchMaterials = (direction: IDirection): AppThunkType => async (
       },
     });
 
-    const fetchedPosts: IPost[] = response.data.content.map((post) => {
-      const author = _.pick(post.author, [
-        'avatar',
-        'firstName',
-        'id',
-        'lastName',
-        'mainInstitution',
-      ]);
+    const { mappedPosts, ids } = mapFetchedPosts(response.data.content);
 
-      const preview = _.truncate(post.content, {
-        length: 150, // TODO: use MAX_LEN constant
-      });
-
-      return {
-        author,
-        directions: post.directions,
-        postType: post.type,
-        title: post.title,
-        content: post.content,
-        preview,
-        createdAt: post.createdAt,
-      };
-    });
+    dispatch(loadPosts(mappedPosts));
 
     dispatch(
       loadMaterials({
         directionName: direction.name,
         materials: {
-          posts: posts.concat(fetchedPosts),
+          postsIds: ids,
           meta: {
             isLastPage: response.data.last,
             loading: LoadingStatusEnum.succeeded,
@@ -318,9 +288,9 @@ export const fetchInitialMaterials = (direction: IDirection): AppThunkType => (
   dispatch,
   getState,
 ) => {
-  const { posts } = getState().directions[direction.name].materials;
+  const { postsIds } = getState().directions[direction.name].materials;
 
-  if (posts.length === 0) {
+  if (postsIds.length === 0) {
     dispatch(fetchMaterials(direction));
   }
 };
