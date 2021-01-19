@@ -1,25 +1,17 @@
 import { Card, Box, Typography, CardMedia } from '@material-ui/core';
-import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import React from 'react';
 import BorderBottom from '../../../lib/components/Border';
 import LoadingInfo from '../../../lib/components/LoadingInfo';
 import PostDirectionLink from '../../../lib/components/PostDirectionLink';
-import { RootStateType } from '../../../store/rootReducer';
-import PostInfo from './PostInfo';
 import { useStyles } from '../styles/PostView.styles';
-import { post } from '../store/getPost';
+import { IPost } from '../../../lib/types';
 
-const PostView: React.FC = () => {
+export interface IPostViewProps {
+  post: IPost;
+}
+
+const PostView: React.FC = ({ post }) => {
   const classes = useStyles();
-  const { postId } = useParams<{ postId: string }>();
-  const dispatch = useDispatch();
-
-  // const selectedPost = posts.find((e) => e.id === Number(postId));
-
-  // useEffect(() => {
-  //   dispatch(fetchPostById(Number(postId)));
-  // }, []);
 
   return (
     <Card>
