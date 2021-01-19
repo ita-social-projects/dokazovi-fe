@@ -7,6 +7,8 @@ import { getPosts, getExperts } from '../../../lib/utilities/API/api';
 import type { AppThunkType } from '../../../store/store';
 import { LOAD_POSTS_LIMIT } from '../components/constants/newestPostsPagination-config';
 import type { RootStateType } from '../../../store/rootReducer';
+import { PostResponseType } from '../../../lib/utilities/API/types';
+import { loadPosts } from '../../../store/dataSlice';
 
 const POST_PREVIEW_LENGTH = 150;
 
@@ -18,12 +20,12 @@ interface INewestMeta {
 }
 
 interface INewestPostPayload {
-  newestPosts: IPost[];
+  newestPostsIds: string[];
   meta: INewestMeta;
 }
 
 interface IFetchNewestPosts {
-  loadedPosts: IPost[];
+  loadedPostsIds: string[];
   isLastPage: boolean;
 }
 
@@ -33,7 +35,7 @@ interface IImportantMeta {
 }
 
 interface IImportantPayload {
-  importantPosts: IPost[];
+  importantPostsIds: string[];
   meta: IImportantMeta;
 }
 export interface IExpertPayload {
@@ -56,7 +58,7 @@ export interface IMainState {
 
 const initialState: IMainState = {
   newest: {
-    newestPosts: [],
+    newestPostsIds: [],
     meta: {
       currentPage: 0,
       isLastPage: false,
@@ -65,7 +67,7 @@ const initialState: IMainState = {
     },
   },
   important: {
-    importantPosts: [],
+    importantPostsIds: [],
     meta: {
       loading: LoadingStatusEnum.idle,
       error: null,
@@ -81,9 +83,42 @@ const initialState: IMainState = {
   },
 };
 
+const mapFetchedPosts = (posts: PostResponseType[]) => {
+  const ids: string[] = [];
+
+  const mappedPosts = posts.map((post) => {
+    ids.push(String(post.id));
+
+    const postAuthor = {
+      ..._.pick(post.author, [
+        'avatar',
+        'firstName',
+        'lastName',
+        'mainInstitution',
+      ]),
+    };
+
+    const preview = _.truncate(post.content, {
+      length: POST_PREVIEW_LENGTH,
+    });
+
+    return {
+      author: postAuthor,
+      createdAt: post.createdAt,
+      directions: post.directions,
+      title: post.title,
+      postType: post.type,
+      preview,
+      id: post.id,
+    };
+  });
+
+  return { mappedPosts, ids };
+};
+
 export const fetchNewestPosts = createAsyncThunk<IFetchNewestPosts>(
   'main/loadNewest',
-  async (__, { getState }) => {
+  async (__, { dispatch, getState }) => {
     const {
       main: { newest },
     } = getState() as RootStateType;
@@ -95,32 +130,10 @@ export const fetchNewestPosts = createAsyncThunk<IFetchNewestPosts>(
       },
     });
 
-    const loadedPosts = resp.data.content.map((post) => {
-      const postAuthor = {
-        ..._.pick(post.author, [
-          'avatar',
-          'firstName',
-          'lastName',
-          'mainInstitution',
-        ]),
-      } as IExpert;
+    const { mappedPosts, ids } = mapFetchedPosts(resp.data.content);
+    dispatch(loadPosts(mappedPosts));
 
-      const preview = _.truncate(post.content, {
-        length: POST_PREVIEW_LENGTH,
-      });
-
-      return {
-        author: postAuthor,
-        createdAt: post.createdAt,
-        directions: post.directions,
-        title: post.title,
-        postType: post.type,
-        preview,
-        id: post.id,
-      };
-    });
-
-    return { loadedPosts, isLastPage: resp.data.last };
+    return { loadedPostsIds: ids, isLastPage: resp.data.last };
   },
 );
 
@@ -144,7 +157,7 @@ export const fetchInitialNewestPosts = (): AppThunkType => async (
     main: { newest },
   } = getState();
 
-  if (!newest.newestPosts.length) {
+  if (!newest.newestPostsIds.length) {
     await dispatch(fetchNewestPosts());
   }
 };
@@ -183,7 +196,7 @@ export const mainSlice = createSlice({
 
       state.newest.meta.loading = LoadingStatusEnum.succeeded;
 
-      state.newest.newestPosts.push(...payload.loadedPosts);
+      state.newest.newestPostsIds.push(...payload.loadedPostsIds);
     });
     builder.addCase(fetchNewestPosts.rejected, (state, { error }) => {
       if (error.message) {
@@ -225,25 +238,14 @@ export const fetchImportantPosts = (): AppThunkType => async (dispatch) => {
         size: 20,
       },
     });
-    const loadedPosts = posts.data.content.map((post) => {
-      const postAuthor = _.pick(post.author, [
-        'avatar',
-        'firstName',
-        'id',
-        'lastName',
-        'mainInstitution',
-      ]) as IExpert;
-      return {
-        author: postAuthor,
-        createdAt: post.createdAt,
-        directions: post.directions,
-        title: post.title,
-        postType: post.type,
-      };
-    });
+
+    const { mappedPosts, ids } = mapFetchedPosts(posts.data.content);
+
+    dispatch(loadPosts(mappedPosts));
+
     dispatch(
       loadImportant({
-        importantPosts: loadedPosts,
+        importantPostsIds: ids,
         meta: {
           loading: LoadingStatusEnum.succeeded,
           error: null,
@@ -253,7 +255,7 @@ export const fetchImportantPosts = (): AppThunkType => async (dispatch) => {
   } catch (e) {
     dispatch(
       loadImportant({
-        importantPosts: [],
+        importantPostsIds: [],
         meta: {
           loading: LoadingStatusEnum.failed,
           error: 'Error',

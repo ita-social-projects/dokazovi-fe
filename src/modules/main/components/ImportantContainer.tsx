@@ -14,9 +14,11 @@ import {
 
 const ImportantContainer: React.FC = () => {
   const {
-    importantPosts,
+    importantPostsIds,
     meta: { loading },
   } = useSelector((state: RootStateType) => state.main.important);
+  const { posts } = useSelector((state: RootStateType) => state.data);
+
   const dispatch = useDispatch();
 
   const dispatchFetchAction = () => {
@@ -45,11 +47,14 @@ const ImportantContainer: React.FC = () => {
             Важливе
           </Typography>
           <Carousel>
-            {importantPosts.map((post) => (
-              <div key={post.title}>
-                <PostCard post={post} />
-              </div>
-            ))}
+            {importantPostsIds.map((id) => {
+              const post = posts[id];
+              return (
+                <div key={post.title}>
+                  <PostCard post={post} />
+                </div>
+              );
+            })}
           </Carousel>
           <BorderBottom />
         </>

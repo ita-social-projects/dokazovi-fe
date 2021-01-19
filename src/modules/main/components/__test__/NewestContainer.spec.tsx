@@ -11,7 +11,7 @@ import { LoadingStatusEnum } from '../../../../lib/types';
 
 const initialState: IMainState = {
   newest: {
-    newestPosts: [],
+    newestPostsIds: [],
     meta: {
       currentPage: 0,
       isLastPage: false,
@@ -20,7 +20,7 @@ const initialState: IMainState = {
     },
   },
   important: {
-    importantPosts: [],
+    importantPostsIds: [],
     meta: {
       loading: LoadingStatusEnum.failed,
       error: '',

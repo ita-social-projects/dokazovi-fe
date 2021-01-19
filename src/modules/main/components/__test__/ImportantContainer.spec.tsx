@@ -18,7 +18,7 @@ describe('ImportantContainer', () => {
     const renderedPosts = container.querySelectorAll(
       '.slick-slide:not(.slick-cloned)',
     );
-    const postsInStore = store.getState().main.important.importantPosts;
+    const postsInStore = store.getState().main.important.importantPostsIds;
     expect(renderedPosts.length).toEqual(postsInStore.length);
   });
 });
