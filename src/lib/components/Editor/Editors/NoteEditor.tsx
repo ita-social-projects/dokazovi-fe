@@ -40,6 +40,7 @@ const NoteEditor: React.FC<INoteEditorProps> = ({ dispatchContent }) => {
         <ContentPreviewContainer
           previewText={editorContent}
           previewType={PostTypeEnum.DOPYS}
+          previewCardType="Допис"
         />
       </Container>
     </>

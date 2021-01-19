@@ -42,6 +42,7 @@ const ArticleEditor: React.FC<IArticleEditorProps> = ({ dispatchContent }) => {
         <ContentPreviewContainer
           previewText={editorContent}
           previewType={PostTypeEnum.ARTICLE}
+          previewCardType="Стаття"
         />
       </Container>
     </>
