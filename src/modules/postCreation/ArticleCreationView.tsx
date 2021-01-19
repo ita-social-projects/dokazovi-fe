@@ -1,8 +1,10 @@
 import React, { useCallback, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import _ from 'lodash';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   Box,
+  Button,
   CircularProgress,
   Container,
   TextField,
@@ -17,8 +19,10 @@ import {
 } from './store/postCreationSlice';
 import { ICheckboxes, PostTopicSelector } from './PostTopicSelector';
 import { PostTypeEnum } from '../../lib/types';
+import { sanitizeHtml } from '../../lib/utilities/sanitizeHtml';
 
 const ArticleCreationView: React.FC = () => {
+  const history = useHistory();
   const dispatch = useDispatch();
 
   const directions = useSelector(
@@ -53,6 +57,10 @@ const ArticleCreationView: React.FC = () => {
     [],
   );
 
+  const articlePreview = () => {
+    history.push(`/create-article/preview`);
+  };
+
   return (
     <Container fixed>
       {directions.length ? (
@@ -83,6 +91,8 @@ const ArticleCreationView: React.FC = () => {
       </Box>
       <Typography variant="h5">Текст статті:</Typography>
       <ArticleEditor dispatchContent={dispatchHtmlContent} />;
+      <Button onClick={articlePreview}>Попередній перегляд</Button>
+      <Button>Опублікувати</Button>
     </Container>
   );
 };

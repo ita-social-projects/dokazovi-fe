@@ -1,16 +1,16 @@
-import { Card, Box, Typography, CardMedia } from '@material-ui/core';
 import React from 'react';
+import { Card, Box, Typography, CardMedia } from '@material-ui/core';
 import BorderBottom from '../../../lib/components/Border';
 import PostDirectionLink from '../../../lib/components/PostDirectionLink';
+import { post } from '../mockPost/mockPost';
 import { useStyles } from '../styles/PostView.styles';
-import { IPost } from '../../../lib/types';
-import { sanitizeHtml } from '../../../lib/utilities/sanitizeHtml';
+import { INewPostDraft } from '../../postCreation/store/postCreationSlice';
 
-export interface IPostViewProps {
-  post: IPost;
+export interface IPostPreviewProps {
+  draft: INewPostDraft;
 }
 
-const PostView: React.FC<IPostViewProps> = ({ post }) => {
+const PostPreview: React.FC<IPostPreviewProps> = ({ draft }) => {
   const classes = useStyles();
 
   let authorFullName = '';
@@ -56,14 +56,16 @@ const PostView: React.FC<IPostViewProps> = ({ post }) => {
             return <PostDirectionLink direction={d} key={d.id} />;
           })}
         </Typography>
-        <Typography className={classes.title}>{post.title}</Typography>
+        <Typography variant="h4" className={classes.title}>
+          {draft.title}
+        </Typography>
       </Box>
       <Box>
-        <Typography className={classes.content}>{post.content}</Typography>
+        <Typography className={classes.content}>{draft.htmlContent}</Typography>
         <Typography className={classes.createdAt}>{post.createdAt}</Typography>
       </Box>
     </Card>
   );
 };
 
-export default PostView;
+export default PostPreview;

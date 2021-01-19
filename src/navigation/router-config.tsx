@@ -21,6 +21,9 @@ const PostView = lazy(
 const ArticleCreationView = lazy(
   () => import('../modules/postCreation/ArticleCreationView'),
 );
+const ArticleCreationPreview = lazy(
+  () => import('../modules/postCreation/ArticleCreationPreview'),
+);
 const NoteCreationView = lazy(
   () => import('../modules/postCreation/NoteCreationView'),
 );
@@ -76,9 +79,23 @@ const ROUTER_CONFIG: IRouterConfig[] = [
   {
     path: '/create-article',
     key: 'ARTICLE',
-    exact: true,
-    component: ArticleCreationView,
-    title: 'Створити статтю',
+    component: RenderRoutes,
+    routes: [
+      {
+        path: '/create-article',
+        key: 'ARTICLE',
+        exact: true,
+        component: ArticleCreationView,
+        title: 'Створення статті',
+      },
+      {
+        path: '/create-article/preview',
+        key: 'ARTICLE_PREVIEW',
+        exact: true,
+        component: ArticleCreationPreview,
+        title: 'Попередній перегляд',
+      },
+    ],
   },
   {
     path: '/create-note',
@@ -92,6 +109,7 @@ const ROUTER_CONFIG: IRouterConfig[] = [
     key: 'POST_PROFILE',
     exact: true,
     component: PostView,
+    title: 'Пост',
   },
 ];
 
