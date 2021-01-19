@@ -6,14 +6,16 @@ import {
   setPostPreviewText,
   setPostPreviewManuallyChanged,
 } from '../../../modules/postCreation/store/postCreationSlice';
-import { PostTypeEnum } from '../../types';
+import { IDirection, PostTypeEnum } from '../../types';
 import PostPreviewCard from '../PostPreview/PostPreviewCard';
 import { mockUser } from './mock/mockUser';
 import { RootStateType } from '../../../store/rootReducer';
+import { ICheckboxes } from '../../../modules/postCreation/PostTopicSelector';
 
 export interface IContentPreviewContainerProps {
   previewText: string;
   previewType: PostTypeEnum;
+  previewCardType: string;
 }
 
 const MAX_LENGTH = 150;
@@ -25,13 +27,39 @@ const trunkLength = (str: string) => {
   return str;
 };
 
+const getSelectedTopics = (obj: ICheckboxes, arr: IDirection[]) => {
+  const resultArr = [] as IDirection[];
+  const objKeys = Object.keys(obj);
+
+  if (objKeys.length === 0 || arr.length === 0) {
+    return resultArr;
+  }
+
+  objKeys.forEach((objKey) => {
+    if (obj[objKey] === true) {
+      const found = arr.find((arrEl) => String(arrEl.id) === objKey);
+      if (found) {
+        resultArr.push(found);
+      }
+    }
+  });
+  console.log(resultArr);
+
+  return resultArr;
+};
+
 const ContentPreviewContainer: React.FC<IContentPreviewContainerProps> = ({
   previewText,
   previewType,
+  previewCardType,
 }) => {
   const dispatch = useDispatch();
-  const { title, preview } = useSelector(
+  const { title, preview, topics } = useSelector(
     (state: RootStateType) => state.newPostDraft[previewType],
+  );
+
+  const { directions } = useSelector(
+    (state: RootStateType) => state.properties,
   );
 
   const [textFieldValue, setTextFieldValue] = useState<string>('');
@@ -39,10 +67,15 @@ const ContentPreviewContainer: React.FC<IContentPreviewContainerProps> = ({
     boolean
   >(false);
   const [isPreviewValid, setIsPreviewValid] = useState<boolean>(true);
+  const [selectedTopics, setSelectedTopics] = useState<IDirection[]>();
 
   useEffect(() => {
     setTextFieldValue(preview.value);
   }, []);
+
+  useEffect(() => {
+    setSelectedTopics(getSelectedTopics(topics, directions));
+  }, [topics]);
 
   useEffect(() => {
     if (!preview.isManuallyChanged) {
@@ -91,6 +124,8 @@ const ContentPreviewContainer: React.FC<IContentPreviewContainerProps> = ({
   const mockData = {
     ...mockUser,
     title: title || '',
+    postType: { id: 0, name: previewCardType },
+    directions: selectedTopics,
     preview: `${trunkLength(textFieldValue)} ...`,
   };
 
