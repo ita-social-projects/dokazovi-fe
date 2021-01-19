@@ -1,18 +1,21 @@
 import { Card, Box, Typography, CardMedia } from '@material-ui/core';
 import React from 'react';
 import BorderBottom from '../../../lib/components/Border';
-import LoadingInfo from '../../../lib/components/LoadingInfo';
 import PostDirectionLink from '../../../lib/components/PostDirectionLink';
 import { useStyles } from '../styles/PostView.styles';
 import { IPost } from '../../../lib/types';
-import { post } from '../store/getPost';
 
-// export interface IPostViewProps {
-//   post: IPost;
-// }
+export interface IPostViewProps {
+  post: IPost;
+}
 
-const PostView: React.FC = () => {
+const PostView: React.FC<IPostViewProps> = ({ post }) => {
   const classes = useStyles();
+
+  let authorFullName = '';
+  if (post.author?.firstName && post.author?.lastName) {
+    authorFullName = `${post.author?.firstName} ${post.author?.lastName}`;
+  }
 
   return (
     <Card>
@@ -21,8 +24,8 @@ const PostView: React.FC = () => {
           <CardMedia
             style={{ padding: '15px', height: '58px', width: 46 }}
             className={classes.avatar}
-            image={post.author.avatar}
-            title={`${post.author.firstName} ${post.author.lastName}`}
+            image={post?.author?.avatar}
+            title={authorFullName}
           />
         </Box>
         <Box>
@@ -32,7 +35,7 @@ const PostView: React.FC = () => {
             component="h3"
             style={{ margin: '5px', textDecoration: 'underline' }}
           >
-            {`${post.author.firstName} ${post.author.lastName}`}
+            {authorFullName}
           </Typography>
           <Typography
             align="left"
@@ -40,15 +43,15 @@ const PostView: React.FC = () => {
             component="h3"
             style={{ padding: '5px' }}
           >
-            {post.author.mainInstitution.city.name},{' '}
-            {post.author.mainInstitution.name}
+            {post.author?.mainInstitution?.city.name},{' '}
+            {post.author?.mainInstitution?.name}
           </Typography>
         </Box>
       </Box>
       <BorderBottom />
       <Box>
         <Typography className={classes.direction}>
-          {post.directions.map((d) => {
+          {post.directions?.map((d) => {
             return <PostDirectionLink direction={d} key={d.id} />;
           })}
         </Typography>

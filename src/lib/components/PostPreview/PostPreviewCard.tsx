@@ -77,7 +77,7 @@ const PostPreviewCard: React.FC<IPostPreviewCardProps> = (props) => {
               variant="subtitle2"
               component="h3"
             >
-              {data.postType.name}
+              {data.postType?.name}
             </Typography>
           </Box>
         </Box>

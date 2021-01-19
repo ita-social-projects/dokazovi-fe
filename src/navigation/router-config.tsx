@@ -15,7 +15,9 @@ const ExpertsView = lazy(
 const ExpertProfileView = lazy(
   () => import('../modules/experts/components/ExpertProfileView'),
 );
-const PostView = lazy(() => import('../modules/posts/components/PostView'));
+const PostView = lazy(
+  () => import('../modules/posts/components/PostViewContainer'),
+);
 const ArticleCreationView = lazy(
   () => import('../modules/postCreation/ArticleCreationView'),
 );

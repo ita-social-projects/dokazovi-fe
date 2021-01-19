@@ -6,18 +6,19 @@ import PostView from './PostView';
 
 const PostViewContainer: React.FC = () => {
   const { postId } = useParams<{ postId: string }>();
-  // const [loadedPost, setLoadedPost] = useState<IPost | null>(null);
+  const [loadedPost, setLoadedPost] = useState<IPost>();
 
-  // useEffect(() => {
-  //   const getPost = async () => {
-  //     const postResponse = await getPostById(Number(postId));
-  //     setLoadedPost(postResponse);
-  //   };
-  //   // eslint-disable-next-line @typescript-eslint/no-floating-promises
-  //   getPost();
-  // }, []);
+  const getPost = async () => {
+    const postResponse = await getPostById(Number(postId));
+    setLoadedPost(postResponse.data);
+  };
 
-  return <>{/* <PostView post={loadedPost} /> */}</>;
+  useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    getPost();
+  }, []);
+
+  return <>{loadedPost && <PostView post={loadedPost} />}</>;
 };
 
 export default PostViewContainer;
