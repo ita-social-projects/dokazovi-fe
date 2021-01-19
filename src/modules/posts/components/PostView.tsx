@@ -5,12 +5,13 @@ import LoadingInfo from '../../../lib/components/LoadingInfo';
 import PostDirectionLink from '../../../lib/components/PostDirectionLink';
 import { useStyles } from '../styles/PostView.styles';
 import { IPost } from '../../../lib/types';
+import { post } from '../store/getPost';
 
-export interface IPostViewProps {
-  post: IPost;
-}
+// export interface IPostViewProps {
+//   post: IPost;
+// }
 
-const PostView: React.FC = ({ post }) => {
+const PostView: React.FC = () => {
   const classes = useStyles();
 
   return (
