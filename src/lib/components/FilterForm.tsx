@@ -9,6 +9,7 @@ import {
   AccordionDetails,
   Grid,
   Typography,
+  Box,
 } from '@material-ui/core';
 import { FilterPropertiesType } from '../types';
 
@@ -52,7 +53,7 @@ export const FilterForm: React.FC<IFilterFormProps> = (props) => {
 
   return (
     <>
-      <div style={{ width: '100%', paddingLeft: '30px', marginTop: '20px' }}>
+      <Box mt={2}>
         <Accordion>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
@@ -118,7 +119,7 @@ export const FilterForm: React.FC<IFilterFormProps> = (props) => {
             </Grid>
           </AccordionDetails>
         </Accordion>
-      </div>
+      </Box>
     </>
   );
 };

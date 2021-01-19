@@ -1,7 +1,12 @@
 import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import _ from 'lodash';
-import { Container, CircularProgress, Typography } from '@material-ui/core';
+import {
+  Container,
+  CircularProgress,
+  Typography,
+  Box,
+} from '@material-ui/core';
 import NoteEditor from '../../lib/components/Editor/Editors/NoteEditor';
 import { setPostTopics, setPostBody } from './store/postCreationSlice';
 import { ICheckboxes, PostTopicSelector } from './PostTopicSelector';
@@ -42,8 +47,12 @@ const NoteCreationView: React.FC = () => {
       ) : (
         <CircularProgress />
       )}
-      <Typography variant="h5">Текст статті:</Typography>
-      <NoteEditor dispatchContent={dispatchHtmlContent} />
+      <Box mt={2}>
+        <Container>
+          <Typography variant="h5">Текст статті:</Typography>
+        </Container>
+        <NoteEditor dispatchContent={dispatchHtmlContent} />
+      </Box>
     </Container>
   );
 };

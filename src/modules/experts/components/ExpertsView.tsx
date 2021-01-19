@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Container, Grid } from '@material-ui/core';
+import { Box, Container, Grid } from '@material-ui/core';
 import { useSelector, useDispatch } from 'react-redux';
 import { Pagination } from '@material-ui/lab';
 import {
@@ -60,20 +60,23 @@ const ExpertsView: React.FC<IExpertsViewProps> = () => {
     <>
       <Container fixed>
         {expertsPropertiesLoaded && (
-          <Grid container>
-            <FilterFormContainer
-              setFilter={setExpertsRegionsFilter}
-              filterProperties={regions}
-              filterType={FilterTypeEnum.REGIONS}
-            />
-            <FilterFormContainer
-              setFilter={setExpertsDirectionsFilter}
-              filterProperties={directions}
-              filterType={FilterTypeEnum.DIRECTIONS}
-            />
-          </Grid>
+          <Container>
+            <Grid container direction="column">
+              <FilterFormContainer
+                setFilter={setExpertsRegionsFilter}
+                filterProperties={regions}
+                filterType={FilterTypeEnum.REGIONS}
+              />
+
+              <FilterFormContainer
+                setFilter={setExpertsDirectionsFilter}
+                filterProperties={directions}
+                filterType={FilterTypeEnum.DIRECTIONS}
+              />
+            </Grid>
+          </Container>
         )}
-        <div className={classes.container}>
+        <Box mt={2}>
           {loading === 'pending' ? (
             <Grid
               container
@@ -84,26 +87,27 @@ const ExpertsView: React.FC<IExpertsViewProps> = () => {
               <LoadingInfo loading={loading} />
             </Grid>
           ) : (
-            <Container className={classes.root}>
-              <Grid container spacing={4} direction="row" alignItems="center">
+            <Container>
+              <Grid container spacing={4} direction="row">
                 <ExpertsList experts={experts} />
               </Grid>
-              <Grid
-                container
-                spacing={2}
-                direction="column"
-                alignItems="center"
-              >
-                <Pagination
-                  className={classes.pagination}
-                  count={totalPages}
-                  page={pageNumber}
-                  onChange={handlePageChange}
-                />
-              </Grid>
+              <Box mt={2} mb={2}>
+                <Grid
+                  container
+                  spacing={2}
+                  direction="column"
+                  alignItems="center"
+                >
+                  <Pagination
+                    count={totalPages}
+                    page={pageNumber}
+                    onChange={handlePageChange}
+                  />
+                </Grid>
+              </Box>
             </Container>
           )}
-        </div>
+        </Box>
       </Container>
     </>
   );
