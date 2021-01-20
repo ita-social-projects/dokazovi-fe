@@ -18,6 +18,7 @@ const ImportantContainer: React.FC = () => {
     meta: { loading },
   } = useSelector((state: RootStateType) => state.main.important);
   const { posts } = useSelector((state: RootStateType) => state.data);
+  const importantPosts = importantPostIds.map((id) => posts[id]);
 
   const dispatch = useDispatch();
 
@@ -47,14 +48,11 @@ const ImportantContainer: React.FC = () => {
             Важливе
           </Typography>
           <Carousel>
-            {importantPostIds.map((id) => {
-              const post = posts[id];
-              return (
-                <div key={post.title}>
-                  <PostCard post={post} />
-                </div>
-              );
-            })}
+            {importantPosts.map((post) => (
+              <div key={post.title}>
+                <PostCard post={post} />
+              </div>
+            ))}
           </Carousel>
           <BorderBottom />
         </>
