@@ -1,7 +1,7 @@
 import { makeStyles } from '@material-ui/core';
 
 export const useStyles = makeStyles({
-  autorBlock: {
+  authorBlock: {
     minHeight: '100px',
     position: 'relative',
     display: 'flex',
