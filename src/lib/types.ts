@@ -38,7 +38,7 @@ export interface IPost {
   author?: IExpert;
   directions?: IDirection[];
   tags?: IPostTag[];
-  postType?: IPostType;
+  postType: IPostType;
   createdAt: string;
   modifiedAt?: string;
   preview?: string;

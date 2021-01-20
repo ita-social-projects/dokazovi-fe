@@ -41,19 +41,9 @@ export interface IExpertPayload {
   meta: IExpertMeta;
 }
 
-export interface IPostPayload {
-  posts: IPost[];
-  meta: IPostMeta;
-}
-
 export interface IExpertMeta {
   totalPages?: number;
   pageNumber?: number;
-  loading: LoadingStatusEnum;
-  error: null | string;
-}
-
-export interface IPostMeta {
   loading: LoadingStatusEnum;
   error: null | string;
 }

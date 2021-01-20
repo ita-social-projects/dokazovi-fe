@@ -24,7 +24,7 @@ const PostPreviewCard: React.FC<IPostPreviewCardProps> = (props) => {
   }
 
   const handleClick = () => {
-    history.push(`/posts/${data.id as number}`);
+    history.push(`/posts/${data.id as number}`); // todo fix to no optional
   };
 
   const classes = useStyles();

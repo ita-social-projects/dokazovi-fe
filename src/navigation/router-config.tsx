@@ -15,11 +15,11 @@ const ExpertsView = lazy(
 const ExpertProfileView = lazy(
   () => import('../modules/experts/components/ExpertProfileView'),
 );
-const PostView = lazy(
+const PostViewContainer = lazy(
   () => import('../modules/posts/components/PostViewContainer'),
 );
-const ArticleCreationView = lazy(
-  () => import('../modules/postCreation/ArticleCreationView'),
+const ArticleCreation = lazy(
+  () => import('../modules/postCreation/ArticleCreation'),
 );
 const ArticleCreationPreview = lazy(
   () => import('../modules/postCreation/ArticleCreationPreview'),
@@ -85,7 +85,7 @@ const ROUTER_CONFIG: IRouterConfig[] = [
         path: '/create-article',
         key: 'ARTICLE',
         exact: true,
-        component: ArticleCreationView,
+        component: ArticleCreation,
         title: 'Створення статті',
       },
       {
@@ -108,7 +108,7 @@ const ROUTER_CONFIG: IRouterConfig[] = [
     path: '/posts/:postId',
     key: 'POST_PROFILE',
     exact: true,
-    component: PostView,
+    component: PostViewContainer,
     title: 'Пост',
   },
 ];

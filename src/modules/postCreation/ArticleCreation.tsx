@@ -21,7 +21,7 @@ import { ICheckboxes, PostTopicSelector } from './PostTopicSelector';
 import { PostTypeEnum } from '../../lib/types';
 import { sanitizeHtml } from '../../lib/utilities/sanitizeHtml';
 
-const ArticleCreationView: React.FC = () => {
+const ArticleCreation: React.FC = () => {
   const history = useHistory();
   const dispatch = useDispatch();
 
@@ -62,7 +62,7 @@ const ArticleCreationView: React.FC = () => {
     [],
   );
 
-  const articlePreview = () => {
+  const goArticlePreview = () => {
     history.push(`/create-article/preview`);
   };
 
@@ -110,7 +110,7 @@ const ArticleCreationView: React.FC = () => {
         <Button
           style={{ marginRight: '10px' }}
           variant="contained"
-          onClick={articlePreview}
+          onClick={goArticlePreview}
         >
           Попередній перегляд
         </Button>
@@ -120,4 +120,4 @@ const ArticleCreationView: React.FC = () => {
   );
 };
 
-export default ArticleCreationView;
+export default ArticleCreation;

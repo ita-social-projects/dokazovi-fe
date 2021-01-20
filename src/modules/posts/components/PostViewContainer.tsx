@@ -14,7 +14,7 @@ const PostViewContainer: React.FC = () => {
     const { content } = postResponse.data;
     const sanitizedData = {
       ...postResponse.data,
-      content: sanitizeHtml(content as string) as string,
+      content: sanitizeHtml(content) as string,
     };
     setLoadedPost(sanitizedData);
   }, [postId]);

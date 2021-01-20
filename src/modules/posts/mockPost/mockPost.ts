@@ -1,4 +1,4 @@
-export const post = {
+export const mockPost = {
   id: 30,
   title: 'Tenth therapy post',
   content:
@@ -25,6 +25,10 @@ export const post = {
       color: '#ef5350',
     },
   ],
+  postType: {
+    id: 1,
+    name: 'Стаття',
+  },
   tags: [],
   type: {
     id: 1,

@@ -3,9 +3,8 @@ import DOMPurify, { Config } from 'dompurify';
 const config: Config = {
   KEEP_CONTENT: true,
 };
-
-export const sanitizeHtml = (
-  data: string,
-): string | HTMLElement | DocumentFragment => {
+// Disabling for DOMPurify overloads to work as return type
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+export const sanitizeHtml = (data: string) => {
   return DOMPurify.sanitize(data, config);
 };

@@ -2,22 +2,31 @@ import React from 'react';
 import { Container, Button, Box } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import PostPreview from '../posts/components/PostPreview';
+import PostView from '../posts/components/PostView';
 import { RootStateType } from '../../store/rootReducer';
+import { IPost } from '../../lib/types';
+import { mockPost } from '../posts/mockPost/mockPost';
 
 const ArticleCreationPreview: React.FC = () => {
   const history = useHistory();
   const draft = useSelector(
     (state: RootStateType) => state.newPostDraft.ARTICLE,
-  );
+  ); // todo compose draft plus post - done
 
-  const articleCreationView = () => {
+  const post = {
+    ...mockPost,
+    content: draft.htmlContent,
+    preview: draft.preview,
+    title: draft.title,
+  } as IPost;
+
+  const goArticleCreationView = () => {
     history.push(`/create-article`);
   };
 
   return (
     <Container>
-      <PostPreview draft={draft} />
+      <PostView post={post} />
       <Box
         display="flex"
         flexDirection="row"
@@ -30,7 +39,7 @@ const ArticleCreationPreview: React.FC = () => {
         <Button
           style={{ marginRight: '10px' }}
           variant="contained"
-          onClick={articleCreationView}
+          onClick={goArticleCreationView}
         >
           Назад до редагування
         </Button>
