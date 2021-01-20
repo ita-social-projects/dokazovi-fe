@@ -22,13 +22,13 @@ const NewestContainer: React.FC = () => {
   const setNewestInitial = () => dispatch(fetchInitialNewestPosts());
 
   const {
-    newestPostsIds,
+    newestPostIds,
     meta: { isLastPage, loading, currentPage },
   } = useSelector<RootStateType, IMainState['newest']>((state) => {
     return state.main.newest;
   });
   const { posts } = useSelector((state: RootStateType) => state.data);
-  const newestPosts = newestPostsIds.map((id) => posts[id]);
+  const newestPosts = newestPostIds.map((id) => posts[id]);
 
   useEffect(() => {
     setNewestInitial();

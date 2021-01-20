@@ -23,7 +23,7 @@ export interface IExpertsMeta {
 }
 
 interface IMaterialsState {
-  postsIds: string[];
+  postIds: string[];
   meta: IMaterialsMeta;
   filters?: {
     [key in FilterTypeEnum]?: IFilter;
@@ -54,7 +54,7 @@ const initialDirectionState: IDirectionState = {
     },
   },
   materials: {
-    postsIds: [],
+    postIds: [],
     meta: {
       isLastPage: false,
       pageNumber: -1,
@@ -148,7 +148,7 @@ export const directionsSlice = createSlice({
       const { directionName, materials } = action.payload;
       const direction = state[directionName];
       if (direction) {
-        direction.materials.postsIds = materials.postsIds;
+        direction.materials.postIds = materials.postIds;
         direction.materials.meta = materials.meta;
       }
     },
@@ -168,7 +168,7 @@ export const directionsSlice = createSlice({
           [key]: filters,
         };
         direction.materials.meta.pageNumber = -1;
-        direction.materials.postsIds.length = 0;
+        direction.materials.postIds.length = 0;
       }
     },
   },
@@ -263,7 +263,7 @@ export const fetchMaterials = (direction: IDirection): AppThunkType => async (
       loadMaterials({
         directionName: direction.name,
         materials: {
-          postsIds: ids,
+          postIds: ids,
           meta: {
             isLastPage: response.data.last,
             loading: LoadingStatusEnum.succeeded,
@@ -288,9 +288,9 @@ export const fetchInitialMaterials = (direction: IDirection): AppThunkType => (
   dispatch,
   getState,
 ) => {
-  const { postsIds } = getState().directions[direction.name].materials;
+  const { postIds } = getState().directions[direction.name].materials;
 
-  if (postsIds.length === 0) {
+  if (postIds.length === 0) {
     dispatch(fetchMaterials(direction));
   }
 };

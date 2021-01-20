@@ -14,7 +14,7 @@ import {
 
 const ImportantContainer: React.FC = () => {
   const {
-    importantPostsIds,
+    importantPostIds,
     meta: { loading },
   } = useSelector((state: RootStateType) => state.main.important);
   const { posts } = useSelector((state: RootStateType) => state.data);
@@ -47,7 +47,7 @@ const ImportantContainer: React.FC = () => {
             Важливе
           </Typography>
           <Carousel>
-            {importantPostsIds.map((id) => {
+            {importantPostIds.map((id) => {
               const post = posts[id];
               return (
                 <div key={post.title}>

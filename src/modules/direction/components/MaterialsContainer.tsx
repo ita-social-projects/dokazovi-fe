@@ -29,14 +29,14 @@ const MaterialsContainer: React.FC<IMaterialsContainerProps> = ({
   const classes = useStyles();
 
   const {
-    postsIds,
+    postIds,
     meta: { loading, isLastPage, pageNumber },
     filters,
   } = useSelector(
     (state: RootStateType) => state.directions[direction.name].materials,
   );
   const { posts } = useSelector((state: RootStateType) => state.data);
-  const materials = postsIds.map((id) => posts[id]);
+  const materials = postIds.map((id) => posts[id]);
 
   const dispatch = useDispatch();
 

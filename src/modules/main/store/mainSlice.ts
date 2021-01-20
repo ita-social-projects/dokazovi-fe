@@ -16,12 +16,12 @@ interface INewestMeta {
 }
 
 interface INewestPostPayload {
-  newestPostsIds: string[];
+  newestPostIds: string[];
   meta: INewestMeta;
 }
 
 interface IFetchNewestPosts {
-  loadedPostsIds: string[];
+  loadedPostIds: string[];
   isLastPage: boolean;
 }
 
@@ -31,7 +31,7 @@ interface IImportantMeta {
 }
 
 interface IImportantPayload {
-  importantPostsIds: string[];
+  importantPostIds: string[];
   meta: IImportantMeta;
 }
 export interface IExpertPayload {
@@ -54,7 +54,7 @@ export interface IMainState {
 
 const initialState: IMainState = {
   newest: {
-    newestPostsIds: [],
+    newestPostIds: [],
     meta: {
       currentPage: 0,
       isLastPage: false,
@@ -63,7 +63,7 @@ const initialState: IMainState = {
     },
   },
   important: {
-    importantPostsIds: [],
+    importantPostIds: [],
     meta: {
       loading: LoadingStatusEnum.idle,
       error: null,
@@ -96,7 +96,7 @@ export const fetchNewestPosts = createAsyncThunk<IFetchNewestPosts>(
     const { mappedPosts, ids } = mapFetchedPosts(resp.data.content);
     dispatch(loadPosts(mappedPosts));
 
-    return { loadedPostsIds: ids, isLastPage: resp.data.last };
+    return { loadedPostIds: ids, isLastPage: resp.data.last };
   },
 );
 
@@ -120,7 +120,7 @@ export const fetchInitialNewestPosts = (): AppThunkType => async (
     main: { newest },
   } = getState();
 
-  if (!newest.newestPostsIds.length) {
+  if (!newest.newestPostIds.length) {
     await dispatch(fetchNewestPosts());
   }
 };
@@ -159,7 +159,7 @@ export const mainSlice = createSlice({
 
       state.newest.meta.loading = LoadingStatusEnum.succeeded;
 
-      state.newest.newestPostsIds.push(...payload.loadedPostsIds);
+      state.newest.newestPostIds.push(...payload.loadedPostIds);
     });
     builder.addCase(fetchNewestPosts.rejected, (state, { error }) => {
       if (error.message) {
@@ -208,7 +208,7 @@ export const fetchImportantPosts = (): AppThunkType => async (dispatch) => {
 
     dispatch(
       loadImportant({
-        importantPostsIds: ids,
+        importantPostIds: ids,
         meta: {
           loading: LoadingStatusEnum.succeeded,
           error: null,
@@ -218,7 +218,7 @@ export const fetchImportantPosts = (): AppThunkType => async (dispatch) => {
   } catch (e) {
     dispatch(
       loadImportant({
-        importantPostsIds: [],
+        importantPostIds: [],
         meta: {
           loading: LoadingStatusEnum.failed,
           error: 'Error',
