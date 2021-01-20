@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Typography, CardMedia } from '@material-ui/core';
 import { IPost } from '../../../lib/types';
-import { useStyles } from '../styles/PostView.styles';
+import { useStyles } from '../styles/PostViewInfo.styles';
 import PostDirectionLink from '../../../lib/components/PostDirectionLink';
 import BorderBottom from '../../../lib/components/Border';
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, Box, Typography } from '@material-ui/core';
 import { post } from '../mockPost/mockPost';
-import { useStyles } from '../styles/PostView.styles';
+import { useStyles } from '../styles/PostViewInfo.styles';
 import { INewPostDraft } from '../../postCreation/store/postCreationSlice';
 import PostInfo from './PostInfo';
 

@@ -1,6 +1,6 @@
 import { Container, Card, Box, Typography } from '@material-ui/core';
 import React from 'react';
-import { useStyles } from '../styles/PostView.styles';
+import { useStyles } from '../styles/PostViewInfo.styles';
 import { IPost } from '../../../lib/types';
 import PostInfo from './PostInfo';
 
