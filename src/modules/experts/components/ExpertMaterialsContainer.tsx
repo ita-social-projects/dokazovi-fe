@@ -17,25 +17,27 @@ import { useStyles } from '../styles/ExpertProfileView.styles';
 import { PostTypeFilter } from '../../direction/components/PostTypesFilter';
 
 export interface IExpertMaterialsContainerProps {
-  id: string;
+  expertId: string;
 }
 
 const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
-  id,
+  expertId,
 }) => {
   const dispatch = useDispatch();
   const dispatchFetchMaterialsAction = () =>
-    dispatch(fetchExpertMaterials(Number(id)));
+    dispatch(fetchExpertMaterials(Number(expertId)));
   const dispatchFetchInitialMaterialsAction = () =>
-    dispatch(fetchInitialMaterials(Number(id)));
+    dispatch(fetchInitialMaterials(Number(expertId)));
 
-  dispatch(setupExpertMaterialsID(id));
+  dispatch(setupExpertMaterialsID(expertId));
 
   const {
-    loadedPosts,
+    postIds,
     meta: { loading, isLastPage, pageNumber },
     filters,
-  } = useSelector((state: RootStateType) => state.experts.materials[id]);
+  } = useSelector((state: RootStateType) => state.experts.materials[expertId]);
+  const { posts } = useSelector((state: RootStateType) => state.data);
+  const materials = postIds.map((id) => posts[id]);
 
   useEffect(() => {
     dispatchFetchInitialMaterialsAction();
@@ -46,7 +48,7 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
       dispatch(
         setMaterialsTypes({
           types: { value: undefined },
-          expertId: id,
+          expertId,
         }),
       );
     };
@@ -56,7 +58,7 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
     dispatch(
       setMaterialsTypes({
         types: { value: checked },
-        expertId: id,
+        expertId,
       }),
     );
   };
@@ -101,7 +103,7 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
         <Typography variant="h4">Матеріали</Typography>
         <PostTypeFilter dispatchFunction={setFilters} />
         <Grid container spacing={2} direction="row" alignItems="center">
-          <PostsList postsList={loadedPosts} />
+          <PostsList postsList={materials} />
         </Grid>
         <Grid
           container

@@ -39,7 +39,7 @@ const ExpertProfileView: React.FC = () => {
         {selectedExpert && <ExpertInfo expert={selectedExpert} />}
         <BorderBottom />
       </Container>
-      <ExpertMaterialsContainer id={expertId} />
+      <ExpertMaterialsContainer expertId={expertId} />
     </Container>
   );
 };
