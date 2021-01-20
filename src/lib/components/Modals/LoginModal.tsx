@@ -69,7 +69,7 @@ export const LoginModal: React.FC = () => {
   return (
     <>
       <Button variant="outlined" color="primary" onClick={handleLoginOpen}>
-        Login
+        Log in/Register
       </Button>
 
       <Dialog

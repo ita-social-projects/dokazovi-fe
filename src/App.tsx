@@ -32,7 +32,6 @@ const App: React.FC = () => {
     <div className="App">
       <BrowserRouter>
         <Header />
-        <LoginModal />
         <Suspense fallback={<CircularProgress className="mainLoading" />}>
           <RenderRoutes routes={ROUTER_CONFIG} />
         </Suspense>
