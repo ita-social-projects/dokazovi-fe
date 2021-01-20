@@ -21,30 +21,26 @@ export interface IInputs {
   password: string;
 }
 
-export const LoginModal: React.FC = () => {
-  const [open, setOpen] = React.useState(false);
+export interface IRegistrationProps {
+  registrationOpen: boolean;
+  onRegistrationClose: () => void;
+}
+
+export const RegistrationModal: React.FC<IRegistrationProps> = (props) => {
+  const { onRegistrationClose, registrationOpen } = props;
 
   // eslint-disable-next-line @typescript-eslint/unbound-method
   const { register, handleSubmit, watch, errors } = useForm<IInputs>();
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
 
-  const handleClose = () => {
-    setOpen(false);
-  };
   const onSubmit = (data) => console.log(data);
 
   console.log(watch('email'));
 
   return (
     <>
-      <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-        Login
-      </Button>
       <Dialog
-        open={open}
-        onClose={handleClose}
+        open={registrationOpen}
+        onClose={onRegistrationClose}
         aria-labelledby="form-dialog-title"
       >
         <DialogTitle id="form-dialog-title">
@@ -56,10 +52,25 @@ export const LoginModal: React.FC = () => {
             style={{ width: '300px', height: '260px', margin: '0 auto' }}
           >
             <Grid container>
+              <Grid item xs={6}>
+                <TextField
+                  name="firstName"
+                  inputRef={register({ required: true })}
+                  label="Ім'я"
+                  style={{ width: '100%' }}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <TextField
+                  name="lastName"
+                  inputRef={register({ required: true })}
+                  label="Прізвище"
+                  style={{ width: '100%' }}
+                />
+              </Grid>
               <Grid item xs={12}>
                 <TextField
                   name="email"
-                  // defaultValue="test"
                   inputRef={register({ required: true })}
                   label="Email"
                   style={{ width: '100%' }}
