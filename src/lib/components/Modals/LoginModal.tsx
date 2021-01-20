@@ -1,5 +1,5 @@
 import React from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, DeepMap, FieldError } from 'react-hook-form';
 import {
   Button,
   TextField,
@@ -49,23 +49,29 @@ export const LoginModal: React.FC = () => {
     setLoginOpen(false);
   };
 
-  const onSubmit = (data) => console.log(data);
+  const onSubmit = (data) => {
+    console.log(data);
+    console.log(errors);
+  };
 
-  const showErrorMessage = (inputName: string) => {
+  const showErrorMessage = (
+    errorsObj: DeepMap<IInputs, FieldError>,
+    inputName: string,
+  ): JSX.Element => {
     return (
-      errors[inputName] && (
-        <span style={{ color: 'red' }}>Це поле обов&apos;язкове</span>
+      errorsObj[inputName] && (
+        // eslint-disable-next-line
+        <span style={{ color: 'red' }}>{errorsObj[inputName].message}</span>
       )
     );
   };
-
-  console.log(errors);
 
   return (
     <>
       <Button variant="outlined" color="primary" onClick={handleLoginOpen}>
         Login
       </Button>
+
       <Dialog
         open={loginOpen}
         onClose={handleLoginClose}
@@ -80,34 +86,61 @@ export const LoginModal: React.FC = () => {
         <DialogContent>
           <form
             onSubmit={handleSubmit(onSubmit)}
-            style={{ width: '300px', height: '260px', margin: '0 auto' }}
+            style={{ width: '300px', height: '280px', margin: '0 auto' }}
           >
-            <Grid container>
+            <Grid container justify="center">
               <Grid item xs={12}>
                 <TextField
                   name="email"
-                  inputRef={register({ required: true })}
+                  inputRef={register({
+                    required: {
+                      value: true,
+                      message: "Це поле є обов'язковим",
+                    },
+                    pattern: {
+                      value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                      message:
+                        'Email повинен містити символ @ та одну крапку після нього',
+                    },
+                  })}
                   label="Email"
                   style={{ width: '100%' }}
                 />
               </Grid>
               <Grid item xs={12}>
-                {showErrorMessage('email')}
+                {showErrorMessage(errors, 'email')}
               </Grid>
               <Grid item xs={12}>
                 <TextField
                   name="password"
-                  inputRef={register({ required: true })}
+                  inputRef={register({
+                    required: {
+                      value: true,
+                      message: "Це поле є обов'язковим",
+                    },
+                    minLength: {
+                      value: 4,
+                      message: 'Пароль повинен містити щонайменше 4 символи',
+                    },
+                    maxLength: {
+                      value: 16,
+                      message: 'Пароль повинен містити щонайбільше 16 символи',
+                    },
+                  })}
                   label="Пароль"
                   style={{ width: '100%' }}
                 />
               </Grid>
               <Grid item xs={12}>
-                {showErrorMessage('password')}
+                {showErrorMessage(errors, 'password')}
               </Grid>
               <Grid item xs={12}>
                 <div
-                  style={{ display: 'flex', justifyContent: 'space-between' }}
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    marginBottom: '15px',
+                  }}
                 >
                   <FormControlLabel
                     control={
@@ -117,7 +150,7 @@ export const LoginModal: React.FC = () => {
                         color="primary"
                       />
                     }
-                    label="Remember me"
+                    label="Запам'ятати мене"
                   />
 
                   <Button
@@ -125,42 +158,40 @@ export const LoginModal: React.FC = () => {
                     variant="outlined"
                     style={{ marginRight: '0px', alignSelf: 'flex-end' }}
                   >
-                    Sign in
+                    Увійти
                   </Button>
                 </div>
               </Grid>
               <Grid item xs={12}>
-                {/* <Link href="#" variant="body2">
-                {"Don't have an account? Sign Up"}
-              </Link> */}
                 <Typography style={{ marginBottom: '10px' }}>
                   Не маєте облікового запису? {/* eslint-disable-next-line */}
                   <Link component="button" onClick={handleRegistrationOpen}>
                     Зареєструйтеся зараз!
                   </Link>
                 </Typography>
-                <RegistrationModal
-                  registrationOpen={registrationOpen}
-                  onRegistrationClose={handleRegistrationClose}
-                />
               </Grid>
               <Grid item xs={12}>
-                <Typography style={{ marginBottom: '10px' }}>
+                <Typography style={{ marginBottom: '10px', textAlign: 'left' }}>
                   Або увійдіть за допомогою:
                 </Typography>
               </Grid>
               <Grid item xs={12} style={{ margin: '0px auto' }}>
-                <Grid container>
-                  <Grid item xs={6}>
+                <Grid container justify="center">
+                  <Grid item xs={6} style={{ textAlign: 'center' }}>
                     <Button>Facebook</Button>
                   </Grid>
-                  <Grid item xs={6}>
+                  <Grid item xs={6} style={{ textAlign: 'center' }}>
                     <Button>Google</Button>
                   </Grid>
                 </Grid>
               </Grid>
             </Grid>
           </form>
+          <RegistrationModal
+            registrationOpen={registrationOpen}
+            onRegistrationClose={handleRegistrationClose}
+            showErrorMessage={showErrorMessage}
+          />
         </DialogContent>
       </Dialog>
     </>
