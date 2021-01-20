@@ -90,9 +90,27 @@ const ArticleCreationView: React.FC = () => {
         />
       </Box>
       <Typography variant="h5">Текст статті:</Typography>
-      <ArticleEditor dispatchContent={dispatchHtmlContent} />;
-      <Button onClick={articlePreview}>Попередній перегляд</Button>
-      <Button>Опублікувати</Button>
+      <ArticleEditor dispatchContent={dispatchHtmlContent} />
+      <Box
+        display="flex"
+        flexDirection="row"
+        justifyContent="flex-end"
+        style={{
+          marginLeft: '14px',
+          marginRight: '14px',
+          marginTop: '10px',
+          padding: '10px',
+        }}
+      >
+        <Button
+          style={{ marginRight: '10px' }}
+          variant="contained"
+          onClick={articlePreview}
+        >
+          Попередній перегляд
+        </Button>
+        <Button variant="contained">Опублікувати</Button>
+      </Box>
     </Container>
   );
 };

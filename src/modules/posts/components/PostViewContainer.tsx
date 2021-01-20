@@ -11,12 +11,12 @@ const PostViewContainer: React.FC = () => {
 
   const fetchPost = useCallback(async () => {
     const postResponse = await getPostById(Number(postId));
-    // const { content } = postResponse.data;
-    // const sanitizedData = {
-    //   ...postResponse.data,
-    //   content: sanitizeHtml(content as string),
-    // };
-    setLoadedPost(postResponse.data);
+    const { content } = postResponse.data;
+    const sanitizedData = {
+      ...postResponse.data,
+      content: sanitizeHtml(content as string) as string,
+    };
+    setLoadedPost(sanitizedData);
   }, [postId]);
 
   useEffect(() => {

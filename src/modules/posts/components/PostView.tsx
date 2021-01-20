@@ -4,7 +4,6 @@ import BorderBottom from '../../../lib/components/Border';
 import PostDirectionLink from '../../../lib/components/PostDirectionLink';
 import { useStyles } from '../styles/PostView.styles';
 import { IPost } from '../../../lib/types';
-import { sanitizeHtml } from '../../../lib/utilities/sanitizeHtml';
 
 export interface IPostViewProps {
   post: IPost;
