@@ -10,7 +10,7 @@ export interface IPostViewProps {
 }
 
 const PostView: React.FC<IPostViewProps> = ({ post }) => {
-  const classes = useStyles(); // stay only PostView - done
+  const classes = useStyles();
 
   let authorFullName = '';
   if (post.author?.firstName && post.author?.lastName) {

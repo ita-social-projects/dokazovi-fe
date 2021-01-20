@@ -11,7 +11,7 @@ const ArticleCreationPreview: React.FC = () => {
   const history = useHistory();
   const draft = useSelector(
     (state: RootStateType) => state.newPostDraft.ARTICLE,
-  ); // todo compose draft plus post - done
+  );
 
   const post = {
     ...mockPost,
