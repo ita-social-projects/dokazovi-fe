@@ -40,10 +40,6 @@ export const navElems: IHeaderProps[] = [
     id: 'translates',
     label: 'Переклади',
   },
-  {
-    id: 'study',
-    label: 'Навчання',
-  },
 ];
 
 const Header: React.FC = () => {

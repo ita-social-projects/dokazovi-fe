@@ -6,15 +6,9 @@ import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import { useStyles } from './styles/DirectionView.styles';
 import BorderBottom from '../../../lib/components/Border';
 import { RootStateType } from '../../../store/rootReducer';
-import {
-  fetchExperts,
-  setupDirection,
-  fetchCourses,
-} from '../store/directionSlice';
+import { fetchExperts, setupDirection } from '../store/directionSlice';
 import { ExpertsViewCard } from '../../../lib/components/ExpertsViewCard';
 import { IDirection } from '../../../lib/types';
-import Carousel from '../../../lib/components/Carousel';
-import { CourseCard } from '../../../lib/components/CourseCard';
 import MaterialsContainer from './MaterialsContainer';
 import PageTitleComponent from '../../../lib/components/PageTitleComponent';
 
@@ -36,7 +30,6 @@ const DirectionView: React.FC<IDirectionViewProps> = () => {
   useEffect(() => {
     if (directionData) {
       dispatch(fetchExperts(directionData.name, directionData.id?.toString()));
-      dispatch(fetchCourses(directionData.name));
     }
   }, [directionData]);
 
@@ -45,7 +38,6 @@ const DirectionView: React.FC<IDirectionViewProps> = () => {
       expertsCards,
       meta: { loading },
     },
-    courses,
   } = useSelector((state: RootStateType) => state.directions[directionName]);
 
   const classes = useStyles();
@@ -81,18 +73,6 @@ const DirectionView: React.FC<IDirectionViewProps> = () => {
             <BorderBottom />
             <Grid item xs={12} className={classes.containerMaterials}>
               <MaterialsContainer direction={directionData} />
-            </Grid>
-            <Grid item xs={12} className={classes.containerCourses}>
-              <Typography variant="h5" className={classes.courseTitle}>
-                Рекомендовані курси
-              </Typography>
-              <Carousel>
-                {courses.map((p) => (
-                  <div key={p.title}>
-                    <CourseCard course={p} />
-                  </div>
-                ))}
-              </Carousel>
             </Grid>
           </Grid>
         </Container>
