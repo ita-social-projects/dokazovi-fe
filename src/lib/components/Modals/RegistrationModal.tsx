@@ -139,7 +139,7 @@ export const RegistrationModal: React.FC<IRegistrationProps> = (props) => {
                     validate: (value) => {
                       return (
                         value === watch('password') || 'Паролі не збігаються'
-                      ); // value is from password2 and watch will return value from password1
+                      ); // value is from password2 and watch will return value from password
                     },
                   })}
                   label="Повторіть пароль"
