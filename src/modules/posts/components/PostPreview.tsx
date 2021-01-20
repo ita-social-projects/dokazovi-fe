@@ -61,7 +61,7 @@ const PostPreview: React.FC<IPostPreviewProps> = ({ draft }) => {
         </Typography>
       </Box>
       <Box>
-        <Typography className={classes.content}>{draft.htmlContent}</Typography>
+        <div dangerouslySetInnerHTML={{ __html: draft.htmlContent }} />
         <Typography className={classes.createdAt}>{post.createdAt}</Typography>
       </Box>
     </Card>

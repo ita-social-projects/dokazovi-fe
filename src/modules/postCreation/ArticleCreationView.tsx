@@ -52,7 +52,12 @@ const ArticleCreationView: React.FC = () => {
 
   const dispatchHtmlContent = useCallback(
     _.debounce((content: string) => {
-      dispatch(setPostBody({ postType: PostTypeEnum.ARTICLE, value: content })); // todo sanitize here
+      dispatch(
+        setPostBody({
+          postType: PostTypeEnum.ARTICLE,
+          value: sanitizeHtml(content) as string,
+        }),
+      ); // todo sanitize here
     }, 2000),
     [],
   );
