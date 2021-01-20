@@ -12,8 +12,6 @@ import {
   fetchPostsTypes,
   fetchRegions,
 } from './store/propertiesSlice';
-import { LoginModal } from './lib/components/Modals/LoginModal';
-import { RegistrationModal } from './lib/components/Modals/RegistrationModal';
 
 const App: React.FC = () => {
   const dispatch = useDispatch();
