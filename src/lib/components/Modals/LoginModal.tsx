@@ -4,10 +4,7 @@ import {
   Button,
   TextField,
   Grid,
-  Paper,
-  AppBar,
   Typography,
-  Toolbar,
   Link,
   FormControlLabel,
   Checkbox,
@@ -78,7 +75,7 @@ export const LoginModal: React.FC = () => {
         aria-labelledby="form-dialog-title"
       >
         <DialogTitle id="form-dialog-title">
-          Введіть Ваш email та пароль
+          Введіть Ваші email та пароль
           {/* {response.error && (
                   <span style={{ color: 'red' }}>Неправильний email або пароль</span>
                 )} */}
