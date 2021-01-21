@@ -57,7 +57,7 @@ const ArticleCreation: React.FC = () => {
           postType: PostTypeEnum.ARTICLE,
           value: sanitizeHtml(content) as string,
         }),
-      ); // todo sanitize here
+      );
     }, 2000),
     [],
   );

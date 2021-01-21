@@ -17,6 +17,8 @@ const PostView: React.FC<IPostViewProps> = ({ post }) => {
     authorFullName = `${post.author?.firstName} ${post.author?.lastName}`;
   }
 
+  const postContent = post.content ? post.content : 'There is no post content';
+
   return (
     <Container>
       <Card>
@@ -63,7 +65,9 @@ const PostView: React.FC<IPostViewProps> = ({ post }) => {
           </Typography>
           <div
             className={classes.content}
-            dangerouslySetInnerHTML={{ __html: post.content as string }}
+            dangerouslySetInnerHTML={{
+              __html: postContent,
+            }}
           />
           <Typography className={classes.createdAt}>
             {post.createdAt}
