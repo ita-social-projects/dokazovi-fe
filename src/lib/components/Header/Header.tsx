@@ -7,6 +7,7 @@ import List from '@material-ui/core/List/List';
 import { Link } from 'react-router-dom';
 import { useStyles } from './Header.styles';
 import { PostCreationMenu } from '../PostCreationMenu';
+import { LoginModal } from '../Modals/LoginModal';
 
 interface IHeaderProps {
   id: string;
@@ -81,7 +82,7 @@ const Header: React.FC = () => {
 
             <div className={classes.logIn}>
               <AccountCircleIcon fontSize="large" />
-              <Link to="/">Log in</Link>/<Link to="/">Register</Link>
+              <LoginModal />
             </div>
           </Toolbar>
         </Grid>
