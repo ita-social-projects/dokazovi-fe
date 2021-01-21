@@ -3,7 +3,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { PostTypeEnum } from '../../../lib/types';
 import { ICheckboxes } from '../PostTopicSelector';
 
-interface INewPostDraft {
+export interface INewPostDraft {
   topics: ICheckboxes;
   title?: string;
   htmlContent: string;

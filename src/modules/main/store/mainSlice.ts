@@ -239,6 +239,7 @@ export const fetchImportantPosts = (): AppThunkType => async (dispatch) => {
         directions: post.directions,
         title: post.title,
         postType: post.type,
+        id: post.id,
       };
     });
     dispatch(

@@ -286,6 +286,7 @@ export const fetchMaterials = (direction: IDirection): AppThunkType => async (
         content: post.content,
         preview,
         createdAt: post.createdAt,
+        id: post.id,
       };
     });
 
