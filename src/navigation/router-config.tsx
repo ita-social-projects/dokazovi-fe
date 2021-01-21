@@ -27,6 +27,7 @@ const ArticleCreationPreview = lazy(
 const NoteCreationView = lazy(
   () => import('../modules/postCreation/NoteCreationView'),
 );
+const Page404 = lazy(() => import('../lib/components/Errors/Page404'));
 
 const ROUTER_CONFIG: IRouterConfig[] = [
   {
@@ -110,6 +111,13 @@ const ROUTER_CONFIG: IRouterConfig[] = [
     exact: true,
     component: PostViewContainer,
     title: 'Пост',
+  },
+  {
+    path: '/error_404',
+    key: 'ERROR_404',
+    exact: true,
+    component: Page404,
+    title: 'error 404',
   },
 ];
 
