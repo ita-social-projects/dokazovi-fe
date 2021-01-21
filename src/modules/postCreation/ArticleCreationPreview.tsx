@@ -12,12 +12,23 @@ const ArticleCreationPreview: React.FC = () => {
   const draft = useSelector(
     (state: RootStateType) => state.newPostDraft.ARTICLE,
   );
+  const allDirections = useSelector(
+    (state: RootStateType) => state.properties.directions,
+  );
+
+  const directionIds = Object.keys(draft.topics).filter(
+    (id) => draft.topics[id],
+  );
+  const directions = allDirections.filter((direction) =>
+    directionIds.includes(direction.id.toString()),
+  );
 
   const post = {
     ...mockPost,
     content: draft.htmlContent,
-    preview: draft.preview,
+    preview: draft.preview.value,
     title: draft.title,
+    directions,
   } as IPost;
 
   const goArticleCreationView = () => {
