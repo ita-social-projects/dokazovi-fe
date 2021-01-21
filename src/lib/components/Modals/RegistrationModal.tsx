@@ -93,8 +93,7 @@ export const RegistrationModal: React.FC<IRegistrationProps> = (props) => {
                     },
                     pattern: {
                       value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                      message:
-                        'Email повинен містити символ @ та одну крапку після нього',
+                      message: 'Неправильний формат email',
                     },
                   })}
                   label="Email"
