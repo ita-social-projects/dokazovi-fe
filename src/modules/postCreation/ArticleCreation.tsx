@@ -7,6 +7,7 @@ import {
   Button,
   CircularProgress,
   Container,
+  Grid,
   TextField,
   Typography,
 } from '@material-ui/core';
@@ -79,21 +80,29 @@ const ArticleCreation: React.FC = () => {
       ) : (
         <CircularProgress />
       )}
-      <Box display="flex">
-        <Typography variant="h5">Заголовок статті: </Typography>
-        <TextField
-          error={Boolean(title.error)}
-          helperText={title.error}
-          fullWidth
-          required
-          id="article-name"
-          value={title.value}
-          onChange={(e) => {
-            setTitle({ ...title, value: e.target.value });
-            dispatchTitle(e.target.value);
-          }}
-        />
+      <Box mt={2}>
+        <Container>
+          <Typography variant="h5">Заголовок статті: </Typography>
+          <TextField
+            error={Boolean(title.error)}
+            helperText={title.error}
+            fullWidth
+            required
+            id="article-name"
+            value={title.value}
+            onChange={(e) => {
+              setTitle({ ...title, value: e.target.value });
+              dispatchTitle(e.target.value);
+            }}
+          />
+        </Container>
       </Box>
+      {/* <Box mt={2}>
+        <Container>
+          <Typography variant="h5">Текст статті:</Typography>
+        </Container>
+        <ArticleEditor dispatchContent={dispatchHtmlContent} />
+      </Box> */}
       <Typography variant="h5">Текст статті:</Typography>
       <ArticleEditor dispatchContent={dispatchHtmlContent} />
       <Box

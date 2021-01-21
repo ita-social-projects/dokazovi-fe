@@ -1,6 +1,7 @@
 import { Container } from '@material-ui/core';
 import React, { useEffect, useRef, useState } from 'react';
 import ReactQuill, { Quill } from 'react-quill';
+import { PostTypeEnum } from '../../../types';
 import BorderBottom from '../../Border';
 import ContentPreviewContainer from '../ContentPreviewContainer';
 import GeneralEditor from '../GeneralEditor';
@@ -16,7 +17,12 @@ const ArticleEditor: React.FC<IArticleEditorProps> = ({ dispatchContent }) => {
   const [editorContent, setEditorContent] = useState<string>('');
 
   useEffect(() => {
-    if (articleEditor.current) setEditor(articleEditor.current.getEditor());
+    if (articleEditor.current) {
+      setEditor(articleEditor.current.getEditor());
+      setEditorContent(
+        articleEditor.current.getEditor().getText().slice(0, -1), // slice removes additional \n added by Quill
+      );
+    }
   }, []);
 
   editor?.on('text-change', () => {
@@ -33,7 +39,11 @@ const ArticleEditor: React.FC<IArticleEditorProps> = ({ dispatchContent }) => {
           ref={articleEditor}
         />
         <BorderBottom />
-        <ContentPreviewContainer previewText={editorContent} />
+        <ContentPreviewContainer
+          previewText={editorContent}
+          previewType={PostTypeEnum.ARTICLE}
+          previewCardType="Стаття"
+        />
       </Container>
     </>
   );
