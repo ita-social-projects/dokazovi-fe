@@ -1,4 +1,4 @@
-import { IDirection } from '../../types';
+import { IDirection, IPostType } from '../../types';
 
 export type PostResponseType = {
   author: {
@@ -15,7 +15,8 @@ export type PostResponseType = {
       name: string;
     };
   };
-  content?: string;
+  content: string;
+  postType: IPostType;
   createdAt: string;
   directions: IDirection[];
   id: number;

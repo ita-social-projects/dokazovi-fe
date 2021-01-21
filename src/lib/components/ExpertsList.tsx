@@ -13,7 +13,7 @@ const ExpertsList: React.FC<IExpertsListProps> = (props) => {
   return (
     <>
       {experts.map((expert) => (
-        <Grid item xs={12} md={6} key={expert.id}>
+        <Grid item xs={12} md={12} lg={6} key={expert.id}>
           <ExpertPhotoDataCard expert={expert} />
         </Grid>
       ))}

@@ -2,6 +2,7 @@ import React, { Suspense, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import './App.css';
 import { BrowserRouter } from 'react-router-dom';
+import { CircularProgress } from '@material-ui/core';
 import { RenderRoutes } from './navigation/Router';
 import ROUTER_CONFIG from './navigation/router-config';
 
@@ -29,7 +30,7 @@ const App: React.FC = () => {
     <div className="App">
       <BrowserRouter>
         <Header />
-        <Suspense fallback={<div>Загрузка...</div>}>
+        <Suspense fallback={<CircularProgress className="mainLoading" />}>
           <RenderRoutes routes={ROUTER_CONFIG} />
         </Suspense>
       </BrowserRouter>

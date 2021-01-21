@@ -14,7 +14,7 @@ export enum PostStatus {
 export enum PostTypeEnum {
   ARTICLE = 'ARTICLE',
   DOPYS = 'DOPYS',
-  VIDEO = 'VIDEO',
+  // VIDEO = 'VIDEO',
 }
 
 export enum LoadingStatusEnum {
@@ -22,22 +22,6 @@ export enum LoadingStatusEnum {
   pending = 'pending',
   succeeded = 'succeeded',
   failed = 'failed',
-}
-
-export enum CourseEnum {
-  STUDY = 'STUDY',
-}
-
-export enum CourseTypeEnum {
-  COURSE = 'COURSE',
-}
-export interface ICourse {
-  photo?: string;
-  courseType: CourseTypeEnum;
-  direction: CourseEnum;
-  title: string;
-  createdAt: string;
-  course: boolean;
 }
 
 export enum FilterTypeEnum {
@@ -48,7 +32,7 @@ export enum FilterTypeEnum {
 }
 
 export interface IPost {
-  id?: number;
+  id: number;
   title: string;
   content?: string;
   author?: IExpert;

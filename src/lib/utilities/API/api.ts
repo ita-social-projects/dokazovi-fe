@@ -79,6 +79,12 @@ export const getAllExperts = (
   return instance.get('user/all-experts', { ...defaultConfig, ...config });
 };
 
+export const getPostById = (
+  id: number,
+): Promise<AxiosResponse<PostResponseType>> => {
+  return instance.get(`/post/${id}`);
+};
+
 export const getExpertById = (
   id: number,
 ): Promise<AxiosResponse<ExpertResponseType>> => {

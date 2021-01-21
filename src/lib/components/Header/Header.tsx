@@ -7,6 +7,7 @@ import List from '@material-ui/core/List/List';
 import { Link } from 'react-router-dom';
 import { useStyles } from './Header.styles';
 import { PostCreationMenu } from '../PostCreationMenu';
+import { LoginModal } from '../Modals/LoginModal';
 
 interface IHeaderProps {
   id: string;
@@ -39,10 +40,6 @@ export const navElems: IHeaderProps[] = [
     id: 'translates',
     label: 'Переклади',
   },
-  {
-    id: 'study',
-    label: 'Навчання',
-  },
 ];
 
 const Header: React.FC = () => {
@@ -64,18 +61,20 @@ const Header: React.FC = () => {
       <Grid container>
         <Grid item xs={12}>
           <Toolbar className={classes.toolbar}>
-            <div className={classes.logo}>
-              <LocalHospitalIcon fontSize="large" />
-              <Typography
-                component="h2"
-                variant="h5"
-                color="inherit"
-                align="center"
-                noWrap
-              >
-                Dokazovi
-              </Typography>
-            </div>
+            <Link to="/">
+              <div className={classes.logo}>
+                <LocalHospitalIcon fontSize="large" />
+                <Typography
+                  component="h2"
+                  variant="h5"
+                  color="inherit"
+                  align="center"
+                  noWrap
+                >
+                  Dokazovi
+                </Typography>
+              </div>
+            </Link>
 
             <div className={classes.postCreationMenu}>
               <PostCreationMenu />
@@ -83,7 +82,7 @@ const Header: React.FC = () => {
 
             <div className={classes.logIn}>
               <AccountCircleIcon fontSize="large" />
-              <Link to="/">Log in</Link>/<Link to="/">Register</Link>
+              <LoginModal />
             </div>
           </Toolbar>
         </Grid>
