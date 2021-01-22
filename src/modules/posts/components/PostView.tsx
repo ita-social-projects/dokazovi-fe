@@ -60,9 +60,11 @@ const PostView: React.FC<IPostViewProps> = ({ post }) => {
           </Typography>
         </Box>
         <Box>
-          <Typography variant="h4" className={classes.title}>
-            {post.title}
-          </Typography>
+          {post.title && (
+            <Typography variant="h4" className={classes.title}>
+              {post.title}
+            </Typography>
+          )}
           <div
             className={classes.content}
             dangerouslySetInnerHTML={{
