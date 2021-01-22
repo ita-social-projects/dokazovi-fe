@@ -22,8 +22,8 @@ const ArticleCreation = lazy(
   () => import('../modules/postCreation/ArticleCreation'),
 );
 const NoteCreation = lazy(() => import('../modules/postCreation/NoteCreation'));
-const CreationPreview = lazy(
-  () => import('../modules/postCreation/CreationPreview'),
+const PostCreationPreview = lazy(
+  () => import('../modules/postCreation/PostCreationPreview'),
 );
 const Page404 = lazy(() => import('../lib/components/Errors/Page404'));
 
@@ -91,7 +91,7 @@ const ROUTER_CONFIG: IRouterConfig[] = [
         path: '/create-article/preview',
         key: 'ARTICLE_PREVIEW',
         exact: true,
-        component: CreationPreview,
+        component: PostCreationPreview,
         title: 'Попередній перегляд',
       },
     ],
@@ -112,7 +112,7 @@ const ROUTER_CONFIG: IRouterConfig[] = [
         path: '/create-note/preview',
         key: 'NOTE_PREVIEW',
         exact: true,
-        component: CreationPreview,
+        component: PostCreationPreview,
         title: 'Попередній перегляд',
       },
     ],
@@ -129,7 +129,7 @@ const ROUTER_CONFIG: IRouterConfig[] = [
     key: 'ERROR_404',
     exact: true,
     component: Page404,
-    title: 'error 404',
+    title: 'Помилка 404',
   },
 ];
 

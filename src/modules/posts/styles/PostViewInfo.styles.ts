@@ -33,5 +33,11 @@ export const useStyles = makeStyles({
   },
   content: {
     margin: '20px',
+    '& h1': {
+      fontSize: '2em',
+    },
+    '& h2': {
+      fontSize: '1.5em',
+    },
   },
 });
