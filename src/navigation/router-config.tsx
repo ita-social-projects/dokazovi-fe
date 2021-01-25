@@ -15,12 +15,19 @@ const ExpertsView = lazy(
 const ExpertProfileView = lazy(
   () => import('../modules/experts/components/ExpertProfileView'),
 );
-const ArticleCreationView = lazy(
-  () => import('../modules/postCreation/ArticleCreationView'),
+const PostViewContainer = lazy(
+  () => import('../modules/posts/components/PostViewContainer'),
+);
+const ArticleCreation = lazy(
+  () => import('../modules/postCreation/ArticleCreation'),
+);
+const ArticleCreationPreview = lazy(
+  () => import('../modules/postCreation/ArticleCreationPreview'),
 );
 const NoteCreationView = lazy(
   () => import('../modules/postCreation/NoteCreationView'),
 );
+const Page404 = lazy(() => import('../lib/components/Errors/Page404'));
 
 const ROUTER_CONFIG: IRouterConfig[] = [
   {
@@ -73,9 +80,23 @@ const ROUTER_CONFIG: IRouterConfig[] = [
   {
     path: '/create-article',
     key: 'ARTICLE',
-    exact: true,
-    component: ArticleCreationView,
-    title: 'Створити статтю',
+    component: RenderRoutes,
+    routes: [
+      {
+        path: '/create-article',
+        key: 'ARTICLE',
+        exact: true,
+        component: ArticleCreation,
+        title: 'Створення статті',
+      },
+      {
+        path: '/create-article/preview',
+        key: 'ARTICLE_PREVIEW',
+        exact: true,
+        component: ArticleCreationPreview,
+        title: 'Попередній перегляд',
+      },
+    ],
   },
   {
     path: '/create-note',
@@ -83,6 +104,20 @@ const ROUTER_CONFIG: IRouterConfig[] = [
     exact: true,
     component: NoteCreationView,
     title: 'Створити допис',
+  },
+  {
+    path: '/posts/:postId',
+    key: 'POST_PROFILE',
+    exact: true,
+    component: PostViewContainer,
+    title: 'Пост',
+  },
+  {
+    path: '/error_404',
+    key: 'ERROR_404',
+    exact: true,
+    component: Page404,
+    title: 'error 404',
   },
 ];
 

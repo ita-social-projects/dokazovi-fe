@@ -3,11 +3,16 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { PostTypeEnum } from '../../../lib/types';
 import { ICheckboxes } from '../PostTopicSelector';
 
-interface INewPostDraft {
+export interface INewPostDraft {
   topics: ICheckboxes;
   title?: string;
   htmlContent: string;
-  preview: string;
+  preview: IPostPreview;
+}
+
+interface IPostPreview {
+  value: string;
+  isManuallyChanged: boolean;
 }
 
 export interface IPostCreationState {
@@ -20,12 +25,12 @@ const initialState: IPostCreationState = {
     topics: {},
     title: '',
     htmlContent: '',
-    preview: '',
+    preview: { value: '', isManuallyChanged: false },
   },
   [PostTypeEnum.DOPYS]: {
     topics: {},
     htmlContent: '',
-    preview: '',
+    preview: { value: '', isManuallyChanged: false },
   },
 };
 
@@ -60,14 +65,24 @@ export const postCreationSlice = createSlice({
     ) => {
       state[action.payload.postType].htmlContent = action.payload.value;
     },
-    setPostPreview: (
+    setPostPreviewText: (
       state,
       action: PayloadAction<{
         postType: PostTypeEnum;
-        value: INewPostDraft['preview'];
+        value: INewPostDraft['preview']['value'];
       }>,
     ) => {
-      state[action.payload.postType].preview = action.payload.value;
+      state[action.payload.postType].preview.value = action.payload.value;
+    },
+    setPostPreviewManuallyChanged: (
+      state,
+      action: PayloadAction<{
+        postType: PostTypeEnum;
+        value: INewPostDraft['preview']['isManuallyChanged'];
+      }>,
+    ) => {
+      state[action.payload.postType].preview.isManuallyChanged =
+        action.payload.value;
     },
   },
 });
@@ -76,6 +91,8 @@ export const {
   setPostTopics,
   setPostTitle,
   setPostBody,
+  setPostPreviewText,
+  setPostPreviewManuallyChanged,
 } = postCreationSlice.actions;
 
 const postCreationReducer = postCreationSlice.reducer;
