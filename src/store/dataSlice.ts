@@ -1,17 +1,20 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import _ from 'lodash';
-import { IPost } from '../lib/types';
+import { IExpert, IPost } from '../lib/types';
 import { PostResponseType } from '../lib/utilities/API/types';
 
 interface IDataState {
-  // add byId / allIds?
+  experts: {
+    [id: string]: IExpert;
+  };
   posts: {
     [id: string]: IPost;
   };
 }
 
 const initialState: IDataState = {
+  experts: {},
   posts: {},
 };
 
@@ -26,14 +29,19 @@ const dataSlice = createSlice({
         }
       });
     },
+    loadExperts: (state, action: PayloadAction<IExpert[]>) => {
+      action.payload.forEach((expert) => {
+        if (expert.id) {
+          state.experts[expert.id] = expert;
+        }
+      });
+    },
   },
 });
 
 export default dataSlice.reducer;
 
-export const { loadPosts } = dataSlice.actions;
-
-// create selector?
+export const { loadPosts, loadExperts } = dataSlice.actions;
 
 export const mapFetchedPosts = (
   posts: PostResponseType[],

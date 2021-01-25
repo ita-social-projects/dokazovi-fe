@@ -2,13 +2,16 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import {
   IDirection,
-  IExpert,
   IFilter,
   FilterTypeEnum,
   LoadingStatusEnum,
 } from '../../../lib/types';
 import { getPosts, getExperts } from '../../../lib/utilities/API/api';
-import { loadPosts, mapFetchedPosts } from '../../../store/dataSlice';
+import {
+  loadPosts,
+  loadExperts,
+  mapFetchedPosts,
+} from '../../../store/dataSlice';
 import type { AppThunkType } from '../../../store/store';
 
 import { LOAD_POSTS_LIMIT } from '../../main/components/constants/newestPostsPagination-config';
@@ -39,7 +42,7 @@ export interface IMaterialsMeta {
 
 export interface IDirectionState {
   experts: {
-    expertsCards: IExpert[];
+    expertIds: string[];
     meta: IExpertsMeta;
   };
   materials: IMaterialsState;
@@ -47,7 +50,7 @@ export interface IDirectionState {
 
 const initialDirectionState: IDirectionState = {
   experts: {
-    expertsCards: [],
+    expertIds: [],
     meta: {
       loading: LoadingStatusEnum.idle,
       error: null,
@@ -98,10 +101,10 @@ export const directionsSlice = createSlice({
           break;
       }
     },
-    loadExperts: (
+    loadExpertsMeta: (
       state,
       action: PayloadAction<{
-        experts: IExpert[];
+        expertIds: string[];
         meta: IExpertsMeta;
         directionName: string;
       }>,
@@ -109,7 +112,7 @@ export const directionsSlice = createSlice({
       const { directionName } = action.payload;
       const direction = state[directionName] as IDirectionState;
       if (direction) {
-        direction.experts.expertsCards = action.payload.experts;
+        direction.experts.expertIds = action.payload.expertIds;
         direction.experts.meta = action.payload.meta;
       }
     },
@@ -178,7 +181,7 @@ export const {
   setMaterialsLoadingStatus,
   loadMaterials,
   setExpertsLoadingStatus,
-  loadExperts,
+  loadExpertsMeta,
   setupDirection,
   setPostFilters,
 } = directionsSlice.actions;
@@ -204,13 +207,14 @@ export const fetchExperts = (
       },
     });
 
-    const experts = loadedExperts.data.content.map((expert) => ({
-      ...(expert as IExpert),
-    }));
+    const experts = loadedExperts.data.content;
+    const expertIds = experts.map((expert) => String(expert.id));
+
+    dispatch(loadExperts(experts));
 
     dispatch(
-      loadExperts({
-        experts,
+      loadExpertsMeta({
+        expertIds,
         meta: {
           loading: LoadingStatusEnum.succeeded,
           error: null,

@@ -1,12 +1,16 @@
 /* eslint-disable no-param-reassign */
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { IExpert, LoadingStatusEnum } from '../../../lib/types';
+import { LoadingStatusEnum } from '../../../lib/types';
 import { getPosts, getExperts } from '../../../lib/utilities/API/api';
 
 import type { AppThunkType } from '../../../store/store';
 import { LOAD_POSTS_LIMIT } from '../components/constants/newestPostsPagination-config';
 import type { RootStateType } from '../../../store/rootReducer';
-import { loadPosts, mapFetchedPosts } from '../../../store/dataSlice';
+import {
+  loadExperts,
+  loadPosts,
+  mapFetchedPosts,
+} from '../../../store/dataSlice';
 
 interface INewestMeta {
   currentPage: number;
@@ -35,7 +39,7 @@ interface IImportantPayload {
   meta: IImportantMeta;
 }
 export interface IExpertPayload {
-  experts: IExpert[];
+  expertIds: string[];
   meta: IExpertMeta;
 }
 
@@ -70,7 +74,7 @@ const initialState: IMainState = {
     },
   },
   experts: {
-    experts: [],
+    expertIds: [],
     meta: {
       pageNumber: 0,
       loading: LoadingStatusEnum.idle,
@@ -100,17 +104,22 @@ export const fetchNewestPosts = createAsyncThunk<IFetchNewestPosts>(
   },
 );
 
-export const fetchExperts = createAsyncThunk('main/loadExperts', async () => {
-  const {
-    data: { content: fetchedExperts },
-  } = await getExperts({
-    params: {
-      size: 11,
-    },
-  });
+export const fetchExperts = createAsyncThunk(
+  'main/loadExperts',
+  async (__, { dispatch }) => {
+    const {
+      data: { content: fetchedExperts },
+    } = await getExperts({
+      params: {
+        size: 11,
+      },
+    });
 
-  return fetchedExperts;
-});
+    dispatch(loadExperts(fetchedExperts));
+
+    return fetchedExperts.map((expert) => String(expert.id));
+  },
+);
 
 export const fetchInitialNewestPosts = (): AppThunkType => async (
   dispatch,
@@ -142,12 +151,6 @@ export const mainSlice = createSlice({
       state.important.meta.loading = LoadingStatusEnum.failed;
       state.important.meta.error = action.payload.meta.error;
     },
-    loadExperts: (state, action: PayloadAction<IExpertPayload>) => {
-      state.experts = action.payload;
-    },
-    loadNewest: (state, action: PayloadAction<INewestPostPayload>) => {
-      state.newest = action.payload;
-    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchNewestPosts.pending, (state) => {
@@ -173,7 +176,7 @@ export const mainSlice = createSlice({
     });
     builder.addCase(fetchExperts.fulfilled, (state, { payload }) => {
       state.experts.meta.loading = LoadingStatusEnum.succeeded;
-      state.experts.experts = payload;
+      state.experts.expertIds = payload;
     });
     builder.addCase(fetchExperts.rejected, (state, { error }) => {
       if (error.message) {
@@ -185,12 +188,7 @@ export const mainSlice = createSlice({
   },
 });
 
-export const {
-  loadImportant,
-  loadExperts,
-  loadNewest,
-  setImportantLoadingStatus,
-} = mainSlice.actions;
+export const { loadImportant, setImportantLoadingStatus } = mainSlice.actions;
 
 export default mainSlice.reducer;
 

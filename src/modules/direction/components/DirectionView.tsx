@@ -12,9 +12,7 @@ import { IDirection } from '../../../lib/types';
 import MaterialsContainer from './MaterialsContainer';
 import PageTitleComponent from '../../../lib/components/PageTitleComponent';
 
-export interface IDirectionViewProps {}
-
-const DirectionView: React.FC<IDirectionViewProps> = () => {
+const DirectionView: React.FC = () => {
   const { name: directionName } = useParams<{ name: string }>();
   const directions = useSelector(
     (state: RootStateType) => state.properties.directions,
@@ -35,10 +33,14 @@ const DirectionView: React.FC<IDirectionViewProps> = () => {
 
   const {
     experts: {
-      expertsCards,
+      expertIds,
       meta: { loading },
     },
   } = useSelector((state: RootStateType) => state.directions[directionName]);
+  const { experts: allExperts } = useSelector(
+    (state: RootStateType) => state.data,
+  );
+  const experts = expertIds.map((id) => allExperts[id]);
 
   const classes = useStyles();
 
@@ -58,9 +60,7 @@ const DirectionView: React.FC<IDirectionViewProps> = () => {
             </Grid>
             <BorderBottom />
             <Grid item xs={12}>
-              {expertsCards && (
-                <ExpertsViewCard cards={expertsCards} loading={loading} />
-              )}
+              {experts && <ExpertsViewCard cards={experts} loading={loading} />}
               <Box className={classes.moreExperts}>
                 <Typography variant="h5" align="right" display="inline">
                   <Link href="/experts">

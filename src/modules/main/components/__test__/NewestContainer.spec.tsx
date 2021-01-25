@@ -27,7 +27,7 @@ const initialState: IMainState = {
     },
   },
   experts: {
-    experts: [],
+    expertIds: [],
     meta: { loading: LoadingStatusEnum.failed, error: '', pageNumber: 0 },
   },
 };

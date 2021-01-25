@@ -12,14 +12,16 @@ import { useStyles } from '../styles/ExpertProfileView.styles';
 
 const ExpertProfileView: React.FC = () => {
   const classes = useStyles();
+  const dispatch = useDispatch();
   const { expertId } = useParams<{ expertId: string }>();
   const {
-    experts,
     meta: { loading },
   } = useSelector((state: RootStateType) => state.experts.experts);
-  const dispatch = useDispatch();
 
-  const selectedExpert = experts.find((e) => e.id === Number(expertId));
+  const { experts: allExperts } = useSelector(
+    (state: RootStateType) => state.data,
+  );
+  const selectedExpert = allExperts[expertId];
 
   useEffect(() => {
     dispatch(fetchExpertById(Number(expertId)));

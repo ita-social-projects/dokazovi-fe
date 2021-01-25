@@ -1,6 +1,5 @@
 /* eslint-disable no-param-reassign */
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import _ from 'lodash';
 import { IFilter, LoadingStatusEnum, FilterTypeEnum } from '../../../lib/types';
 import {
   getAllExperts,
@@ -12,7 +11,11 @@ import { LOAD_POSTS_LIMIT } from '../../main/components/constants/newestPostsPag
 import { IExpertPayload } from '../../main/store/mainSlice';
 import type { RootStateType } from '../../../store/rootReducer';
 import type { ICheckboxes } from '../../../lib/components/FilterForm';
-import { loadPosts, mapFetchedPosts } from '../../../store/dataSlice';
+import {
+  loadExperts,
+  loadPosts,
+  mapFetchedPosts,
+} from '../../../store/dataSlice';
 
 interface IExpertsListPayload extends IExpertPayload {
   filters?: {
@@ -58,7 +61,7 @@ export interface IExpertsState {
 
 const initialState: IExpertsState = {
   experts: {
-    experts: [],
+    expertIds: [],
     meta: {
       totalPages: undefined,
       pageNumber: 1,
@@ -79,7 +82,7 @@ const initialState: IExpertsState = {
 
 export const fetchExperts = createAsyncThunk(
   'experts/loadExperts',
-  async (__, { getState }) => {
+  async (__, { dispatch, getState }) => {
     const {
       experts: { experts },
     } = getState() as RootStateType;
@@ -102,25 +105,32 @@ export const fetchExperts = createAsyncThunk(
         directions: getTrueValues(directionsFilterValues),
       },
     });
-    return data;
+    dispatch(loadExperts(data.content));
+
+    return {
+      expertIds: data.content.map((expert) => String(expert.id)),
+      number: data.number,
+      totalPages: data.totalPages,
+    };
   },
 );
 
 export const fetchExpertById = createAsyncThunk(
   'experts/loadExpertProfile',
-  async (id: number, { getState }) => {
+  async (id: number, { dispatch, getState }) => {
     const {
-      experts: {
-        experts: { experts },
-      },
+      data: { experts },
     } = getState() as RootStateType;
-    const existingExpert = experts.find((expert) => expert.id === id);
+    const existingExpert = experts[id];
+
     if (existingExpert) {
       return existingExpert;
     }
 
     const { data: fetchedExpert } = await getExpertById(id);
-    return fetchedExpert;
+    dispatch(loadExperts([fetchedExpert]));
+
+    return fetchedExpert.id;
   },
 );
 
@@ -131,10 +141,6 @@ export const expertsSlice = createSlice({
     setupExpertMaterialsID: (state, action: PayloadAction<string>) => {
       if (!state.materials[action.payload])
         state.materials[action.payload] = materialsInitialState;
-    },
-
-    loadExperts: (state, action: PayloadAction<IExpertsListPayload>) => {
-      state.experts = action.payload;
     },
     setExpertsPage: (state, action: PayloadAction<number>) => {
       state.experts.meta.pageNumber = action.payload;
@@ -155,9 +161,9 @@ export const expertsSlice = createSlice({
     ) => {
       const {
         expertId,
-        materials: { postIds: loadedPosts, meta },
+        materials: { postIds, meta },
       } = action.payload;
-      state.materials[expertId].postIds = loadedPosts;
+      state.materials[expertId].postIds = postIds;
       state.materials[expertId].meta = meta;
     },
     setMaterialsLoadingStatus: (
@@ -205,7 +211,7 @@ export const expertsSlice = createSlice({
       state.experts.meta.loading = LoadingStatusEnum.succeeded;
       state.experts.meta.pageNumber = payload.number;
       state.experts.meta.totalPages = payload.totalPages - 1;
-      state.experts.experts = payload.content;
+      state.experts.expertIds = payload.expertIds;
     });
     builder.addCase(fetchExperts.rejected, (state, { error }) => {
       if (error.message) {
@@ -218,7 +224,7 @@ export const expertsSlice = createSlice({
       state.experts.meta.loading = LoadingStatusEnum.pending;
     });
     builder.addCase(fetchExpertById.fulfilled, (state, { payload }) => {
-      state.experts.experts.push(payload);
+      state.experts.expertIds.push(String(payload));
       state.experts.meta.loading = LoadingStatusEnum.succeeded;
     });
     builder.addCase(fetchExpertById.rejected, (state, { error }) => {
@@ -231,7 +237,6 @@ export const expertsSlice = createSlice({
 });
 
 export const {
-  loadExperts,
   setExpertsRegionsFilter,
   setExpertsDirectionsFilter,
   setupExpertMaterialsID,
