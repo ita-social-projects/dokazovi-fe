@@ -14,6 +14,7 @@ import LoadingInfo from '../../../lib/components/LoadingInfo';
 import { useStyles } from '../styles/ExpertsView.styles';
 import { FilterTypeEnum } from '../../../lib/types';
 import { FilterFormContainer } from '../../../lib/components/FilterFormContainer';
+import { selectExpertsByIds } from '../../../store/selectors';
 
 const ExpertsView: React.FC = () => {
   const classes = useStyles();
@@ -24,10 +25,7 @@ const ExpertsView: React.FC = () => {
     filters,
   } = useSelector((state: RootStateType) => state.experts.experts);
 
-  const { experts: allExperts } = useSelector(
-    (state: RootStateType) => state.data,
-  );
-  const experts = expertIds.map((id) => allExperts[id]);
+  const experts = selectExpertsByIds(expertIds);
 
   const regions = useSelector(
     (state: RootStateType) => state.properties?.regions,
