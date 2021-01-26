@@ -21,7 +21,7 @@ const PostView: React.FC<IPostViewProps> = ({ post }) => {
 
   return (
     <Container>
-      <Card>
+      <Card className={classes.cardContainer}>
         <Box className={classes.authorBlock}>
           <Box>
             <CardMedia
@@ -53,16 +53,18 @@ const PostView: React.FC<IPostViewProps> = ({ post }) => {
         </Box>
         <BorderBottom />
         <Box>
-          <Typography className={classes.direction}>
+          <Typography className={classes.directions}>
             {post.directions?.map((d) => {
               return <PostDirectionLink direction={d} key={d.id} />;
             })}
           </Typography>
         </Box>
-        <Box>
-          <Typography variant="h4" className={classes.title}>
-            {post.title}
-          </Typography>
+        <Box className={classes.contentRoot}>
+          {post.title && (
+            <Typography variant="h4" className={classes.title}>
+              {post.title}
+            </Typography>
+          )}
           <div
             className={classes.content}
             dangerouslySetInnerHTML={{

@@ -23,7 +23,7 @@ const PostPreviewCard: React.FC<IPostPreviewCardProps> = (props) => {
     authorFullName = `${data.author?.firstName} ${data.author?.lastName}`;
   }
 
-  const handleClick = () => {
+  const goPostView = () => {
     history.push(`/posts/${data.id}`);
   };
 
@@ -77,7 +77,7 @@ const PostPreviewCard: React.FC<IPostPreviewCardProps> = (props) => {
               variant="subtitle2"
               component="h3"
             >
-              {data.postType?.name}
+              {data.postType.name}
             </Typography>
           </Box>
         </Box>
@@ -87,7 +87,7 @@ const PostPreviewCard: React.FC<IPostPreviewCardProps> = (props) => {
             align="left"
             variant="h6"
             component="h3"
-            onClick={handleClick}
+            onClick={goPostView}
           >
             {data.title}
           </Typography>
