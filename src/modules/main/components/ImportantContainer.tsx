@@ -11,12 +11,15 @@ import {
   fetchImportantPosts,
   setImportantLoadingStatus,
 } from '../store/mainSlice';
+import { selectPostsByIds } from '../../../store/selectors';
 
 const ImportantContainer: React.FC = () => {
   const {
-    importantPosts,
+    importantPostIds,
     meta: { loading },
   } = useSelector((state: RootStateType) => state.main.important);
+  const importantPosts = selectPostsByIds(importantPostIds);
+
   const dispatch = useDispatch();
 
   const dispatchFetchAction = () => {

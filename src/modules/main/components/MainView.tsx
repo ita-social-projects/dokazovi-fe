@@ -6,12 +6,9 @@ import ImportantContainer from './ImportantContainer';
 import { ExpertsViewCard } from '../../../lib/components/ExpertsViewCard';
 import { RootStateType } from '../../../store/rootReducer';
 import { fetchExperts } from '../store/mainSlice';
+import { selectExpertsByIds } from '../../../store/selectors';
 
-export interface IMainViewProps {}
-
-const selectMainExperts = (state: RootStateType) => state.main.experts;
-
-const MainView: React.FC<IMainViewProps> = () => {
+const MainView: React.FC = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -19,9 +16,10 @@ const MainView: React.FC<IMainViewProps> = () => {
   }, []);
 
   const {
-    experts,
+    expertIds,
     meta: { loading },
-  } = useSelector(selectMainExperts);
+  } = useSelector((state: RootStateType) => state.main.experts);
+  const experts = selectExpertsByIds(expertIds);
 
   return (
     <>

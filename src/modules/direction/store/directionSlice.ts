@@ -1,15 +1,17 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import _ from 'lodash';
 import {
   IDirection,
-  IExpert,
-  IPost,
   IFilter,
   FilterTypeEnum,
   LoadingStatusEnum,
 } from '../../../lib/types';
 import { getPosts, getExperts } from '../../../lib/utilities/API/api';
+import {
+  loadPosts,
+  loadExperts,
+  mapFetchedPosts,
+} from '../../../store/dataSlice';
 import type { AppThunkType } from '../../../store/store';
 
 import { LOAD_POSTS_LIMIT } from '../../main/components/constants/newestPostsPagination-config';
@@ -24,7 +26,7 @@ export interface IExpertsMeta {
 }
 
 interface IMaterialsState {
-  posts: IPost[];
+  postIds: string[];
   meta: IMaterialsMeta;
   filters?: {
     [key in FilterTypeEnum]?: IFilter;
@@ -40,7 +42,7 @@ export interface IMaterialsMeta {
 
 export interface IDirectionState {
   experts: {
-    expertsCards: IExpert[];
+    expertIds: string[];
     meta: IExpertsMeta;
   };
   materials: IMaterialsState;
@@ -48,14 +50,14 @@ export interface IDirectionState {
 
 const initialDirectionState: IDirectionState = {
   experts: {
-    expertsCards: [],
+    expertIds: [],
     meta: {
       loading: LoadingStatusEnum.idle,
       error: null,
     },
   },
   materials: {
-    posts: [],
+    postIds: [],
     meta: {
       isLastPage: false,
       pageNumber: -1,
@@ -99,10 +101,10 @@ export const directionsSlice = createSlice({
           break;
       }
     },
-    loadExperts: (
+    loadExpertsMeta: (
       state,
       action: PayloadAction<{
-        experts: IExpert[];
+        expertIds: string[];
         meta: IExpertsMeta;
         directionName: string;
       }>,
@@ -110,7 +112,7 @@ export const directionsSlice = createSlice({
       const { directionName } = action.payload;
       const direction = state[directionName] as IDirectionState;
       if (direction) {
-        direction.experts.expertsCards = action.payload.experts;
+        direction.experts.expertIds = action.payload.expertIds;
         direction.experts.meta = action.payload.meta;
       }
     },
@@ -142,22 +144,14 @@ export const directionsSlice = createSlice({
     loadMaterials: (
       state,
       action: PayloadAction<{
-        materials: {
-          posts: IPost[];
-          meta: {
-            isLastPage: boolean;
-            pageNumber: number;
-            loading: LoadingStatusEnum;
-            error: null | string;
-          };
-        };
+        materials: IMaterialsState;
         directionName: string;
       }>,
     ) => {
       const { directionName, materials } = action.payload;
-      const direction = state[directionName] as IDirectionState;
+      const direction = state[directionName];
       if (direction) {
-        direction.materials.posts = materials.posts;
+        direction.materials.postIds = materials.postIds;
         direction.materials.meta = materials.meta;
       }
     },
@@ -177,7 +171,7 @@ export const directionsSlice = createSlice({
           [key]: filters,
         };
         direction.materials.meta.pageNumber = -1;
-        direction.materials.posts.length = 0;
+        direction.materials.postIds.length = 0;
       }
     },
   },
@@ -187,7 +181,7 @@ export const {
   setMaterialsLoadingStatus,
   loadMaterials,
   setExpertsLoadingStatus,
-  loadExperts,
+  loadExpertsMeta,
   setupDirection,
   setPostFilters,
 } = directionsSlice.actions;
@@ -213,13 +207,14 @@ export const fetchExperts = (
       },
     });
 
-    const experts = loadedExperts.data.content.map((expert) => ({
-      ...(expert as IExpert),
-    }));
+    const experts = loadedExperts.data.content;
+    const expertIds = experts.map((expert) => String(expert.id));
+
+    dispatch(loadExperts(experts));
 
     dispatch(
-      loadExperts({
-        experts,
+      loadExpertsMeta({
+        expertIds,
         meta: {
           loading: LoadingStatusEnum.succeeded,
           error: null,
@@ -242,8 +237,7 @@ export const fetchMaterials = (direction: IDirection): AppThunkType => async (
   dispatch,
   getState,
 ) => {
-  const { posts, meta } = getState().directions[direction.name].materials;
-  const { filters } = getState().directions[direction.name].materials;
+  const { meta, filters } = getState().directions[direction.name].materials;
   const postTypes = filters?.[FilterTypeEnum.POST_TYPES]?.value as string[];
   const postTags = filters?.[FilterTypeEnum.TAGS]?.value as string[];
 
@@ -265,36 +259,15 @@ export const fetchMaterials = (direction: IDirection): AppThunkType => async (
       },
     });
 
-    const fetchedPosts: IPost[] = response.data.content.map((post) => {
-      const author = _.pick(post.author, [
-        'avatar',
-        'firstName',
-        'id',
-        'lastName',
-        'mainInstitution',
-      ]);
+    const { mappedPosts, ids } = mapFetchedPosts(response.data.content);
 
-      const preview = _.truncate(post.content, {
-        length: 150, // TODO: use MAX_LEN constant
-      });
-
-      return {
-        author,
-        directions: post.directions,
-        postType: post.type,
-        title: post.title,
-        content: post.content,
-        preview,
-        createdAt: post.createdAt,
-        id: post.id,
-      };
-    });
+    dispatch(loadPosts(mappedPosts));
 
     dispatch(
       loadMaterials({
         directionName: direction.name,
         materials: {
-          posts: posts.concat(fetchedPosts),
+          postIds: ids,
           meta: {
             isLastPage: response.data.last,
             loading: LoadingStatusEnum.succeeded,
@@ -319,9 +292,9 @@ export const fetchInitialMaterials = (direction: IDirection): AppThunkType => (
   dispatch,
   getState,
 ) => {
-  const { posts } = getState().directions[direction.name].materials;
+  const { postIds } = getState().directions[direction.name].materials;
 
-  if (posts.length === 0) {
+  if (postIds.length === 0) {
     dispatch(fetchMaterials(direction));
   }
 };
