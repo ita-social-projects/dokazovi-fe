@@ -66,6 +66,10 @@ const ArticleCreation: React.FC = () => {
     history.push(`/create-article/preview`, 'ARTICLE');
   };
 
+  const publishNewArticle = () => {
+    // todo post request to publish post
+  };
+
   return (
     <Container fixed>
       {directions.length ? (
