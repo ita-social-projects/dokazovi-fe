@@ -15,6 +15,7 @@ import { LoadingStatusEnum } from '../../../lib/types';
 import useEffectExceptOnMount from '../../../lib/hooks/useEffectExceptOnMount';
 import { useStyles } from '../styles/ExpertProfileView.styles';
 import { PostTypeFilter } from '../../direction/components/PostTypesFilter';
+import { selectPostsByIds } from '../../../store/selectors';
 
 export interface IExpertMaterialsContainerProps {
   expertId: string;
@@ -36,8 +37,7 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
     meta: { loading, isLastPage, pageNumber },
     filters,
   } = useSelector((state: RootStateType) => state.experts.materials[expertId]);
-  const { posts } = useSelector((state: RootStateType) => state.data);
-  const materials = postIds.map((id) => posts[id]);
+  const materials = selectPostsByIds(postIds);
 
   useEffect(() => {
     dispatchFetchInitialMaterialsAction();

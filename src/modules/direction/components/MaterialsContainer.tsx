@@ -18,6 +18,7 @@ import LoadingInfo from '../../../lib/components/LoadingInfo';
 import useEffectExceptOnMount from '../../../lib/hooks/useEffectExceptOnMount';
 import { PostTypeFilter } from './PostTypesFilter';
 import { PostTagsFilter } from './PostTagsFilter';
+import { selectPostsByIds } from '../../../store/selectors';
 
 interface IMaterialsContainerProps {
   direction: IDirection;
@@ -35,8 +36,7 @@ const MaterialsContainer: React.FC<IMaterialsContainerProps> = ({
   } = useSelector(
     (state: RootStateType) => state.directions[direction.name].materials,
   );
-  const { posts } = useSelector((state: RootStateType) => state.data);
-  const materials = postIds.map((id) => posts[id]);
+  const materials = selectPostsByIds(postIds);
 
   const dispatch = useDispatch();
 
