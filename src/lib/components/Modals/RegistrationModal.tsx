@@ -48,7 +48,7 @@ export const RegistrationModal: React.FC<IRegistrationProps> = (props) => {
         <DialogContent>
           <form
             onSubmit={handleSubmit(onSubmit)}
-            style={{ width: '300px', height: '320px', margin: '0 auto' }}
+            style={{ width: '300px', height: 'fit-content', margin: '0 auto' }}
           >
             <Grid container justify="center">
               <Grid item xs={6}>
@@ -106,6 +106,7 @@ export const RegistrationModal: React.FC<IRegistrationProps> = (props) => {
               <Grid item xs={12}>
                 <TextField
                   name="password"
+                  type="password"
                   inputRef={register({
                     required: {
                       value: true,

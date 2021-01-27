@@ -83,7 +83,7 @@ export const LoginModal: React.FC = () => {
         <DialogContent>
           <form
             onSubmit={handleSubmit(onSubmit)}
-            style={{ width: '300px', height: '280px', margin: '0 auto' }}
+            style={{ width: '300px', height: 'fit-content', margin: '0 auto' }}
           >
             <Grid container justify="center">
               <Grid item xs={12}>
@@ -109,6 +109,7 @@ export const LoginModal: React.FC = () => {
               <Grid item xs={12}>
                 <TextField
                   name="password"
+                  type="password"
                   inputRef={register({
                     required: {
                       value: true,
