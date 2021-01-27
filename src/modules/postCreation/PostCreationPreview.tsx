@@ -7,6 +7,7 @@ import { RootStateType } from '../../store/rootReducer';
 import { IPost, PostTypeEnum } from '../../lib/types';
 import { useStyles } from './styles/PostCreationPreview.styles';
 import { mockPost } from '../posts/mockPost/mockPost';
+import PostCreationButtons from '../../lib/components/PostCreationButtons/PostCreationButtons';
 
 const ArticleCreationPreview: React.FC = () => {
   const classes = useStyles();
@@ -40,22 +41,16 @@ const ArticleCreationPreview: React.FC = () => {
   } as IPost;
 
   const goBackToCreation = () => {
-    history.push(`/${currentPostCreation}`);
+    history.goBack();
   };
 
   return (
     <Container className={classes.root}>
       <PostView post={post} />
-      <Box className={classes.buttonHolder}>
-        <Button
-          style={{ marginRight: '10px' }}
-          variant="contained"
-          onClick={goBackToCreation}
-        >
-          Назад до редагування
-        </Button>
-        <Button variant="contained">Опублікувати</Button>
-      </Box>
+      <PostCreationButtons
+        goPreview={goBackToCreation}
+        currentPostType={currentPostCreation}
+      />
     </Container>
   );
 };

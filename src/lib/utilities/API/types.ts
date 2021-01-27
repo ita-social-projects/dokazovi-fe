@@ -1,12 +1,11 @@
-import { IDirection, IPostType, IPostTag } from '../../types';
+import { IDirection, IPostType } from '../../types';
 
 export type PostPostRequestType = {
   content: string;
-  directions: IDirection[];
+  directions: number[];
   preview: string;
-  tags: IPostTag;
   title?: string;
-  type: IPostType;
+  type: number;
 };
 
 export type PostResponseType = {

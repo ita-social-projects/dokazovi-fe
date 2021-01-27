@@ -66,7 +66,9 @@ const NoteCreationView: React.FC = () => {
         </Container>
         <NoteEditor dispatchContent={dispatchHtmlContent} />
       </Box>
-      <PostCreationButtons goPreview={goNotePreview} />
+      <Box display="flex" justifyContent="flex-end">
+        <PostCreationButtons goPreview={goNotePreview} />
+      </Box>
     </Container>
   );
 };

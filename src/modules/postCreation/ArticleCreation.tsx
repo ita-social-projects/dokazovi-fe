@@ -106,7 +106,9 @@ const ArticleCreation: React.FC = () => {
         </Container>
         <ArticleEditor dispatchContent={dispatchHtmlContent} />
       </Box>
-      <PostCreationButtons goPreview={goArticlePreview} />
+      <Box display="flex" justifyContent="flex-end">
+        <PostCreationButtons goPreview={goArticlePreview} />
+      </Box>
     </Container>
   );
 };
