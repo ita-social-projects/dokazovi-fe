@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm, DeepMap, FieldError } from 'react-hook-form';
 import {
   Button,
   TextField,
+  InputAdornment,
+  IconButton,
   Grid,
   Typography,
   Link,
@@ -12,6 +14,8 @@ import {
   DialogTitle,
   DialogContent,
 } from '@material-ui/core';
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import { RegistrationModal } from './RegistrationModal';
 
 export interface IInputs {
@@ -20,8 +24,9 @@ export interface IInputs {
 }
 
 export const LoginModal: React.FC = () => {
-  const [loginOpen, setLoginOpen] = React.useState(false);
-  const [registrationOpen, setRegistrationOpen] = React.useState(false);
+  const [loginOpen, setLoginOpen] = useState(false);
+  const [registrationOpen, setRegistrationOpen] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   // eslint-disable-next-line @typescript-eslint/unbound-method
   const { register, handleSubmit, errors } = useForm<IInputs>();
@@ -63,6 +68,32 @@ export const LoginModal: React.FC = () => {
     );
   };
 
+  const emailValidationObj = {
+    required: {
+      value: true,
+      message: "Це поле є обов'язковим",
+    },
+    pattern: {
+      value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+      message: 'Неправильний формат email',
+    },
+  };
+
+  const passwordValidationObj = {
+    required: {
+      value: true,
+      message: "Це поле є обов'язковим",
+    },
+    minLength: {
+      value: 4,
+      message: 'Пароль повинен містити щонайменше 4 символи',
+    },
+    maxLength: {
+      value: 16,
+      message: 'Пароль повинен містити щонайбільше 16 символи',
+    },
+  };
+
   return (
     <>
       <Button variant="outlined" color="primary" onClick={handleLoginOpen}>
@@ -89,16 +120,7 @@ export const LoginModal: React.FC = () => {
               <Grid item xs={12}>
                 <TextField
                   name="email"
-                  inputRef={register({
-                    required: {
-                      value: true,
-                      message: "Це поле є обов'язковим",
-                    },
-                    pattern: {
-                      value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                      message: 'Неправильний формат email',
-                    },
-                  })}
+                  inputRef={register(emailValidationObj)}
                   label="Email"
                   style={{ width: '100%' }}
                 />
@@ -109,21 +131,21 @@ export const LoginModal: React.FC = () => {
               <Grid item xs={12}>
                 <TextField
                   name="password"
-                  type="password"
-                  inputRef={register({
-                    required: {
-                      value: true,
-                      message: "Це поле є обов'язковим",
-                    },
-                    minLength: {
-                      value: 4,
-                      message: 'Пароль повинен містити щонайменше 4 символи',
-                    },
-                    maxLength: {
-                      value: 16,
-                      message: 'Пароль повинен містити щонайбільше 16 символи',
-                    },
-                  })}
+                  type={showPassword ? 'text' : 'password'}
+                  inputRef={register(passwordValidationObj)}
+                  InputProps={{
+                    // <-- This is where the password toggle button is added.
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={() => setShowPassword(!showPassword)}
+                        >
+                          {showPassword ? <Visibility /> : <VisibilityOff />}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
                   label="Пароль"
                   style={{ width: '100%' }}
                 />

@@ -1,14 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm, DeepMap, FieldError } from 'react-hook-form';
 import {
   Button,
   TextField,
+  InputAdornment,
+  IconButton,
   Grid,
   Typography,
   Dialog,
   DialogTitle,
   DialogContent,
 } from '@material-ui/core';
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
 
 export interface IInputs {
   email: string;
@@ -26,6 +30,7 @@ export interface IRegistrationProps {
 
 export const RegistrationModal: React.FC<IRegistrationProps> = (props) => {
   const { onRegistrationClose, registrationOpen, showErrorMessage } = props;
+  const [showPassword, setShowPassword] = useState(false);
 
   // eslint-disable-next-line @typescript-eslint/unbound-method
   const { register, handleSubmit, errors, watch } = useForm<IInputs>();
@@ -106,7 +111,7 @@ export const RegistrationModal: React.FC<IRegistrationProps> = (props) => {
               <Grid item xs={12}>
                 <TextField
                   name="password"
-                  type="password"
+                  type={showPassword ? 'text' : 'password'}
                   inputRef={register({
                     required: {
                       value: true,
@@ -121,6 +126,19 @@ export const RegistrationModal: React.FC<IRegistrationProps> = (props) => {
                       message: 'Пароль повинен містити щонайбільше 16 символи',
                     },
                   })}
+                  InputProps={{
+                    // <-- This is where the password toggle button is added.
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={() => setShowPassword(!showPassword)}
+                        >
+                          {showPassword ? <Visibility /> : <VisibilityOff />}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
                   label="Пароль"
                   style={{ width: '100%' }}
                 />
@@ -131,6 +149,7 @@ export const RegistrationModal: React.FC<IRegistrationProps> = (props) => {
               <Grid item xs={12}>
                 <TextField
                   name="password2"
+                  type={showPassword ? 'text' : 'password'}
                   inputRef={register({
                     required: {
                       value: true,
@@ -142,6 +161,19 @@ export const RegistrationModal: React.FC<IRegistrationProps> = (props) => {
                       ); // value is from password2 and watch will return value from password
                     },
                   })}
+                  InputProps={{
+                    // <-- This is where the password toggle button is added.
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={() => setShowPassword(!showPassword)}
+                        >
+                          {showPassword ? <Visibility /> : <VisibilityOff />}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
                   label="Повторіть пароль"
                   style={{ width: '100%' }}
                 />
