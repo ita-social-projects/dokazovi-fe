@@ -12,7 +12,9 @@ import {
   DialogTitle,
   DialogContent,
 } from '@material-ui/core';
+import { useDispatch } from 'react-redux';
 import { RegistrationModal } from './RegistrationModal';
+import { loginUser } from '../../../store/authSlice';
 
 export interface IInputs {
   email: string;
@@ -22,6 +24,7 @@ export interface IInputs {
 export const LoginModal: React.FC = () => {
   const [loginOpen, setLoginOpen] = React.useState(false);
   const [registrationOpen, setRegistrationOpen] = React.useState(false);
+  const dispatch = useDispatch();
 
   // eslint-disable-next-line @typescript-eslint/unbound-method
   const { register, handleSubmit, errors } = useForm<IInputs>();
@@ -40,15 +43,13 @@ export const LoginModal: React.FC = () => {
     event.preventDefault();
     setRegistrationOpen(true);
   };
+  const onSubmit = (data: IInputs) => {
+    dispatch(loginUser(data));
+  };
 
   const handleRegistrationClose = () => {
     setRegistrationOpen(false);
     setLoginOpen(false);
-  };
-
-  const onSubmit = (data) => {
-    console.log(data);
-    console.log(errors);
   };
 
   const showErrorMessage = (
