@@ -12,9 +12,10 @@ import {
   DialogTitle,
   DialogContent,
 } from '@material-ui/core';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RegistrationModal } from './RegistrationModal';
-import { loginUser } from '../../../store/authSlice';
+import { clearError, loginUser } from '../../../store/authSlice';
+import { RootStateType } from '../../../store/rootReducer';
 
 export interface IInputs {
   email: string;
@@ -25,6 +26,7 @@ export const LoginModal: React.FC = () => {
   const [loginOpen, setLoginOpen] = React.useState(false);
   const [registrationOpen, setRegistrationOpen] = React.useState(false);
   const dispatch = useDispatch();
+  const { error } = useSelector((state: RootStateType) => state.currentUser);
 
   // eslint-disable-next-line @typescript-eslint/unbound-method
   const { register, handleSubmit, errors } = useForm<IInputs>();
@@ -35,6 +37,7 @@ export const LoginModal: React.FC = () => {
 
   const handleLoginClose = () => {
     setLoginOpen(false);
+    dispatch(clearError());
   };
 
   const handleRegistrationOpen = (
@@ -77,9 +80,9 @@ export const LoginModal: React.FC = () => {
       >
         <DialogTitle id="form-dialog-title">
           Введіть Ваші email та пароль
-          {/* {response.error && (
-                  <span style={{ color: 'red' }}>Неправильний email або пароль</span>
-                )} */}
+          {error && (
+            <div style={{ color: 'red' }}>Неправильний email або пароль</div>
+          )}
         </DialogTitle>
         <DialogContent>
           <form

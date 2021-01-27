@@ -7,9 +7,12 @@ import { ExpertResponseType } from '../lib/utilities/API/types';
 
 export interface IAuthState {
   user?: ExpertResponseType;
+  error: null | string;
 }
 
-const initialState: IAuthState = {};
+const initialState: IAuthState = {
+  error: null,
+};
 
 export const loginUser = createAsyncThunk(
   'auth/login',
@@ -41,17 +44,25 @@ export const authSlice = createSlice({
 
       delete state.user;
     },
+    clearError: (state) => {
+      state.error = null;
+    },
   },
   extraReducers: (builder) => {
+    builder.addCase(loginUser.pending, (state) => {
+      state.error = null;
+    });
     builder.addCase(loginUser.fulfilled, (state, action) => {
       state.user = action.payload.data;
     });
-    builder.addCase(loginUser.rejected, (__, { error }) => {
-      console.log(error);
+    builder.addCase(loginUser.rejected, (state, { error }) => {
+      if (error.message) {
+        state.error = error.message;
+      }
     });
   },
 });
 
-export const { logOut } = authSlice.actions;
+export const { logOut, clearError } = authSlice.actions;
 
 export default authSlice.reducer;
