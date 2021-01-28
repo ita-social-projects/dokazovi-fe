@@ -18,9 +18,14 @@ const ExpertDataCard: React.FC<IExpertDataCardProps> = (props) => {
   const fullName = `${expert.firstName} ${expert.lastName}`;
   const mainInsitutionCity = expert.mainInstitution?.city?.name || '';
   const mainInsitutionName = expert.mainInstitution?.name || '';
+  const expertLastPost = expert.lastAddedPost?.id || '';
 
-  const handleClick = () => {
-    history.push(`/experts/${expert.id as number}`);
+  const goExpertPage = () => {
+    history.push(`/experts/${expert.id}`);
+  };
+
+  const goPostPage = () => {
+    history.push(`/posts/${expertLastPost}`);
   };
 
   const classes = useStyles();
@@ -38,7 +43,7 @@ const ExpertDataCard: React.FC<IExpertDataCardProps> = (props) => {
         >
           <Typography
             className={classes.name}
-            onClick={handleClick}
+            onClick={goExpertPage}
             variant="h5"
           >
             {fullName}
@@ -55,7 +60,7 @@ const ExpertDataCard: React.FC<IExpertDataCardProps> = (props) => {
             </Typography>
             <Typography
               className={classes.pos}
-              onClick={handleClick}
+              onClick={goExpertPage}
               variant="body1"
               component="h2"
             >
@@ -67,7 +72,7 @@ const ExpertDataCard: React.FC<IExpertDataCardProps> = (props) => {
               <Typography variant="body2" color="textSecondary">
                 Останній доданий матеріал:
               </Typography>
-              <Typography variant="h6" component="p">
+              <Typography variant="h6" component="p" onClick={goPostPage}>
                 {expert.lastAddedPost?.title}
               </Typography>
             </div>

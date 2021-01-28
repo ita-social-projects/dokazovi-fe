@@ -10,6 +10,7 @@ export const ExpertBlock: React.FC<IExpertProps> = (props) => {
   const classes = useStyles();
 
   const { expert } = props;
+
   return (
     <>
       <img

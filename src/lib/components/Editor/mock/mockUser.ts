@@ -2,6 +2,7 @@ import { IPost } from '../../../types';
 
 export const mockUser: IPost = {
   author: {
+    id: 10,
     avatar: 'https://i.pravatar.cc/300?img=12',
     firstName: 'Степан',
     lastName: 'Степанов',
