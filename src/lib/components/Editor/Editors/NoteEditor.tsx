@@ -27,12 +27,17 @@ const NoteEditor: React.FC<INoteEditorProps> = ({ dispatchContent }) => {
     setEditorContent(editor.getText());
   });
 
+  editor?.on('selection-change', (range, oldRange) => {
+    if (range === null && oldRange !== null) {
+      dispatchContent(editor.getText());
+    }
+  });
+
   return (
     <>
       <Container>
         <GeneralEditor
           type="DOPYS"
-          dispatchContent={dispatchContent}
           toolbar={<NoteEditorToolbar editor={editor} />}
           ref={noteEditor}
         />

@@ -62,11 +62,7 @@ const NoteCreationView: React.FC = () => {
   };
 
   const publishNewNote = () => {
-    if (Object.values(newPost).some((value) => !value)) {
-      console.log('There is an empty value');
-    } else {
-      sendPost();
-    }
+    sendPost();
   };
 
   const goNotePreview = () => {
@@ -97,7 +93,7 @@ const NoteCreationView: React.FC = () => {
       </Box>
       <Box display="flex" justifyContent="flex-end">
         <PostCreationButtons
-          newPost={publishNewNote}
+          publishPost={publishNewNote}
           goPreview={goNotePreview}
         />
       </Box>

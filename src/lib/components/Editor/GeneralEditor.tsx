@@ -9,11 +9,10 @@ import { RootStateType } from '../../../store/rootReducer';
 export interface IQuillEditorProps {
   type: 'ARTICLE' | 'DOPYS';
   toolbar: React.ReactNode;
-  dispatchContent: (s: string) => void;
 }
 
 const GeneralEditor = React.forwardRef<ReactQuill, IQuillEditorProps>(
-  ({ type, toolbar, dispatchContent }, ref) => {
+  ({ type, toolbar }, ref) => {
     const savedContent = useSelector(
       (state: RootStateType) => state.newPostDraft[type].htmlContent,
     );
@@ -28,7 +27,6 @@ const GeneralEditor = React.forwardRef<ReactQuill, IQuillEditorProps>(
             value={text}
             onChange={(content) => {
               setText(content);
-              dispatchContent(content);
             }}
             placeholder="Write something awesome..."
             modules={modules}

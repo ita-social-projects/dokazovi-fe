@@ -14,16 +14,17 @@ export interface ILocationState {
   publishPost: () => void;
 }
 
-const ArticleCreationPreview: React.FC = () => {
+const PostCreationPreview: React.FC = () => {
   const classes = useStyles();
   const history = useHistory();
 
-  const currentPostCreation = history.location.pathname.split('/')[1];
   const currentState = history.location.state as ILocationState;
+
   const draft = useSelector(
     (state: RootStateType) =>
       state.newPostDraft[currentState.postType as PostTypeEnum],
   );
+
   const allDirections = useSelector(
     (state: RootStateType) => state.properties.directions,
   );
@@ -31,6 +32,7 @@ const ArticleCreationPreview: React.FC = () => {
   const directionIds = Object.keys(draft.topics).filter(
     (id) => draft.topics[id],
   );
+
   const directions = allDirections.filter((direction) =>
     directionIds.includes(direction.id.toString()),
   );
@@ -52,12 +54,12 @@ const ArticleCreationPreview: React.FC = () => {
     <Container className={classes.root}>
       <PostView post={post} />
       <PostCreationButtons
-        newPost={currentState.publishPost}
+        publishPost={currentState.publishPost}
         goPreview={goBackToCreation}
-        currentPostType={currentPostCreation}
+        isOnPreview
       />
     </Container>
   );
 };
 
-export default ArticleCreationPreview;
+export default PostCreationPreview;

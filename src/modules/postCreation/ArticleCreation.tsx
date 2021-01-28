@@ -17,7 +17,7 @@ import {
   setPostBody,
 } from './store/postCreationSlice';
 import { ICheckboxes, PostTopicSelector } from './PostTopicSelector';
-import { PostTypeEnum, IDirectionIDs } from '../../lib/types';
+import { PostTypeEnum } from '../../lib/types';
 import { postPublishPost } from '../../lib/utilities/API/api';
 import { sanitizeHtml } from '../../lib/utilities/sanitizeHtml';
 import PostCreationButtons from '../../lib/components/PostCreationButtons/PostCreationButtons';
@@ -52,17 +52,14 @@ const ArticleCreation: React.FC = () => {
     [],
   );
 
-  const dispatchHtmlContent = useCallback(
-    _.debounce((content: string) => {
-      dispatch(
-        setPostBody({
-          postType: PostTypeEnum.ARTICLE,
-          value: sanitizeHtml(content) as string,
-        }),
-      );
-    }, 2000),
-    [],
-  );
+  const dispatchHtmlContent = (content: string) => {
+    dispatch(
+      setPostBody({
+        postType: PostTypeEnum.ARTICLE,
+        value: sanitizeHtml(content) as string,
+      }),
+    );
+  };
 
   const allDirections = Object.keys(savedPostDraft.topics)
     .filter((id) => savedPostDraft.topics[id])
@@ -82,11 +79,7 @@ const ArticleCreation: React.FC = () => {
   };
 
   const publishNewArticle = () => {
-    if (Object.values(newPost).some((value) => !value)) {
-      console.log('There is an empty value');
-    } else {
-      sendPost();
-    }
+    sendPost();
   };
 
   const goArticlePreview = () => {
@@ -134,7 +127,7 @@ const ArticleCreation: React.FC = () => {
       </Box>
       <Box display="flex" justifyContent="flex-end">
         <PostCreationButtons
-          newPost={publishNewArticle}
+          publishPost={publishNewArticle}
           goPreview={goArticlePreview}
         />
       </Box>

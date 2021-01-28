@@ -3,18 +3,18 @@ import { Box, Button } from '@material-ui/core';
 import { useStyles } from '../../styles/PostCreationButtons.styles';
 
 export interface IPostCreationButtonsProps {
-  newPost: () => void;
+  publishPost: () => void;
   goPreview: () => void;
-  currentPostType?: string;
+  isOnPreview?: boolean;
 }
 
 const PostCreationButtons: React.FC<IPostCreationButtonsProps> = ({
-  newPost,
+  publishPost,
   goPreview,
-  currentPostType,
+  isOnPreview,
 }) => {
   const classes = useStyles();
-  const buttonText = currentPostType
+  const buttonText = isOnPreview
     ? 'Назад до редагування'
     : 'Попередній перегляд';
 
@@ -28,7 +28,7 @@ const PostCreationButtons: React.FC<IPostCreationButtonsProps> = ({
         >
           {buttonText}
         </Button>
-        <Button variant="contained" onClick={newPost}>
+        <Button variant="contained" onClick={publishPost}>
           Опублікувати
         </Button>
       </Box>

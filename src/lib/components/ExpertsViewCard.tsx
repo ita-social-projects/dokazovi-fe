@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Container, Grid, Typography } from '@material-ui/core';
+import { Container, Grid, Typography, Link } from '@material-ui/core';
 import { ExpertBlock } from './ExpertBlock';
 import { useStyles } from '../../modules/main/styles/MainExpertsView.styles';
 import { ExpertPopover } from './ExpertPopover';
@@ -60,7 +60,9 @@ export const ExpertsViewCard: React.FC<IExpertsViewCardProps> = (props) => {
         </Grid>
       ) : (
         <Container>
-          <Typography variant="h4">Експерти</Typography>
+          <Typography variant="h4">
+            <Link href="/experts">Експерти</Link>
+          </Typography>
           <div className={classes.experts}>
             {allExperts}
             <ExpertPopover
