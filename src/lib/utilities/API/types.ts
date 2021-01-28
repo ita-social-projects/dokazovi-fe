@@ -99,3 +99,7 @@ export type GetRegionsType = {
   id: number;
   name: string;
 };
+export type PostLoginResponseType = {
+  accessToken: string;
+  tokenType: string;
+};
