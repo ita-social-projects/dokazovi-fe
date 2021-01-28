@@ -18,7 +18,6 @@ const ExpertDataCard: React.FC<IExpertDataCardProps> = (props) => {
   const fullName = `${expert.firstName} ${expert.lastName}`;
   const mainInsitutionCity = expert.mainInstitution?.city?.name || '';
   const mainInsitutionName = expert.mainInstitution?.name || '';
-  const direction = expert.mainDirection;
 
   const handleClick = () => {
     history.push(`/experts/${expert.id as number}`);
@@ -44,11 +43,12 @@ const ExpertDataCard: React.FC<IExpertDataCardProps> = (props) => {
           >
             {fullName}
           </Typography>
-          {direction && (
-            <Typography variant="body1">
-              Спеціалізація: <PostDirectionLink direction={direction} />
-            </Typography>
-          )}
+          <Typography variant="body1">
+            Спеціалізація:{' '}
+            {expert.directions?.map((d) => {
+              return <PostDirectionLink direction={d} key={d.id} />;
+            })}
+          </Typography>
           <div>
             <Typography variant="body1" component="h2">
               {mainInsitutionCity}
