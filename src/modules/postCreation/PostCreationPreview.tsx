@@ -4,13 +4,20 @@ import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import PostView from '../posts/components/PostView';
 import { RootStateType } from '../../store/rootReducer';
-import { IPost } from '../../lib/types';
+import { IPost, PostTypeEnum } from '../../lib/types';
+import { useStyles } from './styles/PostCreationPreview.styles';
 import { mockPost } from '../posts/mockPost/mockPost';
 
 const ArticleCreationPreview: React.FC = () => {
+  const classes = useStyles();
   const history = useHistory();
+
+  const currentPostCreation = history.location.pathname.split('/')[1];
+  const currentPostType = history.location.state;
+
   const draft = useSelector(
-    (state: RootStateType) => state.newPostDraft.ARTICLE,
+    (state: RootStateType) =>
+      state.newPostDraft[currentPostType as PostTypeEnum],
   );
   const allDirections = useSelector(
     (state: RootStateType) => state.properties.directions,
@@ -29,28 +36,21 @@ const ArticleCreationPreview: React.FC = () => {
     preview: draft.preview.value,
     title: draft.title,
     directions,
+    createdAt: new Date().toLocaleDateString(),
   } as IPost;
 
-  const goArticleCreationView = () => {
-    history.push(`/create-article`);
+  const goBackToCreation = () => {
+    history.push(`/${currentPostCreation}`);
   };
 
   return (
-    <Container>
+    <Container className={classes.root}>
       <PostView post={post} />
-      <Box
-        display="flex"
-        flexDirection="row"
-        justifyContent="space-between"
-        style={{
-          marginTop: '10px',
-          padding: '10px',
-        }}
-      >
+      <Box className={classes.buttonHolder}>
         <Button
           style={{ marginRight: '10px' }}
           variant="contained"
-          onClick={goArticleCreationView}
+          onClick={goBackToCreation}
         >
           Назад до редагування
         </Button>

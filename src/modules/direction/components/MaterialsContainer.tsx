@@ -18,6 +18,7 @@ import LoadingInfo from '../../../lib/components/LoadingInfo';
 import useEffectExceptOnMount from '../../../lib/hooks/useEffectExceptOnMount';
 import { PostTypeFilter } from './PostTypesFilter';
 import { PostTagsFilter } from './PostTagsFilter';
+import { selectPostsByIds } from '../../../store/selectors';
 
 interface IMaterialsContainerProps {
   direction: IDirection;
@@ -29,12 +30,13 @@ const MaterialsContainer: React.FC<IMaterialsContainerProps> = ({
   const classes = useStyles();
 
   const {
-    posts,
+    postIds,
     meta: { loading, isLastPage, pageNumber },
     filters,
   } = useSelector(
     (state: RootStateType) => state.directions[direction.name].materials,
   );
+  const materials = selectPostsByIds(postIds);
 
   const dispatch = useDispatch();
 
@@ -88,7 +90,7 @@ const MaterialsContainer: React.FC<IMaterialsContainerProps> = ({
       />
       <PostTagsFilter directionName={direction.name} />
       <Grid container spacing={2} direction="row" alignItems="center">
-        <PostList postsList={posts} />
+        <PostList postsList={materials} />
       </Grid>
       <Grid
         container

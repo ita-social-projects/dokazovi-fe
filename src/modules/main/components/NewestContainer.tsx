@@ -13,6 +13,7 @@ import PostsList from '../../../lib/components/PostsList';
 import { LoadingStatusEnum } from '../../../lib/types';
 import LoadingInfo from '../../../lib/components/LoadingInfo';
 import useEffectExceptOnMount from '../../../lib/hooks/useEffectExceptOnMount';
+import { selectPostsByIds } from '../../../store/selectors';
 
 const NewestContainer: React.FC = () => {
   const classes = useStyles();
@@ -22,11 +23,12 @@ const NewestContainer: React.FC = () => {
   const setNewestInitial = () => dispatch(fetchInitialNewestPosts());
 
   const {
-    newestPosts,
+    newestPostIds,
     meta: { isLastPage, loading, currentPage },
   } = useSelector<RootStateType, IMainState['newest']>((state) => {
     return state.main.newest;
   });
+  const newestPosts = selectPostsByIds(newestPostIds);
 
   useEffect(() => {
     setNewestInitial();

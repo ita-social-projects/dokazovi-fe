@@ -14,19 +14,18 @@ import LoadingInfo from '../../../lib/components/LoadingInfo';
 import { useStyles } from '../styles/ExpertsView.styles';
 import { FilterTypeEnum } from '../../../lib/types';
 import { FilterFormContainer } from '../../../lib/components/FilterFormContainer';
+import { selectExpertsByIds } from '../../../store/selectors';
 
-export interface IExpertsViewProps {}
-
-const selectExperts = (state: RootStateType) => state.experts.experts;
-
-const ExpertsView: React.FC<IExpertsViewProps> = () => {
+const ExpertsView: React.FC = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const {
-    experts,
+    expertIds,
     meta: { totalPages, pageNumber, loading },
     filters,
-  } = useSelector(selectExperts);
+  } = useSelector((state: RootStateType) => state.experts.experts);
+
+  const experts = selectExpertsByIds(expertIds);
 
   const regions = useSelector(
     (state: RootStateType) => state.properties?.regions,

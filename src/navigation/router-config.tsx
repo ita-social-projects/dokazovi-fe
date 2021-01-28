@@ -21,11 +21,9 @@ const PostViewContainer = lazy(
 const ArticleCreation = lazy(
   () => import('../modules/postCreation/ArticleCreation'),
 );
-const ArticleCreationPreview = lazy(
-  () => import('../modules/postCreation/ArticleCreationPreview'),
-);
-const NoteCreationView = lazy(
-  () => import('../modules/postCreation/NoteCreationView'),
+const NoteCreation = lazy(() => import('../modules/postCreation/NoteCreation'));
+const PostCreationPreview = lazy(
+  () => import('../modules/postCreation/PostCreationPreview'),
 );
 const Page404 = lazy(() => import('../lib/components/Errors/Page404'));
 
@@ -93,7 +91,7 @@ const ROUTER_CONFIG: IRouterConfig[] = [
         path: '/create-article/preview',
         key: 'ARTICLE_PREVIEW',
         exact: true,
-        component: ArticleCreationPreview,
+        component: PostCreationPreview,
         title: 'Попередній перегляд',
       },
     ],
@@ -101,9 +99,23 @@ const ROUTER_CONFIG: IRouterConfig[] = [
   {
     path: '/create-note',
     key: 'NOTE',
-    exact: true,
-    component: NoteCreationView,
-    title: 'Створити допис',
+    component: RenderRoutes,
+    routes: [
+      {
+        path: '/create-note',
+        key: 'NOTE',
+        exact: true,
+        component: NoteCreation,
+        title: 'Створення допису',
+      },
+      {
+        path: '/create-note/preview',
+        key: 'NOTE_PREVIEW',
+        exact: true,
+        component: PostCreationPreview,
+        title: 'Попередній перегляд',
+      },
+    ],
   },
   {
     path: '/posts/:postId',
@@ -117,7 +129,7 @@ const ROUTER_CONFIG: IRouterConfig[] = [
     key: 'ERROR_404',
     exact: true,
     component: Page404,
-    title: 'error 404',
+    title: 'Помилка 404',
   },
 ];
 

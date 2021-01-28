@@ -5,9 +5,12 @@ import { Grid, Toolbar, Typography } from '@material-ui/core';
 import ListItem from '@material-ui/core/ListItem/ListItem';
 import List from '@material-ui/core/List/List';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { useStyles } from './Header.styles';
 import { PostCreationMenu } from '../PostCreationMenu';
 import { LoginModal } from '../Modals/LoginModal';
+import { RootStateType } from '../../../store/rootReducer';
+import LogOutButton from '../LogOutButton';
 
 interface IHeaderProps {
   id: string;
@@ -44,6 +47,7 @@ export const navElems: IHeaderProps[] = [
 
 const Header: React.FC = () => {
   const classes = useStyles();
+  const { user } = useSelector((state: RootStateType) => state.currentUser);
 
   const allLinks = navElems.map((item) => (
     <Link
@@ -82,7 +86,7 @@ const Header: React.FC = () => {
 
             <div className={classes.logIn}>
               <AccountCircleIcon fontSize="large" />
-              <LoginModal />
+              {user ? <LogOutButton /> : <LoginModal />}
             </div>
           </Toolbar>
         </Grid>

@@ -1,4 +1,5 @@
 import React, { useCallback } from 'react';
+import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import _ from 'lodash';
 import {
@@ -12,9 +13,12 @@ import { setPostTopics, setPostBody } from './store/postCreationSlice';
 import { ICheckboxes, PostTopicSelector } from './PostTopicSelector';
 import { PostTypeEnum } from '../../lib/types';
 import { RootStateType } from '../../store/rootReducer';
+import { sanitizeHtml } from '../../lib/utilities/sanitizeHtml';
+import PostCreationButtons from '../../lib/components/PostCreationButtons/PostCreationButtons';
 
 const NoteCreationView: React.FC = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const directions = useSelector(
     (state: RootStateType) => state.properties?.directions,
@@ -29,10 +33,19 @@ const NoteCreationView: React.FC = () => {
 
   const dispatchHtmlContent = useCallback(
     _.debounce((content: string) => {
-      dispatch(setPostBody({ postType: PostTypeEnum.DOPYS, value: content }));
+      dispatch(
+        setPostBody({
+          postType: PostTypeEnum.DOPYS,
+          value: sanitizeHtml(content) as string,
+        }),
+      );
     }, 2000),
     [],
   );
+
+  const goNotePreview = () => {
+    history.push(`/create-note/preview`, 'DOPYS');
+  };
 
   return (
     <Container fixed>
@@ -53,6 +66,7 @@ const NoteCreationView: React.FC = () => {
         </Container>
         <NoteEditor dispatchContent={dispatchHtmlContent} />
       </Box>
+      <PostCreationButtons goPreview={goNotePreview} />
     </Container>
   );
 };

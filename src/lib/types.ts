@@ -24,6 +24,10 @@ export enum LoadingStatusEnum {
   failed = 'failed',
 }
 
+export enum LocalStorageKeys {
+  ACCESS_TOKEN = 'ACCESS_TOKEN',
+}
+
 export enum FilterTypeEnum {
   POST_TYPES = 'POST_TYPES',
   DIRECTIONS = 'DIRECTIONS',
