@@ -13,6 +13,7 @@ import {
 } from '@material-ui/core';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import { emailValidationObj, passwordValidationObj } from './validationRules';
 
 export interface IInputs {
   email: string;
@@ -91,16 +92,7 @@ export const RegistrationModal: React.FC<IRegistrationProps> = (props) => {
               <Grid item xs={12}>
                 <TextField
                   name="email"
-                  inputRef={register({
-                    required: {
-                      value: true,
-                      message: "Це поле є обов'язковим",
-                    },
-                    pattern: {
-                      value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                      message: 'Неправильний формат email',
-                    },
-                  })}
+                  inputRef={register(emailValidationObj)}
                   label="Email"
                   style={{ width: '100%' }}
                 />
@@ -112,20 +104,7 @@ export const RegistrationModal: React.FC<IRegistrationProps> = (props) => {
                 <TextField
                   name="password"
                   type={showPassword ? 'text' : 'password'}
-                  inputRef={register({
-                    required: {
-                      value: true,
-                      message: "Це поле є обов'язковим",
-                    },
-                    minLength: {
-                      value: 4,
-                      message: 'Пароль повинен містити щонайменше 4 символи',
-                    },
-                    maxLength: {
-                      value: 16,
-                      message: 'Пароль повинен містити щонайбільше 16 символи',
-                    },
-                  })}
+                  inputRef={register(passwordValidationObj)}
                   InputProps={{
                     // <-- This is where the password toggle button is added.
                     endAdornment: (

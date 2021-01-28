@@ -94,3 +94,8 @@ export interface IInstitution {
 export interface IFilter {
   value: any;
 }
+
+export interface IInputs {
+  email: string;
+  password: string;
+}
