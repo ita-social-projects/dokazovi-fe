@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import React from 'react';
 import { useForm, DeepMap, FieldError } from 'react-hook-form';
 import {
@@ -16,6 +18,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RegistrationModal } from './RegistrationModal';
 import { clearError, loginUser } from '../../../store/authSlice';
 import { RootStateType } from '../../../store/rootReducer';
+import { FACEBOOK_AUTH_URL, GOOGLE_AUTH_URL } from '../../../apiURL';
 
 export interface IInputs {
   email: string;
@@ -178,10 +181,10 @@ export const LoginModal: React.FC = () => {
               <Grid item xs={12} style={{ margin: '0px auto' }}>
                 <Grid container justify="center">
                   <Grid item xs={6} style={{ textAlign: 'center' }}>
-                    <Button>Facebook</Button>
+                    <Button href={FACEBOOK_AUTH_URL}>Facebook</Button>
                   </Grid>
                   <Grid item xs={6} style={{ textAlign: 'center' }}>
-                    <Button>Google</Button>
+                    <Button href={GOOGLE_AUTH_URL}>Google</Button>
                   </Grid>
                 </Grid>
               </Grid>

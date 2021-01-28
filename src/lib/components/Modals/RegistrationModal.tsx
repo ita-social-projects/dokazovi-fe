@@ -9,6 +9,7 @@ import {
   DialogTitle,
   DialogContent,
 } from '@material-ui/core';
+import { GOOGLE_AUTH_URL, FACEBOOK_AUTH_URL } from '../../../apiURL';
 
 export interface IInputs {
   email: string;
@@ -169,10 +170,10 @@ export const RegistrationModal: React.FC<IRegistrationProps> = (props) => {
               <Grid item xs={12} style={{ margin: '0px auto' }}>
                 <Grid container justify="center">
                   <Grid item xs={6} style={{ textAlign: 'center' }}>
-                    <Button>Facebook</Button>
+                    <Button href={FACEBOOK_AUTH_URL}>Facebook</Button>
                   </Grid>
                   <Grid item xs={6} style={{ textAlign: 'center' }}>
-                    <Button>Google</Button>
+                    <Button href={GOOGLE_AUTH_URL}>Google</Button>
                   </Grid>
                 </Grid>
               </Grid>

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable no-param-reassign */
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import qs from 'qs';
