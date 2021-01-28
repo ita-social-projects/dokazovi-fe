@@ -3,11 +3,13 @@ import { Box, Button } from '@material-ui/core';
 import { useStyles } from '../../styles/PostCreationButtons.styles';
 
 export interface IPostCreationButtonsProps {
+  newPost: () => void;
   goPreview: () => void;
   currentPostType?: string;
 }
 
 const PostCreationButtons: React.FC<IPostCreationButtonsProps> = ({
+  newPost,
   goPreview,
   currentPostType,
 }) => {
@@ -26,7 +28,9 @@ const PostCreationButtons: React.FC<IPostCreationButtonsProps> = ({
         >
           {buttonText}
         </Button>
-        <Button variant="contained">Опублікувати</Button>
+        <Button variant="contained" onClick={newPost}>
+          Опублікувати
+        </Button>
       </Box>
     </>
   );

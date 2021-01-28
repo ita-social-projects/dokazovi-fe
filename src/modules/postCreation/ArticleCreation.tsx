@@ -17,9 +17,11 @@ import {
   setPostBody,
 } from './store/postCreationSlice';
 import { ICheckboxes, PostTopicSelector } from './PostTopicSelector';
-import { PostTypeEnum } from '../../lib/types';
+import { PostTypeEnum, IDirectionIDs } from '../../lib/types';
+import { postPublishPost } from '../../lib/utilities/API/api';
 import { sanitizeHtml } from '../../lib/utilities/sanitizeHtml';
 import PostCreationButtons from '../../lib/components/PostCreationButtons/PostCreationButtons';
+import { PostPostRequestType } from '../../lib/utilities/API/types';
 
 const ArticleCreation: React.FC = () => {
   const history = useHistory();
@@ -62,12 +64,36 @@ const ArticleCreation: React.FC = () => {
     [],
   );
 
-  const goArticlePreview = () => {
-    history.push(`/create-article/preview`, 'ARTICLE');
+  const allDirections = Object.keys(savedPostDraft.topics)
+    .filter((id) => savedPostDraft.topics[id])
+    .map((direction) => ({ id: Number(direction) }));
+
+  const newPost = {
+    content: savedPostDraft.htmlContent,
+    directions: allDirections,
+    preview: savedPostDraft.preview.value,
+    title: savedPostDraft.title,
+    type: { id: 1 },
+  } as PostPostRequestType;
+
+  const sendPost = async () => {
+    const responsePost = await postPublishPost(newPost);
+    history.push(`/posts/${responsePost.data.id}`);
   };
 
   const publishNewArticle = () => {
-    // todo post request to publish post
+    if (Object.values(newPost).some((value) => !value)) {
+      console.log('There is an empty value');
+    } else {
+      sendPost();
+    }
+  };
+
+  const goArticlePreview = () => {
+    history.push(`/create-article/preview`, {
+      postType: 'ARTICLE',
+      publishPost: publishNewArticle,
+    });
   };
 
   return (
@@ -107,7 +133,10 @@ const ArticleCreation: React.FC = () => {
         <ArticleEditor dispatchContent={dispatchHtmlContent} />
       </Box>
       <Box display="flex" justifyContent="flex-end">
-        <PostCreationButtons goPreview={goArticlePreview} />
+        <PostCreationButtons
+          newPost={publishNewArticle}
+          goPreview={goArticlePreview}
+        />
       </Box>
     </Container>
   );

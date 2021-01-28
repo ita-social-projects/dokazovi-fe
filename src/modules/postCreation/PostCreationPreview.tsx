@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Button, Box } from '@material-ui/core';
+import { Container } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import PostView from '../posts/components/PostView';
@@ -9,16 +9,20 @@ import { useStyles } from './styles/PostCreationPreview.styles';
 import { mockPost } from '../posts/mockPost/mockPost';
 import PostCreationButtons from '../../lib/components/PostCreationButtons/PostCreationButtons';
 
+export interface ILocationState {
+  postType: string;
+  publishPost: () => void;
+}
+
 const ArticleCreationPreview: React.FC = () => {
   const classes = useStyles();
   const history = useHistory();
 
   const currentPostCreation = history.location.pathname.split('/')[1];
-  const currentPostType = history.location.state;
-
+  const currentState = history.location.state as ILocationState;
   const draft = useSelector(
     (state: RootStateType) =>
-      state.newPostDraft[currentPostType as PostTypeEnum],
+      state.newPostDraft[currentState.postType as PostTypeEnum],
   );
   const allDirections = useSelector(
     (state: RootStateType) => state.properties.directions,
@@ -48,6 +52,7 @@ const ArticleCreationPreview: React.FC = () => {
     <Container className={classes.root}>
       <PostView post={post} />
       <PostCreationButtons
+        newPost={currentState.publishPost}
         goPreview={goBackToCreation}
         currentPostType={currentPostCreation}
       />

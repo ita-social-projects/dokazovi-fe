@@ -14,7 +14,9 @@ import { ICheckboxes, PostTopicSelector } from './PostTopicSelector';
 import { PostTypeEnum } from '../../lib/types';
 import { RootStateType } from '../../store/rootReducer';
 import { sanitizeHtml } from '../../lib/utilities/sanitizeHtml';
+import { postPublishPost } from '../../lib/utilities/API/api';
 import PostCreationButtons from '../../lib/components/PostCreationButtons/PostCreationButtons';
+import { PostPostRequestType } from '../../lib/utilities/API/types';
 
 const NoteCreationView: React.FC = () => {
   const dispatch = useDispatch();
@@ -43,8 +45,35 @@ const NoteCreationView: React.FC = () => {
     [],
   );
 
+  const allDirections = Object.keys(savedPostDraft.topics)
+    .filter((id) => savedPostDraft.topics[id])
+    .map((direction) => ({ id: Number(direction) }));
+
+  const newPost = {
+    content: savedPostDraft.htmlContent,
+    directions: allDirections,
+    preview: savedPostDraft.preview.value,
+    type: { id: 2 },
+  } as PostPostRequestType;
+
+  const sendPost = async () => {
+    const responsePost = await postPublishPost(newPost);
+    history.push(`/posts/${responsePost.data.id}`);
+  };
+
+  const publishNewNote = () => {
+    if (Object.values(newPost).some((value) => !value)) {
+      console.log('There is an empty value');
+    } else {
+      sendPost();
+    }
+  };
+
   const goNotePreview = () => {
-    history.push(`/create-note/preview`, 'DOPYS');
+    history.push(`/create-note/preview`, {
+      postType: 'DOPYS',
+      publishPost: publishNewNote,
+    });
   };
 
   return (
@@ -67,7 +96,10 @@ const NoteCreationView: React.FC = () => {
         <NoteEditor dispatchContent={dispatchHtmlContent} />
       </Box>
       <Box display="flex" justifyContent="flex-end">
-        <PostCreationButtons goPreview={goNotePreview} />
+        <PostCreationButtons
+          newPost={publishNewNote}
+          goPreview={goNotePreview}
+        />
       </Box>
     </Container>
   );

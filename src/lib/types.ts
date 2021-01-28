@@ -82,6 +82,10 @@ export interface IDirection {
   route?: string; // remove
 }
 
+export interface IDirectionIDs {
+  id: number;
+}
+
 export interface IInstitution {
   city: {
     id: number;
