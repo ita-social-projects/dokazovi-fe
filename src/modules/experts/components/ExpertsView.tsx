@@ -100,6 +100,8 @@ const ExpertsView: React.FC = () => {
                   <Pagination
                     count={totalPages}
                     page={pageNumber}
+                    showFirstButton
+                    showLastButton
                     onChange={handlePageChange}
                   />
                 </Grid>
