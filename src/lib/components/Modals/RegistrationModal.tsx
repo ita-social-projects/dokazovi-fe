@@ -14,11 +14,7 @@ import {
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import { emailValidationObj, passwordValidationObj } from './validationRules';
-
-export interface IInputs {
-  email: string;
-  password: string;
-}
+import { IInputs } from '../../types';
 
 export interface IRegistrationProps {
   registrationOpen: boolean;
