@@ -6,9 +6,8 @@ import {
   setPostPreviewText,
   setPostPreviewManuallyChanged,
 } from '../../../modules/postCreation/store/postCreationSlice';
-import { IDirection, PostTypeEnum } from '../../types';
+import { IDirection, IPost, PostTypeEnum } from '../../types';
 import PostPreviewCard from '../PostPreview/PostPreviewCard';
-import { mockUser } from './mock/mockUser';
 import { RootStateType } from '../../../store/rootReducer';
 import { ICheckboxes } from '../../../modules/postCreation/PostTopicSelector';
 
@@ -43,7 +42,6 @@ const getSelectedTopics = (obj: ICheckboxes, arr: IDirection[]) => {
       }
     }
   });
-  console.log(resultArr);
 
   return resultArr;
 };
@@ -61,6 +59,8 @@ const ContentPreviewContainer: React.FC<IContentPreviewContainerProps> = ({
   const { directions } = useSelector(
     (state: RootStateType) => state.properties,
   );
+
+  const { user } = useSelector((state: RootStateType) => state.currentUser);
 
   const [textFieldValue, setTextFieldValue] = useState<string>('');
   const [isTextFieldManualyChanged, setisTextFieldManualyChanged] = useState<
@@ -121,12 +121,19 @@ const ContentPreviewContainer: React.FC<IContentPreviewContainerProps> = ({
     [],
   );
 
-  const mockData = {
-    ...mockUser,
+  const cardPreviewData: IPost = {
+    author: {
+      avatar: user?.avatar,
+      firstName: user ? user.firstName : '',
+      lastName: user ? user.lastName : '',
+      mainInstitution: user?.mainInstitution,
+    },
+    id: 1,
+    createdAt: new Date().toLocaleDateString('en-GB').split('/').join('.'),
     title: title || '',
     postType: { id: 0, name: previewCardType },
     directions: selectedTopics,
-    preview: `${trunkLength(textFieldValue)} ...`,
+    preview: `${trunkLength(textFieldValue)}`,
   };
 
   //  TODO trunc preview text in PostPreviewCard
@@ -174,7 +181,7 @@ const ContentPreviewContainer: React.FC<IContentPreviewContainerProps> = ({
           </Grid>
         </Grid>
         <Grid item xs={12} lg={4} md={6}>
-          <PostPreviewCard data={mockData} />
+          <PostPreviewCard data={cardPreviewData} />
         </Grid>
       </Grid>
     </>
