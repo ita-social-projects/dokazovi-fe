@@ -68,7 +68,7 @@ const ExpertDataCard: React.FC<IExpertDataCardProps> = (props) => {
             </Typography>
           </div>
           {expert.lastAddedPost && (
-            <div>
+            <div style={{ cursor: 'pointer' }}>
               <Typography variant="body2" color="textSecondary">
                 Останній доданий матеріал:
               </Typography>

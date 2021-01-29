@@ -19,7 +19,7 @@ export const mockUser: IPost = {
     name: 'Стаття',
   },
   preview: '',
-  id: 10,
+  id: 101,
 
   directions: [
     { id: 1, name: 'covid-19', label: 'Covid-19', color: '#ef5350' },

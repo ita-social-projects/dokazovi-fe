@@ -16,7 +16,6 @@ export interface IExpertsViewCardProps {
 
 export const ExpertsViewCard: React.FC<IExpertsViewCardProps> = (props) => {
   const { cards, loading } = props;
-
   const [anchorEl, setAnchorEl] = useState<HTMLDivElement | null>(null);
   const [popoverCard, setPopoverCard] = useState<IExpert | null>(null);
 
