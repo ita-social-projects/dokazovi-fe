@@ -6,10 +6,9 @@ import {
   setPostPreviewText,
   setPostPreviewManuallyChanged,
 } from '../../../modules/postCreation/store/postCreationSlice';
-import { IDirection, IPost, PostTypeEnum } from '../../types';
+import { ICheckboxes, IDirection, IPost, PostTypeEnum } from '../../types';
 import PostPreviewCard from '../PostPreview/PostPreviewCard';
 import { RootStateType } from '../../../store/rootReducer';
-import { ICheckboxes } from '../../../modules/postCreation/PostTopicSelector';
 
 export interface IContentPreviewContainerProps {
   previewText: string;

@@ -98,3 +98,7 @@ export interface IInstitution {
 export interface IFilter {
   value: any;
 }
+
+export interface ICheckboxes {
+  [key: string]: boolean;
+}

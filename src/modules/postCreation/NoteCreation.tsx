@@ -10,8 +10,8 @@ import {
 } from '@material-ui/core';
 import NoteEditor from '../../lib/components/Editor/Editors/NoteEditor';
 import { setPostTopics, setPostBody } from './store/postCreationSlice';
-import { ICheckboxes, PostTopicSelector } from './PostTopicSelector';
-import { PostTypeEnum } from '../../lib/types';
+import { PostTopicSelector } from './PostTopicSelector';
+import { ICheckboxes, PostTypeEnum } from '../../lib/types';
 import { RootStateType } from '../../store/rootReducer';
 import { sanitizeHtml } from '../../lib/utilities/sanitizeHtml';
 import PostCreationButtons from '../../lib/components/PostCreationButtons/PostCreationButtons';
