@@ -12,10 +12,11 @@ const cardsClasses = Array.from(Array(11).keys()).map((el) => `item_${el}`);
 export interface IExpertsViewCardProps {
   cards: IExpert[];
   loading?: LoadingStatusEnum;
+  isOnDirection?: boolean;
 }
 
 export const ExpertsViewCard: React.FC<IExpertsViewCardProps> = (props) => {
-  const { cards, loading } = props;
+  const { cards, loading, isOnDirection } = props;
   const [anchorEl, setAnchorEl] = useState<HTMLDivElement | null>(null);
   const [popoverCard, setPopoverCard] = useState<IExpert | null>(null);
 
@@ -59,9 +60,13 @@ export const ExpertsViewCard: React.FC<IExpertsViewCardProps> = (props) => {
         </Grid>
       ) : (
         <Container>
-          <Typography variant="h4">
-            <Link href="/experts">Експерти</Link>
-          </Typography>
+          {isOnDirection ? (
+            <Typography variant="h4">Експерти</Typography>
+          ) : (
+            <Typography variant="h4">
+              <Link href="/experts">Експерти</Link>
+            </Typography>
+          )}
           <div className={classes.experts}>
             {allExperts}
             <ExpertPopover

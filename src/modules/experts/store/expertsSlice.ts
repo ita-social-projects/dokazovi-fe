@@ -224,7 +224,9 @@ export const expertsSlice = createSlice({
       state.experts.meta.loading = LoadingStatusEnum.pending;
     });
     builder.addCase(fetchExpertById.fulfilled, (state, { payload }) => {
-      state.experts.expertIds.push(String(payload));
+      if (state.experts.expertIds.includes(String(payload))) {
+        state.experts.expertIds.push(String(payload));
+      }
       state.experts.meta.loading = LoadingStatusEnum.succeeded;
     });
     builder.addCase(fetchExpertById.rejected, (state, { error }) => {
