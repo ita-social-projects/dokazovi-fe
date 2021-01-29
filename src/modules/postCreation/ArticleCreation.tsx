@@ -52,14 +52,17 @@ const ArticleCreation: React.FC = () => {
     [],
   );
 
-  const dispatchHtmlContent = (content: string) => {
-    dispatch(
-      setPostBody({
-        postType: PostTypeEnum.ARTICLE,
-        value: sanitizeHtml(content) as string,
-      }),
-    );
-  };
+  const dispatchHtmlContent = useCallback(
+    _.debounce((content: string) => {
+      dispatch(
+        setPostBody({
+          postType: PostTypeEnum.ARTICLE,
+          value: sanitizeHtml(content) as string,
+        }),
+      );
+    }, 2000),
+    [],
+  );
 
   const allDirections = Object.keys(savedPostDraft.topics)
     .filter((id) => savedPostDraft.topics[id])
@@ -79,7 +82,7 @@ const ArticleCreation: React.FC = () => {
   };
 
   const publishNewArticle = () => {
-    sendPost();
+    sendPost(); // todo add spinner to Publish button
   };
 
   const goArticlePreview = () => {

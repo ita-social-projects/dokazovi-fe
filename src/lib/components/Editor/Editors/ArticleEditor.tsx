@@ -29,17 +29,12 @@ const ArticleEditor: React.FC<IArticleEditorProps> = ({ dispatchContent }) => {
     setEditorContent(editor.getText());
   });
 
-  editor?.on('selection-change', (range, oldRange) => {
-    if (range === null && oldRange !== null) {
-      dispatchContent(editor.getText());
-    }
-  });
-
   return (
     <>
       <Container>
         <GeneralEditor
           type="ARTICLE"
+          dispatchContent={dispatchContent}
           toolbar={<ArticleEditorToolbar editor={editor} />}
           ref={articleEditor}
         />

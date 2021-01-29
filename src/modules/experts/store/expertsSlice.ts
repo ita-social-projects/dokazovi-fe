@@ -124,7 +124,7 @@ export const fetchExpertById = createAsyncThunk(
     const existingExpert = experts[id];
 
     if (existingExpert) {
-      return existingExpert;
+      return existingExpert.id;
     }
 
     const { data: fetchedExpert } = await getExpertById(id);
@@ -223,11 +223,8 @@ export const expertsSlice = createSlice({
     builder.addCase(fetchExpertById.pending, (state) => {
       state.experts.meta.loading = LoadingStatusEnum.pending;
     });
-    builder.addCase(fetchExpertById.fulfilled, (state, { payload }) => {
-      if (state.experts.expertIds.includes(String(payload))) {
-        state.experts.expertIds.push(String(payload));
-      }
-      state.experts.meta.loading = LoadingStatusEnum.succeeded;
+    builder.addCase(fetchExpertById.fulfilled, (state) => {
+      state.experts.meta.loading = LoadingStatusEnum.succeeded; // TODO add slice for single expert
     });
     builder.addCase(fetchExpertById.rejected, (state, { error }) => {
       if (error.message) {
