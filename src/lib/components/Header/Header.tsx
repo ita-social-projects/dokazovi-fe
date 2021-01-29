@@ -79,10 +79,11 @@ const Header: React.FC = () => {
                 </Typography>
               </div>
             </Link>
-
-            <div className={classes.postCreationMenu}>
-              <PostCreationMenu />
-            </div>
+            {user && (
+              <div className={classes.postCreationMenu}>
+                <PostCreationMenu />
+              </div>
+            )}
 
             <div className={classes.logIn}>
               <AccountCircleIcon fontSize="large" />
