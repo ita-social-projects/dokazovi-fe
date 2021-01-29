@@ -1,15 +1,16 @@
 import { Button } from '@material-ui/core';
 import React from 'react';
 import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { logOut } from '../../store/authSlice';
 
-export interface ILogOutButtonProps {}
-
-const LogOutButton: React.FC<ILogOutButtonProps> = () => {
+const LogOutButton: React.FC = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const onLogoutHandler = () => {
     dispatch(logOut());
+    history.push(`/`);
   };
 
   return (
