@@ -2,7 +2,7 @@ import { IconButton } from '@material-ui/core';
 import React from 'react';
 import { Quill } from 'react-quill';
 import CropOriginalIcon from '@material-ui/icons/CropOriginal';
-import ImageFromURLHandler from './ImageFromURLHandler';
+import UrlInputModal from './UrlInputModal';
 
 export interface IImageHandlersContainerProps {
   editor?: Quill;
@@ -32,17 +32,7 @@ const ImageHandlersContainer: React.FC<IImageHandlersContainerProps> = ({
             tabIndex={0}
             title="З комп'ютера"
           />
-          <IconButton
-            onClick={() => ImageFromURLHandler(editor)}
-            title="За посиланням"
-            disableRipple
-          >
-            <CropOriginalIcon
-              className="customSVGIcon"
-              fontSize="small"
-              style={{ width: '18px', height: '18px' }}
-            />
-          </IconButton>
+          <UrlInputModal editor={editor} />
         </div>
       </span>
     </>
