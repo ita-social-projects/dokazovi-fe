@@ -1,7 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { IInputs } from '../lib/components/Modals/RegistrationModal';
-import { LocalStorageKeys } from '../lib/types';
+import { IInputs, LocalStorageKeys } from '../lib/types';
 import { getCurrentUser, loginService } from '../lib/utilities/API/api';
 import { ExpertResponseType } from '../lib/utilities/API/types';
 
