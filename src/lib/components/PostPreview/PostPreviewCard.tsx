@@ -35,7 +35,7 @@ const PostPreviewCard: React.FC<IPostPreviewCardProps> = (props) => {
           position="relative"
           display="flex"
           flexDirection="row"
-          flexWrap="wrap"
+          flexWrap="no-wrap"
           justifyContent="space-between"
           style={{
             marginLeft: '14px',
