@@ -7,10 +7,7 @@ const usePostPreviewData = () => {
 
   const post = {
     author: {
-      avatar: user?.avatar,
-      firstName: user ? user.firstName : '',
-      lastName: user ? user.lastName : '',
-      mainInstitution: user?.mainInstitution,
+      ...user,
     },
     id: 1,
     createdAt: new Date().toLocaleDateString('en-GB').split('/').join('.'),
