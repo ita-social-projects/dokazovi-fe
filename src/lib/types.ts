@@ -49,7 +49,7 @@ export interface IPost {
 }
 
 export interface IExpert {
-  id?: number;
+  id: number;
   firstName: string;
   lastName: string;
   avatar?: string;

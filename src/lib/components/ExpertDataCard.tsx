@@ -21,7 +21,7 @@ const ExpertDataCard: React.FC<IExpertDataCardProps> = (props) => {
   const direction = expert.mainDirection;
 
   const handleClick = () => {
-    history.push(`/experts/${expert.id as number}`);
+    history.push(`/experts/${expert.id}`);
   };
 
   const classes = useStyles();
