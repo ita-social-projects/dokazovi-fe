@@ -155,6 +155,8 @@ export const directionsSlice = createSlice({
         direction.materials.meta = materials.meta;
       }
     },
+
+    // only needed for tags
     setPostFilters: (
       state,
       action: PayloadAction<{
@@ -170,6 +172,7 @@ export const directionsSlice = createSlice({
           ...direction.materials.filters,
           [key]: filters,
         };
+        // set pageNumber to 0 when changing filters!
         direction.materials.meta.pageNumber = -1;
         direction.materials.postIds.length = 0;
       }
@@ -233,12 +236,13 @@ export const fetchExperts = (
   }
 };
 
-export const fetchMaterials = (direction: IDirection): AppThunkType => async (
-  dispatch,
-  getState,
-) => {
-  const { meta, filters } = getState().directions[direction.name].materials;
-  const postTypes = filters?.[FilterTypeEnum.POST_TYPES]?.value as string[];
+export const fetchMaterials = (
+  direction: IDirection,
+  postTypes: string[] = [],
+  pageNumber: number,
+  initialLoad: boolean,
+): AppThunkType => async (dispatch, getState) => {
+  const { postIds, filters } = getState().directions[direction.name].materials;
   const postTags = filters?.[FilterTypeEnum.TAGS]?.value as string[];
 
   try {
@@ -252,7 +256,7 @@ export const fetchMaterials = (direction: IDirection): AppThunkType => async (
     const response = await getPosts('latest-by-direction', {
       params: {
         direction: direction.id,
-        page: meta.pageNumber + 1,
+        page: pageNumber,
         size: LOAD_POSTS_LIMIT,
         type: postTypes,
         tag: postTags,
@@ -267,7 +271,7 @@ export const fetchMaterials = (direction: IDirection): AppThunkType => async (
       loadMaterials({
         directionName: direction.name,
         materials: {
-          postIds: ids,
+          postIds: initialLoad ? ids : postIds.concat(ids),
           meta: {
             isLastPage: response.data.last,
             loading: LoadingStatusEnum.succeeded,
@@ -285,16 +289,5 @@ export const fetchMaterials = (direction: IDirection): AppThunkType => async (
         error: String(e),
       }),
     );
-  }
-};
-
-export const fetchInitialMaterials = (direction: IDirection): AppThunkType => (
-  dispatch,
-  getState,
-) => {
-  const { postIds } = getState().directions[direction.name].materials;
-
-  if (postIds.length === 0) {
-    dispatch(fetchMaterials(direction));
   }
 };

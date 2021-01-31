@@ -6,15 +6,16 @@ import { useForm, Controller } from 'react-hook-form';
 import Checkbox from '@material-ui/core/Checkbox';
 import { RootStateType } from '../../../store/rootReducer';
 import { IPostType } from '../../../lib/types';
+import useEffectExceptOnMount from '../../../lib/hooks/useEffectExceptOnMount';
 
 export interface IPostTypeFilterProps {
-  directionName?: string;
-  dispatchFunction(checked?: string[], directionName?: string): void;
+  setFilters(checked?: string[]): void;
+  selectedTypes?: string[];
 }
 
 export const PostTypeFilter: React.FC<IPostTypeFilterProps> = ({
-  directionName,
-  dispatchFunction,
+  setFilters,
+  selectedTypes,
 }) => {
   const { control } = useForm();
 
@@ -28,13 +29,29 @@ export const PostTypeFilter: React.FC<IPostTypeFilterProps> = ({
 
   const initState = () =>
     postTypes.reduce((acc: IInitState, next: IPostType) => {
-      return { ...acc, [next.id.toString()]: false };
+      const id = next.id.toString();
+      return { ...acc, [id]: selectedTypes?.includes(id) || false };
     }, {});
 
+  // triggers fetch when user navigates history. skip call on component mount to
+  // avoid unnecessary history push. also, update checkboxes state using a query
+  // from props. use a string instead of string array in deps, since array is
+  // always going to be a different object and that would cause an infinite loop.
+  const selectedTypesString = selectedTypes?.join();
+  useEffectExceptOnMount(() => {
+    console.log('effect called with types', selectedTypes);
+
+    setChecked(initState());
+    setFilters(selectedTypes);
+  }, [selectedTypesString]);
+
+  // no need to keep the state in a component, since it's persisted in url
+  // how to debounce calls without local state tho?
   const [checkedTypes, setChecked] = useState(initState);
 
   const checkBoxes = postTypes?.map((type) => {
     const id = type.id.toString();
+    // console.log(`query has typeId #${id}`, selectedTypes?.includes(id));
     return (
       <FormControlLabel
         key={type.id}
@@ -56,10 +73,7 @@ export const PostTypeFilter: React.FC<IPostTypeFilterProps> = ({
   });
 
   const handler = useCallback(
-    _.debounce(
-      (checked: string[]) => dispatchFunction(checked, directionName),
-      500,
-    ),
+    _.debounce((checked: string[]) => setFilters(checked), 500),
     [],
   );
 
