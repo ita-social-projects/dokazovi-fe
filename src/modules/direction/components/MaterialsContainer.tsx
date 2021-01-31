@@ -44,11 +44,11 @@ const MaterialsContainer: React.FC<IMaterialsContainerProps> = ({
   const dispatch = useDispatch();
 
   const dispatchFetchAction = (
-    nextPage = Number(query.get('page')),
+    page = Number(query.get('page')),
     checked = query.get('types')?.split(','),
-    initialLoad = false,
+    replacePosts = false,
   ) => {
-    dispatch(fetchMaterials(direction, checked, nextPage, initialLoad));
+    dispatch(fetchMaterials(direction, checked, page, replacePosts));
   };
 
   const fetchMorePosts = () => {

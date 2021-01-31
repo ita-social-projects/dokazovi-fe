@@ -60,14 +60,12 @@ export const PostTopicSelector: React.FC<IArticleTopics> = ({
       ? [...displayedTopicNames, topicName]
       : displayedTopicNames.filter((name) => name !== topicName);
 
-    setError('');
-    setIsMax(false);
     if (newDisplayedTopicNames.length === 3) {
       setIsMax(true);
-    }
+    } else setIsMax(false);
     if (newDisplayedTopicNames.length < 1) {
       setError('Виберіть принаймні одну тему');
-    }
+    } else setError('');
 
     setCheckedTopics(newCheckedTopics);
     setDisplayedTopicNames(newDisplayedTopicNames);

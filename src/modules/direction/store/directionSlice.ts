@@ -240,7 +240,7 @@ export const fetchMaterials = (
   direction: IDirection,
   postTypes: string[] = [],
   pageNumber: number,
-  initialLoad: boolean,
+  replacePosts: boolean,
 ): AppThunkType => async (dispatch, getState) => {
   const { postIds, filters } = getState().directions[direction.name].materials;
   const postTags = filters?.[FilterTypeEnum.TAGS]?.value as string[];
@@ -271,7 +271,7 @@ export const fetchMaterials = (
       loadMaterials({
         directionName: direction.name,
         materials: {
-          postIds: initialLoad ? ids : postIds.concat(ids),
+          postIds: replacePosts ? ids : postIds.concat(ids),
           meta: {
             isLastPage: response.data.last,
             loading: LoadingStatusEnum.succeeded,
