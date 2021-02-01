@@ -14,6 +14,7 @@ import {
   DialogTitle,
   DialogContent,
 } from '@material-ui/core';
+import { Alert } from '@material-ui/lab';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import { useDispatch, useSelector } from 'react-redux';
@@ -64,7 +65,7 @@ export const LoginModal: React.FC = () => {
     return (
       errorsObj[inputName] && (
         // eslint-disable-next-line
-        <span style={{ color: 'red' }}>{errorsObj[inputName].message}</span>
+        <Alert severity="error">{errorsObj[inputName].message}</Alert>
       )
     );
   };
@@ -83,7 +84,7 @@ export const LoginModal: React.FC = () => {
         <DialogTitle id="form-dialog-title">
           Введіть Ваші email та пароль
           {error && (
-            <div style={{ color: 'red' }}>Неправильний email або пароль</div>
+            <Alert severity="error">Неправильний email або пароль</Alert>
           )}
         </DialogTitle>
         <DialogContent>
