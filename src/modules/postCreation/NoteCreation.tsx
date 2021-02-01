@@ -53,7 +53,7 @@ const NoteCreationView: React.FC = () => {
         <PostTopicSelector
           dispatchTopics={dispatchTopics}
           topicList={directions}
-          prevCheckedTopics={
+          prevCheckedTopicsIds={
             _.isEmpty(savedPostDraft.topics) ? undefined : savedPostDraft.topics
           }
         />

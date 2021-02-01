@@ -11,18 +11,18 @@ export interface ICheckboxes {
 export interface IArticleTopics {
   dispatchTopics: (action: string[]) => void;
   topicList: IDirection[];
-  prevCheckedTopics?: string[];
+  prevCheckedTopicsIds?: string[];
 }
 
 export const PostTopicSelector: React.FC<IArticleTopics> = ({
   dispatchTopics,
   topicList,
-  prevCheckedTopics,
+  prevCheckedTopicsIds,
 }) => {
   const initialCheckboxState = topicList.reduce(
     (acc: ICheckboxes, next: FilterPropertiesType) => {
       const id = next.id.toString();
-      return { ...acc, [id]: prevCheckedTopics?.includes(id) || false };
+      return { ...acc, [id]: prevCheckedTopicsIds?.includes(id) || false };
     },
     {},
   );
@@ -31,17 +31,14 @@ export const PostTopicSelector: React.FC<IArticleTopics> = ({
     initialCheckboxState,
   );
   const [isMax, setIsMax] = useState(
-    _.keys(_.pickBy(prevCheckedTopics)).length === 3 || false,
+    _.keys(_.pickBy(prevCheckedTopicsIds)).length === 3 || false,
   );
   const [error, setError] = useState('');
 
   const prevCheckedTopicNames =
-    prevCheckedTopics &&
+    prevCheckedTopicsIds &&
     topicList
-      .filter((topic) => {
-        const truthyCheckboxIDs = _.keys(_.pickBy(prevCheckedTopics));
-        return truthyCheckboxIDs.includes(String(topic.id));
-      })
+      .filter((topic) => prevCheckedTopicsIds.includes(String(topic.id)))
       .map((topic) => topic.name);
 
   const [displayedTopicNames, setDisplayedTopicNames] = useState<string[]>(

@@ -8,7 +8,7 @@ import { IPost, PostTypeEnum } from '../../lib/types';
 import { useStyles } from './styles/PostCreationPreview.styles';
 import { mockPost } from '../posts/mockPost/mockPost';
 
-const ArticleCreationPreview: React.FC = () => {
+const PostCreationPreview: React.FC = () => {
   const classes = useStyles();
   const history = useHistory();
 
@@ -23,11 +23,8 @@ const ArticleCreationPreview: React.FC = () => {
     (state: RootStateType) => state.properties.directions,
   );
 
-  const directionIds = Object.keys(draft.topics).filter(
-    (id) => draft.topics[id],
-  );
   const directions = allDirections.filter((direction) =>
-    directionIds.includes(direction.id.toString()),
+    draft.topics.includes(direction.id.toString()),
   );
 
   const post = {
@@ -60,4 +57,4 @@ const ArticleCreationPreview: React.FC = () => {
   );
 };
 
-export default ArticleCreationPreview;
+export default PostCreationPreview;
