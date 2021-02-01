@@ -18,7 +18,7 @@ import { postPublishPost } from '../../lib/utilities/API/api';
 import PostCreationButtons from '../../lib/components/PostCreationButtons/PostCreationButtons';
 import { PostPostRequestType } from '../../lib/utilities/API/types';
 
-const NoteCreationView: React.FC = () => {
+const NoteCreation: React.FC = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -101,4 +101,4 @@ const NoteCreationView: React.FC = () => {
   );
 };
 
-export default NoteCreationView;
+export default NoteCreation;
