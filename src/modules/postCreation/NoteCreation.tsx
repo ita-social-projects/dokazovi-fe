@@ -10,7 +10,7 @@ import {
 } from '@material-ui/core';
 import NoteEditor from '../../lib/components/Editor/Editors/NoteEditor';
 import { setPostTopics, setPostBody } from './store/postCreationSlice';
-import { ICheckboxes, PostTopicSelector } from './PostTopicSelector';
+import { PostTopicSelector } from './PostTopicSelector';
 import { PostTypeEnum } from '../../lib/types';
 import { RootStateType } from '../../store/rootReducer';
 import { sanitizeHtml } from '../../lib/utilities/sanitizeHtml';
@@ -27,7 +27,7 @@ const NoteCreationView: React.FC = () => {
     (state: RootStateType) => state.newPostDraft.DOPYS,
   );
 
-  const dispatchTopics = (topics: ICheckboxes) => {
+  const dispatchTopics = (topics: string[]) => {
     dispatch(setPostTopics({ postType: PostTypeEnum.DOPYS, value: topics }));
   };
 
