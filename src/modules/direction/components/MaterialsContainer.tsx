@@ -71,7 +71,8 @@ const MaterialsContainer: React.FC<IMaterialsContainerProps> = ({
     };
   }, []);
 
-  // don't clear query params when returning to previous filter in url
+  // don't clear query params when returning to previous filter in url from
+  // another view.
   useEffectExceptOnMount(() => {
     history.replace({
       search: '',
@@ -79,9 +80,6 @@ const MaterialsContainer: React.FC<IMaterialsContainerProps> = ({
   }, [direction]);
 
   const setFilters = (checked: string[] = []) => {
-    // setFilters is called twice - first a handler is called on click event,
-    // then useEffect is called when selected filters change.
-    // TODO: prevent double push of params to history on single filter change.
     query.set('types', checked.join(','));
     query.delete('page');
     if (checked.length === 0) query.delete('types');
@@ -123,6 +121,7 @@ const MaterialsContainer: React.FC<IMaterialsContainerProps> = ({
       <PostTypeFilter
         setFilters={setFilters}
         selectedTypes={query.get('types')?.split(',')}
+        dispatchFetchAction={dispatchFetchAction}
       />
       <PostTagsFilter directionName={direction.name} />
       <Grid container spacing={2} direction="row" alignItems="center">

@@ -11,11 +11,17 @@ import useEffectExceptOnMount from '../../../lib/hooks/useEffectExceptOnMount';
 export interface IPostTypeFilterProps {
   setFilters(checked?: string[]): void;
   selectedTypes?: string[];
+  dispatchFetchAction?: (
+    page?: number,
+    checked?: string[],
+    replacePosts?: boolean,
+  ) => void;
 }
 
 export const PostTypeFilter: React.FC<IPostTypeFilterProps> = ({
   setFilters,
   selectedTypes,
+  dispatchFetchAction,
 }) => {
   const { control } = useForm();
 
@@ -39,10 +45,10 @@ export const PostTypeFilter: React.FC<IPostTypeFilterProps> = ({
   // always going to be a different object and that would cause an infinite loop.
   const selectedTypesString = selectedTypes?.join();
   useEffectExceptOnMount(() => {
-    console.log('effect called with types', selectedTypes);
-
     setChecked(initState());
-    setFilters(selectedTypes);
+    if (dispatchFetchAction) {
+      dispatchFetchAction(undefined, undefined, true);
+    }
   }, [selectedTypesString]);
 
   // no need to keep the state in a component, since it's persisted in url
@@ -51,7 +57,6 @@ export const PostTypeFilter: React.FC<IPostTypeFilterProps> = ({
 
   const checkBoxes = postTypes?.map((type) => {
     const id = type.id.toString();
-    // console.log(`query has typeId #${id}`, selectedTypes?.includes(id));
     return (
       <FormControlLabel
         key={type.id}
