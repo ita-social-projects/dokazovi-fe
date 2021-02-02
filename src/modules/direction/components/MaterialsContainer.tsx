@@ -61,7 +61,6 @@ const MaterialsContainer: React.FC<IMaterialsContainerProps> = ({
 
   useEffect(() => {
     // TODO: handle a case when page is > 1 on component's first mount
-    // add paginaton?
     dispatchFetchAction();
 
     return () => {
@@ -70,6 +69,12 @@ const MaterialsContainer: React.FC<IMaterialsContainerProps> = ({
       });
     };
   }, []);
+
+  useEffectExceptOnMount(() => {
+    // page and types values are initialized from current query.
+    // this call will replace current post ids with fetched ones.
+    dispatchFetchAction(undefined, undefined, true);
+  }, [query.get('types')]);
 
   // don't clear query params when returning to previous filter in url from
   // another view.
@@ -87,10 +92,6 @@ const MaterialsContainer: React.FC<IMaterialsContainerProps> = ({
     history.push({
       search: query.toString(),
     });
-
-    // use a boolean to indicate an initial load (clear all saved ids)
-    // if true, replace current ids. if false, concat
-    dispatchFetchAction(0, checked, true);
   };
 
   const gridRef = useRef<HTMLDivElement>(null);
@@ -121,7 +122,6 @@ const MaterialsContainer: React.FC<IMaterialsContainerProps> = ({
       <PostTypeFilter
         setFilters={setFilters}
         selectedTypes={query.get('types')?.split(',')}
-        dispatchFetchAction={dispatchFetchAction}
       />
       <PostTagsFilter directionName={direction.name} />
       <Grid container spacing={2} direction="row" alignItems="center">

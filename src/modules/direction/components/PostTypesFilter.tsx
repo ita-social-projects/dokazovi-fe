@@ -11,17 +11,11 @@ import useEffectExceptOnMount from '../../../lib/hooks/useEffectExceptOnMount';
 export interface IPostTypeFilterProps {
   setFilters(checked?: string[]): void;
   selectedTypes?: string[];
-  dispatchFetchAction?: (
-    page?: number,
-    checked?: string[],
-    replacePosts?: boolean,
-  ) => void;
 }
 
 export const PostTypeFilter: React.FC<IPostTypeFilterProps> = ({
   setFilters,
   selectedTypes,
-  dispatchFetchAction,
 }) => {
   const { control } = useForm();
 
@@ -38,6 +32,9 @@ export const PostTypeFilter: React.FC<IPostTypeFilterProps> = ({
       const id = next.id.toString();
       return { ...acc, [id]: selectedTypes?.includes(id) || false };
     }, {});
+  // no need to keep the state in a component, since it's persisted in url
+  // how to debounce calls without local state tho?
+  const [checkedTypes, setChecked] = useState(initState);
 
   // triggers fetch when user navigates history. skip call on component mount to
   // avoid unnecessary history push. also, update checkboxes state using a query
@@ -46,14 +43,7 @@ export const PostTypeFilter: React.FC<IPostTypeFilterProps> = ({
   const selectedTypesString = selectedTypes?.join();
   useEffectExceptOnMount(() => {
     setChecked(initState());
-    if (dispatchFetchAction) {
-      dispatchFetchAction(undefined, undefined, true);
-    }
   }, [selectedTypesString]);
-
-  // no need to keep the state in a component, since it's persisted in url
-  // how to debounce calls without local state tho?
-  const [checkedTypes, setChecked] = useState(initState);
 
   const checkBoxes = postTypes?.map((type) => {
     const id = type.id.toString();

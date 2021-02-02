@@ -38,6 +38,7 @@ export interface IMaterialsMeta {
   pageNumber: number;
   loading: LoadingStatusEnum;
   error: null | string;
+  fetchedPageNumbers?: number[]; // reset on view switch
 }
 
 export interface IDirectionState {
