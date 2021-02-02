@@ -57,15 +57,11 @@ const PostCreationPreview: React.FC = () => {
     history.push(`/posts/${responsePost.data.id}`);
   };
 
-  const publishNewPost = () => {
-    sendPost();
-  };
-
   return (
     <Container className={classes.root}>
       <PostView post={post} />
       <PostCreationButtons
-        publishPost={publishNewPost}
+        publishPost={sendPost}
         goPreview={goBackToCreation}
         isOnPreview
       />
