@@ -53,6 +53,7 @@ export const mapFetchedPosts = (
 
     const postAuthor = {
       ..._.pick(post.author, [
+        'id',
         'avatar',
         'firstName',
         'lastName',

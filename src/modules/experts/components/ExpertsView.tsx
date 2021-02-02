@@ -40,11 +40,15 @@ const ExpertsView: React.FC = () => {
   const setExperts = () => dispatch(fetchExperts());
 
   const handlePageChange = (_, page: number) => {
-    dispatch(setExpertsPage(page));
+    if (page === 1) {
+      dispatch(setExpertsPage(0));
+    } else {
+      dispatch(setExpertsPage(page - 1));
+    }
   };
 
   useEffect(() => {
-    dispatch(setExpertsPage(1));
+    dispatch(setExpertsPage(0));
   }, []);
 
   useEffect(() => {
@@ -54,6 +58,8 @@ const ExpertsView: React.FC = () => {
   useEffect(() => {
     dispatch(fetchExperts());
   }, [filters?.REGIONS.value, filters?.DIRECTIONS.value]);
+
+  const correctPageNumber = pageNumber === 0 ? 1 : pageNumber + 1;
 
   return (
     <>
@@ -99,7 +105,9 @@ const ExpertsView: React.FC = () => {
                 >
                   <Pagination
                     count={totalPages}
-                    page={pageNumber}
+                    page={correctPageNumber}
+                    showFirstButton
+                    showLastButton
                     onChange={handlePageChange}
                   />
                 </Grid>

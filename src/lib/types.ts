@@ -49,7 +49,7 @@ export interface IPost {
 }
 
 export interface IExpert {
-  id?: number;
+  id: number;
   firstName: string;
   lastName: string;
   avatar?: string;
@@ -83,8 +83,9 @@ export interface IDirection {
   color?: string;
   name: string;
   label?: string;
-  route?: string; // remove
 }
+
+export type DirectionIDType = Pick<IDirection, 'id'>;
 
 export interface IInstitution {
   city: {
