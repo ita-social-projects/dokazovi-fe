@@ -81,14 +81,10 @@ const ArticleCreation: React.FC = () => {
     history.push(`/posts/${responsePost.data.id}`);
   };
 
-  const publishNewArticle = () => {
-    sendPost(); // todo add spinner to Publish button
-  };
-
   const goArticlePreview = () => {
     history.push(`/create-article/preview`, {
       postType: 'ARTICLE',
-      publishPost: publishNewArticle,
+      publishPost: newPost,
     });
   };
 
@@ -130,7 +126,7 @@ const ArticleCreation: React.FC = () => {
       </Box>
       <Box display="flex" justifyContent="flex-end">
         <PostCreationButtons
-          publishPost={publishNewArticle}
+          publishPost={sendPost}
           goPreview={goArticlePreview}
         />
       </Box>

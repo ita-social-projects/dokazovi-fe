@@ -61,14 +61,10 @@ const NoteCreation: React.FC = () => {
     history.push(`/posts/${responsePost.data.id}`);
   };
 
-  const publishNewNote = () => {
-    sendPost();
-  };
-
   const goNotePreview = () => {
     history.push(`/create-note/preview`, {
       postType: 'DOPYS',
-      publishPost: publishNewNote,
+      publishPost: newPost,
     });
   };
 
@@ -92,10 +88,7 @@ const NoteCreation: React.FC = () => {
         <NoteEditor dispatchContent={dispatchHtmlContent} />
       </Box>
       <Box display="flex" justifyContent="flex-end">
-        <PostCreationButtons
-          publishPost={publishNewNote}
-          goPreview={goNotePreview}
-        />
+        <PostCreationButtons publishPost={sendPost} goPreview={goNotePreview} />
       </Box>
     </Container>
   );

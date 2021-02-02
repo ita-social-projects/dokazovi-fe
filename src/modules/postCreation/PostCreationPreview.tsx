@@ -8,10 +8,12 @@ import { IPost, PostTypeEnum } from '../../lib/types';
 import { useStyles } from './styles/PostCreationPreview.styles';
 import usePostPreviewData from '../../lib/hooks/usePostPreviewData';
 import PostCreationButtons from '../../lib/components/PostCreationButtons/PostCreationButtons';
+import { PostPostRequestType } from '../../lib/utilities/API/types';
+import { postPublishPost } from '../../lib/utilities/API/api';
 
 export interface ILocationState {
   postType: string;
-  publishPost: () => void;
+  publishPost: PostPostRequestType;
 }
 
 const PostCreationPreview: React.FC = () => {
@@ -51,11 +53,16 @@ const PostCreationPreview: React.FC = () => {
     history.goBack();
   };
 
+  const sendPost = async () => {
+    const responsePost = await postPublishPost(currentState.publishPost);
+    history.push(`/posts/${responsePost.data.id}`);
+  };
+
   return (
     <Container className={classes.root}>
       <PostView post={post} />
       <PostCreationButtons
-        publishPost={currentState.publishPost}
+        publishPost={sendPost}
         goPreview={goBackToCreation}
         isOnPreview
       />
