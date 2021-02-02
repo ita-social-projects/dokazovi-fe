@@ -7,17 +7,16 @@ import {
   IMainState,
   fetchInitialNewestPosts,
 } from '../store/mainSlice';
-import { useStyles, styles } from './styles/NewestContainer.style';
+import { styles } from './styles/NewestContainer.style';
 import BorderBottom from '../../../lib/components/Border';
 import PostsList from '../../../lib/components/PostsList';
 import { LoadingStatusEnum } from '../../../lib/types';
 import LoadingInfo from '../../../lib/components/LoadingInfo';
 import useEffectExceptOnMount from '../../../lib/hooks/useEffectExceptOnMount';
 import { selectPostsByIds } from '../../../store/selectors';
+import LoadMorePostsButton from '../../../lib/components/LoadMorePostsButton';
 
 const NewestContainer: React.FC = () => {
-  const classes = useStyles();
-
   const dispatch = useDispatch();
   const setNewest = () => dispatch(fetchNewestPosts());
   const setNewestInitial = () => dispatch(fetchInitialNewestPosts());
@@ -33,31 +32,6 @@ const NewestContainer: React.FC = () => {
   useEffect(() => {
     setNewestInitial();
   }, []);
-
-  const renderLoadControls = (
-    lastPageMsg = 'Більше нових матеріалів немає',
-  ): JSX.Element => {
-    let control: JSX.Element = <></>;
-
-    if (loading !== LoadingStatusEnum.pending) {
-      control = (
-        <Button
-          variant="contained"
-          onClick={() => {
-            setNewest();
-          }}
-        >
-          Більше матеріалів
-        </Button>
-      );
-    }
-
-    if (isLastPage) {
-      control = <span>{lastPageMsg}</span>;
-    }
-
-    return control;
-  };
 
   const gridRef = useRef<HTMLDivElement>(null);
 
@@ -88,14 +62,12 @@ const NewestContainer: React.FC = () => {
             <LoadingInfo loading={loading} />
           </Grid>
 
-          <Grid
-            container
-            direction="column"
-            alignItems="center"
-            className={classes.showMore}
-            ref={gridRef}
-          >
-            {renderLoadControls()}
+          <Grid container direction="column" alignItems="center" ref={gridRef}>
+            <LoadMorePostsButton
+              clicked={setNewest}
+              isLastPage={isLastPage}
+              loading={loading}
+            />
           </Grid>
           <BorderBottom />
         </Container>

@@ -16,6 +16,7 @@ import useEffectExceptOnMount from '../../../lib/hooks/useEffectExceptOnMount';
 import { useStyles } from '../styles/ExpertProfileView.styles';
 import { PostTypeFilter } from '../../direction/components/PostTypesFilter';
 import { selectPostsByIds } from '../../../store/selectors';
+import LoadMorePostsButton from '../../../lib/components/LoadMorePostsButton';
 
 export interface IExpertMaterialsContainerProps {
   expertId: string;
@@ -72,31 +73,6 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
     }
   }, [pageNumber]);
 
-  const renderLoadControls = (
-    lastPageMsg = 'Більше нових матеріалів немає',
-  ): JSX.Element => {
-    let control: JSX.Element = <></>;
-
-    if (loading === LoadingStatusEnum.succeeded) {
-      control = (
-        <Button
-          variant="contained"
-          onClick={() => {
-            dispatchFetchMaterialsAction();
-          }}
-        >
-          Більше матеріалів
-        </Button>
-      );
-    }
-
-    if (isLastPage) {
-      control = <span>{lastPageMsg}</span>;
-    }
-
-    return control;
-  };
-
   return (
     <>
       <Container className={classes.container}>
@@ -115,7 +91,11 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
         </Grid>
 
         <Grid container direction="column" alignItems="center" ref={gridRef}>
-          {renderLoadControls()}
+          <LoadMorePostsButton
+            clicked={dispatchFetchMaterialsAction}
+            isLastPage={isLastPage}
+            loading={loading}
+          />
         </Grid>
         <BorderBottom />
       </Container>
