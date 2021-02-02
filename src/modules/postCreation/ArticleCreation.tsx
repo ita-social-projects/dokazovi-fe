@@ -18,8 +18,10 @@ import {
 } from './store/postCreationSlice';
 import { PostTopicSelector } from './PostTopicSelector';
 import { ICheckboxes, PostTypeEnum } from '../../lib/types';
+import { postPublishPost } from '../../lib/utilities/API/api';
 import { sanitizeHtml } from '../../lib/utilities/sanitizeHtml';
 import PostCreationButtons from '../../lib/components/PostCreationButtons/PostCreationButtons';
+import { PostPostRequestType } from '../../lib/utilities/API/types';
 
 const ArticleCreation: React.FC = () => {
   const history = useHistory();
@@ -62,8 +64,32 @@ const ArticleCreation: React.FC = () => {
     [],
   );
 
+  const allDirections = Object.keys(savedPostDraft.topics)
+    .filter((id) => savedPostDraft.topics[id])
+    .map((direction) => ({ id: Number(direction) }));
+
+  const newPost = {
+    content: savedPostDraft.htmlContent,
+    directions: allDirections,
+    preview: savedPostDraft.preview.value,
+    title: savedPostDraft.title,
+    type: { id: 1 },
+  } as PostPostRequestType;
+
+  const sendPost = async () => {
+    const responsePost = await postPublishPost(newPost);
+    history.push(`/posts/${responsePost.data.id}`);
+  };
+
+  const publishNewArticle = () => {
+    sendPost(); // todo add spinner to Publish button
+  };
+
   const goArticlePreview = () => {
-    history.push(`/create-article/preview`, 'ARTICLE');
+    history.push(`/create-article/preview`, {
+      postType: 'ARTICLE',
+      publishPost: publishNewArticle,
+    });
   };
 
   return (
@@ -102,7 +128,12 @@ const ArticleCreation: React.FC = () => {
         </Container>
         <ArticleEditor dispatchContent={dispatchHtmlContent} />
       </Box>
-      <PostCreationButtons goPreview={goArticlePreview} />
+      <Box display="flex" justifyContent="flex-end">
+        <PostCreationButtons
+          publishPost={publishNewArticle}
+          goPreview={goArticlePreview}
+        />
+      </Box>
     </Container>
   );
 };

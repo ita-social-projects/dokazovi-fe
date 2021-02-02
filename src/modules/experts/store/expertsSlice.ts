@@ -68,7 +68,7 @@ const initialState: IExpertsState = {
     expertIds: [],
     meta: {
       totalPages: undefined,
-      pageNumber: 1,
+      pageNumber: 0,
       loading: LoadingStatusEnum.idle,
       error: null,
     },
@@ -128,7 +128,7 @@ export const fetchExpertById = createAsyncThunk(
     const existingExpert = experts[id];
 
     if (existingExpert) {
-      return existingExpert;
+      return existingExpert.id;
     }
 
     const { data: fetchedExpert } = await getExpertById(id);
@@ -214,7 +214,7 @@ export const expertsSlice = createSlice({
     builder.addCase(fetchExperts.fulfilled, (state, { payload }) => {
       state.experts.meta.loading = LoadingStatusEnum.succeeded;
       state.experts.meta.pageNumber = payload.number;
-      state.experts.meta.totalPages = payload.totalPages - 1;
+      state.experts.meta.totalPages = payload.totalPages;
       state.experts.expertIds = payload.expertIds;
     });
     builder.addCase(fetchExperts.rejected, (state, { error }) => {
@@ -227,9 +227,8 @@ export const expertsSlice = createSlice({
     builder.addCase(fetchExpertById.pending, (state) => {
       state.experts.meta.loading = LoadingStatusEnum.pending;
     });
-    builder.addCase(fetchExpertById.fulfilled, (state, { payload }) => {
-      state.experts.expertIds.push(String(payload));
-      state.experts.meta.loading = LoadingStatusEnum.succeeded;
+    builder.addCase(fetchExpertById.fulfilled, (state) => {
+      state.experts.meta.loading = LoadingStatusEnum.succeeded; // TODO add slice for single expert
     });
     builder.addCase(fetchExpertById.rejected, (state, { error }) => {
       if (error.message) {

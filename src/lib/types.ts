@@ -83,8 +83,9 @@ export interface IDirection {
   color?: string;
   name: string;
   label?: string;
-  route?: string; // remove
 }
+
+export type DirectionIDType = Pick<IDirection, 'id'>;
 
 export interface IInstitution {
   city: {
