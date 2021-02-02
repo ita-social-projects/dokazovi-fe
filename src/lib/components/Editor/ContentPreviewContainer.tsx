@@ -123,6 +123,7 @@ const ContentPreviewContainer: React.FC<IContentPreviewContainerProps> = ({
 
   const cardPreviewData: IPost = {
     author: {
+      id: user ? user.id : 0,
       avatar: user?.avatar,
       firstName: user ? user.firstName : '',
       lastName: user ? user.lastName : '',

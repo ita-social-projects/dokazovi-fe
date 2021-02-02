@@ -58,7 +58,11 @@ const DirectionView: React.FC = () => {
             </Grid>
             <BorderBottom />
             <Grid item xs={12}>
-              <ExpertsViewCard cards={experts} loading={loading} />
+              <ExpertsViewCard
+                cards={experts}
+                loading={loading}
+                isOnDirection
+              />
               <Box className={classes.moreExperts}>
                 <Typography variant="h5" align="right" display="inline">
                   <Link href="/experts">
