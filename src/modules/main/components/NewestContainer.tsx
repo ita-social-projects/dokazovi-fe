@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Container, Grid, Button, Typography } from '@material-ui/core';
+import { Container, Grid, Typography } from '@material-ui/core';
 import { RootStateType } from '../../../store/rootReducer';
 import {
   fetchNewestPosts,
