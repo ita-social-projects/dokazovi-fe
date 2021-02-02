@@ -6,7 +6,7 @@ import PostView from '../posts/components/PostView';
 import { RootStateType } from '../../store/rootReducer';
 import { IPost, PostTypeEnum } from '../../lib/types';
 import { useStyles } from './styles/PostCreationPreview.styles';
-import { mockPost } from '../posts/mockPost/mockPost';
+import usePostPreviewData from '../../lib/hooks/usePostPreviewData';
 import PostCreationButtons from '../../lib/components/PostCreationButtons/PostCreationButtons';
 
 export interface ILocationState {
@@ -37,13 +37,14 @@ const PostCreationPreview: React.FC = () => {
     directionIds.includes(direction.id.toString()),
   );
 
+  const getUserData = usePostPreviewData();
+
   const post = {
-    ...mockPost,
+    ...getUserData,
     content: draft.htmlContent,
     preview: draft.preview.value,
     title: draft.title,
     directions,
-    createdAt: new Date().toLocaleDateString(),
   } as IPost;
 
   const goBackToCreation = () => {

@@ -1,7 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { PostTypeEnum } from '../../../lib/types';
-import { ICheckboxes } from '../PostTopicSelector';
+import { ICheckboxes, PostTypeEnum } from '../../../lib/types';
 
 export interface INewPostDraft {
   topics: ICheckboxes;

@@ -1,6 +1,11 @@
 /* eslint-disable no-param-reassign */
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { IFilter, LoadingStatusEnum, FilterTypeEnum } from '../../../lib/types';
+import {
+  IFilter,
+  LoadingStatusEnum,
+  FilterTypeEnum,
+  ICheckboxes,
+} from '../../../lib/types';
 import {
   getAllExperts,
   getExpertById,
@@ -10,7 +15,6 @@ import type { AppThunkType } from '../../../store/store';
 import { LOAD_POSTS_LIMIT } from '../../main/components/constants/newestPostsPagination-config';
 import { IExpertPayload } from '../../main/store/mainSlice';
 import type { RootStateType } from '../../../store/rootReducer';
-import type { ICheckboxes } from '../../../lib/components/FilterForm';
 import {
   loadExperts,
   loadPosts,

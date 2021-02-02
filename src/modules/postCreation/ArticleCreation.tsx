@@ -16,8 +16,8 @@ import {
   setPostTitle,
   setPostBody,
 } from './store/postCreationSlice';
-import { ICheckboxes, PostTopicSelector } from './PostTopicSelector';
-import { PostTypeEnum } from '../../lib/types';
+import { PostTopicSelector } from './PostTopicSelector';
+import { ICheckboxes, PostTypeEnum } from '../../lib/types';
 import { postPublishPost } from '../../lib/utilities/API/api';
 import { sanitizeHtml } from '../../lib/utilities/sanitizeHtml';
 import PostCreationButtons from '../../lib/components/PostCreationButtons/PostCreationButtons';

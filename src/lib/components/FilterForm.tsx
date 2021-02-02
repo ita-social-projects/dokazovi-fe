@@ -11,11 +11,8 @@ import {
   Typography,
   Box,
 } from '@material-ui/core';
-import { FilterPropertiesType } from '../types';
-
-export interface ICheckboxes {
-  [key: string]: boolean;
-}
+import { FilterPropertiesType, ICheckboxes } from '../types';
+import ChipsList from './ChipsList';
 
 export interface IObjForAction {
   value: ICheckboxes;
@@ -65,7 +62,7 @@ export const FilterForm: React.FC<IFilterFormProps> = (props) => {
                 <Typography variant="h5">{filterTitle}</Typography>
               </Grid>
               <Grid item xs={10}>
-                <Typography>{error || checkedNamesString()}</Typography>
+                {error || <ChipsList checkedNames={checkedNamesString()} />}
               </Grid>
             </Grid>
           </AccordionSummary>
@@ -111,11 +108,17 @@ export const FilterForm: React.FC<IFilterFormProps> = (props) => {
                         name={type.name}
                       />
                     }
-                    label={type.name}
+                    label={
+                      <ChipsList
+                        checkedNames={type.name}
+                        isLabelItem
+                        max={max}
+                      />
+                    }
                     key={type.name}
                   />
                 ))}
-              </FormGroup>{' '}
+              </FormGroup>
             </Grid>
           </AccordionDetails>
         </Accordion>

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Button, Container, Grid, Typography } from '@material-ui/core';
+import { Container, Grid, Typography } from '@material-ui/core';
 import PostList from '../../../lib/components/PostsList';
 import {
   fetchInitialMaterials,
@@ -9,16 +9,13 @@ import {
 } from '../store/directionSlice';
 import { RootStateType } from '../../../store/rootReducer';
 import { useStyles } from './styles/MaterialsContainer.styles';
-import {
-  FilterTypeEnum,
-  IDirection,
-  LoadingStatusEnum,
-} from '../../../lib/types';
+import { FilterTypeEnum, IDirection } from '../../../lib/types';
 import LoadingInfo from '../../../lib/components/LoadingInfo';
 import useEffectExceptOnMount from '../../../lib/hooks/useEffectExceptOnMount';
 import { PostTypeFilter } from './PostTypesFilter';
 import { PostTagsFilter } from './PostTagsFilter';
 import { selectPostsByIds } from '../../../store/selectors';
+import LoadMorePostsButton from '../../../lib/components/LoadMorePostsButton';
 
 interface IMaterialsContainerProps {
   direction: IDirection;
@@ -100,19 +97,12 @@ const MaterialsContainer: React.FC<IMaterialsContainerProps> = ({
       >
         <LoadingInfo loading={loading} />
       </Grid>
-      <Grid
-        container
-        direction="column"
-        alignItems="center"
-        className={classes.showMore}
-        ref={gridRef}
-      >
-        {loading !== LoadingStatusEnum.pending && !isLastPage && (
-          <Button variant="contained" onClick={dispatchFetchAction}>
-            Більше матеріалів
-          </Button>
-        )}
-        {isLastPage && <span>Більше нових матеріалів немає</span>}
+      <Grid container direction="column" alignItems="center" ref={gridRef}>
+        <LoadMorePostsButton
+          clicked={dispatchFetchAction}
+          isLastPage={isLastPage}
+          loading={loading}
+        />
       </Grid>
     </Container>
   );

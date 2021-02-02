@@ -100,6 +100,10 @@ export interface IFilter {
   value: any;
 }
 
+export interface ICheckboxes {
+  [key: string]: boolean;
+}
+
 export interface IInputs {
   email: string;
   password: string;
