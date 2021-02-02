@@ -88,7 +88,7 @@ const ArticleCreation: React.FC = () => {
   const goArticlePreview = () => {
     history.push(`/create-article/preview`, {
       postType: 'ARTICLE',
-      publishPost: publishNewArticle,
+      publishPost: newPost,
     });
   };
 

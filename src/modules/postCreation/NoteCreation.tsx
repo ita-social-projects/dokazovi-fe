@@ -68,7 +68,7 @@ const NoteCreation: React.FC = () => {
   const goNotePreview = () => {
     history.push(`/create-note/preview`, {
       postType: 'DOPYS',
-      publishPost: publishNewNote,
+      publishPost: newPost,
     });
   };
 
