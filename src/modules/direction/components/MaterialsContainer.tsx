@@ -57,7 +57,6 @@ const MaterialsContainer: React.FC<IMaterialsContainerProps> = ({
   };
 
   useEffect(() => {
-    // TODO: handle a case when page is > 1 on component's first mount
     dispatchFetchAction();
 
     return () => {
