@@ -18,7 +18,7 @@ const GeneralEditor = React.forwardRef<ReactQuill, IQuillEditorProps>(
       (state: RootStateType) => state.newPostDraft[type].htmlContent,
     );
     const [text, setText] = useState<string>(savedContent);
-
+    const mockVariableForDemo = 'hello everyone!';
     return (
       <>
         <div className="text-editor">
