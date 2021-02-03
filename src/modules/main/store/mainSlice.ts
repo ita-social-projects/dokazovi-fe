@@ -1,95 +1,228 @@
 /* eslint-disable no-param-reassign */
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import MOCK_POSTS from '../../../lib/constants/mock-data';
-import MOCK_EXPERTS from '../mockDataExperts';
-import MOCK_NEWEST from '../components/constants/newestPosts-mock';
-import { IPost, IExpert } from '../../../lib/types';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { LoadingStatusEnum } from '../../../lib/types';
+import { getPosts, getExperts } from '../../../lib/utilities/API/api';
+
 import type { AppThunkType } from '../../../store/store';
 import { LOAD_POSTS_LIMIT } from '../components/constants/newestPostsPagination-config';
+import type { RootStateType } from '../../../store/rootReducer';
+import {
+  loadExperts,
+  loadPosts,
+  mapFetchedPosts,
+} from '../../../store/dataSlice';
 
-interface IMeta {
-  totalNewestPosts?: number;
-  limit?: number;
-  currentIndex: number;
-  showMore?: boolean;
+interface INewestMeta {
+  currentPage: number;
+  isLastPage: boolean;
+  loading: LoadingStatusEnum;
+  error: null | string;
 }
 
 interface INewestPostPayload {
-  newestPosts: IPost[];
-  meta: IMeta;
+  newestPostIds: string[];
+  meta: INewestMeta;
+}
+
+interface IFetchNewestPosts {
+  loadedPostIds: string[];
+  isLastPage: boolean;
+}
+
+interface IImportantMeta {
+  loading: LoadingStatusEnum;
+  error: null | string;
+}
+
+interface IImportantPayload {
+  importantPostIds: string[];
+  meta: IImportantMeta;
+}
+export interface IExpertPayload {
+  expertIds: string[];
+  meta: IExpertMeta;
+}
+
+export interface IExpertMeta {
+  totalPages?: number;
+  pageNumber: number;
+  loading: LoadingStatusEnum;
+  error: null | string;
 }
 
 export interface IMainState {
   newest: INewestPostPayload;
-  important: IPost[];
-  experts: IExpert[];
+  important: IImportantPayload;
+  experts: IExpertPayload;
 }
 
 const initialState: IMainState = {
   newest: {
-    newestPosts: [],
+    newestPostIds: [],
     meta: {
-      currentIndex: 0,
+      currentPage: 0,
+      isLastPage: false,
+      loading: LoadingStatusEnum.idle,
+      error: null,
     },
   },
-  important: [],
-  experts: [],
+  important: {
+    importantPostIds: [],
+    meta: {
+      loading: LoadingStatusEnum.idle,
+      error: null,
+    },
+  },
+  experts: {
+    expertIds: [],
+    meta: {
+      pageNumber: 0,
+      loading: LoadingStatusEnum.idle,
+      error: null,
+    },
+  },
+};
+
+export const fetchNewestPosts = createAsyncThunk<IFetchNewestPosts>(
+  'main/loadNewest',
+  async (__, { dispatch, getState }) => {
+    const {
+      main: { newest },
+    } = getState() as RootStateType;
+
+    const resp = await getPosts('latest', {
+      params: {
+        size: LOAD_POSTS_LIMIT,
+        page: newest.meta.currentPage,
+      },
+    });
+
+    const { mappedPosts, ids } = mapFetchedPosts(resp.data.content);
+    dispatch(loadPosts(mappedPosts));
+
+    return { loadedPostIds: ids, isLastPage: resp.data.last };
+  },
+);
+
+export const fetchExperts = createAsyncThunk(
+  'main/loadExperts',
+  async (__, { dispatch }) => {
+    const {
+      data: { content: fetchedExperts },
+    } = await getExperts({
+      params: {
+        size: 11,
+      },
+    });
+
+    dispatch(loadExperts(fetchedExperts));
+
+    return fetchedExperts.map((expert) => String(expert.id));
+  },
+);
+
+export const fetchInitialNewestPosts = (): AppThunkType => async (
+  dispatch,
+  getState,
+) => {
+  const {
+    main: { newest },
+  } = getState();
+
+  if (!newest.newestPostIds.length) {
+    await dispatch(fetchNewestPosts());
+  }
 };
 
 export const mainSlice = createSlice({
   name: 'main',
   initialState,
   reducers: {
-    loadImportant: (state, action: PayloadAction<IPost[]>) => {
+    loadImportant: (state, action: PayloadAction<IImportantPayload>) => {
       state.important = action.payload;
     },
-    loadExperts: (state, action: PayloadAction<IExpert[]>) => {
-      state.experts = action.payload;
+    setImportantLoadingStatus: (state) => {
+      state.important.meta.loading = LoadingStatusEnum.pending;
     },
-    loadNewest: (state, action: PayloadAction<INewestPostPayload>) => {
-      state.newest = action.payload;
+    setImportantLoadingError: (
+      state,
+      action: PayloadAction<IImportantPayload>,
+    ) => {
+      state.important.meta.loading = LoadingStatusEnum.failed;
+      state.important.meta.error = action.payload.meta.error;
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(fetchNewestPosts.pending, (state) => {
+      state.newest.meta.loading = LoadingStatusEnum.pending;
+    });
+    builder.addCase(fetchNewestPosts.fulfilled, (state, { payload }) => {
+      state.newest.meta.currentPage += 1;
+      state.newest.meta.isLastPage = payload.isLastPage;
+
+      state.newest.meta.loading = LoadingStatusEnum.succeeded;
+
+      state.newest.newestPostIds.push(...payload.loadedPostIds);
+    });
+    builder.addCase(fetchNewestPosts.rejected, (state, { error }) => {
+      if (error.message) {
+        state.newest.meta.error = error.message;
+      }
+
+      state.newest.meta.loading = LoadingStatusEnum.failed;
+    });
+    builder.addCase(fetchExperts.pending, (state) => {
+      state.experts.meta.loading = LoadingStatusEnum.pending;
+    });
+    builder.addCase(fetchExperts.fulfilled, (state, { payload }) => {
+      state.experts.meta.loading = LoadingStatusEnum.succeeded;
+      state.experts.expertIds = payload;
+    });
+    builder.addCase(fetchExperts.rejected, (state, { error }) => {
+      if (error.message) {
+        state.experts.meta.error = error.message;
+      }
+
+      state.experts.meta.loading = LoadingStatusEnum.failed;
+    });
   },
 });
 
-export const { loadImportant, loadExperts, loadNewest } = mainSlice.actions;
+export const { loadImportant, setImportantLoadingStatus } = mainSlice.actions;
 
 export default mainSlice.reducer;
 
 export const fetchImportantPosts = (): AppThunkType => async (dispatch) => {
   try {
-    const posts = await Promise.resolve(MOCK_POSTS);
-    dispatch(loadImportant(posts));
-  } catch (e) {
-    console.log(e);
-  }
-};
-
-export const fetchExperts = (): AppThunkType => async (dispatch) => {
-  try {
-    const experts = await Promise.resolve(MOCK_EXPERTS);
-    dispatch(loadExperts(experts));
-  } catch (e) {
-    console.log(e);
-  }
-};
-
-export const fetchNewestPosts = (): AppThunkType => (dispatch, getState) => {
-  const { meta } = getState().main.newest;
-
-  const totalNewestPosts =  meta.totalNewestPosts || MOCK_NEWEST.length;
-  const newIndex = meta.currentIndex + LOAD_POSTS_LIMIT;
-  const newShowMore = newIndex < totalNewestPosts - 1;
-  const newList = MOCK_NEWEST.slice(0, newIndex);
-
-  dispatch(
-    loadNewest({
-      newestPosts: newList,
-      meta: {
-        totalNewestPosts,
-        currentIndex: newIndex,
-        showMore: newShowMore,
+    const posts = await getPosts('important', {
+      params: {
+        size: 20,
       },
-    }),
-  );
+    });
+
+    const { mappedPosts, ids } = mapFetchedPosts(posts.data.content);
+
+    dispatch(loadPosts(mappedPosts));
+
+    dispatch(
+      loadImportant({
+        importantPostIds: ids,
+        meta: {
+          loading: LoadingStatusEnum.succeeded,
+          error: null,
+        },
+      }),
+    );
+  } catch (e) {
+    dispatch(
+      loadImportant({
+        importantPostIds: [],
+        meta: {
+          loading: LoadingStatusEnum.failed,
+          error: 'Error',
+        },
+      }),
+    );
+    console.log(e);
+  }
 };

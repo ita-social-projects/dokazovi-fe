@@ -1,12 +1,26 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Container, Grid } from '@material-ui/core';
 import NewestContainer from './NewestContainer';
 import ImportantContainer from './ImportantContainer';
-import { MainExpertsView } from './MainExpertsView';
+import { ExpertsViewCard } from '../../../lib/components/ExpertsViewCard';
+import { RootStateType } from '../../../store/rootReducer';
+import { fetchExperts } from '../store/mainSlice';
+import { selectExpertsByIds } from '../../../store/selectors';
 
-export interface IMainViewProps {}
+const MainView: React.FC = () => {
+  const dispatch = useDispatch();
 
-const MainView: React.FC<IMainViewProps> = () => {
+  useEffect(() => {
+    dispatch(fetchExperts());
+  }, []);
+
+  const {
+    expertIds,
+    meta: { loading },
+  } = useSelector((state: RootStateType) => state.main.experts);
+  const experts = selectExpertsByIds(expertIds);
+
   return (
     <>
       <Container>
@@ -18,7 +32,7 @@ const MainView: React.FC<IMainViewProps> = () => {
             <NewestContainer />
           </Grid>
           <Grid item xs={12}>
-            <MainExpertsView />
+            <ExpertsViewCard cards={experts} loading={loading} />
           </Grid>
         </Grid>
       </Container>

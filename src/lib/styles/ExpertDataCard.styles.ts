@@ -8,6 +8,10 @@ export const useStyles = makeStyles(
     },
     pos: {
       marginBottom: 12,
+      cursor: 'pointer',
+    },
+    name: {
+      cursor: 'pointer',
     },
   },
   {

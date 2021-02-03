@@ -1,11 +1,12 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import { Box } from '@material-ui/core';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import { IExpert } from '../types';
-import { DIRECTION_PROPERTIES } from './PostPreview/direction-properties';
 import { useStyles } from '../styles/ExpertDataCard.styles';
+import PostDirectionLink from './PostDirectionLink';
 
 export interface IExpertDataCardProps {
   expert: IExpert;
@@ -13,12 +14,19 @@ export interface IExpertDataCardProps {
 
 const ExpertDataCard: React.FC<IExpertDataCardProps> = (props) => {
   const { expert } = props;
+  const history = useHistory();
+  const fullName = `${expert.firstName} ${expert.lastName}`;
+  const mainInsitutionCity = expert.mainInstitution?.city?.name || '';
+  const mainInsitutionName = expert.mainInstitution?.name || '';
+  const expertLastPost = expert.lastAddedPost?.id || '';
 
-  const fullName = `${expert.firstName} ${expert.secondName}`;
+  const goExpertPage = () => {
+    history.push(`/experts/${expert.id}`);
+  };
 
-  const directionCyrillic = expert.direction
-    ? DIRECTION_PROPERTIES[expert.direction].cyrillic
-    : '';
+  const goPostPage = () => {
+    history.push(`/posts/${expertLastPost}`);
+  };
 
   const classes = useStyles();
 
@@ -33,19 +41,42 @@ const ExpertDataCard: React.FC<IExpertDataCardProps> = (props) => {
             justifyContent: 'space-around',
           }}
         >
-          <Typography variant="h5">{fullName}</Typography>
+          <Typography
+            className={classes.name}
+            onClick={goExpertPage}
+            variant="h5"
+          >
+            {fullName}
+          </Typography>
           <Typography variant="body1">
-            Спеціалізація: {directionCyrillic}
+            Спеціалізація:{' '}
+            {expert.directions?.map((d) => {
+              return <PostDirectionLink direction={d} key={d.id} />;
+            })}
           </Typography>
-          <Typography className={classes.pos} variant="body1" component="h2">
-            {expert.workPlace}
-          </Typography>
-          <Typography variant="body2" color="textSecondary">
-            Останній доданий матеріал:
-          </Typography>
-          <Typography variant="h6" component="p">
-            {expert.lastPost}
-          </Typography>
+          <div>
+            <Typography variant="body1" component="h2">
+              {mainInsitutionCity}
+            </Typography>
+            <Typography
+              className={classes.pos}
+              onClick={goExpertPage}
+              variant="body1"
+              component="h2"
+            >
+              {mainInsitutionName}
+            </Typography>
+          </div>
+          {expert.lastAddedPost && (
+            <div style={{ cursor: 'pointer' }}>
+              <Typography variant="body2" color="textSecondary">
+                Останній доданий матеріал:
+              </Typography>
+              <Typography variant="h6" component="p" onClick={goPostPage}>
+                {expert.lastAddedPost?.title}
+              </Typography>
+            </div>
+          )}
         </Box>
       </CardContent>
     </Card>

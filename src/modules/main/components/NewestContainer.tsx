@@ -1,57 +1,78 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Container, Grid, Button, Typography } from '@material-ui/core';
+import { Container, Grid, Typography } from '@material-ui/core';
 import { RootStateType } from '../../../store/rootReducer';
-import { fetchNewestPosts, IMainState } from '../store/mainSlice';
-import PostPreviewCard from '../../../lib/components/PostPreview/PostPreviewCard';
-import { useStyles } from './styles/NewestContainer.style';
+import {
+  fetchNewestPosts,
+  IMainState,
+  fetchInitialNewestPosts,
+} from '../store/mainSlice';
+import { styles } from './styles/NewestContainer.style';
 import BorderBottom from '../../../lib/components/Border';
+import PostsList from '../../../lib/components/PostsList';
+import { LoadingStatusEnum } from '../../../lib/types';
+import LoadingInfo from '../../../lib/components/LoadingInfo';
+import useEffectExceptOnMount from '../../../lib/hooks/useEffectExceptOnMount';
+import { selectPostsByIds } from '../../../store/selectors';
+import LoadMorePostsButton from '../../../lib/components/LoadMorePostsButton';
 
 const NewestContainer: React.FC = () => {
-  const classes = useStyles();
-
   const dispatch = useDispatch();
   const setNewest = () => dispatch(fetchNewestPosts());
+  const setNewestInitial = () => dispatch(fetchInitialNewestPosts());
 
-  const { newestPosts, meta } = useSelector<RootStateType, IMainState['newest']>(
-    (state) => {
-      return state.main.newest;
-    },
-  );
+  const {
+    newestPostIds,
+    meta: { isLastPage, loading, currentPage },
+  } = useSelector<RootStateType, IMainState['newest']>((state) => {
+    return state.main.newest;
+  });
+  const newestPosts = selectPostsByIds(newestPostIds);
 
   useEffect(() => {
-    setNewest();
+    setNewestInitial();
   }, []);
 
-  return (
-    <>
-      <Container>
-        <Typography variant="h4">Найновіше</Typography>
-        <Grid container spacing={2} direction="row" alignItems="center">
-          {newestPosts.map((post) => (
-            <Grid item xs={12} lg={4} md={6} key={post.author?.phone}>
-              <PostPreviewCard data={post} />
-            </Grid>
-          ))}
-        </Grid>
+  const gridRef = useRef<HTMLDivElement>(null);
 
+  useEffectExceptOnMount(() => {
+    if (currentPage > 1) {
+      gridRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [currentPage]);
+
+  return (
+    <div style={styles.container}>
+      {loading === LoadingStatusEnum.pending && currentPage < 1 ? (
         <Grid
           container
           direction="column"
           alignItems="center"
-          className={classes.showMore}
+          style={styles.loading}
         >
-          {meta.showMore ? (
-            <Button variant="contained" onClick={setNewest}>
-              Більше матеріалів
-            </Button>
-          ) : (
-            <span>Більше нових матеріалів немає</span>
-          )}
+          <LoadingInfo loading={loading} />
         </Grid>
-        <BorderBottom />
-      </Container>
-    </>
+      ) : (
+        <Container>
+          <Typography variant="h4">Найновіше</Typography>
+          <Grid container spacing={2} direction="row" alignItems="center">
+            <PostsList postsList={newestPosts} />
+          </Grid>
+          <Grid container direction="column" alignItems="center">
+            <LoadingInfo loading={loading} />
+          </Grid>
+
+          <Grid container direction="column" alignItems="center" ref={gridRef}>
+            <LoadMorePostsButton
+              clicked={setNewest}
+              isLastPage={isLastPage}
+              loading={loading}
+            />
+          </Grid>
+          <BorderBottom />
+        </Container>
+      )}
+    </div>
   );
 };
 

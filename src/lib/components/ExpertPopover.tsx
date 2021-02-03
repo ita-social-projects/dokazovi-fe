@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Popover from '@material-ui/core/Popover';
+import Popper from '@material-ui/core/Popper';
 
 const useStyles = makeStyles((theme) => ({
   typography: {
@@ -16,7 +16,7 @@ export const ExpertPopover: React.FC<{
   anchorEl: HTMLDivElement | null;
   handlePopoverClose: () => void;
 }> = (props) => {
-  const { children, anchorEl, handlePopoverClose } = props;
+  const { children, anchorEl } = props;
   const classes = useStyles();
 
   const open = Boolean(anchorEl);
@@ -24,24 +24,15 @@ export const ExpertPopover: React.FC<{
 
   return (
     <div>
-      <Popover
+      <Popper
         id={id}
         open={open}
         anchorEl={anchorEl}
-        onClose={handlePopoverClose}
         className={classes.popover}
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'center',
-        }}
-        transformOrigin={{
-          vertical: 'top',
-          horizontal: 'center',
-        }}
-        disableRestoreFocus
+        placement="right-end"
       >
         {children}
-      </Popover>
+      </Popper>
     </div>
   );
 };

@@ -4,6 +4,7 @@ export const useStyles = makeStyles(
   {
     root: {
       position: 'relative',
+      cursor: 'pointer',
     },
     media: {
       height: 58,

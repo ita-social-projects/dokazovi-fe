@@ -1,4 +1,4 @@
-name: Dokazovi-fe CI/CD Heroku
+name: Dokazovi build status
 
 on:
   push:
