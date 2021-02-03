@@ -1,24 +1,32 @@
 import React from 'react';
-import { Container, Button, Box } from '@material-ui/core';
+import { Container } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import PostView from '../posts/components/PostView';
 import { RootStateType } from '../../store/rootReducer';
 import { IPost, PostTypeEnum } from '../../lib/types';
 import { useStyles } from './styles/PostCreationPreview.styles';
-import { mockPost } from '../posts/mockPost/mockPost';
+import usePostPreviewData from '../../lib/hooks/usePostPreviewData';
+import PostCreationButtons from '../../lib/components/PostCreationButtons/PostCreationButtons';
+import { PostPostRequestType } from '../../lib/utilities/API/types';
+import { postPublishPost } from '../../lib/utilities/API/api';
 
-const ArticleCreationPreview: React.FC = () => {
+export interface ILocationState {
+  postType: string;
+  publishPost: PostPostRequestType;
+}
+
+const PostCreationPreview: React.FC = () => {
   const classes = useStyles();
   const history = useHistory();
 
-  const currentPostCreation = history.location.pathname.split('/')[1];
-  const currentPostType = history.location.state;
+  const currentState = history.location.state as ILocationState;
 
   const draft = useSelector(
     (state: RootStateType) =>
-      state.newPostDraft[currentPostType as PostTypeEnum],
+      state.newPostDraft[currentState.postType as PostTypeEnum],
   );
+
   const allDirections = useSelector(
     (state: RootStateType) => state.properties.directions,
   );
@@ -26,38 +34,40 @@ const ArticleCreationPreview: React.FC = () => {
   const directionIds = Object.keys(draft.topics).filter(
     (id) => draft.topics[id],
   );
+
   const directions = allDirections.filter((direction) =>
     directionIds.includes(direction.id.toString()),
   );
 
+  const getUserData = usePostPreviewData();
+
   const post = {
-    ...mockPost,
+    ...getUserData,
     content: draft.htmlContent,
     preview: draft.preview.value,
     title: draft.title,
     directions,
-    createdAt: new Date().toLocaleDateString(),
   } as IPost;
 
   const goBackToCreation = () => {
-    history.push(`/${currentPostCreation}`);
+    history.goBack();
+  };
+
+  const sendPost = async () => {
+    const responsePost = await postPublishPost(currentState.publishPost);
+    history.push(`/posts/${responsePost.data.id}`);
   };
 
   return (
     <Container className={classes.root}>
       <PostView post={post} />
-      <Box className={classes.buttonHolder}>
-        <Button
-          style={{ marginRight: '10px' }}
-          variant="contained"
-          onClick={goBackToCreation}
-        >
-          Назад до редагування
-        </Button>
-        <Button variant="contained">Опублікувати</Button>
-      </Box>
+      <PostCreationButtons
+        publishPost={sendPost}
+        goPreview={goBackToCreation}
+        isOnPreview
+      />
     </Container>
   );
 };
 
-export default ArticleCreationPreview;
+export default PostCreationPreview;

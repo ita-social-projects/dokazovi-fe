@@ -1,13 +1,8 @@
 import React, { useCallback, useEffect } from 'react';
 import _ from 'lodash';
 import { useDispatch } from 'react-redux';
-import { Box, Grid } from '@material-ui/core';
-import { FilterPropertiesType, FilterTypeEnum } from '../types';
+import { FilterPropertiesType, FilterTypeEnum, ICheckboxes } from '../types';
 import { FilterForm } from './FilterForm';
-
-export interface ICheckboxes {
-  [key: string]: boolean;
-}
 
 export interface IObjForAction {
   value: ICheckboxes;

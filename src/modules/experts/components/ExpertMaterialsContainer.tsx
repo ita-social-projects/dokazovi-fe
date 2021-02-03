@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { Button, Container, Grid, Typography } from '@material-ui/core';
+import { Container, Grid, Typography } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import BorderBottom from '../../../lib/components/Border';
 import LoadingInfo from '../../../lib/components/LoadingInfo';
@@ -11,11 +11,11 @@ import {
   setMaterialsTypes,
 } from '../store/expertsSlice';
 import { RootStateType } from '../../../store/rootReducer';
-import { LoadingStatusEnum } from '../../../lib/types';
 import useEffectExceptOnMount from '../../../lib/hooks/useEffectExceptOnMount';
 import { useStyles } from '../styles/ExpertProfileView.styles';
 import { PostTypeFilter } from '../../direction/components/PostTypesFilter';
 import { selectPostsByIds } from '../../../store/selectors';
+import LoadMorePostsButton from '../../../lib/components/LoadMorePostsButton';
 
 export interface IExpertMaterialsContainerProps {
   expertId: string;
@@ -72,31 +72,6 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
     }
   }, [pageNumber]);
 
-  const renderLoadControls = (
-    lastPageMsg = 'Більше нових матеріалів немає',
-  ): JSX.Element => {
-    let control: JSX.Element = <></>;
-
-    if (loading === LoadingStatusEnum.succeeded) {
-      control = (
-        <Button
-          variant="contained"
-          onClick={() => {
-            dispatchFetchMaterialsAction();
-          }}
-        >
-          Більше матеріалів
-        </Button>
-      );
-    }
-
-    if (isLastPage) {
-      control = <span>{lastPageMsg}</span>;
-    }
-
-    return control;
-  };
-
   return (
     <>
       <Container className={classes.container}>
@@ -115,7 +90,11 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
         </Grid>
 
         <Grid container direction="column" alignItems="center" ref={gridRef}>
-          {renderLoadControls()}
+          <LoadMorePostsButton
+            clicked={dispatchFetchMaterialsAction}
+            isLastPage={isLastPage}
+            loading={loading}
+          />
         </Grid>
         <BorderBottom />
       </Container>

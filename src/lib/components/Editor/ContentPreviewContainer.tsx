@@ -6,11 +6,10 @@ import {
   setPostPreviewText,
   setPostPreviewManuallyChanged,
 } from '../../../modules/postCreation/store/postCreationSlice';
-import { IDirection, PostTypeEnum } from '../../types';
+import { ICheckboxes, IDirection, IPost, PostTypeEnum } from '../../types';
 import PostPreviewCard from '../PostPreview/PostPreviewCard';
-import { mockUser } from './mock/mockUser';
 import { RootStateType } from '../../../store/rootReducer';
-import { ICheckboxes } from '../../../modules/postCreation/PostTopicSelector';
+import usePostPreviewData from '../../hooks/usePostPreviewData';
 
 export interface IContentPreviewContainerProps {
   previewText: string;
@@ -43,7 +42,6 @@ const getSelectedTopics = (obj: ICheckboxes, arr: IDirection[]) => {
       }
     }
   });
-  console.log(resultArr);
 
   return resultArr;
 };
@@ -121,12 +119,14 @@ const ContentPreviewContainer: React.FC<IContentPreviewContainerProps> = ({
     [],
   );
 
-  const mockData = {
-    ...mockUser,
+  const getUserData = usePostPreviewData();
+
+  const cardPreviewData: IPost = {
+    ...getUserData,
     title: title || '',
     postType: { id: 0, name: previewCardType },
     directions: selectedTopics,
-    preview: `${trunkLength(textFieldValue)} ...`,
+    preview: `${trunkLength(textFieldValue)}`,
   };
 
   //  TODO trunc preview text in PostPreviewCard
@@ -174,7 +174,7 @@ const ContentPreviewContainer: React.FC<IContentPreviewContainerProps> = ({
           </Grid>
         </Grid>
         <Grid item xs={12} lg={4} md={6}>
-          <PostPreviewCard data={mockData} />
+          <PostPreviewCard data={cardPreviewData} />
         </Grid>
       </Grid>
     </>
