@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import LocalHospitalIcon from '@material-ui/icons/LocalHospital';
-import { Grid, Toolbar, Typography } from '@material-ui/core';
+import { Grid, Tab, Tabs, Toolbar, Typography } from '@material-ui/core';
 import ListItem from '@material-ui/core/ListItem/ListItem';
 import List from '@material-ui/core/List/List';
-import { Link } from 'react-router-dom';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useStyles } from './Header.styles';
 import { PostCreationMenu } from '../PostCreationMenu';
@@ -15,7 +15,7 @@ import LogOutButton from '../LogOutButton';
 interface IHeaderProps {
   id: string;
   label: string;
-  url?: string;
+  url: string;
 }
 
 export const navElems: IHeaderProps[] = [
@@ -39,26 +39,33 @@ export const navElems: IHeaderProps[] = [
     label: 'Експерти',
     url: '/experts',
   },
-  {
-    id: 'translates',
-    label: 'Переклади',
-  },
+  // {
+  //   id: 'translates',
+  //   label: 'Переклади',
+  // },
 ];
 
 const Header: React.FC = () => {
   const classes = useStyles();
-  const { user } = useSelector((state: RootStateType) => state.currentUser);
 
-  const allLinks = navElems.map((item) => (
-    <Link
-      key={item.id}
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-      to={(location) => ({ ...location, pathname: item.url || '#' })}
-      className={classes.items}
-    >
-      {item.label}
-    </Link>
-  ));
+  const history = useHistory();
+  const { user } = useSelector((state: RootStateType) => state.currentUser);
+  const pathName = useLocation().pathname;
+
+  const activeTab = navElems.find((elem) => elem.url === pathName);
+  const [tabState, setTabState] = useState(activeTab?.id || navElems[0]);
+
+  const handleTabChange = (
+    event: React.ChangeEvent<Record<string, unknown>>,
+    routeName: string,
+  ) => {
+    const navElem = navElems.find((elem) => elem.id === routeName);
+
+    if (navElem) {
+      setTabState(navElem.id);
+      history.push(navElem.url);
+    }
+  };
 
   return (
     <div className="header">
@@ -92,9 +99,17 @@ const Header: React.FC = () => {
           </Toolbar>
         </Grid>
         <Grid item xs={12}>
-          <List className={classes.generalNavigation}>
-            <ListItem>{allLinks}</ListItem>
-          </List>
+          <Tabs
+            value={tabState}
+            onChange={handleTabChange}
+            indicatorColor="primary"
+            textColor="primary"
+            aria-label="disabled tabs example"
+          >
+            {navElems.map((item) => (
+              <Tab label={item.label} value={item.id} key={item.id} />
+            ))}
+          </Tabs>
         </Grid>
       </Grid>
     </div>
