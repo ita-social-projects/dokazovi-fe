@@ -19,7 +19,7 @@ const PostDirectionLink: React.FC<IPostDirectionLinkProps> = ({
   return (
     <PostDirectionChip
       backgroundColor={direction.color}
-      labelName={direction.name}
+      labelName={direction.label}
       handleClick={handleClick}
     />
   );

@@ -1,62 +1,43 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import _ from 'lodash';
-import { useSelector, useDispatch } from 'react-redux';
 import {
-  Box,
-  CircularProgress,
   Container,
-  TextField,
+  CircularProgress,
   Typography,
+  Box,
 } from '@material-ui/core';
-import ArticleEditor from '../../lib/components/Editor/Editors/ArticleEditor';
-import { RootStateType } from '../../store/rootReducer';
-import {
-  setPostTopics,
-  setPostTitle,
-  setPostBody,
-} from './store/postCreationSlice';
+import NoteEditor from '../../lib/components/Editor/Editors/NoteEditor';
+import { setPostTopics, setPostBody } from './store/postCreationSlice';
 import { PostTopicSelector } from './PostTopicSelector';
 import { ICheckboxes, PostTypeEnum } from '../../lib/types';
-import { postPublishPost } from '../../lib/utilities/API/api';
+import { RootStateType } from '../../store/rootReducer';
 import { sanitizeHtml } from '../../lib/utilities/sanitizeHtml';
+import { postPublishPost } from '../../lib/utilities/API/api';
 import PostCreationButtons from '../../lib/components/PostCreationButtons/PostCreationButtons';
 import { PostPostRequestType } from '../../lib/utilities/API/types';
 
-const ArticleCreation: React.FC = () => {
-  const history = useHistory();
+const NoteCreation: React.FC = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const directions = useSelector(
     (state: RootStateType) => state.properties?.directions,
   );
   const savedPostDraft = useSelector(
-    (state: RootStateType) => state.newPostDraft.ARTICLE,
+    (state: RootStateType) => state.newPostDraft.DOPYS,
   );
-
-  const [title, setTitle] = useState({
-    value: savedPostDraft.title || '',
-    error: '',
-  });
 
   const dispatchTopics = (topics: ICheckboxes) => {
-    dispatch(setPostTopics({ postType: PostTypeEnum.ARTICLE, value: topics }));
+    dispatch(setPostTopics({ postType: PostTypeEnum.DOPYS, value: topics }));
   };
-
-  const dispatchTitle = useCallback(
-    _.debounce((storedTitle: string) => {
-      dispatch(
-        setPostTitle({ postType: PostTypeEnum.ARTICLE, value: storedTitle }),
-      );
-    }, 1000),
-    [],
-  );
 
   const dispatchHtmlContent = useCallback(
     _.debounce((content: string) => {
       dispatch(
         setPostBody({
-          postType: PostTypeEnum.ARTICLE,
+          postType: PostTypeEnum.DOPYS,
           value: sanitizeHtml(content) as string,
         }),
       );
@@ -72,8 +53,7 @@ const ArticleCreation: React.FC = () => {
     content: savedPostDraft.htmlContent,
     directions: allDirections,
     preview: savedPostDraft.preview.value,
-    title: savedPostDraft.title,
-    type: { id: 1 },
+    type: { id: 2 },
   } as PostPostRequestType;
 
   const sendPost = async () => {
@@ -81,9 +61,9 @@ const ArticleCreation: React.FC = () => {
     history.push(`/posts/${responsePost.data.id}`);
   };
 
-  const goArticlePreview = () => {
-    history.push(`/create-article/preview`, {
-      postType: 'ARTICLE',
+  const goNotePreview = () => {
+    history.push(`/create-note/preview`, {
+      postType: 'DOPYS',
       publishPost: newPost,
     });
   };
@@ -103,35 +83,15 @@ const ArticleCreation: React.FC = () => {
       )}
       <Box mt={2}>
         <Container>
-          <Typography variant="h5">Заголовок статті: </Typography>
-          <TextField
-            error={Boolean(title.error)}
-            helperText={title.error}
-            fullWidth
-            required
-            id="article-name"
-            value={title.value}
-            onChange={(e) => {
-              setTitle({ ...title, value: e.target.value });
-              dispatchTitle(e.target.value);
-            }}
-          />
-        </Container>
-      </Box>
-      <Box mt={2}>
-        <Container>
           <Typography variant="h5">Текст статті:</Typography>
         </Container>
-        <ArticleEditor dispatchContent={dispatchHtmlContent} />
+        <NoteEditor dispatchContent={dispatchHtmlContent} />
       </Box>
       <Box display="flex" justifyContent="flex-end">
-        <PostCreationButtons
-          publishPost={sendPost}
-          goPreview={goArticlePreview}
-        />
+        <PostCreationButtons publishPost={sendPost} goPreview={goNotePreview} />
       </Box>
     </Container>
   );
 };
 
-export default ArticleCreation;
+export default NoteCreation;

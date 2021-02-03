@@ -1,5 +1,5 @@
 import React, { Suspense, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import './App.css';
 import { BrowserRouter } from 'react-router-dom';
 import { CircularProgress } from '@material-ui/core';
@@ -12,9 +12,13 @@ import {
   fetchPostsTypes,
   fetchRegions,
 } from './store/propertiesSlice';
+import { RootStateType } from './store/rootReducer';
+import { loginUser } from './store/authSlice';
+import { LocalStorageKeys } from './lib/types';
 
 const App: React.FC = () => {
   const dispatch = useDispatch();
+  const { user } = useSelector((state: RootStateType) => state.currentUser);
 
   const fetchProperties = () => {
     dispatch(fetchPostsTypes());
@@ -24,6 +28,14 @@ const App: React.FC = () => {
 
   useEffect(() => {
     fetchProperties();
+  }, []);
+
+  useEffect(() => {
+    const isToken = localStorage.getItem(LocalStorageKeys.ACCESS_TOKEN);
+
+    if (!user && isToken) {
+      dispatch(loginUser());
+    }
   }, []);
 
   return (

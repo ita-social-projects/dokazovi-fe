@@ -50,6 +50,7 @@ const useStyles = makeStyles((theme: Theme) =>
     button: {
       padding: theme.spacing(2),
       width: '250px',
+      height: '30px',
       backgroundColor: 'white',
       boxShadow: 'none',
       border: '1px solid grey',
@@ -90,17 +91,17 @@ export const PostCreationMenu: React.FC = () => {
         onClose={handleClose}
       >
         <Link to="/create-article">
-          <StyledMenuItem>
+          <StyledMenuItem onClick={handleClose}>
             <ListItemText primary="Створити статтю" />
           </StyledMenuItem>
         </Link>
         <Link to="/create-note">
-          <StyledMenuItem>
+          <StyledMenuItem onClick={handleClose}>
             <ListItemText primary="Створити допис" />
           </StyledMenuItem>
         </Link>
         <Link to="/">
-          <StyledMenuItem>
+          <StyledMenuItem onClick={handleClose}>
             <ListItemText primary="Створити відео" />
           </StyledMenuItem>
         </Link>

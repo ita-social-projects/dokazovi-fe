@@ -24,6 +24,10 @@ export enum LoadingStatusEnum {
   failed = 'failed',
 }
 
+export enum LocalStorageKeys {
+  ACCESS_TOKEN = 'ACCESS_TOKEN',
+}
+
 export enum FilterTypeEnum {
   POST_TYPES = 'POST_TYPES',
   DIRECTIONS = 'DIRECTIONS',
@@ -45,7 +49,7 @@ export interface IPost {
 }
 
 export interface IExpert {
-  id?: number;
+  id: number;
   firstName: string;
   lastName: string;
   avatar?: string;
@@ -79,8 +83,9 @@ export interface IDirection {
   color?: string;
   name: string;
   label?: string;
-  route?: string; // remove
 }
+
+export type DirectionIDType = Pick<IDirection, 'id'>;
 
 export interface IInstitution {
   city: {
@@ -93,4 +98,13 @@ export interface IInstitution {
 
 export interface IFilter {
   value: any;
+}
+
+export interface ICheckboxes {
+  [key: string]: boolean;
+}
+
+export interface IInputs {
+  email: string;
+  password: string;
 }

@@ -4,7 +4,6 @@ import { getPostById } from '../../../lib/utilities/API/api';
 import { IPost } from '../../../lib/types';
 import PostView from './PostView';
 import { sanitizeHtml } from '../../../lib/utilities/sanitizeHtml';
-import Page404 from '../../../lib/components/Errors/Page404';
 
 const PostViewContainer: React.FC = () => {
   const { postId } = useParams<{ postId: string }>();

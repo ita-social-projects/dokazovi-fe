@@ -14,19 +14,18 @@ import LoadingInfo from '../../../lib/components/LoadingInfo';
 import { useStyles } from '../styles/ExpertsView.styles';
 import { FilterTypeEnum } from '../../../lib/types';
 import { FilterFormContainer } from '../../../lib/components/FilterFormContainer';
+import { selectExpertsByIds } from '../../../store/selectors';
 
-export interface IExpertsViewProps {}
-
-const selectExperts = (state: RootStateType) => state.experts.experts;
-
-const ExpertsView: React.FC<IExpertsViewProps> = () => {
+const ExpertsView: React.FC = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const {
-    experts,
+    expertIds,
     meta: { totalPages, pageNumber, loading },
     filters,
-  } = useSelector(selectExperts);
+  } = useSelector((state: RootStateType) => state.experts.experts);
+
+  const experts = selectExpertsByIds(expertIds);
 
   const regions = useSelector(
     (state: RootStateType) => state.properties?.regions,
@@ -41,11 +40,15 @@ const ExpertsView: React.FC<IExpertsViewProps> = () => {
   const setExperts = () => dispatch(fetchExperts());
 
   const handlePageChange = (_, page: number) => {
-    dispatch(setExpertsPage(page));
+    if (page === 1) {
+      dispatch(setExpertsPage(0));
+    } else {
+      dispatch(setExpertsPage(page - 1));
+    }
   };
 
   useEffect(() => {
-    dispatch(setExpertsPage(1));
+    dispatch(setExpertsPage(0));
   }, []);
 
   useEffect(() => {
@@ -55,6 +58,8 @@ const ExpertsView: React.FC<IExpertsViewProps> = () => {
   useEffect(() => {
     dispatch(fetchExperts());
   }, [filters?.REGIONS.value, filters?.DIRECTIONS.value]);
+
+  const correctPageNumber = pageNumber === 0 ? 1 : pageNumber + 1;
 
   return (
     <>
@@ -100,7 +105,9 @@ const ExpertsView: React.FC<IExpertsViewProps> = () => {
                 >
                   <Pagination
                     count={totalPages}
-                    page={pageNumber}
+                    page={correctPageNumber}
+                    showFirstButton
+                    showLastButton
                     onChange={handlePageChange}
                   />
                 </Grid>

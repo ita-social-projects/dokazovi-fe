@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { Button, Container, Grid, Typography } from '@material-ui/core';
+import { Container, Grid, Typography } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import BorderBottom from '../../../lib/components/Border';
 import LoadingInfo from '../../../lib/components/LoadingInfo';
@@ -11,31 +11,33 @@ import {
   setMaterialsTypes,
 } from '../store/expertsSlice';
 import { RootStateType } from '../../../store/rootReducer';
-import { LoadingStatusEnum } from '../../../lib/types';
 import useEffectExceptOnMount from '../../../lib/hooks/useEffectExceptOnMount';
 import { useStyles } from '../styles/ExpertProfileView.styles';
 import { PostTypeFilter } from '../../direction/components/PostTypesFilter';
+import { selectPostsByIds } from '../../../store/selectors';
+import LoadMorePostsButton from '../../../lib/components/LoadMorePostsButton';
 
 export interface IExpertMaterialsContainerProps {
-  id: string;
+  expertId: string;
 }
 
 const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
-  id,
+  expertId,
 }) => {
   const dispatch = useDispatch();
   const dispatchFetchMaterialsAction = () =>
-    dispatch(fetchExpertMaterials(Number(id)));
+    dispatch(fetchExpertMaterials(Number(expertId)));
   const dispatchFetchInitialMaterialsAction = () =>
-    dispatch(fetchInitialMaterials(Number(id)));
+    dispatch(fetchInitialMaterials(Number(expertId)));
 
-  dispatch(setupExpertMaterialsID(id));
+  dispatch(setupExpertMaterialsID(expertId));
 
   const {
-    loadedPosts,
+    postIds,
     meta: { loading, isLastPage, pageNumber },
     filters,
-  } = useSelector((state: RootStateType) => state.experts.materials[id]);
+  } = useSelector((state: RootStateType) => state.experts.materials[expertId]);
+  const materials = selectPostsByIds(postIds);
 
   useEffect(() => {
     dispatchFetchInitialMaterialsAction();
@@ -46,7 +48,7 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
       dispatch(
         setMaterialsTypes({
           types: { value: undefined },
-          expertId: id,
+          expertId,
         }),
       );
     };
@@ -56,7 +58,7 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
     dispatch(
       setMaterialsTypes({
         types: { value: checked },
-        expertId: id,
+        expertId,
       }),
     );
   };
@@ -70,38 +72,13 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
     }
   }, [pageNumber]);
 
-  const renderLoadControls = (
-    lastPageMsg = 'Більше нових матеріалів немає',
-  ): JSX.Element => {
-    let control: JSX.Element = <></>;
-
-    if (loading === LoadingStatusEnum.succeeded) {
-      control = (
-        <Button
-          variant="contained"
-          onClick={() => {
-            dispatchFetchMaterialsAction();
-          }}
-        >
-          Більше матеріалів
-        </Button>
-      );
-    }
-
-    if (isLastPage) {
-      control = <span>{lastPageMsg}</span>;
-    }
-
-    return control;
-  };
-
   return (
     <>
       <Container className={classes.container}>
         <Typography variant="h4">Матеріали</Typography>
         <PostTypeFilter dispatchFunction={setFilters} />
         <Grid container spacing={2} direction="row" alignItems="center">
-          <PostsList postsList={loadedPosts} />
+          <PostsList postsList={materials} />
         </Grid>
         <Grid
           container
@@ -113,7 +90,11 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
         </Grid>
 
         <Grid container direction="column" alignItems="center" ref={gridRef}>
-          {renderLoadControls()}
+          <LoadMorePostsButton
+            clicked={dispatchFetchMaterialsAction}
+            isLastPage={isLastPage}
+            loading={loading}
+          />
         </Grid>
         <BorderBottom />
       </Container>

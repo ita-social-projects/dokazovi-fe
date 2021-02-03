@@ -1,4 +1,14 @@
-import { IDirection, IPostType } from '../../types';
+import { IDirection, IPostType, DirectionIDType } from '../../types';
+
+export type PostPostRequestType = {
+  content: string;
+  directions: DirectionIDType[];
+  preview: string;
+  title?: string;
+  type: {
+    id: number;
+  };
+};
 
 export type PostResponseType = {
   author: {
@@ -98,4 +108,8 @@ export type GetPostResponseType = PostPostResponseType[];
 export type GetRegionsType = {
   id: number;
   name: string;
+};
+export type PostLoginResponseType = {
+  accessToken: string;
+  tokenType: string;
 };

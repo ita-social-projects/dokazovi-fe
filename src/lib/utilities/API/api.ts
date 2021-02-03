@@ -1,6 +1,8 @@
-import axios, { AxiosResponse } from 'axios';
+/* eslint-disable no-param-reassign */
+import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import qs from 'qs';
-import { BASE_URL } from './baseURL';
+import { LocalStorageKeys } from '../../types';
+import { BASE_URL } from '../../../apiURL';
 import {
   ExpertResponseType,
   GetRegionsType,
@@ -11,9 +13,11 @@ import {
   GetVersionType,
   PostResponseType,
   PostTagResponseType,
+  PostPostRequestType,
+  PostLoginResponseType,
 } from './types';
 
-const instance = axios.create({
+export const instance = axios.create({
   baseURL: BASE_URL,
 });
 
@@ -44,6 +48,20 @@ export type GetTagConfigType = {
 export type PostTagRequestBodyType = {
   tag: string;
 };
+
+instance.interceptors.request.use(
+  (config: AxiosRequestConfig) => {
+    const jwtToken = localStorage.getItem(LocalStorageKeys.ACCESS_TOKEN);
+    if (jwtToken) {
+      const header = `Bearer ${jwtToken}`;
+      config.headers = { authorization: header };
+    }
+    return config;
+  },
+  (error) => {
+    Promise.reject(error);
+  },
+);
 
 const defaultConfig = {
   paramsSerializer: (params: { [key: string]: any }): string => {
@@ -114,6 +132,26 @@ export const getPostTypes = (): Promise<AxiosResponse<GetPostResponseType>> => {
 export const getRegions = (): Promise<AxiosResponse<GetRegionsType[]>> => {
   return instance.get(`/region`);
 };
+
 export const getDirection = (): Promise<AxiosResponse<GetDirectionType>> => {
   return instance.get(`/direction`);
+};
+
+export const postPublishPost = (
+  requestBody: PostPostRequestType,
+): Promise<AxiosResponse<PostResponseType>> => {
+  return instance.post(`/post`, requestBody);
+};
+
+export const loginService = (
+  email: string,
+  password: string,
+): Promise<AxiosResponse<PostLoginResponseType>> => {
+  return instance.post('/auth/login', { email, password });
+};
+
+export const getCurrentUser = (): Promise<
+  AxiosResponse<ExpertResponseType>
+> => {
+  return instance.get('/user/me');
 };

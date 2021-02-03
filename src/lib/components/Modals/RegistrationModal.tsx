@@ -1,19 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm, DeepMap, FieldError } from 'react-hook-form';
 import {
   Button,
   TextField,
+  InputAdornment,
+  IconButton,
   Grid,
   Typography,
   Dialog,
   DialogTitle,
   DialogContent,
 } from '@material-ui/core';
-
-export interface IInputs {
-  email: string;
-  password: string;
-}
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import { emailValidationObj, passwordValidationObj } from './validationRules';
+import { IInputs } from '../../types';
 
 export interface IRegistrationProps {
   registrationOpen: boolean;
@@ -26,6 +27,7 @@ export interface IRegistrationProps {
 
 export const RegistrationModal: React.FC<IRegistrationProps> = (props) => {
   const { onRegistrationClose, registrationOpen, showErrorMessage } = props;
+  const [showPassword, setShowPassword] = useState(false);
 
   // eslint-disable-next-line @typescript-eslint/unbound-method
   const { register, handleSubmit, errors, watch } = useForm<IInputs>();
@@ -48,7 +50,7 @@ export const RegistrationModal: React.FC<IRegistrationProps> = (props) => {
         <DialogContent>
           <form
             onSubmit={handleSubmit(onSubmit)}
-            style={{ width: '300px', height: '320px', margin: '0 auto' }}
+            style={{ width: '300px', height: 'fit-content', margin: '0 auto' }}
           >
             <Grid container justify="center">
               <Grid item xs={6}>
@@ -86,16 +88,7 @@ export const RegistrationModal: React.FC<IRegistrationProps> = (props) => {
               <Grid item xs={12}>
                 <TextField
                   name="email"
-                  inputRef={register({
-                    required: {
-                      value: true,
-                      message: "Це поле є обов'язковим",
-                    },
-                    pattern: {
-                      value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                      message: 'Неправильний формат email',
-                    },
-                  })}
+                  inputRef={register(emailValidationObj)}
                   label="Email"
                   style={{ width: '100%' }}
                 />
@@ -106,20 +99,21 @@ export const RegistrationModal: React.FC<IRegistrationProps> = (props) => {
               <Grid item xs={12}>
                 <TextField
                   name="password"
-                  inputRef={register({
-                    required: {
-                      value: true,
-                      message: "Це поле є обов'язковим",
-                    },
-                    minLength: {
-                      value: 4,
-                      message: 'Пароль повинен містити щонайменше 4 символи',
-                    },
-                    maxLength: {
-                      value: 16,
-                      message: 'Пароль повинен містити щонайбільше 16 символи',
-                    },
-                  })}
+                  type={showPassword ? 'text' : 'password'}
+                  inputRef={register(passwordValidationObj)}
+                  InputProps={{
+                    // <-- This is where the password toggle button is added.
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={() => setShowPassword(!showPassword)}
+                        >
+                          {showPassword ? <Visibility /> : <VisibilityOff />}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
                   label="Пароль"
                   style={{ width: '100%' }}
                 />
@@ -130,6 +124,7 @@ export const RegistrationModal: React.FC<IRegistrationProps> = (props) => {
               <Grid item xs={12}>
                 <TextField
                   name="password2"
+                  type={showPassword ? 'text' : 'password'}
                   inputRef={register({
                     required: {
                       value: true,
@@ -141,6 +136,19 @@ export const RegistrationModal: React.FC<IRegistrationProps> = (props) => {
                       ); // value is from password2 and watch will return value from password
                     },
                   })}
+                  InputProps={{
+                    // <-- This is where the password toggle button is added.
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={() => setShowPassword(!showPassword)}
+                        >
+                          {showPassword ? <Visibility /> : <VisibilityOff />}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
                   label="Повторіть пароль"
                   style={{ width: '100%' }}
                 />
