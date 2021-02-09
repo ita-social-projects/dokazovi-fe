@@ -2,41 +2,39 @@ import React, { useState } from 'react';
 import _ from 'lodash';
 import { Container, Grid } from '@material-ui/core';
 import { FilterForm } from '../../lib/components/FilterForm';
-import { FilterPropertiesType, ICheckboxes } from '../../lib/types';
+import { FilterPropertiesType, ICheckboxes, IDirection } from '../../lib/types';
 
 export interface IArticleTopics {
-  dispatchTopics: (action: ICheckboxes) => void;
-  topicList: FilterPropertiesType[];
-  prevCheckedTopics?: ICheckboxes;
+  dispatchTopics: (action: string[]) => void;
+  topicList: IDirection[];
+  prevCheckedTopicsIds?: string[];
 }
 
 export const PostTopicSelector: React.FC<IArticleTopics> = ({
   dispatchTopics,
   topicList,
-  prevCheckedTopics,
+  prevCheckedTopicsIds,
 }) => {
   const initialCheckboxState = topicList.reduce(
     (acc: ICheckboxes, next: FilterPropertiesType) => {
-      return { ...acc, [next.id.toString()]: false };
+      const id = next.id.toString();
+      return { ...acc, [id]: prevCheckedTopicsIds?.includes(id) || false };
     },
     {},
   );
 
   const [checkedTopics, setCheckedTopics] = useState<ICheckboxes>(
-    prevCheckedTopics || initialCheckboxState,
+    initialCheckboxState,
   );
   const [isMax, setIsMax] = useState(
-    _.keys(_.pickBy(prevCheckedTopics)).length === 3 || false,
+    _.keys(_.pickBy(prevCheckedTopicsIds)).length === 3 || false,
   );
   const [error, setError] = useState('');
 
   const prevCheckedTopicNames =
-    prevCheckedTopics &&
+    prevCheckedTopicsIds &&
     topicList
-      .filter((topic) => {
-        const truthyCheckboxIDs = _.keys(_.pickBy(prevCheckedTopics));
-        return truthyCheckboxIDs.includes(String(topic.id));
-      })
+      .filter((topic) => prevCheckedTopicsIds.includes(String(topic.id)))
       .map((topic) => topic.name);
 
   const [displayedTopicNames, setDisplayedTopicNames] = useState<string[]>(
@@ -52,6 +50,8 @@ export const PostTopicSelector: React.FC<IArticleTopics> = ({
       [event.target.id]: event.target.checked,
     };
 
+    const newCheckedTopicsIds = _.keys(_.pickBy(newCheckedTopics));
+
     const newDisplayedTopicNames = event.target.checked
       ? [...displayedTopicNames, topicName]
       : displayedTopicNames.filter((name) => name !== topicName);
@@ -65,7 +65,7 @@ export const PostTopicSelector: React.FC<IArticleTopics> = ({
 
     setCheckedTopics(newCheckedTopics);
     setDisplayedTopicNames(newDisplayedTopicNames);
-    dispatchTopics(newCheckedTopics);
+    dispatchTopics(newCheckedTopicsIds);
   };
 
   const getDisplayedTopics = () => displayedTopicNames.join(', ');
