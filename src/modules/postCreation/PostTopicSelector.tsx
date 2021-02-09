@@ -2,11 +2,7 @@ import React, { useState } from 'react';
 import _ from 'lodash';
 import { Container, Grid } from '@material-ui/core';
 import { FilterForm } from '../../lib/components/FilterForm';
-import { FilterPropertiesType, IDirection } from '../../lib/types';
-
-export interface ICheckboxes {
-  [key: string]: boolean;
-}
+import { FilterPropertiesType, ICheckboxes, IDirection } from '../../lib/types';
 
 export interface IArticleTopics {
   dispatchTopics: (action: string[]) => void;

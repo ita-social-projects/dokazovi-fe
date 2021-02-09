@@ -14,9 +14,11 @@ import { PostTopicSelector } from './PostTopicSelector';
 import { PostTypeEnum } from '../../lib/types';
 import { RootStateType } from '../../store/rootReducer';
 import { sanitizeHtml } from '../../lib/utilities/sanitizeHtml';
+import { postPublishPost } from '../../lib/utilities/API/api';
 import PostCreationButtons from '../../lib/components/PostCreationButtons/PostCreationButtons';
+import { PostPostRequestType } from '../../lib/utilities/API/types';
 
-const NoteCreationView: React.FC = () => {
+const NoteCreation: React.FC = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -43,8 +45,27 @@ const NoteCreationView: React.FC = () => {
     [],
   );
 
+  const allDirections = Object.keys(savedPostDraft.topics)
+    .filter((id) => savedPostDraft.topics[id])
+    .map((direction) => ({ id: Number(direction) }));
+
+  const newPost = {
+    content: savedPostDraft.htmlContent,
+    directions: allDirections,
+    preview: savedPostDraft.preview.value,
+    type: { id: 2 },
+  } as PostPostRequestType;
+
+  const sendPost = async () => {
+    const responsePost = await postPublishPost(newPost);
+    history.push(`/posts/${responsePost.data.id}`);
+  };
+
   const goNotePreview = () => {
-    history.push(`/create-note/preview`, 'DOPYS');
+    history.push(`/create-note/preview`, {
+      postType: 'DOPYS',
+      publishPost: newPost,
+    });
   };
 
   return (
@@ -66,9 +87,11 @@ const NoteCreationView: React.FC = () => {
         </Container>
         <NoteEditor dispatchContent={dispatchHtmlContent} />
       </Box>
-      <PostCreationButtons goPreview={goNotePreview} />
+      <Box display="flex" justifyContent="flex-end">
+        <PostCreationButtons publishPost={sendPost} goPreview={goNotePreview} />
+      </Box>
     </Container>
   );
 };
 
-export default NoteCreationView;
+export default NoteCreation;

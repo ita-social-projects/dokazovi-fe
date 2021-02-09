@@ -50,6 +50,7 @@ const useStyles = makeStyles((theme: Theme) =>
     button: {
       padding: theme.spacing(2),
       width: '250px',
+      height: '30px',
       backgroundColor: 'white',
       boxShadow: 'none',
       border: '1px solid grey',

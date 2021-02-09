@@ -1,10 +1,13 @@
 import { makeStyles } from '@material-ui/core';
 
 export const useStyles = makeStyles({
-  root: {
+  buttonHolder: {
     justifyContent: 'space-between',
-    flexDirection: 'column',
-    minHeight: '100vh',
+    flexDirection: 'row',
     display: 'flex',
+    marginTop: '10px',
+    marginRight: '13px',
+    marginLeft: '13px',
+    padding: '10px',
   },
 });

@@ -9,6 +9,7 @@ import {
 import { IDirection, IPost, PostTypeEnum } from '../../types';
 import PostPreviewCard from '../PostPreview/PostPreviewCard';
 import { RootStateType } from '../../../store/rootReducer';
+import usePostPreviewData from '../../hooks/usePostPreviewData';
 
 export interface IContentPreviewContainerProps {
   previewText: string;
@@ -51,8 +52,6 @@ const ContentPreviewContainer: React.FC<IContentPreviewContainerProps> = ({
   const { directions } = useSelector(
     (state: RootStateType) => state.properties,
   );
-
-  const { user } = useSelector((state: RootStateType) => state.currentUser);
 
   const [textFieldValue, setTextFieldValue] = useState<string>('');
   const [isTextFieldManualyChanged, setisTextFieldManualyChanged] = useState<
@@ -113,15 +112,10 @@ const ContentPreviewContainer: React.FC<IContentPreviewContainerProps> = ({
     [],
   );
 
+  const getUserData = usePostPreviewData();
+
   const cardPreviewData: IPost = {
-    author: {
-      avatar: user?.avatar,
-      firstName: user ? user.firstName : '',
-      lastName: user ? user.lastName : '',
-      mainInstitution: user?.mainInstitution,
-    },
-    id: 1,
-    createdAt: new Date().toLocaleDateString('en-GB').split('/').join('.'),
+    ...getUserData,
     title: title || '',
     postType: { id: 0, name: previewCardType },
     directions: selectedTopics,
