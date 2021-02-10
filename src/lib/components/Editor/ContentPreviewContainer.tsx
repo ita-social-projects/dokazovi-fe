@@ -6,11 +6,10 @@ import {
   setPostPreviewText,
   setPostPreviewManuallyChanged,
 } from '../../../modules/postCreation/store/postCreationSlice';
-import { IDirection, PostTypeEnum } from '../../types';
+import { IDirection, IPost, PostTypeEnum } from '../../types';
 import PostPreviewCard from '../PostPreview/PostPreviewCard';
-import { mockUser } from './mock/mockUser';
 import { RootStateType } from '../../../store/rootReducer';
-import { ICheckboxes } from '../../../modules/postCreation/PostTopicSelector';
+import usePostPreviewData from '../../hooks/usePostPreviewData';
 
 export interface IContentPreviewContainerProps {
   previewText: string;
@@ -27,25 +26,17 @@ const trunkLength = (str: string) => {
   return str;
 };
 
-const getSelectedTopics = (obj: ICheckboxes, arr: IDirection[]) => {
-  const resultArr = [] as IDirection[];
-  const objKeys = Object.keys(obj);
-
-  if (objKeys.length === 0 || arr.length === 0) {
-    return resultArr;
-  }
-
-  objKeys.forEach((objKey) => {
-    if (obj[objKey] === true) {
-      const found = arr.find((arrEl) => String(arrEl.id) === objKey);
-      if (found) {
-        resultArr.push(found);
-      }
+const getSelectedTopics = (
+  selectedTopicsIds: string[],
+  directions: IDirection[],
+) => {
+  return selectedTopicsIds.reduce((acc, id) => {
+    const direction = directions.find((d) => String(d.id) === id);
+    if (direction) {
+      return [...acc, direction];
     }
-  });
-  console.log(resultArr);
-
-  return resultArr;
+    return acc;
+  }, [] as IDirection[]);
 };
 
 const ContentPreviewContainer: React.FC<IContentPreviewContainerProps> = ({
@@ -121,12 +112,14 @@ const ContentPreviewContainer: React.FC<IContentPreviewContainerProps> = ({
     [],
   );
 
-  const mockData = {
-    ...mockUser,
+  const getUserData = usePostPreviewData();
+
+  const cardPreviewData: IPost = {
+    ...getUserData,
     title: title || '',
     postType: { id: 0, name: previewCardType },
     directions: selectedTopics,
-    preview: `${trunkLength(textFieldValue)} ...`,
+    preview: `${trunkLength(textFieldValue)}`,
   };
 
   //  TODO trunc preview text in PostPreviewCard
@@ -174,7 +167,7 @@ const ContentPreviewContainer: React.FC<IContentPreviewContainerProps> = ({
           </Grid>
         </Grid>
         <Grid item xs={12} lg={4} md={6}>
-          <PostPreviewCard data={mockData} />
+          <PostPreviewCard data={cardPreviewData} />
         </Grid>
       </Grid>
     </>

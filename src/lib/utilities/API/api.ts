@@ -14,6 +14,7 @@ import {
   GetVersionType,
   PostResponseType,
   PostTagResponseType,
+  PostPostRequestType,
   PostLoginResponseType,
 } from './types';
 
@@ -132,8 +133,15 @@ export const getPostTypes = (): Promise<AxiosResponse<GetPostResponseType>> => {
 export const getRegions = (): Promise<AxiosResponse<GetRegionsType[]>> => {
   return instance.get(`/region`);
 };
+
 export const getDirection = (): Promise<AxiosResponse<GetDirectionType>> => {
   return instance.get(`/direction`);
+};
+
+export const postPublishPost = (
+  requestBody: PostPostRequestType,
+): Promise<AxiosResponse<PostResponseType>> => {
+  return instance.post(`/post`, requestBody);
 };
 
 export const loginService = (

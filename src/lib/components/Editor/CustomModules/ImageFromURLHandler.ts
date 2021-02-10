@@ -1,11 +1,7 @@
 import { Quill } from 'react-quill';
 import { postImage } from '../../../utilities/API/imgurApi';
 
-const insertFromUrl = (editor?: Quill) => {
-  const url: string | null = prompt(
-    'Введіть посилання на зображення https://www...',
-  );
-
+const insertFromUrl = (url: string, editor?: Quill) => {
   if (editor && url) {
     const range = editor.getSelection(true);
 

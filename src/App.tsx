@@ -16,6 +16,7 @@ import {
 } from './store/propertiesSlice';
 import { RootStateType } from './store/rootReducer';
 import { loginUser } from './store/authSlice';
+import { LocalStorageKeys } from './lib/types';
 
 const App: React.FC = () => {
   const dispatch = useDispatch();
@@ -32,7 +33,7 @@ const App: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    const isToken = localStorage.getItem('ACCESS_TOKEN');
+    const isToken = localStorage.getItem(LocalStorageKeys.ACCESS_TOKEN);
 
     if (!user && isToken) {
       dispatch(loginUser());

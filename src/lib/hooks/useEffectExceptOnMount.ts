@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 
 const useEffectExceptOnMount = (
-  func: () => void | (() => () => void),
+  func: (() => void) | (() => () => void),
   deps: React.DependencyList | undefined,
 ): void => {
   const didMount = useRef(false);
