@@ -1,4 +1,4 @@
-name: Dokazovi-fe CI/CD release
+name: Dokazovi-fe Release
 
 on:
   push:
@@ -14,12 +14,23 @@ jobs:
         node-version: [12.x]
 
     steps:
-      - name: Copy all sources
+      - name: Checkout
         uses: actions/checkout@v2
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
+      - name: Cache node modules
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
       - name: Install, build, test, lint
         run: npm run assemble
         env:
