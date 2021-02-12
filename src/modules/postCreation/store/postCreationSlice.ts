@@ -1,9 +1,9 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ICheckboxes, PostTypeEnum } from '../../../lib/types';
+import { PostTypeEnum } from '../../../lib/types';
 
 export interface INewPostDraft {
-  topics: ICheckboxes;
+  topics: string[];
   title?: string;
   htmlContent: string;
   preview: IPostPreview;
@@ -21,13 +21,13 @@ export interface IPostCreationState {
 
 const initialState: IPostCreationState = {
   [PostTypeEnum.ARTICLE]: {
-    topics: {},
+    topics: [],
     title: '',
     htmlContent: '',
     preview: { value: '', isManuallyChanged: false },
   },
   [PostTypeEnum.DOPYS]: {
-    topics: {},
+    topics: [],
     htmlContent: '',
     preview: { value: '', isManuallyChanged: false },
   },

@@ -1,12 +1,9 @@
 import React, { useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useLocation, useHistory } from 'react-router-dom';
 import { Container, Grid, Typography } from '@material-ui/core';
 import PostList from '../../../lib/components/PostsList';
-import {
-  fetchInitialMaterials,
-  fetchMaterials,
-  setPostFilters,
-} from '../store/directionSlice';
+import { fetchMaterials, setPostFilters } from '../store/directionSlice';
 import { RootStateType } from '../../../store/rootReducer';
 import { useStyles } from './styles/MaterialsContainer.styles';
 import { FilterTypeEnum, IDirection } from '../../../lib/types';
@@ -21,15 +18,21 @@ interface IMaterialsContainerProps {
   direction: IDirection;
 }
 
+const useQuery = () => {
+  return new URLSearchParams(useLocation().search);
+};
+
 const MaterialsContainer: React.FC<IMaterialsContainerProps> = ({
   direction,
 }) => {
   const classes = useStyles();
+  const history = useHistory();
+  const location = useLocation();
+  const query = useQuery();
 
   const {
     postIds,
     meta: { loading, isLastPage, pageNumber },
-    filters,
   } = useSelector(
     (state: RootStateType) => state.directions[direction.name].materials,
   );
@@ -37,11 +40,55 @@ const MaterialsContainer: React.FC<IMaterialsContainerProps> = ({
 
   const dispatch = useDispatch();
 
-  const dispatchFetchAction = () => dispatch(fetchMaterials(direction));
+  const dispatchFetchAction = (
+    page = Number(query.get('page')),
+    checked = query.get('types')?.split(','),
+    replacePosts = false,
+  ) => {
+    dispatch(fetchMaterials(direction, checked, page, replacePosts));
+  };
+
+  const fetchMorePosts = () => {
+    const nextPage = Number(query.get('page')) + 1;
+    query.set('page', String(nextPage));
+    history.push(`${location.pathname}?${query.toString()}`);
+
+    dispatchFetchAction(nextPage);
+  };
 
   useEffect(() => {
-    dispatch(fetchInitialMaterials(direction));
-  }, [filters, direction]);
+    dispatchFetchAction();
+
+    return () => {
+      history.replace({
+        search: '',
+      });
+    };
+  }, []);
+
+  useEffectExceptOnMount(() => {
+    // page and types values are initialized from current query.
+    // this call will replace current post ids with fetched ones.
+    dispatchFetchAction(undefined, undefined, true);
+  }, [query.get('types')]);
+
+  // don't clear query params when returning to previous filter in url from
+  // another view.
+  useEffectExceptOnMount(() => {
+    history.replace({
+      search: '',
+    });
+  }, [direction]);
+
+  const setFilters = (checked: string[] = []) => {
+    query.set('types', checked.join(','));
+    query.delete('page');
+    if (checked.length === 0) query.delete('types');
+
+    history.push({
+      search: query.toString(),
+    });
+  };
 
   const gridRef = useRef<HTMLDivElement>(null);
 
@@ -51,21 +98,8 @@ const MaterialsContainer: React.FC<IMaterialsContainerProps> = ({
     }
   }, [pageNumber]);
 
-  const setFilters = (checked: string[], directionName: string) => {
-    dispatch(
-      setPostFilters({
-        key: FilterTypeEnum.POST_TYPES,
-        filters: {
-          value: checked,
-        },
-        directionName,
-      }),
-    );
-  };
-
   useEffect(() => {
     return () => {
-      setFilters([], direction.name);
       dispatch(
         setPostFilters({
           key: FilterTypeEnum.TAGS,
@@ -82,8 +116,8 @@ const MaterialsContainer: React.FC<IMaterialsContainerProps> = ({
     <Container>
       <Typography variant="h4">Матеріали</Typography>
       <PostTypeFilter
-        directionName={direction.name}
-        dispatchFunction={setFilters}
+        setFilters={setFilters}
+        selectedTypes={query.get('types')?.split(',')}
       />
       <PostTagsFilter directionName={direction.name} />
       <Grid container spacing={2} direction="row" alignItems="center">
@@ -99,7 +133,7 @@ const MaterialsContainer: React.FC<IMaterialsContainerProps> = ({
       </Grid>
       <Grid container direction="column" alignItems="center" ref={gridRef}>
         <LoadMorePostsButton
-          clicked={dispatchFetchAction}
+          clicked={fetchMorePosts}
           isLastPage={isLastPage}
           loading={loading}
         />

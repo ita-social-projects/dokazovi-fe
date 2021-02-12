@@ -6,7 +6,7 @@ import {
   setPostPreviewText,
   setPostPreviewManuallyChanged,
 } from '../../../modules/postCreation/store/postCreationSlice';
-import { ICheckboxes, IDirection, IPost, PostTypeEnum } from '../../types';
+import { IDirection, IPost, PostTypeEnum } from '../../types';
 import PostPreviewCard from '../PostPreview/PostPreviewCard';
 import { RootStateType } from '../../../store/rootReducer';
 import usePostPreviewData from '../../hooks/usePostPreviewData';
@@ -26,24 +26,17 @@ const trunkLength = (str: string) => {
   return str;
 };
 
-const getSelectedTopics = (obj: ICheckboxes, arr: IDirection[]) => {
-  const resultArr = [] as IDirection[];
-  const objKeys = Object.keys(obj);
-
-  if (objKeys.length === 0 || arr.length === 0) {
-    return resultArr;
-  }
-
-  objKeys.forEach((objKey) => {
-    if (obj[objKey] === true) {
-      const found = arr.find((arrEl) => String(arrEl.id) === objKey);
-      if (found) {
-        resultArr.push(found);
-      }
+const getSelectedTopics = (
+  selectedTopicsIds: string[],
+  directions: IDirection[],
+) => {
+  return selectedTopicsIds.reduce((acc, id) => {
+    const direction = directions.find((d) => String(d.id) === id);
+    if (direction) {
+      return [...acc, direction];
     }
-  });
-
-  return resultArr;
+    return acc;
+  }, [] as IDirection[]);
 };
 
 const ContentPreviewContainer: React.FC<IContentPreviewContainerProps> = ({

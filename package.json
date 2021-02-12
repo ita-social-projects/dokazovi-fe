@@ -50,7 +50,7 @@
     "lint:fix": "eslint --ext .tsx,.ts src/ --quiet --fix",
     "prettier-format": "prettier --write",
     "prettier-format:all": "prettier --write 'src/**/*.{js,jsx,json,ts,tsx,css,md}'",
-    "assemble": "npm i && npm run lint && npm run build --if-present && npm test",
+    "assemble": "yarn install --immutable && npm run lint && npm run build --if-present && npm test",
     "coverage": "npm test -- --coverage --watchAll=false"
   },
   "browserslist": {
@@ -78,7 +78,7 @@
     "eslint-plugin-react": "^7.21.5",
     "eslint-plugin-react-hooks": "^4.0.0",
     "husky": "^4.3.0",
-    "jest": "^26.6.0",
+    "jest": "26.6.0",
     "lint-staged": "^10.5.1",
     "prettier": "2.1.2",
     "ts-jest": "^26.4.4"

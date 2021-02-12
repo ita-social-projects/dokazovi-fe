@@ -31,12 +31,8 @@ const PostCreationPreview: React.FC = () => {
     (state: RootStateType) => state.properties.directions,
   );
 
-  const directionIds = Object.keys(draft.topics).filter(
-    (id) => draft.topics[id],
-  );
-
   const directions = allDirections.filter((direction) =>
-    directionIds.includes(direction.id.toString()),
+    draft.topics.includes(direction.id.toString()),
   );
 
   const getUserData = usePostPreviewData();
