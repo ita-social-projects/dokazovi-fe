@@ -1,0 +1,19 @@
+name: Merge Release to Master
+
+on:
+  workflow_dispatch:
+
+jobs:
+  merge-branch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.ADMIN_ACTION_RIGHTS }}
+      - name: Merge release -> master
+        uses: devmasx/merge-branch@v1.3.1
+        with:
+          type: now
+          from_branch: release
+          target_branch: master
+          github_token: ${{ secrets.ADMIN_ACTION_RIGHTS }}
