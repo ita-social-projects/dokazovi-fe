@@ -17,4 +17,4 @@ jobs:
           type: now
           from_branch: develop
           target_branch: release
-          github_token: ${{ github.token }}
+          github_token: ${{ secrets.ADMIN_ACTION_RIGHTS }}
