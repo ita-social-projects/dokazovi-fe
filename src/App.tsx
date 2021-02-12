@@ -31,9 +31,9 @@ const App: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    const hasToken = localStorage.getItem(LocalStorageKeys.ACCESS_TOKEN);
+    const isToken = localStorage.getItem(LocalStorageKeys.ACCESS_TOKEN);
 
-    if (!user && hasToken) {
+    if (!user && isToken) {
       dispatch(loginUser());
     }
   }, []);
