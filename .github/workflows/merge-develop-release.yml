@@ -24,5 +24,7 @@ jobs:
           github_token: ${{ secrets.ADMIN_ACTION_RIGHTS }}
       - name: Bump Version
         run: |
+          git config --global user.email "noreply@github.com"
+          git config --global user.name "GitHub"
           npm version ${{ github.event.inputs.bumpType }}
           git push
