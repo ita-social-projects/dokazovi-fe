@@ -17,7 +17,7 @@ import {
   setPostBody,
 } from './store/postCreationSlice';
 import { PostTopicSelector } from './PostTopicSelector';
-import { ICheckboxes, PostTypeEnum } from '../../lib/types';
+import { PostTypeEnum } from '../../lib/types';
 import { postPublishPost } from '../../lib/utilities/API/api';
 import { sanitizeHtml } from '../../lib/utilities/sanitizeHtml';
 import PostCreationButtons from '../../lib/components/PostCreationButtons/PostCreationButtons';
@@ -39,7 +39,7 @@ const ArticleCreation: React.FC = () => {
     error: '',
   });
 
-  const dispatchTopics = (topics: ICheckboxes) => {
+  const dispatchTopics = (topics: string[]) => {
     dispatch(setPostTopics({ postType: PostTypeEnum.ARTICLE, value: topics }));
   };
 
@@ -94,7 +94,7 @@ const ArticleCreation: React.FC = () => {
         <PostTopicSelector
           dispatchTopics={dispatchTopics}
           topicList={directions}
-          prevCheckedTopics={
+          prevCheckedTopicsIds={
             _.isEmpty(savedPostDraft.topics) ? undefined : savedPostDraft.topics
           }
         />

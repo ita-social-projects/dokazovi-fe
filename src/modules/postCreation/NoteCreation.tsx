@@ -11,7 +11,7 @@ import {
 import NoteEditor from '../../lib/components/Editor/Editors/NoteEditor';
 import { setPostTopics, setPostBody } from './store/postCreationSlice';
 import { PostTopicSelector } from './PostTopicSelector';
-import { ICheckboxes, PostTypeEnum } from '../../lib/types';
+import { PostTypeEnum } from '../../lib/types';
 import { RootStateType } from '../../store/rootReducer';
 import { sanitizeHtml } from '../../lib/utilities/sanitizeHtml';
 import { postPublishPost } from '../../lib/utilities/API/api';
@@ -29,7 +29,7 @@ const NoteCreation: React.FC = () => {
     (state: RootStateType) => state.newPostDraft.DOPYS,
   );
 
-  const dispatchTopics = (topics: ICheckboxes) => {
+  const dispatchTopics = (topics: string[]) => {
     dispatch(setPostTopics({ postType: PostTypeEnum.DOPYS, value: topics }));
   };
 
@@ -74,7 +74,7 @@ const NoteCreation: React.FC = () => {
         <PostTopicSelector
           dispatchTopics={dispatchTopics}
           topicList={directions}
-          prevCheckedTopics={
+          prevCheckedTopicsIds={
             _.isEmpty(savedPostDraft.topics) ? undefined : savedPostDraft.topics
           }
         />

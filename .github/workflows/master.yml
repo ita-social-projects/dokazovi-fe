@@ -1,4 +1,4 @@
-name: Dokazovi build status
+name: Dokazovi-fe Master
 
 on:
   push:

@@ -76,7 +76,7 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
     <>
       <Container className={classes.container}>
         <Typography variant="h4">Матеріали</Typography>
-        <PostTypeFilter dispatchFunction={setFilters} />
+        <PostTypeFilter setFilters={setFilters} />
         <Grid container spacing={2} direction="row" alignItems="center">
           <PostsList postsList={materials} />
         </Grid>

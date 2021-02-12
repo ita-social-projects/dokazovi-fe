@@ -6,15 +6,16 @@ import { useForm, Controller } from 'react-hook-form';
 import Checkbox from '@material-ui/core/Checkbox';
 import { RootStateType } from '../../../store/rootReducer';
 import { IPostType } from '../../../lib/types';
+import useEffectExceptOnMount from '../../../lib/hooks/useEffectExceptOnMount';
 
 export interface IPostTypeFilterProps {
-  directionName?: string;
-  dispatchFunction(checked?: string[], directionName?: string): void;
+  setFilters(checked?: string[]): void;
+  selectedTypes?: string[];
 }
 
 export const PostTypeFilter: React.FC<IPostTypeFilterProps> = ({
-  directionName,
-  dispatchFunction,
+  setFilters,
+  selectedTypes,
 }) => {
   const { control } = useForm();
 
@@ -28,10 +29,17 @@ export const PostTypeFilter: React.FC<IPostTypeFilterProps> = ({
 
   const initState = () =>
     postTypes.reduce((acc: IInitState, next: IPostType) => {
-      return { ...acc, [next.id.toString()]: false };
+      const id = next.id.toString();
+      return { ...acc, [id]: selectedTypes?.includes(id) || false };
     }, {});
 
   const [checkedTypes, setChecked] = useState(initState);
+
+  // triggers fetch when user navigates history. updates checkboxes state using
+  // a query from props. use a string in deps to avoid unnecessary state updates.
+  useEffectExceptOnMount(() => {
+    setChecked(initState());
+  }, [selectedTypes?.join()]);
 
   const checkBoxes = postTypes?.map((type) => {
     const id = type.id.toString();
@@ -56,10 +64,7 @@ export const PostTypeFilter: React.FC<IPostTypeFilterProps> = ({
   });
 
   const handler = useCallback(
-    _.debounce(
-      (checked: string[]) => dispatchFunction(checked, directionName),
-      500,
-    ),
+    _.debounce((checked: string[]) => setFilters(checked), 500),
     [],
   );
 
