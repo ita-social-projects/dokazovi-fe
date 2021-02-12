@@ -1,9 +1,34 @@
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+
 import { Quill } from 'react-quill';
 import { StringMap } from 'quill';
 import ImageUploader from 'quill-image-uploader';
 import ImageResize from 'quill-image-resize-module-react';
 import { computerIcon } from './icons';
 import { postImage } from '../../utilities/API/imgurApi';
+
+// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+const Block = Quill.import('blots/block');
+// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+const BlockEmbed = Quill.import('blots/block/embed');
+class FigureBlot extends BlockEmbed {
+  static create(id) {
+    const node = super.create();
+    node.dataset.id = id;
+    // twttr.widgets.createTweet(id, node);
+    return node;
+  }
+
+  static value(domNode) {
+    return domNode.dataset.id;
+  }
+}
+FigureBlot.blotName = 'figureB';
+FigureBlot.tagName = 'FIGURE';
+Quill.register({ 'blots/figureB': FigureBlot });
 
 Quill.register('modules/imageUploader', ImageUploader);
 Quill.register('modules/imageResize', ImageResize);
@@ -21,7 +46,6 @@ export const modules: StringMap = {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     parchment: Quill.import('parchment'),
   },
-
   imageUploader: {
     upload: (file) => {
       return new Promise((resolve, reject) => {
@@ -61,4 +85,5 @@ export const formats: string[] = [
   'image',
   'video',
   'clean',
+  'figureB',
 ];
