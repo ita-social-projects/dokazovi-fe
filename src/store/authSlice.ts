@@ -1,8 +1,14 @@
 /* eslint-disable no-param-reassign */
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { IInputs, LocalStorageKeys } from '../lib/types';
-import { getCurrentUser, loginService } from '../lib/utilities/API/api';
+import {
+  getCurrentUser,
+  loginService,
+  loginGoogle,
+  loginFacebook,
+} from '../lib/utilities/API/api';
 import { ExpertResponseType } from '../lib/utilities/API/types';
+import { GOOGLE_AUTH_URL, FACEBOOK_AUTH_URL } from '../apiURL';
 
 export interface IAuthState {
   user?: ExpertResponseType;
@@ -32,6 +38,25 @@ export const loginUser = createAsyncThunk(
   },
 );
 
+export const loginUserGoogle = createAsyncThunk(GOOGLE_AUTH_URL, async () => {
+  const token = await loginGoogle();
+  localStorage.setItem(LocalStorageKeys.ACCESS_TOKEN, token.data.token);
+  const user = await getCurrentUser();
+
+  return user;
+});
+
+export const loginUserFacebook = createAsyncThunk(
+  FACEBOOK_AUTH_URL,
+  async () => {
+    const token = await loginFacebook();
+    localStorage.setItem(LocalStorageKeys.ACCESS_TOKEN, token.data.token);
+    const user = await getCurrentUser();
+
+    return user;
+  },
+);
+
 export const authSlice = createSlice({
   name: 'auth',
   initialState,
@@ -55,6 +80,28 @@ export const authSlice = createSlice({
       state.user = action.payload.data;
     });
     builder.addCase(loginUser.rejected, (state, { error }) => {
+      if (error.message) {
+        state.error = error.message;
+      }
+    });
+    builder.addCase(loginUserGoogle.pending, (state) => {
+      state.error = null;
+    });
+    builder.addCase(loginUserGoogle.fulfilled, (state, action) => {
+      state.user = action.payload.data;
+    });
+    builder.addCase(loginUserGoogle.rejected, (state, { error }) => {
+      if (error.message) {
+        state.error = error.message;
+      }
+    });
+    builder.addCase(loginUserFacebook.pending, (state) => {
+      state.error = null;
+    });
+    builder.addCase(loginUserFacebook.fulfilled, (state, action) => {
+      state.user = action.payload.data;
+    });
+    builder.addCase(loginUserFacebook.rejected, (state, { error }) => {
       if (error.message) {
         state.error = error.message;
       }

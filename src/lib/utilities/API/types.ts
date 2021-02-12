@@ -113,3 +113,7 @@ export type PostLoginResponseType = {
   accessToken: string;
   tokenType: string;
 };
+
+export type OAuthLoginResponseType = {
+  token: string;
+};

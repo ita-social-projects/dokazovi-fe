@@ -3,7 +3,12 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import qs from 'qs';
 import { LocalStorageKeys } from '../../types';
-import { BASE_URL } from '../../../apiURL';
+import {
+  BASE_URL,
+  FACEBOOK_AUTH_URL,
+  GOOGLE_AUTH_URL,
+  ACCESS_TOKEN_SOCIAL,
+} from '../../../apiURL';
 import {
   ExpertResponseType,
   GetRegionsType,
@@ -16,6 +21,7 @@ import {
   PostTagResponseType,
   PostPostRequestType,
   PostLoginResponseType,
+  OAuthLoginResponseType,
 } from './types';
 
 export const instance = axios.create({
@@ -53,6 +59,20 @@ export type PostTagRequestBodyType = {
 instance.interceptors.request.use(
   (config: AxiosRequestConfig) => {
     const jwtToken = localStorage.getItem(LocalStorageKeys.ACCESS_TOKEN);
+    if (jwtToken) {
+      const header = `Bearer ${jwtToken}`;
+      config.headers = { authorization: header };
+    }
+    return config;
+  },
+  (error) => {
+    Promise.reject(error);
+  },
+);
+
+instance.interceptors.request.use(
+  (config: AxiosRequestConfig) => {
+    const jwtToken = ACCESS_TOKEN_SOCIAL;
     if (jwtToken) {
       const header = `Bearer ${jwtToken}`;
       config.headers = { authorization: header };
@@ -149,6 +169,18 @@ export const loginService = (
   password: string,
 ): Promise<AxiosResponse<PostLoginResponseType>> => {
   return instance.post('/auth/login', { email, password });
+};
+
+export const loginFacebook = (): Promise<
+  AxiosResponse<OAuthLoginResponseType>
+> => {
+  return instance.post(FACEBOOK_AUTH_URL);
+};
+
+export const loginGoogle = (): Promise<
+  AxiosResponse<OAuthLoginResponseType>
+> => {
+  return instance.post(GOOGLE_AUTH_URL);
 };
 
 export const getCurrentUser = (): Promise<

@@ -7,6 +7,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { CircularProgress } from '@material-ui/core';
 import { RenderRoutes } from './navigation/Router';
 import ROUTER_CONFIG from './navigation/router-config';
+import { ACCESS_TOKEN_SOCIAL } from './apiURL';
 
 import Header from './lib/components/Header/Header';
 import {
@@ -15,7 +16,11 @@ import {
   fetchRegions,
 } from './store/propertiesSlice';
 import { RootStateType } from './store/rootReducer';
-import { loginUser } from './store/authSlice';
+import {
+  loginUser,
+  loginUserGoogle,
+  loginUserFacebook,
+} from './store/authSlice';
 import { LocalStorageKeys } from './lib/types';
 
 const App: React.FC = () => {
@@ -37,6 +42,15 @@ const App: React.FC = () => {
 
     if (!user && isToken) {
       dispatch(loginUser());
+    }
+  }, []);
+
+  useEffect(() => {
+    const isToken = ACCESS_TOKEN_SOCIAL;
+
+    if (!user && isToken) {
+      dispatch(loginUserGoogle());
+      dispatch(loginUserFacebook());
     }
   }, []);
 
