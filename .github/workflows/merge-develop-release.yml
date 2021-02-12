@@ -3,17 +3,18 @@ name: Merge Develop to Release
 on:
   workflow_dispatch:
     inputs:
-      logLevel:
-        description: 'Log level'
-        required: true
-        default: 'warning'
       tags:
         description: 'Test scenario tags'
 
 jobs:
-  printInputs:
+  merge-branch:
     runs-on: ubuntu-latest
     steps:
-    - run: |
-        echo "Log level: ${{ github.event.inputs.logLevel }}"
-        echo "Tags: ${{ github.event.inputs.tags }}"
+      - uses: actions/checkout@master
+      - name: Merge develop -> release
+        uses: devmasx/merge-branch@v1.3.1
+        with:
+          type: now
+          from_branch: develop
+          target_branch: release
+          github_token: ${{ github.token }}
