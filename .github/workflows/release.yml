@@ -4,6 +4,11 @@ on:
   push:
     branches:
       - release
+  workflow_run:
+    workflows: ['Merge Develop to Release']
+    branches: [release]
+    types:
+      - completed
 
 jobs:
   build:
