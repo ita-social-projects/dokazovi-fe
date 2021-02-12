@@ -1,6 +1,7 @@
 import DOMPurify, { Config } from 'dompurify';
 
 const config: Config = {
+  ALLOWED_TAGS: ['figure', 'figcaption'],
   KEEP_CONTENT: true,
 };
 // Disabling for DOMPurify overloads to work as return type

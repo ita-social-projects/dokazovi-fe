@@ -1,3 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable react/display-name */
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -14,10 +18,15 @@ export interface IQuillEditorProps {
 
 const GeneralEditor = React.forwardRef<ReactQuill, IQuillEditorProps>(
   ({ type, toolbar, dispatchContent }, ref) => {
+    // TODO check version of quill in react quill and our quill ver
     const savedContent = useSelector(
       (state: RootStateType) => state.newPostDraft[type].htmlContent,
     );
     const [text, setText] = useState<string>(savedContent);
+    const handleEditorContent = (content: string) => {
+      setText(content);
+      dispatchContent(content);
+    };
 
     return (
       <>
@@ -26,10 +35,7 @@ const GeneralEditor = React.forwardRef<ReactQuill, IQuillEditorProps>(
           <ReactQuill
             theme="snow"
             value={text}
-            onChange={(content) => {
-              setText(content);
-              dispatchContent(content);
-            }}
+            onChange={handleEditorContent}
             placeholder="Write something awesome..."
             modules={modules}
             formats={formats}

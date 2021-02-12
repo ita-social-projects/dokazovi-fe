@@ -66,6 +66,9 @@ const ArticleEditorToolbar: React.FC<IArticleEditorToolbarProps> = ({
       <span className="ql-formats">
         <select title="Align" className="ql-align" />
       </span>
+      {/* <span className="ql-formats">
+        <button title="З комп'ютера" type="button" className="ql-image" />
+      </span> */}
       <ImageHandlersContainer editor={editor} />
     </div>
   );
