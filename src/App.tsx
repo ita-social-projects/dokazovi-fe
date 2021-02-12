@@ -7,7 +7,6 @@ import { BrowserRouter } from 'react-router-dom';
 import { CircularProgress } from '@material-ui/core';
 import { RenderRoutes } from './navigation/Router';
 import ROUTER_CONFIG from './navigation/router-config';
-import { ACCESS_TOKEN_SOCIAL } from './apiURL';
 
 import Header from './lib/components/Header/Header';
 import {
@@ -42,13 +41,6 @@ const App: React.FC = () => {
 
     if (!user && isToken) {
       dispatch(loginUser());
-    }
-  }, []);
-
-  useEffect(() => {
-    const isToken = ACCESS_TOKEN_SOCIAL;
-
-    if (!user && isToken) {
       dispatch(loginUserGoogle());
       dispatch(loginUserFacebook());
     }

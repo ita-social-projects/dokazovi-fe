@@ -3,12 +3,7 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import qs from 'qs';
 import { LocalStorageKeys } from '../../types';
-import {
-  BASE_URL,
-  FACEBOOK_AUTH_URL,
-  GOOGLE_AUTH_URL,
-  ACCESS_TOKEN_SOCIAL,
-} from '../../../apiURL';
+import { BASE_URL, FACEBOOK_AUTH_URL, GOOGLE_AUTH_URL } from '../../../apiURL';
 import {
   ExpertResponseType,
   GetRegionsType,
@@ -59,20 +54,6 @@ export type PostTagRequestBodyType = {
 instance.interceptors.request.use(
   (config: AxiosRequestConfig) => {
     const jwtToken = localStorage.getItem(LocalStorageKeys.ACCESS_TOKEN);
-    if (jwtToken) {
-      const header = `Bearer ${jwtToken}`;
-      config.headers = { authorization: header };
-    }
-    return config;
-  },
-  (error) => {
-    Promise.reject(error);
-  },
-);
-
-instance.interceptors.request.use(
-  (config: AxiosRequestConfig) => {
-    const jwtToken = ACCESS_TOKEN_SOCIAL;
     if (jwtToken) {
       const header = `Bearer ${jwtToken}`;
       config.headers = { authorization: header };

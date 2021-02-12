@@ -21,12 +21,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { emailValidationObj, passwordValidationObj } from './validationRules';
 import { IInputs } from '../../types';
 import { RegistrationModal } from './RegistrationModal';
-import {
-  clearError,
-  loginUser,
-  loginUserGoogle,
-  loginUserFacebook,
-} from '../../../store/authSlice';
+import { clearError, loginUser } from '../../../store/authSlice';
 import { RootStateType } from '../../../store/rootReducer';
 import { SocialLogin } from './components/SocialLogin';
 
