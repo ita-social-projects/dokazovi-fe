@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - release
+      - feature/ci-alignments
   workflow_run:
     workflows: ['Merge Develop to Release']
     branches: [release]
@@ -25,21 +26,6 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
-      - name: Cache node modules
-        uses: actions/cache@v2
-        env:
-          cache-name: cache-node-modules
-        with:
-          path: '**/node_modules'
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
-      - name: Install, build, test, lint
-        run: npm run assemble
-        env:
-          CI: false
       - name: Build the tagged Docker image
         run: docker build -f Dockerfile.prod -t dokazovi_fe .
       - name: Deploy on heroku
