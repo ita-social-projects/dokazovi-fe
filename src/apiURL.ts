@@ -1,6 +1,6 @@
 /* eslint-disable prefer-template */
-// export const BASE_URL = 'https://dokazovi-be.herokuapp.com/api';
-export const BASE_URL = 'https://125aaf33c298.ngrok.io/api';
+export const BASE_URL = 'https://dokazovi-be.herokuapp.com/api';
+export const AUTH_URL = 'https://f7fe3974971a.ngrok.io/api';
 export const OAUTH2_REDIRECT_URI = 'http://localhost:3000/oauth2/redirect';
 
 export const GOOGLE_AUTH_URL =

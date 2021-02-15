@@ -3,7 +3,12 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import qs from 'qs';
 import { LocalStorageKeys } from '../../types';
-import { BASE_URL, FACEBOOK_AUTH_URL, GOOGLE_AUTH_URL } from '../../../apiURL';
+import {
+  BASE_URL,
+  FACEBOOK_AUTH_URL,
+  GOOGLE_AUTH_URL,
+  AUTH_URL,
+} from '../../../apiURL';
 import {
   ExpertResponseType,
   GetRegionsType,
@@ -51,7 +56,9 @@ export type PostTagRequestBodyType = {
   tag: string;
 };
 
-instance.interceptors.request.use(
+const authInstanse = axios.create({ baseURL: AUTH_URL });
+
+authInstanse.interceptors.request.use(
   (config: AxiosRequestConfig) => {
     const jwtToken = localStorage.getItem(LocalStorageKeys.ACCESS_TOKEN);
     if (jwtToken) {
@@ -149,23 +156,23 @@ export const loginService = (
   email: string,
   password: string,
 ): Promise<AxiosResponse<PostLoginResponseType>> => {
-  return instance.post('/auth/login', { email, password });
+  return authInstanse.post('/auth/login', { email, password });
 };
 
 export const loginFacebook = (): Promise<
   AxiosResponse<OAuthLoginResponseType>
 > => {
-  return instance.post(FACEBOOK_AUTH_URL);
+  return authInstanse.post(FACEBOOK_AUTH_URL);
 };
 
 export const loginGoogle = (): Promise<
   AxiosResponse<OAuthLoginResponseType>
 > => {
-  return instance.post(GOOGLE_AUTH_URL);
+  return authInstanse.post(GOOGLE_AUTH_URL);
 };
 
 export const getCurrentUser = (): Promise<
   AxiosResponse<ExpertResponseType>
 > => {
-  return instance.get('/user/me');
+  return authInstanse.get('/user/me');
 };
