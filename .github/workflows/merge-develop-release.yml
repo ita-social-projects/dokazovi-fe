@@ -1,0 +1,30 @@
+name: Merge Develop to Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      bumpType:
+        description: 'Version bump type'
+        required: true
+        default: 'minor'
+
+jobs:
+  merge-branch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.ADMIN_ACTION_RIGHTS }}
+      - name: Merge develop -> release
+        uses: devmasx/merge-branch@v1.3.1
+        with:
+          type: now
+          from_branch: develop
+          target_branch: release
+          github_token: ${{ secrets.ADMIN_ACTION_RIGHTS }}
+      - name: Bump Version
+        run: |
+          git config --global user.email "noreply@github.com"
+          git config --global user.name "GitHub"
+          npm version ${{ github.event.inputs.bumpType }}
+          git push

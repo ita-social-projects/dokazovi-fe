@@ -102,14 +102,14 @@ export const RegistrationModal: React.FC<IRegistrationProps> = (props) => {
                   type={showPassword ? 'text' : 'password'}
                   inputRef={register(passwordValidationObj)}
                   InputProps={{
-                    // <-- This is where the password toggle button is added.
+                    // This is where the password toggle button is added.
                     endAdornment: (
                       <InputAdornment position="end">
                         <IconButton
                           aria-label="toggle password visibility"
                           onClick={() => setShowPassword(!showPassword)}
                         >
-                          {showPassword ? <Visibility /> : <VisibilityOff />}
+                          {showPassword ? <VisibilityOff /> : <Visibility />}
                         </IconButton>
                       </InputAdornment>
                     ),
@@ -137,14 +137,14 @@ export const RegistrationModal: React.FC<IRegistrationProps> = (props) => {
                     },
                   })}
                   InputProps={{
-                    // <-- This is where the password toggle button is added.
+                    // This is where the password toggle button is added.
                     endAdornment: (
                       <InputAdornment position="end">
                         <IconButton
                           aria-label="toggle password visibility"
                           onClick={() => setShowPassword(!showPassword)}
                         >
-                          {showPassword ? <Visibility /> : <VisibilityOff />}
+                          {showPassword ? <VisibilityOff /> : <Visibility />}
                         </IconButton>
                       </InputAdornment>
                     ),

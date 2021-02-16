@@ -88,7 +88,18 @@ See more - [deployment](https://facebook.github.io/create-react-app/docs/deploym
 
 React - A JavaScript library for building user interfaces
 
-## Contributing
+## Learn More
+
+You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+
+To learn React, check out the [React documentation](https://reactjs.org/).
+
+## Project Deploy
+
+- [Dokazovi - FE](https://dokazovi-fe.herokuapp.com/)
+- [Dokazovi - BE - Swagger](https://dokazovi-be.herokuapp.com/api/swagger-ui/#/)
+
+## How to contribute
 
 - [Branching Strategy](https://github.com/ita-social-projects/dokazovi-fe/wiki/Branching-Strategy)
 - [Issue flow](https://github.com/ita-social-projects/dokazovi-fe/wiki/Issue-flow)
