@@ -21,6 +21,38 @@ export const instance = axios.create({
   baseURL: BASE_URL,
 });
 
+instance.interceptors.request.use(
+  (config: AxiosRequestConfig) => {
+    const jwtToken = localStorage.getItem(LocalStorageKeys.ACCESS_TOKEN);
+    if (jwtToken) {
+      const header = `Bearer ${jwtToken}`;
+      config.headers = { authorization: header };
+    }
+    return config;
+  },
+  (error) => {
+    Promise.reject(error);
+  },
+);
+
+export const instanceLocal = axios.create({
+  baseURL: 'http://8e2ed948c45b.ngrok.io/api',
+});
+
+instanceLocal.interceptors.request.use(
+  (config: AxiosRequestConfig) => {
+    const jwtToken = localStorage.getItem(LocalStorageKeys.ACCESS_TOKEN);
+    if (jwtToken) {
+      const header = `Bearer ${jwtToken}`;
+      config.headers = { authorization: header };
+    }
+    return config;
+  },
+  (error) => {
+    Promise.reject(error);
+  },
+);
+
 export type GetConfigType = {
   params: {
     page?: number;
@@ -48,20 +80,6 @@ export type GetTagConfigType = {
 export type PostTagRequestBodyType = {
   tag: string;
 };
-
-instance.interceptors.request.use(
-  (config: AxiosRequestConfig) => {
-    const jwtToken = localStorage.getItem(LocalStorageKeys.ACCESS_TOKEN);
-    if (jwtToken) {
-      const header = `Bearer ${jwtToken}`;
-      config.headers = { authorization: header };
-    }
-    return config;
-  },
-  (error) => {
-    Promise.reject(error);
-  },
-);
 
 const defaultConfig = {
   paramsSerializer: (params: { [key: string]: any }): string => {
@@ -161,5 +179,5 @@ export const loginFB = (): Promise<AxiosResponse> => {
 export const getCurrentUser = (): Promise<
   AxiosResponse<ExpertResponseType>
 > => {
-  return instance.get('/user/me');
+  return instanceLocal.get('/user/me');
 };
