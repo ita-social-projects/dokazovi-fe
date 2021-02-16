@@ -23,6 +23,7 @@ import { IInputs } from '../../types';
 import { RegistrationModal } from './RegistrationModal';
 import { clearError, loginUser } from '../../../store/authSlice';
 import { RootStateType } from '../../../store/rootReducer';
+import { loginFB } from '../../utilities/API/api';
 
 export const LoginModal: React.FC = () => {
   const [loginOpen, setLoginOpen] = React.useState(false);
@@ -51,6 +52,11 @@ export const LoginModal: React.FC = () => {
   };
   const onSubmit = (data: IInputs) => {
     dispatch(loginUser(data));
+  };
+
+  const loginFacebook = () => {
+    console.log('logging in to fb...');
+    loginFB();
   };
 
   const handleRegistrationClose = () => {
@@ -173,7 +179,7 @@ export const LoginModal: React.FC = () => {
               <Grid item xs={12} style={{ margin: '0px auto' }}>
                 <Grid container justify="center">
                   <Grid item xs={6} style={{ textAlign: 'center' }}>
-                    <Button>Facebook</Button>
+                    <Button onClick={loginFacebook}>Facebook</Button>
                   </Grid>
                   <Grid item xs={6} style={{ textAlign: 'center' }}>
                     <Button>Google</Button>

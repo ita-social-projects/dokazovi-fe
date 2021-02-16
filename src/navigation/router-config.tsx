@@ -1,4 +1,5 @@
 import { lazy } from 'react';
+import ParseUrl from '../lib/components/Service/parse-url';
 import { RenderRoutes } from './Router';
 import { IRouterConfig } from './types';
 
@@ -130,6 +131,13 @@ const ROUTER_CONFIG: IRouterConfig[] = [
     exact: true,
     component: Page404,
     title: 'Помилка 404',
+  },
+  {
+    path: '/oauth2/redirect',
+    key: 'oauth2/redirect',
+    exact: true,
+    component: ParseUrl,
+    title: '',
   },
 ];
 

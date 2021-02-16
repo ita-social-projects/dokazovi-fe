@@ -150,6 +150,14 @@ export const loginService = (
   return instance.post('/auth/login', { email, password });
 };
 
+// !!! CHANGE localhost
+export const OAUTH2_REDIRECT_URI = 'http://localhost:3000/oauth2/redirect';
+
+export const loginFB = (): Promise<AxiosResponse> => {
+  const url = `/oauth2/authorize/facebook?redirect_uri=${OAUTH2_REDIRECT_URI}`;
+  return instance.get(url);
+};
+
 export const getCurrentUser = (): Promise<
   AxiosResponse<ExpertResponseType>
 > => {
