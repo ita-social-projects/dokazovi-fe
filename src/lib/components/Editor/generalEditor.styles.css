@@ -78,3 +78,24 @@ p {
   display: flex;
   flex-direction: row;
 }
+
+figure > img {
+  display: block;
+  margin: 0 auto;
+}
+
+.imageTitle {
+  text-align: center;
+  line-height: 2rem;
+  margin-right: 1.2rem;
+}
+
+.imageTitle::before {
+  display: inline-block;
+  content: '|';
+  font-size: 2rem;
+  line-height: 2rem;
+  color: #9c9695;
+  width: 20px;
+  margin-right: 1.5rem;
+}
