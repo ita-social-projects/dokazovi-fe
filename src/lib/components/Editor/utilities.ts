@@ -1,42 +1,13 @@
-/* eslint-disable @typescript-eslint/no-unsafe-return */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-
+// Disable required to allow using Quill register method
 import Quill, { StringMap } from 'quill';
 import ImageUploader from 'quill-image-uploader';
 import ImageResize from 'quill-image-resize-module-react';
 import { computerIcon } from './icons';
 import { postImage } from '../../utilities/API/imgurApi';
+import FigureBlot from './Blots/FigureBlot';
 
-const BlockEmbed = Quill.import('blots/block/embed');
-class FigureBlot extends BlockEmbed {
-  static create(value) {
-    const node = super.create();
-    const img = document.createElement('img');
-    img.setAttribute('src', value.url);
-    const caption = document.createElement('figcaption');
-    caption.setAttribute('align', 'left');
-    caption.setAttribute('contenteditable', 'true');
-    caption.classList.add('imageTitle');
-    caption.innerHTML = value.caption;
-    node.appendChild(img);
-    node.appendChild(caption);
-    return node;
-  }
-
-  static value(domNode) {
-    const imageElement = domNode.querySelector('img');
-    const captionElement = domNode.querySelector('figcaption');
-    const url = imageElement.getAttribute('src');
-    const caption = captionElement.innerHTML;
-    return { url, caption };
-  }
-}
-FigureBlot.blotName = 'figureBlock';
-FigureBlot.tagName = 'FIGURE';
 Quill.register({ 'blots/figureBlock': FigureBlot });
-
 Quill.register('modules/imageUploader', ImageUploader);
 Quill.register('modules/imageResize', ImageResize);
 
