@@ -36,7 +36,7 @@ class FigureBlot extends BlockEmbed {
 }
 FigureBlot.blotName = 'figureBlock';
 FigureBlot.tagName = 'FIGURE';
-Quill.register({ 'blots/figureB': FigureBlot });
+Quill.register({ 'blots/figureBlock': FigureBlot });
 
 Quill.register('modules/imageUploader', ImageUploader);
 Quill.register('modules/imageResize', ImageResize);
