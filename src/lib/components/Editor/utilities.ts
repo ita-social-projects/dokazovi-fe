@@ -9,7 +9,6 @@ import ImageResize from 'quill-image-resize-module-react';
 import { computerIcon } from './icons';
 import { postImage } from '../../utilities/API/imgurApi';
 
-const Block = Quill.import('blots/block');
 const BlockEmbed = Quill.import('blots/block/embed');
 class FigureBlot extends BlockEmbed {
   static create(value) {
