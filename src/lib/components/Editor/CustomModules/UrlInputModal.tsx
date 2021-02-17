@@ -9,7 +9,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import CropOriginalIcon from '@material-ui/icons/CropOriginal';
 import { IconButton } from '@material-ui/core';
 import { useForm } from 'react-hook-form';
-import { Quill } from 'react-quill';
+import Quill from 'quill';
 import { Alert } from '@material-ui/lab';
 import insertFromUrl from './ImageFromURLHandler';
 

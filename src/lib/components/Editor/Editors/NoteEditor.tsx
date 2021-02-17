@@ -1,6 +1,7 @@
 import { Container } from '@material-ui/core';
 import React, { useEffect, useRef, useState } from 'react';
-import ReactQuill, { Quill } from 'react-quill';
+import ReactQuill from 'react-quill';
+import Quill from 'quill';
 import { PostTypeEnum } from '../../../types';
 import BorderBottom from '../../Border';
 import ContentPreviewContainer from '../ContentPreviewContainer';

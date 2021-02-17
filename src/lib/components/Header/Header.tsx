@@ -53,7 +53,7 @@ const Header: React.FC = () => {
   const pathName = useLocation().pathname;
 
   const activeTab = navElems.find((elem) => elem.url === pathName);
-  const [tabState, setTabState] = useState(activeTab?.id || navElems[0]);
+  const [tabState, setTabState] = useState(activeTab?.id || navElems[0].id);
 
   const handleTabChange = (
     event: React.ChangeEvent<Record<string, unknown>>,
