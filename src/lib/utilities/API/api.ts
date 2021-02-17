@@ -2,7 +2,7 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import qs from 'qs';
 import { LocalStorageKeys } from '../../types';
-import { BASE_URL } from '../../../apiURL';
+import { ANDREW_URL, BASE_URL } from '../../../apiURL';
 import {
   ExpertResponseType,
   GetRegionsType,
@@ -22,24 +22,6 @@ export const instance = axios.create({
 });
 
 instance.interceptors.request.use(
-  (config: AxiosRequestConfig) => {
-    const jwtToken = localStorage.getItem(LocalStorageKeys.ACCESS_TOKEN);
-    if (jwtToken) {
-      const header = `Bearer ${jwtToken}`;
-      config.headers = { authorization: header };
-    }
-    return config;
-  },
-  (error) => {
-    Promise.reject(error);
-  },
-);
-
-export const instanceLocal = axios.create({
-  baseURL: 'http://8e2ed948c45b.ngrok.io/api',
-});
-
-instanceLocal.interceptors.request.use(
   (config: AxiosRequestConfig) => {
     const jwtToken = localStorage.getItem(LocalStorageKeys.ACCESS_TOKEN);
     if (jwtToken) {
@@ -168,16 +150,21 @@ export const loginService = (
   return instance.post('/auth/login', { email, password });
 };
 
-// !!! CHANGE localhost
-export const OAUTH2_REDIRECT_URI = 'http://localhost:3000/oauth2/redirect';
+export const getCurrentUser = (): Promise<ExpertResponseType> => {
+  const url = `${ANDREW_URL}/user/me`;
+  const jwtToken = localStorage.getItem(LocalStorageKeys.ACCESS_TOKEN);
+  const authHeader = jwtToken ? `Bearer ${jwtToken}` : '';
 
-export const loginFB = (): Promise<AxiosResponse> => {
-  const url = `/oauth2/authorize/facebook?redirect_uri=${OAUTH2_REDIRECT_URI}`;
-  return instance.get(url);
+  return fetch(url, {
+    mode: 'no-cors',
+    headers: {
+      authorization: authHeader,
+    },
+  }).then((res) => res.json() as Promise<ExpertResponseType>);
 };
 
-export const getCurrentUser = (): Promise<
-  AxiosResponse<ExpertResponseType>
-> => {
-  return instanceLocal.get('/user/me');
-};
+// export const getCurrentUser = (): Promise<
+//   AxiosResponse<ExpertResponseType>
+// > => {
+//   return instance.get('/user/me');
+// };

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { useHistory, useLocation, useParams } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { loginUser } from '../../../store/authSlice';
 import { LocalStorageKeys } from '../../types';
 
@@ -8,7 +8,7 @@ const useQuery = () => {
   return new URLSearchParams(useLocation().search);
 };
 
-const ParseUrl: React.FC = () => {
+const Oath2Redirect: React.FC = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const query = useQuery();
@@ -26,9 +26,9 @@ const ParseUrl: React.FC = () => {
     } else {
       console.error('NO TOKEN');
     }
-  }, [token]);
+  }, [token, dispatch, history]);
 
   return <></>;
 };
 
-export default ParseUrl;
+export default Oath2Redirect;

@@ -52,7 +52,7 @@ export const authSlice = createSlice({
       state.error = null;
     });
     builder.addCase(loginUser.fulfilled, (state, action) => {
-      state.user = action.payload.data;
+      state.user = action.payload;
     });
     builder.addCase(loginUser.rejected, (state, { error }) => {
       if (error.message) {

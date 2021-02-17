@@ -1,5 +1,5 @@
 import { lazy } from 'react';
-import ParseUrl from '../lib/components/Service/parse-url';
+import Oath2Redirect from '../lib/components/Service/Oath2Redirect';
 import { RenderRoutes } from './Router';
 import { IRouterConfig } from './types';
 
@@ -136,7 +136,7 @@ const ROUTER_CONFIG: IRouterConfig[] = [
     path: '/oauth2/redirect',
     key: 'oauth2/redirect',
     exact: true,
-    component: ParseUrl,
+    component: Oath2Redirect,
     title: '',
   },
 ];
