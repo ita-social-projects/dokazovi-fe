@@ -27,22 +27,7 @@ const ArticleEditor: React.FC<IArticleEditorProps> = ({ dispatchContent }) => {
   }, []);
 
   editor?.on('text-change', () => {
-    console.log(editor.getContents());
-
     setEditorContent(editor.getText());
-  });
-
-  editor?.on('selection-change', (range) => {
-    if (range) {
-      if (range.length === 0) {
-        console.log('User cursor is on', range.index);
-      } else {
-        const text = editor?.getText(range.index, range.length);
-        console.log('User has highlighted', text);
-      }
-    } else {
-      console.log('Cursor not in the editor');
-    }
   });
 
   return (
