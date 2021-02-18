@@ -27,7 +27,6 @@ export const loginUser = createAsyncThunk(
     }
 
     const user = await getCurrentUser();
-    console.log('user', user);
 
     return user;
   },

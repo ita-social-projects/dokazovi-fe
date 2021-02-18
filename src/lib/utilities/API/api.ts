@@ -150,21 +150,6 @@ export const loginService = (
   return instance.post('/auth/login', { email, password });
 };
 
-// export const getCurrentUser = (): Promise<ExpertResponseType> => {
-//   const url = `${BASE_URL}/user/me`;
-//   const jwtToken = localStorage.getItem(LocalStorageKeys.ACCESS_TOKEN);
-//   const authHeader = jwtToken ? `Bearer ${jwtToken}` : '';
-
-//   return fetch(url, {
-//     mode: 'no-cors',
-//     headers: {
-//       authorization: authHeader,
-//     },
-//   }).then((res) => res.json() as Promise<ExpertResponseType>);
-// };
-
-export const getCurrentUser = (): Promise<
-  AxiosResponse<ExpertResponseType>
-> => {
+export const getCurrentUser = (): Promise<ExpertResponseType> => {
   return instance.get('/user/me');
 };
