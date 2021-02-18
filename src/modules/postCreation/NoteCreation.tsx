@@ -9,7 +9,11 @@ import {
   Box,
 } from '@material-ui/core';
 import NoteEditor from '../../lib/components/Editor/Editors/NoteEditor';
-import { setPostTopics, setPostBody } from './store/postCreationSlice';
+import {
+  setPostTopics,
+  setPostBody,
+  setIsDone,
+} from './store/postCreationSlice';
 import { PostTopicSelector } from './PostTopicSelector';
 import { PostTypeEnum } from '../../lib/types';
 import { RootStateType } from '../../store/rootReducer';
@@ -32,6 +36,18 @@ const NoteCreation: React.FC = () => {
   const dispatchTopics = (topics: string[]) => {
     dispatch(setPostTopics({ postType: PostTypeEnum.DOPYS, value: topics }));
   };
+
+  const dispatchDone = useCallback(
+    _.throttle(() => {
+      dispatch(
+        setIsDone({
+          postType: PostTypeEnum.DOPYS,
+          value: false,
+        }),
+      );
+    }, 2000),
+    [],
+  );
 
   const dispatchHtmlContent = useCallback(
     _.debounce((content: string) => {
@@ -85,7 +101,10 @@ const NoteCreation: React.FC = () => {
         <Container>
           <Typography variant="h5">Текст статті:</Typography>
         </Container>
-        <NoteEditor dispatchContent={dispatchHtmlContent} />
+        <NoteEditor
+          dispatchContent={dispatchHtmlContent}
+          dispatchDone={dispatchDone}
+        />
       </Box>
       <Box display="flex" justifyContent="flex-end">
         <PostCreationButtons publishPost={sendPost} goPreview={goNotePreview} />

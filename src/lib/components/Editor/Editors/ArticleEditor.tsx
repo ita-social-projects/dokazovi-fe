@@ -10,9 +10,13 @@ import ArticleEditorToolbar from './ArticleEditorToolbar';
 
 interface IArticleEditorProps {
   dispatchContent: (content: string) => void;
+  dispatchDone: () => void;
 }
 
-const ArticleEditor: React.FC<IArticleEditorProps> = ({ dispatchContent }) => {
+const ArticleEditor: React.FC<IArticleEditorProps> = ({
+  dispatchContent,
+  dispatchDone,
+}) => {
   const [editor, setEditor] = useState<Quill>();
   const articleEditor = useRef<ReactQuill | null>(null);
   const [editorContent, setEditorContent] = useState<string>('');
@@ -36,6 +40,7 @@ const ArticleEditor: React.FC<IArticleEditorProps> = ({ dispatchContent }) => {
         <GeneralEditor
           type="ARTICLE"
           dispatchContent={dispatchContent}
+          dispatchDone={dispatchDone}
           toolbar={<ArticleEditorToolbar editor={editor} />}
           ref={articleEditor}
         />

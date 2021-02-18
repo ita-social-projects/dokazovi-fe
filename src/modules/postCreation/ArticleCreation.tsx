@@ -14,6 +14,7 @@ import { RootStateType } from '../../store/rootReducer';
 import {
   setPostTopics,
   setPostTitle,
+  setIsDone,
   setPostBody,
 } from './store/postCreationSlice';
 import { PostTopicSelector } from './PostTopicSelector';
@@ -39,6 +40,10 @@ const ArticleCreation: React.FC = () => {
     error: '',
   });
 
+  const isDone = useSelector(
+    (state: RootStateType) => state.newPostDraft.ARTICLE.isDone,
+  );
+
   const dispatchTopics = (topics: string[]) => {
     dispatch(setPostTopics({ postType: PostTypeEnum.ARTICLE, value: topics }));
   };
@@ -52,6 +57,18 @@ const ArticleCreation: React.FC = () => {
     [],
   );
 
+  const dispatchDone = useCallback(
+    _.throttle(() => {
+      dispatch(
+        setIsDone({
+          postType: PostTypeEnum.ARTICLE,
+          value: false,
+        }),
+      );
+    }, 2000),
+    [],
+  );
+
   const dispatchHtmlContent = useCallback(
     _.debounce((content: string) => {
       dispatch(
@@ -60,6 +77,14 @@ const ArticleCreation: React.FC = () => {
           value: sanitizeHtml(content) as string,
         }),
       );
+      _.delay(() => {
+        dispatch(
+          setIsDone({
+            postType: PostTypeEnum.ARTICLE,
+            value: true,
+          }),
+        );
+      }, 2000);
     }, 2000),
     [],
   );
@@ -122,12 +147,16 @@ const ArticleCreation: React.FC = () => {
         <Container>
           <Typography variant="h5">Текст статті:</Typography>
         </Container>
-        <ArticleEditor dispatchContent={dispatchHtmlContent} />
+        <ArticleEditor
+          dispatchContent={dispatchHtmlContent}
+          dispatchDone={dispatchDone}
+        />
       </Box>
       <Box display="flex" justifyContent="flex-end">
         <PostCreationButtons
           publishPost={sendPost}
           goPreview={goArticlePreview}
+          isDone={isDone}
         />
       </Box>
     </Container>

@@ -5,6 +5,7 @@ import { PostTypeEnum } from '../../../lib/types';
 export interface INewPostDraft {
   topics: string[];
   title?: string;
+  isDone: boolean;
   htmlContent: string;
   preview: IPostPreview;
 }
@@ -23,11 +24,13 @@ const initialState: IPostCreationState = {
   [PostTypeEnum.ARTICLE]: {
     topics: [],
     title: '',
+    isDone: false,
     htmlContent: '',
     preview: { value: '', isManuallyChanged: false },
   },
   [PostTypeEnum.DOPYS]: {
     topics: [],
+    isDone: false,
     htmlContent: '',
     preview: { value: '', isManuallyChanged: false },
   },
@@ -54,6 +57,15 @@ export const postCreationSlice = createSlice({
       }>,
     ) => {
       state[action.payload.postType].title = action.payload.value;
+    },
+    setIsDone: (
+      state,
+      action: PayloadAction<{
+        postType: PostTypeEnum;
+        value: INewPostDraft['isDone'];
+      }>,
+    ) => {
+      state[action.payload.postType].isDone = action.payload.value;
     },
     setPostBody: (
       state,
@@ -89,6 +101,7 @@ export const postCreationSlice = createSlice({
 export const {
   setPostTopics,
   setPostTitle,
+  setIsDone,
   setPostBody,
   setPostPreviewText,
   setPostPreviewManuallyChanged,

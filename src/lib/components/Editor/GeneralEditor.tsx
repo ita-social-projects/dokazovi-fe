@@ -10,10 +10,11 @@ export interface IQuillEditorProps {
   type: 'ARTICLE' | 'DOPYS';
   toolbar: React.ReactNode;
   dispatchContent: (s: string) => void;
+  dispatchDone: () => void;
 }
 
 const GeneralEditor = React.forwardRef<ReactQuill, IQuillEditorProps>(
-  ({ type, toolbar, dispatchContent }, ref) => {
+  ({ type, toolbar, dispatchContent, dispatchDone }, ref) => {
     const savedContent = useSelector(
       (state: RootStateType) => state.newPostDraft[type].htmlContent,
     );
@@ -29,6 +30,9 @@ const GeneralEditor = React.forwardRef<ReactQuill, IQuillEditorProps>(
             onChange={(content) => {
               setText(content);
               dispatchContent(content);
+            }}
+            onKeyPress={() => {
+              dispatchDone();
             }}
             placeholder="Write something awesome..."
             modules={modules}
