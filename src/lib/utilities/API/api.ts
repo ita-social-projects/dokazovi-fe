@@ -2,7 +2,7 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import qs from 'qs';
 import { LocalStorageKeys } from '../../types';
-import { ANDREW_URL, BASE_URL } from '../../../apiURL';
+import { BASE_URL } from '../../../apiURL';
 import {
   ExpertResponseType,
   GetRegionsType,
@@ -150,21 +150,21 @@ export const loginService = (
   return instance.post('/auth/login', { email, password });
 };
 
-export const getCurrentUser = (): Promise<ExpertResponseType> => {
-  const url = `${ANDREW_URL}/user/me`;
-  const jwtToken = localStorage.getItem(LocalStorageKeys.ACCESS_TOKEN);
-  const authHeader = jwtToken ? `Bearer ${jwtToken}` : '';
+// export const getCurrentUser = (): Promise<ExpertResponseType> => {
+//   const url = `${BASE_URL}/user/me`;
+//   const jwtToken = localStorage.getItem(LocalStorageKeys.ACCESS_TOKEN);
+//   const authHeader = jwtToken ? `Bearer ${jwtToken}` : '';
 
-  return fetch(url, {
-    mode: 'no-cors',
-    headers: {
-      authorization: authHeader,
-    },
-  }).then((res) => res.json() as Promise<ExpertResponseType>);
-};
-
-// export const getCurrentUser = (): Promise<
-//   AxiosResponse<ExpertResponseType>
-// > => {
-//   return instance.get('/user/me');
+//   return fetch(url, {
+//     mode: 'no-cors',
+//     headers: {
+//       authorization: authHeader,
+//     },
+//   }).then((res) => res.json() as Promise<ExpertResponseType>);
 // };
+
+export const getCurrentUser = (): Promise<
+  AxiosResponse<ExpertResponseType>
+> => {
+  return instance.get('/user/me');
+};
