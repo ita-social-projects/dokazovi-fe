@@ -34,38 +34,33 @@ const PostPreviewCard: React.FC<IPostPreviewCardProps> = (props) => {
 
   const classes = useStyles();
   return (
-    <Card
-      className={classes.root}
-      style={{ height: '265px', cursor: 'default' }}
-    >
+    <Card className={classes.root}>
       <Box
         display="flex"
         flexDirection="column"
         justifyContent="space-between"
         height="100%"
       >
-        <Box position="relative" display="flex" flexDirection="column" flex="1">
+        <Box
+          position="relative"
+          display="flex"
+          flexDirection="column"
+          flexGrow="1"
+        >
           <Box
-            position="relative"
+            className={classes.header}
             display="flex"
             flexDirection="row"
             flexWrap="no-wrap"
             justifyContent="space-between"
-            style={{
-              marginLeft: '14px',
-              marginRight: '14px',
-              marginTop: '10px',
-              cursor: 'pointer',
-            }}
             onClick={goExpertPage}
           >
             <CardMedia
-              style={{ padding: '15px', height: '58px', width: 46 }}
               className={classes.media}
               image={data.author?.avatar}
               title={authorFullName}
             />
-            <Box display="flex" flexDirection="column" justifyContent="start">
+            <Box display="flex" flexDirection="column">
               <Typography
                 align="left"
                 variant="body1"
@@ -97,13 +92,12 @@ const PostPreviewCard: React.FC<IPostPreviewCardProps> = (props) => {
               </Typography>
             </Box>
           </Box>
-
           <Box
+            className={classes.body}
             display="flex"
             flexDirection="column"
-            flex="1"
+            flexGrow="1"
             justifyContent="space-between"
-            style={{ margin: '15px', cursor: 'pointer' }}
             onClick={goPostView}
           >
             <CardContent style={{ padding: '0' }}>
