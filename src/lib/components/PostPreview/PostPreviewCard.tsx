@@ -26,16 +26,25 @@ const PostPreviewCard: React.FC<IPostPreviewCardProps> = (props) => {
     history.push(`/posts/${data.id}`);
   };
 
+  const goExpertPage = () => {
+    if (data.author) {
+      history.push(`/experts/${data.author.id}`);
+    }
+  };
+
   const classes = useStyles();
   return (
-    <Card className={classes.root} style={{ height: '265px' }}>
+    <Card
+      className={classes.root}
+      style={{ height: '265px', cursor: 'default' }}
+    >
       <Box
         display="flex"
         flexDirection="column"
         justifyContent="space-between"
         height="100%"
       >
-        <Box position="relative" display="flex" flexDirection="column">
+        <Box position="relative" display="flex" flexDirection="column" flex="1">
           <Box
             position="relative"
             display="flex"
@@ -46,7 +55,9 @@ const PostPreviewCard: React.FC<IPostPreviewCardProps> = (props) => {
               marginLeft: '14px',
               marginRight: '14px',
               marginTop: '10px',
+              cursor: 'pointer',
             }}
+            onClick={goExpertPage}
           >
             <CardMedia
               style={{ padding: '15px', height: '58px', width: 46 }}
@@ -86,33 +97,37 @@ const PostPreviewCard: React.FC<IPostPreviewCardProps> = (props) => {
               </Typography>
             </Box>
           </Box>
-          <CardContent style={{ paddingBottom: '0' }}>
+
+          <Box
+            display="flex"
+            flexDirection="column"
+            flex="1"
+            justifyContent="space-between"
+            style={{ margin: '15px', cursor: 'pointer' }}
+            onClick={goPostView}
+          >
+            <CardContent style={{ padding: '0' }}>
+              <Typography gutterBottom align="left" variant="h6" component="h3">
+                {data.title}
+              </Typography>
+              <Typography
+                variant="body2"
+                align="left"
+                color="textSecondary"
+                component="p"
+              >
+                {data.preview}
+              </Typography>
+            </CardContent>
             <Typography
-              gutterBottom
-              align="left"
-              variant="h6"
-              component="h3"
-              onClick={goPostView}
-            >
-              {data.title}
-            </Typography>
-            <Typography
+              style={{ fontStyle: 'italic' }}
+              align="right"
               variant="body2"
-              align="left"
-              color="textSecondary"
-              component="p"
             >
-              {data.preview}
+              {data.createdAt}
             </Typography>
-          </CardContent>
+          </Box>
         </Box>
-        <Typography
-          style={{ fontStyle: 'italic', padding: '0 15px 15px 0' }}
-          align="right"
-          variant="body2"
-        >
-          {data.createdAt}
-        </Typography>
       </Box>
     </Card>
   );
