@@ -1,11 +1,11 @@
 import { createMuiTheme } from '@material-ui/core';
-import { palette } from './palette';
-import { typography } from './typography';
+import { PALETTE as palette } from './palette';
+import { TYPOGRAPHY as typography } from './typography';
 
-export const mainTheme = createMuiTheme({
+export const MAIN_THEME = createMuiTheme({
   palette,
   typography,
-  spacing: [5, 10, 15, 20, 25, 30, 35, 40, 55, 65, 75, 80],
+  spacing: 5,
   breakpoints: {
     values: {
       xs: 0,

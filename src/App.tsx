@@ -15,7 +15,7 @@ import {
 import { RootStateType } from './store/rootReducer';
 import { loginUser } from './store/authSlice';
 import { LocalStorageKeys } from './lib/types';
-import { mainTheme } from './lib/theme/theme';
+import { MAIN_THEME } from './lib/theme/theme';
 
 const App: React.FC = () => {
   const dispatch = useDispatch();
@@ -41,7 +41,7 @@ const App: React.FC = () => {
 
   return (
     <div className="App">
-      <ThemeProvider theme={mainTheme}>
+      <ThemeProvider theme={MAIN_THEME}>
         <BrowserRouter>
           <Header />
           <Suspense fallback={<CircularProgress className="mainLoading" />}>

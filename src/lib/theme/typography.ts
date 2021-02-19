@@ -1,4 +1,4 @@
-export const typography = {
+export const TYPOGRAPHY = {
   htmlFontSize: 16,
   fontFamily: ['Literata', 'Raleway', 'Helvetica', 'Roboto', 'sans-serif'].join(
     ',',

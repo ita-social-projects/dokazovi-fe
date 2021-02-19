@@ -1,4 +1,4 @@
-export const palette = {
+export const PALETTE = {
   common: {
     black: '#000',
     white: '#fff',
@@ -6,7 +6,7 @@ export const palette = {
   primary: {
     main: '#A7A7A7',
     light: '#E5E5E5',
-    contrastText: '#00',
+    contrastText: '#000',
   },
   info: {
     main: '#B0CEE3',
