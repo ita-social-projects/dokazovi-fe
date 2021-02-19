@@ -22,12 +22,19 @@ const PostDirectionChip: React.FC<IPostDirectionChipProps> = (props) => {
   const classes = useStyles(props);
   const { labelName, handleClick } = props;
 
+  const onClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    e.stopPropagation();
+    if (handleClick) {
+      handleClick();
+    }
+  };
+
   return (
     <Chip
       className={classes.directionChip}
       label={labelName}
       size="small"
-      onClick={handleClick}
+      onClick={onClick}
     />
   );
 };
