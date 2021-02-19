@@ -10,13 +10,9 @@ import NoteEditorToolbar from './NoteEditorToolbar';
 
 interface INoteEditorProps {
   dispatchContent: (content: string) => void;
-  dispatchDone: () => void;
 }
 
-const NoteEditor: React.FC<INoteEditorProps> = ({
-  dispatchContent,
-  dispatchDone,
-}) => {
+const NoteEditor: React.FC<INoteEditorProps> = ({ dispatchContent }) => {
   const [editor, setEditor] = useState<Quill>();
   const noteEditor = useRef<ReactQuill | null>(null);
   const [editorContent, setEditorContent] = useState<string>('');
@@ -38,7 +34,6 @@ const NoteEditor: React.FC<INoteEditorProps> = ({
         <GeneralEditor
           type="DOPYS"
           dispatchContent={dispatchContent}
-          dispatchDone={dispatchDone}
           toolbar={<NoteEditorToolbar editor={editor} />}
           ref={noteEditor}
         />

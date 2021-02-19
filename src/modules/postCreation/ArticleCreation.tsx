@@ -57,18 +57,6 @@ const ArticleCreation: React.FC = () => {
     [],
   );
 
-  const dispatchDone = useCallback(
-    _.throttle(() => {
-      dispatch(
-        setIsDone({
-          postType: PostTypeEnum.ARTICLE,
-          value: false,
-        }),
-      );
-    }, 2000),
-    [],
-  );
-
   const dispatchHtmlContent = useCallback(
     _.debounce((content: string) => {
       dispatch(
@@ -77,14 +65,12 @@ const ArticleCreation: React.FC = () => {
           value: sanitizeHtml(content) as string,
         }),
       );
-      _.delay(() => {
-        dispatch(
-          setIsDone({
-            postType: PostTypeEnum.ARTICLE,
-            value: true,
-          }),
-        );
-      }, 2000);
+      dispatch(
+        setIsDone({
+          postType: PostTypeEnum.ARTICLE,
+          value: true,
+        }),
+      );
     }, 2000),
     [],
   );
@@ -147,10 +133,7 @@ const ArticleCreation: React.FC = () => {
         <Container>
           <Typography variant="h5">Текст статті:</Typography>
         </Container>
-        <ArticleEditor
-          dispatchContent={dispatchHtmlContent}
-          dispatchDone={dispatchDone}
-        />
+        <ArticleEditor dispatchContent={dispatchHtmlContent} />
       </Box>
       <Box display="flex" justifyContent="flex-end">
         <PostCreationButtons

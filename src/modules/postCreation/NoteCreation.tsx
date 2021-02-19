@@ -37,16 +37,8 @@ const NoteCreation: React.FC = () => {
     dispatch(setPostTopics({ postType: PostTypeEnum.DOPYS, value: topics }));
   };
 
-  const dispatchDone = useCallback(
-    _.throttle(() => {
-      dispatch(
-        setIsDone({
-          postType: PostTypeEnum.DOPYS,
-          value: false,
-        }),
-      );
-    }, 2000),
-    [],
+  const isDone = useSelector(
+    (state: RootStateType) => state.newPostDraft.DOPYS.isDone,
   );
 
   const dispatchHtmlContent = useCallback(
@@ -55,6 +47,12 @@ const NoteCreation: React.FC = () => {
         setPostBody({
           postType: PostTypeEnum.DOPYS,
           value: sanitizeHtml(content) as string,
+        }),
+      );
+      dispatch(
+        setIsDone({
+          postType: PostTypeEnum.DOPYS,
+          value: true,
         }),
       );
     }, 2000),
@@ -101,13 +99,14 @@ const NoteCreation: React.FC = () => {
         <Container>
           <Typography variant="h5">Текст статті:</Typography>
         </Container>
-        <NoteEditor
-          dispatchContent={dispatchHtmlContent}
-          dispatchDone={dispatchDone}
-        />
+        <NoteEditor dispatchContent={dispatchHtmlContent} />
       </Box>
       <Box display="flex" justifyContent="flex-end">
-        <PostCreationButtons publishPost={sendPost} goPreview={goNotePreview} />
+        <PostCreationButtons
+          publishPost={sendPost}
+          goPreview={goNotePreview}
+          isDone={isDone}
+        />
       </Box>
     </Container>
   );
