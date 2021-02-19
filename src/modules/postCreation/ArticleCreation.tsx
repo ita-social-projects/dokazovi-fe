@@ -64,9 +64,9 @@ const ArticleCreation: React.FC = () => {
     [],
   );
 
-  const allDirections = Object.keys(savedPostDraft.topics)
-    .filter((id) => savedPostDraft.topics[id])
-    .map((direction) => ({ id: Number(direction) }));
+  const allDirections = directions.filter((direction) =>
+    savedPostDraft.topics.includes(direction.id.toString()),
+  );
 
   const newPost = {
     content: savedPostDraft.htmlContent,

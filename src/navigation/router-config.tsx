@@ -1,4 +1,5 @@
 import { lazy } from 'react';
+import Oath2Redirect from '../lib/components/Service/Oath2Redirect';
 import { RenderRoutes } from './Router';
 import { IRouterConfig } from './types';
 
@@ -130,6 +131,13 @@ const ROUTER_CONFIG: IRouterConfig[] = [
     exact: true,
     component: Page404,
     title: 'Помилка 404',
+  },
+  {
+    path: '/oauth2/redirect',
+    key: 'oauth2/redirect',
+    exact: true,
+    component: Oath2Redirect,
+    title: '',
   },
 ];
 

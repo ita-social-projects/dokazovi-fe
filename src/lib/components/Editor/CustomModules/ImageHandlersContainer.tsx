@@ -1,6 +1,6 @@
 import { IconButton } from '@material-ui/core';
 import React from 'react';
-import { Quill } from 'react-quill';
+import Quill from 'quill';
 import CropOriginalIcon from '@material-ui/icons/CropOriginal';
 import UrlInputModal from './UrlInputModal';
 

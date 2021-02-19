@@ -1,14 +1,16 @@
-import { Quill } from 'react-quill';
-import { StringMap } from 'quill';
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+// Disable required to allow using Quill register method
+import Quill, { StringMap } from 'quill';
 import ImageUploader from 'quill-image-uploader';
 import ImageResize from 'quill-image-resize-module-react';
 import { computerIcon } from './icons';
 import { postImage } from '../../utilities/API/imgurApi';
+import FigureBlot from './Blots/FigureBlot';
 
+Quill.register({ 'blots/figureBlock': FigureBlot });
 Quill.register('modules/imageUploader', ImageUploader);
 Quill.register('modules/imageResize', ImageResize);
 
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 const Icons: StringMap = Quill.import('ui/icons');
 
 Icons.image = computerIcon;
@@ -18,10 +20,8 @@ export const modules: StringMap = {
     container: '#toolbar',
   },
   imageResize: {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     parchment: Quill.import('parchment'),
   },
-
   imageUploader: {
     upload: (file) => {
       return new Promise((resolve, reject) => {
@@ -61,4 +61,5 @@ export const formats: string[] = [
   'image',
   'video',
   'clean',
+  'figureBlock',
 ];

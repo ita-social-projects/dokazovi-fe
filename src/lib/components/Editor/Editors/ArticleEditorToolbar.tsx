@@ -1,5 +1,5 @@
 import React from 'react';
-import { Quill } from 'react-quill';
+import Quill from 'quill';
 import ImageHandlersContainer from '../CustomModules/ImageHandlersContainer';
 import '../generalEditor.styles.css';
 

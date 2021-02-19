@@ -21,6 +21,20 @@ export const instance = axios.create({
   baseURL: BASE_URL,
 });
 
+instance.interceptors.request.use(
+  (config: AxiosRequestConfig) => {
+    const jwtToken = localStorage.getItem(LocalStorageKeys.ACCESS_TOKEN);
+    if (jwtToken) {
+      const header = `Bearer ${jwtToken}`;
+      config.headers = { authorization: header };
+    }
+    return config;
+  },
+  (error) => {
+    Promise.reject(error);
+  },
+);
+
 export type GetConfigType = {
   params: {
     page?: number;
@@ -48,20 +62,6 @@ export type GetTagConfigType = {
 export type PostTagRequestBodyType = {
   tag: string;
 };
-
-instance.interceptors.request.use(
-  (config: AxiosRequestConfig) => {
-    const jwtToken = localStorage.getItem(LocalStorageKeys.ACCESS_TOKEN);
-    if (jwtToken) {
-      const header = `Bearer ${jwtToken}`;
-      config.headers = { authorization: header };
-    }
-    return config;
-  },
-  (error) => {
-    Promise.reject(error);
-  },
-);
 
 const defaultConfig = {
   paramsSerializer: (params: { [key: string]: any }): string => {
@@ -150,8 +150,6 @@ export const loginService = (
   return instance.post('/auth/login', { email, password });
 };
 
-export const getCurrentUser = (): Promise<
-  AxiosResponse<ExpertResponseType>
-> => {
+export const getCurrentUser = (): Promise<ExpertResponseType> => {
   return instance.get('/user/me');
 };
