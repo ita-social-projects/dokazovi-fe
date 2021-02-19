@@ -7,4 +7,5 @@ export interface IRouterConfig {
   exact?: boolean;
   routes?: IRouterConfig[];
   title?: string;
+  isPrivate?: boolean;
 }

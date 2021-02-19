@@ -1,7 +1,25 @@
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import PageTitleComponent from '../lib/components/PageTitleComponent';
 import { IRouterConfig } from './types';
+import { LocalStorageKeys } from '../lib/types';
+
+const PrivateRoute: React.FC<IRouterConfig> = (props) => {
+  const token = localStorage.getItem(LocalStorageKeys.ACCESS_TOKEN);
+  const { routes, path, exact, title, component } = props;
+  if (!token) {
+    return <Redirect to="/" />;
+  }
+  return (
+    <RouteWithSubRoutes
+      component={component}
+      path={path}
+      routes={routes}
+      exact={exact}
+      title={title}
+    />
+  );
+};
 
 export const RouteWithSubRoutes: React.FC<IRouterConfig> = (props) => {
   const { routes, path, exact, title } = props;
@@ -34,6 +52,18 @@ export const RenderRoutes: React.FC<{ routes?: IRouterConfig[] }> = (props) => {
     return (
       <Switch>
         {routes.map((route: IRouterConfig) => {
+          if (route.isPrivate) {
+            return (
+              <PrivateRoute
+                key={route.key}
+                component={route.component}
+                path={route.path}
+                routes={route.routes}
+                exact={route.exact}
+                title={route.title}
+              />
+            );
+          }
           return (
             <RouteWithSubRoutes
               key={route.key}

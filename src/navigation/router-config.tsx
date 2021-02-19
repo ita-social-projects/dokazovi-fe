@@ -80,6 +80,7 @@ const ROUTER_CONFIG: IRouterConfig[] = [
     path: '/create-article',
     key: 'ARTICLE',
     component: RenderRoutes,
+    isPrivate: true,
     routes: [
       {
         path: '/create-article',
@@ -101,6 +102,7 @@ const ROUTER_CONFIG: IRouterConfig[] = [
     path: '/create-note',
     key: 'NOTE',
     component: RenderRoutes,
+    isPrivate: true,
     routes: [
       {
         path: '/create-note',
