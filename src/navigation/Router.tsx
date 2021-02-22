@@ -1,13 +1,15 @@
 import React from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import PageTitleComponent from '../lib/components/PageTitleComponent';
 import { IRouterConfig } from './types';
-import { LocalStorageKeys } from '../lib/types';
+import { RootStateType } from '../store/rootReducer';
 
-const PrivateRoute: React.FC<IRouterConfig> = (props) => {
-  const token = localStorage.getItem(LocalStorageKeys.ACCESS_TOKEN);
+const PrivateRouteWithSubRoutes: React.FC<IRouterConfig> = (props) => {
+  const { user } = useSelector((state: RootStateType) => state.currentUser);
   const { routes, path, exact, title, component } = props;
-  if (!token) {
+
+  if (!user) {
     return <Redirect to="/" />;
   }
   return (
@@ -52,9 +54,9 @@ export const RenderRoutes: React.FC<{ routes?: IRouterConfig[] }> = (props) => {
     return (
       <Switch>
         {routes.map((route: IRouterConfig) => {
-          if (route.isPrivate) {
+          if (route.private) {
             return (
-              <PrivateRoute
+              <PrivateRouteWithSubRoutes
                 key={route.key}
                 component={route.component}
                 path={route.path}
