@@ -2,6 +2,7 @@ import { makeStyles } from '@material-ui/core';
 
 export const useStyles = makeStyles({
   cardContainer: {
+    marginLeft: '45px',
     marginTop: '20px',
     minHeight: '550px',
   },
@@ -20,7 +21,10 @@ export const useStyles = makeStyles({
   },
   avatar: {
     marginRight: '20px',
-    width: '30px',
+    width: '130px',
+    height: '130px',
+    borderRadius: '50%',
+    filter: 'grayscale(100%)',
   },
   directions: {
     display: 'flex',
@@ -37,12 +41,14 @@ export const useStyles = makeStyles({
     position: 'relative',
     minHeight: '550px',
   },
+  institution: {
+    fontFamily: 'Literata',
+  },
   createdAt: {
-    position: 'absolute',
-    bottom: 0,
-    right: 0,
-    marginRight: '20px',
-    marginBottom: '20px',
+    color: '#3B6F95',
+  },
+  dataBox: {
+    margin: '20px',
   },
   content: {
     margin: '20px',

@@ -48,4 +48,22 @@ export const TYPOGRAPHY = {
     fontSize: '14px',
     lineHeight: '18px',
   },
+  subtitleInstitution: {
+    fontFamily: 'Literata',
+    fontWeight: 200,
+    fontSize: '14px',
+    lineHeight: '24px',
+  },
+  postContent: {
+    fontFamily: 'Lato',
+    fontWeight: 700,
+    fontSize: '16px',
+    lineHeight: '26px',
+  },
+  dataCreatedAt: {
+    fontFamily: 'Lato',
+    fontWeight: 500,
+    fontSize: '12px',
+    lineHeight: '14.4px',
+  },
 };
