@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import LocalHospitalIcon from '@material-ui/icons/LocalHospital';
 import { Grid, Tab, Tabs, Toolbar, Typography } from '@material-ui/core';
-import ListItem from '@material-ui/core/ListItem/ListItem';
-import List from '@material-ui/core/List/List';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useStyles } from './Header.styles';

@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import _ from 'lodash';
 import { useSelector, useDispatch } from 'react-redux';
@@ -43,25 +43,27 @@ const ArticleCreation: React.FC = () => {
     dispatch(setPostTopics({ postType: PostTypeEnum.ARTICLE, value: topics }));
   };
 
-  const dispatchTitle = useCallback(
-    _.debounce((storedTitle: string) => {
-      dispatch(
-        setPostTitle({ postType: PostTypeEnum.ARTICLE, value: storedTitle }),
-      );
-    }, 1000),
-    [],
+  const dispatchTitle = useMemo(
+    () =>
+      _.debounce((storedTitle: string) => {
+        dispatch(
+          setPostTitle({ postType: PostTypeEnum.ARTICLE, value: storedTitle }),
+        );
+      }, 1000),
+    [dispatch],
   );
 
-  const dispatchHtmlContent = useCallback(
-    _.debounce((content: string) => {
-      dispatch(
-        setPostBody({
-          postType: PostTypeEnum.ARTICLE,
-          value: sanitizeHtml(content) as string,
-        }),
-      );
-    }, 2000),
-    [],
+  const dispatchHtmlContent = useMemo(
+    () =>
+      _.debounce((content: string) => {
+        dispatch(
+          setPostBody({
+            postType: PostTypeEnum.ARTICLE,
+            value: sanitizeHtml(content) as string,
+          }),
+        );
+      }, 2000),
+    [dispatch],
   );
 
   const allDirections = directions.filter((direction) =>

@@ -1,5 +1,5 @@
 import { Grid, TextField, Typography } from '@material-ui/core';
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import _ from 'lodash';
 import { useSelector, useDispatch } from 'react-redux';
 import {
@@ -62,28 +62,46 @@ const ContentPreviewContainer: React.FC<IContentPreviewContainerProps> = ({
 
   useEffect(() => {
     setTextFieldValue(preview.value);
-  }, []);
+  }, [preview.value]);
 
   useEffect(() => {
     setSelectedTopics(getSelectedTopics(topics, directions));
-  }, [topics]);
+  }, [topics, directions]);
 
   useEffect(() => {
     if (!preview.isManuallyChanged) {
       setTextFieldValue(trunkLength(previewText));
     }
-  }, [previewText]);
+  }, [previewText, preview.isManuallyChanged]);
+
+  const dispatchPreview = useMemo(
+    () =>
+      _.debounce((storedPreview: string) => {
+        dispatch(
+          setPostPreviewText({
+            postType: previewType,
+            value: storedPreview,
+          }),
+        );
+      }, 1000),
+    [previewType, dispatch],
+  );
 
   useEffect(() => {
     setIsPreviewValid(textFieldValue.length <= MAX_LENGTH);
     dispatchPreview(trunkLength(textFieldValue));
-  }, [textFieldValue]);
+  }, [textFieldValue, dispatchPreview]);
 
   useEffect(() => {
+    const dispatchPostPreviewManuallyChanged = (val: boolean) => {
+      dispatch(
+        setPostPreviewManuallyChanged({ postType: previewType, value: val }),
+      );
+    };
     if (isTextFieldManualyChanged) {
       dispatchPostPreviewManuallyChanged(true);
     }
-  }, [isTextFieldManualyChanged]);
+  }, [isTextFieldManualyChanged, previewType, dispatch]);
 
   const onChangeHandler = (
     e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
@@ -93,24 +111,6 @@ const ContentPreviewContainer: React.FC<IContentPreviewContainerProps> = ({
     setisTextFieldManualyChanged(true);
     setTextFieldValue(targetValue);
   };
-
-  const dispatchPostPreviewManuallyChanged = (val: boolean) => {
-    dispatch(
-      setPostPreviewManuallyChanged({ postType: previewType, value: val }),
-    );
-  };
-
-  const dispatchPreview = useCallback(
-    _.debounce((storedPreview: string) => {
-      dispatch(
-        setPostPreviewText({
-          postType: previewType,
-          value: storedPreview,
-        }),
-      );
-    }, 1000),
-    [],
-  );
 
   const getUserData = usePostPreviewData();
 

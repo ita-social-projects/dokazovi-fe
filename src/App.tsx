@@ -20,23 +20,21 @@ const App: React.FC = () => {
   const dispatch = useDispatch();
   const { user } = useSelector((state: RootStateType) => state.currentUser);
 
-  const fetchProperties = () => {
-    dispatch(fetchPostsTypes());
-    dispatch(fetchRegions());
-    dispatch(fetchDirections());
-  };
-
   useEffect(() => {
+    const fetchProperties = () => {
+      dispatch(fetchPostsTypes());
+      dispatch(fetchRegions());
+      dispatch(fetchDirections());
+    };
     fetchProperties();
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     const token = localStorage.getItem(LocalStorageKeys.ACCESS_TOKEN);
-
     if (!user && token) {
       dispatch(loginUser());
     }
-  }, []);
+  }, [dispatch, user]);
 
   return (
     <div className="App">

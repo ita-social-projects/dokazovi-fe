@@ -19,7 +19,6 @@ import LoadMorePostsButton from '../../../lib/components/LoadMorePostsButton';
 const NewestContainer: React.FC = () => {
   const dispatch = useDispatch();
   const setNewest = () => dispatch(fetchNewestPosts());
-  const setNewestInitial = () => dispatch(fetchInitialNewestPosts());
 
   const {
     newestPostIds,
@@ -30,8 +29,9 @@ const NewestContainer: React.FC = () => {
   const newestPosts = selectPostsByIds(newestPostIds);
 
   useEffect(() => {
+    const setNewestInitial = () => dispatch(fetchInitialNewestPosts());
     setNewestInitial();
-  }, []);
+  }, [dispatch]);
 
   const gridRef = useRef<HTMLDivElement>(null);
 

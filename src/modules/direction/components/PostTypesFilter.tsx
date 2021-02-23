@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useMemo } from 'react';
 import _ from 'lodash';
 import { useSelector } from 'react-redux';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -63,9 +63,9 @@ export const PostTypeFilter: React.FC<IPostTypeFilterProps> = ({
     );
   });
 
-  const handler = useCallback(
-    _.debounce((checked: string[]) => setFilters(checked), 500),
-    [],
+  const handler = useMemo(
+    () => _.debounce((checked: string[]) => setFilters(checked), 500),
+    [setFilters],
   );
 
   const handleClick = (event: React.ChangeEvent<HTMLInputElement>) => {

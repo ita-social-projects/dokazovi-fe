@@ -48,12 +48,12 @@ const ExpertDataCard: React.FC<IExpertDataCardProps> = (props) => {
           >
             {fullName}
           </Typography>
-          <Typography variant="body1">
+          <Box>
             Спеціалізація:{' '}
             {expert.directions?.map((d) => {
               return <PostDirectionLink direction={d} key={d.id} />;
             })}
-          </Typography>
+          </Box>
           <div>
             <Typography variant="body1" component="h2">
               {mainInsitutionCity}

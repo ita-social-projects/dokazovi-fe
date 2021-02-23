@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useMemo, useEffect } from 'react';
 import _ from 'lodash';
 import { useDispatch } from 'react-redux';
 import { FilterPropertiesType, FilterTypeEnum, ICheckboxes } from '../types';
@@ -46,7 +46,7 @@ export const FilterFormContainer: React.FC<IFilterFormContainerProps> = (
         }),
       );
     };
-  }, []);
+  }, [setFilter, dispatch]);
 
   useEffect(() => {
     if (Object.values(checked).every((elem) => elem)) {
@@ -54,15 +54,16 @@ export const FilterFormContainer: React.FC<IFilterFormContainerProps> = (
     }
   }, [checked]);
 
-  const setFilterWithDebounce = useCallback(
-    _.debounce((checkedTypes: ICheckboxes) => {
-      dispatch(
-        setFilter({
-          value: checkedTypes,
-        }),
-      );
-    }, 500),
-    [],
+  const setFilterWithDebounce = useMemo(
+    () =>
+      _.debounce((checkedTypes: ICheckboxes) => {
+        dispatch(
+          setFilter({
+            value: checkedTypes,
+          }),
+        );
+      }, 500),
+    [setFilter, dispatch],
   );
 
   const handleChange = (

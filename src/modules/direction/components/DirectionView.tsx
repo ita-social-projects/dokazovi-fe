@@ -30,7 +30,7 @@ const DirectionView: React.FC = () => {
     if (directionData) {
       dispatch(fetchExperts(directionData.name, directionData.id?.toString()));
     }
-  }, [directionData]);
+  }, [directionData, dispatch]);
 
   const {
     experts: {
