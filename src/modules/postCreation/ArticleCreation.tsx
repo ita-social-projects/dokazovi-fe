@@ -14,6 +14,7 @@ import { RootStateType } from '../../store/rootReducer';
 import {
   setPostTopics,
   setPostTitle,
+  setIsDone,
   setPostBody,
 } from './store/postCreationSlice';
 import { PostTopicSelector } from './PostTopicSelector';
@@ -39,6 +40,10 @@ const ArticleCreation: React.FC = () => {
     error: '',
   });
 
+  const isDone = useSelector(
+    (state: RootStateType) => state.newPostDraft.ARTICLE.isDone,
+  );
+
   const dispatchTopics = (topics: string[]) => {
     dispatch(setPostTopics({ postType: PostTypeEnum.ARTICLE, value: topics }));
   };
@@ -60,6 +65,12 @@ const ArticleCreation: React.FC = () => {
           setPostBody({
             postType: PostTypeEnum.ARTICLE,
             value: sanitizeHtml(content) as string,
+          }),
+        );
+        dispatch(
+          setIsDone({
+            postType: PostTypeEnum.ARTICLE,
+            value: true,
           }),
         );
       }, 2000),
@@ -130,6 +141,7 @@ const ArticleCreation: React.FC = () => {
         <PostCreationButtons
           publishPost={sendPost}
           goPreview={goArticlePreview}
+          isDone={isDone}
         />
       </Box>
     </Container>

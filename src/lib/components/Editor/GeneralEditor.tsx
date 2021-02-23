@@ -1,10 +1,13 @@
 /* eslint-disable react/display-name */
-import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useCallback, useState } from 'react';
+import _ from 'lodash';
+import { useDispatch, useSelector } from 'react-redux';
 import ReactQuill from 'react-quill';
 import { modules, formats } from './utilities';
 import 'react-quill/dist/quill.snow.css';
 import { RootStateType } from '../../../store/rootReducer';
+import { setIsDone } from '../../../modules/postCreation/store/postCreationSlice';
+import { PostTypeEnum } from '../../types';
 
 export interface IQuillEditorProps {
   type: 'ARTICLE' | 'DOPYS';
@@ -14,10 +17,28 @@ export interface IQuillEditorProps {
 
 const GeneralEditor = React.forwardRef<ReactQuill, IQuillEditorProps>(
   ({ type, toolbar, dispatchContent }, ref) => {
+    const dispatch = useDispatch();
+
     const savedContent = useSelector(
       (state: RootStateType) => state.newPostDraft[type].htmlContent,
     );
     const [text, setText] = useState<string>(savedContent);
+
+    const changeDone = useCallback(
+      _.debounce(
+        () => {
+          dispatch(
+            setIsDone({
+              postType: PostTypeEnum[type],
+              value: false,
+            }),
+          );
+        },
+        2000,
+        { leading: true, trailing: false },
+      ),
+      [],
+    );
 
     return (
       <>
@@ -29,6 +50,7 @@ const GeneralEditor = React.forwardRef<ReactQuill, IQuillEditorProps>(
             onChange={(content) => {
               setText(content);
               dispatchContent(content);
+              changeDone();
             }}
             placeholder="Write something awesome..."
             modules={modules}

@@ -9,7 +9,11 @@ import {
   Box,
 } from '@material-ui/core';
 import NoteEditor from '../../lib/components/Editor/Editors/NoteEditor';
-import { setPostTopics, setPostBody } from './store/postCreationSlice';
+import {
+  setPostTopics,
+  setPostBody,
+  setIsDone,
+} from './store/postCreationSlice';
 import { PostTopicSelector } from './PostTopicSelector';
 import { PostTypeEnum } from '../../lib/types';
 import { RootStateType } from '../../store/rootReducer';
@@ -33,6 +37,10 @@ const NoteCreation: React.FC = () => {
     dispatch(setPostTopics({ postType: PostTypeEnum.DOPYS, value: topics }));
   };
 
+  const isDone = useSelector(
+    (state: RootStateType) => state.newPostDraft.DOPYS.isDone,
+  );
+
   const dispatchHtmlContent = useMemo(
     () =>
       _.debounce((content: string) => {
@@ -40,6 +48,12 @@ const NoteCreation: React.FC = () => {
           setPostBody({
             postType: PostTypeEnum.DOPYS,
             value: sanitizeHtml(content) as string,
+          }),
+        );
+        dispatch(
+          setIsDone({
+            postType: PostTypeEnum.DOPYS,
+            value: true,
           }),
         );
       }, 2000),
@@ -89,7 +103,11 @@ const NoteCreation: React.FC = () => {
         <NoteEditor dispatchContent={dispatchHtmlContent} />
       </Box>
       <Box display="flex" justifyContent="flex-end">
-        <PostCreationButtons publishPost={sendPost} goPreview={goNotePreview} />
+        <PostCreationButtons
+          publishPost={sendPost}
+          goPreview={goNotePreview}
+          isDone={isDone}
+        />
       </Box>
     </Container>
   );

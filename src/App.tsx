@@ -2,7 +2,7 @@ import React, { Suspense, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import './App.css';
 import { BrowserRouter } from 'react-router-dom';
-import { CircularProgress } from '@material-ui/core';
+import { CircularProgress, ThemeProvider } from '@material-ui/core';
 import { RenderRoutes } from './navigation/Router';
 import ROUTER_CONFIG from './navigation/router-config';
 
@@ -15,6 +15,7 @@ import {
 import { RootStateType } from './store/rootReducer';
 import { loginUser } from './store/authSlice';
 import { LocalStorageKeys } from './lib/types';
+import { MAIN_THEME } from './lib/theme/theme';
 
 const App: React.FC = () => {
   const dispatch = useDispatch();
@@ -38,12 +39,14 @@ const App: React.FC = () => {
 
   return (
     <div className="App">
-      <BrowserRouter>
-        <Header />
-        <Suspense fallback={<CircularProgress className="mainLoading" />}>
-          <RenderRoutes routes={ROUTER_CONFIG} />
-        </Suspense>
-      </BrowserRouter>
+      <ThemeProvider theme={MAIN_THEME}>
+        <BrowserRouter>
+          <Header />
+          <Suspense fallback={<CircularProgress className="mainLoading" />}>
+            <RenderRoutes routes={ROUTER_CONFIG} />
+          </Suspense>
+        </BrowserRouter>
+      </ThemeProvider>
     </div>
   );
 };

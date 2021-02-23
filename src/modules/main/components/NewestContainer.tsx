@@ -55,9 +55,8 @@ const NewestContainer: React.FC = () => {
       ) : (
         <Container>
           <Typography variant="h4">Найновіше</Typography>
-          <Grid container spacing={2} direction="row" alignItems="center">
-            <PostsList postsList={newestPosts} />
-          </Grid>
+          <PostsList postsList={newestPosts} />
+
           <Grid container direction="column" alignItems="center">
             <LoadingInfo loading={loading} />
           </Grid>
