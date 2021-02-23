@@ -1,8 +1,15 @@
 export const TYPOGRAPHY = {
   htmlFontSize: 16,
-  fontFamily: ['Literata', 'Raleway', 'Helvetica', 'Roboto', 'sans-serif'].join(
-    ',',
-  ), // Roboto is used for testing
+  fontFamily: [
+    'Literata',
+    'Raleway',
+    'Montserrat',
+    'Lato',
+    'IBM Plex Serif',
+    'Helvetica',
+    'Roboto',
+    'sans-serif',
+  ].join(','), // Roboto is used for testing
   fontWeightRegular: 400,
   fontWeightMedium: 500,
   fontWeightBold: 700,
@@ -30,6 +37,12 @@ export const TYPOGRAPHY = {
     fontSize: '14px',
     lineHeight: '24px',
   },
+  h5: {
+    fontFamily: 'IBM Plex Serif',
+    fontWeight: 400,
+    fontSize: '14px',
+    lineHeight: '18px',
+  },
   body1: {
     fontFamily: 'Raleway',
     fontWeight: 600,
@@ -47,5 +60,19 @@ export const TYPOGRAPHY = {
     fontWeight: 700,
     fontSize: '14px',
     lineHeight: '18px',
+  },
+  subtitle1: {
+    fontFamily: 'Montserrat',
+    fontWeight: 600,
+    fontSize: '10px',
+    lineHeight: '12px',
+    letterSpacing: '0.2em',
+  },
+  subtitle2: {
+    fontFamily: 'Lato',
+    fontStyle: 'italic',
+    fontWeight: 400,
+    fontSize: '13px',
+    lineHeight: '17px',
   },
 };

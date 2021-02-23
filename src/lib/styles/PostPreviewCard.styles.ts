@@ -4,21 +4,21 @@ export const useStyles = makeStyles(
   {
     root: {
       position: 'relative',
-      height: 265,
     },
     media: {
-      height: 58,
-      width: 46,
+      height: 91,
+      width: 91,
       padding: 15,
       paddingLeft: 13,
+      filter: 'grayscale(95%)',
     },
     header: {
       display: 'flex',
-      margin: '15px 15px 0 15px',
+      margin: '0 22px',
       cursor: 'pointer',
     },
     body: {
-      margin: '15px',
+      margin: '5px 22px 25px',
       cursor: 'pointer',
     },
   },
