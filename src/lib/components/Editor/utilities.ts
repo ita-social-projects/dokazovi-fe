@@ -4,12 +4,14 @@ import Quill, { StringMap } from 'quill';
 import ImageUploader from 'quill-image-uploader';
 import ImageResize from 'quill-image-resize-module-react';
 import { computerIcon } from './icons';
-import { postImage } from '../../utilities/API/imgurApi';
+import { postImage, postImageFetch } from '../../utilities/API/imgurApi';
 import FigureBlot from './Blots/FigureBlot';
+import InsertFromFile from './CustomModules/ImageFromFileHandler';
 
 Quill.register({ 'blots/figureBlock': FigureBlot });
 Quill.register('modules/imageUploader', ImageUploader);
 Quill.register('modules/imageResize', ImageResize);
+Quill.register('modules/insertFromFile', InsertFromFile);
 
 const Icons: StringMap = Quill.import('ui/icons');
 
@@ -22,17 +24,19 @@ export const modules: StringMap = {
   imageResize: {
     parchment: Quill.import('parchment'),
   },
-  imageUploader: {
+  insertFromFile: {
     upload: (file) => {
       return new Promise((resolve, reject) => {
-        postImage(file)
-          .then((resp) => {
-            resolve(resp.data.data.link);
-          })
-          .catch((error) => {
-            reject(error);
-            console.error('Error:', error);
-          });
+        // postImageFetch(file)
+        //   .then((resp) => {
+        //     console.log(resp);
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+        resolve(`https://i.imgur.com/BBcy6Wc.jpg`);
+        // })
+        // .catch((error) => {
+        //   reject(error);
+        //   console.error('Error:', error);
+        // });
       });
     },
   },
