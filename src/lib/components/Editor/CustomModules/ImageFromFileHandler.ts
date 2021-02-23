@@ -2,7 +2,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import Quill, { RangeStatic } from 'quill';
-import FigureBlot from '../Blots/FigureBlot';
 
 export interface IUploadImageValue {
   url: string | ArrayBuffer | null;
@@ -42,10 +41,8 @@ class InsertFromFile {
     const toolbar = this.quill.getModule('toolbar');
     toolbar.addHandler('image', this.selectLocalImage.bind(this));
 
-    this.handleDrop = this.handleDrop.bind(this);
     this.handlePaste = this.handlePaste.bind(this);
 
-    this.quill.root.addEventListener('drop', this.handleDrop.bind(this), false);
     this.quill.root.addEventListener(
       'paste',
       this.handlePaste.bind(this),
@@ -53,7 +50,7 @@ class InsertFromFile {
     );
   }
 
-  selectLocalImage() {
+  selectLocalImage(): void {
     this.range = this.quill.getSelection();
     this.fileHolder = document.createElement('input');
     this.fileHolder.setAttribute('type', 'file');
@@ -71,49 +68,7 @@ class InsertFromFile {
     });
   }
 
-  handleDrop(evt) {
-    evt.stopPropagation();
-    evt.preventDefault();
-    if (
-      evt.dataTransfer &&
-      evt.dataTransfer.files &&
-      evt.dataTransfer.files.length
-    ) {
-      if (document.caretRangeFromPoint) {
-        const selection = document.getSelection();
-        const range = document.caretRangeFromPoint(evt.clientX, evt.clientY);
-        if (selection && range) {
-          selection.setBaseAndExtent(
-            range.startContainer,
-            range.startOffset,
-            range.startContainer,
-            range.startOffset,
-          );
-        }
-      } else {
-        const selection = document.getSelection();
-        const range = document.caretPositionFromPoint(evt.clientX, evt.clientY);
-        if (selection && range) {
-          selection.setBaseAndExtent(
-            range.offsetNode,
-            range.offset,
-            range.offsetNode,
-            range.offset,
-          );
-        }
-      }
-
-      this.range = this.quill.getSelection();
-      const file = evt.dataTransfer.files[0];
-
-      setTimeout(() => {
-        this.range = this.quill.getSelection();
-        this.readAndUploadFile(file);
-      }, 0);
-    }
-  }
-
-  handlePaste(evt) {
+  handlePaste(evt): void {
     const clipboard = evt.clipboardData;
 
     // IE 11 is .files other browsers are .items
@@ -138,23 +93,8 @@ class InsertFromFile {
     }
   }
 
-  readAndUploadFile(file) {
-    let isUploadReject = false;
-
+  readAndUploadFile(file): void {
     const fileReader = new FileReader();
-
-    fileReader.addEventListener(
-      'load',
-      () => {
-        if (!isUploadReject) {
-          const base64ImageSrc = fileReader.result;
-          if (typeof base64ImageSrc === 'string') {
-            // this.insertBase64Image(base64ImageSrc);
-          }
-        }
-      },
-      false,
-    );
 
     if (file) {
       fileReader.readAsDataURL(file);
@@ -165,35 +105,19 @@ class InsertFromFile {
         this.insertToEditor(imageUrl);
       },
       (error) => {
-        isUploadReject = true;
-        this.removeBase64Image();
         console.warn(error);
       },
     );
   }
 
-  fileChanged() {
+  fileChanged(): void {
     if (this.fileHolder.files !== null) {
       const file = this.fileHolder.files[0];
       this.readAndUploadFile(file);
     }
   }
 
-  // insertBase64Image(url: string) {
-  //   console.log('We are in insertBase64');
-
-  //   const { range } = this;
-  //   if (range !== null) {
-  //     this.quill.insertEmbed(
-  //       range.index,
-  //       FigureBlot.blotName,
-  //       (this.figureObj.url = url),
-  //       'user',
-  //     );
-  //   }
-  // }
-
-  insertToEditor(url: string) {
+  insertToEditor(url: string): void {
     const { range, figureObj } = this;
     figureObj.url = url;
     if (range !== null) {
@@ -202,13 +126,6 @@ class InsertFromFile {
 
       range.index += 2;
       this.quill.setSelection(range, 'user');
-    }
-  }
-
-  removeBase64Image() {
-    const { range } = this;
-    if (range !== null) {
-      this.quill.deleteText(range.index, 3, 'user');
     }
   }
 }

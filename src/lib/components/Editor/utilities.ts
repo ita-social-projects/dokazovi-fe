@@ -4,7 +4,7 @@ import Quill, { StringMap } from 'quill';
 import ImageUploader from 'quill-image-uploader';
 import ImageResize from 'quill-image-resize-module-react';
 import { computerIcon } from './icons';
-import { postImage, postImageFetch } from '../../utilities/API/imgurApi';
+import { postImage } from '../../utilities/API/imgurApi';
 import FigureBlot from './Blots/FigureBlot';
 import InsertFromFile from './CustomModules/ImageFromFileHandler';
 
