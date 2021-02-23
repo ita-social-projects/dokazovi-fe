@@ -10,7 +10,7 @@ export const useStyles = makeStyles(
       width: 91,
       padding: 15,
       paddingLeft: 13,
-      filter: 'grayscale(95%)',
+      filter: 'grayscale(100%)',
     },
     header: {
       display: 'flex',

@@ -62,6 +62,7 @@ const PostPreviewCard: React.FC<IPostPreviewCardProps> = (props) => {
                 flexDirection="row"
                 flexWrap="no-wrap"
                 justifyContent="space-between"
+                mb={2}
               >
                 <Box
                   display="flex"
@@ -76,7 +77,12 @@ const PostPreviewCard: React.FC<IPostPreviewCardProps> = (props) => {
                   >
                     {data.postType.name.toUpperCase()}
                   </Typography>
-                  <Typography align="left" variant="h4" component="h4">
+                  <Typography
+                    align="left"
+                    variant="h4"
+                    component="h4"
+                    style={{ fontSize: '16px', lineHeight: '19px' }}
+                  >
                     {authorFullName}
                   </Typography>
                 </Box>
@@ -114,6 +120,7 @@ const PostPreviewCard: React.FC<IPostPreviewCardProps> = (props) => {
                   {data.title}
                 </Typography>
                 <Typography
+                  gutterBottom
                   variant="h5"
                   align="left"
                   color="textPrimary"
@@ -122,7 +129,7 @@ const PostPreviewCard: React.FC<IPostPreviewCardProps> = (props) => {
                   {data.preview}
                 </Typography>
               </CardContent>
-              <Typography align="right" variant="body2">
+              <Typography align="right" variant="h6">
                 {data.createdAt}
               </Typography>
             </Box>

@@ -43,6 +43,12 @@ export const TYPOGRAPHY = {
     fontSize: '14px',
     lineHeight: '18px',
   },
+  h6: {
+    fontFamily: 'Lato',
+    fontWeight: 500,
+    fontSize: '10px',
+    lineHeight: '12px',
+  },
   body1: {
     fontFamily: 'Raleway',
     fontWeight: 600,
