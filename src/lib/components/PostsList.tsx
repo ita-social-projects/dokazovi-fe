@@ -1,7 +1,7 @@
 import { Box } from '@material-ui/core';
 import React from 'react';
 import Masonry from 'react-masonry-css';
-import { useStyles, masonryBreakpoints } from '../styles/PostsList.styles';
+import { useStyles, MASONRY_BREAKPOINTS } from '../styles/PostsList.styles';
 import { IPost } from '../types';
 import PostPreviewCard from './PostPreview/PostPreviewCard';
 
@@ -15,7 +15,7 @@ const PostsList: React.FC<IPostsListProps> = (props) => {
 
   return (
     <Masonry
-      breakpointCols={masonryBreakpoints}
+      breakpointCols={MASONRY_BREAKPOINTS}
       className={classes.masonryGrid}
       columnClassName={classes.masonryColumn}
     >

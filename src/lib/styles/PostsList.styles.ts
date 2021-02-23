@@ -17,7 +17,7 @@ export const useStyles = makeStyles(
   { name: 'PostsList' },
 );
 
-export const masonryBreakpoints = {
+export const MASONRY_BREAKPOINTS = {
   default: 3,
   [MAIN_THEME.breakpoints.values.md]: 2,
   [MAIN_THEME.breakpoints.values.sm]: 1,
