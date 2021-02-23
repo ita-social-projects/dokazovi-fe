@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import Quill, { RangeStatic } from 'quill';
+import insertFromUrl from './ImageFromURLHandler';
 
 export interface IUploadImageValue {
   url: string | ArrayBuffer | null;
