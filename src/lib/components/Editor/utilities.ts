@@ -25,18 +25,10 @@ export const modules: StringMap = {
     parchment: Quill.import('parchment'),
   },
   insertFromFile: {
-    upload: (file) => {
+    upload: (file: string | Blob): Promise<unknown> => {
       return new Promise((resolve, reject) => {
-        // postImageFetch(file)
-        //   .then((resp) => {
-        //     console.log(resp);
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-        resolve(`https://i.imgur.com/BBcy6Wc.jpg`);
-        // })
-        // .catch((error) => {
-        //   reject(error);
-        //   console.error('Error:', error);
-        // });
+        resolve(file);
+        reject(new Error('Failed image upload'));
       });
     },
   },

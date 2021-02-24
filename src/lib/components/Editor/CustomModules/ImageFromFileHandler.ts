@@ -103,7 +103,8 @@ class InsertFromFile {
 
     this.options.upload(file).then(
       (imageUrl) => {
-        this.insertToEditor(imageUrl);
+        insertFromUrl(imageUrl, this.quill);
+        // this.insertToEditor(imageUrl);
       },
       (error) => {
         console.warn(error);
@@ -118,17 +119,17 @@ class InsertFromFile {
     }
   }
 
-  insertToEditor(url: string): void {
-    const { range, figureObj } = this;
-    figureObj.url = url;
-    if (range !== null) {
-      this.quill.insertText(range.index, '\n');
-      this.quill.insertEmbed(range.index + 1, 'figureBlock', figureObj, 'user');
+  // insertToEditor(url: string): void {
+  //   const { range, figureObj } = this;
+  //   figureObj.url = url;
+  //   if (range !== null) {
+  //     this.quill.insertText(range.index, '\n');
+  //     this.quill.insertEmbed(range.index + 1, 'figureBlock', figureObj, 'user');
 
-      range.index += 2;
-      this.quill.setSelection(range, 'user');
-    }
-  }
+  //     range.index += 2;
+  //     this.quill.setSelection(range, 'user');
+  //   }
+  // }
 }
 
 export default InsertFromFile;
