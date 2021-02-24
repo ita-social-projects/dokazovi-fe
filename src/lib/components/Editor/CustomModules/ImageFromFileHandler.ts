@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-// Disable required to allow using Quill register method
+// Disables required to allow using Quill methods
 import Quill, { RangeStatic } from 'quill';
 import insertFromUrl from './ImageFromURLHandler';
 
