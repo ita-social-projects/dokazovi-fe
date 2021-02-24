@@ -1,13 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
+// Disable required to allow using Quill register method
 import Quill, { RangeStatic } from 'quill';
 import insertFromUrl from './ImageFromURLHandler';
-
-export interface IUploadImageValue {
-  url: string | ArrayBuffer | null;
-  caption: string;
-}
 
 export interface IUploadFunc {
   upload: (file: string | Blob) => Promise<string>;
@@ -20,18 +16,12 @@ class InsertFromFile {
 
   options: IUploadFunc;
 
-  figureObj: IUploadImageValue;
-
   fileHolder: HTMLInputElement;
 
   constructor(quill: Quill, options: IUploadFunc) {
     this.quill = quill;
     this.options = options;
     this.range = null;
-    this.figureObj = {
-      url: '',
-      caption: 'Введіть заголовок до фото...',
-    };
     this.fileHolder = document.createElement('input');
 
     if (typeof this.options.upload !== 'function')
@@ -104,7 +94,6 @@ class InsertFromFile {
     this.options.upload(file).then(
       (imageUrl) => {
         insertFromUrl(imageUrl, this.quill);
-        // this.insertToEditor(imageUrl);
       },
       (error) => {
         console.warn(error);
@@ -118,18 +107,6 @@ class InsertFromFile {
       this.readAndUploadFile(file);
     }
   }
-
-  // insertToEditor(url: string): void {
-  //   const { range, figureObj } = this;
-  //   figureObj.url = url;
-  //   if (range !== null) {
-  //     this.quill.insertText(range.index, '\n');
-  //     this.quill.insertEmbed(range.index + 1, 'figureBlock', figureObj, 'user');
-
-  //     range.index += 2;
-  //     this.quill.setSelection(range, 'user');
-  //   }
-  // }
 }
 
 export default InsertFromFile;
