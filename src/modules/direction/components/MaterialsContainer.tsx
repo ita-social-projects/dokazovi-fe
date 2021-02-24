@@ -27,12 +27,12 @@ const MaterialsContainer: React.FC<IMaterialsContainerProps> = ({
 }) => {
   const classes = useStyles();
   const history = useHistory();
-  const location = useLocation();
   const query = useQuery();
 
   const {
     postIds,
     meta: { loading, isLastPage, pageNumber },
+    filters,
   } = useSelector(
     (state: RootStateType) => state.directions[direction.name].materials,
   );
@@ -41,19 +41,14 @@ const MaterialsContainer: React.FC<IMaterialsContainerProps> = ({
   const dispatch = useDispatch();
 
   const dispatchFetchAction = (
-    page = Number(query.get('page')),
     checked = query.get('types')?.split(','),
     replacePosts = false,
   ) => {
-    dispatch(fetchMaterials(direction, checked, page, replacePosts));
+    dispatch(fetchMaterials(direction, checked, replacePosts));
   };
 
   const fetchMorePosts = () => {
-    const nextPage = Number(query.get('page')) + 1;
-    query.set('page', String(nextPage));
-    history.push(`${location.pathname}?${query.toString()}`);
-
-    dispatchFetchAction(nextPage);
+    dispatchFetchAction();
   };
 
   useEffect(() => {
@@ -69,8 +64,8 @@ const MaterialsContainer: React.FC<IMaterialsContainerProps> = ({
   useEffectExceptOnMount(() => {
     // page and types values are initialized from current query.
     // this call will replace current post ids with fetched ones.
-    dispatchFetchAction(undefined, undefined, true);
-  }, [query.get('types')]);
+    dispatchFetchAction(undefined, true);
+  }, [query.get('types'), filters]);
 
   // don't clear query params when returning to previous filter in url from
   // another view.
@@ -82,7 +77,6 @@ const MaterialsContainer: React.FC<IMaterialsContainerProps> = ({
 
   const setFilters = (checked: string[] = []) => {
     query.set('types', checked.join(','));
-    query.delete('page');
     if (checked.length === 0) query.delete('types');
 
     history.push({
