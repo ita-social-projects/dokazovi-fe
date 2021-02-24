@@ -10,7 +10,7 @@ export interface IUploadImageValue {
 }
 
 export interface IUploadFunc {
-  upload: (file: string) => Promise<string>;
+  upload: (file: string | Blob) => Promise<string>;
 }
 
 class InsertFromFile {
@@ -94,7 +94,7 @@ class InsertFromFile {
     }
   }
 
-  readAndUploadFile(file): void {
+  readAndUploadFile(file: Blob): void {
     const fileReader = new FileReader();
 
     if (file) {
