@@ -8,7 +8,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 import { IPost } from '../../types';
 import { useStyles } from '../../styles/PostPreviewCard.styles';
-import { MAIN_THEME as mainTheme } from '../../theme/theme';
+import { MAIN_THEME } from '../../theme/theme';
 
 export interface IPostPreviewCardProps {
   data: IPost;
@@ -35,7 +35,7 @@ const PostPreviewCard: React.FC<IPostPreviewCardProps> = (props) => {
 
   const classes = useStyles();
   return (
-    <ThemeProvider theme={mainTheme}>
+    <ThemeProvider theme={MAIN_THEME}>
       <Card className={classes.root}>
         <Box
           display="flex"
