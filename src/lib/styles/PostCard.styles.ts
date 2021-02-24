@@ -8,6 +8,7 @@ export const useStyles = makeStyles(
       display: 'flex',
       justifyContent: 'space-between',
       margin: '0 20px 0 0',
+      cursor: 'pointer',
     },
     leftPart: {
       border: '1px solid rgba(0, 0, 0, 0.12)',
