@@ -1,8 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-return */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-// Disables required to allow using Quill methods
 import { Container } from '@material-ui/core';
 import React, { useEffect, useRef, useState } from 'react';
 import ReactQuill from 'react-quill';
