@@ -43,6 +43,9 @@ export const useStyles = makeStyles({
   },
   institution: {
     fontFamily: 'Literata',
+    fontWeight: 200,
+    fontSize: '14px',
+    lineHeight: '24px',
   },
   createdAt: {
     color: '#3B6F95',

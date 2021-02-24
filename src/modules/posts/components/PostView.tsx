@@ -39,7 +39,6 @@ const PostView: React.FC<IPostViewProps> = ({ post }) => {
               </Typography>
               <Typography
                 align="left"
-                variant="subtitleInstitution"
                 component="h3"
                 style={{ padding: '5px' }}
                 className={classes.institution}
