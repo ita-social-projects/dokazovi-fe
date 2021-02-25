@@ -59,8 +59,8 @@ class InsertFromFile {
     });
   }
 
-  handlePaste(evt): void {
-    const clipboard = evt.clipboardData;
+  handlePaste(e: ClipboardEvent): void {
+    const clipboard = e.clipboardData;
 
     // IE 11 is .files other browsers are .items
     if (clipboard && (clipboard.items || clipboard.files)) {
@@ -69,11 +69,11 @@ class InsertFromFile {
 
       for (let i = 0; i < items.length; i += 1) {
         if (IMAGE_MIME_REGEX.test(items[i].type)) {
-          const file = items[i].getAsFile ? items[i].getAsFile() : items[i];
+          const file = items[i].getAsFile();
 
           if (file) {
             this.range = this.quill.getSelection();
-            evt.preventDefault();
+            e.preventDefault();
             setTimeout(() => {
               this.range = this.quill.getSelection();
               this.readAndUploadFile(file);
