@@ -37,8 +37,6 @@ const ExpertsView: React.FC = () => {
 
   const expertsPropertiesLoaded = !!regions.length && !!directions.length;
 
-  const setExperts = () => dispatch(fetchExperts());
-
   const handlePageChange = (_, page: number) => {
     if (page === 1) {
       dispatch(setExpertsPage(0));
@@ -52,6 +50,7 @@ const ExpertsView: React.FC = () => {
   }, []);
 
   useEffect(() => {
+    const setExperts = () => dispatch(fetchExperts());
     setExperts();
   }, [pageNumber]);
 

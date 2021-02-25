@@ -16,9 +16,7 @@ const ArticleEditorToolbar: React.FC<IArticleEditorToolbarProps> = ({
         <select className="ql-header" defaultValue="">
           <option value="1">Заголовок 1</option>
           <option value="2">Заголовок 2</option>
-          <option value="" selected>
-            Звичайний
-          </option>
+          <option value="">Звичайний</option>
         </select>
       </span>
       <span className="ql-formats">

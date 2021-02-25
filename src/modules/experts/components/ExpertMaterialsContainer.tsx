@@ -27,21 +27,20 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
   const dispatch = useDispatch();
   const dispatchFetchMaterialsAction = () =>
     dispatch(fetchExpertMaterials(Number(expertId)));
-  const dispatchFetchInitialMaterialsAction = () =>
-    dispatch(fetchInitialMaterials(Number(expertId)));
 
   dispatch(setupExpertMaterialsID(expertId));
 
   const {
     postIds,
     meta: { loading, isLastPage, pageNumber },
-    filters,
   } = useSelector((state: RootStateType) => state.experts.materials[expertId]);
   const materials = selectPostsByIds(postIds);
 
   useEffect(() => {
+    const dispatchFetchInitialMaterialsAction = () =>
+      dispatch(fetchInitialMaterials(Number(expertId)));
     dispatchFetchInitialMaterialsAction();
-  }, [filters]);
+  }, [expertId]);
 
   useEffect(() => {
     return () => {
@@ -52,7 +51,7 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
         }),
       );
     };
-  }, []);
+  }, [expertId]);
 
   const setFilters = (checked: string[]) => {
     dispatch(

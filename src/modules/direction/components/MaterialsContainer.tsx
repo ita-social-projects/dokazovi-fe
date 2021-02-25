@@ -59,7 +59,7 @@ const MaterialsContainer: React.FC<IMaterialsContainerProps> = ({
         search: '',
       });
     };
-  }, []);
+  }, [history]);
 
   useEffectExceptOnMount(() => {
     // page and types values are initialized from current query.
@@ -104,7 +104,7 @@ const MaterialsContainer: React.FC<IMaterialsContainerProps> = ({
         }),
       );
     };
-  }, []);
+  }, [direction]);
 
   return (
     <Container>
