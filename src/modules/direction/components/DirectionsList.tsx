@@ -19,6 +19,7 @@ const DirectionsList: React.FC = () => {
           ...location,
           pathname: `direction/${item.name}` || '#',
         })}
+        style={{ marginRight: 10 }}
       >
         {item.label}
       </Link>

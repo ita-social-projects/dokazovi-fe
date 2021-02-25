@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import SearchIcon from '@material-ui/icons/Search';
 import { Box, Tab, Tabs, Toolbar, Typography } from '@material-ui/core';
-import { Link, useHistory, useLocation } from 'react-router-dom';
+import { Link, NavLink, useHistory, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useStyles } from './Header.styles';
 import { PostCreationMenu } from '../PostCreationMenu';
@@ -44,25 +44,7 @@ export const navElems: IHeaderProps[] = [
 
 const Header: React.FC = () => {
   const classes = useStyles();
-
-  const history = useHistory();
   const { user } = useSelector((state: RootStateType) => state.currentUser);
-  const pathName = useLocation().pathname;
-
-  const activeTab = navElems.find((elem) => elem.url === pathName);
-  const [tabState, setTabState] = useState(activeTab?.id || navElems[0].id);
-
-  const handleTabChange = (
-    event: React.ChangeEvent<Record<string, unknown>>,
-    routeName: string,
-  ) => {
-    const navElem = navElems.find((elem) => elem.id === routeName);
-
-    if (navElem) {
-      setTabState(navElem.id);
-      history.push(navElem.url);
-    }
-  };
 
   return (
     <div id="header" className={classes.root}>
@@ -97,17 +79,15 @@ const Header: React.FC = () => {
         </Box>
       </Toolbar>
 
-      <Tabs
-        value={tabState}
-        onChange={handleTabChange}
-        indicatorColor="primary"
-        textColor="primary"
-        aria-label="disabled tabs example"
-      >
+      <Box className={classes.tabs}>
         {navElems.map((item) => (
-          <Tab label={item.label} value={item.id} key={item.id} />
+          <NavLink to={item.url} key={item.id} className={classes.tab} exact>
+            <Typography variant="body1" className={classes.tabLabel}>
+              {item.label}
+            </Typography>
+          </NavLink>
         ))}
-      </Tabs>
+      </Box>
     </div>
   );
 };
