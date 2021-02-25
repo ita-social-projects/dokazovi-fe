@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import SearchIcon from '@material-ui/icons/Search';
-import { Box, Tab, Tabs, Toolbar, Typography } from '@material-ui/core';
-import { Link, NavLink, useHistory, useLocation } from 'react-router-dom';
+import { Box, Toolbar, Typography } from '@material-ui/core';
+import { Link, NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useStyles } from './Header.styles';
 import { PostCreationMenu } from '../PostCreationMenu';
