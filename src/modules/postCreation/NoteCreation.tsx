@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import _ from 'lodash';
@@ -41,23 +41,22 @@ const NoteCreation: React.FC = () => {
     (state: RootStateType) => state.newPostDraft.DOPYS.isDone,
   );
 
-  const dispatchHtmlContent = useMemo(
-    () =>
-      _.debounce((content: string) => {
-        dispatch(
-          setPostBody({
-            postType: PostTypeEnum.DOPYS,
-            value: sanitizeHtml(content) as string,
-          }),
-        );
-        dispatch(
-          setIsDone({
-            postType: PostTypeEnum.DOPYS,
-            value: true,
-          }),
-        );
-      }, 2000),
-    [dispatch],
+  const dispatchHtmlContent = useCallback(
+    _.debounce((content: string) => {
+      dispatch(
+        setPostBody({
+          postType: PostTypeEnum.DOPYS,
+          value: sanitizeHtml(content) as string,
+        }),
+      );
+      dispatch(
+        setIsDone({
+          postType: PostTypeEnum.DOPYS,
+          value: true,
+        }),
+      );
+    }, 2000),
+    [],
   );
 
   const allDirections = Object.keys(savedPostDraft.topics)

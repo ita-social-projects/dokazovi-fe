@@ -13,7 +13,7 @@ const MainView: React.FC = () => {
 
   useEffect(() => {
     dispatch(fetchExperts());
-  }, [dispatch]);
+  }, []);
 
   const {
     expertIds,

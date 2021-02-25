@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import React, { useMemo } from 'react';
+import React, { useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import _ from 'lodash';
 import Autocomplete from '@material-ui/lab/Autocomplete';
@@ -21,30 +21,28 @@ export const PostTagsFilter: React.FC<IPostTagsFilterProps> = ({
     (state: RootStateType) => state.properties.postTags,
   );
 
-  const handlerFilters = useMemo(
-    () =>
-      _.debounce((selectedTags: string[]) => {
-        dispatch(
-          setPostFilters({
-            key: FilterTypeEnum.TAGS,
-            filters: {
-              value: selectedTags,
-            },
-            directionName,
-          }),
-        );
-      }, 500),
-    [directionName, dispatch],
+  const handlerFilters = useCallback(
+    _.debounce((selectedTags: string[]) => {
+      dispatch(
+        setPostFilters({
+          key: FilterTypeEnum.TAGS,
+          filters: {
+            value: selectedTags,
+          },
+          directionName,
+        }),
+      );
+    }, 500),
+    [],
   );
 
-  const handlerTags = useMemo(
-    () =>
-      _.debounce((inputValue) => {
-        if (inputValue) {
-          dispatch(fetchPostsTags(inputValue));
-        }
-      }, 500),
-    [dispatch],
+  const handlerTags = useCallback(
+    _.debounce((inputValue) => {
+      if (inputValue) {
+        dispatch(fetchPostsTags(inputValue));
+      }
+    }, 500),
+    [],
   );
 
   const handleSelectedFilters = (event, selectedTags: IPostTag[]) => {

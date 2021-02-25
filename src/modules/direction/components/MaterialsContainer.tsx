@@ -110,7 +110,7 @@ const MaterialsContainer: React.FC<IMaterialsContainerProps> = ({
         }),
       );
     };
-  }, [dispatch, direction.name]);
+  }, [direction]);
 
   return (
     <Container>

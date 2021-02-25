@@ -40,7 +40,7 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
     const dispatchFetchInitialMaterialsAction = () =>
       dispatch(fetchInitialMaterials(Number(expertId)));
     dispatchFetchInitialMaterialsAction();
-  }, [expertId, dispatch]);
+  }, [expertId]);
 
   useEffect(() => {
     return () => {
@@ -51,7 +51,7 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
         }),
       );
     };
-  }, [dispatch, expertId]);
+  }, [expertId]);
 
   const setFilters = (checked: string[]) => {
     dispatch(

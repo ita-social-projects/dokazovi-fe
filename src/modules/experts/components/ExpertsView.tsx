@@ -47,12 +47,12 @@ const ExpertsView: React.FC = () => {
 
   useEffect(() => {
     dispatch(setExpertsPage(0));
-  }, [dispatch]);
+  }, []);
 
   useEffect(() => {
     const setExperts = () => dispatch(fetchExperts());
     setExperts();
-  }, [pageNumber, dispatch]);
+  }, [pageNumber]);
 
   useEffect(() => {
     dispatch(fetchExperts());

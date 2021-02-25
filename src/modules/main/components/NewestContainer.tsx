@@ -31,7 +31,7 @@ const NewestContainer: React.FC = () => {
   useEffect(() => {
     const setNewestInitial = () => dispatch(fetchInitialNewestPosts());
     setNewestInitial();
-  }, [dispatch]);
+  }, []);
 
   const gridRef = useRef<HTMLDivElement>(null);
 

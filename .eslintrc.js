@@ -23,7 +23,7 @@ module.exports = {
     "prettier/react",
   ],
   rules: {
-    "no-console": 'off',
+    "react-hooks/exhaustive-deps": "off",
     "@typescript-eslint/no-empty-interface": [
       "warn",
       {

@@ -28,14 +28,14 @@ const App: React.FC = () => {
       dispatch(fetchDirections());
     };
     fetchProperties();
-  }, [dispatch]);
+  }, []);
 
   useEffect(() => {
     const token = localStorage.getItem(LocalStorageKeys.ACCESS_TOKEN);
     if (!user && token) {
       dispatch(loginUser());
     }
-  }, [dispatch, user]);
+  }, [user]);
 
   return (
     <div className="App">

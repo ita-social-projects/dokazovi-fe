@@ -28,7 +28,7 @@ const ImportantContainer: React.FC = () => {
       dispatch(fetchImportantPosts());
     };
     dispatchFetchAction();
-  }, [dispatch]);
+  }, []);
 
   return (
     <div style={styles.container}>

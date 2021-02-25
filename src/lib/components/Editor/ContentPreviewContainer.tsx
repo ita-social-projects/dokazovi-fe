@@ -1,5 +1,5 @@
 import { Grid, TextField, Typography } from '@material-ui/core';
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import _ from 'lodash';
 import { useSelector, useDispatch } from 'react-redux';
 import {
@@ -62,7 +62,7 @@ const ContentPreviewContainer: React.FC<IContentPreviewContainerProps> = ({
 
   useEffect(() => {
     setTextFieldValue(preview.value);
-  }, [preview.value]);
+  }, [preview]);
 
   useEffect(() => {
     setSelectedTopics(getSelectedTopics(topics, directions));
@@ -72,19 +72,18 @@ const ContentPreviewContainer: React.FC<IContentPreviewContainerProps> = ({
     if (!preview.isManuallyChanged) {
       setTextFieldValue(trunkLength(previewText));
     }
-  }, [previewText, preview.isManuallyChanged]);
+  }, [previewText, preview]);
 
-  const dispatchPreview = useMemo(
-    () =>
-      _.debounce((storedPreview: string) => {
-        dispatch(
-          setPostPreviewText({
-            postType: previewType,
-            value: storedPreview,
-          }),
-        );
-      }, 1000),
-    [previewType, dispatch],
+  const dispatchPreview = useCallback(
+    _.debounce((storedPreview: string) => {
+      dispatch(
+        setPostPreviewText({
+          postType: previewType,
+          value: storedPreview,
+        }),
+      );
+    }, 1000),
+    [],
   );
 
   useEffect(() => {
@@ -101,7 +100,7 @@ const ContentPreviewContainer: React.FC<IContentPreviewContainerProps> = ({
     if (isTextFieldManualyChanged) {
       dispatchPostPreviewManuallyChanged(true);
     }
-  }, [isTextFieldManualyChanged, previewType, dispatch]);
+  }, [isTextFieldManualyChanged, previewType]);
 
   const onChangeHandler = (
     e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
