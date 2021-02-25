@@ -1,16 +1,13 @@
-import React, { useState } from 'react';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import LocalHospitalIcon from '@material-ui/icons/LocalHospital';
-import { Grid, Tab, Tabs, Toolbar, Typography } from '@material-ui/core';
-import ListItem from '@material-ui/core/ListItem/ListItem';
-import List from '@material-ui/core/List/List';
-import { Link, useHistory, useLocation } from 'react-router-dom';
+import React from 'react';
+import SearchIcon from '@material-ui/icons/Search';
+import { Box, Toolbar, Typography } from '@material-ui/core';
+import { Link, NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useStyles } from './Header.styles';
 import { PostCreationMenu } from '../PostCreationMenu';
 import { LoginModal } from '../Modals/LoginModal';
 import { RootStateType } from '../../../store/rootReducer';
-import LogOutButton from '../LogOutButton';
+import { AccountMenu } from './AccountMenu';
 
 interface IHeaderProps {
   id: string;
@@ -47,71 +44,50 @@ export const navElems: IHeaderProps[] = [
 
 const Header: React.FC = () => {
   const classes = useStyles();
-
-  const history = useHistory();
   const { user } = useSelector((state: RootStateType) => state.currentUser);
-  const pathName = useLocation().pathname;
-
-  const activeTab = navElems.find((elem) => elem.url === pathName);
-  const [tabState, setTabState] = useState(activeTab?.id || navElems[0].id);
-
-  const handleTabChange = (
-    event: React.ChangeEvent<Record<string, unknown>>,
-    routeName: string,
-  ) => {
-    const navElem = navElems.find((elem) => elem.id === routeName);
-
-    if (navElem) {
-      setTabState(navElem.id);
-      history.push(navElem.url);
-    }
-  };
 
   return (
-    <div className="header">
-      <Grid container>
-        <Grid item xs={12}>
-          <Toolbar className={classes.toolbar}>
-            <Link to="/">
-              <div className={classes.logo}>
-                <LocalHospitalIcon fontSize="large" />
-                <Typography
-                  component="h2"
-                  variant="h5"
-                  color="inherit"
-                  align="center"
-                  noWrap
-                >
-                  Dokazovi
-                </Typography>
-              </div>
-            </Link>
-            {user && (
-              <div className={classes.postCreationMenu}>
-                <PostCreationMenu />
-              </div>
-            )}
+    <div id="header" className={classes.root}>
+      <Toolbar className={classes.header}>
+        <Box display="flex">
+          <Link to="/">
+            <Typography className={classes.logo} variant="h1">
+              Доказові
+            </Typography>
+          </Link>
 
-            <div className={classes.logIn}>
-              <AccountCircleIcon fontSize="large" />
-              {user ? <LogOutButton /> : <LoginModal />}
+          <Typography className={classes.subtitle} variant="subtitle1">
+            <span>Обгрунтовані</span>
+            <span>медичні погляди</span>
+          </Typography>
+        </Box>
+
+        <Box display="flex">
+          <Link to="/" className={classes.community}>
+            <Typography variant="body2">Про нашу спільноту</Typography>
+          </Link>
+
+          {user && (
+            <div className={classes.postCreationMenu}>
+              <PostCreationMenu />
             </div>
-          </Toolbar>
-        </Grid>
-        <Grid item xs={12}>
-          <Tabs
-            value={tabState}
-            onChange={handleTabChange}
-            indicatorColor="primary"
-            textColor="primary"
-            aria-label="disabled tabs example"
-          >
-            {navElems.map((item) => (
-              <Tab label={item.label} value={item.id} key={item.id} />
-            ))}
-          </Tabs>
-        </Grid>
-      </Grid>
+          )}
+
+          <SearchIcon className={classes.search} fontSize="large" />
+
+          {user ? <AccountMenu /> : <LoginModal />}
+        </Box>
+      </Toolbar>
+
+      <Box className={classes.tabs}>
+        {navElems.map((item) => (
+          <NavLink to={item.url} key={item.id} className={classes.tab} exact>
+            <Typography variant="body1" className={classes.tabLabel}>
+              {item.label}
+            </Typography>
+          </NavLink>
+        ))}
+      </Box>
     </div>
   );
 };
