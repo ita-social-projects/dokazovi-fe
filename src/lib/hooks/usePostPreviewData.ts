@@ -2,7 +2,7 @@ import { useSelector } from 'react-redux';
 import { IPost } from '../types';
 import { RootStateType } from '../../store/rootReducer';
 
-const usePostPreviewData = () => {
+const usePostPreviewData = (): IPost => {
   const { user } = useSelector((state: RootStateType) => state.currentUser);
 
   const post = {

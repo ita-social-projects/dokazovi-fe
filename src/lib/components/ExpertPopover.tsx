@@ -31,7 +31,7 @@ export const ExpertPopover: React.FC<{
         className={classes.popover}
         placement="right-end"
       >
-        {children}
+        <div>{children}</div>
       </Popper>
     </div>
   );

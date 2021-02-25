@@ -46,7 +46,7 @@ export const FilterFormContainer: React.FC<IFilterFormContainerProps> = (
         }),
       );
     };
-  }, []);
+  }, [setFilter]);
 
   useEffect(() => {
     if (Object.values(checked).every((elem) => elem)) {

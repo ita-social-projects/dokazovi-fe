@@ -150,6 +150,8 @@ export const loginService = (
   return instance.post('/auth/login', { email, password });
 };
 
-export const getCurrentUser = (): Promise<ExpertResponseType> => {
+export const getCurrentUser = (): Promise<
+  AxiosResponse<ExpertResponseType>
+> => {
   return instance.get('/user/me');
 };

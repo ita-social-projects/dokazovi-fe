@@ -25,10 +25,8 @@ export const loginUser = createAsyncThunk(
         token.data.accessToken,
       );
     }
-
     const user = await getCurrentUser();
-
-    return user;
+    return user.data;
   },
 );
 
