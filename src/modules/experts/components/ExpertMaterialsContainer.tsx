@@ -33,6 +33,7 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
   const {
     postIds,
     meta: { loading, isLastPage, pageNumber },
+    filters,
   } = useSelector((state: RootStateType) => state.experts.materials[expertId]);
   const materials = selectPostsByIds(postIds);
 
@@ -40,7 +41,7 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
     const dispatchFetchInitialMaterialsAction = () =>
       dispatch(fetchInitialMaterials(Number(expertId)));
     dispatchFetchInitialMaterialsAction();
-  }, [expertId]);
+  }, [expertId, filters]);
 
   useEffect(() => {
     return () => {
