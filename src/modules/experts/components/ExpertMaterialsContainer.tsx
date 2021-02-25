@@ -79,12 +79,7 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
         <Grid container spacing={2} direction="row" alignItems="center">
           <PostsList postsList={materials} />
         </Grid>
-        <Grid
-          container
-          direction="column"
-          alignItems="center"
-          className={classes.loading}
-        >
+        <Grid container direction="column" alignItems="center">
           <LoadingInfo loading={loading} />
         </Grid>
 

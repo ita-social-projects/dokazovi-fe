@@ -2,10 +2,14 @@ import React, { Suspense, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import './App.css';
 import { BrowserRouter } from 'react-router-dom';
-import { CircularProgress, ThemeProvider } from '@material-ui/core';
+import {
+  CircularProgress,
+  Container,
+  CssBaseline,
+  ThemeProvider,
+} from '@material-ui/core';
 import { RenderRoutes } from './navigation/Router';
 import ROUTER_CONFIG from './navigation/router-config';
-
 import Header from './lib/components/Header/Header';
 import {
   fetchDirections,
@@ -40,11 +44,15 @@ const App: React.FC = () => {
   return (
     <div className="App">
       <ThemeProvider theme={MAIN_THEME}>
+        <CssBaseline />
+
         <BrowserRouter>
-          <Header />
-          <Suspense fallback={<CircularProgress className="mainLoading" />}>
-            <RenderRoutes routes={ROUTER_CONFIG} />
-          </Suspense>
+          <Container>
+            <Header />
+            <Suspense fallback={<CircularProgress className="mainLoading" />}>
+              <RenderRoutes routes={ROUTER_CONFIG} />
+            </Suspense>
+          </Container>
         </BrowserRouter>
       </ThemeProvider>
     </div>

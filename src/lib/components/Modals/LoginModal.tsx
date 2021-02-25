@@ -24,8 +24,10 @@ import { RegistrationModal } from './RegistrationModal';
 import { clearError, loginUser } from '../../../store/authSlice';
 import { RootStateType } from '../../../store/rootReducer';
 import { FB_AUTH_URL, GOOGLE_AUTH_URL } from '../../../apiURL';
+import { useStyles } from './LoginModal.styles';
 
 export const LoginModal: React.FC = () => {
+  const classes = useStyles();
   const [loginOpen, setLoginOpen] = React.useState(false);
   const [registrationOpen, setRegistrationOpen] = React.useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -73,8 +75,12 @@ export const LoginModal: React.FC = () => {
 
   return (
     <>
-      <Button variant="outlined" color="primary" onClick={handleLoginOpen}>
-        Log in/Register
+      <Button
+        classes={{ root: classes.button, label: classes.label }}
+        color="primary"
+        onClick={handleLoginOpen}
+      >
+        Вхід / Реєстрація
       </Button>
 
       <Dialog

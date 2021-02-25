@@ -1,4 +1,4 @@
-import { createMuiTheme } from '@material-ui/core';
+import { createMuiTheme, Theme } from '@material-ui/core';
 import { PALETTE as palette } from './palette';
 import { TYPOGRAPHY as typography } from './typography';
 
@@ -13,6 +13,16 @@ export const MAIN_THEME = createMuiTheme({
       md: 960,
       lg: 1280,
       xl: 1920,
+    },
+  },
+  shadows: Array<string>(25).fill('none') as Theme['shadows'],
+  overrides: {
+    MuiButton: {
+      root: {
+        boxShadow: 'none',
+        borderRadius: 0,
+        textTransform: 'none',
+      },
     },
   },
 });
