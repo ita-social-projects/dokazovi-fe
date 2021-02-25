@@ -1,60 +1,31 @@
-/* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
-import {
-  makeStyles,
-  createStyles,
-  Theme,
-  withStyles,
-} from '@material-ui/core/styles';
+import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
-import Menu, { MenuProps } from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import { Link } from 'react-router-dom';
-
-const StyledMenu = withStyles({
-  paper: {
-    border: '1px solid #d3d4d5',
-  },
-})((props: MenuProps) => (
-  <Menu
-    elevation={0}
-    getContentAnchorEl={null}
-    anchorOrigin={{
-      vertical: 'bottom',
-      horizontal: 'center',
-    }}
-    transformOrigin={{
-      vertical: 'top',
-      horizontal: 'center',
-    }}
-    {...props}
-  />
-));
-
-const StyledMenuItem = withStyles((theme) => ({
-  root: {
-    width: '250px',
-    '&:focus': {
-      backgroundColor: theme.palette.primary.main,
-      '& .MuiListItemIcon-root, & .MuiListItemText-primary': {
-        color: theme.palette.common.white,
-      },
-    },
-  },
-}))(MenuItem);
+import { StyledMenu, StyledMenuItem } from './Menu/StyledMenu';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     button: {
-      padding: theme.spacing(2),
-      width: '250px',
-      height: '30px',
-      backgroundColor: 'white',
-      boxShadow: 'none',
-      border: '1px solid grey',
+      width: 150,
+      height: 35,
+      padding: theme.spacing(1, 3),
+      backgroundColor: theme.palette.info.light,
       justifyContent: 'space-between',
+      '&:hover': {
+        backgroundColor: theme.palette.info.main,
+      },
+    },
+    label: {
+      color: theme.palette.common.white,
+    },
+    icon: {
+      fill: theme.palette.common.white,
+    },
+    menu: {
+      width: 150,
     },
   }),
 );
@@ -74,17 +45,18 @@ export const PostCreationMenu: React.FC = () => {
   return (
     <div>
       <Button
-        aria-controls="customized-menu"
+        aria-controls="post-creation-menu"
         aria-haspopup="true"
         variant="contained"
         onClick={handleClick}
-        className={classes.button}
+        classes={{ root: classes.button, label: classes.label }}
       >
         Створити...
-        <ArrowDropDownIcon />
+        <ArrowDropDownIcon classes={{ root: classes.icon }} />
       </Button>
       <StyledMenu
-        id="customized-menu"
+        classes={{ paper: classes.menu }}
+        id="post-creation-menu"
         anchorEl={anchorEl}
         keepMounted
         open={Boolean(anchorEl)}
