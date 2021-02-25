@@ -56,7 +56,7 @@ const ExpertsView: React.FC = () => {
 
   useEffect(() => {
     dispatch(fetchExperts());
-  }, [filters?.REGIONS.value, filters?.DIRECTIONS.value, dispatch]);
+  }, [filters?.REGIONS.value, filters?.DIRECTIONS.value]);
 
   const correctPageNumber = pageNumber === 0 ? 1 : pageNumber + 1;
 
