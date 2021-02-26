@@ -25,7 +25,7 @@ const ExpertProfileView: React.FC = () => {
 
   useEffect(() => {
     dispatch(fetchExpertById(Number(expertId)));
-  }, []);
+  }, [expertId]);
 
   return (
     <Container>

@@ -240,10 +240,13 @@ export const fetchExperts = (
 export const fetchMaterials = (
   direction: IDirection,
   postTypes: string[] = [],
-  pageNumber: number,
   replacePosts: boolean,
 ): AppThunkType => async (dispatch, getState) => {
-  const { postIds, filters } = getState().directions[direction.name].materials;
+  const {
+    postIds,
+    filters,
+    meta: { pageNumber },
+  } = getState().directions[direction.name].materials;
   const postTags = filters?.[FilterTypeEnum.TAGS]?.value as string[];
 
   try {
@@ -257,7 +260,7 @@ export const fetchMaterials = (
     const response = await getPosts('latest-by-direction', {
       params: {
         direction: direction.id,
-        page: pageNumber,
+        page: replacePosts ? -1 : pageNumber + 1,
         size: LOAD_POSTS_LIMIT,
         type: postTypes,
         tag: postTags,

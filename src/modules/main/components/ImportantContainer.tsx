@@ -22,12 +22,11 @@ const ImportantContainer: React.FC = () => {
 
   const dispatch = useDispatch();
 
-  const dispatchFetchAction = () => {
-    dispatch(setImportantLoadingStatus());
-    dispatch(fetchImportantPosts());
-  };
-
   useEffect(() => {
+    const dispatchFetchAction = () => {
+      dispatch(setImportantLoadingStatus());
+      dispatch(fetchImportantPosts());
+    };
     dispatchFetchAction();
   }, []);
 

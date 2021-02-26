@@ -59,6 +59,7 @@ const PostPreviewCard: React.FC<IPostPreviewCardProps> = (props) => {
               className={classes.media}
               image={data.author?.avatar}
               title={authorFullName}
+              component="div"
             />
             <Box display="flex" flexDirection="column">
               <Typography

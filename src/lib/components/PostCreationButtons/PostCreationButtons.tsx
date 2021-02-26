@@ -1,17 +1,19 @@
 import React from 'react';
-import { Box, Button } from '@material-ui/core';
+import { Box, Button, CircularProgress } from '@material-ui/core';
 import { useStyles } from '../../styles/PostCreationButtons.styles';
 
 export interface IPostCreationButtonsProps {
   publishPost: () => void;
   goPreview: () => void;
   isOnPreview?: boolean;
+  isDone?: boolean;
 }
 
 const PostCreationButtons: React.FC<IPostCreationButtonsProps> = ({
   publishPost,
   goPreview,
   isOnPreview,
+  isDone,
 }) => {
   const classes = useStyles();
   const buttonText = isOnPreview
@@ -28,8 +30,8 @@ const PostCreationButtons: React.FC<IPostCreationButtonsProps> = ({
         >
           {buttonText}
         </Button>
-        <Button variant="contained" onClick={publishPost}>
-          Опублікувати
+        <Button disabled={!isDone} variant="contained" onClick={publishPost}>
+          {isDone ? 'Опублікувати' : <CircularProgress size={20} />}
         </Button>
       </Box>
     </>

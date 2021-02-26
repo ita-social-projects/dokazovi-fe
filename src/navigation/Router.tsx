@@ -1,7 +1,27 @@
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import PageTitleComponent from '../lib/components/PageTitleComponent';
 import { IRouterConfig } from './types';
+import { RootStateType } from '../store/rootReducer';
+
+const PrivateRouteWithSubRoutes: React.FC<IRouterConfig> = (props) => {
+  const { user } = useSelector((state: RootStateType) => state.currentUser);
+  const { routes, path, exact, title, component } = props;
+
+  if (!user) {
+    return <Redirect to="/" />;
+  }
+  return (
+    <RouteWithSubRoutes
+      component={component}
+      path={path}
+      routes={routes}
+      exact={exact}
+      title={title}
+    />
+  );
+};
 
 export const RouteWithSubRoutes: React.FC<IRouterConfig> = (props) => {
   const { routes, path, exact, title } = props;
@@ -34,6 +54,18 @@ export const RenderRoutes: React.FC<{ routes?: IRouterConfig[] }> = (props) => {
     return (
       <Switch>
         {routes.map((route: IRouterConfig) => {
+          if (route.private) {
+            return (
+              <PrivateRouteWithSubRoutes
+                key={route.key}
+                component={route.component}
+                path={route.path}
+                routes={route.routes}
+                exact={route.exact}
+                title={route.title}
+              />
+            );
+          }
           return (
             <RouteWithSubRoutes
               key={route.key}

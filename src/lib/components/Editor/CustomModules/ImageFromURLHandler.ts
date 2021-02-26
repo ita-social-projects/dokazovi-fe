@@ -1,7 +1,7 @@
 import Quill from 'quill';
 import { postImage } from '../../../utilities/API/imgurApi';
 
-const insertFromUrl = (url: string, editor?: Quill) => {
+const insertFromUrl = (url: string, editor?: Quill): void => {
   if (editor && url) {
     const range = editor.getSelection(true);
     postImage(url)
@@ -14,7 +14,7 @@ const insertFromUrl = (url: string, editor?: Quill) => {
           editor.insertText(range.index, '\n');
           editor.insertEmbed(range.index + 1, 'figureBlock', valueObj, 'user');
           range.index += 2;
-          editor.setSelection(range);
+          editor.setSelection(range, 'user');
         }
       })
       .catch((e) => String(e));

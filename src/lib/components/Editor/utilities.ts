@@ -4,12 +4,13 @@ import Quill, { StringMap } from 'quill';
 import ImageUploader from 'quill-image-uploader';
 import ImageResize from 'quill-image-resize-module-react';
 import { computerIcon } from './icons';
-import { postImage } from '../../utilities/API/imgurApi';
 import FigureBlot from './Blots/FigureBlot';
+import InsertFromFile from './CustomModules/ImageFromFileHandler';
 
 Quill.register({ 'blots/figureBlock': FigureBlot });
 Quill.register('modules/imageUploader', ImageUploader);
 Quill.register('modules/imageResize', ImageResize);
+Quill.register('modules/insertFromFile', InsertFromFile);
 
 const Icons: StringMap = Quill.import('ui/icons');
 
@@ -22,17 +23,11 @@ export const modules: StringMap = {
   imageResize: {
     parchment: Quill.import('parchment'),
   },
-  imageUploader: {
-    upload: (file) => {
+  insertFromFile: {
+    upload: (file: string | Blob): Promise<unknown> => {
       return new Promise((resolve, reject) => {
-        postImage(file)
-          .then((resp) => {
-            resolve(resp.data.data.link);
-          })
-          .catch((error) => {
-            reject(error);
-            console.error('Error:', error);
-          });
+        resolve(file);
+        reject(new Error('Failed image upload'));
       });
     },
   },

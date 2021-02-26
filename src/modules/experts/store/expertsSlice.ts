@@ -255,7 +255,7 @@ export const fetchExpertMaterials = (expertId: number): AppThunkType => async (
   dispatch,
   getState,
 ) => {
-  const { meta, filters } = getState().experts.materials[expertId];
+  const { meta, filters, postIds } = getState().experts.materials[expertId];
   const postTypes = filters?.[FilterTypeEnum.POST_TYPES]?.value as string[];
 
   try {
@@ -283,7 +283,7 @@ export const fetchExpertMaterials = (expertId: number): AppThunkType => async (
       loadMaterials({
         expertId,
         materials: {
-          postIds: ids,
+          postIds: postIds.concat(ids),
           meta: {
             loading: LoadingStatusEnum.succeeded,
             error: null,
