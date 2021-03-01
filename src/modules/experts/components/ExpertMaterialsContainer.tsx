@@ -27,8 +27,6 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
   const dispatch = useDispatch();
   const dispatchFetchMaterialsAction = () =>
     dispatch(fetchExpertMaterials(Number(expertId)));
-  const dispatchFetchInitialMaterialsAction = () =>
-    dispatch(fetchInitialMaterials(Number(expertId)));
 
   dispatch(setupExpertMaterialsID(expertId));
 
@@ -40,8 +38,10 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
   const materials = selectPostsByIds(postIds);
 
   useEffect(() => {
+    const dispatchFetchInitialMaterialsAction = () =>
+      dispatch(fetchInitialMaterials(Number(expertId)));
     dispatchFetchInitialMaterialsAction();
-  }, [filters]);
+  }, [expertId, filters]);
 
   useEffect(() => {
     return () => {
@@ -52,7 +52,7 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
         }),
       );
     };
-  }, []);
+  }, [expertId]);
 
   const setFilters = (checked: string[]) => {
     dispatch(
@@ -80,12 +80,7 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
         <Grid container spacing={2} direction="row" alignItems="center">
           <PostsList postsList={materials} />
         </Grid>
-        <Grid
-          container
-          direction="column"
-          alignItems="center"
-          className={classes.loading}
-        >
+        <Grid container direction="column" alignItems="center">
           <LoadingInfo loading={loading} />
         </Grid>
 

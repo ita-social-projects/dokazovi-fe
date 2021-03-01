@@ -1,4 +1,4 @@
-import { Avatar, Divider, Grid, Typography } from '@material-ui/core';
+import { Avatar, Divider, Grid, Typography, Box } from '@material-ui/core';
 import React from 'react';
 import PageTitleComponent from '../../../lib/components/PageTitleComponent';
 import PostDirectionLink from '../../../lib/components/PostDirectionLink';
@@ -32,16 +32,12 @@ const ExpertInfo: React.FC<IExpertInfoProps> = ({ expert }) => {
             <Typography variant="body1" gutterBottom>
               {expert.qualification}
             </Typography>
-            <Typography
-              className={classes.directionList}
-              variant="body1"
-              gutterBottom
-            >
+            <Box className={classes.directionList}>
               Напрямки:{' '}
               {expert.directions?.map((d) => {
                 return <PostDirectionLink direction={d} key={d.id} />;
               })}
-            </Typography>
+            </Box>
             {expert.mainInstitution && (
               <Typography variant="body1" gutterBottom>
                 {`${expert.mainInstitution.city.name}, ${expert.mainInstitution.name}`}

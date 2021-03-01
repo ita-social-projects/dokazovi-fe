@@ -8,7 +8,7 @@ export const useStyles = makeStyles(
         display: 'flex',
       },
       masonryColumn: {
-        margin: `0 ${theme.spacing()}px`,
+        margin: theme.spacing(0, 1),
       },
       masonryItem: {
         marginBottom: theme.spacing(2),
