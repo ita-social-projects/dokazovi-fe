@@ -1,8 +1,8 @@
-import { makeStyles } from '@material-ui/core';
+import { makeStyles, Theme } from '@material-ui/core';
 
-export const useStyles = makeStyles({
+export const useStyles = makeStyles((theme: Theme) => ({
   cardContainer: {
-    marginLeft: '45px',
+    marginLeft: theme.spacing(9),
     marginTop: '20px',
     minHeight: '550px',
   },
@@ -20,7 +20,7 @@ export const useStyles = makeStyles({
     transform: 'translateY(-50%),',
   },
   avatar: {
-    marginRight: '20px',
+    marginRight: theme.spacing(4),
     width: '130px',
     height: '130px',
     borderRadius: '50%',
@@ -41,20 +41,14 @@ export const useStyles = makeStyles({
     position: 'relative',
     minHeight: '550px',
   },
-  institution: {
-    fontFamily: 'Literata',
-    fontWeight: 200,
-    fontSize: '14px',
-    lineHeight: '24px',
-  },
   createdAt: {
-    color: '#3B6F95',
+    color: theme.palette.info.light,
   },
   dataBox: {
-    margin: '20px',
+    margin: theme.spacing(4),
   },
   content: {
-    margin: '20px',
+    margin: theme.spacing(4),
     '& h1': {
       fontSize: '2em',
     },
@@ -62,4 +56,4 @@ export const useStyles = makeStyles({
       fontSize: '1.5em',
     },
   },
-});
+}));
