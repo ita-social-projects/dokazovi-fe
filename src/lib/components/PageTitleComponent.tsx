@@ -1,5 +1,5 @@
 import React from 'react';
-import { Helmet } from 'react-helmet';
+import { Helmet, HelmetProvider } from 'react-helmet-async';
 import appTitle from '../constants/appTitle';
 
 export interface IPageTitleComponentProps {
@@ -8,11 +8,13 @@ export interface IPageTitleComponentProps {
 
 const PageTitleComponent: React.FC<IPageTitleComponentProps> = ({ title }) => {
   return (
-    <Helmet>
-      {/* add prefix if title passed or return only prefix
+    <HelmetProvider>
+      <Helmet>
+        {/* add prefix if title passed or return only prefix
       e.g. Dokazovi | COVID-19 */}
-      <title>{title ? `${appTitle} | ${title}` : appTitle}</title>
-    </Helmet>
+        <title>{title ? `${appTitle} | ${title}` : appTitle}</title>
+      </Helmet>
+    </HelmetProvider>
   );
 };
 

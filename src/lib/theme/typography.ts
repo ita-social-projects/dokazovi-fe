@@ -1,4 +1,6 @@
-export const TYPOGRAPHY = {
+import { TypographyOptions } from '@material-ui/core/styles/createTypography';
+
+export const TYPOGRAPHY: TypographyOptions = {
   htmlFontSize: 16,
   fontFamily: [
     'Literata',
@@ -63,9 +65,16 @@ export const TYPOGRAPHY = {
   },
   button: {
     fontFamily: 'Raleway',
-    fontWeight: 700,
+    fontWeight: 600,
     fontSize: '14px',
     lineHeight: '18px',
+  },
+  caption: {
+    fontFamily: 'Lato',
+    fontStyle: 'italic',
+    fontWeight: 400,
+    fontSize: '13px',
+    lineHeight: '17px',
   },
   subtitle1: {
     fontFamily: 'Montserrat',
@@ -73,13 +82,12 @@ export const TYPOGRAPHY = {
     fontSize: '10px',
     lineHeight: '12px',
     letterSpacing: '0.2em',
-    color: 'red',
   },
   subtitle2: {
-    fontFamily: 'Lato',
-    fontStyle: 'italic',
+    fontFamily: 'Literata',
     fontWeight: 400,
+    fontStyle: 'italic',
     fontSize: '13px',
-    lineHeight: '17px',
+    lineHeight: '18px',
   },
 };

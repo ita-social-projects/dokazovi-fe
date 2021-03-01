@@ -43,7 +43,7 @@ export const useStyles = makeStyles(
       width: '23px',
       height: '13px',
       marginLeft: '-3px',
-      color: theme.palette.text.secondary,
+      color: '#6D6E71',
     },
   }),
   {

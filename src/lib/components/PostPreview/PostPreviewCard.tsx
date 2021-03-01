@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-// import { ThemeProvider } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import Box from '@material-ui/core/Box';
 import CardContent from '@material-ui/core/CardContent';
@@ -9,7 +8,6 @@ import Typography from '@material-ui/core/Typography';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import { IPost } from '../../types';
 import { useStyles } from '../../styles/PostPreviewCard.styles';
-// import { MAIN_THEME } from '../../theme/theme';
 
 export interface IPostPreviewCardProps {
   data: IPost;
@@ -20,18 +18,8 @@ const PostPreviewCard: React.FC<IPostPreviewCardProps> = (props) => {
   const postLink = `/posts/${data.id}`;
   const authorFullName = `${data.author?.firstName} ${data.author?.lastName}`;
   const VIEW_NUMBER = 100;
-
-  // if (data.author) {
-  //   expertLink = `/experts/${data.author.id}`;
-  // }
-
-  // if (data.author?.firstName && data.author?.lastName) {
-  //   authorFullName = `${data.author?.firstName} ${data.author?.lastName}`;
-  // }
-
   const classes = useStyles();
   return (
-    // <ThemeProvider theme={MAIN_THEME}>
     <Card className={classes.root}>
       <Box
         display="flex"
@@ -90,7 +78,7 @@ const PostPreviewCard: React.FC<IPostPreviewCardProps> = (props) => {
               <Typography
                 color="textSecondary"
                 align="left"
-                variant="subtitle2"
+                variant="caption"
                 component="h3"
               >
                 {data.author.mainInstitution?.city.name},{' '}
@@ -146,7 +134,6 @@ const PostPreviewCard: React.FC<IPostPreviewCardProps> = (props) => {
         </Box>
       </Box>
     </Card>
-    // </ThemeProvider>
   );
 };
 

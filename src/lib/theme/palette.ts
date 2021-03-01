@@ -1,4 +1,6 @@
-export const PALETTE = {
+import { PaletteOptions } from '@material-ui/core/styles/createPalette';
+
+export const PALETTE: PaletteOptions = {
   common: {
     black: '#000',
     white: '#fff',
@@ -25,9 +27,9 @@ export const PALETTE = {
     paper: '#fff',
     default: '#E5E5E5',
   },
-  divider: '#000',
   action: {
     active: '#fff',
     hover: '#A7A7A7',
   },
+  divider: '#000',
 };

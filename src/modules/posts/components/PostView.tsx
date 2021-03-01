@@ -29,6 +29,7 @@ const PostView: React.FC<IPostViewProps> = ({ post }) => {
               className={classes.avatar}
               image={post?.author.avatar}
               title={authorFullName}
+              component="div"
             />
           </Box>
           <Box>
@@ -53,11 +54,11 @@ const PostView: React.FC<IPostViewProps> = ({ post }) => {
         </Box>
         <BorderBottom />
         <Box>
-          <Typography className={classes.directions}>
+          <Box className={classes.directions}>
             {post.directions?.map((d) => {
               return <PostDirectionLink direction={d} key={d.id} />;
             })}
-          </Typography>
+          </Box>
         </Box>
         <Box className={classes.contentRoot}>
           {post.title && (

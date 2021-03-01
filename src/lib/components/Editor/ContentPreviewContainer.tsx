@@ -62,43 +62,17 @@ const ContentPreviewContainer: React.FC<IContentPreviewContainerProps> = ({
 
   useEffect(() => {
     setTextFieldValue(preview.value);
-  }, []);
+  }, [preview]);
 
   useEffect(() => {
     setSelectedTopics(getSelectedTopics(topics, directions));
-  }, [topics]);
+  }, [topics, directions]);
 
   useEffect(() => {
     if (!preview.isManuallyChanged) {
       setTextFieldValue(trunkLength(previewText));
     }
-  }, [previewText]);
-
-  useEffect(() => {
-    setIsPreviewValid(textFieldValue.length <= MAX_LENGTH);
-    dispatchPreview(trunkLength(textFieldValue));
-  }, [textFieldValue]);
-
-  useEffect(() => {
-    if (isTextFieldManualyChanged) {
-      dispatchPostPreviewManuallyChanged(true);
-    }
-  }, [isTextFieldManualyChanged]);
-
-  const onChangeHandler = (
-    e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
-  ) => {
-    const targetValue = e.target.value;
-
-    setisTextFieldManualyChanged(true);
-    setTextFieldValue(targetValue);
-  };
-
-  const dispatchPostPreviewManuallyChanged = (val: boolean) => {
-    dispatch(
-      setPostPreviewManuallyChanged({ postType: previewType, value: val }),
-    );
-  };
+  }, [previewText, preview]);
 
   const dispatchPreview = useCallback(
     _.debounce((storedPreview: string) => {
@@ -111,6 +85,31 @@ const ContentPreviewContainer: React.FC<IContentPreviewContainerProps> = ({
     }, 1000),
     [],
   );
+
+  useEffect(() => {
+    setIsPreviewValid(textFieldValue.length <= MAX_LENGTH);
+    dispatchPreview(trunkLength(textFieldValue));
+  }, [textFieldValue, dispatchPreview]);
+
+  useEffect(() => {
+    const dispatchPostPreviewManuallyChanged = (val: boolean) => {
+      dispatch(
+        setPostPreviewManuallyChanged({ postType: previewType, value: val }),
+      );
+    };
+    if (isTextFieldManualyChanged) {
+      dispatchPostPreviewManuallyChanged(true);
+    }
+  }, [isTextFieldManualyChanged, previewType]);
+
+  const onChangeHandler = (
+    e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
+  ) => {
+    const targetValue = e.target.value;
+
+    setisTextFieldManualyChanged(true);
+    setTextFieldValue(targetValue);
+  };
 
   const getUserData = usePostPreviewData();
 

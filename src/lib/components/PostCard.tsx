@@ -33,6 +33,7 @@ export const PostCard: React.FC<IPostCardProps> = (props) => {
           className={classes.photo}
           image={post.author.avatar}
           title="doctor"
+          component="div"
         />
         <Typography
           className={classes.fullName}
