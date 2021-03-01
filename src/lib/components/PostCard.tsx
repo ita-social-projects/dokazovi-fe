@@ -16,7 +16,7 @@ export const PostCard: React.FC<IPostCardProps> = (props) => {
   const classes = useStyles();
   const history = useHistory();
   const { post } = props;
-  const author = post.author?.id || '';
+  const author = post.author.id || '';
 
   const goPostPage = () => {
     history.push(`/posts/${post.id}`);
@@ -31,7 +31,7 @@ export const PostCard: React.FC<IPostCardProps> = (props) => {
       <Box className={classes.leftPart} onClick={goExpertPage}>
         <CardMedia
           className={classes.photo}
-          image={post.author?.avatar}
+          image={post.author.avatar}
           title="doctor"
         />
         <Typography
@@ -41,10 +41,10 @@ export const PostCard: React.FC<IPostCardProps> = (props) => {
           gutterBottom
           align="center"
         >
-          {post.author?.firstName} {post.author?.lastName}
+          {post.author.firstName} {post.author.lastName}
         </Typography>
         <Typography component="p" variant="body2" gutterBottom align="center">
-          {post.author?.mainInstitution?.name}
+          {post.author.mainInstitution?.name}
         </Typography>
       </Box>
       <Box className={classes.rightPart} onClick={goPostPage}>

@@ -4,6 +4,8 @@ export const useStyles = makeStyles(
   (theme: Theme) => ({
     root: {
       position: 'relative',
+      width: 280,
+      borderRadius: 0,
     },
     media: {
       height: 91,
@@ -14,24 +16,34 @@ export const useStyles = makeStyles(
     },
     header: {
       display: 'flex',
-      margin: `0 ${theme.spacing(4)}px`,
+      margin: theme.spacing(0, 4),
       cursor: 'pointer',
     },
     body: {
-      margin: `${theme.spacing(1)}px ${theme.spacing(4)}px ${theme.spacing(
-        5,
-      )}px`,
+      margin: theme.spacing(1, 4, 5),
       cursor: 'pointer',
     },
     postType: {
-      color: '#3B6F95',
+      color: theme.palette.info.light,
     },
     authorTypography: {
       fontSize: '16px',
       lineHeight: '19px',
     },
     content: {
-      padding: '0',
+      padding: 0,
+    },
+    eyeNumber: {
+      color: theme.palette.text.secondary,
+      marginLeft: '6px',
+      fontSize: '9px',
+      lineHeight: '11px',
+    },
+    eyeIcon: {
+      width: '23px',
+      height: '13px',
+      marginLeft: '-3px',
+      color: theme.palette.text.secondary,
     },
   }),
   {

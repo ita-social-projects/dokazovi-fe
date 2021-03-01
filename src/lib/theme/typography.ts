@@ -73,6 +73,7 @@ export const TYPOGRAPHY = {
     fontSize: '10px',
     lineHeight: '12px',
     letterSpacing: '0.2em',
+    color: 'red',
   },
   subtitle2: {
     fontFamily: 'Lato',
