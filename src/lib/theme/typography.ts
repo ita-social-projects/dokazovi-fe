@@ -46,7 +46,7 @@ export const TYPOGRAPHY: TypographyOptions = {
     lineHeight: '18px',
   },
   h6: {
-    fontFamily: 'Lato',
+    fontFamily: 'Montserrat',
     fontWeight: 500,
     fontSize: '10px',
     lineHeight: '12px',
@@ -70,7 +70,7 @@ export const TYPOGRAPHY: TypographyOptions = {
     lineHeight: '18px',
   },
   caption: {
-    fontFamily: 'Lato',
+    fontFamily: 'Montserrat',
     fontStyle: 'italic',
     fontWeight: 400,
     fontSize: '13px',
