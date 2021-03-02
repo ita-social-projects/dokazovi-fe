@@ -17,6 +17,8 @@ import { useStyles } from '../styles/ExpertProfileView.styles';
 import { PostTypeFilter } from '../../direction/components/PostTypesFilter';
 import { selectPostsByIds } from '../../../store/selectors';
 import LoadMorePostsButton from '../../../lib/components/LoadMorePostsButton';
+import CheckBoxFilterForm from '../../../lib/components/CheckBoxFilterForm';
+import { LoadingStatusEnum } from '../../../lib/types';
 
 export interface IExpertMaterialsContainerProps {
   expertId: string;
@@ -30,6 +32,7 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
   expertId,
 }) => {
   const dispatch = useDispatch();
+  console.log('materials container render');
 
   // TODO: fix
   dispatch(setupExpertMaterialsID(expertId));
@@ -49,15 +52,18 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
   } = expertData;
 
   const materials = selectPostsByIds(postIds);
+  const postTypes = useSelector(
+    (state: RootStateType) => state.properties.postTypes,
+  );
 
   const setFilters = (checked: string[]) => {
-    console.log('setFilters');
-    query.set('types', checked.join(','));
-    if (checked.length === 0) query.delete('types');
+    console.log('setFilters', checked);
+    // query.set('types', checked.join(','));
+    // if (checked.length === 0) query.delete('types');
 
-    history.push({
-      search: query.toString(),
-    });
+    // history.push({
+    //   search: query.toString(),
+    // });
   };
 
   const fetchMaterial = () => {
@@ -67,9 +73,6 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
     };
     dispatch(fetchExpertMaterials(Number(expertId), filters));
   };
-
-  // useEffect(() => {
-  // }, []);
 
   useEffect(() => {
     fetchMaterial();
@@ -102,18 +105,34 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
     }
   }, [pageNumber]);
 
+  const selectedTypesString = query.get('types')?.split(',');
+  const selectedFilters = postTypes?.filter((post) =>
+    selectedTypesString?.includes(post.id.toString()),
+  );
+
   return (
     <>
       <Container className={classes.container}>
         <Typography variant="h4">Матеріали</Typography>
-        <PostTypeFilter setFilters={setFilters} />
+        {/* <PostTypeFilter setFilters={setFilters} /> */}
+        {loading === LoadingStatusEnum.succeeded && postTypes && (
+          <CheckBoxFilterForm
+            onFormChange={setFilters}
+            possibleFilters={postTypes}
+            selectedFilters={selectedFilters}
+          />
+        )}
         <Grid container spacing={2} direction="row" alignItems="center">
+          {loading === LoadingStatusEnum.succeeded && (
+            <PostsList postsList={materials} />
+          )}
           <PostsList postsList={materials} />
         </Grid>
         <Grid container direction="column" alignItems="center">
-          <LoadingInfo loading={loading} />
+          {loading === LoadingStatusEnum.pending && (
+            <LoadingInfo loading={loading} />
+          )}
         </Grid>
-
         <Grid container direction="column" alignItems="center" ref={gridRef}>
           <LoadMorePostsButton
             clicked={fetchMaterial}
