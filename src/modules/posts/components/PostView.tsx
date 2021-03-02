@@ -11,12 +11,7 @@ export interface IPostViewProps {
 
 const PostView: React.FC<IPostViewProps> = ({ post }) => {
   const classes = useStyles();
-
   const authorFullName = `${post.author.firstName} ${post.author.lastName}`;
-  // if (post.author?.firstName && post.author?.lastName) {
-  //   authorFullName = `${post.author?.firstName} ${post.author?.lastName}`;
-  // }
-
   const postContent = post.content ? post.content : 'There is no post content';
 
   return (

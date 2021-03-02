@@ -35,15 +35,15 @@ export const useStyles = makeStyles(
     },
     eyeNumber: {
       color: theme.palette.text.secondary,
-      marginLeft: '6px',
+      marginLeft: theme.spacing(1),
       fontSize: '9px',
       lineHeight: '11px',
     },
     eyeIcon: {
       width: '23px',
       height: '13px',
-      marginLeft: '-3px',
-      color: '#6D6E71',
+      marginLeft: theme.spacing(-1),
+      color: theme.palette.secondary.main,
     },
   }),
   {
