@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { Container, Grid, Typography } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory, useLocation } from 'react-router-dom';
 import BorderBottom from '../../../lib/components/Border';
 import LoadingInfo from '../../../lib/components/LoadingInfo';
 import PostsList from '../../../lib/components/PostsList';
@@ -21,50 +22,79 @@ export interface IExpertMaterialsContainerProps {
   expertId: string;
 }
 
+const useQuery = () => {
+  return new URLSearchParams(useLocation().search);
+};
+
 const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
   expertId,
 }) => {
   const dispatch = useDispatch();
-  const dispatchFetchMaterialsAction = () =>
-    dispatch(fetchExpertMaterials(Number(expertId)));
 
+  // TODO: fix
   dispatch(setupExpertMaterialsID(expertId));
 
+  const classes = useStyles();
+  const gridRef = useRef<HTMLDivElement>(null);
+  const query = useQuery();
+  const history = useHistory();
+
+  const expertData = useSelector(
+    (state: RootStateType) => state.experts.materials[expertId],
+  );
   const {
     postIds,
     meta: { loading, isLastPage, pageNumber },
-    filters,
-  } = useSelector((state: RootStateType) => state.experts.materials[expertId]);
+    // filters,
+  } = expertData;
+
   const materials = selectPostsByIds(postIds);
 
-  useEffect(() => {
-    const dispatchFetchInitialMaterialsAction = () =>
-      dispatch(fetchInitialMaterials(Number(expertId)));
-    dispatchFetchInitialMaterialsAction();
-  }, [expertId, filters]);
-
-  useEffect(() => {
-    return () => {
-      dispatch(
-        setMaterialsTypes({
-          types: { value: undefined },
-          expertId,
-        }),
-      );
-    };
-  }, [expertId]);
-
   const setFilters = (checked: string[]) => {
-    dispatch(
-      setMaterialsTypes({
-        types: { value: checked },
-        expertId,
-      }),
-    );
+    console.log('setFilters');
+    query.set('types', checked.join(','));
+    if (checked.length === 0) query.delete('types');
+
+    history.push({
+      search: query.toString(),
+    });
   };
 
-  const gridRef = useRef<HTMLDivElement>(null);
-  const classes = useStyles();
+  const fetchMaterial = () => {
+    const filters = {
+      page: pageNumber,
+      types: query.get('types'),
+    };
+    dispatch(fetchExpertMaterials(Number(expertId), filters));
+  };
+
+  // useEffect(() => {
+  // }, []);
+
+  useEffect(() => {
+    fetchMaterial();
+  }, [expertId, query.get('types')]);
+
+  // useEffect(() => {
+  //   fetchMaterial();
+
+  //   return () => {
+  //     history.replace({
+  //       search: '',
+  //     });
+  //   };
+  // }, [history]);
+
+  // useEffect(() => {
+  //   return () => {
+  //     dispatch(
+  //       setMaterialsTypes({
+  //         types: { value: undefined },
+  //         expertId,
+  //       }),
+  //     );
+  //   };
+  // }, [expertId]);
 
   useEffectExceptOnMount(() => {
     if (pageNumber > 0) {
@@ -86,7 +116,7 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
 
         <Grid container direction="column" alignItems="center" ref={gridRef}>
           <LoadMorePostsButton
-            clicked={dispatchFetchMaterialsAction}
+            clicked={fetchMaterial}
             isLastPage={isLastPage}
             loading={loading}
           />

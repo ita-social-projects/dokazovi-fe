@@ -28,9 +28,7 @@ interface IExpertsListPayload extends IExpertPayload {
   };
 }
 
-interface IMaterialsState extends Record<string, IMaterialsPayload> {
-  [key: string]: IMaterialsPayload;
-}
+interface IMaterialsState extends Record<string, IMaterialsPayload> {}
 
 interface IMaterialsMeta {
   loading: LoadingStatusEnum;
@@ -251,12 +249,16 @@ export const {
 
 export const expertsReducer = expertsSlice.reducer;
 
-export const fetchExpertMaterials = (expertId: number): AppThunkType => async (
-  dispatch,
-  getState,
-) => {
-  const { meta, filters, postIds } = getState().experts.materials[expertId];
-  const postTypes = filters?.[FilterTypeEnum.POST_TYPES]?.value as string[];
+export const fetchExpertMaterials = (
+  expertId: number,
+  filters?: Record<string, any>,
+): AppThunkType => async (dispatch, getState) => {
+  const { meta, postIds } = getState().experts.materials[expertId];
+  const defaultFilters: Record<string, any> = {};
+  const postFilters: Record<string, any> = {
+    ...defaultFilters,
+    ...filters,
+  };
 
   try {
     dispatch(
@@ -269,9 +271,9 @@ export const fetchExpertMaterials = (expertId: number): AppThunkType => async (
     const resp = await getPosts('latest-by-expert', {
       params: {
         size: LOAD_POSTS_LIMIT,
-        page: meta.pageNumber + 1,
+        page: postFilters.page + 1,
         expert: expertId,
-        type: postTypes,
+        // type: postTypes,
       },
     });
 
