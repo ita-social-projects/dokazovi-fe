@@ -11,12 +11,7 @@ export interface IPostViewProps {
 
 const PostView: React.FC<IPostViewProps> = ({ post }) => {
   const classes = useStyles();
-
-  let authorFullName = '';
-  if (post.author?.firstName && post.author?.lastName) {
-    authorFullName = `${post.author?.firstName} ${post.author?.lastName}`;
-  }
-
+  const authorFullName = `${post.author.firstName} ${post.author.lastName}`;
   const postContent = post.content ? post.content : 'There is no post content';
 
   return (
@@ -27,7 +22,7 @@ const PostView: React.FC<IPostViewProps> = ({ post }) => {
             <CardMedia
               style={{ padding: '15px', height: '58px', width: 46 }}
               className={classes.avatar}
-              image={post?.author?.avatar}
+              image={post?.author.avatar}
               title={authorFullName}
               component="div"
             />
@@ -47,8 +42,8 @@ const PostView: React.FC<IPostViewProps> = ({ post }) => {
               component="h3"
               style={{ padding: '5px' }}
             >
-              {post.author?.mainInstitution?.city.name},{' '}
-              {post.author?.mainInstitution?.name}
+              {post.author.mainInstitution?.city.name},{' '}
+              {post.author.mainInstitution?.name}
             </Typography>
           </Box>
         </Box>
