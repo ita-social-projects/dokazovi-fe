@@ -29,22 +29,20 @@ const NoteEditor: React.FC<INoteEditorProps> = ({ dispatchContent }) => {
   });
 
   return (
-    <>
-      <Container>
-        <GeneralEditor
-          type={PostTypeEnum.DOPYS}
-          dispatchContent={dispatchContent}
-          toolbar={<NoteEditorToolbar editor={editor} />}
-          ref={noteEditor}
-        />
-        <BorderBottom />
-        <ContentPreviewContainer
-          previewText={editorContent}
-          previewType={PostTypeEnum.DOPYS}
-          previewCardType="Допис"
-        />
-      </Container>
-    </>
+    <Container>
+      <GeneralEditor
+        type={PostTypeEnum.DOPYS}
+        dispatchContent={dispatchContent}
+        toolbar={<NoteEditorToolbar editor={editor} />}
+        ref={noteEditor}
+      />
+      <BorderBottom />
+      <ContentPreviewContainer
+        previewText={editorContent}
+        previewType={PostTypeEnum.DOPYS}
+        previewCardType="Допис"
+      />
+    </Container>
   );
 };
 

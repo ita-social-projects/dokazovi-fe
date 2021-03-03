@@ -31,22 +31,20 @@ const ArticleEditor: React.FC<IArticleEditorProps> = ({ dispatchContent }) => {
   });
 
   return (
-    <>
-      <Container>
-        <GeneralEditor
-          type={PostTypeEnum.ARTICLE}
-          dispatchContent={dispatchContent}
-          toolbar={<ArticleEditorToolbar editor={editor} />}
-          ref={articleEditor}
-        />
-        <BorderBottom />
-        <ContentPreviewContainer
-          previewText={editorContent}
-          previewType={PostTypeEnum.ARTICLE}
-          previewCardType="Стаття"
-        />
-      </Container>
-    </>
+    <Container>
+      <GeneralEditor
+        type={PostTypeEnum.ARTICLE}
+        dispatchContent={dispatchContent}
+        toolbar={<ArticleEditorToolbar editor={editor} />}
+        ref={articleEditor}
+      />
+      <BorderBottom />
+      <ContentPreviewContainer
+        previewText={editorContent}
+        previewType={PostTypeEnum.ARTICLE}
+        previewCardType="Стаття"
+      />
+    </Container>
   );
 };
 
