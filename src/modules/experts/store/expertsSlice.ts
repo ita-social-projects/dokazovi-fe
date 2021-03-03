@@ -5,6 +5,7 @@ import {
   LoadingStatusEnum,
   FilterTypeEnum,
   ICheckboxes,
+  UrlFilterTypes,
 } from '../../../lib/types';
 import {
   getAllExperts,
@@ -20,6 +21,7 @@ import {
   loadPosts,
   mapFetchedPosts,
 } from '../../../store/dataSlice';
+import { RequestParamsType } from '../../../lib/utilities/API/types';
 
 interface IExpertsListPayload extends IExpertPayload {
   filters?: {
@@ -28,9 +30,7 @@ interface IExpertsListPayload extends IExpertPayload {
   };
 }
 
-interface IMaterialsState extends Record<string, IMaterialsPayload> {
-  [key: string]: IMaterialsPayload;
-}
+interface IMaterialsState extends Record<string, IMaterialsPayload> {}
 
 interface IMaterialsMeta {
   loading: LoadingStatusEnum;
@@ -46,6 +46,8 @@ interface IMaterialsPayload {
     [FilterTypeEnum.POST_TYPES]?: IFilter;
   };
 }
+
+interface IMaterialsFilters extends Record<UrlFilterTypes, unknown> {}
 
 const materialsInitialState: IMaterialsPayload = {
   postIds: [],
@@ -191,21 +193,6 @@ export const expertsSlice = createSlice({
           state.materials[expertId].meta.loading = LoadingStatusEnum.succeeded;
       }
     },
-    setMaterialsTypes: (
-      state,
-      action: PayloadAction<{
-        types: IFilter;
-        expertId: string;
-      }>,
-    ) => {
-      const { types, expertId } = action.payload;
-      const materials = state.materials[expertId];
-      materials.filters = {
-        [FilterTypeEnum.POST_TYPES]: types,
-      };
-      materials.meta.pageNumber = -1;
-      materials.postIds = [];
-    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchExperts.pending, (state) => {
@@ -246,17 +233,16 @@ export const {
   loadMaterials,
   setMaterialsLoadingStatus,
   setExpertsPage,
-  setMaterialsTypes,
 } = expertsSlice.actions;
 
 export const expertsReducer = expertsSlice.reducer;
 
-export const fetchExpertMaterials = (expertId: number): AppThunkType => async (
-  dispatch,
-  getState,
-) => {
-  const { meta, filters, postIds } = getState().experts.materials[expertId];
-  const postTypes = filters?.[FilterTypeEnum.POST_TYPES]?.value as string[];
+export const fetchExpertMaterials = (
+  expertId: number,
+  filters?: IMaterialsFilters,
+  loadMore?: boolean,
+): AppThunkType => async (dispatch, getState) => {
+  const { postIds } = getState().experts.materials[expertId];
 
   try {
     dispatch(
@@ -266,14 +252,17 @@ export const fetchExpertMaterials = (expertId: number): AppThunkType => async (
       }),
     );
 
-    const resp = await getPosts('latest-by-expert', {
-      params: {
-        size: LOAD_POSTS_LIMIT,
-        page: meta.pageNumber + 1,
-        expert: expertId,
-        type: postTypes,
-      },
-    });
+    const params: RequestParamsType = {
+      size: LOAD_POSTS_LIMIT,
+      page: loadMore ? (filters?.page as number) : 1,
+      expert: expertId,
+    };
+
+    if (filters?.types) {
+      params.type = filters?.types as string[];
+    }
+
+    const resp = await getPosts('latest-by-expert', { params });
 
     const { mappedPosts, ids } = mapFetchedPosts(resp.data.content);
 
@@ -283,7 +272,7 @@ export const fetchExpertMaterials = (expertId: number): AppThunkType => async (
       loadMaterials({
         expertId,
         materials: {
-          postIds: postIds.concat(ids),
+          postIds: loadMore ? postIds.concat(ids) : ids,
           meta: {
             loading: LoadingStatusEnum.succeeded,
             error: null,

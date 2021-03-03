@@ -50,7 +50,7 @@ const PostPreviewCard: React.FC<IPostPreviewCardProps> = (props) => {
                 <Box
                   display="flex"
                   flexDirection="column"
-                  mt={2}
+                  mt={4}
                   justifyContent="space-between"
                 >
                   <Typography
