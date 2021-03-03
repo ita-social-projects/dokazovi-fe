@@ -1,4 +1,4 @@
-import { Container, Grid, Typography } from '@material-ui/core';
+import { Box, Grid, Typography } from '@material-ui/core';
 import { isEmpty } from 'lodash';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -61,7 +61,7 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
     const checkedIds = Object.keys(checked).filter((key) => checked[key]);
     query.set(TYPES_QUERY, checkedIds.join(','));
     if (!checkedIds.length) query.delete(TYPES_QUERY);
-    setPage(1);
+    setPage(0);
     history.push({
       search: query.toString(),
     });
@@ -99,37 +99,32 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
     : undefined;
 
   return (
-    <>
-      <Container className={classes.container}>
-        <Typography variant="h4">Матеріали</Typography>
-        {!isEmpty(postTypes) && (
-          <CheckBoxFilterForm
-            onFormChange={setFilters}
-            possibleFilters={postTypes}
-            selectedFilters={initialSelectedFilters}
-          />
+    <Box className={classes.container}>
+      <Typography variant="h4">Матеріали</Typography>
+      {!isEmpty(postTypes) && (
+        <CheckBoxFilterForm
+          onFormChange={setFilters}
+          possibleFilters={postTypes}
+          selectedFilters={initialSelectedFilters}
+        />
+      )}
+      <Grid container spacing={2} direction="row" alignItems="center">
+        <PostsList postsList={materials} />
+      </Grid>
+      <Grid container direction="column" alignItems="center">
+        {loading === LoadingStatusEnum.pending && (
+          <LoadingInfo loading={loading} />
         )}
-        <Grid container spacing={2} direction="row" alignItems="center">
-          {loading === LoadingStatusEnum.succeeded && (
-            <PostsList postsList={materials} />
-          )}
-          <PostsList postsList={materials} />
-        </Grid>
-        <Grid container direction="column" alignItems="center">
-          {loading === LoadingStatusEnum.pending && (
-            <LoadingInfo loading={loading} />
-          )}
-        </Grid>
-        <Grid container direction="column" alignItems="center" ref={gridRef}>
-          <LoadMorePostsButton
-            clicked={loadMore}
-            isLastPage={isLastPage}
-            loading={loading}
-          />
-        </Grid>
-        <BorderBottom />
-      </Container>
-    </>
+      </Grid>
+      <Grid container direction="column" alignItems="center" ref={gridRef}>
+        <LoadMorePostsButton
+          clicked={loadMore}
+          isLastPage={isLastPage}
+          loading={loading}
+        />
+      </Grid>
+      <BorderBottom />
+    </Box>
   );
 };
 

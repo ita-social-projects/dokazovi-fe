@@ -4,7 +4,6 @@ export const useStyles = makeStyles(
   {
     header: {
       display: 'flex',
-      margin: 10,
     },
     icon: {
       width: 75,
