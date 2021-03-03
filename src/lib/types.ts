@@ -35,6 +35,11 @@ export enum FilterTypeEnum {
   TAGS = 'TAGS',
 }
 
+export enum UrlFilterTypes {
+  PAGE = 'page',
+  TYPES = 'types',
+}
+
 export interface IPost {
   id: number;
   title: string;
