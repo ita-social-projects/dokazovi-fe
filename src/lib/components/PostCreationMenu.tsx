@@ -72,7 +72,7 @@ export const PostCreationMenu: React.FC = () => {
             <ListItemText primary="Створити допис" />
           </StyledMenuItem>
         </Link>
-        <Link to="/">
+        <Link to="/create-video">
           <StyledMenuItem onClick={handleClose}>
             <ListItemText primary="Створити відео" />
           </StyledMenuItem>

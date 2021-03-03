@@ -10,7 +10,7 @@ import { setIsDone } from '../../../modules/postCreation/store/postCreationSlice
 import { PostTypeEnum } from '../../types';
 
 export interface IQuillEditorProps {
-  type: 'ARTICLE' | 'DOPYS';
+  type: 'ARTICLE' | 'DOPYS' | 'VIDEO';
   toolbar: React.ReactNode;
   dispatchContent: (s: string) => void;
 }
