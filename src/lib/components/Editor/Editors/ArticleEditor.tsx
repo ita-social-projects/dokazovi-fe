@@ -1,4 +1,3 @@
-import { Container } from '@material-ui/core';
 import React, { useEffect, useRef, useState } from 'react';
 import ReactQuill from 'react-quill';
 import Quill from 'quill';
@@ -32,20 +31,18 @@ const ArticleEditor: React.FC<IArticleEditorProps> = ({ dispatchContent }) => {
 
   return (
     <>
-      <Container>
-        <GeneralEditor
-          type="ARTICLE"
-          dispatchContent={dispatchContent}
-          toolbar={<ArticleEditorToolbar editor={editor} />}
-          ref={articleEditor}
-        />
-        <BorderBottom />
-        <ContentPreviewContainer
-          previewText={editorContent}
-          previewType={PostTypeEnum.ARTICLE}
-          previewCardType="Стаття"
-        />
-      </Container>
+      <GeneralEditor
+        type="ARTICLE"
+        dispatchContent={dispatchContent}
+        toolbar={<ArticleEditorToolbar editor={editor} />}
+        ref={articleEditor}
+      />
+      <BorderBottom />
+      <ContentPreviewContainer
+        previewText={editorContent}
+        previewType={PostTypeEnum.ARTICLE}
+        previewCardType="Стаття"
+      />
     </>
   );
 };

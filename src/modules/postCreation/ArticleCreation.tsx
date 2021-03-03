@@ -5,7 +5,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import {
   Box,
   CircularProgress,
-  Container,
   TextField,
   Typography,
 } from '@material-ui/core';
@@ -100,7 +99,7 @@ const ArticleCreation: React.FC = () => {
   };
 
   return (
-    <Container fixed>
+    <>
       {directions.length ? (
         <PostTopicSelector
           dispatchTopics={dispatchTopics}
@@ -113,26 +112,22 @@ const ArticleCreation: React.FC = () => {
         <CircularProgress />
       )}
       <Box mt={2}>
-        <Container>
-          <Typography variant="h5">Заголовок статті: </Typography>
-          <TextField
-            error={Boolean(title.error)}
-            helperText={title.error}
-            fullWidth
-            required
-            id="article-name"
-            value={title.value}
-            onChange={(e) => {
-              setTitle({ ...title, value: e.target.value });
-              dispatchTitle(e.target.value);
-            }}
-          />
-        </Container>
+        <Typography variant="h5">Заголовок статті: </Typography>
+        <TextField
+          error={Boolean(title.error)}
+          helperText={title.error}
+          fullWidth
+          required
+          id="article-name"
+          value={title.value}
+          onChange={(e) => {
+            setTitle({ ...title, value: e.target.value });
+            dispatchTitle(e.target.value);
+          }}
+        />
       </Box>
       <Box mt={2}>
-        <Container>
-          <Typography variant="h5">Текст статті:</Typography>
-        </Container>
+        <Typography variant="h5">Текст статті:</Typography>
         <ArticleEditor dispatchContent={dispatchHtmlContent} />
       </Box>
       <Box display="flex" justifyContent="flex-end">
@@ -142,7 +137,7 @@ const ArticleCreation: React.FC = () => {
           isDone={isDone}
         />
       </Box>
-    </Container>
+    </>
   );
 };
 

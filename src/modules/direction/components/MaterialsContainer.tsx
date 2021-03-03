@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation, useHistory } from 'react-router-dom';
-import { Container, Grid, Typography } from '@material-ui/core';
+import { Grid, Typography } from '@material-ui/core';
 import PostList from '../../../lib/components/PostsList';
 import { fetchMaterials, setPostFilters } from '../store/directionSlice';
 import { RootStateType } from '../../../store/rootReducer';
@@ -107,7 +107,7 @@ const MaterialsContainer: React.FC<IMaterialsContainerProps> = ({
   }, [direction]);
 
   return (
-    <Container>
+    <>
       <Typography variant="h4">Матеріали</Typography>
       <PostTypeFilter
         setFilters={setFilters}
@@ -132,7 +132,7 @@ const MaterialsContainer: React.FC<IMaterialsContainerProps> = ({
           loading={loading}
         />
       </Grid>
-    </Container>
+    </>
   );
 };
 

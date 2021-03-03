@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { Container, Grid, Typography } from '@material-ui/core';
+import { Box, Grid, Typography } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import BorderBottom from '../../../lib/components/Border';
 import LoadingInfo from '../../../lib/components/LoadingInfo';
@@ -73,27 +73,25 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
   }, [pageNumber]);
 
   return (
-    <>
-      <Container className={classes.container}>
-        <Typography variant="h4">Матеріали</Typography>
-        <PostTypeFilter setFilters={setFilters} />
-        <Grid container spacing={2} direction="row" alignItems="center">
-          <PostsList postsList={materials} />
-        </Grid>
-        <Grid container direction="column" alignItems="center">
-          <LoadingInfo loading={loading} />
-        </Grid>
+    <Box className={classes.container}>
+      <Typography variant="h4">Матеріали</Typography>
+      <PostTypeFilter setFilters={setFilters} />
+      <Grid container spacing={2} direction="row" alignItems="center">
+        <PostsList postsList={materials} />
+      </Grid>
+      <Grid container direction="column" alignItems="center">
+        <LoadingInfo loading={loading} />
+      </Grid>
 
-        <Grid container direction="column" alignItems="center" ref={gridRef}>
-          <LoadMorePostsButton
-            clicked={dispatchFetchMaterialsAction}
-            isLastPage={isLastPage}
-            loading={loading}
-          />
-        </Grid>
-        <BorderBottom />
-      </Container>
-    </>
+      <Grid container direction="column" alignItems="center" ref={gridRef}>
+        <LoadMorePostsButton
+          clicked={dispatchFetchMaterialsAction}
+          isLastPage={isLastPage}
+          loading={loading}
+        />
+      </Grid>
+      <BorderBottom />
+    </Box>
   );
 };
 

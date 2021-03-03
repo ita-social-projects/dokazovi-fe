@@ -1,1 +1,1 @@
-export const LOAD_POSTS_LIMIT = 6;
+export const LOAD_POSTS_LIMIT = 8;

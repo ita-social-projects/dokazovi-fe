@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Container, Grid, Typography } from '@material-ui/core';
+import { Grid, Typography } from '@material-ui/core';
 import { RootStateType } from '../../../store/rootReducer';
 import {
   fetchNewestPosts,
@@ -53,7 +53,7 @@ const NewestContainer: React.FC = () => {
           <LoadingInfo loading={loading} />
         </Grid>
       ) : (
-        <Container>
+        <>
           <Typography variant="h4">Найновіше</Typography>
           <PostsList postsList={newestPosts} />
 
@@ -69,7 +69,7 @@ const NewestContainer: React.FC = () => {
             />
           </Grid>
           <BorderBottom />
-        </Container>
+        </>
       )}
     </div>
   );
