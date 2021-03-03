@@ -30,7 +30,7 @@ const NoteEditor: React.FC<INoteEditorProps> = ({ dispatchContent }) => {
   return (
     <>
       <GeneralEditor
-        type="DOPYS"
+        type={PostTypeEnum.DOPYS}
         dispatchContent={dispatchContent}
         toolbar={<NoteEditorToolbar editor={editor} />}
         ref={noteEditor}

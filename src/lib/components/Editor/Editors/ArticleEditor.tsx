@@ -32,7 +32,7 @@ const ArticleEditor: React.FC<IArticleEditorProps> = ({ dispatchContent }) => {
   return (
     <>
       <GeneralEditor
-        type="ARTICLE"
+        type={PostTypeEnum.ARTICLE}
         dispatchContent={dispatchContent}
         toolbar={<ArticleEditorToolbar editor={editor} />}
         ref={articleEditor}
