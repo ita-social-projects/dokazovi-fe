@@ -61,7 +61,7 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
     const checkedIds = Object.keys(checked).filter((key) => checked[key]);
     query.set(TYPES_QUERY, checkedIds.join(','));
     if (!checkedIds.length) query.delete(TYPES_QUERY);
-    setPage(1);
+    setPage(0);
     history.push({
       search: query.toString(),
     });
@@ -109,9 +109,9 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
         />
       )}
       <Grid container spacing={2} direction="row" alignItems="center">
-        {loading === LoadingStatusEnum.succeeded && (
+        {/* {loading === LoadingStatusEnum.succeeded && (
           <PostsList postsList={materials} />
-        )}
+        )} */}
         <PostsList postsList={materials} />
       </Grid>
       <Grid container direction="column" alignItems="center">
