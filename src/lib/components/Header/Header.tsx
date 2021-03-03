@@ -56,7 +56,7 @@ const Header: React.FC = () => {
             </Typography>
           </Link>
 
-          <Typography className={classes.subtitle} variant="subtitle1">
+          <Typography className={classes.subtitle} variant="subtitle2">
             <span>Обгрунтовані</span>
             <span>медичні погляди</span>
           </Typography>

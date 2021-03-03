@@ -49,6 +49,9 @@ export const useStyles = makeStyles((theme: Theme) => ({
   },
   content: {
     margin: theme.spacing(4),
+    fontWeight: 700,
+    fontSize: '16px',
+    lineHeight: '26px',
     '& h1': {
       fontSize: '2em',
     },

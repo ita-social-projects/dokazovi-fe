@@ -10,12 +10,7 @@ export interface IPostViewProps {
 
 const PostView: React.FC<IPostViewProps> = ({ post }) => {
   const classes = useStyles();
-
-  let authorFullName = '';
-  if (post.author?.firstName && post.author?.lastName) {
-    authorFullName = `${post.author?.firstName} ${post.author?.lastName}`;
-  }
-
+  const authorFullName = `${post.author.firstName} ${post.author.lastName}`;
   const postContent = post.content ? post.content : 'There is no post content';
 
   return (
@@ -26,7 +21,7 @@ const PostView: React.FC<IPostViewProps> = ({ post }) => {
             <CardMedia
               style={{ padding: '15px', height: '58px', width: 46 }}
               className={classes.avatar}
-              image={post?.author?.avatar}
+              image={post?.author.avatar}
               title={authorFullName}
               component="div"
             />
@@ -41,17 +36,17 @@ const PostView: React.FC<IPostViewProps> = ({ post }) => {
               component="h3"
               style={{ padding: '5px' }}
             >
-              {post.author?.mainInstitution?.city.name},{' '}
-              {post.author?.mainInstitution?.name}
+              {post.author.mainInstitution?.city.name},{' '}
+              {post.author.mainInstitution?.name}
             </Typography>
           </Box>
         </Box>
         <Box>
-          <Box className={classes.directions}>
+          {/* <Box className={classes.directions}>
             {post.directions?.map((d) => {
               return <PostDirectionLink direction={d} key={d.id} />;
             })}
-          </Box>
+          </Box> */}
         </Box>
         <Box className={classes.contentRoot}>
           {post.title && (
@@ -65,7 +60,7 @@ const PostView: React.FC<IPostViewProps> = ({ post }) => {
             </Typography>
           </Box>
           <Typography
-            variant="subtitle2"
+            variant="overline"
             className={classes.content}
             dangerouslySetInnerHTML={{
               __html: postContent,
