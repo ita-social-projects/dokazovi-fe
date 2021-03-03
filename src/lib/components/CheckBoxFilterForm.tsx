@@ -1,6 +1,5 @@
 import { Checkbox, FormControlLabel } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
-import useEffectFirstChange from '../hooks/useEffectFirstChange';
 
 interface IFilter {
   id: string | number;
@@ -32,20 +31,16 @@ const CheckBoxFilterForm: React.FC<ICheckBoxFilterFormProps> = ({
     getCheckedStateFromFilters(),
   );
 
-  useEffectFirstChange(() => {
+  useEffect(() => {
     setChecked(getCheckedStateFromFilters());
   }, [selectedFilters]);
 
   const onCheckboxCheck = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setChecked({
+    onFormChange({
       ...checked,
       [event.target.name]: event.target.checked,
     });
   };
-
-  useEffect(() => {
-    onFormChange(checked);
-  }, [checked]);
 
   const checkBoxes = possibleFilters?.map((filter) => {
     const id = filter.id.toString();
