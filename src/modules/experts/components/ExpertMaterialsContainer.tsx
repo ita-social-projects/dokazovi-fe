@@ -12,7 +12,7 @@ import LoadMorePostsButton from '../../../lib/components/LoadMorePostsButton';
 import PostsList from '../../../lib/components/PostsList';
 import useEffectExceptOnMount from '../../../lib/hooks/useEffectExceptOnMount';
 import usePrevious from '../../../lib/hooks/usePrevious';
-import { LoadingStatusEnum } from '../../../lib/types';
+import { IPostType, LoadingStatusEnum } from '../../../lib/types';
 import { RootStateType } from '../../../store/rootReducer';
 import { selectPostsByIds } from '../../../store/selectors';
 import {
@@ -91,12 +91,10 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
   }, [page]);
 
   const selectedTypesString = query.get(TYPES_QUERY)?.split(',');
-  const selectedFilters = postTypes?.filter((post) =>
+  let selectedFilters: IPostType[] | undefined = postTypes?.filter((post) =>
     selectedTypesString?.includes(post.id.toString()),
   );
-  const initialSelectedFilters = !isEmpty(selectedFilters)
-    ? selectedFilters
-    : undefined;
+  selectedFilters = !isEmpty(selectedFilters) ? selectedFilters : undefined;
 
   return (
     <Box className={classes.container}>
@@ -105,7 +103,7 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
         <CheckBoxFilterForm
           onFormChange={setFilters}
           possibleFilters={postTypes}
-          selectedFilters={initialSelectedFilters}
+          selectedFilters={selectedFilters}
         />
       )}
       <Grid container spacing={2} direction="row" alignItems="center">
