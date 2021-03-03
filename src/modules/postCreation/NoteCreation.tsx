@@ -2,12 +2,7 @@ import React, { useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import _ from 'lodash';
-import {
-  Container,
-  CircularProgress,
-  Typography,
-  Box,
-} from '@material-ui/core';
+import { CircularProgress, Typography, Box } from '@material-ui/core';
 import NoteEditor from '../../lib/components/Editor/Editors/NoteEditor';
 import {
   setPostTopics,
@@ -83,7 +78,7 @@ const NoteCreation: React.FC = () => {
   };
 
   return (
-    <Container fixed>
+    <>
       {directions.length ? (
         <PostTopicSelector
           dispatchTopics={dispatchTopics}
@@ -96,9 +91,7 @@ const NoteCreation: React.FC = () => {
         <CircularProgress />
       )}
       <Box mt={2}>
-        <Container>
-          <Typography variant="h5">Текст статті:</Typography>
-        </Container>
+        <Typography variant="h5">Текст статті:</Typography>
         <NoteEditor dispatchContent={dispatchHtmlContent} />
       </Box>
       <Box display="flex" justifyContent="flex-end">
@@ -108,7 +101,7 @@ const NoteCreation: React.FC = () => {
           isDone={isDone}
         />
       </Box>
-    </Container>
+    </>
   );
 };
 

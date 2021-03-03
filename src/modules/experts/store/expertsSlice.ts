@@ -254,7 +254,7 @@ export const fetchExpertMaterials = (
 
     const params: RequestParamsType = {
       size: LOAD_POSTS_LIMIT,
-      page: loadMore ? (filters?.page as number) : 1,
+      page: loadMore ? (filters?.page as number) : 0,
       expert: expertId,
     };
 

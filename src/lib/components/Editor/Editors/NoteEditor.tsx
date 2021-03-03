@@ -1,4 +1,3 @@
-import { Container } from '@material-ui/core';
 import React, { useEffect, useRef, useState } from 'react';
 import ReactQuill from 'react-quill';
 import Quill from 'quill';
@@ -30,20 +29,18 @@ const NoteEditor: React.FC<INoteEditorProps> = ({ dispatchContent }) => {
 
   return (
     <>
-      <Container>
-        <GeneralEditor
-          type="DOPYS"
-          dispatchContent={dispatchContent}
-          toolbar={<NoteEditorToolbar editor={editor} />}
-          ref={noteEditor}
-        />
-        <BorderBottom />
-        <ContentPreviewContainer
-          previewText={editorContent}
-          previewType={PostTypeEnum.DOPYS}
-          previewCardType="Допис"
-        />
-      </Container>
+      <GeneralEditor
+        type="DOPYS"
+        dispatchContent={dispatchContent}
+        toolbar={<NoteEditorToolbar editor={editor} />}
+        ref={noteEditor}
+      />
+      <BorderBottom />
+      <ContentPreviewContainer
+        previewText={editorContent}
+        previewType={PostTypeEnum.DOPYS}
+        previewCardType="Допис"
+      />
     </>
   );
 };

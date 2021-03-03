@@ -1,11 +1,9 @@
 import React from 'react';
-import { Container } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import PostView from '../posts/components/PostView';
 import { RootStateType } from '../../store/rootReducer';
 import { IPost, PostTypeEnum } from '../../lib/types';
-import { useStyles } from './styles/PostCreationPreview.styles';
 import usePostPreviewData from '../../lib/hooks/usePostPreviewData';
 import PostCreationButtons from '../../lib/components/PostCreationButtons/PostCreationButtons';
 import { PostPostRequestType } from '../../lib/utilities/API/types';
@@ -17,7 +15,6 @@ export interface ILocationState {
 }
 
 const PostCreationPreview: React.FC = () => {
-  const classes = useStyles();
   const history = useHistory();
 
   const currentState = history.location.state as ILocationState;
@@ -55,14 +52,14 @@ const PostCreationPreview: React.FC = () => {
   };
 
   return (
-    <Container className={classes.root}>
+    <>
       <PostView post={post} />
       <PostCreationButtons
         publishPost={sendPost}
         goPreview={goBackToCreation}
         isOnPreview
       />
-    </Container>
+    </>
   );
 };
 
