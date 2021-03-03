@@ -34,7 +34,7 @@ const ArticleEditor: React.FC<IArticleEditorProps> = ({ dispatchContent }) => {
     <>
       <Container>
         <GeneralEditor
-          type="ARTICLE"
+          type={PostTypeEnum.ARTICLE}
           dispatchContent={dispatchContent}
           toolbar={<ArticleEditorToolbar editor={editor} />}
           ref={articleEditor}
