@@ -2,8 +2,10 @@ import { Container } from '@material-ui/core';
 import React, { useEffect, useRef, useState } from 'react';
 import ReactQuill from 'react-quill';
 import Quill from 'quill';
+import { PostTypeEnum } from '../../../types';
 import GeneralEditor from '../GeneralEditor';
 import VideoEditorToolbar from './VideoEditorToolbar';
+import ContentPreviewContainer from '../ContentPreviewContainer';
 
 interface IVideoEditorProps {
   dispatchContent: (content: string) => void;
@@ -26,16 +28,14 @@ const VideoEditor: React.FC<IVideoEditorProps> = ({ dispatchContent }) => {
   });
 
   return (
-    <>
-      <Container>
-        <GeneralEditor
-          type="VIDEO"
-          dispatchContent={dispatchContent}
-          toolbar={<VideoEditorToolbar editor={editor} />}
-          ref={videoEditor}
-        />
-      </Container>
-    </>
+    <Container>
+      <GeneralEditor
+        type="VIDEO"
+        dispatchContent={dispatchContent}
+        toolbar={<VideoEditorToolbar editor={editor} />}
+        ref={videoEditor}
+      />
+    </Container>
   );
 };
 
