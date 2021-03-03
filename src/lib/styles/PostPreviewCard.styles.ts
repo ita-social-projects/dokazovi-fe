@@ -4,7 +4,6 @@ export const useStyles = makeStyles(
   (theme: Theme) => ({
     root: {
       position: 'relative',
-      width: 280,
       borderRadius: 0,
     },
     media: {

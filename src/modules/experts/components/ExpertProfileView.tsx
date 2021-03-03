@@ -1,4 +1,4 @@
-import { Container, Grid } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -26,23 +26,20 @@ const ExpertProfileView: React.FC = () => {
   useEffect(() => {
     dispatch(fetchExpertById(Number(expertId)));
   }, [expertId]);
-
   return (
-    <Container>
-      <Container className={classes.container}>
-        <Grid
-          container
-          direction="column"
-          alignItems="center"
-          className={classes.loading}
-        >
-          <LoadingInfo loading={loading} />
-        </Grid>
-        {selectedExpert && <ExpertInfo expert={selectedExpert} />}
-        <BorderBottom />
-      </Container>
+    <>
+      <Grid
+        container
+        direction="column"
+        alignItems="center"
+        className={classes.loading}
+      >
+        <LoadingInfo loading={loading} />
+      </Grid>
+      {selectedExpert && <ExpertInfo expert={selectedExpert} />}
+      <BorderBottom />
       <ExpertMaterialsContainer expertId={expertId} />
-    </Container>
+    </>
   );
 };
 
