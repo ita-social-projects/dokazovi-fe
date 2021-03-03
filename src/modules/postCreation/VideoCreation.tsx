@@ -3,7 +3,6 @@ import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import _ from 'lodash';
 import {
-  Container,
   CircularProgress,
   Typography,
   TextField,
@@ -99,7 +98,7 @@ const VideoCreation: React.FC = () => {
   };
 
   return (
-    <Container fixed>
+    <>
       {directions.length ? (
         <PostTopicSelector
           dispatchTopics={dispatchTopics}
@@ -112,26 +111,22 @@ const VideoCreation: React.FC = () => {
         <CircularProgress />
       )}
       <Box mt={2}>
-        <Container>
-          <Typography variant="h5">Заголовок відео: </Typography>
-          <TextField
-            error={Boolean(title.error)}
-            helperText={title.error}
-            fullWidth
-            required
-            id="video-name"
-            value={title.value}
-            onChange={(e) => {
-              setTitle({ ...title, value: e.target.value });
-              dispatchTitle(e.target.value);
-            }}
-          />
-        </Container>
+        <Typography variant="h5">Заголовок відео: </Typography>
+        <TextField
+          error={Boolean(title.error)}
+          helperText={title.error}
+          fullWidth
+          required
+          id="video-name"
+          value={title.value}
+          onChange={(e) => {
+            setTitle({ ...title, value: e.target.value });
+            dispatchTitle(e.target.value);
+          }}
+        />
       </Box>
       <Box mt={2}>
-        <Container>
-          <Typography variant="h5">Опис відео:</Typography>
-        </Container>
+        <Typography variant="h5">Опис відео:</Typography>
         <VideoEditor dispatchContent={dispatchHtmlContent} />
       </Box>
       <Box display="flex" justifyContent="flex-end">
@@ -141,7 +136,7 @@ const VideoCreation: React.FC = () => {
           isDone={isDone}
         />
       </Box>
-    </Container>
+    </>
   );
 };
 

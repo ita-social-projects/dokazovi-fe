@@ -28,7 +28,7 @@ const NoteEditor: React.FC<INoteEditorProps> = ({ dispatchContent }) => {
   });
 
   return (
-    <Container>
+    <>
       <GeneralEditor
         type={PostTypeEnum.DOPYS}
         dispatchContent={dispatchContent}
@@ -41,7 +41,7 @@ const NoteEditor: React.FC<INoteEditorProps> = ({ dispatchContent }) => {
         previewType={PostTypeEnum.DOPYS}
         previewCardType="Допис"
       />
-    </Container>
+    </>
   );
 };
 

@@ -1,4 +1,3 @@
-import { Container } from '@material-ui/core';
 import React, { useEffect, useRef, useState } from 'react';
 import ReactQuill from 'react-quill';
 import Quill from 'quill';
@@ -27,14 +26,14 @@ const VideoEditor: React.FC<IVideoEditorProps> = ({ dispatchContent }) => {
   });
 
   return (
-    <Container>
+    <>
       <GeneralEditor
         type={PostTypeEnum.VIDEO}
         dispatchContent={dispatchContent}
         toolbar={<VideoEditorToolbar editor={editor} />}
         ref={videoEditor}
       />
-    </Container>
+    </>
   );
 };
 

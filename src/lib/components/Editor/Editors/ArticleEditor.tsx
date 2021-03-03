@@ -30,7 +30,7 @@ const ArticleEditor: React.FC<IArticleEditorProps> = ({ dispatchContent }) => {
   });
 
   return (
-    <Container>
+    <>
       <GeneralEditor
         type={PostTypeEnum.ARTICLE}
         dispatchContent={dispatchContent}
@@ -43,7 +43,7 @@ const ArticleEditor: React.FC<IArticleEditorProps> = ({ dispatchContent }) => {
         previewType={PostTypeEnum.ARTICLE}
         previewCardType="Стаття"
       />
-    </Container>
+    </>
   );
 };
 
