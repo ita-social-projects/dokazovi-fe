@@ -10,6 +10,9 @@ export const PALETTE: PaletteOptions = {
     light: '#E5E5E5',
     contrastText: '#000',
   },
+  secondary: {
+    main: '#6D6E71',
+  },
   info: {
     main: '#B0CEE3',
     light: '#3B6F95',
