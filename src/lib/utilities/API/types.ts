@@ -113,3 +113,33 @@ export type PostLoginResponseType = {
   accessToken: string;
   tokenType: string;
 };
+
+export type RequestParamsType = {
+  page?: number;
+  size?: number;
+  sort?: string[];
+  direction?: number;
+  type?: string[];
+  expert?: number;
+  regions?: string[];
+  tag?: string[];
+};
+
+export type GetConfigType = {
+  params: RequestParamsType;
+};
+
+export type GetExpertsConfigType = GetConfigType & {
+  params: { directions?: string[]; regions?: string[] };
+};
+
+export type GetTagConfigType = {
+  params: {
+    value: string;
+    limit?: number;
+  };
+};
+
+export type PostTagRequestBodyType = {
+  tag: string;
+};
