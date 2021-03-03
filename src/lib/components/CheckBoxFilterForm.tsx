@@ -8,7 +8,7 @@ interface IFilter {
 }
 
 export interface ICheckBoxFilterFormProps {
-  onFormChange: (...args: any) => any;
+  onFormChange: (checked: ICheckBoxFormState) => void;
   possibleFilters: IFilter[];
   selectedFilters?: IFilter[];
 }
