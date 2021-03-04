@@ -4,12 +4,7 @@ import { useHistory, useLocation } from 'react-router-dom';
 import { Box, Grid } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { Pagination } from '@material-ui/lab';
-import {
-  fetchExperts,
-  setExpertsDirectionsFilter,
-  setExpertsPage,
-  setExpertsRegionsFilter,
-} from '../store/expertsSlice';
+import { fetchExperts, setExpertsPage } from '../store/expertsSlice';
 import { RootStateType } from '../../../store/rootReducer';
 import ExpertsList from '../../../lib/components/ExpertsList';
 import LoadingInfo from '../../../lib/components/LoadingInfo';
@@ -55,21 +50,21 @@ const ExpertsView: React.FC = () => {
     const directionsQuery = query.get(DIRECTIONS_QUERY);
 
     const isPage = pageQuery ? pageQuery - 1 : 0;
+    const regionsFilterQuery = regionsQuery
+      ? regionsQuery.split(',').filter(Number)
+      : [];
+    const directionsFilterQuery = directionsQuery
+      ? directionsQuery.split(',').filter(Number)
+      : [];
+
     dispatch(setExpertsPage(isPage));
-
-    const regionsType = {};
-    regionsQuery?.split(',').forEach((el) => {
-      regionsType[el] = true;
-    });
-    dispatch(setExpertsRegionsFilter({ value: regionsType }));
-
-    const directionsType = {};
-    directionsQuery?.split(',').forEach((el) => {
-      directionsType[el] = true;
-    });
-    dispatch(setExpertsDirectionsFilter({ value: directionsType }));
-
-    dispatch(fetchExperts());
+    dispatch(
+      fetchExperts({
+        page: isPage,
+        regions: regionsFilterQuery,
+        directions: directionsFilterQuery,
+      }),
+    );
   };
 
   const setFilters = (
