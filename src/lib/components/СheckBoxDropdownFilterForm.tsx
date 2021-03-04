@@ -21,7 +21,7 @@ interface IFilter {
   name: string;
 }
 
-export interface ICheckBoxFilterContainerProps {
+export interface ICheckBoxDropdownFilterFormProps {
   onFormChange: (checked: ICheckBoxFormState, filterType?) => void;
   possibleFilters: IFilter[];
   selectedFilters?: IFilter[];
@@ -29,7 +29,7 @@ export interface ICheckBoxFilterContainerProps {
   filterType?: FilterTypeEnum;
 }
 
-const CheckBoxFilterFormContainer: React.FC<ICheckBoxFilterContainerProps> = ({
+const CheckBoxDropdownFilterForm: React.FC<ICheckBoxDropdownFilterFormProps> = ({
   onFormChange,
   possibleFilters,
   selectedFilters,
@@ -181,4 +181,4 @@ const CheckBoxFilterFormContainer: React.FC<ICheckBoxFilterContainerProps> = ({
   );
 };
 
-export default CheckBoxFilterFormContainer;
+export default CheckBoxDropdownFilterForm;

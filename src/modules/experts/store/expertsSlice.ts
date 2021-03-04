@@ -98,10 +98,6 @@ export const fetchExperts = createAsyncThunk(
       ?.value as ICheckboxes;
 
     const getTrueValues = (filterValues: ICheckboxes) => {
-      // if (Object.values(filterValues).every((value) => value === true)) {
-      //   return [];
-      // }
-      // console.log(Object.keys(filterValues).filter((key) => filterValues[key]));
       return Object.keys(filterValues).filter((key) => filterValues[key]);
     };
 

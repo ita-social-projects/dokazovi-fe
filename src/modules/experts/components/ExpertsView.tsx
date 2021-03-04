@@ -1,14 +1,14 @@
 import React, { useEffect } from 'react';
-import { isEmpty } from 'lodash';
+import { isEmpty, uniq } from 'lodash';
 import { useHistory, useLocation } from 'react-router-dom';
 import { Box, Grid } from '@material-ui/core';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Pagination } from '@material-ui/lab';
 import {
   fetchExperts,
+  setExpertsDirectionsFilter,
   setExpertsPage,
   setExpertsRegionsFilter,
-  setExpertsDirectionsFilter,
 } from '../store/expertsSlice';
 import { RootStateType } from '../../../store/rootReducer';
 import ExpertsList from '../../../lib/components/ExpertsList';
@@ -17,7 +17,7 @@ import { useStyles } from '../styles/ExpertsView.styles';
 import { FilterTypeEnum } from '../../../lib/types';
 import { selectExpertsByIds } from '../../../store/selectors';
 import { ICheckBoxFormState } from '../../../lib/components/CheckBoxFilterForm';
-import CheckBoxFilterFormContainer from '../../../lib/components/CheckBoxFilterContainer';
+import CheckBoxDropdownFilterForm from '../../../lib/components/СheckBoxDropdownFilterForm';
 import useEffectExceptOnMount from '../../../lib/hooks/useEffectExceptOnMount';
 
 const useQuery = () => {
@@ -37,7 +37,6 @@ const ExpertsView: React.FC = () => {
   const {
     expertIds,
     meta: { totalPages, pageNumber, loading },
-    filters,
   } = useSelector((state: RootStateType) => state.experts.experts);
 
   const experts = selectExpertsByIds(expertIds);
@@ -53,7 +52,7 @@ const ExpertsView: React.FC = () => {
   const fetchMaterials = () => {
     const pageQuery = Number(query.get(PAGE_QUERY));
     const regionsQuery = query.get(REGIONS_QUERY);
-    const DirectionsQuery = query.get(DIRECTIONS_QUERY);
+    const directionsQuery = query.get(DIRECTIONS_QUERY);
 
     const isPage = pageQuery ? pageQuery - 1 : 0;
     dispatch(setExpertsPage(isPage));
@@ -65,7 +64,7 @@ const ExpertsView: React.FC = () => {
     dispatch(setExpertsRegionsFilter({ value: regionsType }));
 
     const directionsType = {};
-    DirectionsQuery?.split(',').forEach((el) => {
+    directionsQuery?.split(',').forEach((el) => {
       directionsType[el] = true;
     });
     dispatch(setExpertsDirectionsFilter({ value: directionsType }));
@@ -79,13 +78,13 @@ const ExpertsView: React.FC = () => {
   ) => {
     const checkedIds = Object.keys(checked).filter((key) => checked[key]);
     const queryType = filterType.toLowerCase();
+    const isQuerySame = uniq(Object.values(checked)).length === 1;
 
     query.set(queryType, checkedIds.join(','));
-    if (!checkedIds.length) {
+    if (!checkedIds.length || isQuerySame) {
       query.delete(queryType);
-    } else {
-      query.set(queryType, checkedIds.join(','));
     }
+
     query.set(PAGE_QUERY, '1');
     history.push({
       search: query.toString(),
@@ -136,14 +135,14 @@ const ExpertsView: React.FC = () => {
     <>
       {expertsPropertiesLoaded && (
         <Grid container direction="column">
-          <CheckBoxFilterFormContainer
+          <CheckBoxDropdownFilterForm
             onFormChange={setFilters}
             possibleFilters={regions}
             selectedFilters={initialRegionsFilter}
             filterTitle="Регіони: "
             filterType={FilterTypeEnum.REGIONS}
           />
-          <CheckBoxFilterFormContainer
+          <CheckBoxDropdownFilterForm
             onFormChange={setFilters}
             possibleFilters={directions}
             selectedFilters={initialDirectionsFilter}
