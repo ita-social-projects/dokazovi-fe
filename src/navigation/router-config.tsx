@@ -10,6 +10,9 @@ const DirectionsList = lazy(
 const DirectionView = lazy(
   () => import('../modules/direction/components/DirectionView'),
 );
+const MaterialsView = lazy(
+  () => import('../modules/materials/components/MaterialsView'),
+);
 const ExpertsView = lazy(
   () => import('../modules/experts/components/ExpertsView'),
 );
@@ -38,6 +41,12 @@ const ROUTER_CONFIG: IRouterConfig[] = [
     exact: true,
     component: MainView,
     title: 'Головна',
+  },
+  {
+    path: '/materials',
+    key: 'MATERIALS',
+    component: MaterialsView,
+    title: 'Матеріали',
   },
   {
     path: '/direction',
