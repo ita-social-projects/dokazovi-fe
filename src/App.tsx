@@ -11,6 +11,7 @@ import {
 import { RenderRoutes } from './navigation/Router';
 import ROUTER_CONFIG from './navigation/router-config';
 import Header from './lib/components/Header/Header';
+import Footer from './lib/components/Footer/Footer';
 import {
   fetchDirections,
   fetchPostsTypes,
@@ -53,6 +54,7 @@ const App: React.FC = () => {
               <RenderRoutes routes={ROUTER_CONFIG} />
             </Suspense>
           </Container>
+          <Footer />
         </BrowserRouter>
       </ThemeProvider>
     </div>
