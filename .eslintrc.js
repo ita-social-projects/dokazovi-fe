@@ -27,7 +27,7 @@ module.exports = {
     "@typescript-eslint/no-empty-interface": [
       "warn",
       {
-        allowSingleExtends: false,
+        allowSingleExtends: true,
       },
     ],
     "@typescript-eslint/naming-convention": [
@@ -51,6 +51,6 @@ module.exports = {
     "react/prop-types": "off",
     "import/prefer-default-export": "off",
     "@typescript-eslint/no-use-before-define": "off",
-    "@typescript-eslint/no-floating-promises": ["off"]
+    "@typescript-eslint/no-floating-promises": ["off"],
   },
 };

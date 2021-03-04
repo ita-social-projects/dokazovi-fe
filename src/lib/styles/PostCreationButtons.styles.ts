@@ -6,8 +6,5 @@ export const useStyles = makeStyles({
     flexDirection: 'row',
     display: 'flex',
     marginTop: '10px',
-    marginRight: '13px',
-    marginLeft: '13px',
-    padding: '10px',
   },
 });

@@ -15,6 +15,10 @@ import {
   PostTagResponseType,
   PostPostRequestType,
   PostLoginResponseType,
+  GetConfigType,
+  GetExpertsConfigType,
+  PostTagRequestBodyType,
+  GetTagConfigType,
 } from './types';
 
 export const instance = axios.create({
@@ -34,34 +38,6 @@ instance.interceptors.request.use(
     Promise.reject(error);
   },
 );
-
-export type GetConfigType = {
-  params: {
-    page?: number;
-    size?: number;
-    sort?: string[];
-    direction?: number;
-    type?: string[];
-    expert?: number;
-    regions?: string[];
-    tag?: string[];
-  };
-};
-
-export type GetExpertsConfigType = GetConfigType & {
-  params: { directions?: string[]; regions?: string[] };
-};
-
-export type GetTagConfigType = {
-  params: {
-    value: string;
-    limit?: number;
-  };
-};
-
-export type PostTagRequestBodyType = {
-  tag: string;
-};
 
 const defaultConfig = {
   paramsSerializer: (params: { [key: string]: any }): string => {

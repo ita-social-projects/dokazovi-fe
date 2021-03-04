@@ -14,7 +14,7 @@ export enum PostStatus {
 export enum PostTypeEnum {
   ARTICLE = 'ARTICLE',
   DOPYS = 'DOPYS',
-  // VIDEO = 'VIDEO',
+  VIDEO = 'VIDEO',
 }
 
 export enum LoadingStatusEnum {
@@ -33,6 +33,11 @@ export enum FilterTypeEnum {
   DIRECTIONS = 'DIRECTIONS',
   REGIONS = 'REGIONS',
   TAGS = 'TAGS',
+}
+
+export enum UrlFilterTypes {
+  PAGE = 'page',
+  TYPES = 'types',
 }
 
 export interface IPost {

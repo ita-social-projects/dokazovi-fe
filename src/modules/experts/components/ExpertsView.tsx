@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Box, Container, Grid } from '@material-ui/core';
+import { Box, Grid } from '@material-ui/core';
 import { useSelector, useDispatch } from 'react-redux';
 import { Pagination } from '@material-ui/lab';
 import {
@@ -62,59 +62,55 @@ const ExpertsView: React.FC = () => {
 
   return (
     <>
-      <Container fixed>
-        {expertsPropertiesLoaded && (
-          <Container>
-            <Grid container direction="column">
-              <FilterFormContainer
-                setFilter={setExpertsRegionsFilter}
-                filterProperties={regions}
-                filterType={FilterTypeEnum.REGIONS}
-              />
+      {expertsPropertiesLoaded && (
+        <Grid container direction="column">
+          <FilterFormContainer
+            setFilter={setExpertsRegionsFilter}
+            filterProperties={regions}
+            filterType={FilterTypeEnum.REGIONS}
+          />
 
-              <FilterFormContainer
-                setFilter={setExpertsDirectionsFilter}
-                filterProperties={directions}
-                filterType={FilterTypeEnum.DIRECTIONS}
-              />
+          <FilterFormContainer
+            setFilter={setExpertsDirectionsFilter}
+            filterProperties={directions}
+            filterType={FilterTypeEnum.DIRECTIONS}
+          />
+        </Grid>
+      )}
+      <Box mt={2}>
+        {loading === 'pending' ? (
+          <Grid
+            container
+            direction="column"
+            alignItems="center"
+            className={classes.loading}
+          >
+            <LoadingInfo loading={loading} />
+          </Grid>
+        ) : (
+          <>
+            <Grid container spacing={4} direction="row">
+              <ExpertsList experts={experts} />
             </Grid>
-          </Container>
-        )}
-        <Box mt={2}>
-          {loading === 'pending' ? (
-            <Grid
-              container
-              direction="column"
-              alignItems="center"
-              className={classes.loading}
-            >
-              <LoadingInfo loading={loading} />
-            </Grid>
-          ) : (
-            <Container>
-              <Grid container spacing={4} direction="row">
-                <ExpertsList experts={experts} />
+            <Box mt={2} mb={2}>
+              <Grid
+                container
+                spacing={2}
+                direction="column"
+                alignItems="center"
+              >
+                <Pagination
+                  count={totalPages}
+                  page={correctPageNumber}
+                  showFirstButton
+                  showLastButton
+                  onChange={handlePageChange}
+                />
               </Grid>
-              <Box mt={2} mb={2}>
-                <Grid
-                  container
-                  spacing={2}
-                  direction="column"
-                  alignItems="center"
-                >
-                  <Pagination
-                    count={totalPages}
-                    page={correctPageNumber}
-                    showFirstButton
-                    showLastButton
-                    onChange={handlePageChange}
-                  />
-                </Grid>
-              </Box>
-            </Container>
-          )}
-        </Box>
-      </Container>
+            </Box>
+          </>
+        )}
+      </Box>
     </>
   );
 };

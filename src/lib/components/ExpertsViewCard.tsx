@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Container, Grid, Typography, Link } from '@material-ui/core';
+import { Grid, Typography, Link } from '@material-ui/core';
 import { ExpertBlock } from './ExpertBlock';
 import { useStyles } from '../../modules/main/styles/MainExpertsView.styles';
 import { ExpertPopover } from './ExpertPopover';
@@ -59,7 +59,7 @@ export const ExpertsViewCard: React.FC<IExpertsViewCardProps> = (props) => {
           <LoadingInfo loading={loading} errorMsg={errorMsg} />
         </Grid>
       ) : (
-        <Container>
+        <>
           {isOnDirection ? (
             <Typography variant="h4">Експерти</Typography>
           ) : (
@@ -76,7 +76,7 @@ export const ExpertsViewCard: React.FC<IExpertsViewCardProps> = (props) => {
               {popoverCard && <ExpertDataCard expert={popoverCard} />}
             </ExpertPopover>
           </div>
-        </Container>
+        </>
       )}
     </div>
   );

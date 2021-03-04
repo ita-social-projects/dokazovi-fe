@@ -46,7 +46,6 @@ const App: React.FC = () => {
     <div className="App">
       <ThemeProvider theme={MAIN_THEME}>
         <CssBaseline />
-
         <BrowserRouter>
           <Container>
             <Header />
