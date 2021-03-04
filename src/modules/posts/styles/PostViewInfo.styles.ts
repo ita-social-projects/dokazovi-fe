@@ -2,7 +2,6 @@ import { makeStyles, Theme } from '@material-ui/core';
 
 export const useStyles = makeStyles((theme: Theme) => ({
   cardContainer: {
-    marginLeft: theme.spacing(9),
     marginTop: '20px',
     minHeight: '550px',
   },
@@ -43,8 +42,6 @@ export const useStyles = makeStyles((theme: Theme) => ({
   },
   createdAt: {
     color: theme.palette.info.light,
-  },
-  dataBox: {
     margin: theme.spacing(4),
   },
   content: {

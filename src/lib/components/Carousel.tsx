@@ -3,7 +3,6 @@ import React, { useRef } from 'react';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import Slider from 'react-slick';
-import { Container } from '@material-ui/core';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import { settings, styles } from '../constants/carousel-config';
@@ -20,7 +19,7 @@ const Carousel: React.FC = ({ children }) => {
   };
 
   return (
-    <Container>
+    <>
       <div style={styles.wrapper}>
         <Slider {...settings} ref={sliderRef}>
           {children}
@@ -34,7 +33,7 @@ const Carousel: React.FC = ({ children }) => {
           </button>
         </div>
       </div>
-    </Container>
+    </>
   );
 };
 

@@ -1,5 +1,4 @@
 import { createStyles, makeStyles, Theme } from '@material-ui/core';
-import { MAIN_THEME } from '../theme/theme';
 
 export const useStyles = makeStyles(
   (theme: Theme) =>
@@ -8,7 +7,10 @@ export const useStyles = makeStyles(
         display: 'flex',
       },
       masonryColumn: {
-        margin: theme.spacing(0, 1),
+        marginRight: theme.spacing(2),
+        '&:last-of-type': {
+          margin: 0,
+        },
       },
       masonryItem: {
         marginBottom: theme.spacing(2),
@@ -18,7 +20,7 @@ export const useStyles = makeStyles(
 );
 
 export const MASONRY_BREAKPOINTS = {
-  default: 3,
-  [MAIN_THEME.breakpoints.values.md]: 2,
-  [MAIN_THEME.breakpoints.values.sm]: 1,
+  default: 4,
+  '900': 3,
+  '700': 2,
 };

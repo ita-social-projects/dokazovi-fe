@@ -23,6 +23,9 @@ const ArticleCreation = lazy(
   () => import('../modules/postCreation/ArticleCreation'),
 );
 const NoteCreation = lazy(() => import('../modules/postCreation/NoteCreation'));
+const VideoCreation = lazy(
+  () => import('../modules/postCreation/VideoCreation'),
+);
 const PostCreationPreview = lazy(
   () => import('../modules/postCreation/PostCreationPreview'),
 );
@@ -114,6 +117,28 @@ const ROUTER_CONFIG: IRouterConfig[] = [
       {
         path: '/create-note/preview',
         key: 'NOTE_PREVIEW',
+        exact: true,
+        component: PostCreationPreview,
+        title: 'Попередній перегляд',
+      },
+    ],
+  },
+  {
+    path: '/create-video',
+    key: 'VIDEO',
+    component: RenderRoutes,
+    private: true,
+    routes: [
+      {
+        path: '/create-video',
+        key: 'VIDEO',
+        exact: true,
+        component: VideoCreation,
+        title: 'Створення відео',
+      },
+      {
+        path: '/create-video/preview',
+        key: 'VIDEO_PREVIEW',
         exact: true,
         component: PostCreationPreview,
         title: 'Попередній перегляд',

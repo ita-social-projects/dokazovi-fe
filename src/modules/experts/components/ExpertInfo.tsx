@@ -16,7 +16,7 @@ const ExpertInfo: React.FC<IExpertInfoProps> = ({ expert }) => {
   return (
     <>
       <PageTitleComponent title={expertFullName} />
-      <Grid container spacing={2} className={classes.container}>
+      <Grid>
         <Grid container className={classes.personalInfo}>
           <Avatar
             src={expert.avatar}

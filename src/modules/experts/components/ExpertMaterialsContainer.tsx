@@ -1,4 +1,4 @@
-import { Container, Grid, Typography } from '@material-ui/core';
+import { Box, Grid, Typography } from '@material-ui/core';
 import { isEmpty } from 'lodash';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -12,7 +12,7 @@ import LoadMorePostsButton from '../../../lib/components/LoadMorePostsButton';
 import PostsList from '../../../lib/components/PostsList';
 import useEffectExceptOnMount from '../../../lib/hooks/useEffectExceptOnMount';
 import usePrevious from '../../../lib/hooks/usePrevious';
-import { LoadingStatusEnum } from '../../../lib/types';
+import { IPostType, LoadingStatusEnum } from '../../../lib/types';
 import { RootStateType } from '../../../store/rootReducer';
 import { selectPostsByIds } from '../../../store/selectors';
 import {
@@ -61,7 +61,7 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
     const checkedIds = Object.keys(checked).filter((key) => checked[key]);
     query.set(TYPES_QUERY, checkedIds.join(','));
     if (!checkedIds.length) query.delete(TYPES_QUERY);
-    setPage(1);
+    setPage(0);
     history.push({
       search: query.toString(),
     });
@@ -91,45 +91,38 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
   }, [page]);
 
   const selectedTypesString = query.get(TYPES_QUERY)?.split(',');
-  const selectedFilters = postTypes?.filter((post) =>
+  let selectedFilters: IPostType[] | undefined = postTypes?.filter((post) =>
     selectedTypesString?.includes(post.id.toString()),
   );
-  const initialSelectedFilters = !isEmpty(selectedFilters)
-    ? selectedFilters
-    : undefined;
+  selectedFilters = !isEmpty(selectedFilters) ? selectedFilters : undefined;
 
   return (
-    <>
-      <Container className={classes.container}>
-        <Typography variant="h4">Матеріали</Typography>
-        {!isEmpty(postTypes) && (
-          <CheckBoxFilterForm
-            onFormChange={setFilters}
-            possibleFilters={postTypes}
-            selectedFilters={initialSelectedFilters}
-          />
+    <Box className={classes.container}>
+      <Typography variant="h4">Матеріали</Typography>
+      {!isEmpty(postTypes) && (
+        <CheckBoxFilterForm
+          onFormChange={setFilters}
+          possibleFilters={postTypes}
+          selectedFilters={selectedFilters}
+        />
+      )}
+      <Grid container spacing={2} direction="row" alignItems="center">
+        <PostsList postsList={materials} />
+      </Grid>
+      <Grid container direction="column" alignItems="center">
+        {loading === LoadingStatusEnum.pending && (
+          <LoadingInfo loading={loading} />
         )}
-        <Grid container spacing={2} direction="row" alignItems="center">
-          {loading === LoadingStatusEnum.succeeded && (
-            <PostsList postsList={materials} />
-          )}
-          <PostsList postsList={materials} />
-        </Grid>
-        <Grid container direction="column" alignItems="center">
-          {loading === LoadingStatusEnum.pending && (
-            <LoadingInfo loading={loading} />
-          )}
-        </Grid>
-        <Grid container direction="column" alignItems="center" ref={gridRef}>
-          <LoadMorePostsButton
-            clicked={loadMore}
-            isLastPage={isLastPage}
-            loading={loading}
-          />
-        </Grid>
-        <BorderBottom />
-      </Container>
-    </>
+      </Grid>
+      <Grid container direction="column" alignItems="center" ref={gridRef}>
+        <LoadMorePostsButton
+          clicked={loadMore}
+          isLastPage={isLastPage}
+          loading={loading}
+        />
+      </Grid>
+      <BorderBottom />
+    </Box>
   );
 };
 

@@ -14,7 +14,7 @@ export enum PostStatus {
 export enum PostTypeEnum {
   ARTICLE = 'ARTICLE',
   DOPYS = 'DOPYS',
-  // VIDEO = 'VIDEO',
+  VIDEO = 'VIDEO',
 }
 
 export enum LoadingStatusEnum {

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import _ from 'lodash';
-import { Container, Grid } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import { FilterForm } from '../../lib/components/FilterForm';
 import { FilterPropertiesType, ICheckboxes, IDirection } from '../../lib/types';
 
@@ -71,18 +71,16 @@ export const PostTopicSelector: React.FC<IArticleTopics> = ({
   const getDisplayedTopics = () => displayedTopicNames.join(', ');
 
   return (
-    <Container>
-      <Grid container direction="column">
-        <FilterForm
-          filterProperties={topicList}
-          filterTitle="Напрямки:"
-          checkedNamesString={getDisplayedTopics}
-          checked={checkedTopics}
-          max={isMax}
-          error={error}
-          onCheckboxChange={handleChange}
-        />
-      </Grid>
-    </Container>
+    <Grid container direction="column">
+      <FilterForm
+        filterProperties={topicList}
+        filterTitle="Напрямки:"
+        checkedNamesString={getDisplayedTopics}
+        checked={checkedTopics}
+        max={isMax}
+        error={error}
+        onCheckboxChange={handleChange}
+      />
+    </Grid>
   );
 };
