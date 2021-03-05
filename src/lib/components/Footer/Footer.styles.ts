@@ -7,10 +7,11 @@ export const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
     height: '292px',
     maxWidth: '1250px',
     margin: '0 auto',
+    padding: theme.spacing(10, 0, 16, 0),
     color: theme.palette.common.white,
   },
   navContainer: {
@@ -27,15 +28,20 @@ export const useStyles = makeStyles((theme) => ({
     '& span': {
       color: theme.palette.common.white,
     },
+    '& a:not(:first-child)': {
+      fontWeight: 500,
+    },
     '& a:first-child': {
       fontSize: '26px',
+      lineHeight: '26px',
+      fontWeight: 700,
     },
   },
   info: {
     display: 'flex',
     flexDirection: 'column',
     fontWeight: 400,
-    lineHeight: '20px',
+    lineHeight: '18px',
     align: 'left',
     '& span': {
       color: theme.palette.common.white,
@@ -55,5 +61,8 @@ export const useStyles = makeStyles((theme) => ({
     '& ul li img': {
       verticalAlign: 'middle',
     },
+  },
+  infoButtom: {
+    fontWeight: 500,
   },
 }));

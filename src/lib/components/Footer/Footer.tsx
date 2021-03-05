@@ -69,11 +69,6 @@ const Footer: React.FC = () => {
                 </a>
               </li>
               <li>
-                <a href="https://twitter.com/" target="_blank" rel="noreferrer">
-                  <img src={twitter} alt="twitter" />
-                </a>
-              </li>
-              <li>
                 <a
                   href="https://www.instagram.com/"
                   target="_blank"
@@ -91,6 +86,11 @@ const Footer: React.FC = () => {
                   <img src={tic_toc} alt="Tic Toc" />
                 </a>
               </li>
+              <li>
+                <a href="https://twitter.com/" target="_blank" rel="noreferrer">
+                  <img src={twitter} alt="twitter" />
+                </a>
+              </li>
             </ul>
           </Box>
         </Box>
@@ -104,7 +104,11 @@ const Footer: React.FC = () => {
             від 18 років і старших.
           </span>
         </Typography>
-        <Typography color="inherit" variant="body1">
+        <Typography
+          className={classes.infoButtom}
+          color="inherit"
+          variant="body1"
+        >
           © 2021 UNICEF UKRAINE. ВСІ ПРАВА ЗАХИЩЕНІ.
         </Typography>
       </Box>
