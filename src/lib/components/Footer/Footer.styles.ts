@@ -9,7 +9,7 @@ export const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     justifyContent: 'space-around',
     height: '292px',
-    maxWidth: '1180px',
+    maxWidth: '1250px',
     margin: '0 auto',
     color: theme.palette.common.white,
   },
