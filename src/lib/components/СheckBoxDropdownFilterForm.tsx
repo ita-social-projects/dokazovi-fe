@@ -113,7 +113,7 @@ const CheckBoxDropdownFilterForm: React.FC<ICheckBoxDropdownFilterFormProps> = (
     return (
       <FormControlLabel
         key={id}
-        label={filter.name}
+        label={<ChipsList checkedNames={filter.name} isLabelItem />}
         control={
           <Checkbox
             checked={checked[id]}
