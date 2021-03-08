@@ -41,7 +41,7 @@ const CheckBoxDropdownFilterForm: React.FC<ICheckBoxDropdownFilterFormProps> = (
   const getCheckedStateFromFilters = (): ICheckBoxFormState => {
     return possibleFilters.reduce((acc, next) => {
       acc[next.id] =
-        allChecked ||
+        isInitialStateEmpty ||
         Boolean(selectedFilters?.find((filter) => filter.id === next.id));
       return acc;
     }, {} as ICheckBoxFormState);
@@ -53,14 +53,16 @@ const CheckBoxDropdownFilterForm: React.FC<ICheckBoxDropdownFilterFormProps> = (
   );
 
   useEffect(() => {
+    if (
+      selectedFilters === undefined ||
+      selectedFilters?.length === possibleFilters.length
+    ) {
+      setAllChecked(true);
+    } else {
+      setAllChecked(false);
+    }
     setChecked(getCheckedStateFromFilters());
   }, [selectedFilters]);
-
-  useEffect(() => {
-    if (Object.values(checked).every((elem) => elem)) {
-      setAllChecked(true);
-    }
-  }, [checked]);
 
   const onCheckboxCheck = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (!event.target.checked && allChecked) {

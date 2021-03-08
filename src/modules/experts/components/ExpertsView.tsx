@@ -79,7 +79,6 @@ const ExpertsView: React.FC = () => {
     if (!checkedIds.length || isQuerySame) {
       query.delete(queryType);
     }
-
     query.set(PAGE_QUERY, '1');
     history.push({
       search: query.toString(),
