@@ -2,7 +2,6 @@ import { Card, Box, Typography, CardMedia } from '@material-ui/core';
 import React from 'react';
 import { useStyles } from '../styles/PostViewInfo.styles';
 import { IPost } from '../../../lib/types';
-import BorderBottom from '../../../lib/components/Border';
 import PostDirectionLink from '../../../lib/components/PostDirectionLink';
 
 export interface IPostViewProps {
@@ -27,17 +26,12 @@ const PostView: React.FC<IPostViewProps> = ({ post }) => {
           />
         </Box>
         <Box>
-          <Typography
-            align="left"
-            variant="body1"
-            component="h3"
-            style={{ margin: '5px', textDecoration: 'underline' }}
-          >
+          <Typography align="left" variant="h3" component="h3">
             {authorFullName}
           </Typography>
           <Typography
             align="left"
-            variant="subtitle2"
+            variant="subtitle1"
             component="h3"
             style={{ padding: '5px' }}
           >
@@ -46,27 +40,23 @@ const PostView: React.FC<IPostViewProps> = ({ post }) => {
           </Typography>
         </Box>
       </Box>
-      <BorderBottom />
-      <Box>
-        <Box className={classes.directions}>
-          {post.directions?.map((d) => {
-            return <PostDirectionLink direction={d} key={d.id} />;
-          })}
-        </Box>
-      </Box>
       <Box className={classes.contentRoot}>
         {post.title && (
-          <Typography variant="h4" className={classes.title}>
+          <Typography variant="h1" className={classes.title}>
             {post.title}
           </Typography>
         )}
-        <div
-          className={classes.content}
-          dangerouslySetInnerHTML={{
-            __html: postContent,
-          }}
-        />
-        <Typography className={classes.createdAt}>{post.createdAt}</Typography>
+        <Typography className={classes.createdAt} variant="overline">
+          {post.createdAt}
+        </Typography>
+        <Typography variant="overline">
+          <div
+            className={classes.content}
+            dangerouslySetInnerHTML={{
+              __html: postContent,
+            }}
+          />
+        </Typography>
       </Box>
     </Card>
   );
