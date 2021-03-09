@@ -6,9 +6,11 @@ import postCreationReducer from '../modules/postCreation/store/postCreationSlice
 import propertiesReducer from './propertiesSlice';
 import dataReducer from './dataSlice';
 import authReducer from './authSlice';
+import { materialsReducer } from '../modules/materials/store/materialsSlice';
 
 const rootReducer = combineReducers({
   main: mainReducer,
+  materials: materialsReducer,
   directions: directionsReducer,
   properties: propertiesReducer,
   experts: expertsReducer,

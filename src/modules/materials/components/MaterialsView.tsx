@@ -1,6 +1,5 @@
 import { Grid } from '@material-ui/core';
-import { isEmpty } from 'lodash';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 import CheckBoxFilterForm, {
@@ -10,14 +9,10 @@ import LoadingInfo from '../../../lib/components/LoadingInfo';
 import LoadMorePostsButton from '../../../lib/components/LoadMorePostsButton';
 import PostsList from '../../../lib/components/PostsList';
 import useEffectExceptOnMount from '../../../lib/hooks/useEffectExceptOnMount';
-import usePrevious from '../../../lib/hooks/usePrevious';
-import { IPostType, LoadingStatusEnum } from '../../../lib/types';
+import { FilterTypeEnum, LoadingStatusEnum } from '../../../lib/types';
 import { RootStateType } from '../../../store/rootReducer';
 import { selectPostsByIds } from '../../../store/selectors';
-import {
-  fetchExpertMaterials,
-  setupExpertMaterialsID,
-} from '../../experts/store/expertsSlice';
+import { fetchMaterials, setPostFilters } from '../store/materialsSlice';
 
 const useQuery = () => {
   return new URLSearchParams(useLocation().search);
@@ -26,78 +21,79 @@ const useQuery = () => {
 const TYPES_QUERY = 'types';
 
 const MaterialsView: React.FC = () => {
-  const expertId = '10';
-
-  const dispatch = useDispatch();
-  // TODO: fix loading without useEffect
-  dispatch(setupExpertMaterialsID(expertId));
-
-  const gridRef = useRef<HTMLDivElement>(null);
-  const query = useQuery();
   const history = useHistory();
-  const [page, setPage] = useState<number>(0);
-  const previous = usePrevious({ page });
-  const materialsData = useSelector(
-    (state: RootStateType) => state.experts.materials[expertId],
-  );
+  const query = useQuery();
+
   const {
     postIds,
-    meta: { loading, isLastPage },
-  } = materialsData;
-
+    meta: { loading, isLastPage, pageNumber },
+    filters,
+  } = useSelector((state: RootStateType) => state.materials);
   const materials = selectPostsByIds(postIds);
-  const postTypes = useSelector(
-    (state: RootStateType) => state.properties.postTypes,
-  );
 
-  const setFilters = (checked: ICheckBoxFormState) => {
-    const checkedIds = Object.keys(checked).filter((key) => checked[key]);
-    query.set(TYPES_QUERY, checkedIds.join(','));
-    if (!checkedIds.length) query.delete(TYPES_QUERY);
-    setPage(0);
+  const dispatch = useDispatch();
+
+  const dispatchFetchAction = (checked = query.get('types')?.split(',')) => {
+    dispatch(fetchMaterials(null, checked));
+  };
+
+  const fetchMorePosts = () => {
+    dispatchFetchAction();
+  };
+
+  useEffect(() => {
+    dispatchFetchAction();
+
+    return () => {
+      history.replace({
+        search: '',
+      });
+    };
+  }, [history]);
+
+  useEffectExceptOnMount(() => {
+    // page and types values are initialized from current query.
+    // this call will replace current post ids with fetched ones.
+    dispatchFetchAction(undefined);
+  }, [query.get('types'), filters]);
+
+  const setFilters = (checked: string[] = []) => {
+    query.set('types', checked.join(','));
+    if (checked.length === 0) query.delete('types');
+
     history.push({
       search: query.toString(),
     });
   };
 
-  const fetchMaterials = (loadMore?: boolean) => {
-    const filters = {
-      page,
-      types: query.get(TYPES_QUERY),
-    };
-    dispatch(fetchExpertMaterials(Number(expertId), filters, loadMore));
-  };
-
-  const loadMore = () => {
-    setPage(page + 1);
-  };
-
-  useEffect(() => {
-    const isLoadMore = previous && previous.page < page;
-    fetchMaterials(isLoadMore);
-  }, [query.get(TYPES_QUERY), page]);
+  const gridRef = useRef<HTMLDivElement>(null);
 
   useEffectExceptOnMount(() => {
-    if (page > 0) {
+    if (pageNumber > 0) {
       gridRef.current?.scrollIntoView({ behavior: 'smooth' });
     }
-  }, [page]);
+  }, [pageNumber]);
 
-  const selectedTypesString = query.get(TYPES_QUERY)?.split(',');
-  let selectedFilters: IPostType[] | undefined = postTypes?.filter((post) =>
-    selectedTypesString?.includes(post.id.toString()),
-  );
-  selectedFilters = !isEmpty(selectedFilters) ? selectedFilters : undefined;
+  useEffect(() => {
+    return () => {
+      dispatch(
+        setPostFilters({
+          key: FilterTypeEnum.TAGS,
+          filters: {
+            value: [],
+          },
+        }),
+      );
+    };
+  }, []);
 
   return (
     <>
-      {!isEmpty(postTypes) && (
-        <CheckBoxFilterForm
-          onFormChange={setFilters}
-          possibleFilters={postTypes}
-          selectedFilters={selectedFilters}
-        />
-      )}
+      {/* <CheckBoxFilterForm
+        onFormChange={setFilters}
+        possibleFilters={postTypes}
+        selectedFilters={selectedFilters}
+      /> */}
       <Grid container direction="row" alignItems="center">
         <PostsList postsList={materials} />
       </Grid>
@@ -108,7 +104,7 @@ const MaterialsView: React.FC = () => {
       </Grid>
       <Grid container direction="column" alignItems="center" ref={gridRef}>
         <LoadMorePostsButton
-          clicked={loadMore}
+          clicked={fetchMorePosts}
           isLastPage={isLastPage}
           loading={loading}
         />
