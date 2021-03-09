@@ -1,8 +1,8 @@
-import { Card, Box, Typography, CardMedia } from '@material-ui/core';
 import React from 'react';
+import { Link } from 'react-router-dom';
+import { Card, Box, Typography, CardMedia } from '@material-ui/core';
 import { useStyles } from '../styles/PostViewInfo.styles';
 import { IPost } from '../../../lib/types';
-import PostDirectionLink from '../../../lib/components/PostDirectionLink';
 
 export interface IPostViewProps {
   post: IPost;
@@ -16,7 +16,7 @@ const PostView: React.FC<IPostViewProps> = ({ post }) => {
   return (
     <Card className={classes.cardContainer}>
       <Box className={classes.authorBlock}>
-        <Box>
+        <Link to={`/experts/${post.author.id}`}>
           <CardMedia
             style={{ padding: '15px', height: '58px', width: 46 }}
             className={classes.avatar}
@@ -24,11 +24,13 @@ const PostView: React.FC<IPostViewProps> = ({ post }) => {
             title={authorFullName}
             component="div"
           />
-        </Box>
+        </Link>
         <Box>
-          <Typography align="left" variant="h3" component="h3">
-            {authorFullName}
-          </Typography>
+          <Link to={`/experts/${post.author.id}`}>
+            <Typography align="left" variant="h3" component="h3">
+              {authorFullName}
+            </Typography>
+          </Link>
           <Typography
             align="left"
             variant="subtitle1"
