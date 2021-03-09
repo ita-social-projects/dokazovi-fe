@@ -90,4 +90,10 @@ export const TYPOGRAPHY: TypographyOptions = {
     fontSize: '13px',
     lineHeight: '18px',
   },
+  overline: {
+    fontFamily: 'Lato',
+    fontWeight: 500,
+    fontSize: '12px',
+    lineHeight: '15px',
+  },
 };
