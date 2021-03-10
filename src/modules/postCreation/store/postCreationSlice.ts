@@ -18,6 +18,7 @@ interface IPostPreview {
 export interface IPostCreationState {
   [PostTypeEnum.ARTICLE]: INewPostDraft;
   [PostTypeEnum.DOPYS]: INewPostDraft;
+  [PostTypeEnum.VIDEO]: INewPostDraft;
 }
 
 const initialState: IPostCreationState = {
@@ -30,6 +31,13 @@ const initialState: IPostCreationState = {
   },
   [PostTypeEnum.DOPYS]: {
     topics: [],
+    isDone: false,
+    htmlContent: '',
+    preview: { value: '', isManuallyChanged: false },
+  },
+  [PostTypeEnum.VIDEO]: {
+    topics: [],
+    title: '',
     isDone: false,
     htmlContent: '',
     preview: { value: '', isManuallyChanged: false },

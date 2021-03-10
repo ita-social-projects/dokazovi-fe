@@ -1,37 +1,37 @@
 import React, { useCallback, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import _ from 'lodash';
-import { useSelector, useDispatch } from 'react-redux';
 import {
-  Box,
   CircularProgress,
-  TextField,
   Typography,
+  TextField,
+  Box,
 } from '@material-ui/core';
-import ArticleEditor from '../../lib/components/Editor/Editors/ArticleEditor';
-import { RootStateType } from '../../store/rootReducer';
+import VideoEditor from '../../lib/components/Editor/Editors/VideoEditor';
 import {
   setPostTopics,
   setPostTitle,
-  setIsDone,
   setPostBody,
+  setIsDone,
 } from './store/postCreationSlice';
 import { PostTopicSelector } from './PostTopicSelector';
 import { PostTypeEnum } from '../../lib/types';
-import { postPublishPost } from '../../lib/utilities/API/api';
+import { RootStateType } from '../../store/rootReducer';
 import { sanitizeHtml } from '../../lib/utilities/sanitizeHtml';
+import { postPublishPost } from '../../lib/utilities/API/api';
 import PostCreationButtons from '../../lib/components/PostCreationButtons/PostCreationButtons';
 import { PostPostRequestType } from '../../lib/utilities/API/types';
 
-const ArticleCreation: React.FC = () => {
-  const history = useHistory();
+const VideoCreation: React.FC = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const directions = useSelector(
     (state: RootStateType) => state.properties?.directions,
   );
   const savedPostDraft = useSelector(
-    (state: RootStateType) => state.newPostDraft.ARTICLE,
+    (state: RootStateType) => state.newPostDraft.VIDEO,
   );
 
   const [title, setTitle] = useState({
@@ -40,17 +40,17 @@ const ArticleCreation: React.FC = () => {
   });
 
   const isDone = useSelector(
-    (state: RootStateType) => state.newPostDraft.ARTICLE.isDone,
+    (state: RootStateType) => state.newPostDraft.VIDEO.isDone,
   );
 
   const dispatchTopics = (topics: string[]) => {
-    dispatch(setPostTopics({ postType: PostTypeEnum.ARTICLE, value: topics }));
+    dispatch(setPostTopics({ postType: PostTypeEnum.VIDEO, value: topics }));
   };
 
   const dispatchTitle = useCallback(
     _.debounce((storedTitle: string) => {
       dispatch(
-        setPostTitle({ postType: PostTypeEnum.ARTICLE, value: storedTitle }),
+        setPostTitle({ postType: PostTypeEnum.VIDEO, value: storedTitle }),
       );
     }, 1000),
     [],
@@ -60,13 +60,13 @@ const ArticleCreation: React.FC = () => {
     _.debounce((content: string) => {
       dispatch(
         setPostBody({
-          postType: PostTypeEnum.ARTICLE,
+          postType: PostTypeEnum.VIDEO,
           value: sanitizeHtml(content) as string,
         }),
       );
       dispatch(
         setIsDone({
-          postType: PostTypeEnum.ARTICLE,
+          postType: PostTypeEnum.VIDEO,
           value: true,
         }),
       );
@@ -81,9 +81,8 @@ const ArticleCreation: React.FC = () => {
   const newPost = {
     content: savedPostDraft.htmlContent,
     directions: allDirections,
-    preview: savedPostDraft.preview.value,
-    title: savedPostDraft.title,
-    type: { id: 1 },
+    preview: savedPostDraft.htmlContent,
+    type: { id: 3 },
   } as PostPostRequestType;
 
   const sendPost = async () => {
@@ -91,9 +90,9 @@ const ArticleCreation: React.FC = () => {
     history.push(`/posts/${responsePost.data.id}`);
   };
 
-  const goArticlePreview = () => {
-    history.push(`/create-article/preview`, {
-      postType: 'ARTICLE',
+  const goVideoPreview = () => {
+    history.push(`/create-video/preview`, {
+      postType: 'VIDEO',
       publishPost: newPost,
     });
   };
@@ -112,13 +111,13 @@ const ArticleCreation: React.FC = () => {
         <CircularProgress />
       )}
       <Box mt={2}>
-        <Typography variant="h5">Заголовок статті: </Typography>
+        <Typography variant="h5">Заголовок відео: </Typography>
         <TextField
           error={Boolean(title.error)}
           helperText={title.error}
           fullWidth
           required
-          id="article-name"
+          id="video-name"
           value={title.value}
           onChange={(e) => {
             setTitle({ ...title, value: e.target.value });
@@ -127,13 +126,13 @@ const ArticleCreation: React.FC = () => {
         />
       </Box>
       <Box mt={2}>
-        <Typography variant="h5">Текст статті:</Typography>
-        <ArticleEditor dispatchContent={dispatchHtmlContent} />
+        <Typography variant="h5">Опис відео:</Typography>
+        <VideoEditor dispatchContent={dispatchHtmlContent} />
       </Box>
       <Box display="flex" justifyContent="flex-end">
         <PostCreationButtons
           publishPost={sendPost}
-          goPreview={goArticlePreview}
+          goPreview={goVideoPreview}
           isDone={isDone}
         />
       </Box>
@@ -141,4 +140,4 @@ const ArticleCreation: React.FC = () => {
   );
 };
 
-export default ArticleCreation;
+export default VideoCreation;

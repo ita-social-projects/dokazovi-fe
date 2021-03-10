@@ -4,7 +4,6 @@ import {
   IFilter,
   LoadingStatusEnum,
   FilterTypeEnum,
-  ICheckboxes,
   UrlFilterTypes,
 } from '../../../lib/types';
 import {
@@ -22,13 +21,6 @@ import {
   mapFetchedPosts,
 } from '../../../store/dataSlice';
 import { RequestParamsType } from '../../../lib/utilities/API/types';
-
-interface IExpertsListPayload extends IExpertPayload {
-  filters?: {
-    [FilterTypeEnum.DIRECTIONS]: IFilter;
-    [FilterTypeEnum.REGIONS]: IFilter;
-  };
-}
 
 interface IMaterialsState extends Record<string, IMaterialsPayload> {}
 
@@ -61,7 +53,7 @@ const materialsInitialState: IMaterialsPayload = {
 };
 
 export interface IExpertsState {
-  experts: IExpertsListPayload;
+  experts: IExpertPayload;
   materials: IMaterialsState;
 }
 
@@ -74,41 +66,26 @@ const initialState: IExpertsState = {
       loading: LoadingStatusEnum.idle,
       error: null,
     },
-    filters: {
-      [FilterTypeEnum.DIRECTIONS]: {
-        value: [],
-      },
-      [FilterTypeEnum.REGIONS]: {
-        value: [],
-      },
-    },
   },
   materials: {} as IMaterialsState,
 };
 
+interface IFetchExpertsOptions {
+  page: number;
+  regions: string[];
+  directions: string[];
+}
+
 export const fetchExperts = createAsyncThunk(
   'experts/loadExperts',
-  async (__, { dispatch, getState }) => {
-    const {
-      experts: { experts },
-    } = getState() as RootStateType;
-
-    const regionsFilterValues = experts.filters?.REGIONS?.value as ICheckboxes;
-    const directionsFilterValues = experts.filters?.DIRECTIONS
-      ?.value as ICheckboxes;
-
-    const getTrueValues = (filterValues: ICheckboxes) => {
-      if (Object.values(filterValues).every((value) => value === true)) {
-        return [];
-      }
-      return Object.keys(filterValues).filter((key) => filterValues[key]);
-    };
+  async (options: IFetchExpertsOptions, { dispatch, getState }) => {
+    const { page, regions, directions } = options;
 
     const { data } = await getAllExperts({
       params: {
-        page: experts.meta?.pageNumber,
-        regions: getTrueValues(regionsFilterValues),
-        directions: getTrueValues(directionsFilterValues),
+        page,
+        regions,
+        directions,
       },
     });
     dispatch(loadExperts(data.content));
@@ -150,16 +127,6 @@ export const expertsSlice = createSlice({
     },
     setExpertsPage: (state, action: PayloadAction<number>) => {
       state.experts.meta.pageNumber = action.payload;
-    },
-    setExpertsRegionsFilter: (state, action: PayloadAction<IFilter>) => {
-      if (state.experts.filters) {
-        state.experts.filters.REGIONS = action.payload;
-      }
-    },
-    setExpertsDirectionsFilter: (state, action: PayloadAction<IFilter>) => {
-      if (state.experts.filters) {
-        state.experts.filters.DIRECTIONS = action.payload;
-      }
     },
     loadMaterials: (
       state,
@@ -227,8 +194,6 @@ export const expertsSlice = createSlice({
 });
 
 export const {
-  setExpertsRegionsFilter,
-  setExpertsDirectionsFilter,
   setupExpertMaterialsID,
   loadMaterials,
   setMaterialsLoadingStatus,
@@ -254,7 +219,7 @@ export const fetchExpertMaterials = (
 
     const params: RequestParamsType = {
       size: LOAD_POSTS_LIMIT,
-      page: loadMore ? (filters?.page as number) : 1,
+      page: loadMore ? (filters?.page as number) : 0,
       expert: expertId,
     };
 

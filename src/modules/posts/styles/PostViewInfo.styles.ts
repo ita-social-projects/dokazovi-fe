@@ -1,6 +1,6 @@
-import { makeStyles } from '@material-ui/core';
+import { makeStyles, Theme } from '@material-ui/core';
 
-export const useStyles = makeStyles({
+export const useStyles = makeStyles((theme: Theme) => ({
   cardContainer: {
     marginTop: '20px',
     minHeight: '550px',
@@ -19,8 +19,11 @@ export const useStyles = makeStyles({
     transform: 'translateY(-50%),',
   },
   avatar: {
-    marginRight: '20px',
-    width: '30px',
+    marginRight: theme.spacing(4),
+    width: '130px',
+    height: '130px',
+    borderRadius: '50%',
+    filter: 'grayscale(100%)',
   },
   directions: {
     display: 'flex',
@@ -38,14 +41,14 @@ export const useStyles = makeStyles({
     minHeight: '550px',
   },
   createdAt: {
-    position: 'absolute',
-    bottom: 0,
-    right: 0,
-    marginRight: '20px',
-    marginBottom: '20px',
+    color: theme.palette.info.light,
+    margin: theme.spacing(4),
   },
   content: {
-    margin: '20px',
+    margin: theme.spacing(4),
+    fontWeight: 700,
+    fontSize: '16px',
+    lineHeight: '26px',
     '& h1': {
       fontSize: '2em',
     },
@@ -53,4 +56,4 @@ export const useStyles = makeStyles({
       fontSize: '1.5em',
     },
   },
-});
+}));

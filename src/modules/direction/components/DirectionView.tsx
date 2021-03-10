@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Container, Grid, Typography, Box, Link } from '@material-ui/core';
+import { Grid, Typography, Box, Link } from '@material-ui/core';
 import { useParams } from 'react-router-dom';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import { useStyles } from './styles/DirectionView.styles';
@@ -46,43 +46,35 @@ const DirectionView: React.FC = () => {
     <>
       <PageTitleComponent title={directionData?.label} />
       {directionData ? (
-        <Container>
-          <Grid container spacing={2} direction="row">
-            <Grid item xs={12} className={classes.header}>
-              <Box
-                color="disabled"
-                className={classes.icon}
-                style={{ backgroundColor: directionData?.color }}
-              />
-              <Typography variant="h2">{directionData?.label}</Typography>
-            </Grid>
-            <BorderBottom />
-            <Grid item xs={12}>
-              <ExpertsViewCard
-                cards={experts}
-                loading={loading}
-                isOnDirection
-              />
-              <Box className={classes.moreExperts}>
-                <Typography variant="h5" align="right" display="inline">
-                  <Link href="/experts">
-                    Більше експертів
-                    <ArrowForwardIosIcon />
-                  </Link>
-                </Typography>
-              </Box>
-            </Grid>
-            <BorderBottom />
-            <Grid item xs={12} className={classes.containerMaterials}>
-              <MaterialsContainer direction={directionData} />
-            </Grid>
+        <Grid container spacing={2} direction="row">
+          <Grid item xs={12} className={classes.header}>
+            <Box
+              color="disabled"
+              className={classes.icon}
+              style={{ backgroundColor: directionData?.color }}
+            />
+            <Typography variant="h2">{directionData?.label}</Typography>
           </Grid>
-        </Container>
+          <BorderBottom />
+          <Grid item xs={12}>
+            <ExpertsViewCard cards={experts} loading={loading} isOnDirection />
+            <Box className={classes.moreExperts}>
+              <Typography variant="h5" align="right" display="inline">
+                <Link href="/experts">
+                  Більше експертів
+                  <ArrowForwardIosIcon />
+                </Link>
+              </Typography>
+            </Box>
+          </Grid>
+          <BorderBottom />
+          <Grid item xs={12} className={classes.containerMaterials}>
+            <MaterialsContainer direction={directionData} />
+          </Grid>
+        </Grid>
       ) : (
         directions.length && (
-          <>
-            <Typography variant="h3">Direction not found</Typography>
-          </>
+          <Typography variant="h3">Direction not found</Typography>
         )
       )}
     </>

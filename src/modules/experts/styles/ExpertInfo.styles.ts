@@ -1,9 +1,6 @@
 import { makeStyles } from '@material-ui/core';
 
 export const useStyles = makeStyles(() => ({
-  container: {
-    margin: '20px',
-  },
   personalInfo: {
     marginBottom: '20px',
   },
