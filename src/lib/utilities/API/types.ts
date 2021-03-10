@@ -118,7 +118,8 @@ export type RequestParamsType = {
   page?: number;
   size?: number;
   sort?: string[];
-  direction?: number;
+  direction?: number; // remove later
+  directions?: string[]; // change to number later
   type?: string[];
   expert?: number;
   regions?: string[];

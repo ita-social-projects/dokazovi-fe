@@ -1,11 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import {
-  IDirection,
-  IFilter,
-  FilterTypeEnum,
-  LoadingStatusEnum,
-} from '../../../lib/types';
+import { IFilter, FilterTypeEnum, LoadingStatusEnum } from '../../../lib/types';
 import { getPosts } from '../../../lib/utilities/API/api';
 import { loadPosts, mapFetchedPosts } from '../../../store/dataSlice';
 import type { AppThunkType } from '../../../store/store';
@@ -28,7 +23,7 @@ export interface IMaterialsMeta {
   fetchedPageNumbers?: number[]; // reset on view switch
 }
 
-const initialMaterialsState: IMaterialsState = {
+const initialState: IMaterialsState = {
   postIds: [],
   meta: {
     isLastPage: false,
@@ -41,7 +36,7 @@ const initialMaterialsState: IMaterialsState = {
 
 export const materialsSlice = createSlice({
   name: 'materials',
-  initialState: initialMaterialsState,
+  initialState,
   reducers: {
     setMaterialsLoadingStatus: (
       state,
@@ -101,15 +96,13 @@ export const {
 export const materialsReducer = materialsSlice.reducer;
 
 export const fetchMaterials = (
-  directions: IDirection[] | null,
-  postTypes: string[] = [],
+  filters: { directions: string[]; postTypes: string[] },
+  loadMore = false,
 ): AppThunkType => async (dispatch, getState) => {
   const {
     postIds,
-    filters,
     meta: { pageNumber },
   } = getState().materials;
-  const postTags = filters?.[FilterTypeEnum.TAGS]?.value as string[];
 
   try {
     dispatch(
@@ -118,12 +111,13 @@ export const fetchMaterials = (
       }),
     );
 
+    // currently fething all the posts, filters are not supported at this endpoint
     const response = await getPosts('latest', {
       params: {
-        page: pageNumber + 1,
+        page: loadMore ? pageNumber + 1 : 0,
         size: LOAD_POSTS_LIMIT,
-        type: postTypes,
-        tag: postTags,
+        type: filters.postTypes,
+        directions: filters.directions,
       },
     });
 
@@ -133,7 +127,7 @@ export const fetchMaterials = (
 
     dispatch(
       loadMaterials({
-        postIds: postIds.concat(ids),
+        postIds: loadMore ? postIds.concat(ids) : ids,
         meta: {
           isLastPage: response.data.last,
           loading: LoadingStatusEnum.succeeded,
