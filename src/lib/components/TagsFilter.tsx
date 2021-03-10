@@ -4,17 +4,16 @@ import { useSelector, useDispatch } from 'react-redux';
 import _ from 'lodash';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
-import { RootStateType } from '../../../store/rootReducer';
-import { FilterTypeEnum, IPostTag } from '../../../lib/types';
-import { setPostFilters } from '../store/directionSlice';
-import { fetchPostsTags } from '../../../store/propertiesSlice';
+import { RootStateType } from '../../store/rootReducer';
+import { IPostTag } from '../types';
+import { fetchPostsTags } from '../../store/propertiesSlice';
 
 export interface IPostTagsFilterProps {
-  directionName: string;
+  onTagsChange(tags: string[]): void;
 }
 
 export const PostTagsFilter: React.FC<IPostTagsFilterProps> = ({
-  directionName,
+  onTagsChange,
 }) => {
   const dispatch = useDispatch();
   const postTags = useSelector(
@@ -23,15 +22,7 @@ export const PostTagsFilter: React.FC<IPostTagsFilterProps> = ({
 
   const handlerFilters = useCallback(
     _.debounce((selectedTags: string[]) => {
-      dispatch(
-        setPostFilters({
-          key: FilterTypeEnum.TAGS,
-          filters: {
-            value: selectedTags,
-          },
-          directionName,
-        }),
-      );
+      dispatch(onTagsChange(selectedTags));
     }, 500),
     [],
   );

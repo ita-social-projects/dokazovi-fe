@@ -4,9 +4,9 @@ import { useSelector } from 'react-redux';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { useForm, Controller } from 'react-hook-form';
 import Checkbox from '@material-ui/core/Checkbox';
-import { RootStateType } from '../../../store/rootReducer';
-import { IPostType } from '../../../lib/types';
-import useEffectExceptOnMount from '../../../lib/hooks/useEffectExceptOnMount';
+import { RootStateType } from '../../store/rootReducer';
+import { IPostType } from '../types';
+import useEffectExceptOnMount from '../hooks/useEffectExceptOnMount';
 
 export interface IPostTypeFilterProps {
   setFilters(checked?: string[]): void;

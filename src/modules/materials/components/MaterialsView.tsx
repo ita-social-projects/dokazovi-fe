@@ -13,7 +13,7 @@ import usePrevious from '../../../lib/hooks/usePrevious';
 import { FilterTypeEnum, LoadingStatusEnum } from '../../../lib/types';
 import { RootStateType } from '../../../store/rootReducer';
 import { selectPostsByIds } from '../../../store/selectors';
-import { PostTypeFilter } from '../../direction/components/PostTypesFilter';
+import { PostTypeFilter } from '../../../lib/components/PostTypesFilter';
 import { fetchMaterials } from '../store/materialsSlice';
 
 const useQuery = () => {
