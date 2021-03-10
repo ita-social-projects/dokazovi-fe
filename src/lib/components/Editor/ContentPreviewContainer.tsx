@@ -166,7 +166,7 @@ const ContentPreviewContainer: React.FC<IContentPreviewContainerProps> = ({
           </Grid>
         </Grid>
         <Grid item xs={12} lg={4} md={6}>
-          <PostPreviewCard data={cardPreviewData} />
+          <PostPreviewCard data={cardPreviewData} shouldNotUseLink />
         </Grid>
       </Grid>
     </>
