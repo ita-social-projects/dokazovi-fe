@@ -1,6 +1,6 @@
 {
   "name": "dokazovi-fe",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "private": true,
   "dependencies": {
     "@material-ui/core": "^4.11.0",
