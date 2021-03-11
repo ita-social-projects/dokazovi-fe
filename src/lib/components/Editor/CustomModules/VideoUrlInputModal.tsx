@@ -78,17 +78,19 @@ const VideoUrlInputModal: React.FC<IVideoUrlInputModalProps> = ({
             <DialogContentText>
               Введіть посилання на відео https://www.youtube.com/...
             </DialogContentText>
-            {// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-            errors.url &&
-              errors.url.type === 'required' && (
+            {
+              // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+              errors.url && errors.url.type === 'required' && (
                 <Alert severity="error">Заповніть поле з посиланням!</Alert>
-              )}
+              )
+            }
 
-            {// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-            errors.url &&
-              errors.url.type === 'correctLink' && (
+            {
+              // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+              errors.url && errors.url.type === 'correctLink' && (
                 <Alert severity="error">Введіть коректну URL-адресу!</Alert>
-              )}
+              )
+            }
             <TextField
               autoFocus
               margin="dense"
