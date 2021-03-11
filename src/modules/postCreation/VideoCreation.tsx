@@ -47,7 +47,7 @@ const VideoCreation: React.FC = () => {
     (state: RootStateType) => state.newPostDraft.VIDEO.videoUrl,
   );
 
-  const videoId = parseVideoIdFromUrl(url);
+  const videoId = parseVideoIdFromUrl(url as string);
 
   const isDone = useSelector(
     (state: RootStateType) => state.newPostDraft.VIDEO.isDone,

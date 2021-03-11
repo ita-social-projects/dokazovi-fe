@@ -1,5 +1,4 @@
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export const parseVideoIdFromUrl = (url) => {
+export const parseVideoIdFromUrl = (url: string): string | null => {
   const regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
   const match = regExp.exec(url);
   if (match && match[7].length === 11) {

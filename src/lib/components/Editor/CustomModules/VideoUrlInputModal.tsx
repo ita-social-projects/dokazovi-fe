@@ -16,11 +16,15 @@ interface IVideoUrlInputModalProps {
   dispatchVideoUrl: (videoUrl: string) => void;
 }
 
+interface IFormData {
+  url: string;
+}
+
 const VideoUrlInputModal: React.FC<IVideoUrlInputModalProps> = ({
   dispatchVideoUrl,
 }) => {
   // eslint-disable-next-line @typescript-eslint/unbound-method
-  const { register, handleSubmit, errors } = useForm();
+  const { register, handleSubmit, errors } = useForm<IFormData>();
   const [open, setOpen] = useState(false);
   const [videoUrl, setVideoUrl] = useState<string>('');
 
@@ -78,19 +82,13 @@ const VideoUrlInputModal: React.FC<IVideoUrlInputModalProps> = ({
             <DialogContentText>
               Введіть посилання на відео https://www.youtube.com/...
             </DialogContentText>
-            {
-              // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-              errors.url && errors.url.type === 'required' && (
-                <Alert severity="error">Заповніть поле з посиланням!</Alert>
-              )
-            }
+            {errors.url && errors.url.type === 'required' && (
+              <Alert severity="error">Заповніть поле з посиланням!</Alert>
+            )}
 
-            {
-              // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-              errors.url && errors.url.type === 'correctLink' && (
-                <Alert severity="error">Введіть коректну URL-адресу!</Alert>
-              )
-            }
+            {errors.url && errors.url.type === 'correctLink' && (
+              <Alert severity="error">Введіть коректну URL-адресу!</Alert>
+            )}
             <TextField
               autoFocus
               margin="dense"
