@@ -13,7 +13,7 @@ const PostDirectionLink: React.FC<IPostDirectionLinkProps> = ({
   const history = useHistory();
 
   const handleClick = () => {
-    history.push(`/direction/${direction.name.toLowerCase()}`);
+    history.push(`/materials?directions=${direction.id}`);
   };
 
   return (
