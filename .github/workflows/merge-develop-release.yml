@@ -22,15 +22,10 @@ jobs:
           from_branch: develop
           target_branch: release
           github_token: ${{ secrets.ADMIN_ACTION_RIGHTS }}
-  version-bump:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          token: ${{ secrets.ADMIN_ACTION_RIGHTS }}
       - name: Bump Version
         run: |
           git config --global user.email "noreply@github.com"
           git config --global user.name "GitHub"
+          git pull
           npm version ${{ github.event.inputs.bumpType }}
           git push
