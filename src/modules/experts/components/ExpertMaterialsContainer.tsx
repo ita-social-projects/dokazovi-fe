@@ -6,10 +6,10 @@ import { useHistory, useLocation } from 'react-router-dom';
 import BorderBottom from '../../../lib/components/Border';
 import CheckBoxFilterForm, {
   ICheckBoxFormState,
-} from '../../../lib/components/CheckBoxFilterForm';
+} from '../../../lib/components/Filters/CheckBoxFilterForm';
 import LoadingInfo from '../../../lib/components/LoadingInfo';
 import LoadMorePostsButton from '../../../lib/components/LoadMorePostsButton';
-import PostsList from '../../../lib/components/PostsList';
+import PostsList from '../../../lib/components/Posts/PostsList';
 import useEffectExceptOnMount from '../../../lib/hooks/useEffectExceptOnMount';
 import usePrevious from '../../../lib/hooks/usePrevious';
 import { IPostType, LoadingStatusEnum } from '../../../lib/types';
@@ -42,7 +42,7 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
   const gridRef = useRef<HTMLDivElement>(null);
   const query = useQuery();
   const history = useHistory();
-  const [page, setPage] = useState<number>(1);
+  const [page, setPage] = useState<number>(0);
   const previous = usePrevious({ page });
   const expertData = useSelector(
     (state: RootStateType) => state.experts.materials[expertId],
@@ -85,7 +85,7 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
   }, [expertId, query.get(TYPES_QUERY), page]);
 
   useEffectExceptOnMount(() => {
-    if (page > 1) {
+    if (page > 0) {
       gridRef.current?.scrollIntoView({ behavior: 'smooth' });
     }
   }, [page]);
