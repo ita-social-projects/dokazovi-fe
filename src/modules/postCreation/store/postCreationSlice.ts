@@ -8,6 +8,7 @@ export interface INewPostDraft {
   isDone: boolean;
   htmlContent: string;
   preview: IPostPreview;
+  videoUrl?: string;
 }
 
 interface IPostPreview {
@@ -41,6 +42,7 @@ const initialState: IPostCreationState = {
     isDone: false,
     htmlContent: '',
     preview: { value: '', isManuallyChanged: false },
+    videoUrl: '',
   },
 };
 
@@ -103,6 +105,15 @@ export const postCreationSlice = createSlice({
       state[action.payload.postType].preview.isManuallyChanged =
         action.payload.value;
     },
+    setVideoUrl: (
+      state,
+      action: PayloadAction<{
+        postType: PostTypeEnum;
+        value: INewPostDraft['videoUrl'];
+      }>,
+    ) => {
+      state[action.payload.postType].videoUrl = action.payload.value;
+    },
   },
 });
 
@@ -113,6 +124,7 @@ export const {
   setPostBody,
   setPostPreviewText,
   setPostPreviewManuallyChanged,
+  setVideoUrl,
 } = postCreationSlice.actions;
 
 const postCreationReducer = postCreationSlice.reducer;
