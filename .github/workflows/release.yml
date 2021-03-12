@@ -5,11 +5,6 @@ on:
     branches:
       - release
       - feature/ci-alignments
-  workflow_run:
-    workflows: ['Merge Develop to Release']
-    branches: [release]
-    types:
-      - completed
 
 jobs:
   build:
