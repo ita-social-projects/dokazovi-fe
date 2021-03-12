@@ -45,11 +45,7 @@ const defaultConfig = {
   },
 };
 
-type PostsTypeType =
-  | 'important'
-  | 'latest'
-  | 'latest-by-direction'
-  | 'latest-by-expert';
+type PostsTypeType = 'important' | 'latest' | 'latest-by-expert';
 
 export const getPosts = (
   postsType: PostsTypeType,

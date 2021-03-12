@@ -22,24 +22,15 @@ export const navElems: IHeaderProps[] = [
     url: '/',
   },
   {
-    id: 'covid-19',
-    label: 'Covid-19',
-    url: '/direction/covid-19',
-  },
-  {
-    id: 'directions',
-    label: 'Напрямки',
-    url: '/direction',
+    id: 'materials',
+    label: 'Матеріали',
+    url: '/materials',
   },
   {
     id: 'experts',
-    label: 'Експерти',
+    label: 'Автори',
     url: '/experts',
   },
-  // {
-  //   id: 'translates',
-  //   label: 'Переклади',
-  // },
 ];
 
 const Header: React.FC = () => {
