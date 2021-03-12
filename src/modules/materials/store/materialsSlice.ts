@@ -1,11 +1,10 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { LOAD_POSTS_LIMIT } from '../../../lib/constants/posts';
 import { IFilter, FilterTypeEnum, LoadingStatusEnum } from '../../../lib/types';
 import { getPosts } from '../../../lib/utilities/API/api';
 import { loadPosts, mapFetchedPosts } from '../../../store/dataSlice';
 import type { AppThunkType } from '../../../store/store';
-
-import { LOAD_POSTS_LIMIT } from '../../main/components/constants/newestPostsPagination-config';
 
 interface IMaterialsState {
   postIds: string[];

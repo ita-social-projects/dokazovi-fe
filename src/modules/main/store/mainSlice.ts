@@ -4,13 +4,13 @@ import { LoadingStatusEnum } from '../../../lib/types';
 import { getPosts, getExperts } from '../../../lib/utilities/API/api';
 
 import type { AppThunkType } from '../../../store/store';
-import { LOAD_POSTS_LIMIT } from '../components/constants/newestPostsPagination-config';
 import type { RootStateType } from '../../../store/rootReducer';
 import {
   loadExperts,
   loadPosts,
   mapFetchedPosts,
 } from '../../../store/dataSlice';
+import { LOAD_POSTS_LIMIT } from '../../../lib/constants/posts';
 
 interface INewestMeta {
   currentPage: number;

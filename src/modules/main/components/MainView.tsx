@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Box } from '@material-ui/core';
 import NewestContainer from './NewestContainer';
 import ImportantContainer from './ImportantContainer';
-import { ExpertsViewCard } from '../../../lib/components/ExpertsViewCard';
+import { ExpertsViewCard } from '../../../lib/components/Experts/ExpertsViewCard';
 import { RootStateType } from '../../../store/rootReducer';
 import { fetchExperts } from '../store/mainSlice';
 import { selectExpertsByIds } from '../../../store/selectors';

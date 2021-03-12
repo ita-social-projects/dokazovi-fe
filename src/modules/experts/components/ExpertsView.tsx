@@ -6,13 +6,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Pagination } from '@material-ui/lab';
 import { fetchExperts, setExpertsPage } from '../store/expertsSlice';
 import { RootStateType } from '../../../store/rootReducer';
-import ExpertsList from '../../../lib/components/ExpertsList';
+import ExpertsList from '../../../lib/components/Experts/ExpertsList';
 import LoadingInfo from '../../../lib/components/LoadingInfo';
 import { useStyles } from '../styles/ExpertsView.styles';
 import { FilterTypeEnum } from '../../../lib/types';
 import { selectExpertsByIds } from '../../../store/selectors';
-import { ICheckBoxFormState } from '../../../lib/components/CheckBoxFilterForm';
-import CheckBoxDropdownFilterForm from '../../../lib/components/СheckBoxDropdownFilterForm';
+import { ICheckBoxFormState } from '../../../lib/components/Filters/CheckBoxFilterForm';
+import CheckBoxDropdownFilterForm from '../../../lib/components/Filters/СheckBoxDropdownFilterForm';
 import useEffectExceptOnMount from '../../../lib/hooks/useEffectExceptOnMount';
 
 const useQuery = () => {

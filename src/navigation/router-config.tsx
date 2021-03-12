@@ -17,14 +17,16 @@ const PostViewContainer = lazy(
   () => import('../modules/posts/components/PostViewContainer'),
 );
 const ArticleCreation = lazy(
-  () => import('../modules/postCreation/ArticleCreation'),
+  () => import('../modules/postCreation/components/ArticleCreation'),
 );
-const NoteCreation = lazy(() => import('../modules/postCreation/NoteCreation'));
+const NoteCreation = lazy(
+  () => import('../modules/postCreation/components/NoteCreation'),
+);
 const VideoCreation = lazy(
-  () => import('../modules/postCreation/VideoCreation'),
+  () => import('../modules/postCreation/components/VideoCreation'),
 );
 const PostCreationPreview = lazy(
-  () => import('../modules/postCreation/PostCreationPreview'),
+  () => import('../modules/postCreation/components/PostCreationPreview'),
 );
 const Page404 = lazy(() => import('../lib/components/Errors/Page404'));
 

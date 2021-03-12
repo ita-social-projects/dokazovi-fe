@@ -2,10 +2,10 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import { render, screen } from '@testing-library/react';
-import { ExpertsViewCard } from '../../../../lib/components/ExpertsViewCard';
+import { ExpertsViewCard } from '../../../../lib/components/Experts/ExpertsViewCard';
 import { store } from '../../../../store/store';
-import { ExpertBlock } from '../../../../lib/components/ExpertBlock';
-import cards from '../../mockDataExperts';
+import { ExpertBlock } from '../../../../lib/components/Experts/ExpertBlock';
+import { experts } from '../../../../__mocks__/experts';
 
 type ComponentPropsType = React.ComponentProps<typeof ExpertBlock>;
 
@@ -33,7 +33,7 @@ describe('MainExpertsView', () => {
   it('renders ExpertBlocks equal to experts fetched', () => {
     render(
       <Provider store={store}>
-        <ExpertsViewCard cards={cards} />
+        <ExpertsViewCard cards={experts} />
       </Provider>,
     );
     const resultLength = 11;
@@ -44,7 +44,7 @@ describe('MainExpertsView', () => {
   it('has title Experts', () => {
     render(
       <Provider store={store}>
-        <ExpertsViewCard cards={cards} />
+        <ExpertsViewCard cards={experts} />
       </Provider>,
     );
     const renderedMainExpertsView = screen.queryAllByText('Експерти');

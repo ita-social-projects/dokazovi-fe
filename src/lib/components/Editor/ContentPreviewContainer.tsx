@@ -7,7 +7,7 @@ import {
   setPostPreviewManuallyChanged,
 } from '../../../modules/postCreation/store/postCreationSlice';
 import { IDirection, IPost, PostTypeEnum } from '../../types';
-import PostPreviewCard from '../PostPreview/PostPreviewCard';
+import PostPreviewCard from '../Posts/Cards/PostPreviewCard';
 import { RootStateType } from '../../../store/rootReducer';
 import usePostPreviewData from '../../hooks/usePostPreviewData';
 

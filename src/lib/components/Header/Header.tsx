@@ -4,8 +4,8 @@ import { Box, Toolbar, Typography } from '@material-ui/core';
 import { Link, NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useStyles } from './Header.styles';
-import { PostCreationMenu } from '../PostCreationMenu';
-import { LoginModal } from '../Modals/LoginModal';
+import { PostCreationMenu } from './PostCreationMenu';
+import { LoginModal } from '../Users/LoginModal';
 import { RootStateType } from '../../../store/rootReducer';
 import { AccountMenu } from './AccountMenu';
 

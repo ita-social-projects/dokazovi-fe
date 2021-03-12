@@ -12,7 +12,6 @@ import {
   getPosts,
 } from '../../../lib/utilities/API/api';
 import type { AppThunkType } from '../../../store/store';
-import { LOAD_POSTS_LIMIT } from '../../main/components/constants/newestPostsPagination-config';
 import { IExpertPayload } from '../../main/store/mainSlice';
 import type { RootStateType } from '../../../store/rootReducer';
 import {
@@ -21,6 +20,7 @@ import {
   mapFetchedPosts,
 } from '../../../store/dataSlice';
 import { RequestParamsType } from '../../../lib/utilities/API/types';
+import { LOAD_POSTS_LIMIT } from '../../../lib/constants/posts';
 
 interface IMaterialsState extends Record<string, IMaterialsPayload> {}
 

@@ -7,9 +7,9 @@ import {
   IMainState,
   fetchInitialNewestPosts,
 } from '../store/mainSlice';
-import { styles } from './styles/NewestContainer.style';
+import { styles } from '../styles/NewestContainer.style';
 import BorderBottom from '../../../lib/components/Border';
-import PostsList from '../../../lib/components/PostsList';
+import PostsList from '../../../lib/components/Posts/PostsList';
 import { LoadingStatusEnum } from '../../../lib/types';
 import LoadingInfo from '../../../lib/components/LoadingInfo';
 import useEffectExceptOnMount from '../../../lib/hooks/useEffectExceptOnMount';

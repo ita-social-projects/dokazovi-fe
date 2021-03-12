@@ -3,17 +3,17 @@ import { isEmpty, uniq } from 'lodash';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
-import { ICheckBoxFormState } from '../../../lib/components/CheckBoxFilterForm';
+import { ICheckBoxFormState } from '../../../lib/components/Filters/CheckBoxFilterForm';
 import LoadingInfo from '../../../lib/components/LoadingInfo';
 import LoadMorePostsButton from '../../../lib/components/LoadMorePostsButton';
-import PostsList from '../../../lib/components/PostsList';
-import CheckBoxDropdownFilterForm from '../../../lib/components/СheckBoxDropdownFilterForm';
+import PostsList from '../../../lib/components/Posts/PostsList';
+import CheckBoxDropdownFilterForm from '../../../lib/components/Filters/СheckBoxDropdownFilterForm';
 import useEffectExceptOnMount from '../../../lib/hooks/useEffectExceptOnMount';
 import usePrevious from '../../../lib/hooks/usePrevious';
 import { FilterTypeEnum, LoadingStatusEnum } from '../../../lib/types';
 import { RootStateType } from '../../../store/rootReducer';
 import { selectPostsByIds } from '../../../store/selectors';
-import { PostTypeFilter } from '../../../lib/components/PostTypesFilter';
+import { PostTypeFilter } from '../../../lib/components/Filters/PostTypesFilter';
 import { fetchMaterials } from '../store/materialsSlice';
 
 const useQuery = () => {
@@ -78,6 +78,9 @@ const MaterialsView: React.FC = () => {
     if (!checkedIds.length || isQuerySame) {
       query.delete(queryType);
     }
+
+    setPage(0);
+
     history.push({
       search: query.toString(),
     });
