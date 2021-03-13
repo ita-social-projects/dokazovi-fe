@@ -7,7 +7,8 @@ import BorderBottom from '../../../lib/components/Border';
 import CheckboxFilterForm, {
   ICheckboxFormState,
 } from '../../../lib/components/Filters/CheckboxFilterForm';
-import LoadingInfo from '../../../lib/components/LoadingInfo';
+import LoadingContainer from '../../../lib/components/Loading/LoadingContainer';
+import LoadingInfo from '../../../lib/components/Loading/LoadingInfo';
 import LoadMorePostsButton from '../../../lib/components/LoadMorePostsButton';
 import PostsList from '../../../lib/components/Posts/PostsList';
 import useEffectExceptOnMount from '../../../lib/hooks/useEffectExceptOnMount';
@@ -26,7 +27,6 @@ import {
   fetchExpertMaterials,
   setupExpertMaterialsID,
 } from '../store/expertsSlice';
-import { useStyles } from '../styles/ExpertProfileView.styles';
 
 export interface IExpertMaterialsContainerProps {
   expertId: string;
@@ -43,7 +43,6 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
   // TODO: fix loading without useEffect
   dispatch(setupExpertMaterialsID(expertId));
 
-  const classes = useStyles();
   const gridRef = useRef<HTMLDivElement>(null);
   const query = useQuery();
   const history = useHistory();
@@ -122,7 +121,7 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
     : undefined;
 
   return (
-    <Box className={classes.container}>
+    <>
       <Typography variant="h4">Матеріали</Typography>
       {!isEmpty(postTypes) && (
         <CheckboxFilterForm
@@ -132,14 +131,10 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
           filterType={FilterTypeEnum.POST_TYPES}
         />
       )}
-      <Grid container spacing={2} direction="row" alignItems="center">
+      <Grid container direction="row" alignItems="center">
         <PostsList postsList={materials} />
       </Grid>
-      <Grid container direction="column" alignItems="center">
-        {loading === LoadingStatusEnum.pending && (
-          <LoadingInfo loading={loading} />
-        )}
-      </Grid>
+      <LoadingContainer loading={loading} />
       <Grid container direction="column" alignItems="center" ref={gridRef}>
         <LoadMorePostsButton
           clicked={loadMore}
@@ -147,8 +142,7 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
           loading={loading}
         />
       </Grid>
-      <BorderBottom />
-    </Box>
+    </>
   );
 };
 

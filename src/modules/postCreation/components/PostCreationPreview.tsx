@@ -8,6 +8,7 @@ import usePostPreviewData from '../../../lib/hooks/usePostPreviewData';
 import PostCreationButtons from './PostCreationButtons';
 import { PostPostRequestType } from '../../../lib/utilities/API/types';
 import { postPublishPost } from '../../../lib/utilities/API/api';
+import PageTitle from '../../../lib/components/Pages/PageTitle';
 
 export interface ILocationState {
   postType: string;
@@ -53,6 +54,7 @@ const PostCreationPreview: React.FC = () => {
 
   return (
     <>
+      <PageTitle title="Попередній перегляд" />
       <PostView post={post} />
       <PostCreationButtons
         publishPost={sendPost}

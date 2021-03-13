@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import {
   CircularProgress,
-  Container,
   CssBaseline,
   ThemeProvider,
 } from '@material-ui/core';
@@ -46,12 +45,12 @@ const App: React.FC = () => {
       <ThemeProvider theme={MAIN_THEME}>
         <CssBaseline />
         <BrowserRouter>
-          <Container>
+          <div className="content">
             <Header />
             <Suspense fallback={<CircularProgress className="mainLoading" />}>
               <RenderRoutes routes={ROUTER_CONFIG} />
             </Suspense>
-          </Container>
+          </div>
           <Footer />
         </BrowserRouter>
       </ThemeProvider>

@@ -16,6 +16,7 @@ import { sanitizeHtml } from '../../../lib/utilities/sanitizeHtml';
 import { postPublishPost } from '../../../lib/utilities/API/api';
 import PostCreationButtons from './PostCreationButtons';
 import { PostPostRequestType } from '../../../lib/utilities/API/types';
+import PageTitle from '../../../lib/components/Pages/PageTitle';
 
 const NoteCreation: React.FC = () => {
   const dispatch = useDispatch();
@@ -79,6 +80,8 @@ const NoteCreation: React.FC = () => {
 
   return (
     <>
+      <PageTitle title="Створення допису" />
+
       {directions.length ? (
         <PostTopicSelector
           dispatchTopics={dispatchTopics}

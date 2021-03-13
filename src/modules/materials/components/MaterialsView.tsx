@@ -6,7 +6,6 @@ import { useHistory, useLocation } from 'react-router-dom';
 import CheckboxFilterForm, {
   ICheckboxFormState,
 } from '../../../lib/components/Filters/CheckboxFilterForm';
-import LoadingInfo from '../../../lib/components/LoadingInfo';
 import LoadMorePostsButton from '../../../lib/components/LoadMorePostsButton';
 import PostsList from '../../../lib/components/Posts/PostsList';
 import CheckboxDropdownFilterForm from '../../../lib/components/Filters/СheckboxDropdownFilterForm';
@@ -16,13 +15,14 @@ import {
   FilterTypeEnum,
   IDirection,
   IPostType,
-  LoadingStatusEnum,
   QueryTypeEnum,
 } from '../../../lib/types';
 import { RootStateType } from '../../../store/rootReducer';
 import { selectPostsByIds } from '../../../store/selectors';
 import { fetchMaterials } from '../store/materialsSlice';
 import { getQueryTypeByFilterType } from '../../../lib/utilities/filters';
+import LoadingContainer from '../../../lib/components/Loading/LoadingContainer';
+import PageTitle from '../../../lib/components/Pages/PageTitle';
 
 const useQuery = () => {
   return new URLSearchParams(useLocation().search);
@@ -135,6 +135,8 @@ const MaterialsView: React.FC = () => {
 
   return (
     <>
+      <PageTitle title="Матеріали" />
+
       {propertiesLoaded && (
         <Grid container direction="column">
           {!isEmpty(postTypes) && (
@@ -162,11 +164,7 @@ const MaterialsView: React.FC = () => {
       >
         <PostsList postsList={materials} />
       </Grid>
-      <Grid container direction="column" alignItems="center">
-        {loading === LoadingStatusEnum.pending && (
-          <LoadingInfo loading={loading} />
-        )}
-      </Grid>
+      <LoadingContainer loading={loading} />
       <Grid container direction="column" alignItems="center" ref={gridRef}>
         <LoadMorePostsButton
           clicked={loadMore}

@@ -22,6 +22,7 @@ import { postPublishPost } from '../../../lib/utilities/API/api';
 import { sanitizeHtml } from '../../../lib/utilities/sanitizeHtml';
 import PostCreationButtons from './PostCreationButtons';
 import { PostPostRequestType } from '../../../lib/utilities/API/types';
+import PageTitle from '../../../lib/components/Pages/PageTitle';
 
 const ArticleCreation: React.FC = () => {
   const history = useHistory();
@@ -100,6 +101,8 @@ const ArticleCreation: React.FC = () => {
 
   return (
     <>
+      <PageTitle title="Створення статті" />
+
       {directions.length ? (
         <PostTopicSelector
           dispatchTopics={dispatchTopics}

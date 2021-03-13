@@ -1,17 +1,16 @@
-import { Grid } from '@material-ui/core';
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import BorderBottom from '../../../lib/components/Border';
-import LoadingInfo from '../../../lib/components/LoadingInfo';
 import { RootStateType } from '../../../store/rootReducer';
 import { fetchExpertById } from '../store/expertsSlice';
 import ExpertInfo from './ExpertInfo';
 import ExpertMaterialsContainer from './ExpertMaterialsContainer';
-import { useStyles } from '../styles/ExpertProfileView.styles';
+import LoadingContainer from '../../../lib/components/Loading/LoadingContainer';
+import { LoadingStatusEnum } from '../../../lib/types';
+import PageTitle from '../../../lib/components/Pages/PageTitle';
 
 const ExpertProfileView: React.FC = () => {
-  const classes = useStyles();
   const dispatch = useDispatch();
   const { expertId } = useParams<{ expertId: string }>();
   const {
@@ -26,19 +25,25 @@ const ExpertProfileView: React.FC = () => {
   useEffect(() => {
     dispatch(fetchExpertById(Number(expertId)));
   }, [expertId]);
+
   return (
     <>
-      <Grid
-        container
-        direction="column"
-        alignItems="center"
-        className={classes.loading}
-      >
-        <LoadingInfo loading={loading} />
-      </Grid>
-      {selectedExpert && <ExpertInfo expert={selectedExpert} />}
-      <BorderBottom />
-      <ExpertMaterialsContainer expertId={expertId} />
+      {loading === LoadingStatusEnum.pending ? (
+        <LoadingContainer loading={loading} />
+      ) : (
+        <>
+          {selectedExpert && (
+            <>
+              <PageTitle
+                title={`${selectedExpert.firstName} ${selectedExpert.lastName}`}
+              />
+              <ExpertInfo expert={selectedExpert} />
+            </>
+          )}
+          <BorderBottom />
+          <ExpertMaterialsContainer expertId={expertId} />
+        </>
+      )}
     </>
   );
 };

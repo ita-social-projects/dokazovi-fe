@@ -7,16 +7,17 @@ import {
   IMainState,
   fetchInitialNewestPosts,
 } from '../store/mainSlice';
-import { styles } from '../styles/NewestContainer.style';
-import BorderBottom from '../../../lib/components/Border';
+import { useStyles } from '../styles/NewestContainer.style';
 import PostsList from '../../../lib/components/Posts/PostsList';
 import { LoadingStatusEnum } from '../../../lib/types';
-import LoadingInfo from '../../../lib/components/LoadingInfo';
+import LoadingInfo from '../../../lib/components/Loading/LoadingInfo';
 import useEffectExceptOnMount from '../../../lib/hooks/useEffectExceptOnMount';
 import { selectPostsByIds } from '../../../store/selectors';
 import LoadMorePostsButton from '../../../lib/components/LoadMorePostsButton';
+import LoadingContainer from '../../../lib/components/Loading/LoadingContainer';
 
 const NewestContainer: React.FC = () => {
+  const classes = useStyles();
   const dispatch = useDispatch();
   const setNewest = () => dispatch(fetchNewestPosts());
 
@@ -42,24 +43,15 @@ const NewestContainer: React.FC = () => {
   }, [currentPage]);
 
   return (
-    <div style={styles.container}>
+    <div className={classes.container}>
       {loading === LoadingStatusEnum.pending && currentPage < 1 ? (
-        <Grid
-          container
-          direction="column"
-          alignItems="center"
-          style={styles.loading}
-        >
-          <LoadingInfo loading={loading} />
-        </Grid>
+        <LoadingContainer loading={loading} />
       ) : (
         <>
           <Typography variant="h4">Найновіше</Typography>
           <PostsList postsList={newestPosts} />
 
-          <Grid container direction="column" alignItems="center">
-            <LoadingInfo loading={loading} />
-          </Grid>
+          <LoadingContainer loading={loading} />
 
           <Grid container direction="column" alignItems="center" ref={gridRef}>
             <LoadMorePostsButton
@@ -68,7 +60,6 @@ const NewestContainer: React.FC = () => {
               loading={loading}
             />
           </Grid>
-          <BorderBottom />
         </>
       )}
     </div>

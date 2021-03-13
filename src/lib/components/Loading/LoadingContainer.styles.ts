@@ -1,13 +1,13 @@
-import makeStyles from '@material-ui/core/styles/makeStyles';
+import { makeStyles } from '@material-ui/core';
 
 export const useStyles = makeStyles(
   () => ({
     container: {
-      minHeight: 600,
-      display: 'flex',
       flexDirection: 'column',
+      alignItems: 'center',
       justifyContent: 'center',
+      flexGrow: 1,
     },
   }),
-  { name: 'NewestContainer' },
+  { name: 'LoadingContainer' },
 );

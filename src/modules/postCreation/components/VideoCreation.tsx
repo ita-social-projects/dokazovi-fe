@@ -25,6 +25,7 @@ import { PostPostRequestType } from '../../../lib/utilities/API/types';
 import { parseVideoIdFromUrl } from '../../../lib/utilities/parseVideoIdFromUrl';
 import VideoUrlInputModal from '../../../lib/components/Editor/CustomModules/VideoUrlInputModal';
 import PostCreationButtons from './PostCreationButtons';
+import PageTitle from '../../../lib/components/Pages/PageTitle';
 
 const VideoCreation: React.FC = () => {
   const dispatch = useDispatch();
@@ -118,6 +119,8 @@ const VideoCreation: React.FC = () => {
 
   return (
     <>
+      <PageTitle title="Створення відео" />
+
       {directions.length ? (
         <PostTopicSelector
           dispatchTopics={dispatchTopics}

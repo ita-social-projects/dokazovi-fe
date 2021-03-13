@@ -1,6 +1,6 @@
 import React from 'react';
 import SearchIcon from '@material-ui/icons/Search';
-import { Box, Toolbar, Typography } from '@material-ui/core';
+import { Box, Container, Toolbar, Typography } from '@material-ui/core';
 import { Link, NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useStyles } from './Header.styles';
@@ -38,48 +38,50 @@ const Header: React.FC = () => {
   const { user } = useSelector((state: RootStateType) => state.currentUser);
 
   return (
-    <div id="header" className={classes.root}>
-      <Toolbar className={classes.header}>
-        <Box display="flex">
-          <Link to="/">
-            <Typography className={classes.logo} variant="h1">
-              Доказові
+    <Container>
+      <div id="header">
+        <Toolbar className={classes.header}>
+          <Box display="flex">
+            <Link to="/">
+              <Typography className={classes.logo} variant="h1">
+                Доказові
+              </Typography>
+            </Link>
+
+            <Typography className={classes.subtitle} variant="subtitle2">
+              <span>Обгрунтовані</span>
+              <span>медичні погляди</span>
             </Typography>
-          </Link>
+          </Box>
 
-          <Typography className={classes.subtitle} variant="subtitle2">
-            <span>Обгрунтовані</span>
-            <span>медичні погляди</span>
-          </Typography>
+          <Box display="flex">
+            <Link to="/" className={classes.community}>
+              <Typography variant="body2">Про нашу спільноту</Typography>
+            </Link>
+
+            {user && (
+              <div className={classes.postCreationMenu}>
+                <PostCreationMenu />
+              </div>
+            )}
+
+            <SearchIcon className={classes.search} fontSize="large" />
+
+            {user ? <AccountMenu /> : <LoginModal />}
+          </Box>
+        </Toolbar>
+
+        <Box className={classes.tabs}>
+          {navElems.map((item) => (
+            <NavLink to={item.url} key={item.id} className={classes.tab} exact>
+              <Typography variant="body1" className={classes.tabLabel}>
+                {item.label}
+              </Typography>
+            </NavLink>
+          ))}
         </Box>
-
-        <Box display="flex">
-          <Link to="/" className={classes.community}>
-            <Typography variant="body2">Про нашу спільноту</Typography>
-          </Link>
-
-          {user && (
-            <div className={classes.postCreationMenu}>
-              <PostCreationMenu />
-            </div>
-          )}
-
-          <SearchIcon className={classes.search} fontSize="large" />
-
-          {user ? <AccountMenu /> : <LoginModal />}
-        </Box>
-      </Toolbar>
-
-      <Box className={classes.tabs}>
-        {navElems.map((item) => (
-          <NavLink to={item.url} key={item.id} className={classes.tab} exact>
-            <Typography variant="body1" className={classes.tabLabel}>
-              {item.label}
-            </Typography>
-          </NavLink>
-        ))}
-      </Box>
-    </div>
+      </div>
+    </Container>
   );
 };
 

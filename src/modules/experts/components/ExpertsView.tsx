@@ -7,8 +7,7 @@ import { Pagination } from '@material-ui/lab';
 import { fetchExperts, setExpertsPage } from '../store/expertsSlice';
 import { RootStateType } from '../../../store/rootReducer';
 import ExpertsList from '../../../lib/components/Experts/ExpertsList';
-import LoadingInfo from '../../../lib/components/LoadingInfo';
-import { useStyles } from '../styles/ExpertsView.styles';
+import LoadingInfo from '../../../lib/components/Loading/LoadingInfo';
 import {
   FilterTypeEnum,
   IDirection,
@@ -19,13 +18,13 @@ import { selectExpertsByIds } from '../../../store/selectors';
 import { ICheckboxFormState } from '../../../lib/components/Filters/CheckboxFilterForm';
 import CheckboxDropdownFilterForm from '../../../lib/components/Filters/СheckboxDropdownFilterForm';
 import { getQueryTypeByFilterType } from '../../../lib/utilities/filters';
+import PageTitle from '../../../lib/components/Pages/PageTitle';
 
 const useQuery = () => {
   return new URLSearchParams(useLocation().search);
 };
 
 const ExpertsView: React.FC = () => {
-  const classes = useStyles();
   const query = useQuery();
   const history = useHistory();
   const dispatch = useDispatch();
@@ -126,6 +125,8 @@ const ExpertsView: React.FC = () => {
 
   return (
     <>
+      <PageTitle title="Автори" />
+
       {propertiesLoaded && (
         <Grid container direction="column">
           <CheckboxDropdownFilterForm
@@ -155,12 +156,7 @@ const ExpertsView: React.FC = () => {
               <ExpertsList experts={experts} />
             </Grid>
             <Box mt={2} mb={2}>
-              <Grid
-                container
-                spacing={2}
-                direction="column"
-                alignItems="center"
-              >
+              <Grid container direction="column" alignItems="center">
                 <Pagination
                   count={totalPages}
                   page={correctPageNumber}
