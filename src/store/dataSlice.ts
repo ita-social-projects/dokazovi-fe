@@ -51,28 +51,18 @@ export const mapFetchedPosts = (
   const mappedPosts = posts.map((post) => {
     ids.push(String(post.id));
 
-    const postAuthor = {
-      ..._.pick(post.author, [
-        'id',
-        'avatar',
-        'firstName',
-        'lastName',
-        'mainInstitution',
-      ]),
-    };
-
     const preview = _.truncate(post.content, {
       length: 150,
     });
 
     return {
-      author: postAuthor,
+      id: post.id,
+      author: post.author,
       createdAt: post.createdAt,
       directions: post.directions,
       title: post.title,
       postType: post.type,
       preview,
-      id: post.id,
     };
   });
 

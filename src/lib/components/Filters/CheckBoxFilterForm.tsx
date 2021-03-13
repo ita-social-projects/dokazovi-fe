@@ -1,33 +1,39 @@
 import { Checkbox, FormControlLabel } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
+import { FilterTypeEnum } from '../../types';
 
 interface IFilter {
   id: string | number;
   name: string;
 }
 
-export interface ICheckBoxFilterFormProps {
-  onFormChange: (checked: ICheckBoxFormState) => void;
+export interface ICheckboxFormState extends Record<string, boolean> {}
+
+export interface ICheckboxFilterFormProps {
+  onFormChange: (
+    checked: ICheckboxFormState,
+    filterType: FilterTypeEnum,
+  ) => void;
   possibleFilters: IFilter[];
   selectedFilters?: IFilter[];
+  filterType: FilterTypeEnum;
 }
 
-export interface ICheckBoxFormState extends Record<string, boolean> {}
-
-const CheckBoxFilterForm: React.FC<ICheckBoxFilterFormProps> = ({
+const CheckboxFilterForm: React.FC<ICheckboxFilterFormProps> = ({
   onFormChange,
   possibleFilters,
   selectedFilters,
+  filterType,
 }) => {
-  const getCheckedStateFromFilters = (): ICheckBoxFormState => {
+  const getCheckedStateFromFilters = (): ICheckboxFormState => {
     return possibleFilters.reduce((acc, next) => {
       acc[next.id] = Boolean(
         selectedFilters?.find((filter) => filter.id === next.id),
       );
       return acc;
-    }, {} as ICheckBoxFormState);
+    }, {} as ICheckboxFormState);
   };
-  const [checked, setChecked] = useState<ICheckBoxFormState>(
+  const [checked, setChecked] = useState<ICheckboxFormState>(
     getCheckedStateFromFilters(),
   );
 
@@ -36,10 +42,13 @@ const CheckBoxFilterForm: React.FC<ICheckBoxFilterFormProps> = ({
   }, [selectedFilters]);
 
   const onCheckboxCheck = (event: React.ChangeEvent<HTMLInputElement>) => {
-    onFormChange({
-      ...checked,
-      [event.target.name]: event.target.checked,
-    });
+    onFormChange(
+      {
+        ...checked,
+        [event.target.name]: event.target.checked,
+      },
+      filterType,
+    );
   };
 
   const checkBoxes = possibleFilters?.map((filter) => {
@@ -60,11 +69,7 @@ const CheckBoxFilterForm: React.FC<ICheckBoxFilterFormProps> = ({
     );
   });
 
-  return (
-    <>
-      <form>{checkBoxes}</form>
-    </>
-  );
+  return <form>{checkBoxes}</form>;
 };
 
-export default CheckBoxFilterForm;
+export default CheckboxFilterForm;

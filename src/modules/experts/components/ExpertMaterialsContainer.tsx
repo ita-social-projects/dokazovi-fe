@@ -1,18 +1,25 @@
 import { Box, Grid, Typography } from '@material-ui/core';
-import { isEmpty } from 'lodash';
+import { isEmpty, uniq } from 'lodash';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 import BorderBottom from '../../../lib/components/Border';
-import CheckBoxFilterForm, {
-  ICheckBoxFormState,
-} from '../../../lib/components/Filters/CheckBoxFilterForm';
+import CheckboxFilterForm, {
+  ICheckboxFormState,
+} from '../../../lib/components/Filters/CheckboxFilterForm';
 import LoadingInfo from '../../../lib/components/LoadingInfo';
 import LoadMorePostsButton from '../../../lib/components/LoadMorePostsButton';
 import PostsList from '../../../lib/components/Posts/PostsList';
 import useEffectExceptOnMount from '../../../lib/hooks/useEffectExceptOnMount';
 import usePrevious from '../../../lib/hooks/usePrevious';
-import { IPostType, LoadingStatusEnum } from '../../../lib/types';
+import {
+  FilterTypeEnum,
+  IPostType,
+  LoadingStatusEnum,
+  QueryTypeEnum,
+} from '../../../lib/types';
+import { RequestParamsType } from '../../../lib/utilities/API/types';
+import { getQueryTypeByFilterType } from '../../../lib/utilities/filters';
 import { RootStateType } from '../../../store/rootReducer';
 import { selectPostsByIds } from '../../../store/selectors';
 import {
@@ -28,8 +35,6 @@ export interface IExpertMaterialsContainerProps {
 const useQuery = () => {
   return new URLSearchParams(useLocation().search);
 };
-
-const TYPES_QUERY = 'types';
 
 const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
   expertId,
@@ -57,21 +62,37 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
     (state: RootStateType) => state.properties.postTypes,
   );
 
-  const setFilters = (checked: ICheckBoxFormState) => {
+  const setFilters = (
+    checked: ICheckboxFormState,
+    filterType: FilterTypeEnum,
+  ) => {
+    const queryType = getQueryTypeByFilterType(filterType);
     const checkedIds = Object.keys(checked).filter((key) => checked[key]);
-    query.set(TYPES_QUERY, checkedIds.join(','));
-    if (!checkedIds.length) query.delete(TYPES_QUERY);
+    const isQuerySame = uniq(Object.values(checked)).length === 1; // removing the query if user checks/unchecks the last box
+
+    query.set(queryType, checkedIds.join(','));
+    if (!checkedIds.length || isQuerySame) {
+      query.delete(queryType);
+    }
+
     setPage(0);
+
     history.push({
       search: query.toString(),
     });
   };
 
-  const fetchMaterials = (loadMore?: boolean) => {
-    const filters = {
+  const fetchData = (loadMore?: boolean) => {
+    const types: number[] | undefined = query
+      .get(QueryTypeEnum.POST_TYPES)
+      ?.split(',')
+      .map(Number);
+
+    const filters: RequestParamsType = {
       page,
-      types: query.get(TYPES_QUERY),
+      type: types,
     };
+
     dispatch(fetchExpertMaterials(Number(expertId), filters, loadMore));
   };
 
@@ -81,8 +102,8 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
 
   useEffect(() => {
     const isLoadMore = previous && previous.page < page;
-    fetchMaterials(isLoadMore);
-  }, [expertId, query.get(TYPES_QUERY), page]);
+    fetchData(isLoadMore);
+  }, [expertId, query.get(QueryTypeEnum.POST_TYPES), page]);
 
   useEffectExceptOnMount(() => {
     if (page > 0) {
@@ -90,20 +111,25 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
     }
   }, [page]);
 
-  const selectedTypesString = query.get(TYPES_QUERY)?.split(',');
-  let selectedFilters: IPostType[] | undefined = postTypes?.filter((post) =>
-    selectedTypesString?.includes(post.id.toString()),
+  const selectedPostTypesString = query
+    .get(QueryTypeEnum.POST_TYPES)
+    ?.split(',');
+  let selectedPostTypes: IPostType[] | undefined = postTypes?.filter((post) =>
+    selectedPostTypesString?.includes(post.id.toString()),
   );
-  selectedFilters = !isEmpty(selectedFilters) ? selectedFilters : undefined;
+  selectedPostTypes = !isEmpty(selectedPostTypes)
+    ? selectedPostTypes
+    : undefined;
 
   return (
     <Box className={classes.container}>
       <Typography variant="h4">Матеріали</Typography>
       {!isEmpty(postTypes) && (
-        <CheckBoxFilterForm
+        <CheckboxFilterForm
           onFormChange={setFilters}
           possibleFilters={postTypes}
-          selectedFilters={selectedFilters}
+          selectedFilters={selectedPostTypes}
+          filterType={FilterTypeEnum.POST_TYPES}
         />
       )}
       <Grid container spacing={2} direction="row" alignItems="center">

@@ -30,19 +30,15 @@ export const RouteWithSubRoutes: React.FC<IRouterConfig> = (props) => {
     const routeWithoutRoutes = props;
     return (
       <Route path={path} exact={exact}>
-        <>
-          <PageTitleComponent title={title} />
-          <routeWithoutRoutes.component />
-        </>
+        <PageTitleComponent title={title} />
+        <routeWithoutRoutes.component />
       </Route>
     );
   }
   return (
     <Route path={path} exact={exact}>
-      <>
-        <PageTitleComponent title={title} />
-        <props.component routes={routes} />
-      </>
+      <PageTitleComponent title={title} />
+      <props.component routes={routes} />
     </Route>
   );
 };

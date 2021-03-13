@@ -9,19 +9,20 @@ import { RootStateType } from '../../../store/rootReducer';
 import ExpertsList from '../../../lib/components/Experts/ExpertsList';
 import LoadingInfo from '../../../lib/components/LoadingInfo';
 import { useStyles } from '../styles/ExpertsView.styles';
-import { FilterTypeEnum } from '../../../lib/types';
+import {
+  FilterTypeEnum,
+  IDirection,
+  IRegion,
+  QueryTypeEnum,
+} from '../../../lib/types';
 import { selectExpertsByIds } from '../../../store/selectors';
-import { ICheckBoxFormState } from '../../../lib/components/Filters/CheckBoxFilterForm';
-import CheckBoxDropdownFilterForm from '../../../lib/components/Filters/СheckBoxDropdownFilterForm';
-import useEffectExceptOnMount from '../../../lib/hooks/useEffectExceptOnMount';
+import { ICheckboxFormState } from '../../../lib/components/Filters/CheckboxFilterForm';
+import CheckboxDropdownFilterForm from '../../../lib/components/Filters/СheckboxDropdownFilterForm';
+import { getQueryTypeByFilterType } from '../../../lib/utilities/filters';
 
 const useQuery = () => {
   return new URLSearchParams(useLocation().search);
 };
-
-const PAGE_QUERY = 'page';
-const REGIONS_QUERY = 'regions';
-const DIRECTIONS_QUERY = 'directions';
 
 const ExpertsView: React.FC = () => {
   const classes = useStyles();
@@ -39,22 +40,22 @@ const ExpertsView: React.FC = () => {
   const regions = useSelector(
     (state: RootStateType) => state.properties?.regions,
   );
-
   const directions = useSelector(
     (state: RootStateType) => state.properties?.directions,
   );
+  const propertiesLoaded = !isEmpty(regions) && !isEmpty(directions);
 
-  const fetchMaterials = () => {
-    const pageQuery = Number(query.get(PAGE_QUERY));
-    const regionsQuery = query.get(REGIONS_QUERY);
-    const directionsQuery = query.get(DIRECTIONS_QUERY);
+  const fetchData = () => {
+    const pageQuery = Number(query.get(QueryTypeEnum.PAGE));
+    const regionsQuery = query.get(QueryTypeEnum.REGIONS);
+    const directionsQuery = query.get(QueryTypeEnum.DIRECTIONS);
 
     const isPage = pageQuery ? pageQuery - 1 : 0;
     const regionsFilterQuery = regionsQuery
-      ? regionsQuery.split(',').filter(Number)
+      ? regionsQuery.split(',').filter(Number).map(Number)
       : [];
     const directionsFilterQuery = directionsQuery
-      ? directionsQuery.split(',').filter(Number)
+      ? directionsQuery.split(',').filter(Number).map(Number)
       : [];
 
     dispatch(setExpertsPage(isPage));
@@ -68,78 +69,76 @@ const ExpertsView: React.FC = () => {
   };
 
   const setFilters = (
-    checked: ICheckBoxFormState,
+    checked: ICheckboxFormState,
     filterType: FilterTypeEnum,
   ) => {
+    const queryType = getQueryTypeByFilterType(filterType);
     const checkedIds = Object.keys(checked).filter((key) => checked[key]);
-    const queryType = filterType.toLowerCase();
-    const isQuerySame = uniq(Object.values(checked)).length === 1;
+    const isQuerySame = uniq(Object.values(checked)).length === 1; // removing the query if user checks/unchecks the last box
 
     query.set(queryType, checkedIds.join(','));
     if (!checkedIds.length || isQuerySame) {
       query.delete(queryType);
     }
-    query.set(PAGE_QUERY, '1');
+
+    query.set(QueryTypeEnum.PAGE, '1');
+
     history.push({
       search: query.toString(),
     });
   };
 
   const handlePageChange = (_, newPage: number) => {
-    query.set(PAGE_QUERY, String(newPage));
+    query.set(QueryTypeEnum.PAGE, newPage.toString());
     history.push({
       search: query.toString(),
     });
   };
 
   useEffect(() => {
-    fetchMaterials();
-  }, []);
-
-  useEffectExceptOnMount(() => {
-    fetchMaterials();
+    fetchData();
   }, [
-    query.get(PAGE_QUERY),
-    query.get(REGIONS_QUERY),
-    query.get(DIRECTIONS_QUERY),
+    query.get(QueryTypeEnum.PAGE),
+    query.get(QueryTypeEnum.REGIONS),
+    query.get(QueryTypeEnum.DIRECTIONS),
   ]);
-
-  const expertsPropertiesLoaded = !!regions.length && !!directions.length;
 
   const correctPageNumber = pageNumber === 0 ? 1 : pageNumber + 1;
 
-  const selectedRegionsString = query.get(REGIONS_QUERY)?.split(',');
-  const selectedDirectionsString = query.get(DIRECTIONS_QUERY)?.split(',');
+  const selectedRegionsString = query.get(QueryTypeEnum.REGIONS)?.split(',');
+  const selectedDirectionsString = query
+    .get(QueryTypeEnum.DIRECTIONS)
+    ?.split(',');
 
-  const selectedRegionsFilter = regions?.filter((post) =>
-    selectedRegionsString?.includes(post.id.toString()),
+  let selectedRegions: IRegion[] | undefined = regions?.filter((region) =>
+    selectedRegionsString?.includes(region.id.toString()),
   );
-  const selectedDirectionsFilter = directions?.filter((post) =>
-    selectedDirectionsString?.includes(post.id.toString()),
+  let selectedDirections:
+    | IDirection[]
+    | undefined = directions?.filter((direction) =>
+    selectedDirectionsString?.includes(direction.id.toString()),
   );
 
-  const initialRegionsFilter = !isEmpty(selectedRegionsFilter)
-    ? selectedRegionsFilter
-    : undefined;
-  const initialDirectionsFilter = !isEmpty(selectedDirectionsString)
-    ? selectedDirectionsFilter
+  selectedRegions = !isEmpty(selectedRegions) ? selectedRegions : undefined;
+  selectedDirections = !isEmpty(selectedDirections)
+    ? selectedDirections
     : undefined;
 
   return (
     <>
-      {expertsPropertiesLoaded && (
+      {propertiesLoaded && (
         <Grid container direction="column">
-          <CheckBoxDropdownFilterForm
+          <CheckboxDropdownFilterForm
             onFormChange={setFilters}
             possibleFilters={regions}
-            selectedFilters={initialRegionsFilter}
+            selectedFilters={selectedRegions}
             filterTitle="Регіони: "
             filterType={FilterTypeEnum.REGIONS}
           />
-          <CheckBoxDropdownFilterForm
+          <CheckboxDropdownFilterForm
             onFormChange={setFilters}
             possibleFilters={directions}
-            selectedFilters={initialDirectionsFilter}
+            selectedFilters={selectedDirections}
             filterTitle="Напрямки: "
             filterType={FilterTypeEnum.DIRECTIONS}
           />
@@ -147,12 +146,7 @@ const ExpertsView: React.FC = () => {
       )}
       <Box mt={2}>
         {loading === 'pending' ? (
-          <Grid
-            container
-            direction="column"
-            alignItems="center"
-            className={classes.loading}
-          >
+          <Grid container direction="column" alignItems="center">
             <LoadingInfo loading={loading} />
           </Grid>
         ) : (

@@ -6,18 +6,13 @@ import {
   getRegions,
   getDirection,
 } from '../lib/utilities/API/api';
-import {
-  FilterPropertiesType,
-  IPostTag,
-  IPostType,
-  IDirection,
-} from '../lib/types';
+import { IPostTag, IPostType, IDirection, IRegion } from '../lib/types';
 
 import type { AppThunkType } from './store';
 
 export interface IPropertiesState {
   postTypes: IPostType[];
-  regions: FilterPropertiesType[];
+  regions: IRegion[];
   postTags: IPostTag[];
   directions: IDirection[];
 }
@@ -36,7 +31,7 @@ export const propertiesSlice = createSlice({
     loadPostsTypes: (state, action: PayloadAction<IPostType[]>) => {
       state.postTypes = action.payload;
     },
-    loadRegions: (state, action: PayloadAction<FilterPropertiesType[]>) => {
+    loadRegions: (state, action: PayloadAction<IRegion[]>) => {
       state.regions = action.payload;
     },
     loadPostsTags: (state, action: PayloadAction<IPostTag[]>) => {

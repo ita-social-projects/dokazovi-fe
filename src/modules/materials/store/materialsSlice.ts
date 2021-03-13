@@ -95,7 +95,7 @@ export const {
 export const materialsReducer = materialsSlice.reducer;
 
 export const fetchMaterials = (
-  filters: { directions: string[]; postTypes: string[] },
+  filters: { directions: number[]; postTypes: number[] },
   loadMore = false,
 ): AppThunkType => async (dispatch, getState) => {
   const {

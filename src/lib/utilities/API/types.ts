@@ -118,11 +118,11 @@ export type RequestParamsType = {
   page?: number;
   size?: number;
   sort?: string[];
-  directions?: string[]; // change to number later
-  type?: string[];
+  directions?: number[];
+  type?: number[];
   expert?: number;
-  regions?: string[];
-  tag?: string[];
+  regions?: number[];
+  tag?: number[];
 };
 
 export type GetConfigType = {
@@ -130,7 +130,7 @@ export type GetConfigType = {
 };
 
 export type GetExpertsConfigType = GetConfigType & {
-  params: { directions?: string[]; regions?: string[] };
+  params: { directions?: number[]; regions?: number[] };
 };
 
 export type GetTagConfigType = {

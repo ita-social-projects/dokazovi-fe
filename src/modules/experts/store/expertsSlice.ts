@@ -1,11 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import {
-  IFilter,
-  LoadingStatusEnum,
-  FilterTypeEnum,
-  UrlFilterTypes,
-} from '../../../lib/types';
+import { IFilter, LoadingStatusEnum, FilterTypeEnum } from '../../../lib/types';
 import {
   getAllExperts,
   getExpertById,
@@ -39,8 +34,6 @@ interface IMaterialsPayload {
   };
 }
 
-interface IMaterialsFilters extends Record<UrlFilterTypes, unknown> {}
-
 const materialsInitialState: IMaterialsPayload = {
   postIds: [],
   meta: {
@@ -72,8 +65,8 @@ const initialState: IExpertsState = {
 
 interface IFetchExpertsOptions {
   page: number;
-  regions: string[];
-  directions: string[];
+  regions: number[];
+  directions: number[];
 }
 
 export const fetchExperts = createAsyncThunk(
@@ -204,7 +197,7 @@ export const expertsReducer = expertsSlice.reducer;
 
 export const fetchExpertMaterials = (
   expertId: number,
-  filters?: IMaterialsFilters,
+  filters?: RequestParamsType,
   loadMore?: boolean,
 ): AppThunkType => async (dispatch, getState) => {
   const { postIds } = getState().experts.materials[expertId];
@@ -221,11 +214,8 @@ export const fetchExpertMaterials = (
       size: LOAD_POSTS_LIMIT,
       page: loadMore ? (filters?.page as number) : 0,
       expert: expertId,
+      type: filters?.type,
     };
-
-    if (filters?.types) {
-      params.type = filters?.types as string[];
-    }
 
     const resp = await getPosts('latest-by-expert', { params });
 
