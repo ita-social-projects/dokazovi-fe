@@ -1,24 +1,17 @@
-import { Box, Grid, Typography } from '@material-ui/core';
+import { Grid, Typography } from '@material-ui/core';
 import { isEmpty, uniq } from 'lodash';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
-import BorderBottom from '../../../lib/components/Border';
 import CheckboxFilterForm, {
   ICheckboxFormState,
 } from '../../../lib/components/Filters/CheckboxFilterForm';
 import LoadingContainer from '../../../lib/components/Loading/LoadingContainer';
-import LoadingInfo from '../../../lib/components/Loading/LoadingInfo';
 import LoadMorePostsButton from '../../../lib/components/LoadMorePostsButton';
 import PostsList from '../../../lib/components/Posts/PostsList';
 import useEffectExceptOnMount from '../../../lib/hooks/useEffectExceptOnMount';
 import usePrevious from '../../../lib/hooks/usePrevious';
-import {
-  FilterTypeEnum,
-  IPostType,
-  LoadingStatusEnum,
-  QueryTypeEnum,
-} from '../../../lib/types';
+import { FilterTypeEnum, IPostType, QueryTypeEnum } from '../../../lib/types';
 import { RequestParamsType } from '../../../lib/utilities/API/types';
 import { getQueryTypeByFilterType } from '../../../lib/utilities/filters';
 import { RootStateType } from '../../../store/rootReducer';
@@ -29,7 +22,7 @@ import {
 } from '../store/expertsSlice';
 
 export interface IExpertMaterialsContainerProps {
-  expertId: string;
+  expertId: number;
 }
 
 const useQuery = () => {

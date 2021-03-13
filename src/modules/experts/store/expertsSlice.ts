@@ -114,7 +114,7 @@ export const expertsSlice = createSlice({
   name: 'experts',
   initialState,
   reducers: {
-    setupExpertMaterialsID: (state, action: PayloadAction<string>) => {
+    setupExpertMaterialsID: (state, action: PayloadAction<number>) => {
       if (!state.materials[action.payload])
         state.materials[action.payload] = materialsInitialState;
     },

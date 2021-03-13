@@ -10,11 +10,11 @@ const MaterialsView = lazy(
 const ExpertsView = lazy(
   () => import('../modules/experts/components/ExpertsView'),
 );
-const ExpertProfileView = lazy(
-  () => import('../modules/experts/components/ExpertProfileView'),
+const ExpertProfileViewWrapper = lazy(
+  () => import('../modules/experts/components/ExpertProfileViewWrapper'),
 );
-const PostViewContainer = lazy(
-  () => import('../modules/posts/components/PostViewContainer'),
+const PostViewWrapper = lazy(
+  () => import('../modules/posts/components/PostViewWrapper'),
 );
 const ArticleCreation = lazy(
   () => import('../modules/postCreation/components/ArticleCreation'),
@@ -57,7 +57,7 @@ const ROUTER_CONFIG: IRouterConfig[] = [
         path: '/experts/:expertId',
         key: 'EXPERT_PROFILE',
         exact: true,
-        component: ExpertProfileView,
+        component: ExpertProfileViewWrapper,
       },
     ],
   },
@@ -125,7 +125,7 @@ const ROUTER_CONFIG: IRouterConfig[] = [
     path: '/posts/:postId',
     key: 'POST_PROFILE',
     exact: true,
-    component: PostViewContainer,
+    component: PostViewWrapper,
   },
   {
     path: '/error_404',

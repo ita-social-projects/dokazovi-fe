@@ -19,6 +19,7 @@ import { ICheckboxFormState } from '../../../lib/components/Filters/CheckboxFilt
 import CheckboxDropdownFilterForm from '../../../lib/components/Filters/СheckboxDropdownFilterForm';
 import { getQueryTypeByFilterType } from '../../../lib/utilities/filters';
 import PageTitle from '../../../lib/components/Pages/PageTitle';
+import LoadingContainer from '../../../lib/components/Loading/LoadingContainer';
 
 const useQuery = () => {
   return new URLSearchParams(useLocation().search);
@@ -145,11 +146,9 @@ const ExpertsView: React.FC = () => {
           />
         </Grid>
       )}
-      <Box mt={2}>
+      <>
         {loading === 'pending' ? (
-          <Grid container direction="column" alignItems="center">
-            <LoadingInfo loading={loading} />
-          </Grid>
+          <LoadingContainer loading={loading} />
         ) : (
           <>
             <Grid container spacing={4} direction="row">
@@ -168,7 +167,7 @@ const ExpertsView: React.FC = () => {
             </Box>
           </>
         )}
-      </Box>
+      </>
     </>
   );
 };

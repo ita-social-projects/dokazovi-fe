@@ -70,15 +70,6 @@ const MaterialsView: React.FC = () => {
   } = useSelector((state: RootStateType) => state.materials);
   const materials = selectPostsByIds(postIds);
 
-  useEffect(() => {
-    const loadMore = previous && previous.page < page;
-    fetchData(loadMore);
-  }, [
-    page,
-    query.get(QueryTypeEnum.POST_TYPES),
-    query.get(QueryTypeEnum.DIRECTIONS),
-  ]);
-
   const setFilters = (
     checked: ICheckboxFormState,
     filterType: FilterTypeEnum,
@@ -98,6 +89,15 @@ const MaterialsView: React.FC = () => {
       search: query.toString(),
     });
   };
+
+  useEffect(() => {
+    const loadMore = previous && previous.page < page;
+    fetchData(loadMore);
+  }, [
+    page,
+    query.get(QueryTypeEnum.POST_TYPES),
+    query.get(QueryTypeEnum.DIRECTIONS),
+  ]);
 
   const selectedDirectionsString = query
     .get(QueryTypeEnum.DIRECTIONS)

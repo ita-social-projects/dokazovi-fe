@@ -5,7 +5,7 @@ import { IPost } from '../../../lib/types';
 import PostView from './PostView';
 import { sanitizeHtml } from '../../../lib/utilities/sanitizeHtml';
 
-const PostViewContainer: React.FC = () => {
+const PostViewWrapper: React.FC = () => {
   const { postId } = useParams<{ postId: string }>();
   const history = useHistory();
   const [loadedPost, setLoadedPost] = useState<IPost>();
@@ -36,4 +36,4 @@ const PostViewContainer: React.FC = () => {
   return <>{loadedPost && <PostView post={loadedPost} />}</>;
 };
 
-export default PostViewContainer;
+export default PostViewWrapper;
