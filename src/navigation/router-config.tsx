@@ -4,11 +4,8 @@ import { RenderRoutes } from './Router';
 import { IRouterConfig } from './types';
 
 const MainView = lazy(() => import('../modules/main/components/MainView'));
-const DirectionsList = lazy(
-  () => import('../modules/direction/components/DirectionsList'),
-);
-const DirectionView = lazy(
-  () => import('../modules/direction/components/DirectionView'),
+const MaterialsView = lazy(
+  () => import('../modules/materials/components/MaterialsView'),
 );
 const ExpertsView = lazy(
   () => import('../modules/experts/components/ExpertsView'),
@@ -20,14 +17,16 @@ const PostViewContainer = lazy(
   () => import('../modules/posts/components/PostViewContainer'),
 );
 const ArticleCreation = lazy(
-  () => import('../modules/postCreation/ArticleCreation'),
+  () => import('../modules/postCreation/components/ArticleCreation'),
 );
-const NoteCreation = lazy(() => import('../modules/postCreation/NoteCreation'));
+const NoteCreation = lazy(
+  () => import('../modules/postCreation/components/NoteCreation'),
+);
 const VideoCreation = lazy(
-  () => import('../modules/postCreation/VideoCreation'),
+  () => import('../modules/postCreation/components/VideoCreation'),
 );
 const PostCreationPreview = lazy(
-  () => import('../modules/postCreation/PostCreationPreview'),
+  () => import('../modules/postCreation/components/PostCreationPreview'),
 );
 const Page404 = lazy(() => import('../lib/components/Errors/Page404'));
 
@@ -40,24 +39,10 @@ const ROUTER_CONFIG: IRouterConfig[] = [
     title: 'Головна',
   },
   {
-    path: '/direction',
-    key: 'DIRECTION',
-    component: RenderRoutes,
-    routes: [
-      {
-        path: '/direction',
-        key: 'DIRECTION_ROOT',
-        exact: true,
-        component: DirectionsList,
-        title: 'Напрямки',
-      },
-      {
-        path: '/direction/:name',
-        key: 'DIRECTION_COMPONENT',
-        exact: true,
-        component: DirectionView,
-      },
-    ],
+    path: '/materials',
+    key: 'MATERIALS',
+    component: MaterialsView,
+    title: 'Матеріали',
   },
   {
     path: '/experts',

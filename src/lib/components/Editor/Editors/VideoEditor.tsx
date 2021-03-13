@@ -30,7 +30,7 @@ const VideoEditor: React.FC<IVideoEditorProps> = ({ dispatchContent }) => {
       <GeneralEditor
         type={PostTypeEnum.VIDEO}
         dispatchContent={dispatchContent}
-        toolbar={<VideoEditorToolbar editor={editor} />}
+        toolbar={<VideoEditorToolbar />}
         ref={videoEditor}
       />
     </>

@@ -2,11 +2,11 @@ import { Grid, Typography } from '@material-ui/core';
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import BorderBottom from '../../../lib/components/Border';
-import Carousel from '../../../lib/components/Carousel';
+import Carousel from '../../../lib/components/Carousel/Carousel';
 import LoadingInfo from '../../../lib/components/LoadingInfo';
-import { PostCard } from '../../../lib/components/PostCard';
+import { PostCard } from '../../../lib/components/Posts/Cards/PostCard';
 import { RootStateType } from '../../../store/rootReducer';
-import { styles } from '../../../lib/constants/carousel-config';
+import { styles } from '../../../lib/components/Carousel/carouselConfig';
 import {
   fetchImportantPosts,
   setImportantLoadingStatus,

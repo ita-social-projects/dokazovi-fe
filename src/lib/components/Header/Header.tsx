@@ -4,8 +4,8 @@ import { Box, Toolbar, Typography } from '@material-ui/core';
 import { Link, NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useStyles } from './Header.styles';
-import { PostCreationMenu } from '../PostCreationMenu';
-import { LoginModal } from '../Modals/LoginModal';
+import { PostCreationMenu } from './PostCreationMenu';
+import { LoginModal } from '../Users/LoginModal';
 import { RootStateType } from '../../../store/rootReducer';
 import { AccountMenu } from './AccountMenu';
 
@@ -22,24 +22,15 @@ export const navElems: IHeaderProps[] = [
     url: '/',
   },
   {
-    id: 'covid-19',
-    label: 'Covid-19',
-    url: '/direction/covid-19',
-  },
-  {
-    id: 'directions',
-    label: 'Напрямки',
-    url: '/direction',
+    id: 'materials',
+    label: 'Матеріали',
+    url: '/materials',
   },
   {
     id: 'experts',
-    label: 'Експерти',
+    label: 'Автори',
     url: '/experts',
   },
-  // {
-  //   id: 'translates',
-  //   label: 'Переклади',
-  // },
 ];
 
 const Header: React.FC = () => {
