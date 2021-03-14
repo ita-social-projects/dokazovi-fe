@@ -40,14 +40,14 @@ instance.interceptors.request.use(
 );
 
 const defaultConfig = {
-  paramsSerializer: (params: { [key: string]: any }): string => {
+  paramsSerializer: (params: { [key: string]: unknown }): string => {
     return qs.stringify(params, { arrayFormat: 'repeat' });
   },
 };
 
 type GetPostsRequestType = 'important' | 'latest' | 'latest-by-expert';
 
-export const getPosts = (
+export const getPosts = async (
   postsRequestType: GetPostsRequestType,
   config?: GetPostsConfigType,
 ): Promise<AxiosResponse<PostsResponseType>> => {
@@ -57,75 +57,79 @@ export const getPosts = (
   });
 };
 
-export const getRandomExperts = (
+export const getRandomExperts = async (
   config?: GetExpertsConfigType,
 ): Promise<AxiosResponse<ExpertsResponseType>> => {
   return instance.get(`/user/random-experts`, { ...defaultConfig, ...config });
 };
 
-export const getAllExperts = (
+export const getAllExperts = async (
   config?: GetExpertsConfigType,
 ): Promise<AxiosResponse<ExpertsResponseType>> => {
   return instance.get('/user/all-experts', { ...defaultConfig, ...config });
 };
 
-export const getPostById = (
+export const getPostById = async (
   id: number,
 ): Promise<AxiosResponse<PostResponseType>> => {
   return instance.get(`/post/${id}`);
 };
 
-export const getExpertById = (
+export const getExpertById = async (
   id: number,
 ): Promise<AxiosResponse<ExpertResponseType>> => {
   return instance.get(`/user/${id}`);
 };
 
-export const createTag = (
+export const createTag = async (
   requestBody: CreateTagRequestType,
 ): Promise<AxiosResponse<TagResponseType>> =>
   instance.post(`/tag`, requestBody);
 
-export const getTagsByValue = (
+export const getTagsByValue = async (
   config: GetTagsConfigType,
 ): Promise<AxiosResponse<TagResponseType[]>> => {
   return instance.get(`/tag/find-by-value`, { ...defaultConfig, ...config });
 };
 
-export const getVersion = (): Promise<AxiosResponse<VersionResponseType>> => {
+export const getVersion = async (): Promise<
+  AxiosResponse<VersionResponseType>
+> => {
   return instance.get(`/version`);
 };
 
-export const getPostTypes = (): Promise<
+export const getPostTypes = async (): Promise<
   AxiosResponse<PostTypeResponseType[]>
 > => {
   return instance.get('post/type');
 };
 
-export const getRegions = (): Promise<AxiosResponse<RegionResponseType[]>> => {
+export const getRegions = async (): Promise<
+  AxiosResponse<RegionResponseType[]>
+> => {
   return instance.get(`/region`);
 };
 
-export const getDirections = (): Promise<
+export const getDirections = async (): Promise<
   AxiosResponse<DirectionResponseType[]>
 > => {
   return instance.get(`/direction`);
 };
 
-export const createPost = (
+export const createPost = async (
   requestBody: CreatePostRequestType,
 ): Promise<AxiosResponse<PostResponseType>> => {
   return instance.post(`/post`, requestBody);
 };
 
-export const login = (
+export const login = async (
   email: string,
   password: string,
 ): Promise<AxiosResponse<LoginResponseType>> => {
   return instance.post('/auth/login', { email, password });
 };
 
-export const getCurrentUser = (): Promise<
+export const getCurrentUser = async (): Promise<
   AxiosResponse<ExpertResponseType>
 > => {
   return instance.get('/user/me');

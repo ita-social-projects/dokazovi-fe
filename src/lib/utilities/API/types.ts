@@ -1,8 +1,8 @@
-import { DirectionIDType } from '../../types';
+import { IDirection } from '../../types';
 
 export type CreatePostRequestType = {
   content: string;
-  directions: DirectionIDType[];
+  directions: IDirection[];
   preview: string;
   title?: string;
   type: {

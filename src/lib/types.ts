@@ -96,8 +96,6 @@ export interface IRegion {
   name: string;
 }
 
-export type DirectionIDType = Pick<IDirection, 'id'>;
-
 export interface IInstitution {
   city: {
     id: number;
@@ -111,7 +109,7 @@ export interface ICheckboxes {
   [key: string]: boolean;
 }
 
-export interface IInputs {
+export interface IAuthInputs {
   email: string;
   password: string;
 }

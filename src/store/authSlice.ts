@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { IExpert, IInputs, LocalStorageKeys } from '../lib/types';
+import { IExpert, IAuthInputs, LocalStorageKeys } from '../lib/types';
 import { getCurrentUser, login } from '../lib/utilities/API/api';
 
 export interface IAuthState {
@@ -14,7 +14,7 @@ const initialState: IAuthState = {
 
 export const loginUser = createAsyncThunk(
   'auth/login',
-  async (credentials?: IInputs) => {
+  async (credentials?: IAuthInputs) => {
     if (credentials) {
       const { email, password } = credentials;
       const token = await login(email, password);
