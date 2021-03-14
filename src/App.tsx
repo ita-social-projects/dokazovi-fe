@@ -38,7 +38,7 @@ const App: React.FC = () => {
     if (!user && token) {
       dispatch(loginUser());
     }
-  }, [user]);
+  }, []);
 
   return (
     <div className="App">
