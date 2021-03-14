@@ -18,11 +18,11 @@ import {
 } from '../store/postCreationSlice';
 import { PostTopicSelector } from './PostTopicSelector';
 import { PostTypeEnum } from '../../../lib/types';
-import { postPublishPost } from '../../../lib/utilities/API/api';
 import { sanitizeHtml } from '../../../lib/utilities/sanitizeHtml';
 import PostCreationButtons from './PostCreationButtons';
-import { PostPostRequestType } from '../../../lib/utilities/API/types';
+import { CreatePostRequestType } from '../../../lib/utilities/API/types';
 import PageTitle from '../../../lib/components/Pages/PageTitle';
+import { createPost } from '../../../lib/utilities/API/api';
 
 const ArticleCreation: React.FC = () => {
   const history = useHistory();
@@ -79,16 +79,16 @@ const ArticleCreation: React.FC = () => {
     savedPostDraft.topics.includes(direction.id.toString()),
   );
 
-  const newPost = {
+  const newPost: CreatePostRequestType = {
     content: savedPostDraft.htmlContent,
     directions: allDirections,
     preview: savedPostDraft.preview.value,
     title: savedPostDraft.title,
-    type: { id: 1 },
-  } as PostPostRequestType;
+    type: { id: 1 }, // must not be hardcoded
+  };
 
   const sendPost = async () => {
-    const responsePost = await postPublishPost(newPost);
+    const responsePost = await createPost(newPost);
     history.push(`/posts/${responsePost.data.id}`);
   };
 

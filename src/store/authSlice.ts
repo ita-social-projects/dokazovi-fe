@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { IExpert, IInputs, LocalStorageKeys } from '../lib/types';
-import { getCurrentUser, loginService } from '../lib/utilities/API/api';
+import { getCurrentUser, login } from '../lib/utilities/API/api';
 
 export interface IAuthState {
   user?: IExpert;
@@ -17,7 +17,7 @@ export const loginUser = createAsyncThunk(
   async (credentials?: IInputs) => {
     if (credentials) {
       const { email, password } = credentials;
-      const token = await loginService(email, password);
+      const token = await login(email, password);
 
       localStorage.setItem(
         LocalStorageKeys.ACCESS_TOKEN,

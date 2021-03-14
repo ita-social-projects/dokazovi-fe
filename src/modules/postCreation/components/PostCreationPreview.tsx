@@ -6,19 +6,19 @@ import { RootStateType } from '../../../store/rootReducer';
 import { IPost, PostTypeEnum } from '../../../lib/types';
 import usePostPreviewData from '../../../lib/hooks/usePostPreviewData';
 import PostCreationButtons from './PostCreationButtons';
-import { PostPostRequestType } from '../../../lib/utilities/API/types';
-import { postPublishPost } from '../../../lib/utilities/API/api';
 import PageTitle from '../../../lib/components/Pages/PageTitle';
+import { createPost } from '../../../lib/utilities/API/api';
+import { CreatePostRequestType } from '../../../lib/utilities/API/types';
 
 export interface ILocationState {
   postType: string;
-  publishPost: PostPostRequestType;
+  publishPost: CreatePostRequestType;
 }
 
 const PostCreationPreview: React.FC = () => {
-  const history = useHistory();
+  const history = useHistory<ILocationState>();
 
-  const currentState = history.location.state as ILocationState;
+  const currentState: ILocationState = history.location.state;
 
   const draft = useSelector(
     (state: RootStateType) =>
@@ -48,7 +48,7 @@ const PostCreationPreview: React.FC = () => {
   };
 
   const sendPost = async () => {
-    const responsePost = await postPublishPost(currentState.publishPost);
+    const responsePost = await createPost(currentState.publishPost);
     history.push(`/posts/${responsePost.data.id}`);
   };
 

@@ -1,10 +1,10 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import {
-  getTag,
+  getTagsByValue,
   getPostTypes,
   getRegions,
-  getDirection,
+  getDirections,
 } from '../lib/utilities/API/api';
 import { IPostTag, IPostType, IDirection, IRegion } from '../lib/types';
 
@@ -68,7 +68,7 @@ export const fetchPostsTypes = (): AppThunkType => async (dispatch) => {
 export const fetchPostsTags = (tag: string): AppThunkType => async (
   dispatch,
 ) => {
-  const response = await getTag({
+  const response = await getTagsByValue({
     params: {
       value: tag,
     },
@@ -78,7 +78,7 @@ export const fetchPostsTags = (tag: string): AppThunkType => async (
 };
 
 export const fetchDirections = (): AppThunkType => async (dispatch) => {
-  const response = await getDirection();
+  const response = await getDirections();
   const directions = response.data;
   dispatch(loadDirections(directions));
 };
