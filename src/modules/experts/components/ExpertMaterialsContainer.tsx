@@ -13,13 +13,13 @@ import useEffectExceptOnMount from '../../../lib/hooks/useEffectExceptOnMount';
 import usePrevious from '../../../lib/hooks/usePrevious';
 import { FilterTypeEnum, IPostType, QueryTypeEnum } from '../../../lib/types';
 import { RequestParamsType } from '../../../lib/utilities/API/types';
-import { getQueryTypeByFilterType } from '../../../lib/utilities/filters';
+import {
+  getQueryTypeByFilterType,
+  mapQueryIdsStringToArray,
+} from '../../../lib/utilities/filters';
 import { RootStateType } from '../../../store/rootReducer';
 import { selectPostsByIds } from '../../../store/selectors';
-import {
-  fetchExpertMaterials,
-  setupExpertMaterialsID,
-} from '../store/expertsSlice';
+import { fetchExpertMaterials, resetMaterials } from '../store/expertsSlice';
 
 export interface IExpertMaterialsContainerProps {
   expertId: number;
@@ -33,16 +33,20 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
   expertId,
 }) => {
   const dispatch = useDispatch();
-  // TODO: fix loading without useEffect
-  dispatch(setupExpertMaterialsID(expertId));
 
-  const gridRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const reset = () => {
+      dispatch(resetMaterials());
+    };
+    reset();
+  }, [expertId]);
+
   const query = useQuery();
   const history = useHistory();
   const [page, setPage] = useState<number>(0);
   const previous = usePrevious({ page });
   const expertData = useSelector(
-    (state: RootStateType) => state.experts.materials[expertId],
+    (state: RootStateType) => state.experts.materials,
   );
   const {
     postIds,
@@ -75,17 +79,15 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
   };
 
   const fetchData = (loadMore?: boolean) => {
-    const types: number[] | undefined = query
-      .get(QueryTypeEnum.POST_TYPES)
-      ?.split(',')
-      .map(Number);
+    const postTypesQuery = query.get(QueryTypeEnum.POST_TYPES);
+    const selectedPostTypes = mapQueryIdsStringToArray(postTypesQuery);
 
     const filters: RequestParamsType = {
       page,
-      type: types,
+      type: selectedPostTypes,
     };
 
-    dispatch(fetchExpertMaterials(Number(expertId), filters, loadMore));
+    dispatch(fetchExpertMaterials(expertId, filters, loadMore));
   };
 
   const loadMore = () => {
@@ -95,8 +97,9 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
   useEffect(() => {
     const isLoadMore = previous && previous.page < page;
     fetchData(isLoadMore);
-  }, [expertId, query.get(QueryTypeEnum.POST_TYPES), page]);
+  }, [query.get(QueryTypeEnum.POST_TYPES), page]);
 
+  const gridRef = useRef<HTMLDivElement>(null);
   useEffectExceptOnMount(() => {
     if (page > 0) {
       gridRef.current?.scrollIntoView({ behavior: 'smooth' });

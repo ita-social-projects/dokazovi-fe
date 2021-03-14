@@ -17,8 +17,13 @@ import {
 import { RequestParamsType } from '../../../lib/utilities/API/types';
 import { LOAD_POSTS_LIMIT } from '../../../lib/constants/posts';
 
-interface IMaterialsState extends Record<string, IMaterialsPayload> {}
-
+interface IMaterialsState {
+  postIds: string[];
+  meta: IMaterialsMeta;
+  filters?: {
+    [key in FilterTypeEnum]?: IFilter;
+  };
+}
 interface IMaterialsMeta {
   loading: LoadingStatusEnum;
   error: null | string;
@@ -34,13 +39,13 @@ interface IMaterialsPayload {
   };
 }
 
-const materialsInitialState: IMaterialsPayload = {
+const initialMaterialsState: IMaterialsState = {
   postIds: [],
   meta: {
-    loading: LoadingStatusEnum.idle,
-    error: null,
     isLastPage: false,
     pageNumber: -1,
+    loading: LoadingStatusEnum.idle,
+    error: null,
   },
   filters: {},
 };
@@ -60,7 +65,7 @@ const initialState: IExpertsState = {
       error: null,
     },
   },
-  materials: {} as IMaterialsState,
+  materials: initialMaterialsState,
 };
 
 interface IFetchExpertsOptions {
@@ -114,9 +119,8 @@ export const expertsSlice = createSlice({
   name: 'experts',
   initialState,
   reducers: {
-    setupExpertMaterialsID: (state, action: PayloadAction<number>) => {
-      if (!state.materials[action.payload])
-        state.materials[action.payload] = materialsInitialState;
+    resetMaterials: (state) => {
+      state.materials = initialMaterialsState;
     },
     setExpertsPage: (state, action: PayloadAction<number>) => {
       state.experts.meta.pageNumber = action.payload;
@@ -126,11 +130,10 @@ export const expertsSlice = createSlice({
       action: PayloadAction<{ expertId: number; materials: IMaterialsPayload }>,
     ) => {
       const {
-        expertId,
         materials: { postIds, meta },
       } = action.payload;
-      state.materials[expertId].postIds = postIds;
-      state.materials[expertId].meta = meta;
+      state.materials.postIds = postIds;
+      state.materials.meta = meta;
     },
     setMaterialsLoadingStatus: (
       state,
@@ -140,17 +143,17 @@ export const expertsSlice = createSlice({
         error?: string;
       }>,
     ) => {
-      const { expertId, status, error } = action.payload;
+      const { status, error } = action.payload;
       switch (status) {
         case LoadingStatusEnum.pending:
-          state.materials[expertId].meta.loading = LoadingStatusEnum.pending;
+          state.materials.meta.loading = LoadingStatusEnum.pending;
           break;
         case LoadingStatusEnum.failed:
-          state.materials[expertId].meta.loading = LoadingStatusEnum.failed;
-          state.materials[expertId].meta.error = error || null;
+          state.materials.meta.loading = LoadingStatusEnum.failed;
+          state.materials.meta.error = error || null;
           break;
         default:
-          state.materials[expertId].meta.loading = LoadingStatusEnum.succeeded;
+          state.materials.meta.loading = LoadingStatusEnum.succeeded;
       }
     },
   },
@@ -187,7 +190,7 @@ export const expertsSlice = createSlice({
 });
 
 export const {
-  setupExpertMaterialsID,
+  resetMaterials,
   loadMaterials,
   setMaterialsLoadingStatus,
   setExpertsPage,
@@ -200,7 +203,7 @@ export const fetchExpertMaterials = (
   filters?: RequestParamsType,
   loadMore?: boolean,
 ): AppThunkType => async (dispatch, getState) => {
-  const { postIds } = getState().experts.materials[expertId];
+  const { postIds } = getState().experts.materials;
 
   try {
     dispatch(
@@ -252,7 +255,7 @@ export const fetchInitialMaterials = (expertId: number): AppThunkType => (
   dispatch,
   getState,
 ) => {
-  const { postIds } = getState().experts.materials[expertId];
+  const { postIds } = getState().experts.materials;
 
   if (!postIds.length) {
     dispatch(fetchExpertMaterials(expertId));

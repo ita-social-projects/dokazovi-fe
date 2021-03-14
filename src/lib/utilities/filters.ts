@@ -16,3 +16,6 @@ export const getQueryTypeByFilterType = (
       throw new Error('Could not find the corresponding query type');
   }
 };
+
+export const mapQueryIdsStringToArray = (ids: string | null): number[] =>
+  ids ? ids.split(',').map(Number).filter(Number.isNaN) : [];

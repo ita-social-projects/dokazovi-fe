@@ -7,7 +7,6 @@ import { Pagination } from '@material-ui/lab';
 import { fetchExperts, setExpertsPage } from '../store/expertsSlice';
 import { RootStateType } from '../../../store/rootReducer';
 import ExpertsList from '../../../lib/components/Experts/ExpertsList';
-import LoadingInfo from '../../../lib/components/Loading/LoadingInfo';
 import {
   FilterTypeEnum,
   IDirection,
@@ -17,7 +16,10 @@ import {
 import { selectExpertsByIds } from '../../../store/selectors';
 import { ICheckboxFormState } from '../../../lib/components/Filters/CheckboxFilterForm';
 import CheckboxDropdownFilterForm from '../../../lib/components/Filters/СheckboxDropdownFilterForm';
-import { getQueryTypeByFilterType } from '../../../lib/utilities/filters';
+import {
+  getQueryTypeByFilterType,
+  mapQueryIdsStringToArray,
+} from '../../../lib/utilities/filters';
 import PageTitle from '../../../lib/components/Pages/PageTitle';
 import LoadingContainer from '../../../lib/components/Loading/LoadingContainer';
 
@@ -50,20 +52,16 @@ const ExpertsView: React.FC = () => {
     const regionsQuery = query.get(QueryTypeEnum.REGIONS);
     const directionsQuery = query.get(QueryTypeEnum.DIRECTIONS);
 
-    const isPage = pageQuery ? pageQuery - 1 : 0;
-    const regionsFilterQuery = regionsQuery
-      ? regionsQuery.split(',').filter(Number).map(Number)
-      : [];
-    const directionsFilterQuery = directionsQuery
-      ? directionsQuery.split(',').filter(Number).map(Number)
-      : [];
+    const page = pageQuery ? pageQuery - 1 : 0;
+    const selectedRegions = mapQueryIdsStringToArray(regionsQuery);
+    const selectedDirections = mapQueryIdsStringToArray(directionsQuery);
 
-    dispatch(setExpertsPage(isPage));
+    dispatch(setExpertsPage(page));
     dispatch(
       fetchExperts({
-        page: isPage,
-        regions: regionsFilterQuery,
-        directions: directionsFilterQuery,
+        page,
+        regions: selectedRegions,
+        directions: selectedDirections,
       }),
     );
   };
@@ -102,8 +100,6 @@ const ExpertsView: React.FC = () => {
     query.get(QueryTypeEnum.REGIONS),
     query.get(QueryTypeEnum.DIRECTIONS),
   ]);
-
-  const correctPageNumber = pageNumber === 0 ? 1 : pageNumber + 1;
 
   const selectedRegionsString = query.get(QueryTypeEnum.REGIONS)?.split(',');
   const selectedDirectionsString = query
@@ -158,7 +154,7 @@ const ExpertsView: React.FC = () => {
               <Grid container direction="column" alignItems="center">
                 <Pagination
                   count={totalPages}
-                  page={correctPageNumber}
+                  page={pageNumber + 1}
                   showFirstButton
                   showLastButton
                   onChange={handlePageChange}

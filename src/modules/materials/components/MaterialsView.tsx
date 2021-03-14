@@ -20,7 +20,10 @@ import {
 import { RootStateType } from '../../../store/rootReducer';
 import { selectPostsByIds } from '../../../store/selectors';
 import { fetchMaterials } from '../store/materialsSlice';
-import { getQueryTypeByFilterType } from '../../../lib/utilities/filters';
+import {
+  getQueryTypeByFilterType,
+  mapQueryIdsStringToArray,
+} from '../../../lib/utilities/filters';
 import LoadingContainer from '../../../lib/components/Loading/LoadingContainer';
 import PageTitle from '../../../lib/components/Pages/PageTitle';
 
@@ -48,17 +51,13 @@ const MaterialsView: React.FC = () => {
     const postTypesQuery = query.get(QueryTypeEnum.POST_TYPES);
     const directionsQuery = query.get(QueryTypeEnum.DIRECTIONS);
 
-    const directionsFilterQuery = directionsQuery
-      ? directionsQuery.split(',').filter(Number).map(Number)
-      : [];
-    const typesFilterQuery = postTypesQuery
-      ? postTypesQuery.split(',').filter(Number).map(Number)
-      : [];
+    const selectedPostTypes = mapQueryIdsStringToArray(postTypesQuery);
+    const selectedDirections = mapQueryIdsStringToArray(directionsQuery);
 
     const filters = {
       page,
-      postTypes: typesFilterQuery,
-      directions: directionsFilterQuery,
+      postTypes: selectedPostTypes,
+      directions: selectedDirections,
     };
 
     dispatch(fetchMaterials(filters, loadMore));
@@ -121,12 +120,11 @@ const MaterialsView: React.FC = () => {
     ? selectedPostTypes
     : undefined;
 
-  const gridRef = useRef<HTMLDivElement>(null);
-
   const loadMore = () => {
     setPage(page + 1);
   };
 
+  const gridRef = useRef<HTMLDivElement>(null);
   useEffectExceptOnMount(() => {
     if (pageNumber > 0) {
       gridRef.current?.scrollIntoView({ behavior: 'smooth' });
