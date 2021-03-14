@@ -107,10 +107,6 @@ export interface IInstitution {
   name: string;
 }
 
-export interface IFilter {
-  value: any;
-}
-
 export interface ICheckboxes {
   [key: string]: boolean;
 }

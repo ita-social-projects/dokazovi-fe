@@ -1,12 +1,11 @@
 /* eslint-disable no-param-reassign */
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { IInputs, LocalStorageKeys } from '../lib/types';
+import { IExpert, IInputs, LocalStorageKeys } from '../lib/types';
 import { getCurrentUser, loginService } from '../lib/utilities/API/api';
-import { ExpertResponseType } from '../lib/utilities/API/types';
 
 export interface IAuthState {
-  user?: ExpertResponseType;
-  error: null | string;
+  user?: IExpert;
+  error: string | null;
 }
 
 const initialState: IAuthState = {

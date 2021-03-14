@@ -2,7 +2,7 @@ import { Grid } from '@material-ui/core';
 import { isEmpty, uniq } from 'lodash';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import CheckboxFilterForm, {
   ICheckboxFormState,
 } from '../../../lib/components/Filters/CheckboxFilterForm';
@@ -26,13 +26,10 @@ import {
 } from '../../../lib/utilities/filters';
 import LoadingContainer from '../../../lib/components/Loading/LoadingContainer';
 import PageTitle from '../../../lib/components/Pages/PageTitle';
-
-const useQuery = () => {
-  return new URLSearchParams(useLocation().search);
-};
+import { useQuery } from '../../../lib/hooks/useQuery';
 
 const MaterialsView: React.FC = () => {
-  const [page, setPage] = useState<number>(0);
+  const [page, setPage] = useState(0);
   const previous = usePrevious({ page });
   const history = useHistory();
   const query = useQuery();
@@ -47,7 +44,7 @@ const MaterialsView: React.FC = () => {
 
   const dispatch = useDispatch();
 
-  const fetchData = (loadMore?: boolean) => {
+  const fetchData = (appendPosts = false) => {
     const postTypesQuery = query.get(QueryTypeEnum.POST_TYPES);
     const directionsQuery = query.get(QueryTypeEnum.DIRECTIONS);
 
@@ -60,12 +57,12 @@ const MaterialsView: React.FC = () => {
       directions: selectedDirections,
     };
 
-    dispatch(fetchMaterials(filters, loadMore));
+    dispatch(fetchMaterials(filters, page, appendPosts));
   };
 
   const {
     postIds,
-    meta: { loading, isLastPage, pageNumber },
+    meta: { loading, isLastPage },
   } = useSelector((state: RootStateType) => state.materials);
   const materials = selectPostsByIds(postIds);
 
@@ -89,9 +86,13 @@ const MaterialsView: React.FC = () => {
     });
   };
 
+  const loadMore = () => {
+    setPage(page + 1);
+  };
+
   useEffect(() => {
-    const loadMore = previous && previous.page < page;
-    fetchData(loadMore);
+    const appendPosts = previous && previous.page < page;
+    fetchData(appendPosts);
   }, [
     page,
     query.get(QueryTypeEnum.POST_TYPES),
@@ -120,16 +121,12 @@ const MaterialsView: React.FC = () => {
     ? selectedPostTypes
     : undefined;
 
-  const loadMore = () => {
-    setPage(page + 1);
-  };
-
   const gridRef = useRef<HTMLDivElement>(null);
   useEffectExceptOnMount(() => {
-    if (pageNumber > 0) {
+    if (page > 0) {
       gridRef.current?.scrollIntoView({ behavior: 'smooth' });
     }
-  }, [pageNumber]);
+  }, [postIds]);
 
   return (
     <>

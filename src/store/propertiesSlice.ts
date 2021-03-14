@@ -65,12 +65,12 @@ export const fetchPostsTypes = (): AppThunkType => async (dispatch) => {
   dispatch(loadPostsTypes(postTypes));
 };
 
-export const fetchPostsTags = (tagValue: string): AppThunkType => async (
+export const fetchPostsTags = (tag: string): AppThunkType => async (
   dispatch,
 ) => {
   const response = await getTag({
     params: {
-      value: tagValue,
+      value: tag,
     },
   });
   const postTags = response.data;
@@ -79,6 +79,6 @@ export const fetchPostsTags = (tagValue: string): AppThunkType => async (
 
 export const fetchDirections = (): AppThunkType => async (dispatch) => {
   const response = await getDirection();
-  const direction = response.data;
-  dispatch(loadDirections(direction));
+  const directions = response.data;
+  dispatch(loadDirections(directions));
 };

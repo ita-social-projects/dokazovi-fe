@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { isEmpty, uniq } from 'lodash';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { Box, Grid } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { Pagination } from '@material-ui/lab';
@@ -22,10 +22,7 @@ import {
 } from '../../../lib/utilities/filters';
 import PageTitle from '../../../lib/components/Pages/PageTitle';
 import LoadingContainer from '../../../lib/components/Loading/LoadingContainer';
-
-const useQuery = () => {
-  return new URLSearchParams(useLocation().search);
-};
+import { useQuery } from '../../../lib/hooks/useQuery';
 
 const ExpertsView: React.FC = () => {
   const query = useQuery();
@@ -40,10 +37,10 @@ const ExpertsView: React.FC = () => {
   const experts = selectExpertsByIds(expertIds);
 
   const regions = useSelector(
-    (state: RootStateType) => state.properties?.regions,
+    (state: RootStateType) => state.properties.regions,
   );
   const directions = useSelector(
-    (state: RootStateType) => state.properties?.directions,
+    (state: RootStateType) => state.properties.directions,
   );
   const propertiesLoaded = !isEmpty(regions) && !isEmpty(directions);
 

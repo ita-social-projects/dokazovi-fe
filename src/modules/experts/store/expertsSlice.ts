@@ -1,13 +1,12 @@
 /* eslint-disable no-param-reassign */
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { IFilter, LoadingStatusEnum, FilterTypeEnum } from '../../../lib/types';
+import { LoadingStatusEnum, QueryTypeEnum } from '../../../lib/types';
 import {
   getAllExperts,
   getExpertById,
   getPosts,
 } from '../../../lib/utilities/API/api';
 import type { AppThunkType } from '../../../store/store';
-import { IExpertPayload } from '../../main/store/mainSlice';
 import type { RootStateType } from '../../../store/rootReducer';
 import {
   loadExperts,
@@ -16,26 +15,13 @@ import {
 } from '../../../store/dataSlice';
 import { RequestParamsType } from '../../../lib/utilities/API/types';
 import { LOAD_POSTS_LIMIT } from '../../../lib/constants/posts';
+import { IExpertPayload, IMaterialsMeta } from '../../../store/types';
 
 interface IMaterialsState {
-  postIds: string[];
+  postIds: number[];
   meta: IMaterialsMeta;
   filters?: {
-    [key in FilterTypeEnum]?: IFilter;
-  };
-}
-interface IMaterialsMeta {
-  loading: LoadingStatusEnum;
-  error: null | string;
-  isLastPage: boolean;
-  pageNumber: number;
-}
-
-interface IMaterialsPayload {
-  postIds: string[];
-  meta: IMaterialsMeta;
-  filters?: {
-    [FilterTypeEnum.POST_TYPES]?: IFilter;
+    [QueryTypeEnum.POST_TYPES]: number[];
   };
 }
 
@@ -43,11 +29,9 @@ const initialMaterialsState: IMaterialsState = {
   postIds: [],
   meta: {
     isLastPage: false,
-    pageNumber: -1,
     loading: LoadingStatusEnum.idle,
     error: null,
   },
-  filters: {},
 };
 
 export interface IExpertsState {
@@ -76,7 +60,7 @@ interface IFetchExpertsOptions {
 
 export const fetchExperts = createAsyncThunk(
   'experts/loadExperts',
-  async (options: IFetchExpertsOptions, { dispatch, getState }) => {
+  async (options: IFetchExpertsOptions, { dispatch }) => {
     const { page, regions, directions } = options;
 
     const { data } = await getAllExperts({
@@ -89,7 +73,7 @@ export const fetchExperts = createAsyncThunk(
     dispatch(loadExperts(data.content));
 
     return {
-      expertIds: data.content.map((expert) => String(expert.id)),
+      expertIds: data.content.map((expert) => expert.id),
       number: data.number,
       totalPages: data.totalPages,
     };
@@ -127,7 +111,7 @@ export const expertsSlice = createSlice({
     },
     loadMaterials: (
       state,
-      action: PayloadAction<{ expertId: number; materials: IMaterialsPayload }>,
+      action: PayloadAction<{ expertId: number; materials: IMaterialsState }>,
     ) => {
       const {
         materials: { postIds, meta },
@@ -201,7 +185,7 @@ export const expertsReducer = expertsSlice.reducer;
 export const fetchExpertMaterials = (
   expertId: number,
   filters?: RequestParamsType,
-  loadMore?: boolean,
+  appendPosts?: boolean,
 ): AppThunkType => async (dispatch, getState) => {
   const { postIds } = getState().experts.materials;
 
@@ -215,7 +199,7 @@ export const fetchExpertMaterials = (
 
     const params: RequestParamsType = {
       size: LOAD_POSTS_LIMIT,
-      page: loadMore ? (filters?.page as number) : 0,
+      page: appendPosts ? (filters?.page as number) : 0,
       expert: expertId,
       type: filters?.type,
     };
@@ -230,11 +214,10 @@ export const fetchExpertMaterials = (
       loadMaterials({
         expertId,
         materials: {
-          postIds: loadMore ? postIds.concat(ids) : ids,
+          postIds: appendPosts ? postIds.concat(ids) : ids,
           meta: {
             loading: LoadingStatusEnum.succeeded,
             error: null,
-            pageNumber: resp.data.number,
             isLastPage: resp.data.last,
           },
         },

@@ -2,7 +2,7 @@ import { Grid, Typography } from '@material-ui/core';
 import { isEmpty, uniq } from 'lodash';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import CheckboxFilterForm, {
   ICheckboxFormState,
 } from '../../../lib/components/Filters/CheckboxFilterForm';
@@ -11,6 +11,7 @@ import LoadMorePostsButton from '../../../lib/components/LoadMorePostsButton';
 import PostsList from '../../../lib/components/Posts/PostsList';
 import useEffectExceptOnMount from '../../../lib/hooks/useEffectExceptOnMount';
 import usePrevious from '../../../lib/hooks/usePrevious';
+import { useQuery } from '../../../lib/hooks/useQuery';
 import { FilterTypeEnum, IPostType, QueryTypeEnum } from '../../../lib/types';
 import { RequestParamsType } from '../../../lib/utilities/API/types';
 import {
@@ -25,14 +26,14 @@ export interface IExpertMaterialsContainerProps {
   expertId: number;
 }
 
-const useQuery = () => {
-  return new URLSearchParams(useLocation().search);
-};
-
 const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
   expertId,
 }) => {
   const dispatch = useDispatch();
+  const query = useQuery();
+  const history = useHistory();
+  const [page, setPage] = useState(0);
+  const previous = usePrevious({ page });
 
   useEffect(() => {
     const reset = () => {
@@ -41,10 +42,6 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
     reset();
   }, [expertId]);
 
-  const query = useQuery();
-  const history = useHistory();
-  const [page, setPage] = useState<number>(0);
-  const previous = usePrevious({ page });
   const expertData = useSelector(
     (state: RootStateType) => state.experts.materials,
   );
@@ -78,7 +75,11 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
     });
   };
 
-  const fetchData = (loadMore?: boolean) => {
+  const loadMore = () => {
+    setPage(page + 1);
+  };
+
+  const fetchData = (appendPosts = false) => {
     const postTypesQuery = query.get(QueryTypeEnum.POST_TYPES);
     const selectedPostTypes = mapQueryIdsStringToArray(postTypesQuery);
 
@@ -87,16 +88,12 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
       type: selectedPostTypes,
     };
 
-    dispatch(fetchExpertMaterials(expertId, filters, loadMore));
-  };
-
-  const loadMore = () => {
-    setPage(page + 1);
+    dispatch(fetchExpertMaterials(expertId, filters, appendPosts));
   };
 
   useEffect(() => {
-    const isLoadMore = previous && previous.page < page;
-    fetchData(isLoadMore);
+    const appendPosts = previous && previous.page < page;
+    fetchData(appendPosts);
   }, [query.get(QueryTypeEnum.POST_TYPES), page]);
 
   const gridRef = useRef<HTMLDivElement>(null);
@@ -104,7 +101,7 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
     if (page > 0) {
       gridRef.current?.scrollIntoView({ behavior: 'smooth' });
     }
-  }, [page]);
+  }, [postIds]);
 
   const selectedPostTypesString = query
     .get(QueryTypeEnum.POST_TYPES)

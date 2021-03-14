@@ -2,15 +2,10 @@ import React, { useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Grid, Typography } from '@material-ui/core';
 import { RootStateType } from '../../../store/rootReducer';
-import {
-  fetchNewestPosts,
-  IMainState,
-  fetchInitialNewestPosts,
-} from '../store/mainSlice';
+import { fetchNewestPosts, fetchInitialNewestPosts } from '../store/mainSlice';
 import { useStyles } from '../styles/NewestContainer.style';
 import PostsList from '../../../lib/components/Posts/PostsList';
 import { LoadingStatusEnum } from '../../../lib/types';
-import LoadingInfo from '../../../lib/components/Loading/LoadingInfo';
 import useEffectExceptOnMount from '../../../lib/hooks/useEffectExceptOnMount';
 import { selectPostsByIds } from '../../../store/selectors';
 import LoadMorePostsButton from '../../../lib/components/LoadMorePostsButton';
@@ -19,14 +14,15 @@ import LoadingContainer from '../../../lib/components/Loading/LoadingContainer';
 const NewestContainer: React.FC = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const setNewest = () => dispatch(fetchNewestPosts());
+
+  const loadMore = () => {
+    dispatch(fetchNewestPosts());
+  };
 
   const {
     newestPostIds,
     meta: { isLastPage, loading, currentPage },
-  } = useSelector<RootStateType, IMainState['newest']>((state) => {
-    return state.main.newest;
-  });
+  } = useSelector((state: RootStateType) => state.main.newest);
   const newestPosts = selectPostsByIds(newestPostIds);
 
   useEffect(() => {
@@ -35,7 +31,6 @@ const NewestContainer: React.FC = () => {
   }, []);
 
   const gridRef = useRef<HTMLDivElement>(null);
-
   useEffectExceptOnMount(() => {
     if (currentPage > 1) {
       gridRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -55,7 +50,7 @@ const NewestContainer: React.FC = () => {
 
           <Grid container direction="column" alignItems="center" ref={gridRef}>
             <LoadMorePostsButton
-              clicked={setNewest}
+              clicked={loadMore}
               isLastPage={isLastPage}
               loading={loading}
             />

@@ -4,7 +4,7 @@ import _ from 'lodash';
 import { IExpert, IPost } from '../lib/types';
 import { PostResponseType } from '../lib/utilities/API/types';
 
-interface IDataState {
+export interface IDataState {
   experts: {
     [id: string]: IExpert;
   };
@@ -45,11 +45,11 @@ export const { loadPosts, loadExperts } = dataSlice.actions;
 
 export const mapFetchedPosts = (
   posts: PostResponseType[],
-): { mappedPosts: IPost[]; ids: string[] } => {
-  const ids: string[] = [];
+): { mappedPosts: IPost[]; ids: number[] } => {
+  const ids: number[] = [];
 
   const mappedPosts = posts.map((post) => {
-    ids.push(String(post.id));
+    ids.push(post.id);
 
     const preview = _.truncate(post.content, {
       length: 150,
