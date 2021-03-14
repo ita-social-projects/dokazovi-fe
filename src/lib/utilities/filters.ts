@@ -18,4 +18,4 @@ export const getQueryTypeByFilterType = (
 };
 
 export const mapQueryIdsStringToArray = (ids: string | null): number[] =>
-  ids ? ids.split(',').map(Number).filter(Number.isNaN) : [];
+  ids ? ids.split(',').map(Number).filter(Number.isInteger) : [];

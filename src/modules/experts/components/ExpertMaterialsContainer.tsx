@@ -12,7 +12,12 @@ import PostsList from '../../../lib/components/Posts/PostsList';
 import useEffectExceptOnMount from '../../../lib/hooks/useEffectExceptOnMount';
 import usePrevious from '../../../lib/hooks/usePrevious';
 import { useQuery } from '../../../lib/hooks/useQuery';
-import { FilterTypeEnum, IPostType, QueryTypeEnum } from '../../../lib/types';
+import {
+  FilterTypeEnum,
+  IPostType,
+  LoadingStatusEnum,
+  QueryTypeEnum,
+} from '../../../lib/types';
 import { RequestParamsType } from '../../../lib/utilities/API/types';
 import {
   getQueryTypeByFilterType,
@@ -127,7 +132,9 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
       <Grid container direction="row" alignItems="center">
         <PostsList postsList={materials} />
       </Grid>
-      <LoadingContainer loading={loading} />
+      {loading === LoadingStatusEnum.pending && (
+        <LoadingContainer loading={loading} />
+      )}
       <Grid container direction="column" alignItems="center" ref={gridRef}>
         <LoadMorePostsButton
           clicked={loadMore}
