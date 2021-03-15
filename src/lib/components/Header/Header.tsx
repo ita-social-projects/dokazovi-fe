@@ -56,7 +56,7 @@ const Header: React.FC = () => {
 
           <Box display="flex">
             <Link to="/" className={classes.community}>
-              <Typography variant="body2">Про нашу спільноту</Typography>
+              <Typography variant="h5">Про нашу спільноту</Typography>
             </Link>
 
             {user && (
@@ -74,7 +74,7 @@ const Header: React.FC = () => {
         <Box className={classes.tabs}>
           {navElems.map((item) => (
             <NavLink to={item.url} key={item.id} className={classes.tab} exact>
-              <Typography variant="body1" className={classes.tabLabel}>
+              <Typography variant="h5" className={classes.tabLabel}>
                 {item.label}
               </Typography>
             </NavLink>

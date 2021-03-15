@@ -12,13 +12,19 @@ import { useStyles } from '../../../styles/PostPreviewCard.styles';
 export interface IPostPreviewCardProps {
   data: IPost;
 }
+
+const VIEWS_COUNT = 100;
+
 const PostPreviewCard: React.FC<IPostPreviewCardProps> = (props) => {
+  const classes = useStyles();
   const { data } = props;
   const expertLink = `/experts/${data.author.id}`;
   const postLink = `/posts/${data.id}`;
-  const authorFullName = `${data.author?.firstName} ${data.author?.lastName}`;
-  const VIEW_NUMBER = 100;
-  const classes = useStyles();
+  const authorFullName = `${data.author.firstName} ${data.author.lastName}`;
+  const authorMainInstitution = data.author.mainInstitution
+    ? `${data.author.mainInstitution.city.name}, ${data.author.mainInstitution.name}`
+    : '';
+
   return (
     <Card className={classes.root}>
       <Box
@@ -55,34 +61,28 @@ const PostPreviewCard: React.FC<IPostPreviewCardProps> = (props) => {
                 >
                   <Typography
                     className={classes.postType}
-                    variant="subtitle1"
-                    component="h3"
+                    variant="overline"
+                    component="span"
                   >
-                    {data.postType.name.toUpperCase()}
+                    {data.postType.name}
                   </Typography>
-                  <Typography
-                    className={classes.authorTypography}
-                    align="left"
-                    variant="h4"
-                    component="h4"
-                  >
+                  <Typography variant="h5" component="span">
                     {authorFullName}
                   </Typography>
                 </Box>
                 <CardMedia
-                  className={classes.media}
-                  image={data.author.avatar}
+                  className={classes.avatar}
+                  image={data.author.avatar} // paste default avatar if not present
                   title={authorFullName}
                 />
               </Box>
               <Typography
                 color="textSecondary"
-                align="left"
-                variant="caption"
-                component="h3"
+                variant="subtitle2"
+                component="span"
+                gutterBottom
               >
-                {data.author.mainInstitution?.city.name},{' '}
-                {data.author.mainInstitution?.name}
+                {authorMainInstitution}
               </Typography>
             </Box>
           </Link>
@@ -95,18 +95,12 @@ const PostPreviewCard: React.FC<IPostPreviewCardProps> = (props) => {
               justifyContent="space-between"
             >
               <CardContent className={classes.content}>
-                <Typography
-                  gutterBottom
-                  align="left"
-                  variant="h2"
-                  component="h3"
-                >
+                <Typography gutterBottom variant="h4" component="h3">
                   {data.title}
                 </Typography>
                 <Typography
                   gutterBottom
-                  variant="h5"
-                  align="left"
+                  variant="body2"
                   color="textPrimary"
                   component="p"
                 >
@@ -121,11 +115,15 @@ const PostPreviewCard: React.FC<IPostPreviewCardProps> = (props) => {
               >
                 <Box display="flex" alignItems="center">
                   <VisibilityIcon className={classes.eyeIcon} />
-                  <Typography variant="h6" className={classes.eyeNumber}>
-                    {VIEW_NUMBER}
+                  <Typography
+                    variant="caption"
+                    className={classes.viewsCount}
+                    color="textSecondary"
+                  >
+                    {VIEWS_COUNT}
                   </Typography>
                 </Box>
-                <Typography variant="h6" color="textSecondary">
+                <Typography variant="caption" color="textSecondary">
                   {data.createdAt}
                 </Typography>
               </Box>

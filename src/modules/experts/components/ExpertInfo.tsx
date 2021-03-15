@@ -50,7 +50,7 @@ const ExpertInfo: React.FC<IExpertInfoProps> = ({ expert }) => {
           </Grid>
         </Grid>
         <Grid item xs={12}>
-          {expert.bio}
+          <Typography variant="body1">{expert.bio}</Typography>
         </Grid>
       </Grid>
     </>

@@ -47,6 +47,7 @@ export const useStyles = makeStyles(
       },
     },
     tabLabel: {
+      fontSize: 15,
       color: 'inherit',
       fontWeight: 'inherit',
     },

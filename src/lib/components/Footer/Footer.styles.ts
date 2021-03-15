@@ -20,7 +20,7 @@ export const useStyles = makeStyles(
       justifyContent: 'space-between',
       alignItems: 'center',
     },
-    innerNav: {
+    nav: {
       display: 'flex',
       justifyContent: 'space-between',
       alignItems: 'baseline',
@@ -28,26 +28,15 @@ export const useStyles = makeStyles(
       '& span': {
         color: theme.palette.common.white,
       },
-      '& a:not(:first-child)': {
-        fontWeight: 500,
-      },
-      '& a:first-child': {
-        fontSize: '26px',
-        lineHeight: '26px',
-        fontWeight: 700,
-      },
     },
     info: {
       display: 'flex',
       flexDirection: 'column',
-      fontWeight: 400,
-      lineHeight: '18px',
-      align: 'left',
       '& span': {
         color: theme.palette.common.white,
       },
     },
-    outerNav: {
+    socials: {
       '& ul': {
         display: 'flex',
         alignItems: 'center',
@@ -61,9 +50,6 @@ export const useStyles = makeStyles(
       '& ul li img': {
         verticalAlign: 'middle',
       },
-    },
-    infoButtom: {
-      fontWeight: 500,
     },
   }),
   { name: 'Footer' },

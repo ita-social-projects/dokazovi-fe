@@ -17,26 +17,21 @@ interface IHeaderProps {
 const navElems: IHeaderProps[] = [
   {
     id: '1',
-    label: 'Доказові',
-    url: '/',
-  },
-  {
-    id: '2',
     label: 'Про платформу',
     url: '/',
   },
   {
-    id: '3',
+    id: '2',
     label: 'Правила використання',
     url: '/',
   },
   {
-    id: '4',
+    id: '3',
     label: 'Карта сайту',
     url: '/',
   },
   {
-    id: '5',
+    id: '4',
     label: 'Контакти',
     url: '/',
   },
@@ -45,7 +40,9 @@ const navElems: IHeaderProps[] = [
 const linksList = navElems.map((item) => {
   return (
     <Link component={RouterLink} to={item.url} key={item.id} variant="body1">
-      <span> {item.label}</span>
+      <Typography variant="h6" component="span">
+        {item.label}
+      </Typography>
     </Link>
   );
 });
@@ -58,8 +55,13 @@ const Footer: React.FC = () => {
       <Container>
         <Box className={classes.root}>
           <Box className={classes.navContainer}>
-            <Box className={classes.innerNav}>{linksList}</Box>
-            <Box className={classes.outerNav}>
+            <Box className={classes.nav}>
+              <Link component={RouterLink} to="/" variant="h3">
+                <span>Доказові</span>
+              </Link>
+              {linksList}
+            </Box>
+            <Box className={classes.socials}>
               <ul>
                 <li>
                   <a
@@ -100,7 +102,7 @@ const Footer: React.FC = () => {
               </ul>
             </Box>
           </Box>
-          <Typography className={classes.info} variant="body1">
+          <Typography className={classes.info} variant="h6" component="div">
             <span>
               Використання матеріалів сайту можливе за умови дотримання Правил
               користування сайтом і правил
@@ -110,11 +112,7 @@ const Footer: React.FC = () => {
               від 18 років і старших.
             </span>
           </Typography>
-          <Typography
-            className={classes.infoButtom}
-            color="inherit"
-            variant="body1"
-          >
+          <Typography variant="h6" color="inherit" component="span">
             © 2021 UNICEF UKRAINE. ВСІ ПРАВА ЗАХИЩЕНІ.
           </Typography>
         </Box>
