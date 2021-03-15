@@ -7,9 +7,9 @@ import {
   setPostPreviewManuallyChanged,
 } from '../../../modules/postCreation/store/postCreationSlice';
 import { IDirection, IPost, PostTypeEnum } from '../../types';
-import PostPreviewCard from '../Posts/Cards/PostPreviewCard';
 import { RootStateType } from '../../../store/rootReducer';
 import usePostPreviewData from '../../hooks/usePostPreviewData';
+import PostPreviewCard from '../Posts/Cards/PostPreviewCard';
 
 export interface IContentPreviewContainerProps {
   previewText: string;
@@ -166,7 +166,7 @@ const ContentPreviewContainer: React.FC<IContentPreviewContainerProps> = ({
           </Grid>
         </Grid>
         <Grid item xs={12} lg={4} md={6}>
-          <PostPreviewCard data={cardPreviewData} />
+          <PostPreviewCard data={cardPreviewData} shouldNotUseLink />
         </Grid>
       </Grid>
     </>

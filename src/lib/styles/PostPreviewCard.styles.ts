@@ -16,11 +16,9 @@ export const useStyles = makeStyles(
     header: {
       display: 'flex',
       margin: theme.spacing(0, 4),
-      cursor: 'pointer',
     },
     body: {
       margin: theme.spacing(1, 4, 5),
-      cursor: 'pointer',
     },
     postType: {
       color: theme.palette.info.light,
