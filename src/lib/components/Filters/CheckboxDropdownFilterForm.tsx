@@ -13,42 +13,39 @@ import {
 } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ChipsList from '../Chips/ChipsList';
-import { ICheckBoxFormState } from './CheckBoxFilterForm';
-import { FilterTypeEnum } from '../../types';
+import { CheckboxFormStateType } from './CheckboxFilterForm';
 
 interface IFilter {
   id: string | number;
   name: string;
 }
 
-export interface ICheckBoxDropdownFilterFormProps {
-  onFormChange: (checked: ICheckBoxFormState, filterType?) => void;
+export interface ICheckboxDropdownFilterFormProps {
+  onFormChange: (checked: CheckboxFormStateType) => void;
   possibleFilters: IFilter[];
   selectedFilters?: IFilter[];
   filterTitle: string;
-  filterType?: FilterTypeEnum;
 }
 
-const CheckBoxDropdownFilterForm: React.FC<ICheckBoxDropdownFilterFormProps> = ({
+const CheckboxDropdownFilterForm: React.FC<ICheckboxDropdownFilterFormProps> = ({
   onFormChange,
   possibleFilters,
   selectedFilters,
   filterTitle,
-  filterType,
 }) => {
   const isInitialStateEmpty = isEmpty(selectedFilters);
 
-  const getCheckedStateFromFilters = (): ICheckBoxFormState => {
+  const getCheckedStateFromFilters = (): CheckboxFormStateType => {
     return possibleFilters.reduce((acc, next) => {
       acc[next.id] =
         isInitialStateEmpty ||
         Boolean(selectedFilters?.find((filter) => filter.id === next.id));
       return acc;
-    }, {} as ICheckBoxFormState);
+    }, {});
   };
 
   const [allChecked, setAllChecked] = useState(isInitialStateEmpty);
-  const [checked, setChecked] = useState<ICheckBoxFormState>(
+  const [checked, setChecked] = useState<CheckboxFormStateType>(
     getCheckedStateFromFilters(),
   );
 
@@ -69,13 +66,10 @@ const CheckBoxDropdownFilterForm: React.FC<ICheckBoxDropdownFilterFormProps> = (
       setAllChecked(false);
     }
 
-    onFormChange(
-      {
-        ...checked,
-        [event.target.name]: event.target.checked,
-      },
-      filterType,
-    );
+    onFormChange({
+      ...checked,
+      [event.target.name]: event.target.checked,
+    });
   };
 
   const onCheckboxAllChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -85,7 +79,7 @@ const CheckBoxDropdownFilterForm: React.FC<ICheckBoxDropdownFilterFormProps> = (
 
     setAllChecked(event.target.checked);
     setChecked(checkedFilters);
-    onFormChange(checkedFilters, filterType);
+    onFormChange(checkedFilters);
   };
 
   const getNames = () => {
@@ -129,58 +123,56 @@ const CheckBoxDropdownFilterForm: React.FC<ICheckBoxDropdownFilterFormProps> = (
   });
 
   return (
-    <>
-      <Box mt={2}>
-        <Accordion>
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1bh-content"
-            id="panel1bh-header"
-          >
-            <Grid container>
-              <Grid item xs={2} style={{ marginRight: '-30px' }}>
-                <Typography variant="h5">{filterTitle}</Typography>
-              </Grid>
-              <Grid item xs={10}>
-                <ChipsList checkedNames={getNames()} />
-              </Grid>
+    <Box mt={2}>
+      <Accordion>
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls="panel1bh-content"
+          id="panel1bh-header"
+        >
+          <Grid container>
+            <Grid item xs={2} style={{ marginRight: '-30px' }}>
+              <Typography variant="h5">{filterTitle}</Typography>
             </Grid>
-          </AccordionSummary>
-          <AccordionDetails>
-            <Grid container>
-              <Grid item xs={2} style={{ marginRight: '-30px' }} />
-              <Grid item xs={10}>
-                <FormControlLabel
-                  style={{ width: '100%' }}
-                  control={
-                    <Checkbox
-                      id="All"
-                      checked={allChecked}
-                      onChange={onCheckboxAllChange}
-                      name="All"
-                    />
-                  }
-                  label="Всі"
-                  key="All"
-                />
-              </Grid>
-              <Grid item xs={2} style={{ marginRight: '-30px' }} />
-              <FormGroup
-                style={{
-                  height: '450px',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  flexWrap: 'wrap',
-                }}
-              >
-                {checkBoxes}
-              </FormGroup>
+            <Grid item xs={10}>
+              <ChipsList checkedNames={getNames()} />
             </Grid>
-          </AccordionDetails>
-        </Accordion>
-      </Box>
-    </>
+          </Grid>
+        </AccordionSummary>
+        <AccordionDetails>
+          <Grid container>
+            <Grid item xs={2} style={{ marginRight: '-30px' }} />
+            <Grid item xs={10}>
+              <FormControlLabel
+                style={{ width: '100%' }}
+                control={
+                  <Checkbox
+                    id="All"
+                    checked={allChecked}
+                    onChange={onCheckboxAllChange}
+                    name="All"
+                  />
+                }
+                label="Всі"
+                key="All"
+              />
+            </Grid>
+            <Grid item xs={2} style={{ marginRight: '-30px' }} />
+            <FormGroup
+              style={{
+                height: '450px',
+                display: 'flex',
+                flexDirection: 'column',
+                flexWrap: 'wrap',
+              }}
+            >
+              {checkBoxes}
+            </FormGroup>
+          </Grid>
+        </AccordionDetails>
+      </Accordion>
+    </Box>
   );
 };
 
-export default CheckBoxDropdownFilterForm;
+export default CheckboxDropdownFilterForm;

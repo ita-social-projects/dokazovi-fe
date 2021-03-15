@@ -1,6 +1,6 @@
-import { CircularProgress } from '@material-ui/core';
 import React from 'react';
-import { LoadingStatusEnum } from '../types';
+import { CircularProgress } from '@material-ui/core';
+import { LoadingStatusEnum } from '../../types';
 
 export interface ILoadingInfoProps {
   loading: LoadingStatusEnum;

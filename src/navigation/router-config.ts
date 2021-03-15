@@ -10,11 +10,11 @@ const MaterialsView = lazy(
 const ExpertsView = lazy(
   () => import('../modules/experts/components/ExpertsView'),
 );
-const ExpertProfileView = lazy(
-  () => import('../modules/experts/components/ExpertProfileView'),
+const ExpertProfileViewWrapper = lazy(
+  () => import('../modules/experts/components/ExpertProfileViewWrapper'),
 );
-const PostViewContainer = lazy(
-  () => import('../modules/posts/components/PostViewContainer'),
+const PostViewWrapper = lazy(
+  () => import('../modules/posts/components/PostViewWrapper'),
 );
 const ArticleCreation = lazy(
   () => import('../modules/postCreation/components/ArticleCreation'),
@@ -36,13 +36,11 @@ const ROUTER_CONFIG: IRouterConfig[] = [
     key: 'ROOT',
     exact: true,
     component: MainView,
-    title: 'Головна',
   },
   {
     path: '/materials',
     key: 'MATERIALS',
     component: MaterialsView,
-    title: 'Матеріали',
   },
   {
     path: '/experts',
@@ -54,13 +52,12 @@ const ROUTER_CONFIG: IRouterConfig[] = [
         key: 'EXPERTS_LIST',
         exact: true,
         component: ExpertsView,
-        title: 'Експерти',
       },
       {
         path: '/experts/:expertId',
         key: 'EXPERT_PROFILE',
         exact: true,
-        component: ExpertProfileView,
+        component: ExpertProfileViewWrapper,
       },
     ],
   },
@@ -75,14 +72,12 @@ const ROUTER_CONFIG: IRouterConfig[] = [
         key: 'ARTICLE',
         exact: true,
         component: ArticleCreation,
-        title: 'Створення статті',
       },
       {
         path: '/create-article/preview',
         key: 'ARTICLE_PREVIEW',
         exact: true,
         component: PostCreationPreview,
-        title: 'Попередній перегляд',
       },
     ],
   },
@@ -97,14 +92,12 @@ const ROUTER_CONFIG: IRouterConfig[] = [
         key: 'NOTE',
         exact: true,
         component: NoteCreation,
-        title: 'Створення допису',
       },
       {
         path: '/create-note/preview',
         key: 'NOTE_PREVIEW',
         exact: true,
         component: PostCreationPreview,
-        title: 'Попередній перегляд',
       },
     ],
   },
@@ -119,14 +112,12 @@ const ROUTER_CONFIG: IRouterConfig[] = [
         key: 'VIDEO',
         exact: true,
         component: VideoCreation,
-        title: 'Створення відео',
       },
       {
         path: '/create-video/preview',
         key: 'VIDEO_PREVIEW',
         exact: true,
         component: PostCreationPreview,
-        title: 'Попередній перегляд',
       },
     ],
   },
@@ -134,22 +125,19 @@ const ROUTER_CONFIG: IRouterConfig[] = [
     path: '/posts/:postId',
     key: 'POST_PROFILE',
     exact: true,
-    component: PostViewContainer,
-    title: 'Пост',
+    component: PostViewWrapper,
   },
   {
     path: '/error_404',
     key: 'ERROR_404',
     exact: true,
     component: Page404,
-    title: 'Помилка 404',
   },
   {
     path: '/oauth2/redirect',
     key: 'oauth2/redirect',
     exact: true,
     component: Oath2Redirect,
-    title: '',
   },
 ];
 

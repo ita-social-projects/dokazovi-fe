@@ -21,20 +21,24 @@ const ChipsList: React.FC<IChipsListProps> = ({
   const destructNamesString = (str: string) => {
     const arr = str.split('+');
 
-    const dirNames = arr[0].split(',').map((e) => e.trim());
+    const directionNames = arr[0].split(',').map((e) => e.trim());
     const restCounter = arr[1];
 
-    return { dirNames, restCounter };
+    return { directionNames, restCounter };
   };
 
-  const { dirNames, restCounter } = destructNamesString(checkedNames);
+  const { directionNames: dirNames, restCounter } = destructNamesString(
+    checkedNames,
+  );
 
   return (
     <>
       {dirNames[0] && (
         <>
-          {dirNames.map((dirName) => {
-            const direction = directions.find((dir) => dir.name === dirName);
+          {dirNames.map((directionName) => {
+            const direction = directions.find(
+              (dir) => dir.name === directionName,
+            );
             if (direction) {
               return (
                 <PostDirectionChip
@@ -45,7 +49,12 @@ const ChipsList: React.FC<IChipsListProps> = ({
               );
             }
 
-            return <PostDirectionChip key={dirName} labelName={dirName} />;
+            return (
+              <PostDirectionChip
+                key={directionName}
+                labelName={directionName}
+              />
+            );
           })}
           {restCounter ? (
             <>

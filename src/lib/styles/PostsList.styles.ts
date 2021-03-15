@@ -5,6 +5,7 @@ export const useStyles = makeStyles(
     createStyles({
       masonryGrid: {
         display: 'flex',
+        width: '100%',
       },
       masonryColumn: {
         marginRight: theme.spacing(2),

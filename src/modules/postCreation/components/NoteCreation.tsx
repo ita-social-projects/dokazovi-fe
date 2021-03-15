@@ -13,9 +13,10 @@ import { PostTopicSelector } from './PostTopicSelector';
 import { PostTypeEnum } from '../../../lib/types';
 import { RootStateType } from '../../../store/rootReducer';
 import { sanitizeHtml } from '../../../lib/utilities/sanitizeHtml';
-import { postPublishPost } from '../../../lib/utilities/API/api';
 import PostCreationButtons from './PostCreationButtons';
-import { PostPostRequestType } from '../../../lib/utilities/API/types';
+import PageTitle from '../../../lib/components/Pages/PageTitle';
+import { CreatePostRequestType } from '../../../lib/utilities/API/types';
+import { createPost } from '../../../lib/utilities/API/api';
 
 const NoteCreation: React.FC = () => {
   const dispatch = useDispatch();
@@ -58,15 +59,15 @@ const NoteCreation: React.FC = () => {
     savedPostDraft.topics.includes(direction.id.toString()),
   );
 
-  const newPost = {
+  const newPost: CreatePostRequestType = {
     content: savedPostDraft.htmlContent,
     directions: allDirections,
     preview: savedPostDraft.preview.value,
-    type: { id: 2 },
-  } as PostPostRequestType;
+    type: { id: 2 }, // must not be hardcoded
+  };
 
   const sendPost = async () => {
-    const responsePost = await postPublishPost(newPost);
+    const responsePost = await createPost(newPost);
     history.push(`/posts/${responsePost.data.id}`);
   };
 
@@ -79,6 +80,8 @@ const NoteCreation: React.FC = () => {
 
   return (
     <>
+      <PageTitle title="Створення допису" />
+
       {directions.length ? (
         <PostTopicSelector
           dispatchTopics={dispatchTopics}

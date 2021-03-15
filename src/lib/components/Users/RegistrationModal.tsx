@@ -14,13 +14,13 @@ import {
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import { emailValidationObj, passwordValidationObj } from './validationRules';
-import { IInputs } from '../../types';
+import { IAuthInputs } from '../../types';
 
 export interface IRegistrationProps {
   registrationOpen: boolean;
   onRegistrationClose: () => void;
   showErrorMessage: (
-    errorsObj: DeepMap<IInputs, FieldError>,
+    errorsObj: DeepMap<IAuthInputs, FieldError>,
     inputName: string,
   ) => JSX.Element;
 }
@@ -30,7 +30,7 @@ export const RegistrationModal: React.FC<IRegistrationProps> = (props) => {
   const [showPassword, setShowPassword] = useState(false);
 
   // eslint-disable-next-line @typescript-eslint/unbound-method
-  const { register, handleSubmit, errors, watch } = useForm<IInputs>();
+  const { register, handleSubmit, errors, watch } = useForm<IAuthInputs>();
 
   const onSubmit = (data) => {
     console.log(data);

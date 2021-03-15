@@ -5,7 +5,7 @@ import { useStyles } from '../../../modules/main/styles/MainExpertsView.styles';
 import { ExpertPopover } from './ExpertPopover';
 import ExpertDataCard from './ExpertDataCard';
 import { IExpert, LoadingStatusEnum } from '../../types';
-import LoadingInfo from '../LoadingInfo';
+import LoadingInfo from '../Loading/LoadingInfo';
 
 const cardsClasses = Array.from(Array(11).keys()).map((el) => `item_${el}`);
 

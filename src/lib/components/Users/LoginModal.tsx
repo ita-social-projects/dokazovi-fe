@@ -19,7 +19,7 @@ import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import { useDispatch, useSelector } from 'react-redux';
 import { emailValidationObj, passwordValidationObj } from './validationRules';
-import { IInputs } from '../../types';
+import { IAuthInputs } from '../../types';
 import { RegistrationModal } from './RegistrationModal';
 import { clearError, loginUser } from '../../../store/authSlice';
 import { RootStateType } from '../../../store/rootReducer';
@@ -35,7 +35,7 @@ export const LoginModal: React.FC = () => {
   const { error } = useSelector((state: RootStateType) => state.currentUser);
 
   // eslint-disable-next-line @typescript-eslint/unbound-method
-  const { register, handleSubmit, errors } = useForm<IInputs>();
+  const { register, handleSubmit, errors } = useForm<IAuthInputs>();
 
   const handleLoginOpen = () => {
     setLoginOpen(true);
@@ -52,7 +52,7 @@ export const LoginModal: React.FC = () => {
     event.preventDefault();
     setRegistrationOpen(true);
   };
-  const onSubmit = (data: IInputs) => {
+  const onSubmit = (data: IAuthInputs) => {
     dispatch(loginUser(data));
   };
 
@@ -62,7 +62,7 @@ export const LoginModal: React.FC = () => {
   };
 
   const showErrorMessage = (
-    errorsObj: DeepMap<IInputs, FieldError>,
+    errorsObj: DeepMap<IAuthInputs, FieldError>,
     inputName: string,
   ): JSX.Element => {
     return (
