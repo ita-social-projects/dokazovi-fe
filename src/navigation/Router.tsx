@@ -1,18 +1,18 @@
 import React from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import { IRouterConfig } from './types';
-import { RootStateType } from '../store/rootReducer';
+import { LocalStorageKeys } from '../lib/types';
 import Page from '../lib/components/Pages/Page';
 import Page404 from '../lib/components/Errors/Page404';
 
 const PrivateRouteWithSubRoutes: React.FC<IRouterConfig> = (props) => {
-  const { user } = useSelector((state: RootStateType) => state.currentUser);
+  const token = localStorage.getItem(LocalStorageKeys.ACCESS_TOKEN);
   const { routes, path, exact, component } = props;
 
-  if (!user) {
+  if (!token) {
     return <Redirect to="/" />;
   }
+
   return (
     <RouteWithSubRoutes
       component={component}
