@@ -5,7 +5,6 @@ import { QueryTypeEnum, LoadingStatusEnum } from '../../../lib/types';
 import { getPosts } from '../../../lib/utilities/API/api';
 import { loadPosts, mapFetchedPosts } from '../../../store/dataSlice';
 import type { AppThunkType } from '../../../store/store';
-import { IMaterialsMeta } from '../../../store/types';
 
 export interface IMaterialsState {
   postIds: number[];
@@ -13,6 +12,12 @@ export interface IMaterialsState {
   filters?: {
     [key in QueryTypeEnum]?: number[];
   };
+}
+
+export interface IMaterialsMeta {
+  loading: LoadingStatusEnum;
+  error: null | string;
+  isLastPage: boolean;
 }
 
 const initialState: IMaterialsState = {

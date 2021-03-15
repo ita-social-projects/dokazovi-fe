@@ -15,7 +15,24 @@ import {
 } from '../../../store/dataSlice';
 import { RequestParamsType } from '../../../lib/utilities/API/types';
 import { LOAD_POSTS_LIMIT } from '../../../lib/constants/posts';
-import { IExpertPayload, IMaterialsMeta } from '../../../store/types';
+
+export interface IExpertPayload {
+  expertIds: number[];
+  meta: IExpertMeta;
+}
+
+export interface IExpertMeta {
+  totalPages?: number;
+  pageNumber: number;
+  loading: LoadingStatusEnum;
+  error: null | string;
+}
+
+export interface IMaterialsMeta {
+  loading: LoadingStatusEnum;
+  error: null | string;
+  isLastPage: boolean;
+}
 
 interface IMaterialsState {
   postIds: number[];
