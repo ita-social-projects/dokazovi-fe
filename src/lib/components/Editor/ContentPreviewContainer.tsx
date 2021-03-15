@@ -7,9 +7,9 @@ import {
   setPostPreviewManuallyChanged,
 } from '../../../modules/postCreation/store/postCreationSlice';
 import { IDirection, IPost, PostTypeEnum } from '../../types';
-import PostPreviewCard from '../Posts/Cards/PostPreviewCard';
 import { RootStateType } from '../../../store/rootReducer';
 import usePostPreviewData from '../../hooks/usePostPreviewData';
+import PostPreviewCard from '../Posts/Cards/PostPreviewCard';
 
 export interface IContentPreviewContainerProps {
   previewText: string;
@@ -124,7 +124,7 @@ const ContentPreviewContainer: React.FC<IContentPreviewContainerProps> = ({
   //  TODO trunc preview text in PostPreviewCard
   return (
     <>
-      <Grid container spacing={2} direction="row" alignItems="stretch">
+      <Grid container direction="row" alignItems="stretch">
         <Grid
           item
           container

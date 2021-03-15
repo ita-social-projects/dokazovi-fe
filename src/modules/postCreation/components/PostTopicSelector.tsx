@@ -1,12 +1,8 @@
 import React, { useState } from 'react';
 import _ from 'lodash';
 import { Grid } from '@material-ui/core';
-import { FilterForm } from '../../../lib/components/Filters/FilterForm';
-import {
-  FilterPropertiesType,
-  ICheckboxes,
-  IDirection,
-} from '../../../lib/types';
+import { FilterForm } from './FilterForm';
+import { ICheckboxes, IDirection } from '../../../lib/types';
 
 export interface IArticleTopics {
   dispatchTopics: (action: string[]) => void;
@@ -20,7 +16,7 @@ export const PostTopicSelector: React.FC<IArticleTopics> = ({
   prevCheckedTopicsIds,
 }) => {
   const initialCheckboxState = topicList.reduce(
-    (acc: ICheckboxes, next: FilterPropertiesType) => {
+    (acc: ICheckboxes, next: { id: number; name: string }) => {
       const id = next.id.toString();
       return { ...acc, [id]: prevCheckedTopicsIds?.includes(id) || false };
     },

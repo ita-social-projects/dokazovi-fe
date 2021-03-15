@@ -17,26 +17,21 @@ interface IHeaderProps {
 const navElems: IHeaderProps[] = [
   {
     id: '1',
-    label: 'Доказові',
-    url: '/',
-  },
-  {
-    id: '2',
     label: 'Про платформу',
     url: '/',
   },
   {
-    id: '3',
+    id: '2',
     label: 'Правила використання',
     url: '/',
   },
   {
-    id: '4',
+    id: '3',
     label: 'Карта сайту',
     url: '/',
   },
   {
-    id: '5',
+    id: '4',
     label: 'Контакти',
     url: '/',
   },
@@ -45,74 +40,84 @@ const navElems: IHeaderProps[] = [
 const linksList = navElems.map((item) => {
   return (
     <Link component={RouterLink} to={item.url} key={item.id} variant="body1">
-      <span> {item.label}</span>
+      <Typography variant="h6" component="span">
+        {item.label}
+      </Typography>
     </Link>
   );
 });
 
 const Footer: React.FC = () => {
   const classes = useStyles();
+
   return (
-    <Container maxWidth="xl" className={classes.container}>
-      <Box className={classes.root}>
-        <Box className={classes.navContainer}>
-          <Box className={classes.innerNav}>{linksList}</Box>
-          <Box className={classes.outerNav}>
-            <ul>
-              <li>
-                <a
-                  href="https://www.facebook.com/"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <img src={facebook} alt="facebook" />
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://www.instagram.com/"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <img src={instagram} alt="Instagram" />
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://www.tiktok.com/"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <img src={tic_toc} alt="Tic Toc" />
-                </a>
-              </li>
-              <li>
-                <a href="https://twitter.com/" target="_blank" rel="noreferrer">
-                  <img src={twitter} alt="twitter" />
-                </a>
-              </li>
-            </ul>
+    <div id="footer" className={classes.container}>
+      <Container>
+        <Box className={classes.root}>
+          <Box className={classes.navContainer}>
+            <Box className={classes.nav}>
+              <Link component={RouterLink} to="/" variant="h3">
+                <span>Доказові</span>
+              </Link>
+              {linksList}
+            </Box>
+            <Box className={classes.socials}>
+              <ul>
+                <li>
+                  <a
+                    href="https://www.facebook.com/"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <img src={facebook} alt="facebook" />
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://www.instagram.com/"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <img src={instagram} alt="Instagram" />
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://www.tiktok.com/"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <img src={tic_toc} alt="Tic Toc" />
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://twitter.com/"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <img src={twitter} alt="twitter" />
+                  </a>
+                </li>
+              </ul>
+            </Box>
           </Box>
+          <Typography className={classes.info} variant="h6" component="div">
+            <span>
+              Використання матеріалів сайту можливе за умови дотримання Правил
+              користування сайтом і правил
+            </span>
+            <span>
+              використання матеріалів сайту. Цей ресурс — для користувачів віком
+              від 18 років і старших.
+            </span>
+          </Typography>
+          <Typography variant="h6" color="inherit" component="span">
+            © 2021 UNICEF UKRAINE. ВСІ ПРАВА ЗАХИЩЕНІ.
+          </Typography>
         </Box>
-        <Typography className={classes.info} variant="body1">
-          <span>
-            Використання матеріалів сайту можливе за умови дотримання Правил
-            користування сайтом і правил
-          </span>
-          <span>
-            використання матеріалів сайту. Цей ресурс — для користувачів віком
-            від 18 років і старших.
-          </span>
-        </Typography>
-        <Typography
-          className={classes.infoButtom}
-          color="inherit"
-          variant="body1"
-        >
-          © 2021 UNICEF UKRAINE. ВСІ ПРАВА ЗАХИЩЕНІ.
-        </Typography>
-      </Box>
-    </Container>
+      </Container>
+    </div>
   );
 };
 

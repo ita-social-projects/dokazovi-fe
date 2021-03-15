@@ -36,11 +36,8 @@ const VideoUrlInputModal: React.FC<IVideoUrlInputModalProps> = ({
     setOpen(false);
   };
 
-  const canParseId = (url) => {
-    if (parseVideoIdFromUrl(url)) {
-      return true;
-    }
-    return false;
+  const canParseId = (url: string) => {
+    return Boolean(parseVideoIdFromUrl(url));
   };
 
   const onSubmitHandler = () => {

@@ -1,13 +1,14 @@
-import { IDirection, IPostType, DirectionIDType } from '../../types';
+import { IDirection } from '../../types';
 
-export type PostPostRequestType = {
+export type CreatePostRequestType = {
   content: string;
-  directions: DirectionIDType[];
+  directions: IDirection[];
   preview: string;
   title?: string;
   type: {
     id: number;
   };
+  videoUrl?: string;
 };
 
 export type PostResponseType = {
@@ -26,32 +27,15 @@ export type PostResponseType = {
     };
   };
   content: string;
-  postType: IPostType;
+  postType: PostTypeResponseType;
   createdAt: string;
-  directions: IDirection[];
+  directions: DirectionResponseType[];
   id: number;
   title: string;
   type: {
     id: number;
     name: string;
   };
-};
-
-export type GetResponseType<T> = {
-  content: T[];
-  empty: boolean;
-  first: boolean;
-  last: boolean;
-  number: number;
-  numberOfElements: number;
-  size: number;
-  sort: {
-    empty: boolean;
-    sorted: boolean;
-    unsorted: boolean;
-  };
-  totalElements: number;
-  totalPages: number;
 };
 
 export type ExpertResponseType = {
@@ -78,68 +62,89 @@ export type ExpertResponseType = {
   qualification: string;
 };
 
-export type PostTagResponseType = {
+export type CreateTagRequestType = {
+  tag: string;
+};
+
+export type TagResponseType = {
   id: number;
   tag: string;
 };
 
-export type GetTagResponseType = PostTagResponseType[];
-
-export type GetVersionType = {
+export type VersionResponseType = {
   version: string;
 };
 
-export type PostPostResponseType = {
-  id: number;
-  name: string;
-};
-
-export type DirectionType = {
+export type DirectionResponseType = {
   id: number;
   name: string;
   label: string;
   color: string;
 };
 
-export type GetDirectionType = DirectionType[];
-
-export type GetPostResponseType = PostPostResponseType[];
-
-export type GetRegionsType = {
+export type RegionResponseType = {
   id: number;
   name: string;
 };
-export type PostLoginResponseType = {
+
+export type PostTypeResponseType = {
+  id: number;
+  name: string;
+};
+
+export type LoginResponseType = {
   accessToken: string;
   tokenType: string;
 };
 
-export type RequestParamsType = {
-  page?: number;
-  size?: number;
-  sort?: string[];
-  directions?: string[]; // change to number later
-  type?: string[];
-  expert?: number;
-  regions?: string[];
-  tag?: string[];
+type GetResponseType<T> = {
+  content: T[];
+  empty: boolean;
+  first: boolean;
+  last: boolean;
+  number: number;
+  numberOfElements: number;
+  size: number;
+  sort: {
+    empty: boolean;
+    sorted: boolean;
+    unsorted: boolean;
+  };
+  totalElements: number;
+  totalPages: number;
 };
 
-export type GetConfigType = {
-  params: RequestParamsType;
-};
+export type ExpertsResponseType = GetResponseType<ExpertResponseType>;
 
-export type GetExpertsConfigType = GetConfigType & {
-  params: { directions?: string[]; regions?: string[] };
-};
+export type PostsResponseType = GetResponseType<PostResponseType>;
 
-export type GetTagConfigType = {
+export type GetTagsConfigType = {
   params: {
     value: string;
     limit?: number;
   };
 };
 
-export type PostTagRequestBodyType = {
-  tag: string;
+type GetConfigType = {
+  params: RequestParamsType;
+};
+
+export type GetExpertsConfigType = GetConfigType & {
+  params: {
+    directions?: number[];
+    regions?: number[];
+  };
+};
+
+export type GetPostsConfigType = GetConfigType;
+
+export type RequestParamsType = {
+  page?: number;
+  size?: number;
+  sort?: string[];
+  directions?: number[];
+  type?: number[];
+  expert?: number;
+  regions?: number[];
+  tag?: number[];
 };

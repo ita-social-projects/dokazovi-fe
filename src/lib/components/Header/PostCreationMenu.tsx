@@ -1,7 +1,7 @@
 import React from 'react';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
-import ListItemText from '@material-ui/core/ListItemText';
+import { Typography } from '@material-ui/core';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import { Link } from 'react-router-dom';
 import { StyledMenu, StyledMenuItem } from '../Menu/StyledMenu';
@@ -64,17 +64,17 @@ export const PostCreationMenu: React.FC = () => {
       >
         <Link to="/create-article">
           <StyledMenuItem onClick={handleClose}>
-            <ListItemText primary="Створити статтю" />
+            <Typography variant="button">Створити статтю</Typography>
           </StyledMenuItem>
         </Link>
         <Link to="/create-note">
           <StyledMenuItem onClick={handleClose}>
-            <ListItemText primary="Створити допис" />
+            <Typography variant="button">Створити допис</Typography>
           </StyledMenuItem>
         </Link>
         <Link to="/create-video">
           <StyledMenuItem onClick={handleClose}>
-            <ListItemText primary="Створити відео" />
+            <Typography variant="button">Створити відео</Typography>
           </StyledMenuItem>
         </Link>
       </StyledMenu>

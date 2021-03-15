@@ -27,9 +27,9 @@ export const StyledMenu = withStyles((theme) => ({
 
 export const StyledMenuItem = withStyles((theme) => ({
   root: {
-    padding: theme.spacing(1, 3),
+    padding: theme.spacing(2, 3),
     color: theme.palette.common.white,
-    '& .MuiListItemText-primary': {
+    '& .MuiTypography-button': {
       color: theme.palette.common.white,
     },
     '&:hover': {

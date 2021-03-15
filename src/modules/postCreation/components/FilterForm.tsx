@@ -11,8 +11,8 @@ import {
   Typography,
   Box,
 } from '@material-ui/core';
-import { FilterPropertiesType, ICheckboxes } from '../../types';
-import ChipsList from '../Chips/ChipsList';
+import { ICheckboxes } from '../../../lib/types';
+import ChipsList from '../../../lib/components/Chips/ChipsList';
 
 export interface IObjForAction {
   value: ICheckboxes;
@@ -21,7 +21,7 @@ export interface IObjForAction {
 export type FilterTiltleType = 'Регіони:' | 'Напрямки:';
 
 export interface IFilterFormProps {
-  filterProperties: FilterPropertiesType[];
+  filterProperties: { id: number; name: string }[];
   filterTitle: FilterTiltleType;
   checkedNamesString: () => string;
   allChecked?: boolean;

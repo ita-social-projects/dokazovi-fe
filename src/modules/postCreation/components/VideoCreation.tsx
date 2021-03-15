@@ -20,11 +20,12 @@ import { PostTopicSelector } from './PostTopicSelector';
 import { PostTypeEnum } from '../../../lib/types';
 import { RootStateType } from '../../../store/rootReducer';
 import { sanitizeHtml } from '../../../lib/utilities/sanitizeHtml';
-import { postPublishPost } from '../../../lib/utilities/API/api';
-import { PostPostRequestType } from '../../../lib/utilities/API/types';
 import { parseVideoIdFromUrl } from '../../../lib/utilities/parseVideoIdFromUrl';
 import VideoUrlInputModal from '../../../lib/components/Editor/CustomModules/VideoUrlInputModal';
 import PostCreationButtons from './PostCreationButtons';
+import PageTitle from '../../../lib/components/Pages/PageTitle';
+import { createPost } from '../../../lib/utilities/API/api';
+import { CreatePostRequestType } from '../../../lib/utilities/API/types';
 
 const VideoCreation: React.FC = () => {
   const dispatch = useDispatch();
@@ -95,17 +96,17 @@ const VideoCreation: React.FC = () => {
     savedPostDraft.topics.includes(direction.id.toString()),
   );
 
-  const newPost = {
+  const newPost: CreatePostRequestType = {
     content: savedPostDraft.htmlContent,
     directions: allDirections,
     preview: savedPostDraft.htmlContent,
-    type: { id: 3 },
+    type: { id: 3 }, // must not be hardcoded
     title: savedPostDraft.title,
     videoUrl: savedPostDraft.videoUrl,
-  } as PostPostRequestType;
+  };
 
   const sendPost = async () => {
-    const responsePost = await postPublishPost(newPost);
+    const responsePost = await createPost(newPost);
     history.push(`/posts/${responsePost.data.id}`);
   };
 
@@ -118,6 +119,8 @@ const VideoCreation: React.FC = () => {
 
   return (
     <>
+      <PageTitle title="Створення відео" />
+
       {directions.length ? (
         <PostTopicSelector
           dispatchTopics={dispatchTopics}

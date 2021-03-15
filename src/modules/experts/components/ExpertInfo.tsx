@@ -1,6 +1,5 @@
 import { Avatar, Divider, Grid, Typography, Box } from '@material-ui/core';
 import React from 'react';
-import PageTitleComponent from '../../../lib/components/PageTitleComponent';
 import PostDirectionLink from '../../../lib/components/Chips/PostDirectionLink';
 import { IExpert } from '../../../lib/types';
 import { useStyles } from '../styles/ExpertInfo.styles';
@@ -15,7 +14,6 @@ const ExpertInfo: React.FC<IExpertInfoProps> = ({ expert }) => {
 
   return (
     <>
-      <PageTitleComponent title={expertFullName} />
       <Grid>
         <Grid container className={classes.personalInfo}>
           <Avatar
@@ -52,7 +50,7 @@ const ExpertInfo: React.FC<IExpertInfoProps> = ({ expert }) => {
           </Grid>
         </Grid>
         <Grid item xs={12}>
-          {expert.bio}
+          <Typography variant="body1">{expert.bio}</Typography>
         </Grid>
       </Grid>
     </>

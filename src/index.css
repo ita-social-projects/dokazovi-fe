@@ -21,3 +21,9 @@ body {
   top: 50%;
   left: 50%;
 }
+
+.content {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
