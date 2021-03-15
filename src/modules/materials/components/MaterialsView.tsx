@@ -8,7 +8,6 @@ import CheckboxFilterForm, {
 } from '../../../lib/components/Filters/CheckboxFilterForm';
 import LoadMorePostsButton from '../../../lib/components/LoadMorePostsButton';
 import PostsList from '../../../lib/components/Posts/PostsList';
-import CheckboxDropdownFilterForm from '../../../lib/components/Filters/СheckboxDropdownFilterForm';
 import useEffectExceptOnMount from '../../../lib/hooks/useEffectExceptOnMount';
 import usePrevious from '../../../lib/hooks/usePrevious';
 import {
@@ -28,6 +27,7 @@ import {
 import LoadingContainer from '../../../lib/components/Loading/LoadingContainer';
 import PageTitle from '../../../lib/components/Pages/PageTitle';
 import { useQuery } from '../../../lib/hooks/useQuery';
+import CheckboxDropdownFilterForm from '../../../lib/components/Filters/CheckboxDropdownFilterForm';
 
 const MaterialsView: React.FC = () => {
   const [page, setPage] = useState(0);
