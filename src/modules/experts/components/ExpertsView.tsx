@@ -15,7 +15,7 @@ import {
   QueryTypeEnum,
 } from '../../../lib/types';
 import { selectExpertsByIds } from '../../../store/selectors';
-import { ICheckboxFormState } from '../../../lib/components/Filters/CheckboxFilterForm';
+import { CheckboxFormStateType } from '../../../lib/components/Filters/CheckboxFilterForm';
 import {
   getQueryTypeByFilterType,
   mapQueryIdsStringToArray,
@@ -51,21 +51,19 @@ const ExpertsView: React.FC = () => {
     const directionsQuery = query.get(QueryTypeEnum.DIRECTIONS);
 
     const page = pageQuery ? pageQuery - 1 : 0;
-    const selectedRegions = mapQueryIdsStringToArray(regionsQuery);
-    const selectedDirections = mapQueryIdsStringToArray(directionsQuery);
 
     dispatch(setExpertsPage(page));
     dispatch(
       fetchExperts({
         page,
-        regions: selectedRegions,
-        directions: selectedDirections,
+        regions: mapQueryIdsStringToArray(regionsQuery),
+        directions: mapQueryIdsStringToArray(directionsQuery),
       }),
     );
   };
 
   const setFilters = (
-    checked: ICheckboxFormState,
+    checked: CheckboxFormStateType,
     filterType: FilterTypeEnum,
   ) => {
     const queryType = getQueryTypeByFilterType(filterType);

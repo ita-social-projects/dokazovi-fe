@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import CheckboxFilterForm, {
-  ICheckboxFormState,
+  CheckboxFormStateType,
 } from '../../../lib/components/Filters/CheckboxFilterForm';
 import LoadingContainer from '../../../lib/components/Loading/LoadingContainer';
 import LoadMorePostsButton from '../../../lib/components/LoadMorePostsButton';
@@ -61,7 +61,7 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
   );
 
   const setFilters = (
-    checked: ICheckboxFormState,
+    checked: CheckboxFormStateType,
     filterType: FilterTypeEnum,
   ) => {
     const queryType = getQueryTypeByFilterType(filterType);
@@ -86,11 +86,10 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
 
   const fetchData = (appendPosts = false) => {
     const postTypesQuery = query.get(QueryTypeEnum.POST_TYPES);
-    const selectedPostTypes = mapQueryIdsStringToArray(postTypesQuery);
 
     const filters: RequestParamsType = {
       page,
-      type: selectedPostTypes,
+      type: mapQueryIdsStringToArray(postTypesQuery),
     };
 
     dispatch(fetchExpertMaterials(expertId, filters, appendPosts));

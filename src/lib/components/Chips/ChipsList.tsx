@@ -27,13 +27,15 @@ const ChipsList: React.FC<IChipsListProps> = ({
     return { directionNames, restCounter };
   };
 
-  const { directionNames, restCounter } = destructNamesString(checkedNames);
+  const { directionNames: dirNames, restCounter } = destructNamesString(
+    checkedNames,
+  );
 
   return (
     <>
-      {directionNames[0] && (
+      {dirNames[0] && (
         <>
-          {directionNames.map((directionName) => {
+          {dirNames.map((directionName) => {
             const direction = directions.find(
               (dir) => dir.name === directionName,
             );

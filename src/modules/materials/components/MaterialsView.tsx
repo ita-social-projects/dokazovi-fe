@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import CheckboxFilterForm, {
-  ICheckboxFormState,
+  CheckboxFormStateType,
 } from '../../../lib/components/Filters/CheckboxFilterForm';
 import LoadMorePostsButton from '../../../lib/components/LoadMorePostsButton';
 import PostsList from '../../../lib/components/Posts/PostsList';
@@ -49,13 +49,10 @@ const MaterialsView: React.FC = () => {
     const postTypesQuery = query.get(QueryTypeEnum.POST_TYPES);
     const directionsQuery = query.get(QueryTypeEnum.DIRECTIONS);
 
-    const selectedPostTypes = mapQueryIdsStringToArray(postTypesQuery);
-    const selectedDirections = mapQueryIdsStringToArray(directionsQuery);
-
     const filters = {
       page,
-      postTypes: selectedPostTypes,
-      directions: selectedDirections,
+      postTypes: mapQueryIdsStringToArray(postTypesQuery),
+      directions: mapQueryIdsStringToArray(directionsQuery),
     };
 
     dispatch(fetchMaterials(filters, page, appendPosts));
@@ -68,7 +65,7 @@ const MaterialsView: React.FC = () => {
   const materials = selectPostsByIds(postIds);
 
   const setFilters = (
-    checked: ICheckboxFormState,
+    checked: CheckboxFormStateType,
     filterType: FilterTypeEnum,
   ) => {
     const queryType = getQueryTypeByFilterType(filterType);

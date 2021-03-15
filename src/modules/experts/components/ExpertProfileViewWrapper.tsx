@@ -4,7 +4,7 @@ import { IExpert } from '../../../lib/types';
 import { getExpertById } from '../../../lib/utilities/API/api';
 import ExpertProfileView from './ExpertProfileView';
 
-const PostViewWrapper: React.FC = () => {
+const ExpertProfileViewWrapper: React.FC = () => {
   const { expertId } = useParams<{ expertId: string }>();
   const history = useHistory();
   const [loadedExpert, setLoadedExpert] = useState<IExpert>();
@@ -30,4 +30,4 @@ const PostViewWrapper: React.FC = () => {
   return <>{loadedExpert && <ExpertProfileView expert={loadedExpert} />}</>;
 };
 
-export default PostViewWrapper;
+export default ExpertProfileViewWrapper;

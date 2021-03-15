@@ -13,7 +13,7 @@ import {
 } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ChipsList from '../Chips/ChipsList';
-import { ICheckboxFormState } from './CheckboxFilterForm';
+import { CheckboxFormStateType } from './CheckboxFilterForm';
 
 interface IFilter {
   id: string | number;
@@ -21,7 +21,7 @@ interface IFilter {
 }
 
 export interface ICheckboxDropdownFilterFormProps {
-  onFormChange: (checked: ICheckboxFormState) => void;
+  onFormChange: (checked: CheckboxFormStateType) => void;
   possibleFilters: IFilter[];
   selectedFilters?: IFilter[];
   filterTitle: string;
@@ -35,17 +35,17 @@ const CheckboxDropdownFilterForm: React.FC<ICheckboxDropdownFilterFormProps> = (
 }) => {
   const isInitialStateEmpty = isEmpty(selectedFilters);
 
-  const getCheckedStateFromFilters = (): ICheckboxFormState => {
+  const getCheckedStateFromFilters = (): CheckboxFormStateType => {
     return possibleFilters.reduce((acc, next) => {
       acc[next.id] =
         isInitialStateEmpty ||
         Boolean(selectedFilters?.find((filter) => filter.id === next.id));
       return acc;
-    }, {} as ICheckboxFormState);
+    }, {});
   };
 
   const [allChecked, setAllChecked] = useState(isInitialStateEmpty);
-  const [checked, setChecked] = useState<ICheckboxFormState>(
+  const [checked, setChecked] = useState<CheckboxFormStateType>(
     getCheckedStateFromFilters(),
   );
 

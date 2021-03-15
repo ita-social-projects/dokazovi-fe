@@ -6,10 +6,10 @@ interface IFilter {
   name: string;
 }
 
-export interface ICheckboxFormState extends Record<string, boolean> {}
+export type CheckboxFormStateType = Record<string, boolean>;
 
 export interface ICheckboxFilterFormProps {
-  onFormChange: (checked: ICheckboxFormState) => void;
+  onFormChange: (checked: CheckboxFormStateType) => void;
   possibleFilters: IFilter[];
   selectedFilters?: IFilter[];
 }
@@ -19,15 +19,15 @@ const CheckboxFilterForm: React.FC<ICheckboxFilterFormProps> = ({
   possibleFilters,
   selectedFilters,
 }) => {
-  const getCheckedStateFromFilters = (): ICheckboxFormState => {
+  const getCheckedStateFromFilters = (): CheckboxFormStateType => {
     return possibleFilters.reduce((acc, next) => {
       acc[next.id] = Boolean(
         selectedFilters?.find((filter) => filter.id === next.id),
       );
       return acc;
-    }, {} as ICheckboxFormState);
+    }, {});
   };
-  const [checked, setChecked] = useState<ICheckboxFormState>(
+  const [checked, setChecked] = useState<CheckboxFormStateType>(
     getCheckedStateFromFilters(),
   );
 

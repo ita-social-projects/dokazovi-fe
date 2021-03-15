@@ -202,7 +202,7 @@ export const expertsReducer = expertsSlice.reducer;
 export const fetchExpertMaterials = (
   expertId: number,
   filters?: RequestParamsType,
-  appendPosts?: boolean,
+  appendPosts = false,
 ): AppThunkType => async (dispatch, getState) => {
   const { postIds } = getState().experts.materials;
 
