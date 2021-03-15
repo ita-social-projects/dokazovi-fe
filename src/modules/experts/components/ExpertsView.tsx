@@ -16,7 +16,6 @@ import {
 } from '../../../lib/types';
 import { selectExpertsByIds } from '../../../store/selectors';
 import { ICheckboxFormState } from '../../../lib/components/Filters/CheckboxFilterForm';
-import CheckboxDropdownFilterForm from '../../../lib/components/Filters/СheckboxDropdownFilterForm';
 import {
   getQueryTypeByFilterType,
   mapQueryIdsStringToArray,
@@ -24,6 +23,7 @@ import {
 import PageTitle from '../../../lib/components/Pages/PageTitle';
 import LoadingContainer from '../../../lib/components/Loading/LoadingContainer';
 import { useQuery } from '../../../lib/hooks/useQuery';
+import CheckboxDropdownFilterForm from '../../../lib/components/Filters/CheckboxDropdownFilterForm';
 
 const ExpertsView: React.FC = () => {
   const query = useQuery();
