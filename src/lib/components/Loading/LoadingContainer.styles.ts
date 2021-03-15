@@ -6,6 +6,11 @@ export const useStyles = makeStyles(
       flexDirection: 'column',
       alignItems: 'center',
       justifyContent: 'center',
+    },
+    expandedContainer: {
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center',
       flexGrow: 1,
     },
   }),

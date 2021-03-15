@@ -129,19 +129,23 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
           filterType={FilterTypeEnum.POST_TYPES}
         />
       )}
-      <Grid container direction="row" alignItems="center">
-        <PostsList postsList={materials} />
-      </Grid>
-      {loading === LoadingStatusEnum.pending && (
-        <LoadingContainer loading={loading} />
+      {page === 0 && loading === LoadingStatusEnum.pending ? (
+        <LoadingContainer loading={loading} expand />
+      ) : (
+        <>
+          <Grid container>
+            <PostsList postsList={materials} />
+          </Grid>
+          <LoadingContainer loading={loading} />
+          <Grid container direction="column" alignItems="center" ref={gridRef}>
+            <LoadMorePostsButton
+              clicked={loadMore}
+              isLastPage={isLastPage}
+              loading={loading}
+            />
+          </Grid>
+        </>
       )}
-      <Grid container direction="column" alignItems="center" ref={gridRef}>
-        <LoadMorePostsButton
-          clicked={loadMore}
-          isLastPage={isLastPage}
-          loading={loading}
-        />
-      </Grid>
     </>
   );
 };

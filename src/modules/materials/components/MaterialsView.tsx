@@ -15,6 +15,7 @@ import {
   FilterTypeEnum,
   IDirection,
   IPostType,
+  LoadingStatusEnum,
   QueryTypeEnum,
 } from '../../../lib/types';
 import { RootStateType } from '../../../store/rootReducer';
@@ -151,22 +152,24 @@ const MaterialsView: React.FC = () => {
           />
         </Grid>
       )}
-      <Grid
-        container
-        direction="row"
-        alignItems="center"
-        style={{ marginTop: 20 }}
-      >
-        <PostsList postsList={materials} />
-      </Grid>
-      <LoadingContainer loading={loading} />
-      <Grid container direction="column" alignItems="center" ref={gridRef}>
-        <LoadMorePostsButton
-          clicked={loadMore}
-          isLastPage={isLastPage}
-          loading={loading}
-        />
-      </Grid>
+
+      {page === 0 && loading === LoadingStatusEnum.pending ? (
+        <LoadingContainer loading={loading} expand />
+      ) : (
+        <>
+          <Grid container alignItems="center" style={{ marginTop: 20 }}>
+            <PostsList postsList={materials} />
+          </Grid>
+          <LoadingContainer loading={loading} />
+          <Grid container justify="center" ref={gridRef}>
+            <LoadMorePostsButton
+              clicked={loadMore}
+              isLastPage={isLastPage}
+              loading={loading}
+            />
+          </Grid>
+        </>
+      )}
     </>
   );
 };

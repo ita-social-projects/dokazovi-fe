@@ -7,17 +7,19 @@ import LoadingInfo from './LoadingInfo';
 export interface ILoadingContainerProps {
   loading: LoadingStatusEnum;
   errorMsg?: string;
+  expand?: boolean;
 }
 
 const LoadingContainer: React.FC<ILoadingContainerProps> = (props) => {
-  const { loading, errorMsg } = props;
+  const { loading, errorMsg, expand } = props;
   const classes = useStyles();
 
   return (
-    <Grid container className={classes.container}>
-      {loading === LoadingStatusEnum.pending && (
-        <LoadingInfo loading={loading} errorMsg={errorMsg} />
-      )}
+    <Grid
+      container
+      className={expand ? classes.expandedContainer : classes.container}
+    >
+      <LoadingInfo loading={loading} errorMsg={errorMsg} />
     </Grid>
   );
 };

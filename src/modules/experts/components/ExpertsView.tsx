@@ -11,6 +11,7 @@ import {
   FilterTypeEnum,
   IDirection,
   IRegion,
+  LoadingStatusEnum,
   QueryTypeEnum,
 } from '../../../lib/types';
 import { selectExpertsByIds } from '../../../store/selectors';
@@ -140,11 +141,11 @@ const ExpertsView: React.FC = () => {
         </Grid>
       )}
       <>
-        {loading === 'pending' ? (
-          <LoadingContainer loading={loading} />
+        {loading === LoadingStatusEnum.pending ? (
+          <LoadingContainer loading={loading} expand />
         ) : (
           <>
-            <Grid container spacing={4} direction="row">
+            <Grid container spacing={4} style={{ marginTop: 20 }}>
               <ExpertsList experts={experts} />
             </Grid>
             <Box mt={2} mb={2}>

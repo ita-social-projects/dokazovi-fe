@@ -39,15 +39,13 @@ const NewestContainer: React.FC = () => {
 
   return (
     <div className={classes.container}>
-      {loading === LoadingStatusEnum.pending && currentPage < 1 ? (
-        <LoadingContainer loading={loading} />
+      {loading === LoadingStatusEnum.pending && currentPage === 0 ? (
+        <LoadingContainer loading={loading} expand />
       ) : (
         <>
           <Typography variant="h4">Найновіше</Typography>
           <PostsList postsList={newestPosts} />
-
           <LoadingContainer loading={loading} />
-
           <Grid container direction="column" alignItems="center" ref={gridRef}>
             <LoadMorePostsButton
               clicked={loadMore}
