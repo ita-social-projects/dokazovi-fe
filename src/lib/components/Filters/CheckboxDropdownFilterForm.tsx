@@ -14,7 +14,6 @@ import {
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ChipsList from '../Chips/ChipsList';
 import { ICheckboxFormState } from './CheckboxFilterForm';
-import { FilterTypeEnum } from '../../types';
 
 interface IFilter {
   id: string | number;
@@ -22,14 +21,10 @@ interface IFilter {
 }
 
 export interface ICheckboxDropdownFilterFormProps {
-  onFormChange: (
-    checked: ICheckboxFormState,
-    filterType: FilterTypeEnum,
-  ) => void;
+  onFormChange: (checked: ICheckboxFormState) => void;
   possibleFilters: IFilter[];
   selectedFilters?: IFilter[];
   filterTitle: string;
-  filterType: FilterTypeEnum;
 }
 
 const CheckboxDropdownFilterForm: React.FC<ICheckboxDropdownFilterFormProps> = ({
@@ -37,7 +32,6 @@ const CheckboxDropdownFilterForm: React.FC<ICheckboxDropdownFilterFormProps> = (
   possibleFilters,
   selectedFilters,
   filterTitle,
-  filterType,
 }) => {
   const isInitialStateEmpty = isEmpty(selectedFilters);
 
@@ -72,13 +66,10 @@ const CheckboxDropdownFilterForm: React.FC<ICheckboxDropdownFilterFormProps> = (
       setAllChecked(false);
     }
 
-    onFormChange(
-      {
-        ...checked,
-        [event.target.name]: event.target.checked,
-      },
-      filterType,
-    );
+    onFormChange({
+      ...checked,
+      [event.target.name]: event.target.checked,
+    });
   };
 
   const onCheckboxAllChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -88,7 +79,7 @@ const CheckboxDropdownFilterForm: React.FC<ICheckboxDropdownFilterFormProps> = (
 
     setAllChecked(event.target.checked);
     setChecked(checkedFilters);
-    onFormChange(checkedFilters, filterType);
+    onFormChange(checkedFilters);
   };
 
   const getNames = () => {

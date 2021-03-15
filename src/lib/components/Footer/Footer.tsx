@@ -8,36 +8,36 @@ import twitter from '../../images/twitter.png';
 import instagram from '../../images/instagram.png';
 import tic_toc from '../../images/tic_toc.png';
 
-interface IHeaderProps {
-  id: string;
+interface IFooterNavProps {
+  id: number;
   label: string;
   url: string;
 }
 
-const navElems: IHeaderProps[] = [
+const navElements: IFooterNavProps[] = [
   {
-    id: '1',
+    id: 1,
     label: 'Про платформу',
     url: '/',
   },
   {
-    id: '2',
+    id: 2,
     label: 'Правила використання',
     url: '/',
   },
   {
-    id: '3',
+    id: 3,
     label: 'Карта сайту',
     url: '/',
   },
   {
-    id: '4',
+    id: 4,
     label: 'Контакти',
     url: '/',
   },
 ];
 
-const linksList = navElems.map((item) => {
+const linksList = navElements.map((item) => {
   return (
     <Link component={RouterLink} to={item.url} key={item.id} variant="body1">
       <Typography variant="h6" component="span">

@@ -123,10 +123,11 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
       <Typography variant="h4">Матеріали</Typography>
       {!isEmpty(postTypes) && (
         <CheckboxFilterForm
-          onFormChange={setFilters}
+          onFormChange={(checked) =>
+            setFilters(checked, FilterTypeEnum.POST_TYPES)
+          }
           possibleFilters={postTypes}
           selectedFilters={selectedPostTypes}
-          filterType={FilterTypeEnum.POST_TYPES}
         />
       )}
       {page === 0 && loading === LoadingStatusEnum.pending ? (

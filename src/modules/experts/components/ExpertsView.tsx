@@ -125,18 +125,20 @@ const ExpertsView: React.FC = () => {
       {propertiesLoaded && (
         <Grid container direction="column">
           <CheckboxDropdownFilterForm
-            onFormChange={setFilters}
+            onFormChange={(checked) =>
+              setFilters(checked, FilterTypeEnum.REGIONS)
+            }
             possibleFilters={regions}
             selectedFilters={selectedRegions}
             filterTitle="Регіони: "
-            filterType={FilterTypeEnum.REGIONS}
           />
           <CheckboxDropdownFilterForm
-            onFormChange={setFilters}
+            onFormChange={(checked) =>
+              setFilters(checked, FilterTypeEnum.DIRECTIONS)
+            }
             possibleFilters={directions}
             selectedFilters={selectedDirections}
             filterTitle="Напрямки: "
-            filterType={FilterTypeEnum.DIRECTIONS}
           />
         </Grid>
       )}

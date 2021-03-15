@@ -1,6 +1,5 @@
 import { Checkbox, FormControlLabel } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
-import { FilterTypeEnum } from '../../types';
 
 interface IFilter {
   id: string | number;
@@ -10,20 +9,15 @@ interface IFilter {
 export interface ICheckboxFormState extends Record<string, boolean> {}
 
 export interface ICheckboxFilterFormProps {
-  onFormChange: (
-    checked: ICheckboxFormState,
-    filterType: FilterTypeEnum,
-  ) => void;
+  onFormChange: (checked: ICheckboxFormState) => void;
   possibleFilters: IFilter[];
   selectedFilters?: IFilter[];
-  filterType: FilterTypeEnum;
 }
 
 const CheckboxFilterForm: React.FC<ICheckboxFilterFormProps> = ({
   onFormChange,
   possibleFilters,
   selectedFilters,
-  filterType,
 }) => {
   const getCheckedStateFromFilters = (): ICheckboxFormState => {
     return possibleFilters.reduce((acc, next) => {
@@ -42,13 +36,10 @@ const CheckboxFilterForm: React.FC<ICheckboxFilterFormProps> = ({
   }, [selectedFilters]);
 
   const onCheckboxCheck = (event: React.ChangeEvent<HTMLInputElement>) => {
-    onFormChange(
-      {
-        ...checked,
-        [event.target.name]: event.target.checked,
-      },
-      filterType,
-    );
+    onFormChange({
+      ...checked,
+      [event.target.name]: event.target.checked,
+    });
   };
 
   const checkBoxes = possibleFilters?.map((filter) => {

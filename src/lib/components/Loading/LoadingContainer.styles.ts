@@ -1,7 +1,7 @@
 import { makeStyles } from '@material-ui/core';
 
 export const useStyles = makeStyles(
-  () => ({
+  {
     container: {
       flexDirection: 'column',
       alignItems: 'center',
@@ -13,6 +13,6 @@ export const useStyles = makeStyles(
       justifyContent: 'center',
       flexGrow: 1,
     },
-  }),
+  },
   { name: 'LoadingContainer' },
 );
