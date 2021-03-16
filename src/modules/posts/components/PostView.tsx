@@ -13,7 +13,7 @@ export interface IPostViewProps {
 }
 
 const PostView: React.FC<IPostViewProps> = ({ post, deleteHandler }) => {
-  const role = 'admin'; //  useSelector && token
+  const role = 'admin'; //  useSelector && token  = Mock
 
   const classes = useStyles();
   const authorFullName = `${post.author.firstName} ${post.author.lastName}`;
@@ -46,15 +46,13 @@ const PostView: React.FC<IPostViewProps> = ({ post, deleteHandler }) => {
           </Box>
           <Box className={classes.controlBlock}>
             {
-              role === 'admin' ? (
-                deleteHandler ? (
-                  <ConfirmModal
-                    title={''}
-                    icon={<DeleteIcon />}
-                    handleChoice={deleteHandler}
-                  />
-                ) : null
-              ) : null
+              role === 'admin' && deleteHandler && (
+                <ConfirmModal
+                  title={`Ви дійсно хочете безповоротно видалити матеріал '${post.title}'?`}
+                  icon={<DeleteIcon />}
+                  handleChoice={deleteHandler}
+                />
+              )
               // user type admin
             }
           </Box>

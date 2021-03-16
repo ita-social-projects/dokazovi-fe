@@ -2,9 +2,8 @@ import React from 'react';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
-import MuiDialogTitle from '@material-ui/core/DialogTitle';
-import CloseIcon from '@material-ui/icons/Close';
-import { IconButton, Typography } from '@material-ui/core';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import { Box, IconButton } from '@material-ui/core';
 
 export interface IConfirmModal {
   title: string;
@@ -36,14 +35,8 @@ const AlertDialog: React.FC<IConfirmModal> = ({
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <MuiDialogTitle disableTypography>
-          <Typography variant="h6">{title}</Typography>
-          <IconButton aria-label="close" onClick={handleClose}>
-            <CloseIcon />
-          </IconButton>
-        </MuiDialogTitle>{' '}
-        );
-        <DialogActions>
+        <DialogTitle>{title}</DialogTitle>
+        <Box display="flex" justifyContent="center">
           <Button
             onClick={() => {
               handleChoice();
@@ -56,7 +49,7 @@ const AlertDialog: React.FC<IConfirmModal> = ({
           <Button onClick={handleClose} color="primary" autoFocus>
             Ні
           </Button>
-        </DialogActions>
+        </Box>
       </Dialog>
     </div>
   );
