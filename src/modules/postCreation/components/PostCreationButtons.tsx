@@ -19,6 +19,7 @@ const PostCreationButtons: React.FC<IPostCreationButtonsProps> = ({
   const buttonText = isOnPreview
     ? 'Назад до редагування'
     : 'Попередній перегляд';
+  console.log(isDone);
 
   return (
     <>
@@ -31,7 +32,11 @@ const PostCreationButtons: React.FC<IPostCreationButtonsProps> = ({
           {buttonText}
         </Button>
         <Button disabled={!isDone} variant="contained" onClick={publishPost}>
-          {isDone ? 'Опублікувати' : <CircularProgress size={20} />}
+          {isDone === undefined || isDone ? (
+            'Опублікувати'
+          ) : (
+            <CircularProgress size={20} />
+          )}
         </Button>
       </Box>
     </>

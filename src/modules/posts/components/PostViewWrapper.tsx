@@ -29,24 +29,32 @@ const PostViewWrapper: React.FC = () => {
     }
   }, [postId]);
 
-  const deletePost = useCallback(() => {
+  const deletePost = () => {
+    if (!loadedPost) return;
     try {
       const response = Math.round(Math.random()); // Mock by status 1 =  success, 0 = error
 
       if (response === 1) {
-        enqueueSnackbar(`Видалення матеріалу пройшло успішно!`, {
-          variant: 'success',
-        });
+        enqueueSnackbar(
+          `Видалення матеріалу "${loadedPost.title}" пройшло успішно!`,
+          {
+            variant: 'success',
+          },
+        );
         history.go(-1);
       }
 
       if (response === 0) {
-        enqueueSnackbar(`Видалити матеріал не вдалося.`, { variant: 'error' });
+        enqueueSnackbar(`Видалити матеріал "${loadedPost.title}" не вдалося.`, {
+          variant: 'error',
+        });
       }
     } catch (e) {
-      enqueueSnackbar(`Видалити матеріал не вдалося.`, { variant: 'error' });
+      enqueueSnackbar(`Видалити матеріал "${loadedPost.title}" не вдалося.`, {
+        variant: 'error',
+      });
     }
-  }, []);
+  };
 
   useEffect(() => {
     fetchPost();
