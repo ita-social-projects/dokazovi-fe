@@ -1,15 +1,20 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Card, Box, Typography, CardMedia } from '@material-ui/core';
+import DeleteIcon from '@material-ui/icons/Delete';
 import { useStyles } from '../styles/PostView.styles';
 import { IPost } from '../../../lib/types';
 import PageTitle from '../../../lib/components/Pages/PageTitle';
+import ConfirmModal from '../../../lib/components/Modals/ConfirmModal';
 
 export interface IPostViewProps {
   post: IPost;
+  deleteHandler?: () => void;
 }
 
-const PostView: React.FC<IPostViewProps> = ({ post }) => {
+const PostView: React.FC<IPostViewProps> = ({ post, deleteHandler }) => {
+  const role = 'admin'; //  useSelector && token
+
   const classes = useStyles();
   const authorFullName = `${post.author.firstName} ${post.author.lastName}`;
   const authorMainInstitution = post.author.mainInstitution
@@ -38,6 +43,20 @@ const PostView: React.FC<IPostViewProps> = ({ post }) => {
             <Typography variant="subtitle1" color="textSecondary">
               {authorMainInstitution}
             </Typography>
+          </Box>
+          <Box className={classes.controlBlock}>
+            {
+              role === 'admin' ? (
+                deleteHandler ? (
+                  <ConfirmModal
+                    title={''}
+                    icon={<DeleteIcon />}
+                    handleChoice={deleteHandler}
+                  />
+                ) : null
+              ) : null
+              // user type admin
+            }
           </Box>
         </Box>
         <Box className={classes.contentRoot}>

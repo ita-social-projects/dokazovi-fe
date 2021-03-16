@@ -25,6 +25,10 @@ const PostViewWrapper: React.FC = () => {
     }
   }, [postId]);
 
+  const deletePost = useCallback(() => {
+    console.log('hello');
+  }, []);
+
   useEffect(() => {
     fetchPost();
   }, [fetchPost]);
@@ -33,7 +37,11 @@ const PostViewWrapper: React.FC = () => {
     history.push('/error_404');
   }
 
-  return <>{loadedPost && <PostView post={loadedPost} />}</>;
+  return (
+    <>
+      {loadedPost && <PostView post={loadedPost} deleteHandler={deletePost} />}
+    </>
+  );
 };
 
 export default PostViewWrapper;
