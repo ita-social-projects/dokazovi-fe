@@ -26,6 +26,7 @@ export const useStyles = makeStyles(
       color: theme.palette.info.light,
     },
     content: {
+      ...theme.typography.body1,
       marginTop: theme.spacing(6),
       '& h1': {
         fontSize: '2em',

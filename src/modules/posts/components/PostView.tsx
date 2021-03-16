@@ -49,14 +49,12 @@ const PostView: React.FC<IPostViewProps> = ({ post }) => {
           <Typography className={classes.createdAt} variant="caption">
             {post.createdAt}
           </Typography>
-          <Typography variant="body1">
-            <div
-              className={classes.content}
-              dangerouslySetInnerHTML={{
-                __html: postContent,
-              }}
-            />
-          </Typography>
+          <div
+            className={classes.content}
+            dangerouslySetInnerHTML={{
+              __html: postContent,
+            }}
+          />
         </Box>
       </Card>
     </>
