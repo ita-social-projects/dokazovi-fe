@@ -32,7 +32,7 @@ const PostViewWrapper: React.FC = () => {
   const deletePost = () => {
     if (!loadedPost) return;
     try {
-      const response = Math.round(Math.random()); // Mock by status 1 =  success, 0 = error
+      const response = 1; // Mock by status 1 =  success
 
       if (response === 1) {
         enqueueSnackbar(
@@ -42,12 +42,6 @@ const PostViewWrapper: React.FC = () => {
           },
         );
         history.go(-1);
-      }
-
-      if (response === 0) {
-        enqueueSnackbar(`Видалити матеріал "${loadedPost.title}" не вдалося.`, {
-          variant: 'error',
-        });
       }
     } catch (e) {
       enqueueSnackbar(`Видалити матеріал "${loadedPost.title}" не вдалося.`, {
