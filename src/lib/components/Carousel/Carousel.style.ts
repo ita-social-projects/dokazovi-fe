@@ -10,6 +10,7 @@ export const useStyles = makeStyles((theme) => ({
       opacity: 0.8,
     },
     '& li': {
+      margin: 0,
       '& button::before': {
         fontSize: 11,
         opacity: 0.4,
