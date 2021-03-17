@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { useRef } from 'react';
 import Slider, { Settings } from 'react-slick';
-import { useStyles } from './Carousel.style';
+import { useStyles } from './Carousel.styles';
 
 const Carousel: React.FC = ({ children }) => {
   const sliderRef = useRef<Slider>(null);
