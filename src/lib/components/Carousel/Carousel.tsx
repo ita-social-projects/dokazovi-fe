@@ -1,38 +1,26 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { useRef } from 'react';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
-import Slider from 'react-slick';
-import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-import { settings, styles } from './carouselConfig';
+import Slider, { Settings } from 'react-slick';
+import { useStyles } from './Carousel.style';
 
 const Carousel: React.FC = ({ children }) => {
   const sliderRef = useRef<Slider>(null);
-
-  const prev = () => {
-    sliderRef.current?.slickPrev();
+  const classes = useStyles();
+  const settings: Settings = {
+    arrows: false,
+    dots: true,
+    infinite: true,
+    speed: 1000,
+    draggable: true,
+    // autoplay: true,
+    autoplaySpeed: 5000,
+    dotsClass: `slick-dots ${classes.dots}`,
   };
-
-  const next = () => {
-    sliderRef.current?.slickNext();
-  };
-
   return (
     <>
-      <div style={styles.wrapper}>
-        <Slider {...settings} ref={sliderRef}>
-          {children}
-        </Slider>
-        <div style={styles.controls}>
-          <button type="button" onClick={prev} style={styles.buttons}>
-            <ArrowBackIcon />
-          </button>
-          <button type="button" onClick={next} style={styles.buttons}>
-            <ArrowForwardIcon />
-          </button>
-        </div>
-      </div>
+      <Slider ref={sliderRef} {...settings}>
+        {children}
+      </Slider>
     </>
   );
 };
