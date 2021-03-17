@@ -1,7 +1,7 @@
 import { makeStyles } from '@material-ui/core';
 
 export const useStyles = makeStyles(
-  () => ({
+  {
     container: {
       minHeight: 455,
       position: 'relative',
@@ -12,6 +12,6 @@ export const useStyles = makeStyles(
       msTransform: 'translateY(-50%)',
       transform: 'translateY(-50%),',
     },
-  }),
+  },
   { name: 'ImportantContainer' },
 );
