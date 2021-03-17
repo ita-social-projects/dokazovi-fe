@@ -19,7 +19,6 @@ const PostCreationButtons: React.FC<IPostCreationButtonsProps> = ({
   const buttonText = isOnPreview
     ? 'Назад до редагування'
     : 'Попередній перегляд';
-  console.log(isDone);
 
   return (
     <>
