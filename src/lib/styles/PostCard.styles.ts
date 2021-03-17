@@ -1,43 +1,30 @@
 import { makeStyles } from '@material-ui/core';
+import background from '../images/importantBackground.jpg';
 
-export const useStyles = makeStyles(
-  {
-    root: {
-      maxWidth: 400,
-      minHeight: 170,
-      display: 'flex',
-      justifyContent: 'space-between',
-      margin: '0 20px 0 0',
-      cursor: 'pointer',
-    },
-    leftPart: {
-      border: '1px solid rgba(0, 0, 0, 0.12)',
-      backgroundColor: '#f5f5f5',
-      width: 150,
-      height: 170,
-    },
-    photo: {
-      width: 80,
-      height: 80,
-      margin: '10px auto',
-      border: '1px solid rgba(0, 0, 0, 0.12)',
-    },
-    fullName: {
-      fontWeight: 'bold',
-      textDecoration: 'underline',
-    },
-    rightPart: {
-      border: '1px solid rgba(0, 0, 0, 0.12)',
-      borderLeft: 'none',
-      width: 250,
-      height: 170,
-    },
-    chipRoot: {
-      display: 'flex',
-      justifyContent: 'space-between',
-      padding: 5,
-      marginBottom: 50,
-    },
+export const useStyles = makeStyles((theme) => ({
+  root: {
+    height: 455,
+    maxWidth: 1250,
+    display: 'flex',
+    flexDirection: 'column',
+    padding: theme.spacing(15, 0, 12, 11),
+    backgroundImage: `url(${background})`,
+    backgroundSize: 'cover',
   },
-  { name: 'PostCard' },
-);
+  title: {
+    margin: theme.spacing(5, 0, 3, 0),
+    maxWidth: 715,
+    cursor: 'pointer',
+  },
+  preview: {
+    maxWidth: 425,
+    cursor: 'pointer',
+  },
+  subtitle2: {
+    maxWidth: 470,
+  },
+  h4: {
+    maxWidth: 275,
+    cursor: 'pointer',
+  },
+}));

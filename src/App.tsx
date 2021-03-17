@@ -19,6 +19,8 @@ import { RootStateType } from './store/rootReducer';
 import { loginUser } from './store/authSlice';
 import { LocalStorageKeys } from './lib/types';
 import { MAIN_THEME } from './lib/theme/theme';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
 const App: React.FC = () => {
   const dispatch = useDispatch();

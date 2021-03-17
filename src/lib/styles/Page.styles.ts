@@ -8,7 +8,7 @@ export const useStyles = makeStyles(
       flexGrow: 1,
     },
     page: {
-      margin: theme.spacing(5, 0),
+      margin: theme.spacing(10, 0),
       display: 'flex',
       flexDirection: 'column',
       flexGrow: 1,
