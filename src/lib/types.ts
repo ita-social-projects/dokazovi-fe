@@ -29,15 +29,18 @@ export enum LocalStorageKeys {
 }
 
 export enum FilterTypeEnum {
-  POST_TYPES = 'POST_TYPES',
-  DIRECTIONS = 'DIRECTIONS',
-  REGIONS = 'REGIONS',
-  TAGS = 'TAGS',
+  POST_TYPES,
+  DIRECTIONS,
+  REGIONS,
+  TAGS,
 }
 
-export enum UrlFilterTypes {
+export enum QueryTypeEnum {
+  POST_TYPES = 'types',
+  DIRECTIONS = 'directions',
+  REGIONS = 'regions',
+  TAGS = 'tags',
   PAGE = 'page',
-  TYPES = 'types',
 }
 
 export interface IPost {
@@ -81,8 +84,6 @@ export interface IPostType {
   name: string;
 }
 
-export type FilterPropertiesType = IPostType;
-
 export interface IDirection {
   id: number;
   color?: string;
@@ -90,7 +91,10 @@ export interface IDirection {
   label?: string;
 }
 
-export type DirectionIDType = Pick<IDirection, 'id'>;
+export interface IRegion {
+  id: number;
+  name: string;
+}
 
 export interface IInstitution {
   city: {
@@ -101,15 +105,11 @@ export interface IInstitution {
   name: string;
 }
 
-export interface IFilter {
-  value: any;
-}
-
 export interface ICheckboxes {
   [key: string]: boolean;
 }
 
-export interface IInputs {
+export interface IAuthInputs {
   email: string;
   password: string;
 }

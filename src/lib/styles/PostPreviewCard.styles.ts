@@ -6,7 +6,7 @@ export const useStyles = makeStyles(
       position: 'relative',
       borderRadius: 0,
     },
-    media: {
+    avatar: {
       height: 91,
       width: 91,
       padding: theme.spacing(3),
@@ -16,33 +16,23 @@ export const useStyles = makeStyles(
     header: {
       display: 'flex',
       margin: theme.spacing(0, 4),
-      cursor: 'pointer',
     },
     body: {
       margin: theme.spacing(1, 4, 5),
-      cursor: 'pointer',
     },
     postType: {
       color: theme.palette.info.light,
     },
-    authorTypography: {
-      fontSize: '16px',
-      lineHeight: '19px',
-    },
     content: {
       padding: 0,
     },
-    eyeNumber: {
-      color: theme.palette.text.secondary,
-      marginLeft: theme.spacing(1),
-      fontSize: '9px',
-      lineHeight: '11px',
-    },
     eyeIcon: {
+      fill: theme.palette.text.secondary,
+    },
+    viewsCount: {
       width: '23px',
       height: '13px',
-      marginLeft: theme.spacing(-1),
-      color: theme.palette.secondary.main,
+      marginLeft: theme.spacing(2),
     },
   }),
   {

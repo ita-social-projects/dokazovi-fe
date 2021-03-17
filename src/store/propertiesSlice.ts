@@ -1,23 +1,18 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import {
-  getTag,
+  getTagsByValue,
   getPostTypes,
   getRegions,
-  getDirection,
+  getDirections,
 } from '../lib/utilities/API/api';
-import {
-  FilterPropertiesType,
-  IPostTag,
-  IPostType,
-  IDirection,
-} from '../lib/types';
+import { IPostTag, IPostType, IDirection, IRegion } from '../lib/types';
 
 import type { AppThunkType } from './store';
 
 export interface IPropertiesState {
   postTypes: IPostType[];
-  regions: FilterPropertiesType[];
+  regions: IRegion[];
   postTags: IPostTag[];
   directions: IDirection[];
 }
@@ -36,7 +31,7 @@ export const propertiesSlice = createSlice({
     loadPostsTypes: (state, action: PayloadAction<IPostType[]>) => {
       state.postTypes = action.payload;
     },
-    loadRegions: (state, action: PayloadAction<FilterPropertiesType[]>) => {
+    loadRegions: (state, action: PayloadAction<IRegion[]>) => {
       state.regions = action.payload;
     },
     loadPostsTags: (state, action: PayloadAction<IPostTag[]>) => {
@@ -70,12 +65,12 @@ export const fetchPostsTypes = (): AppThunkType => async (dispatch) => {
   dispatch(loadPostsTypes(postTypes));
 };
 
-export const fetchPostsTags = (tagValue: string): AppThunkType => async (
+export const fetchPostsTags = (tag: string): AppThunkType => async (
   dispatch,
 ) => {
-  const response = await getTag({
+  const response = await getTagsByValue({
     params: {
-      value: tagValue,
+      value: tag,
     },
   });
   const postTags = response.data;
@@ -83,7 +78,7 @@ export const fetchPostsTags = (tagValue: string): AppThunkType => async (
 };
 
 export const fetchDirections = (): AppThunkType => async (dispatch) => {
-  const response = await getDirection();
-  const direction = response.data;
-  dispatch(loadDirections(direction));
+  const response = await getDirections();
+  const directions = response.data;
+  dispatch(loadDirections(directions));
 };

@@ -1,51 +1,54 @@
-import { Box, Grid, Typography } from '@material-ui/core';
-import { isEmpty } from 'lodash';
+import { Grid, Typography } from '@material-ui/core';
+import { isEmpty, uniq } from 'lodash';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, useLocation } from 'react-router-dom';
-import BorderBottom from '../../../lib/components/Border';
-import CheckBoxFilterForm, {
-  ICheckBoxFormState,
-} from '../../../lib/components/CheckBoxFilterForm';
-import LoadingInfo from '../../../lib/components/LoadingInfo';
+import { useHistory } from 'react-router-dom';
+import CheckboxFilterForm, {
+  CheckboxFormStateType,
+} from '../../../lib/components/Filters/CheckboxFilterForm';
+import LoadingContainer from '../../../lib/components/Loading/LoadingContainer';
 import LoadMorePostsButton from '../../../lib/components/LoadMorePostsButton';
-import PostsList from '../../../lib/components/PostsList';
+import PostsList from '../../../lib/components/Posts/PostsList';
 import useEffectExceptOnMount from '../../../lib/hooks/useEffectExceptOnMount';
 import usePrevious from '../../../lib/hooks/usePrevious';
-import { IPostType, LoadingStatusEnum } from '../../../lib/types';
+import { useQuery } from '../../../lib/hooks/useQuery';
+import {
+  FilterTypeEnum,
+  IPostType,
+  LoadingStatusEnum,
+  QueryTypeEnum,
+} from '../../../lib/types';
+import { RequestParamsType } from '../../../lib/utilities/API/types';
+import {
+  getQueryTypeByFilterType,
+  mapQueryIdsStringToArray,
+} from '../../../lib/utilities/filters';
 import { RootStateType } from '../../../store/rootReducer';
 import { selectPostsByIds } from '../../../store/selectors';
-import {
-  fetchExpertMaterials,
-  setupExpertMaterialsID,
-} from '../store/expertsSlice';
-import { useStyles } from '../styles/ExpertProfileView.styles';
+import { fetchExpertMaterials, resetMaterials } from '../store/expertsSlice';
 
 export interface IExpertMaterialsContainerProps {
-  expertId: string;
+  expertId: number;
 }
-
-const useQuery = () => {
-  return new URLSearchParams(useLocation().search);
-};
-
-const TYPES_QUERY = 'types';
 
 const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
   expertId,
 }) => {
   const dispatch = useDispatch();
-  // TODO: fix loading without useEffect
-  dispatch(setupExpertMaterialsID(expertId));
-
-  const classes = useStyles();
-  const gridRef = useRef<HTMLDivElement>(null);
   const query = useQuery();
   const history = useHistory();
-  const [page, setPage] = useState<number>(1);
+  const [page, setPage] = useState(0);
   const previous = usePrevious({ page });
+
+  useEffect(() => {
+    const reset = () => {
+      dispatch(resetMaterials());
+    };
+    reset();
+  }, [expertId]);
+
   const expertData = useSelector(
-    (state: RootStateType) => state.experts.materials[expertId],
+    (state: RootStateType) => state.experts.materials,
   );
   const {
     postIds,
@@ -57,72 +60,93 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
     (state: RootStateType) => state.properties.postTypes,
   );
 
-  const setFilters = (checked: ICheckBoxFormState) => {
+  const setFilters = (
+    checked: CheckboxFormStateType,
+    filterType: FilterTypeEnum,
+  ) => {
+    const queryType = getQueryTypeByFilterType(filterType);
     const checkedIds = Object.keys(checked).filter((key) => checked[key]);
-    query.set(TYPES_QUERY, checkedIds.join(','));
-    if (!checkedIds.length) query.delete(TYPES_QUERY);
+    const isQuerySame = uniq(Object.values(checked)).length === 1; // removing the query if user checks/unchecks the last box
+
+    query.set(queryType, checkedIds.join(','));
+    if (!checkedIds.length || isQuerySame) {
+      query.delete(queryType);
+    }
+
     setPage(0);
+
     history.push({
       search: query.toString(),
     });
-  };
-
-  const fetchMaterials = (loadMore?: boolean) => {
-    const filters = {
-      page,
-      types: query.get(TYPES_QUERY),
-    };
-    dispatch(fetchExpertMaterials(Number(expertId), filters, loadMore));
   };
 
   const loadMore = () => {
     setPage(page + 1);
   };
 
-  useEffect(() => {
-    const isLoadMore = previous && previous.page < page;
-    fetchMaterials(isLoadMore);
-  }, [expertId, query.get(TYPES_QUERY), page]);
+  const fetchData = (appendPosts = false) => {
+    const postTypesQuery = query.get(QueryTypeEnum.POST_TYPES);
 
+    const filters: RequestParamsType = {
+      page,
+      type: mapQueryIdsStringToArray(postTypesQuery),
+    };
+
+    dispatch(fetchExpertMaterials(expertId, filters, appendPosts));
+  };
+
+  useEffect(() => {
+    const appendPosts = previous && previous.page < page;
+    fetchData(appendPosts);
+  }, [query.get(QueryTypeEnum.POST_TYPES), page]);
+
+  const gridRef = useRef<HTMLDivElement>(null);
   useEffectExceptOnMount(() => {
-    if (page > 1) {
+    if (page > 0) {
       gridRef.current?.scrollIntoView({ behavior: 'smooth' });
     }
-  }, [page]);
+  }, [postIds]);
 
-  const selectedTypesString = query.get(TYPES_QUERY)?.split(',');
-  let selectedFilters: IPostType[] | undefined = postTypes?.filter((post) =>
-    selectedTypesString?.includes(post.id.toString()),
+  const selectedPostTypesString = query
+    .get(QueryTypeEnum.POST_TYPES)
+    ?.split(',');
+  let selectedPostTypes: IPostType[] | undefined = postTypes?.filter((post) =>
+    selectedPostTypesString?.includes(post.id.toString()),
   );
-  selectedFilters = !isEmpty(selectedFilters) ? selectedFilters : undefined;
+  selectedPostTypes = !isEmpty(selectedPostTypes)
+    ? selectedPostTypes
+    : undefined;
 
   return (
-    <Box className={classes.container}>
+    <>
       <Typography variant="h4">Матеріали</Typography>
       {!isEmpty(postTypes) && (
-        <CheckBoxFilterForm
-          onFormChange={setFilters}
+        <CheckboxFilterForm
+          onFormChange={(checked) =>
+            setFilters(checked, FilterTypeEnum.POST_TYPES)
+          }
           possibleFilters={postTypes}
-          selectedFilters={selectedFilters}
+          selectedFilters={selectedPostTypes}
         />
       )}
-      <Grid container spacing={2} direction="row" alignItems="center">
-        <PostsList postsList={materials} />
-      </Grid>
-      <Grid container direction="column" alignItems="center">
-        {loading === LoadingStatusEnum.pending && (
-          <LoadingInfo loading={loading} />
-        )}
-      </Grid>
-      <Grid container direction="column" alignItems="center" ref={gridRef}>
-        <LoadMorePostsButton
-          clicked={loadMore}
-          isLastPage={isLastPage}
-          loading={loading}
-        />
-      </Grid>
-      <BorderBottom />
-    </Box>
+      {page === 0 && loading === LoadingStatusEnum.pending ? (
+        <LoadingContainer loading={loading} expand />
+      ) : (
+        <>
+          <Grid container>
+            <PostsList postsList={materials} />
+          </Grid>
+          <LoadingContainer loading={loading} />
+          <Grid container direction="column" alignItems="center" ref={gridRef}>
+            <LoadMorePostsButton
+              clicked={loadMore}
+              isLastPage={isLastPage}
+              loading={loading}
+            />
+          </Grid>
+        </>
+      )}
+    </>
   );
 };
 
