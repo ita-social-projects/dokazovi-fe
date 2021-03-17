@@ -7,14 +7,20 @@ export const useStyles = makeStyles((theme) => ({
     right: 10,
     '& li.slick-active button::before': {
       color: theme.palette.common.white,
-      opacity: 0.8,
+      content: "'\u2022'",
+      fontSize: 13,
+      marginTop: theme.spacing(1),
+      opacity: 1,
     },
     '& li': {
-      margin: 0,
-      '& button::before': {
-        fontSize: 11,
-        opacity: 0.4,
+      margin: theme.spacing(0, 0.5),
+      '& button:before': {
+        content: "'\u25EF'",
         color: theme.palette.common.white,
+        opacity: 1,
+      },
+      '& button::before': {
+        fontSize: 18,
       },
     },
   },

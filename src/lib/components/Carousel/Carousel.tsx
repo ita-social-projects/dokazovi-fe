@@ -11,8 +11,8 @@ const Carousel: React.FC = ({ children }) => {
     dots: true,
     infinite: true,
     speed: 1000,
-    draggable: true,
-    // autoplay: true,
+    draggable: false,
+    autoplay: true,
     autoplaySpeed: 5000,
     dotsClass: `slick-dots ${classes.dots}`,
   };

@@ -1,6 +1,5 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import Card from '@material-ui/core/Card';
 import Typography from '@material-ui/core/Typography';
 import { useStyles } from '../../../styles/PostCard.styles';
 import { IPost } from '../../../types';
@@ -24,7 +23,7 @@ export const PostCard: React.FC<IPostCardProps> = (props) => {
   };
 
   return (
-    <Card className={classes.root}>
+    <div className={classes.root}>
       <Typography
         component="p"
         variant="h4"
@@ -58,6 +57,6 @@ export const PostCard: React.FC<IPostCardProps> = (props) => {
       >
         {post.preview}
       </Typography>
-    </Card>
+    </div>
   );
 };
