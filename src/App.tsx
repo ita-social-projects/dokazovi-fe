@@ -1,10 +1,9 @@
 import React, { Suspense, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import './App.css';
 import { BrowserRouter } from 'react-router-dom';
+import { SnackbarProvider } from 'notistack';
 import {
   CircularProgress,
-  Container,
   CssBaseline,
   ThemeProvider,
 } from '@material-ui/core';
@@ -21,6 +20,8 @@ import { RootStateType } from './store/rootReducer';
 import { loginUser } from './store/authSlice';
 import { LocalStorageKeys } from './lib/types';
 import { MAIN_THEME } from './lib/theme/theme';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
 const App: React.FC = () => {
   const dispatch = useDispatch();
@@ -40,21 +41,30 @@ const App: React.FC = () => {
     if (!user && token) {
       dispatch(loginUser());
     }
-  }, [user]);
+  }, []);
 
   return (
     <div className="App">
       <ThemeProvider theme={MAIN_THEME}>
-        <CssBaseline />
-        <BrowserRouter>
-          <Container>
-            <Header />
-            <Suspense fallback={<CircularProgress className="mainLoading" />}>
-              <RenderRoutes routes={ROUTER_CONFIG} />
-            </Suspense>
-          </Container>
-          <Footer />
-        </BrowserRouter>
+        <SnackbarProvider
+          maxSnack={4}
+          autoHideDuration={4000}
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'right',
+          }}
+        >
+          <CssBaseline />
+          <BrowserRouter>
+            <div className="content">
+              <Header />
+              <Suspense fallback={<CircularProgress className="mainLoading" />}>
+                <RenderRoutes routes={ROUTER_CONFIG} />
+              </Suspense>
+            </div>
+            <Footer />
+          </BrowserRouter>
+        </SnackbarProvider>
       </ThemeProvider>
     </div>
   );

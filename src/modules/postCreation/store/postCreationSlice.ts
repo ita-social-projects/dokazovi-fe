@@ -5,9 +5,10 @@ import { PostTypeEnum } from '../../../lib/types';
 export interface INewPostDraft {
   topics: string[];
   title?: string;
-  isDone: boolean;
+  isDone?: boolean;
   htmlContent: string;
   preview: IPostPreview;
+  videoUrl?: string;
 }
 
 interface IPostPreview {
@@ -25,22 +26,20 @@ const initialState: IPostCreationState = {
   [PostTypeEnum.ARTICLE]: {
     topics: [],
     title: '',
-    isDone: false,
     htmlContent: '',
     preview: { value: '', isManuallyChanged: false },
   },
   [PostTypeEnum.DOPYS]: {
     topics: [],
-    isDone: false,
     htmlContent: '',
     preview: { value: '', isManuallyChanged: false },
   },
   [PostTypeEnum.VIDEO]: {
     topics: [],
     title: '',
-    isDone: false,
     htmlContent: '',
     preview: { value: '', isManuallyChanged: false },
+    videoUrl: '',
   },
 };
 
@@ -103,6 +102,15 @@ export const postCreationSlice = createSlice({
       state[action.payload.postType].preview.isManuallyChanged =
         action.payload.value;
     },
+    setVideoUrl: (
+      state,
+      action: PayloadAction<{
+        postType: PostTypeEnum;
+        value: INewPostDraft['videoUrl'];
+      }>,
+    ) => {
+      state[action.payload.postType].videoUrl = action.payload.value;
+    },
   },
 });
 
@@ -113,6 +121,7 @@ export const {
   setPostBody,
   setPostPreviewText,
   setPostPreviewManuallyChanged,
+  setVideoUrl,
 } = postCreationSlice.actions;
 
 const postCreationReducer = postCreationSlice.reducer;

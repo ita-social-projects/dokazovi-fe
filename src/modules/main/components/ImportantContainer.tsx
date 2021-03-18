@@ -1,24 +1,26 @@
-import { Grid, Typography } from '@material-ui/core';
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import BorderBottom from '../../../lib/components/Border';
-import Carousel from '../../../lib/components/Carousel';
-import LoadingInfo from '../../../lib/components/LoadingInfo';
-import { PostCard } from '../../../lib/components/PostCard';
+import Carousel from '../../../lib/components/Carousel/Carousel';
+import { PostCard } from '../../../lib/components/Posts/Cards/PostCard';
 import { RootStateType } from '../../../store/rootReducer';
-import { styles } from '../../../lib/constants/carousel-config';
+import { useStyles } from '../styles/ImportantContainer.styles';
 import {
   fetchImportantPosts,
   setImportantLoadingStatus,
 } from '../store/mainSlice';
 import { selectPostsByIds } from '../../../store/selectors';
+import LoadingContainer from '../../../lib/components/Loading/LoadingContainer';
 
 const ImportantContainer: React.FC = () => {
+  const classes = useStyles();
   const {
     importantPostIds,
     meta: { loading },
   } = useSelector((state: RootStateType) => state.main.important);
   const importantPosts = selectPostsByIds(importantPostIds);
+
+  const slidesToShow = 3;
 
   const dispatch = useDispatch();
 
@@ -31,26 +33,14 @@ const ImportantContainer: React.FC = () => {
   }, []);
 
   return (
-    <div style={styles.container}>
+    <div className={classes.container}>
       {loading === 'pending' ? (
-        <Grid
-          container
-          direction="column"
-          alignItems="center"
-          style={styles.loading}
-        >
-          <LoadingInfo loading={loading} />
-        </Grid>
+        <LoadingContainer loading={loading} />
       ) : (
         <>
-          <Typography variant="h4" style={styles.title}>
-            Важливе
-          </Typography>
           <Carousel>
-            {importantPosts.map((post) => (
-              <div key={post.title}>
-                <PostCard post={post} />
-              </div>
+            {importantPosts.slice(0, slidesToShow).map((post) => (
+              <PostCard post={post} key={post.title} />
             ))}
           </Carousel>
           <BorderBottom />

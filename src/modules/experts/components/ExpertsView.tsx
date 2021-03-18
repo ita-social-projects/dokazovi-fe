@@ -1,30 +1,31 @@
 import React, { useEffect } from 'react';
 import { isEmpty, uniq } from 'lodash';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { Box, Grid } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { Pagination } from '@material-ui/lab';
 import { fetchExperts, setExpertsPage } from '../store/expertsSlice';
 import { RootStateType } from '../../../store/rootReducer';
-import ExpertsList from '../../../lib/components/ExpertsList';
-import LoadingInfo from '../../../lib/components/LoadingInfo';
-import { useStyles } from '../styles/ExpertsView.styles';
-import { FilterTypeEnum } from '../../../lib/types';
+import ExpertsList from '../../../lib/components/Experts/ExpertsList';
+import {
+  FilterTypeEnum,
+  IDirection,
+  IRegion,
+  LoadingStatusEnum,
+  QueryTypeEnum,
+} from '../../../lib/types';
 import { selectExpertsByIds } from '../../../store/selectors';
-import { ICheckBoxFormState } from '../../../lib/components/CheckBoxFilterForm';
-import CheckBoxDropdownFilterForm from '../../../lib/components/СheckBoxDropdownFilterForm';
-import useEffectExceptOnMount from '../../../lib/hooks/useEffectExceptOnMount';
-
-const useQuery = () => {
-  return new URLSearchParams(useLocation().search);
-};
-
-const PAGE_QUERY = 'page';
-const REGIONS_QUERY = 'regions';
-const DIRECTIONS_QUERY = 'directions';
+import { CheckboxFormStateType } from '../../../lib/components/Filters/CheckboxFilterForm';
+import {
+  getQueryTypeByFilterType,
+  mapQueryIdsStringToArray,
+} from '../../../lib/utilities/filters';
+import PageTitle from '../../../lib/components/Pages/PageTitle';
+import LoadingContainer from '../../../lib/components/Loading/LoadingContainer';
+import { useQuery } from '../../../lib/hooks/useQuery';
+import CheckboxDropdownFilterForm from '../../../lib/components/Filters/CheckboxDropdownFilterForm';
 
 const ExpertsView: React.FC = () => {
-  const classes = useStyles();
   const query = useQuery();
   const history = useHistory();
   const dispatch = useDispatch();
@@ -37,139 +38,121 @@ const ExpertsView: React.FC = () => {
   const experts = selectExpertsByIds(expertIds);
 
   const regions = useSelector(
-    (state: RootStateType) => state.properties?.regions,
+    (state: RootStateType) => state.properties.regions,
   );
-
   const directions = useSelector(
-    (state: RootStateType) => state.properties?.directions,
+    (state: RootStateType) => state.properties.directions,
   );
+  const propertiesLoaded = !isEmpty(regions) && !isEmpty(directions);
 
-  const fetchMaterials = () => {
-    const pageQuery = Number(query.get(PAGE_QUERY));
-    const regionsQuery = query.get(REGIONS_QUERY);
-    const directionsQuery = query.get(DIRECTIONS_QUERY);
+  const fetchData = () => {
+    const pageQuery = Number(query.get(QueryTypeEnum.PAGE));
+    const regionsQuery = query.get(QueryTypeEnum.REGIONS);
+    const directionsQuery = query.get(QueryTypeEnum.DIRECTIONS);
 
-    const isPage = pageQuery ? pageQuery - 1 : 0;
-    const regionsFilterQuery = regionsQuery
-      ? regionsQuery.split(',').filter(Number)
-      : [];
-    const directionsFilterQuery = directionsQuery
-      ? directionsQuery.split(',').filter(Number)
-      : [];
+    const page = pageQuery ? pageQuery - 1 : 0;
 
-    dispatch(setExpertsPage(isPage));
+    dispatch(setExpertsPage(page));
     dispatch(
       fetchExperts({
-        page: isPage,
-        regions: regionsFilterQuery,
-        directions: directionsFilterQuery,
+        page,
+        regions: mapQueryIdsStringToArray(regionsQuery),
+        directions: mapQueryIdsStringToArray(directionsQuery),
       }),
     );
   };
 
   const setFilters = (
-    checked: ICheckBoxFormState,
+    checked: CheckboxFormStateType,
     filterType: FilterTypeEnum,
   ) => {
+    const queryType = getQueryTypeByFilterType(filterType);
     const checkedIds = Object.keys(checked).filter((key) => checked[key]);
-    const queryType = filterType.toLowerCase();
-    const isQuerySame = uniq(Object.values(checked)).length === 1;
+    const isQuerySame = uniq(Object.values(checked)).length === 1; // removing the query if user checks/unchecks the last box
 
     query.set(queryType, checkedIds.join(','));
     if (!checkedIds.length || isQuerySame) {
       query.delete(queryType);
     }
-    query.set(PAGE_QUERY, '1');
+
+    query.set(QueryTypeEnum.PAGE, '1');
+
     history.push({
       search: query.toString(),
     });
   };
 
   const handlePageChange = (_, newPage: number) => {
-    query.set(PAGE_QUERY, String(newPage));
+    query.set(QueryTypeEnum.PAGE, newPage.toString());
     history.push({
       search: query.toString(),
     });
   };
 
   useEffect(() => {
-    fetchMaterials();
-  }, []);
-
-  useEffectExceptOnMount(() => {
-    fetchMaterials();
+    fetchData();
   }, [
-    query.get(PAGE_QUERY),
-    query.get(REGIONS_QUERY),
-    query.get(DIRECTIONS_QUERY),
+    query.get(QueryTypeEnum.PAGE),
+    query.get(QueryTypeEnum.REGIONS),
+    query.get(QueryTypeEnum.DIRECTIONS),
   ]);
 
-  const expertsPropertiesLoaded = !!regions.length && !!directions.length;
+  const selectedRegionsString = query.get(QueryTypeEnum.REGIONS)?.split(',');
+  const selectedDirectionsString = query
+    .get(QueryTypeEnum.DIRECTIONS)
+    ?.split(',');
 
-  const correctPageNumber = pageNumber === 0 ? 1 : pageNumber + 1;
-
-  const selectedRegionsString = query.get(REGIONS_QUERY)?.split(',');
-  const selectedDirectionsString = query.get(DIRECTIONS_QUERY)?.split(',');
-
-  const selectedRegionsFilter = regions?.filter((post) =>
-    selectedRegionsString?.includes(post.id.toString()),
+  let selectedRegions: IRegion[] | undefined = regions?.filter((region) =>
+    selectedRegionsString?.includes(region.id.toString()),
   );
-  const selectedDirectionsFilter = directions?.filter((post) =>
-    selectedDirectionsString?.includes(post.id.toString()),
+  let selectedDirections:
+    | IDirection[]
+    | undefined = directions?.filter((direction) =>
+    selectedDirectionsString?.includes(direction.id.toString()),
   );
 
-  const initialRegionsFilter = !isEmpty(selectedRegionsFilter)
-    ? selectedRegionsFilter
-    : undefined;
-  const initialDirectionsFilter = !isEmpty(selectedDirectionsString)
-    ? selectedDirectionsFilter
+  selectedRegions = !isEmpty(selectedRegions) ? selectedRegions : undefined;
+  selectedDirections = !isEmpty(selectedDirections)
+    ? selectedDirections
     : undefined;
 
   return (
     <>
-      {expertsPropertiesLoaded && (
+      <PageTitle title="Автори" />
+
+      {propertiesLoaded && (
         <Grid container direction="column">
-          <CheckBoxDropdownFilterForm
-            onFormChange={setFilters}
+          <CheckboxDropdownFilterForm
+            onFormChange={(checked) =>
+              setFilters(checked, FilterTypeEnum.REGIONS)
+            }
             possibleFilters={regions}
-            selectedFilters={initialRegionsFilter}
+            selectedFilters={selectedRegions}
             filterTitle="Регіони: "
-            filterType={FilterTypeEnum.REGIONS}
           />
-          <CheckBoxDropdownFilterForm
-            onFormChange={setFilters}
+          <CheckboxDropdownFilterForm
+            onFormChange={(checked) =>
+              setFilters(checked, FilterTypeEnum.DIRECTIONS)
+            }
             possibleFilters={directions}
-            selectedFilters={initialDirectionsFilter}
+            selectedFilters={selectedDirections}
             filterTitle="Напрямки: "
-            filterType={FilterTypeEnum.DIRECTIONS}
           />
         </Grid>
       )}
-      <Box mt={2}>
-        {loading === 'pending' ? (
-          <Grid
-            container
-            direction="column"
-            alignItems="center"
-            className={classes.loading}
-          >
-            <LoadingInfo loading={loading} />
-          </Grid>
+      <>
+        {loading === LoadingStatusEnum.pending ? (
+          <LoadingContainer loading={loading} expand />
         ) : (
           <>
-            <Grid container spacing={4} direction="row">
+            <Grid container spacing={4} style={{ marginTop: 20 }}>
               <ExpertsList experts={experts} />
             </Grid>
             <Box mt={2} mb={2}>
-              <Grid
-                container
-                spacing={2}
-                direction="column"
-                alignItems="center"
-              >
+              <Grid container direction="column" alignItems="center">
                 <Pagination
                   count={totalPages}
-                  page={correctPageNumber}
+                  page={pageNumber + 1}
                   showFirstButton
                   showLastButton
                   onChange={handlePageChange}
@@ -178,7 +161,7 @@ const ExpertsView: React.FC = () => {
             </Box>
           </>
         )}
-      </Box>
+      </>
     </>
   );
 };

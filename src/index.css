@@ -16,13 +16,14 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-}
-
 .mainLoading {
   position: absolute;
   top: 50%;
   left: 50%;
+}
+
+.content {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }

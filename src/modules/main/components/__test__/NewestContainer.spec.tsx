@@ -1,11 +1,4 @@
-/* eslint-disable @typescript-eslint/no-floating-promises */
-import React from 'react';
-import { Provider } from 'react-redux';
-import { render } from '@testing-library/react';
-import NewestContainer from '../NewestContainer';
-import { store } from '../../../../store/store';
 import { fetchNewestPosts, IMainState, mainSlice } from '../../store/mainSlice';
-
 import { RootStateType } from '../../../../store/rootReducer';
 import { LoadingStatusEnum } from '../../../../lib/types';
 

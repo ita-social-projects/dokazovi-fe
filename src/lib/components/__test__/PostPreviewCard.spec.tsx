@@ -1,7 +1,7 @@
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import { render, screen } from '@testing-library/react';
-import PostPreviewCard from '../PostPreview/PostPreviewCard';
+import PostPreviewCard from '../Posts/Cards/PostPreviewCard';
 
 const POST_MOCK = {
   author: {

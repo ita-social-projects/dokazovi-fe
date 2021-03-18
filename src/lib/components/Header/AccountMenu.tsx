@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { IconButton, ListItemText } from '@material-ui/core';
+import { IconButton, Typography } from '@material-ui/core';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import { useStyles } from './AccountMenu.styles';
 import { StyledMenu, StyledMenuItem } from '../Menu/StyledMenu';
@@ -46,7 +46,7 @@ export const AccountMenu: React.FC = () => {
         onClose={handleClose}
       >
         <StyledMenuItem onClick={onLogoutHandler}>
-          <ListItemText primary="Вийти" />
+          <Typography variant="button">Вийти</Typography>
         </StyledMenuItem>
       </StyledMenu>
     </>
