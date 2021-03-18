@@ -39,6 +39,9 @@ const PostView: React.FC<IPostViewProps> = ({ post }) => {
               {authorMainInstitution}
             </Typography>
           </Box>
+          <Box className={classes.actionsBox}>
+            <Link to={`/update-article/${post.id}`}>Edit</Link>
+          </Box>
         </Box>
         <Box className={classes.contentRoot}>
           {post.title && (

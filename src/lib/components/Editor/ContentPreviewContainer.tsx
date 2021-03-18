@@ -58,7 +58,7 @@ const ContentPreviewContainer: React.FC<IContentPreviewContainerProps> = ({
     boolean
   >(false);
   const [isPreviewValid, setIsPreviewValid] = useState<boolean>(true);
-  const [selectedTopics, setSelectedTopics] = useState<IDirection[]>();
+  const [selectedTopics, setSelectedTopics] = useState<IDirection[]>([]);
 
   useEffect(() => {
     setTextFieldValue(preview.value);

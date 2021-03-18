@@ -9,12 +9,18 @@ import ArticleEditorToolbar from './ArticleEditorToolbar';
 
 interface IArticleEditorProps {
   dispatchContent: (content: string) => void;
+  content?: string;
+  preview?: string;
 }
 
-const ArticleEditor: React.FC<IArticleEditorProps> = ({ dispatchContent }) => {
+const ArticleEditor: React.FC<IArticleEditorProps> = ({
+  dispatchContent,
+  content,
+  preview,
+}) => {
   const [editor, setEditor] = useState<Quill>();
   const articleEditor = useRef<ReactQuill | null>(null);
-  const [editorContent, setEditorContent] = useState<string>('');
+  const [editorContent, setEditorContent] = useState<string>(content || '');
 
   useEffect(() => {
     if (articleEditor.current) {
@@ -22,6 +28,9 @@ const ArticleEditor: React.FC<IArticleEditorProps> = ({ dispatchContent }) => {
       setEditorContent(
         articleEditor.current.getEditor().getText().slice(0, -1), // slice removes additional \n added by Quill
       );
+      if (content) {
+        articleEditor.current.getEditor().setText(content);
+      }
     }
   }, []);
 

@@ -11,6 +11,10 @@ export type CreatePostRequestType = {
   videoUrl?: string;
 };
 
+export type UpdatePostRequestType = CreatePostRequestType & {
+  id: number;
+};
+
 export type PostResponseType = {
   author: {
     avatar: string;

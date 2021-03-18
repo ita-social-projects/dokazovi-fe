@@ -19,6 +19,11 @@ export const useStyles = makeStyles(
       filter: 'grayscale(100%)',
       marginRight: theme.spacing(4),
     },
+    actionsBox: {
+      marginLeft: 'auto',
+      display: 'flex',
+      alignItems: 'center',
+    },
     contentRoot: {
       minHeight: '550px',
     },

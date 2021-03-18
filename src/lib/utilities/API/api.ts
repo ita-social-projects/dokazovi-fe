@@ -17,6 +17,7 @@ import {
   GetTagsConfigType,
   GetExpertsConfigType,
   GetPostsConfigType,
+  UpdatePostRequestType,
 } from './types';
 import { LocalStorageKeys } from '../../types';
 import { BASE_URL } from '../../../apiURL';
@@ -118,6 +119,12 @@ export const getDirections = async (): Promise<
 
 export const createPost = async (
   requestBody: CreatePostRequestType,
+): Promise<AxiosResponse<PostResponseType>> => {
+  return instance.post(`/post`, requestBody);
+};
+
+export const updatePost = async (
+  requestBody: UpdatePostRequestType,
 ): Promise<AxiosResponse<PostResponseType>> => {
   return instance.post(`/post`, requestBody);
 };

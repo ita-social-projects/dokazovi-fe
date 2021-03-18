@@ -28,6 +28,9 @@ const VideoCreation = lazy(
 const PostCreationPreview = lazy(
   () => import('../modules/postCreation/components/PostCreationPreview'),
 );
+const PostUpdationWrapper = lazy(
+  () => import('../modules/postUpdation/components/PostUpdationWrapper'),
+);
 const Page404 = lazy(() => import('../lib/components/Errors/Page404'));
 
 const ROUTER_CONFIG: IRouterConfig[] = [
@@ -116,6 +119,66 @@ const ROUTER_CONFIG: IRouterConfig[] = [
       {
         path: '/create-video/preview',
         key: 'VIDEO_PREVIEW',
+        exact: true,
+        component: PostCreationPreview,
+      },
+    ],
+  },
+  {
+    path: '/update-article',
+    key: 'ARTICLE-UPDATE',
+    component: RenderRoutes,
+    private: true,
+    routes: [
+      {
+        path: '/update-article/:postId',
+        key: 'ARTICLE-UPDATE',
+        exact: true,
+        component: PostUpdationWrapper,
+      },
+      {
+        path: '/update-article/preview',
+        key: 'ARTICLE-UPDATE-PREVIEW',
+        exact: true,
+        component: PostCreationPreview,
+      },
+    ],
+  },
+  {
+    path: '/update-note',
+    key: 'NOTE-UPDATE',
+    component: RenderRoutes,
+    private: true,
+    routes: [
+      {
+        path: '/update-note/:postId',
+        key: 'NOTE-UPDATE',
+        exact: true,
+        component: PostUpdationWrapper,
+      },
+      {
+        path: '/update-note/preview',
+        key: 'NOTE-UPDATE-PREVIEW',
+        exact: true,
+        component: PostCreationPreview,
+      },
+    ],
+  },
+  {
+    path: '/update-video/:postId',
+    key: 'VIDEO-UPDATE',
+    component: RenderRoutes,
+    private: true,
+    routes: [
+      {
+        path: '/update-video',
+        key: 'VIDEO-UPDATE',
+        exact: true,
+        component: PostUpdationWrapper,
+      },
+      {
+        path: '/update-video/preview',
+        key: 'VIDEO-UPDATE-PREVIEW',
         exact: true,
         component: PostCreationPreview,
       },

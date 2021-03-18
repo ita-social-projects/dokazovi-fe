@@ -61,6 +61,7 @@ const PostPreviewCard: React.FC<IPostPreviewCardProps> = (props) => {
           className={classes.avatar}
           image={data.author.avatar} // paste default avatar if not present
           title={authorFullName}
+          component="div"
         />
       </Box>
       <Typography
