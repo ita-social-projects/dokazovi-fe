@@ -2,13 +2,13 @@ import React from 'react';
 import { makeStyles, createStyles } from '@material-ui/core';
 
 const useStyles = makeStyles(
-  () =>
+  (theme) =>
     createStyles({
       customBorder: {
         width: '100%',
         height: '1px',
         background: 'rgba(0, 0, 0, 0.2)',
-        margin: '20px 0',
+        margin: theme.spacing(10, 0),
       },
     }),
   { name: 'BorderBottom' },

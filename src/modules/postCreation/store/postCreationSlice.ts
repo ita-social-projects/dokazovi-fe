@@ -5,7 +5,7 @@ import { PostTypeEnum } from '../../../lib/types';
 export interface INewPostDraft {
   topics: string[];
   title?: string;
-  isDone: boolean;
+  isDone?: boolean;
   htmlContent: string;
   preview: IPostPreview;
   videoUrl?: string;
@@ -26,20 +26,17 @@ const initialState: IPostCreationState = {
   [PostTypeEnum.ARTICLE]: {
     topics: [],
     title: '',
-    isDone: false,
     htmlContent: '',
     preview: { value: '', isManuallyChanged: false },
   },
   [PostTypeEnum.DOPYS]: {
     topics: [],
-    isDone: false,
     htmlContent: '',
     preview: { value: '', isManuallyChanged: false },
   },
   [PostTypeEnum.VIDEO]: {
     topics: [],
     title: '',
-    isDone: false,
     htmlContent: '',
     preview: { value: '', isManuallyChanged: false },
     videoUrl: '',

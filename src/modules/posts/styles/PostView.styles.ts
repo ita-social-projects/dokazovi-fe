@@ -19,7 +19,7 @@ export const useStyles = makeStyles(
       filter: 'grayscale(100%)',
       marginRight: theme.spacing(4),
     },
-    actionsBox: {
+    actionsBlock: {
       marginLeft: 'auto',
       display: 'flex',
       alignItems: 'center',
