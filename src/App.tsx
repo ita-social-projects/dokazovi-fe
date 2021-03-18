@@ -1,6 +1,7 @@
 import React, { Suspense, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
+import { SnackbarProvider } from 'notistack';
 import {
   CircularProgress,
   CssBaseline,
@@ -45,16 +46,25 @@ const App: React.FC = () => {
   return (
     <div className="App">
       <ThemeProvider theme={MAIN_THEME}>
-        <CssBaseline />
-        <BrowserRouter>
-          <div className="content">
-            <Header />
-            <Suspense fallback={<CircularProgress className="mainLoading" />}>
-              <RenderRoutes routes={ROUTER_CONFIG} />
-            </Suspense>
-          </div>
-          <Footer />
-        </BrowserRouter>
+        <SnackbarProvider
+          maxSnack={4}
+          autoHideDuration={4000}
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'right',
+          }}
+        >
+          <CssBaseline />
+          <BrowserRouter>
+            <div className="content">
+              <Header />
+              <Suspense fallback={<CircularProgress className="mainLoading" />}>
+                <RenderRoutes routes={ROUTER_CONFIG} />
+              </Suspense>
+            </div>
+            <Footer />
+          </BrowserRouter>
+        </SnackbarProvider>
       </ThemeProvider>
     </div>
   );
