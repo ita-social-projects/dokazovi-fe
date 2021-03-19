@@ -1,3 +1,4 @@
+/* eslint-disable react/no-danger */
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Card, Box, Typography, CardMedia } from '@material-ui/core';

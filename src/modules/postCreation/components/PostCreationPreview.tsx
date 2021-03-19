@@ -20,26 +20,18 @@ const PostCreationPreview: React.FC = () => {
 
   const currentState: ILocationState = history.location.state;
 
-  const draft = useSelector(
+  const { htmlContent, preview, title, directions } = useSelector(
     (state: RootStateType) =>
       state.newPostDraft[currentState.postType as PostTypeEnum],
-  );
-
-  const allDirections = useSelector(
-    (state: RootStateType) => state.properties.directions,
-  );
-
-  const directions = allDirections.filter((direction) =>
-    draft.topics.includes(direction.id.toString()),
   );
 
   const getUserData = usePostPreviewData();
 
   const post = {
     ...getUserData,
-    content: draft.htmlContent,
-    preview: draft.preview.value,
-    title: draft.title,
+    content: htmlContent,
+    preview: preview.value,
+    title,
     directions,
   } as IPost;
 

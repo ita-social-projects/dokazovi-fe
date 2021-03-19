@@ -2,7 +2,6 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { getPostById } from '../../../lib/utilities/API/api';
 import { IPost } from '../../../lib/types';
-import PostView from '../../posts/components/PostView';
 import { sanitizeHtml } from '../../../lib/utilities/sanitizeHtml';
 import ArticleUpdation from './ArticleUpdation';
 

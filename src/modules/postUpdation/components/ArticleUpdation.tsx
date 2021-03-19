@@ -12,11 +12,11 @@ import ArticleEditor from '../../../lib/components/Editor/Editors/ArticleEditor'
 import { sanitizeHtml } from '../../../lib/utilities/sanitizeHtml';
 import PageTitle from '../../../lib/components/Pages/PageTitle';
 import { updatePost } from '../../../lib/utilities/API/api';
-import { PostTopicSelector } from '../../postCreation/components/PostTopicSelector';
-import { IPost } from '../../../lib/types';
+import { IDirection, IPost } from '../../../lib/types';
 import PostCreationButtons from '../../postCreation/components/PostCreationButtons';
 import { RootStateType } from '../../../store/rootReducer';
 import { UpdatePostRequestType } from '../../../lib/utilities/API/types';
+import CheckboxDropdownFilterForm from '../../../lib/components/Filters/CheckboxDropdownFilterForm';
 
 export interface IArticleUpdationProps {
   post: IPost;
@@ -24,8 +24,8 @@ export interface IArticleUpdationProps {
 
 const ArticleUpdation: React.FC<IArticleUpdationProps> = ({ post }) => {
   const history = useHistory();
-  const [topics, setTopics] = useState<string[]>(
-    post.directions ? post.directions.map((d) => d.id.toString()) : [],
+  const [selectedDirections, setSelectedDirections] = useState<IDirection[]>(
+    post.directions,
   );
   const [htmlContent, setHtmlContent] = useState(post.content);
   const [title, setTitle] = useState({
@@ -35,10 +35,6 @@ const ArticleUpdation: React.FC<IArticleUpdationProps> = ({ post }) => {
 
   const directions = useSelector(
     (state: RootStateType) => state.properties?.directions,
-  );
-
-  const allDirections = directions.filter((direction) =>
-    topics.includes(direction.id.toString()),
   );
 
   const dispatchHtmlContent = useCallback(
@@ -51,7 +47,7 @@ const ArticleUpdation: React.FC<IArticleUpdationProps> = ({ post }) => {
   const updatedPost: UpdatePostRequestType = {
     id: post.id,
     content: htmlContent!,
-    directions: allDirections,
+    directions: selectedDirections,
     preview: 'preview',
     title: title.value,
     type: { id: 1 }, // must not be hardcoded
@@ -74,10 +70,22 @@ const ArticleUpdation: React.FC<IArticleUpdationProps> = ({ post }) => {
       <PageTitle title="Редагування статті" />
 
       {directions.length ? (
-        <PostTopicSelector
-          dispatchTopics={(val) => setTopics(val)}
-          topicList={directions}
-          prevCheckedTopicsIds={allDirections.map((d) => d.id.toString())}
+        <CheckboxDropdownFilterForm
+          onFormChange={(checked) => {
+            const checkedIds = Object.keys(checked).filter(
+              (key) => checked[key],
+            );
+
+            const filters:
+              | IDirection[]
+              | undefined = directions?.filter((direction) =>
+              checkedIds?.includes(direction.id.toString()),
+            );
+            setSelectedDirections(filters);
+          }}
+          possibleFilters={directions}
+          selectedFilters={selectedDirections}
+          filterTitle="Напрямки: "
         />
       ) : (
         <CircularProgress />

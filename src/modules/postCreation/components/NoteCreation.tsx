@@ -5,32 +5,46 @@ import _ from 'lodash';
 import { CircularProgress, Typography, Box } from '@material-ui/core';
 import NoteEditor from '../../../lib/components/Editor/Editors/NoteEditor';
 import {
-  setPostTopics,
   setPostBody,
   setIsDone,
+  setPostDirections,
 } from '../store/postCreationSlice';
-import { PostTopicSelector } from './PostTopicSelector';
-import { PostTypeEnum } from '../../../lib/types';
+import { IDirection, PostTypeEnum } from '../../../lib/types';
 import { RootStateType } from '../../../store/rootReducer';
 import { sanitizeHtml } from '../../../lib/utilities/sanitizeHtml';
 import PostCreationButtons from './PostCreationButtons';
 import PageTitle from '../../../lib/components/Pages/PageTitle';
 import { CreatePostRequestType } from '../../../lib/utilities/API/types';
 import { createPost } from '../../../lib/utilities/API/api';
+import { CheckboxFormStateType } from '../../../lib/components/Filters/CheckboxFilterForm';
+import CheckboxDropdownFilterForm from '../../../lib/components/Filters/CheckboxDropdownFilterForm';
 
 const NoteCreation: React.FC = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const directions = useSelector(
-    (state: RootStateType) => state.properties?.directions,
+  const allDirections = useSelector(
+    (state: RootStateType) => state.properties.directions,
   );
   const savedPostDraft = useSelector(
     (state: RootStateType) => state.newPostDraft.DOPYS,
   );
+  const selectedDirections = _.isEmpty(savedPostDraft.directions)
+    ? undefined
+    : savedPostDraft.directions;
 
-  const dispatchTopics = (topics: string[]) => {
-    dispatch(setPostTopics({ postType: PostTypeEnum.DOPYS, value: topics }));
+  const dispatchDirections = (checkedDirections: CheckboxFormStateType) => {
+    const checkedIds = Object.keys(checkedDirections).filter(
+      (key) => checkedDirections[key],
+    );
+
+    const directions: IDirection[] = allDirections.filter((direction) =>
+      checkedIds.includes(direction.id.toString()),
+    );
+
+    dispatch(
+      setPostDirections({ postType: PostTypeEnum.ARTICLE, value: directions }),
+    );
   };
 
   const isDone = useSelector(
@@ -55,13 +69,9 @@ const NoteCreation: React.FC = () => {
     [],
   );
 
-  const allDirections = directions.filter((direction) =>
-    savedPostDraft.topics.includes(direction.id.toString()),
-  );
-
   const newPost: CreatePostRequestType = {
     content: savedPostDraft.htmlContent,
-    directions: allDirections,
+    directions: savedPostDraft.directions ?? [],
     preview: savedPostDraft.preview.value,
     type: { id: 2 }, // must not be hardcoded
   };
@@ -82,13 +92,14 @@ const NoteCreation: React.FC = () => {
     <>
       <PageTitle title="Створення допису" />
 
-      {directions.length ? (
-        <PostTopicSelector
-          dispatchTopics={dispatchTopics}
-          topicList={directions}
-          prevCheckedTopicsIds={
-            _.isEmpty(savedPostDraft.topics) ? undefined : savedPostDraft.topics
-          }
+      {allDirections.length ? (
+        <CheckboxDropdownFilterForm
+          onFormChange={dispatchDirections}
+          possibleFilters={allDirections}
+          selectedFilters={selectedDirections}
+          noAll
+          maximumReached={selectedDirections?.length === 3}
+          filterTitle="Напрямки: "
         />
       ) : (
         <CircularProgress />

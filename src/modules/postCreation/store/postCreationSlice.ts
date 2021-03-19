@@ -1,9 +1,9 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { PostTypeEnum } from '../../../lib/types';
+import { IDirection, PostTypeEnum } from '../../../lib/types';
 
 export interface INewPostDraft {
-  topics: string[];
+  directions: IDirection[];
   title?: string;
   isDone?: boolean;
   htmlContent: string;
@@ -24,18 +24,18 @@ export interface IPostCreationState {
 
 const initialState: IPostCreationState = {
   [PostTypeEnum.ARTICLE]: {
-    topics: [],
+    directions: [],
     title: '',
     htmlContent: '',
     preview: { value: '', isManuallyChanged: false },
   },
   [PostTypeEnum.DOPYS]: {
-    topics: [],
+    directions: [],
     htmlContent: '',
     preview: { value: '', isManuallyChanged: false },
   },
   [PostTypeEnum.VIDEO]: {
-    topics: [],
+    directions: [],
     title: '',
     htmlContent: '',
     preview: { value: '', isManuallyChanged: false },
@@ -47,14 +47,14 @@ export const postCreationSlice = createSlice({
   name: 'postCreation',
   initialState,
   reducers: {
-    setPostTopics: (
+    setPostDirections: (
       state,
       action: PayloadAction<{
         postType: PostTypeEnum;
-        value: INewPostDraft['topics'];
+        value: INewPostDraft['directions'];
       }>,
     ) => {
-      state[action.payload.postType].topics = action.payload.value;
+      state[action.payload.postType].directions = action.payload.value;
     },
     setPostTitle: (
       state,
@@ -115,7 +115,7 @@ export const postCreationSlice = createSlice({
 });
 
 export const {
-  setPostTopics,
+  setPostDirections,
   setPostTitle,
   setIsDone,
   setPostBody,

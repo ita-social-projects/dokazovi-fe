@@ -48,7 +48,7 @@ export interface IPost {
   title: string;
   content?: string;
   author: IExpert;
-  directions?: IDirection[];
+  directions: IDirection[];
   tags?: IPostTag[];
   postType: IPostType;
   createdAt: string;

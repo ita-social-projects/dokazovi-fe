@@ -26,31 +26,18 @@ const trunkLength = (str: string) => {
   return str;
 };
 
-const getSelectedTopics = (
-  selectedTopicsIds: string[],
-  directions: IDirection[],
-) => {
-  return selectedTopicsIds.reduce((acc, id) => {
-    const direction = directions.find((d) => String(d.id) === id);
-    if (direction) {
-      return [...acc, direction];
-    }
-    return acc;
-  }, [] as IDirection[]);
-};
-
 const ContentPreviewContainer: React.FC<IContentPreviewContainerProps> = ({
   previewText,
   previewType,
   previewCardType,
 }) => {
   const dispatch = useDispatch();
-  const { title, preview, topics } = useSelector(
+  const { title, preview, directions: postDirections } = useSelector(
     (state: RootStateType) => state.newPostDraft[previewType],
   );
 
-  const { directions } = useSelector(
-    (state: RootStateType) => state.properties,
+  const allDirections = useSelector(
+    (state: RootStateType) => state.properties.directions,
   );
 
   const [textFieldValue, setTextFieldValue] = useState<string>('');
@@ -65,8 +52,8 @@ const ContentPreviewContainer: React.FC<IContentPreviewContainerProps> = ({
   }, [preview]);
 
   useEffect(() => {
-    setSelectedTopics(getSelectedTopics(topics, directions));
-  }, [topics, directions]);
+    setSelectedTopics(postDirections);
+  }, [postDirections, allDirections]);
 
   useEffect(() => {
     if (!preview.isManuallyChanged) {

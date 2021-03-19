@@ -132,15 +132,13 @@ const MaterialsView: React.FC = () => {
 
       {propertiesLoaded && (
         <Grid container direction="column">
-          {!isEmpty(postTypes) && (
-            <CheckboxFilterForm
-              onFormChange={(checked) =>
-                setFilters(checked, FilterTypeEnum.POST_TYPES)
-              }
-              possibleFilters={postTypes}
-              selectedFilters={selectedPostTypes}
-            />
-          )}
+          <CheckboxFilterForm
+            onFormChange={(checked) =>
+              setFilters(checked, FilterTypeEnum.POST_TYPES)
+            }
+            possibleFilters={postTypes}
+            selectedFilters={selectedPostTypes}
+          />
           <CheckboxDropdownFilterForm
             onFormChange={(checked) =>
               setFilters(checked, FilterTypeEnum.DIRECTIONS)

@@ -10,14 +10,13 @@ import {
 } from '@material-ui/core';
 import VideoEditor from '../../../lib/components/Editor/Editors/VideoEditor';
 import {
-  setPostTopics,
   setPostTitle,
   setPostBody,
   setIsDone,
   setVideoUrl,
+  setPostDirections,
 } from '../store/postCreationSlice';
-import { PostTopicSelector } from './PostTopicSelector';
-import { PostTypeEnum } from '../../../lib/types';
+import { IDirection, PostTypeEnum } from '../../../lib/types';
 import { RootStateType } from '../../../store/rootReducer';
 import { sanitizeHtml } from '../../../lib/utilities/sanitizeHtml';
 import { parseVideoIdFromUrl } from '../../../lib/utilities/parseVideoIdFromUrl';
@@ -26,18 +25,23 @@ import PostCreationButtons from './PostCreationButtons';
 import PageTitle from '../../../lib/components/Pages/PageTitle';
 import { createPost } from '../../../lib/utilities/API/api';
 import { CreatePostRequestType } from '../../../lib/utilities/API/types';
+import { CheckboxFormStateType } from '../../../lib/components/Filters/CheckboxFilterForm';
+import CheckboxDropdownFilterForm from '../../../lib/components/Filters/CheckboxDropdownFilterForm';
 
 const VideoCreation: React.FC = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const directions = useSelector(
-    (state: RootStateType) => state.properties?.directions,
+  const allDirections = useSelector(
+    (state: RootStateType) => state.properties.directions,
   );
 
   const savedPostDraft = useSelector(
     (state: RootStateType) => state.newPostDraft.VIDEO,
   );
+  const selectedDirections = _.isEmpty(savedPostDraft.directions)
+    ? undefined
+    : savedPostDraft.directions;
 
   const [title, setTitle] = useState({
     value: savedPostDraft.title || '',
@@ -50,13 +54,23 @@ const VideoCreation: React.FC = () => {
 
   const videoId = parseVideoIdFromUrl(url as string);
 
+  const dispatchDirections = (checkedDirections: CheckboxFormStateType) => {
+    const checkedIds = Object.keys(checkedDirections).filter(
+      (key) => checkedDirections[key],
+    );
+
+    const directions: IDirection[] = allDirections.filter((direction) =>
+      checkedIds.includes(direction.id.toString()),
+    );
+
+    dispatch(
+      setPostDirections({ postType: PostTypeEnum.ARTICLE, value: directions }),
+    );
+  };
+
   const isDone = useSelector(
     (state: RootStateType) => state.newPostDraft.VIDEO.isDone,
   );
-
-  const dispatchTopics = (topics: string[]) => {
-    dispatch(setPostTopics({ postType: PostTypeEnum.VIDEO, value: topics }));
-  };
 
   const dispatchTitle = useCallback(
     _.debounce((storedTitle: string) => {
@@ -92,13 +106,9 @@ const VideoCreation: React.FC = () => {
     [],
   );
 
-  const allDirections = directions.filter((direction) =>
-    savedPostDraft.topics.includes(direction.id.toString()),
-  );
-
   const newPost: CreatePostRequestType = {
     content: savedPostDraft.htmlContent,
-    directions: allDirections,
+    directions: savedPostDraft.directions ?? [],
     preview: savedPostDraft.htmlContent,
     type: { id: 3 }, // must not be hardcoded
     title: savedPostDraft.title,
@@ -121,13 +131,14 @@ const VideoCreation: React.FC = () => {
     <>
       <PageTitle title="Створення відео" />
 
-      {directions.length ? (
-        <PostTopicSelector
-          dispatchTopics={dispatchTopics}
-          topicList={directions}
-          prevCheckedTopicsIds={
-            _.isEmpty(savedPostDraft.topics) ? undefined : savedPostDraft.topics
-          }
+      {allDirections.length ? (
+        <CheckboxDropdownFilterForm
+          onFormChange={dispatchDirections}
+          possibleFilters={allDirections}
+          selectedFilters={selectedDirections}
+          noAll
+          maximumReached={selectedDirections?.length === 3}
+          filterTitle="Напрямки: "
         />
       ) : (
         <CircularProgress />

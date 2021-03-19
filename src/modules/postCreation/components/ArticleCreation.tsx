@@ -11,29 +11,33 @@ import {
 import ArticleEditor from '../../../lib/components/Editor/Editors/ArticleEditor';
 import { RootStateType } from '../../../store/rootReducer';
 import {
-  setPostTopics,
+  setPostDirections,
   setPostTitle,
   setIsDone,
   setPostBody,
 } from '../store/postCreationSlice';
-import { PostTopicSelector } from './PostTopicSelector';
-import { PostTypeEnum } from '../../../lib/types';
+import { IDirection, PostTypeEnum } from '../../../lib/types';
 import { sanitizeHtml } from '../../../lib/utilities/sanitizeHtml';
 import PostCreationButtons from './PostCreationButtons';
 import { CreatePostRequestType } from '../../../lib/utilities/API/types';
 import PageTitle from '../../../lib/components/Pages/PageTitle';
 import { createPost } from '../../../lib/utilities/API/api';
+import { CheckboxFormStateType } from '../../../lib/components/Filters/CheckboxFilterForm';
+import CheckboxDropdownFilterForm from '../../../lib/components/Filters/CheckboxDropdownFilterForm';
 
 const ArticleCreation: React.FC = () => {
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const directions = useSelector(
-    (state: RootStateType) => state.properties?.directions,
+  const allDirections = useSelector(
+    (state: RootStateType) => state.properties.directions,
   );
   const savedPostDraft = useSelector(
     (state: RootStateType) => state.newPostDraft.ARTICLE,
   );
+  const selectedDirections = _.isEmpty(savedPostDraft.directions)
+    ? undefined
+    : savedPostDraft.directions;
 
   const [title, setTitle] = useState({
     value: savedPostDraft.title || '',
@@ -44,8 +48,18 @@ const ArticleCreation: React.FC = () => {
     (state: RootStateType) => state.newPostDraft.ARTICLE.isDone,
   );
 
-  const dispatchTopics = (topics: string[]) => {
-    dispatch(setPostTopics({ postType: PostTypeEnum.ARTICLE, value: topics }));
+  const dispatchDirections = (checkedDirections: CheckboxFormStateType) => {
+    const checkedIds = Object.keys(checkedDirections).filter(
+      (key) => checkedDirections[key],
+    );
+
+    const directions: IDirection[] = allDirections.filter((direction) =>
+      checkedIds.includes(direction.id.toString()),
+    );
+
+    dispatch(
+      setPostDirections({ postType: PostTypeEnum.ARTICLE, value: directions }),
+    );
   };
 
   const dispatchTitle = useCallback(
@@ -75,13 +89,9 @@ const ArticleCreation: React.FC = () => {
     [],
   );
 
-  const allDirections = directions.filter((direction) =>
-    savedPostDraft.topics.includes(direction.id.toString()),
-  );
-
   const newPost: CreatePostRequestType = {
     content: savedPostDraft.htmlContent,
-    directions: allDirections,
+    directions: savedPostDraft.directions ?? [],
     preview: savedPostDraft.preview.value,
     title: savedPostDraft.title,
     type: { id: 1 }, // must not be hardcoded
@@ -103,13 +113,14 @@ const ArticleCreation: React.FC = () => {
     <>
       <PageTitle title="Створення статті" />
 
-      {directions.length ? (
-        <PostTopicSelector
-          dispatchTopics={dispatchTopics}
-          topicList={directions}
-          prevCheckedTopicsIds={
-            _.isEmpty(savedPostDraft.topics) ? undefined : savedPostDraft.topics
-          }
+      {allDirections.length ? (
+        <CheckboxDropdownFilterForm
+          onFormChange={dispatchDirections}
+          possibleFilters={allDirections}
+          selectedFilters={selectedDirections}
+          noAll
+          maximumReached={selectedDirections?.length === 3}
+          filterTitle="Напрямки: "
         />
       ) : (
         <CircularProgress />
