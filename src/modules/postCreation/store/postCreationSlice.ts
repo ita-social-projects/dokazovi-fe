@@ -9,6 +9,7 @@ export interface INewPostDraft {
   htmlContent: string;
   preview: IPostPreview;
   videoUrl?: string;
+  backgroundImageUrl?: string;
 }
 
 interface IPostPreview {
@@ -29,12 +30,14 @@ const initialState: IPostCreationState = {
     isDone: false,
     htmlContent: '',
     preview: { value: '', isManuallyChanged: false },
+    backgroundImageUrl: '',
   },
   [PostTypeEnum.DOPYS]: {
     topics: [],
     isDone: false,
     htmlContent: '',
     preview: { value: '', isManuallyChanged: false },
+    backgroundImageUrl: '',
   },
   [PostTypeEnum.VIDEO]: {
     topics: [],
@@ -114,6 +117,15 @@ export const postCreationSlice = createSlice({
     ) => {
       state[action.payload.postType].videoUrl = action.payload.value;
     },
+    setImageUrl: (
+      state,
+      action: PayloadAction<{
+        postType: PostTypeEnum;
+        value: INewPostDraft['backgroundImageUrl'];
+      }>,
+    ) => {
+      state[action.payload.postType].backgroundImageUrl = action.payload.value;
+    },
   },
 });
 
@@ -125,6 +137,7 @@ export const {
   setPostPreviewText,
   setPostPreviewManuallyChanged,
   setVideoUrl,
+  setImageUrl,
 } = postCreationSlice.actions;
 
 const postCreationReducer = postCreationSlice.reducer;

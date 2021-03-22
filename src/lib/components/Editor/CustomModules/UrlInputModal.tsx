@@ -15,9 +15,13 @@ import insertFromUrl from './ImageFromURLHandler';
 
 interface IUrlInputModalProps {
   editor?: Quill;
+  updateBackgroundImage?: (url: string) => void; // change name
 }
 
-const UrlInputModal: React.FC<IUrlInputModalProps> = ({ editor }) => {
+const UrlInputModal: React.FC<IUrlInputModalProps> = ({
+  editor,
+  updateBackgroundImage,
+}) => {
   // eslint-disable-next-line @typescript-eslint/unbound-method
   const { register, handleSubmit, errors } = useForm();
 
@@ -35,6 +39,9 @@ const UrlInputModal: React.FC<IUrlInputModalProps> = ({ editor }) => {
   };
 
   const onSubmitHandler = () => {
+    if (updateBackgroundImage) {
+      updateBackgroundImage(url);
+    }
     handleClose();
     insertFromUrl(url, editor);
     setUrl('');

@@ -15,6 +15,7 @@ import {
   setPostTitle,
   setIsDone,
   setPostBody,
+  setImageUrl,
 } from '../store/postCreationSlice';
 import { PostTopicSelector } from './PostTopicSelector';
 import { PostTypeEnum } from '../../../lib/types';
@@ -23,6 +24,9 @@ import PostCreationButtons from './PostCreationButtons';
 import { CreatePostRequestType } from '../../../lib/utilities/API/types';
 import PageTitle from '../../../lib/components/Pages/PageTitle';
 import { createPost } from '../../../lib/utilities/API/api';
+import BorderBottom from '../../../lib/components/Border';
+import UrlInputModal from '../../../lib/components/Editor/CustomModules/UrlInputModal';
+import { getImgurImageUrl } from '../../../lib/utilities/getImgurImageUrl';
 
 const ArticleCreation: React.FC = () => {
   const history = useHistory();
@@ -40,6 +44,10 @@ const ArticleCreation: React.FC = () => {
     error: '',
   });
 
+  const [backgroundImage, setBackgroundImage] = useState<string | undefined>(
+    '',
+  ); // state for a link recieved from Imgur
+
   const isDone = useSelector(
     (state: RootStateType) => state.newPostDraft.ARTICLE.isDone,
   );
@@ -56,6 +64,15 @@ const ArticleCreation: React.FC = () => {
     }, 1000),
     [],
   );
+
+  const dispatchImageUrl = (backgroundImageUrl: string) => {
+    dispatch(
+      setImageUrl({
+        postType: PostTypeEnum.ARTICLE,
+        value: backgroundImageUrl,
+      }),
+    );
+  };
 
   const dispatchHtmlContent = useCallback(
     _.debounce((content: string) => {
@@ -80,6 +97,7 @@ const ArticleCreation: React.FC = () => {
   );
 
   const newPost: CreatePostRequestType = {
+    backgroundImageUrl: savedPostDraft.backgroundImageUrl || backgroundImage,
     content: savedPostDraft.htmlContent,
     directions: allDirections,
     preview: savedPostDraft.preview.value,
@@ -97,6 +115,10 @@ const ArticleCreation: React.FC = () => {
       postType: 'ARTICLE',
       publishPost: newPost,
     });
+  };
+
+  const fileSelectorHandler = (e) => {
+    getImgurImageUrl(e);
   };
 
   return (
@@ -129,6 +151,22 @@ const ArticleCreation: React.FC = () => {
           }}
         />
       </Box>
+      <Box mt={2} display="flex" flexDirection="column" alignItems="start">
+        <Typography variant="h5">Фонове зображення:</Typography>
+        <Box mb={2}>
+          <UrlInputModal updateBackgroundImage={dispatchImageUrl} />
+          <input type="file" name="file" onChange={fileSelectorHandler} />
+        </Box>
+        {newPost.backgroundImageUrl && (
+          <img
+            src={`${newPost.backgroundImageUrl}`}
+            alt="preview"
+            style={{ width: '360px', height: '240px' }}
+          />
+        )}
+      </Box>
+      <BorderBottom />
+
       <Box mt={2}>
         <Typography variant="h5">Текст статті:</Typography>
         <ArticleEditor dispatchContent={dispatchHtmlContent} />
