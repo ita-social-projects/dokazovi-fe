@@ -24,7 +24,7 @@ import VideoUrlInputModal from '../../../lib/components/Editor/CustomModules/Vid
 import PostCreationButtons from './PostCreationButtons';
 import PageTitle from '../../../lib/components/Pages/PageTitle';
 import { createPost } from '../../../lib/utilities/API/api';
-import { CreatePostRequestType } from '../../../lib/utilities/API/types';
+import { CreateVideoPostRequestType } from '../../../lib/utilities/API/types';
 import { CheckboxFormStateType } from '../../../lib/components/Filters/CheckboxFilterForm';
 import CheckboxDropdownFilterForm from '../../../lib/components/Filters/CheckboxDropdownFilterForm';
 
@@ -39,20 +39,17 @@ const VideoCreation: React.FC = () => {
   const savedPostDraft = useSelector(
     (state: RootStateType) => state.newPostDraft.VIDEO,
   );
-  const selectedDirections = _.isEmpty(savedPostDraft.directions)
-    ? undefined
-    : savedPostDraft.directions;
 
   const [title, setTitle] = useState({
-    value: savedPostDraft.title || '',
+    value: savedPostDraft.title,
     error: '',
   });
 
-  const url = useSelector(
+  const videoUrl = useSelector(
     (state: RootStateType) => state.newPostDraft.VIDEO.videoUrl,
   );
 
-  const videoId = parseVideoIdFromUrl(url as string);
+  const videoId = parseVideoIdFromUrl(videoUrl);
 
   const dispatchDirections = (checkedDirections: CheckboxFormStateType) => {
     const checkedIds = Object.keys(checkedDirections).filter(
@@ -73,17 +70,15 @@ const VideoCreation: React.FC = () => {
   );
 
   const dispatchTitle = useCallback(
-    _.debounce((storedTitle: string) => {
-      dispatch(
-        setPostTitle({ postType: PostTypeEnum.VIDEO, value: storedTitle }),
-      );
+    _.debounce((value: string) => {
+      dispatch(setPostTitle({ postType: PostTypeEnum.VIDEO, value }));
     }, 1000),
     [],
   );
 
   const dispatchVideoUrl = useCallback(
-    _.debounce((videoUrl: string) => {
-      dispatch(setVideoUrl({ postType: PostTypeEnum.VIDEO, value: videoUrl }));
+    _.debounce((url: string) => {
+      dispatch(setVideoUrl(url));
     }, 500),
     [],
   );
@@ -106,9 +101,9 @@ const VideoCreation: React.FC = () => {
     [],
   );
 
-  const newPost: CreatePostRequestType = {
+  const newPost: CreateVideoPostRequestType = {
     content: savedPostDraft.htmlContent,
-    directions: savedPostDraft.directions ?? [],
+    directions: savedPostDraft.directions,
     preview: savedPostDraft.htmlContent,
     type: { id: 3 }, // must not be hardcoded
     title: savedPostDraft.title,
@@ -122,7 +117,7 @@ const VideoCreation: React.FC = () => {
 
   const goVideoPreview = () => {
     history.push(`/create-video/preview`, {
-      postType: 'VIDEO',
+      postType: PostTypeEnum.VIDEO,
       publishPost: newPost,
     });
   };
@@ -135,9 +130,9 @@ const VideoCreation: React.FC = () => {
         <CheckboxDropdownFilterForm
           onFormChange={dispatchDirections}
           possibleFilters={allDirections}
-          selectedFilters={selectedDirections}
+          selectedFilters={savedPostDraft.directions}
           noAll
-          maximumReached={selectedDirections?.length === 3}
+          maximumReached={savedPostDraft.directions.length === 3}
           filterTitle="Напрямки: "
         />
       ) : (

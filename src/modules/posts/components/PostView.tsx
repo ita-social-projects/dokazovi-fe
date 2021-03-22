@@ -3,6 +3,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Card, Box, Typography, CardMedia } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
+import EditIcon from '@material-ui/icons/Edit';
 import { useStyles } from '../styles/PostView.styles';
 import { IPost } from '../../../lib/types';
 import PageTitle from '../../../lib/components/Pages/PageTitle';
@@ -46,7 +47,9 @@ const PostView: React.FC<IPostViewProps> = ({ post, deleteHandler }) => {
             </Typography>
           </Box>
           <Box className={classes.actionsBlock}>
-            <Link to={`/update-article/${post.id}`}>Edit</Link>
+            <Link to={`/update-article/${post.id}`}>
+              <EditIcon />
+            </Link>
             {
               role === 'admin' && deleteHandler && (
                 <ConfirmModal

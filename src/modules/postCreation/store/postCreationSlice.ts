@@ -2,13 +2,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { IDirection, PostTypeEnum } from '../../../lib/types';
 
-export interface INewPostDraft {
+interface INewPostDraft {
+  title: string;
   directions: IDirection[];
-  title?: string;
-  isDone?: boolean;
+  isDone: boolean;
   htmlContent: string;
   preview: IPostPreview;
-  videoUrl?: string;
 }
 
 interface IPostPreview {
@@ -16,29 +15,41 @@ interface IPostPreview {
   isManuallyChanged: boolean;
 }
 
-export interface IPostCreationState {
-  [PostTypeEnum.ARTICLE]: INewPostDraft;
-  [PostTypeEnum.DOPYS]: INewPostDraft;
-  [PostTypeEnum.VIDEO]: INewPostDraft;
+interface INewArticlePostDraft extends INewPostDraft {}
+
+interface INewDopysPostDraft extends INewPostDraft {}
+
+interface INewVideoPostDraft extends INewPostDraft {
+  videoUrl: string;
+}
+
+interface IPostCreationState {
+  [PostTypeEnum.ARTICLE]: INewArticlePostDraft;
+  [PostTypeEnum.DOPYS]: INewDopysPostDraft;
+  [PostTypeEnum.VIDEO]: INewVideoPostDraft;
 }
 
 const initialState: IPostCreationState = {
   [PostTypeEnum.ARTICLE]: {
-    directions: [],
     title: '',
+    directions: [],
     htmlContent: '',
     preview: { value: '', isManuallyChanged: false },
+    isDone: false,
   },
   [PostTypeEnum.DOPYS]: {
+    title: '',
     directions: [],
     htmlContent: '',
     preview: { value: '', isManuallyChanged: false },
+    isDone: false,
   },
   [PostTypeEnum.VIDEO]: {
-    directions: [],
     title: '',
+    directions: [],
     htmlContent: '',
     preview: { value: '', isManuallyChanged: false },
+    isDone: false,
     videoUrl: '',
   },
 };
@@ -51,7 +62,7 @@ export const postCreationSlice = createSlice({
       state,
       action: PayloadAction<{
         postType: PostTypeEnum;
-        value: INewPostDraft['directions'];
+        value: IDirection[];
       }>,
     ) => {
       state[action.payload.postType].directions = action.payload.value;
@@ -60,7 +71,7 @@ export const postCreationSlice = createSlice({
       state,
       action: PayloadAction<{
         postType: PostTypeEnum;
-        value: INewPostDraft['title'];
+        value: string;
       }>,
     ) => {
       state[action.payload.postType].title = action.payload.value;
@@ -69,7 +80,7 @@ export const postCreationSlice = createSlice({
       state,
       action: PayloadAction<{
         postType: PostTypeEnum;
-        value: INewPostDraft['isDone'];
+        value: boolean;
       }>,
     ) => {
       state[action.payload.postType].isDone = action.payload.value;
@@ -78,7 +89,7 @@ export const postCreationSlice = createSlice({
       state,
       action: PayloadAction<{
         postType: PostTypeEnum;
-        value: INewPostDraft['htmlContent'];
+        value: string;
       }>,
     ) => {
       state[action.payload.postType].htmlContent = action.payload.value;
@@ -87,7 +98,7 @@ export const postCreationSlice = createSlice({
       state,
       action: PayloadAction<{
         postType: PostTypeEnum;
-        value: INewPostDraft['preview']['value'];
+        value: string;
       }>,
     ) => {
       state[action.payload.postType].preview.value = action.payload.value;
@@ -96,20 +107,14 @@ export const postCreationSlice = createSlice({
       state,
       action: PayloadAction<{
         postType: PostTypeEnum;
-        value: INewPostDraft['preview']['isManuallyChanged'];
+        value: boolean;
       }>,
     ) => {
       state[action.payload.postType].preview.isManuallyChanged =
         action.payload.value;
     },
-    setVideoUrl: (
-      state,
-      action: PayloadAction<{
-        postType: PostTypeEnum;
-        value: INewPostDraft['videoUrl'];
-      }>,
-    ) => {
-      state[action.payload.postType].videoUrl = action.payload.value;
+    setVideoUrl: (state, action: PayloadAction<string>) => {
+      state[PostTypeEnum.VIDEO].videoUrl = action.payload;
     },
   },
 });
@@ -125,4 +130,5 @@ export const {
 } = postCreationSlice.actions;
 
 const postCreationReducer = postCreationSlice.reducer;
+
 export default postCreationReducer;

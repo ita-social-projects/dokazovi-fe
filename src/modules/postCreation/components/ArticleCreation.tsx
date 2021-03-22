@@ -19,7 +19,7 @@ import {
 import { IDirection, PostTypeEnum } from '../../../lib/types';
 import { sanitizeHtml } from '../../../lib/utilities/sanitizeHtml';
 import PostCreationButtons from './PostCreationButtons';
-import { CreatePostRequestType } from '../../../lib/utilities/API/types';
+import { CreateArticlePostRequestType } from '../../../lib/utilities/API/types';
 import PageTitle from '../../../lib/components/Pages/PageTitle';
 import { createPost } from '../../../lib/utilities/API/api';
 import { CheckboxFormStateType } from '../../../lib/components/Filters/CheckboxFilterForm';
@@ -35,12 +35,9 @@ const ArticleCreation: React.FC = () => {
   const savedPostDraft = useSelector(
     (state: RootStateType) => state.newPostDraft.ARTICLE,
   );
-  const selectedDirections = _.isEmpty(savedPostDraft.directions)
-    ? undefined
-    : savedPostDraft.directions;
 
   const [title, setTitle] = useState({
-    value: savedPostDraft.title || '',
+    value: savedPostDraft.title,
     error: '',
   });
 
@@ -63,10 +60,8 @@ const ArticleCreation: React.FC = () => {
   };
 
   const dispatchTitle = useCallback(
-    _.debounce((storedTitle: string) => {
-      dispatch(
-        setPostTitle({ postType: PostTypeEnum.ARTICLE, value: storedTitle }),
-      );
+    _.debounce((value: string) => {
+      dispatch(setPostTitle({ postType: PostTypeEnum.ARTICLE, value }));
     }, 1000),
     [],
   );
@@ -89,9 +84,9 @@ const ArticleCreation: React.FC = () => {
     [],
   );
 
-  const newPost: CreatePostRequestType = {
+  const newPost: CreateArticlePostRequestType = {
     content: savedPostDraft.htmlContent,
-    directions: savedPostDraft.directions ?? [],
+    directions: savedPostDraft.directions,
     preview: savedPostDraft.preview.value,
     title: savedPostDraft.title,
     type: { id: 1 }, // must not be hardcoded
@@ -104,7 +99,7 @@ const ArticleCreation: React.FC = () => {
 
   const goArticlePreview = () => {
     history.push(`/create-article/preview`, {
-      postType: 'ARTICLE',
+      postType: PostTypeEnum.ARTICLE,
       publishPost: newPost,
     });
   };
@@ -117,9 +112,9 @@ const ArticleCreation: React.FC = () => {
         <CheckboxDropdownFilterForm
           onFormChange={dispatchDirections}
           possibleFilters={allDirections}
-          selectedFilters={selectedDirections}
+          selectedFilters={savedPostDraft.directions}
           noAll
-          maximumReached={selectedDirections?.length === 3}
+          maximumReached={savedPostDraft.directions.length === 3}
           filterTitle="Напрямки: "
         />
       ) : (

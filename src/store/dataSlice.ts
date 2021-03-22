@@ -1,6 +1,5 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import _ from 'lodash';
 import { IExpert, IPost } from '../lib/types';
 import { PostResponseType } from '../lib/utilities/API/types';
 
@@ -46,25 +45,7 @@ export const { loadPosts, loadExperts } = dataSlice.actions;
 export const mapFetchedPosts = (
   posts: PostResponseType[],
 ): { mappedPosts: IPost[]; ids: number[] } => {
-  const ids: number[] = [];
+  const ids: number[] = posts.map((post) => post.id);
 
-  const mappedPosts = posts.map((post) => {
-    ids.push(post.id);
-
-    const preview = _.truncate(post.content, {
-      length: 150,
-    });
-
-    return {
-      id: post.id,
-      author: post.author,
-      createdAt: post.createdAt,
-      directions: post.directions,
-      title: post.title,
-      postType: post.type,
-      preview,
-    };
-  });
-
-  return { mappedPosts, ids };
+  return { mappedPosts: posts, ids };
 };

@@ -8,11 +8,11 @@ import usePostPreviewData from '../../../lib/hooks/usePostPreviewData';
 import PostCreationButtons from './PostCreationButtons';
 import PageTitle from '../../../lib/components/Pages/PageTitle';
 import { createPost } from '../../../lib/utilities/API/api';
-import { CreatePostRequestType } from '../../../lib/utilities/API/types';
+import { CreatePostRequestUnionType } from '../../../lib/utilities/API/types';
 
 export interface ILocationState {
-  postType: string;
-  publishPost: CreatePostRequestType;
+  postType: PostTypeEnum;
+  publishPost: CreatePostRequestUnionType;
 }
 
 const PostCreationPreview: React.FC = () => {
@@ -21,8 +21,7 @@ const PostCreationPreview: React.FC = () => {
   const currentState: ILocationState = history.location.state;
 
   const { htmlContent, preview, title, directions } = useSelector(
-    (state: RootStateType) =>
-      state.newPostDraft[currentState.postType as PostTypeEnum],
+    (state: RootStateType) => state.newPostDraft[currentState.postType],
   );
 
   const getUserData = usePostPreviewData();

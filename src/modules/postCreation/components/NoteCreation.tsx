@@ -1,12 +1,18 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import _ from 'lodash';
-import { CircularProgress, Typography, Box } from '@material-ui/core';
+import {
+  CircularProgress,
+  Typography,
+  Box,
+  TextField,
+} from '@material-ui/core';
 import NoteEditor from '../../../lib/components/Editor/Editors/NoteEditor';
 import {
   setPostBody,
   setIsDone,
+  setPostTitle,
   setPostDirections,
 } from '../store/postCreationSlice';
 import { IDirection, PostTypeEnum } from '../../../lib/types';
@@ -14,10 +20,10 @@ import { RootStateType } from '../../../store/rootReducer';
 import { sanitizeHtml } from '../../../lib/utilities/sanitizeHtml';
 import PostCreationButtons from './PostCreationButtons';
 import PageTitle from '../../../lib/components/Pages/PageTitle';
-import { CreatePostRequestType } from '../../../lib/utilities/API/types';
 import { createPost } from '../../../lib/utilities/API/api';
 import { CheckboxFormStateType } from '../../../lib/components/Filters/CheckboxFilterForm';
 import CheckboxDropdownFilterForm from '../../../lib/components/Filters/CheckboxDropdownFilterForm';
+import { CreateDopysPostRequestType } from '../../../lib/utilities/API/types';
 
 const NoteCreation: React.FC = () => {
   const dispatch = useDispatch();
@@ -29,9 +35,18 @@ const NoteCreation: React.FC = () => {
   const savedPostDraft = useSelector(
     (state: RootStateType) => state.newPostDraft.DOPYS,
   );
-  const selectedDirections = _.isEmpty(savedPostDraft.directions)
-    ? undefined
-    : savedPostDraft.directions;
+
+  const [title, setTitle] = useState({
+    value: savedPostDraft.title,
+    error: '',
+  });
+
+  const dispatchTitle = useCallback(
+    _.debounce((value: string) => {
+      dispatch(setPostTitle({ postType: PostTypeEnum.DOPYS, value }));
+    }, 1000),
+    [],
+  );
 
   const dispatchDirections = (checkedDirections: CheckboxFormStateType) => {
     const checkedIds = Object.keys(checkedDirections).filter(
@@ -43,7 +58,7 @@ const NoteCreation: React.FC = () => {
     );
 
     dispatch(
-      setPostDirections({ postType: PostTypeEnum.ARTICLE, value: directions }),
+      setPostDirections({ postType: PostTypeEnum.DOPYS, value: directions }),
     );
   };
 
@@ -69,9 +84,10 @@ const NoteCreation: React.FC = () => {
     [],
   );
 
-  const newPost: CreatePostRequestType = {
+  const newPost: CreateDopysPostRequestType = {
+    title: savedPostDraft.title,
     content: savedPostDraft.htmlContent,
-    directions: savedPostDraft.directions ?? [],
+    directions: savedPostDraft.directions,
     preview: savedPostDraft.preview.value,
     type: { id: 2 }, // must not be hardcoded
   };
@@ -83,7 +99,7 @@ const NoteCreation: React.FC = () => {
 
   const goNotePreview = () => {
     history.push(`/create-note/preview`, {
-      postType: 'DOPYS',
+      postType: PostTypeEnum.DOPYS,
       publishPost: newPost,
     });
   };
@@ -96,14 +112,29 @@ const NoteCreation: React.FC = () => {
         <CheckboxDropdownFilterForm
           onFormChange={dispatchDirections}
           possibleFilters={allDirections}
-          selectedFilters={selectedDirections}
+          selectedFilters={savedPostDraft.directions}
           noAll
-          maximumReached={selectedDirections?.length === 3}
+          maximumReached={savedPostDraft.directions.length === 3}
           filterTitle="Напрямки: "
         />
       ) : (
         <CircularProgress />
       )}
+      <Box mt={2}>
+        <Typography variant="h5">Заголовок статті: </Typography>
+        <TextField
+          error={Boolean(title.error)}
+          helperText={title.error}
+          fullWidth
+          required
+          id="article-name"
+          value={title.value}
+          onChange={(e) => {
+            setTitle({ ...title, value: e.target.value });
+            dispatchTitle(e.target.value);
+          }}
+        />
+      </Box>
       <Box mt={2}>
         <Typography variant="h5">Текст статті:</Typography>
         <NoteEditor dispatchContent={dispatchHtmlContent} />

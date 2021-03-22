@@ -46,14 +46,28 @@ export enum QueryTypeEnum {
 export interface IPost {
   id: number;
   title: string;
-  content?: string;
-  author: IExpert;
+  content: string;
+  author: {
+    avatar: string;
+    firstName: string;
+    id: number;
+    lastName: string;
+    mainInstitution: {
+      city: {
+        id: number;
+        name: string;
+      };
+      id: number;
+      name: string;
+    };
+  };
   directions: IDirection[];
   tags?: IPostTag[];
-  postType: IPostType;
+  type: IPostType;
   createdAt: string;
   modifiedAt?: string;
   preview?: string;
+  videoUrl?: string;
 }
 
 export interface IExpert {

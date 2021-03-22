@@ -32,7 +32,7 @@ const ContentPreviewContainer: React.FC<IContentPreviewContainerProps> = ({
   previewCardType,
 }) => {
   const dispatch = useDispatch();
-  const { title, preview, directions: postDirections } = useSelector(
+  const { preview, directions: postDirections, title } = useSelector(
     (state: RootStateType) => state.newPostDraft[previewType],
   );
 
@@ -40,11 +40,11 @@ const ContentPreviewContainer: React.FC<IContentPreviewContainerProps> = ({
     (state: RootStateType) => state.properties.directions,
   );
 
-  const [textFieldValue, setTextFieldValue] = useState<string>('');
-  const [isTextFieldManualyChanged, setisTextFieldManualyChanged] = useState<
-    boolean
-  >(false);
-  const [isPreviewValid, setIsPreviewValid] = useState<boolean>(true);
+  const [textFieldValue, setTextFieldValue] = useState('');
+  const [isTextFieldManualyChanged, setisTextFieldManualyChanged] = useState(
+    false,
+  );
+  const [isPreviewValid, setIsPreviewValid] = useState(true);
   const [selectedTopics, setSelectedTopics] = useState<IDirection[]>([]);
 
   useEffect(() => {
@@ -103,7 +103,7 @@ const ContentPreviewContainer: React.FC<IContentPreviewContainerProps> = ({
   const cardPreviewData: IPost = {
     ...getUserData,
     title: title || '',
-    postType: { id: 0, name: previewCardType },
+    type: { id: 0, name: previewCardType },
     directions: selectedTopics,
     preview: `${trunkLength(textFieldValue)}`,
   };
@@ -153,7 +153,7 @@ const ContentPreviewContainer: React.FC<IContentPreviewContainerProps> = ({
           </Grid>
         </Grid>
         <Grid item xs={12} lg={4} md={6}>
-          <PostPreviewCard data={cardPreviewData} shouldNotUseLink />
+          <PostPreviewCard post={cardPreviewData} shouldNotUseLink />
         </Grid>
       </Grid>
     </>
