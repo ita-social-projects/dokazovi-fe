@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootStateType } from '../../../store/rootReducer';
-import { fetchInitialNewestPosts } from '../store/mainSlice';
+import { fetchNewestPosts } from '../store/mainSlice';
 import { useStyles } from '../styles/NewestContainer.style';
 import PostsList from '../../../lib/components/Posts/PostsList';
 import { LoadingStatusEnum } from '../../../lib/types';
@@ -19,8 +19,8 @@ const NewestContainer: React.FC = () => {
   const newestPosts = selectPostsByIds(newestPostIds);
 
   useEffect(() => {
-    const setNewestInitial = () => dispatch(fetchInitialNewestPosts());
-    setNewestInitial();
+    const setNewestPosts = () => dispatch(fetchNewestPosts());
+    setNewestPosts();
   }, []);
 
   return (
