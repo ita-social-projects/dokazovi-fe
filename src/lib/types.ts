@@ -48,11 +48,11 @@ export interface IPost {
   title: string;
   content: string;
   author: {
-    avatar: string;
+    avatar?: string;
     firstName: string;
     id: number;
     lastName: string;
-    mainInstitution: {
+    mainInstitution?: {
       city: {
         id: number;
         name: string;

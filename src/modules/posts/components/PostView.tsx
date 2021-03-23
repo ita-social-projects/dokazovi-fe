@@ -11,12 +11,15 @@ import ConfirmModal from '../../../lib/components/Modals/ConfirmModal';
 
 export interface IPostViewProps {
   post: IPost;
-  deleteHandler?: () => void;
+  modificationAllowed?: boolean;
+  onDelete?: () => void;
 }
 
-const PostView: React.FC<IPostViewProps> = ({ post, deleteHandler }) => {
-  const role = 'admin'; //  useSelector && token  = Mock
-
+const PostView: React.FC<IPostViewProps> = ({
+  post,
+  modificationAllowed,
+  onDelete,
+}) => {
   const classes = useStyles();
   const authorFullName = `${post.author.firstName} ${post.author.lastName}`;
   const authorMainInstitution = post.author.mainInstitution
@@ -46,21 +49,20 @@ const PostView: React.FC<IPostViewProps> = ({ post, deleteHandler }) => {
               {authorMainInstitution}
             </Typography>
           </Box>
-          <Box className={classes.actionsBlock}>
-            <Link to={`/update-article/${post.id}`}>
-              <EditIcon />
-            </Link>
-            {
-              role === 'admin' && deleteHandler && (
+          {modificationAllowed && (
+            <Box className={classes.actionsBlock}>
+              <Link to={`/update-article/${post.id}`}>
+                <EditIcon />
+              </Link>
+              {onDelete && (
                 <ConfirmModal
                   title={`Ви дійсно хочете безповоротно видалити матеріал '${post.title}'?`}
                   icon={<DeleteIcon />}
-                  handleChoice={deleteHandler}
+                  handleChoice={onDelete}
                 />
-              )
-              // user type admin
-            }
-          </Box>
+              )}
+            </Box>
+          )}
         </Box>
         <Box className={classes.contentRoot}>
           {post.title && (

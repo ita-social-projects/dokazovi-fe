@@ -25,8 +25,8 @@ const NoteCreation = lazy(
 const VideoCreation = lazy(
   () => import('../modules/postCreation/components/VideoCreation'),
 );
-const PostCreationPreview = lazy(
-  () => import('../modules/postCreation/components/PostCreationPreview'),
+const PostPreviewWrapper = lazy(
+  () => import('../modules/postCreation/components/PostPreviewWrapper'),
 );
 const PostUpdationWrapper = lazy(
   () => import('../modules/postUpdation/components/PostUpdationWrapper'),
@@ -80,7 +80,7 @@ const ROUTER_CONFIG: IRouterConfig[] = [
         path: '/create-article/preview',
         key: 'ARTICLE_PREVIEW',
         exact: true,
-        component: PostCreationPreview,
+        component: PostPreviewWrapper,
       },
     ],
   },
@@ -100,7 +100,7 @@ const ROUTER_CONFIG: IRouterConfig[] = [
         path: '/create-note/preview',
         key: 'NOTE_PREVIEW',
         exact: true,
-        component: PostCreationPreview,
+        component: PostPreviewWrapper,
       },
     ],
   },
@@ -120,7 +120,7 @@ const ROUTER_CONFIG: IRouterConfig[] = [
         path: '/create-video/preview',
         key: 'VIDEO_PREVIEW',
         exact: true,
-        component: PostCreationPreview,
+        component: PostPreviewWrapper,
       },
     ],
   },
@@ -140,7 +140,7 @@ const ROUTER_CONFIG: IRouterConfig[] = [
         path: '/update-article/preview',
         key: 'ARTICLE-UPDATE-PREVIEW',
         exact: true,
-        component: PostCreationPreview,
+        component: PostPreviewWrapper,
       },
     ],
   },
@@ -160,7 +160,7 @@ const ROUTER_CONFIG: IRouterConfig[] = [
         path: '/update-note/preview',
         key: 'NOTE-UPDATE-PREVIEW',
         exact: true,
-        component: PostCreationPreview,
+        component: PostPreviewWrapper,
       },
     ],
   },
@@ -180,7 +180,7 @@ const ROUTER_CONFIG: IRouterConfig[] = [
         path: '/update-video/preview',
         key: 'VIDEO-UPDATE-PREVIEW',
         exact: true,
-        component: PostCreationPreview,
+        component: PostPreviewWrapper,
       },
     ],
   },

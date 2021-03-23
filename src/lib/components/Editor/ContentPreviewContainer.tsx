@@ -8,7 +8,6 @@ import {
 } from '../../../modules/postCreation/store/postCreationSlice';
 import { IDirection, IPost, PostTypeEnum } from '../../types';
 import { RootStateType } from '../../../store/rootReducer';
-import usePostPreviewData from '../../hooks/usePostPreviewData';
 import PostPreviewCard from '../Posts/Cards/PostPreviewCard';
 
 export interface IContentPreviewContainerProps {
@@ -98,15 +97,15 @@ const ContentPreviewContainer: React.FC<IContentPreviewContainerProps> = ({
     setTextFieldValue(targetValue);
   };
 
-  const getUserData = usePostPreviewData();
+  // const getUserData = usePostPreviewData();
 
-  const cardPreviewData: IPost = {
-    ...getUserData,
-    title: title || '',
-    type: { id: 0, name: previewCardType },
-    directions: selectedTopics,
-    preview: `${trunkLength(textFieldValue)}`,
-  };
+  // const cardPreviewData: IPost = {
+  //   ...getUserData,
+  //   title: title || '',
+  //   type: { id: 0, name: previewCardType },
+  //   directions: selectedTopics,
+  //   preview: `${trunkLength(textFieldValue)}`,
+  // };
 
   //  TODO trunc preview text in PostPreviewCard
   return (
@@ -153,7 +152,7 @@ const ContentPreviewContainer: React.FC<IContentPreviewContainerProps> = ({
           </Grid>
         </Grid>
         <Grid item xs={12} lg={4} md={6}>
-          <PostPreviewCard post={cardPreviewData} shouldNotUseLink />
+          {/* <PostPreviewCard post={{} as IPost} shouldNotUseLink /> */}
         </Grid>
       </Grid>
     </>

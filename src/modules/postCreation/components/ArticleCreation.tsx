@@ -16,7 +16,7 @@ import {
   setIsDone,
   setPostBody,
 } from '../store/postCreationSlice';
-import { IDirection, PostTypeEnum } from '../../../lib/types';
+import { IDirection, IPost, PostTypeEnum } from '../../../lib/types';
 import { sanitizeHtml } from '../../../lib/utilities/sanitizeHtml';
 import PostCreationButtons from './PostCreationButtons';
 import { CreateArticlePostRequestType } from '../../../lib/utilities/API/types';
@@ -24,6 +24,7 @@ import PageTitle from '../../../lib/components/Pages/PageTitle';
 import { createPost } from '../../../lib/utilities/API/api';
 import { CheckboxFormStateType } from '../../../lib/components/Filters/CheckboxFilterForm';
 import CheckboxDropdownFilterForm from '../../../lib/components/Filters/CheckboxDropdownFilterForm';
+import { PostPreviewLocationStateType } from './PostPreviewWrapper';
 
 const ArticleCreation: React.FC = () => {
   const history = useHistory();
@@ -35,6 +36,7 @@ const ArticleCreation: React.FC = () => {
   const savedPostDraft = useSelector(
     (state: RootStateType) => state.newPostDraft.ARTICLE,
   );
+  const { user } = useSelector((state: RootStateType) => state.currentUser);
 
   const [title, setTitle] = useState({
     value: savedPostDraft.title,
@@ -92,16 +94,28 @@ const ArticleCreation: React.FC = () => {
     type: { id: 1 }, // must not be hardcoded
   };
 
+  const previewPost = {
+    author: user,
+    content: savedPostDraft.htmlContent,
+    createdAt: Date().toString(),
+    directions: savedPostDraft.directions,
+    title: savedPostDraft.title,
+    type: { id: 1, name: 'Стаття' }, // must not be hardcoded
+  } as IPost;
+
   const sendPost = async () => {
-    const responsePost = await createPost(newPost);
-    history.push(`/posts/${responsePost.data.id}`);
+    const response = await createPost(newPost);
+    history.push(`/posts/${response.data.id}`);
   };
 
   const goArticlePreview = () => {
-    history.push(`/create-article/preview`, {
-      postType: PostTypeEnum.ARTICLE,
-      publishPost: newPost,
-    });
+    const state: PostPreviewLocationStateType = {
+      actionType: 'create',
+      postToSend: newPost,
+      previewPost,
+    };
+
+    history.push(`/create-article/preview`, state);
   };
 
   return (

@@ -87,6 +87,8 @@ const ArticleUpdation: React.FC<IArticleUpdationProps> = ({ post }) => {
           onFormChange={dispatchDirections}
           possibleFilters={allDirections}
           selectedFilters={selectedDirections}
+          noAll
+          maximumReached={selectedDirections.length === 3}
           filterTitle="Напрямки: "
         />
       ) : (
