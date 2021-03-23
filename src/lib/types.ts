@@ -66,7 +66,7 @@ export interface IPost {
   type: IPostType;
   createdAt: string;
   modifiedAt?: string;
-  preview?: string;
+  preview: string;
   videoUrl?: string;
 }
 

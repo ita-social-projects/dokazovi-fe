@@ -15,6 +15,8 @@ import {
   setPostTitle,
   setIsDone,
   setPostBody,
+  setPostPreviewText,
+  setPostPreviewManuallyChanged,
 } from '../store/postCreationSlice';
 import { IDirection, IPost, PostTypeEnum } from '../../../lib/types';
 import { sanitizeHtml } from '../../../lib/utilities/sanitizeHtml';
@@ -69,11 +71,11 @@ const ArticleCreation: React.FC = () => {
   );
 
   const dispatchHtmlContent = useCallback(
-    _.debounce((content: string) => {
+    _.debounce((value: string) => {
       dispatch(
         setPostBody({
           postType: PostTypeEnum.ARTICLE,
-          value: sanitizeHtml(content) as string,
+          value: sanitizeHtml(value) as string,
         }),
       );
       dispatch(
@@ -86,6 +88,22 @@ const ArticleCreation: React.FC = () => {
     [],
   );
 
+  const dispatchPreview = useCallback(
+    _.debounce((value: string) => {
+      dispatch(
+        setPostPreviewText({
+          postType: PostTypeEnum.ARTICLE,
+          value,
+        }),
+      );
+    }, 1000),
+    [],
+  );
+
+  const dispatchIsPreviewManuallyChanged = () => {
+    dispatch(setPostPreviewManuallyChanged(PostTypeEnum.ARTICLE));
+  };
+
   const newPost: CreateArticlePostRequestType = {
     content: savedPostDraft.htmlContent,
     directions: savedPostDraft.directions,
@@ -94,14 +112,19 @@ const ArticleCreation: React.FC = () => {
     type: { id: 1 }, // must not be hardcoded
   };
 
-  const previewPost = {
-    author: user,
-    content: savedPostDraft.htmlContent,
-    createdAt: Date().toString(),
-    directions: savedPostDraft.directions,
-    title: savedPostDraft.title,
-    type: { id: 1, name: 'Стаття' }, // must not be hardcoded
-  } as IPost;
+  const previewPost = React.useMemo(
+    () =>
+      ({
+        author: user,
+        content: savedPostDraft.htmlContent,
+        preview: savedPostDraft.preview.value,
+        createdAt: Date().toString(),
+        directions: savedPostDraft.directions,
+        title: savedPostDraft.title,
+        type: { id: 1, name: 'Стаття' }, // must not be hardcoded
+      } as IPost),
+    [user, savedPostDraft],
+  );
 
   const sendPost = async () => {
     const response = await createPost(newPost);
@@ -151,7 +174,17 @@ const ArticleCreation: React.FC = () => {
       </Box>
       <Box mt={2}>
         <Typography variant="h5">Текст статті:</Typography>
-        <ArticleEditor dispatchContent={dispatchHtmlContent} />
+        <ArticleEditor
+          initialContent={savedPostDraft.htmlContent}
+          initialPreview={savedPostDraft.preview.value}
+          dispatchContent={dispatchHtmlContent}
+          initialIsPreviewManuallyChanged={
+            savedPostDraft.preview.isManuallyChanged
+          }
+          dispatchIsPreviewManuallyChanged={dispatchIsPreviewManuallyChanged}
+          dispatchPreview={dispatchPreview}
+          previewPost={previewPost}
+        />
       </Box>
       <Box display="flex" justifyContent="flex-end">
         <PostCreationButtons

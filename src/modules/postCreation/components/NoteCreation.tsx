@@ -14,8 +14,10 @@ import {
   setIsDone,
   setPostTitle,
   setPostDirections,
+  setPostPreviewManuallyChanged,
+  setPostPreviewText,
 } from '../store/postCreationSlice';
-import { IDirection, PostTypeEnum } from '../../../lib/types';
+import { IDirection, IPost, PostTypeEnum } from '../../../lib/types';
 import { RootStateType } from '../../../store/rootReducer';
 import { sanitizeHtml } from '../../../lib/utilities/sanitizeHtml';
 import PostCreationButtons from './PostCreationButtons';
@@ -24,6 +26,7 @@ import { createPost } from '../../../lib/utilities/API/api';
 import { CheckboxFormStateType } from '../../../lib/components/Filters/CheckboxFilterForm';
 import CheckboxDropdownFilterForm from '../../../lib/components/Filters/CheckboxDropdownFilterForm';
 import { CreateDopysPostRequestType } from '../../../lib/utilities/API/types';
+import { PostPreviewLocationStateType } from './PostPreviewWrapper';
 
 const NoteCreation: React.FC = () => {
   const dispatch = useDispatch();
@@ -35,6 +38,7 @@ const NoteCreation: React.FC = () => {
   const savedPostDraft = useSelector(
     (state: RootStateType) => state.newPostDraft.DOPYS,
   );
+  const { user } = useSelector((state: RootStateType) => state.currentUser);
 
   const [title, setTitle] = useState({
     value: savedPostDraft.title,
@@ -84,6 +88,22 @@ const NoteCreation: React.FC = () => {
     [],
   );
 
+  const dispatchPreview = useCallback(
+    _.debounce((value: string) => {
+      dispatch(
+        setPostPreviewText({
+          postType: PostTypeEnum.DOPYS,
+          value,
+        }),
+      );
+    }, 1000),
+    [],
+  );
+
+  const dispatchIsPreviewManuallyChanged = () => {
+    dispatch(setPostPreviewManuallyChanged(PostTypeEnum.DOPYS));
+  };
+
   const newPost: CreateDopysPostRequestType = {
     title: savedPostDraft.title,
     content: savedPostDraft.htmlContent,
@@ -92,16 +112,29 @@ const NoteCreation: React.FC = () => {
     type: { id: 2 }, // must not be hardcoded
   };
 
+  const previewPost = {
+    author: user,
+    content: savedPostDraft.htmlContent,
+    preview: savedPostDraft.preview.value,
+    createdAt: Date().toString(),
+    directions: savedPostDraft.directions,
+    title: savedPostDraft.title,
+    type: { id: 2, name: 'Допис' }, // must not be hardcoded
+  } as IPost;
+
   const sendPost = async () => {
     const responsePost = await createPost(newPost);
     history.push(`/posts/${responsePost.data.id}`);
   };
 
   const goNotePreview = () => {
-    history.push(`/create-note/preview`, {
-      postType: PostTypeEnum.DOPYS,
-      publishPost: newPost,
-    });
+    const state: PostPreviewLocationStateType = {
+      actionType: 'create',
+      postToSend: newPost,
+      previewPost,
+    };
+
+    history.push(`/create-note/preview`, state);
   };
 
   return (
@@ -137,7 +170,17 @@ const NoteCreation: React.FC = () => {
       </Box>
       <Box mt={2}>
         <Typography variant="h5">Текст статті:</Typography>
-        <NoteEditor dispatchContent={dispatchHtmlContent} />
+        <NoteEditor
+          initialContent={savedPostDraft.htmlContent}
+          initialPreview={savedPostDraft.preview.value}
+          dispatchContent={dispatchHtmlContent}
+          initialIsPreviewManuallyChanged={
+            savedPostDraft.preview.isManuallyChanged
+          }
+          dispatchIsPreviewManuallyChanged={dispatchIsPreviewManuallyChanged}
+          dispatchPreview={dispatchPreview}
+          previewPost={previewPost}
+        />
       </Box>
       <Box display="flex" justifyContent="flex-end">
         <PostCreationButtons

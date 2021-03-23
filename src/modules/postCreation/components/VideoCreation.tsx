@@ -16,7 +16,7 @@ import {
   setVideoUrl,
   setPostDirections,
 } from '../store/postCreationSlice';
-import { IDirection, PostTypeEnum } from '../../../lib/types';
+import { IDirection, IPost, PostTypeEnum } from '../../../lib/types';
 import { RootStateType } from '../../../store/rootReducer';
 import { sanitizeHtml } from '../../../lib/utilities/sanitizeHtml';
 import { parseVideoIdFromUrl } from '../../../lib/utilities/parseVideoIdFromUrl';
@@ -27,6 +27,7 @@ import { createPost } from '../../../lib/utilities/API/api';
 import { CreateVideoPostRequestType } from '../../../lib/utilities/API/types';
 import { CheckboxFormStateType } from '../../../lib/components/Filters/CheckboxFilterForm';
 import CheckboxDropdownFilterForm from '../../../lib/components/Filters/CheckboxDropdownFilterForm';
+import { PostPreviewLocationStateType } from './PostPreviewWrapper';
 
 const VideoCreation: React.FC = () => {
   const dispatch = useDispatch();
@@ -35,10 +36,10 @@ const VideoCreation: React.FC = () => {
   const allDirections = useSelector(
     (state: RootStateType) => state.properties.directions,
   );
-
   const savedPostDraft = useSelector(
     (state: RootStateType) => state.newPostDraft.VIDEO,
   );
+  const { user } = useSelector((state: RootStateType) => state.currentUser);
 
   const [title, setTitle] = useState({
     value: savedPostDraft.title,
@@ -116,10 +117,23 @@ const VideoCreation: React.FC = () => {
   };
 
   const goVideoPreview = () => {
-    history.push(`/create-video/preview`, {
-      postType: PostTypeEnum.VIDEO,
-      publishPost: newPost,
-    });
+    const previewPost = {
+      author: user,
+      content: savedPostDraft.htmlContent,
+      createdAt: Date().toString(),
+      directions: savedPostDraft.directions,
+      title: savedPostDraft.title,
+      videoUrl: savedPostDraft.videoUrl,
+      type: { id: 3, name: 'Відео' }, // must not be hardcoded
+    } as IPost;
+
+    const state: PostPreviewLocationStateType = {
+      actionType: 'create',
+      postToSend: newPost,
+      previewPost,
+    };
+
+    history.push(`/create-video/preview`, state);
   };
 
   return (
@@ -168,7 +182,10 @@ const VideoCreation: React.FC = () => {
       </Box>
       <Box mt={2}>
         <Typography variant="h5">Опис відео:</Typography>
-        <VideoEditor dispatchContent={dispatchHtmlContent} />
+        <VideoEditor
+          initialContent={savedPostDraft.htmlContent}
+          dispatchContent={dispatchHtmlContent}
+        />
       </Box>
       <Box display="flex" justifyContent="flex-end">
         <PostCreationButtons

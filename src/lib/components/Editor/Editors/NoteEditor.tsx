@@ -1,46 +1,64 @@
-import React, { useEffect, useRef, useState } from 'react';
-import ReactQuill from 'react-quill';
-import Quill from 'quill';
-import { PostTypeEnum } from '../../../types';
+import React, { useState } from 'react';
+import { Grid } from '@material-ui/core';
 import BorderBottom from '../../Border';
-import ContentPreviewContainer from '../ContentPreviewContainer';
+import PreviewInput from '../PreviewInput';
 import GeneralEditor from '../GeneralEditor';
+import PostPreviewCard from '../../Posts/Cards/PostPreviewCard';
+import { IPost } from '../../../types';
 import NoteEditorToolbar from './NoteEditorToolbar';
 
 interface INoteEditorProps {
-  dispatchContent: (content: string) => void;
+  initialContent?: string;
+  initialPreview: string;
+  dispatchContent: (value: string) => void;
+  initialIsPreviewManuallyChanged: boolean;
+  dispatchIsPreviewManuallyChanged?: () => void;
+  dispatchPreview: (value: string) => void;
+  previewPost: IPost;
 }
 
-const NoteEditor: React.FC<INoteEditorProps> = ({ dispatchContent }) => {
-  const [editor, setEditor] = useState<Quill>();
-  const noteEditor = useRef<ReactQuill | null>(null);
-  const [editorContent, setEditorContent] = useState<string>('');
-
-  useEffect(() => {
-    if (noteEditor.current) {
-      setEditor(noteEditor.current.getEditor());
-      setEditorContent(noteEditor.current.getEditor().getText().slice(0, -1)); // slice removes additional \n added by Quill
-    }
-  }, []);
-
-  editor?.on('text-change', () => {
-    setEditorContent(editor.getText());
-  });
+const NoteEditor: React.FC<INoteEditorProps> = ({
+  initialContent,
+  initialPreview,
+  dispatchContent,
+  initialIsPreviewManuallyChanged,
+  dispatchIsPreviewManuallyChanged,
+  dispatchPreview,
+  previewPost,
+}) => {
+  const [textContent, setTextContent] = useState<string>('');
 
   return (
     <>
       <GeneralEditor
-        type={PostTypeEnum.DOPYS}
-        dispatchContent={dispatchContent}
-        toolbar={<NoteEditorToolbar editor={editor} />}
-        ref={noteEditor}
+        initialContent={initialContent}
+        dispatchHtmlContent={dispatchContent}
+        toolbar={NoteEditorToolbar}
+        dispatchTextContent={setTextContent}
       />
       <BorderBottom />
-      <ContentPreviewContainer
-        previewText={editorContent}
-        previewType={PostTypeEnum.DOPYS}
-        previewCardType="Допис"
-      />
+      <Grid container direction="row" alignItems="stretch">
+        <Grid
+          item
+          container
+          xs={12}
+          lg={8}
+          md={6}
+          direction="column"
+          alignItems="stretch"
+        >
+          <PreviewInput
+            initialPreview={initialPreview}
+            editorContent={textContent}
+            initialIsManuallyChanged={initialIsPreviewManuallyChanged}
+            dispatchIsManuallyChanged={dispatchIsPreviewManuallyChanged}
+            dispatchPreview={dispatchPreview}
+          />
+        </Grid>
+        <Grid item xs={12} lg={4} md={6}>
+          <PostPreviewCard post={previewPost} shouldNotUseLink />
+        </Grid>
+      </Grid>
     </>
   );
 };

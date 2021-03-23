@@ -1,57 +1,64 @@
-import React, { useEffect, useRef, useState } from 'react';
-import ReactQuill from 'react-quill';
-import Quill from 'quill';
-import { PostTypeEnum } from '../../../types';
+import React, { useState } from 'react';
+import { Grid } from '@material-ui/core';
 import BorderBottom from '../../Border';
-import ContentPreviewContainer from '../ContentPreviewContainer';
+import PreviewInput from '../PreviewInput';
 import GeneralEditor from '../GeneralEditor';
 import ArticleEditorToolbar from './ArticleEditorToolbar';
+import PostPreviewCard from '../../Posts/Cards/PostPreviewCard';
+import { IPost } from '../../../types';
 
 interface IArticleEditorProps {
-  dispatchContent: (content: string) => void;
-  content?: string;
-  preview?: string;
+  initialContent?: string;
+  initialPreview: string;
+  dispatchContent: (value: string) => void;
+  initialIsPreviewManuallyChanged: boolean;
+  dispatchIsPreviewManuallyChanged?: () => void;
+  dispatchPreview: (value: string) => void;
+  previewPost: IPost;
 }
 
 const ArticleEditor: React.FC<IArticleEditorProps> = ({
+  initialContent,
+  initialPreview,
   dispatchContent,
-  content,
-  preview,
+  initialIsPreviewManuallyChanged,
+  dispatchIsPreviewManuallyChanged,
+  dispatchPreview,
+  previewPost,
 }) => {
-  const [editor, setEditor] = useState<Quill>();
-  const articleEditor = useRef<ReactQuill | null>(null);
-  const [editorContent, setEditorContent] = useState<string>(content || '');
-
-  useEffect(() => {
-    if (articleEditor.current) {
-      setEditor(articleEditor.current.getEditor());
-      setEditorContent(
-        articleEditor.current.getEditor().getText().slice(0, -1), // slice removes additional \n added by Quill
-      );
-      if (content) {
-        articleEditor.current.getEditor().setText(content);
-      }
-    }
-  }, []);
-
-  editor?.on('text-change', () => {
-    setEditorContent(editor.getText());
-  });
+  const [textContent, setTextContent] = useState<string>('');
 
   return (
     <>
       <GeneralEditor
-        type={PostTypeEnum.ARTICLE}
-        dispatchContent={dispatchContent}
-        toolbar={<ArticleEditorToolbar editor={editor} />}
-        ref={articleEditor}
+        initialContent={initialContent}
+        dispatchHtmlContent={dispatchContent}
+        toolbar={ArticleEditorToolbar}
+        dispatchTextContent={setTextContent}
       />
       <BorderBottom />
-      <ContentPreviewContainer
-        previewText={editorContent}
-        previewType={PostTypeEnum.ARTICLE}
-        previewCardType="Стаття"
-      />
+      <Grid container direction="row" alignItems="stretch">
+        <Grid
+          item
+          container
+          xs={12}
+          lg={8}
+          md={6}
+          direction="column"
+          alignItems="stretch"
+        >
+          <PreviewInput
+            initialPreview={initialPreview}
+            editorContent={textContent}
+            initialIsManuallyChanged={initialIsPreviewManuallyChanged}
+            dispatchIsManuallyChanged={dispatchIsPreviewManuallyChanged}
+            dispatchPreview={dispatchPreview}
+          />
+        </Grid>
+        <Grid item xs={12} lg={4} md={6}>
+          <PostPreviewCard post={previewPost} shouldNotUseLink />
+        </Grid>
+      </Grid>
     </>
   );
 };

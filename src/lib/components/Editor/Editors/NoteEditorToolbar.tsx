@@ -1,13 +1,9 @@
 import React from 'react';
-import Quill from 'quill';
 import ImageHandlersContainer from '../CustomModules/ImageHandlersContainer';
 import '../generalEditor.styles.css';
+import { IEditorToolbarProps } from '../types';
 
-export interface INoteEditorToolbarProps {
-  editor?: Quill;
-}
-
-const NoteEditorToolbar: React.FC<INoteEditorToolbarProps> = ({ editor }) => {
+const NoteEditorToolbar: React.FC<IEditorToolbarProps> = ({ editor }) => {
   return (
     <div id="toolbar">
       <span className="ql-formats">

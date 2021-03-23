@@ -29,6 +29,7 @@ const ArticleUpdation: React.FC<IArticleUpdationProps> = ({ post }) => {
     post.directions,
   );
   const [htmlContent, setHtmlContent] = useState(post.content);
+  const [preview, setPreview] = useState(post.preview);
   const [title, setTitle] = useState({
     value: post.title,
     error: '',
@@ -57,6 +58,13 @@ const ArticleUpdation: React.FC<IArticleUpdationProps> = ({ post }) => {
     [],
   );
 
+  const dispatchPreview = useCallback(
+    _.debounce((value: string) => {
+      setPreview(value);
+    }, 1000),
+    [],
+  );
+
   const updatedPost: UpdateArticlePostRequestType = {
     id: post.id,
     content: htmlContent,
@@ -64,6 +72,15 @@ const ArticleUpdation: React.FC<IArticleUpdationProps> = ({ post }) => {
     preview: 'preview',
     title: title.value,
     type: { id: 1 }, // must not be hardcoded
+  };
+
+  const previewPost: IPost = {
+    ...post,
+    content: htmlContent,
+    preview,
+    directions: selectedDirections,
+    title: title.value,
+    type: { id: 1, name: 'Стаття' }, // must not be hardcoded
   };
 
   const sendPost = async () => {
@@ -111,16 +128,19 @@ const ArticleUpdation: React.FC<IArticleUpdationProps> = ({ post }) => {
       <Box mt={2}>
         <Typography variant="h5">Текст статті:</Typography>
         <ArticleEditor
+          initialContent={htmlContent}
+          initialPreview={preview}
           dispatchContent={dispatchHtmlContent}
-          content={post.content}
+          initialIsPreviewManuallyChanged
+          dispatchPreview={dispatchPreview}
+          previewPost={previewPost}
         />
       </Box>
       <Box display="flex" justifyContent="flex-end">
-        {/* <PostCreationButtons
+        <PostCreationButtons
           publishPost={sendPost}
           goPreview={goArticlePreview}
-          isDone={isDone}
-        /> */}
+        />
       </Box>
     </>
   );

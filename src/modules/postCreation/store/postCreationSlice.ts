@@ -105,13 +105,9 @@ export const postCreationSlice = createSlice({
     },
     setPostPreviewManuallyChanged: (
       state,
-      action: PayloadAction<{
-        postType: PostTypeEnum;
-        value: boolean;
-      }>,
+      action: PayloadAction<PostTypeEnum>,
     ) => {
-      state[action.payload.postType].preview.isManuallyChanged =
-        action.payload.value;
+      state[action.payload].preview.isManuallyChanged = true;
     },
     setVideoUrl: (state, action: PayloadAction<string>) => {
       state[PostTypeEnum.VIDEO].videoUrl = action.payload;
