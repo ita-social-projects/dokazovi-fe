@@ -49,7 +49,9 @@ const NoteEditor: React.FC<INoteEditorProps> = ({
         >
           <PreviewInput
             initialPreview={initialPreview}
-            editorContent={textContent}
+            editorContent={
+              !initialIsPreviewManuallyChanged ? textContent : undefined // optimizing rerenders when we don't need editor content
+            }
             initialIsManuallyChanged={initialIsPreviewManuallyChanged}
             dispatchIsManuallyChanged={dispatchIsPreviewManuallyChanged}
             dispatchPreview={dispatchPreview}
@@ -63,4 +65,4 @@ const NoteEditor: React.FC<INoteEditorProps> = ({
   );
 };
 
-export default NoteEditor;
+export default React.memo(NoteEditor);

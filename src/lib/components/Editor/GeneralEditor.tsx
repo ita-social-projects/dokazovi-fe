@@ -67,4 +67,4 @@ const GeneralEditor: React.FC<IQuillEditorProps> = (props) => {
   );
 };
 
-export default GeneralEditor;
+export default React.memo(GeneralEditor);

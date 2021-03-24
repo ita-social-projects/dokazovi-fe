@@ -27,6 +27,11 @@ import { CheckboxFormStateType } from '../../../lib/components/Filters/CheckboxF
 import CheckboxDropdownFilterForm from '../../../lib/components/Filters/CheckboxDropdownFilterForm';
 import { CreateDopysPostRequestType } from '../../../lib/utilities/API/types';
 import { PostPreviewLocationStateType } from './PostPreviewWrapper';
+import {
+  CONTENT_DEBOUNCE_TIMEOUT,
+  PREVIEW_DEBOUNCE_TIMEOUT,
+  TITLE_DEBOUNCE_TIMEOUT,
+} from '../../../lib/constants/editors';
 
 const NoteCreation: React.FC = () => {
   const dispatch = useDispatch();
@@ -48,7 +53,7 @@ const NoteCreation: React.FC = () => {
   const dispatchTitle = useCallback(
     _.debounce((value: string) => {
       dispatch(setPostTitle({ postType: PostTypeEnum.DOPYS, value }));
-    }, 1000),
+    }, TITLE_DEBOUNCE_TIMEOUT),
     [],
   );
 
@@ -84,7 +89,7 @@ const NoteCreation: React.FC = () => {
           value: true,
         }),
       );
-    }, 2000),
+    }, CONTENT_DEBOUNCE_TIMEOUT),
     [],
   );
 
@@ -96,7 +101,7 @@ const NoteCreation: React.FC = () => {
           value,
         }),
       );
-    }, 1000),
+    }, PREVIEW_DEBOUNCE_TIMEOUT),
     [],
   );
 
@@ -112,15 +117,19 @@ const NoteCreation: React.FC = () => {
     type: { id: 2 }, // must not be hardcoded
   };
 
-  const previewPost = {
-    author: user,
-    content: savedPostDraft.htmlContent,
-    preview: savedPostDraft.preview.value,
-    createdAt: Date().toString(),
-    directions: savedPostDraft.directions,
-    title: savedPostDraft.title,
-    type: { id: 2, name: 'Допис' }, // must not be hardcoded
-  } as IPost;
+  const previewPost = React.useMemo(
+    () =>
+      ({
+        author: user,
+        content: savedPostDraft.htmlContent,
+        preview: savedPostDraft.preview.value,
+        createdAt: Date().toString(),
+        directions: savedPostDraft.directions,
+        title: savedPostDraft.title,
+        type: { id: 2, name: 'Допис' }, // must not be hardcoded
+      } as IPost),
+    [user, savedPostDraft],
+  );
 
   const sendPost = async () => {
     const responsePost = await createPost(newPost);
@@ -154,7 +163,7 @@ const NoteCreation: React.FC = () => {
         <CircularProgress />
       )}
       <Box mt={2}>
-        <Typography variant="h5">Заголовок статті: </Typography>
+        <Typography variant="h5">Заголовок допису: </Typography>
         <TextField
           error={Boolean(title.error)}
           helperText={title.error}
@@ -169,7 +178,7 @@ const NoteCreation: React.FC = () => {
         />
       </Box>
       <Box mt={2}>
-        <Typography variant="h5">Текст статті:</Typography>
+        <Typography variant="h5">Текст допису:</Typography>
         <NoteEditor
           initialContent={savedPostDraft.htmlContent}
           initialPreview={savedPostDraft.preview.value}

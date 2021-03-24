@@ -8,27 +8,27 @@ import {
   TextField,
   Typography,
 } from '@material-ui/core';
-import ArticleEditor from '../../../lib/components/Editor/Editors/ArticleEditor';
-import { sanitizeHtml } from '../../../lib/utilities/sanitizeHtml';
-import PageTitle from '../../../lib/components/Pages/PageTitle';
-import { updatePost } from '../../../lib/utilities/API/api';
 import { IDirection, IPost } from '../../../lib/types';
-import PostCreationButtons from '../../postCreation/components/PostCreationButtons';
-import { RootStateType } from '../../../store/rootReducer';
-import { UpdateArticlePostRequestType } from '../../../lib/utilities/API/types';
-import CheckboxDropdownFilterForm from '../../../lib/components/Filters/CheckboxDropdownFilterForm';
+import { UpdateDopysPostRequestType } from '../../../lib/utilities/API/types';
+import { sanitizeHtml } from '../../../lib/utilities/sanitizeHtml';
 import { CheckboxFormStateType } from '../../../lib/components/Filters/CheckboxFilterForm';
+import CheckboxDropdownFilterForm from '../../../lib/components/Filters/CheckboxDropdownFilterForm';
+import PostCreationButtons from '../../postCreation/components/PostCreationButtons';
+import NoteEditor from '../../../lib/components/Editor/Editors/NoteEditor';
 import { PostPreviewLocationStateType } from '../../postCreation/components/PostPreviewWrapper';
+import { updatePost } from '../../../lib/utilities/API/api';
+import { RootStateType } from '../../../store/rootReducer';
+import PageTitle from '../../../lib/components/Pages/PageTitle';
 import {
   CONTENT_DEBOUNCE_TIMEOUT,
   PREVIEW_DEBOUNCE_TIMEOUT,
 } from '../../../lib/constants/editors';
 
-export interface IArticleUpdationProps {
+export interface INoteUpdationProps {
   post: IPost;
 }
 
-const ArticleUpdation: React.FC<IArticleUpdationProps> = ({ post }) => {
+const NoteUpdation: React.FC<INoteUpdationProps> = ({ post }) => {
   const history = useHistory();
   const [selectedDirections, setSelectedDirections] = useState<IDirection[]>(
     post.directions,
@@ -70,7 +70,7 @@ const ArticleUpdation: React.FC<IArticleUpdationProps> = ({ post }) => {
     [],
   );
 
-  const updatedPost: UpdateArticlePostRequestType = {
+  const updatedPost: UpdateDopysPostRequestType = {
     id: post.id,
     content: htmlContent,
     directions: selectedDirections,
@@ -93,19 +93,19 @@ const ArticleUpdation: React.FC<IArticleUpdationProps> = ({ post }) => {
     history.push(`/posts/${response.data.id}`);
   };
 
-  const goArticlePreview = () => {
+  const goNotePreview = () => {
     const state: PostPreviewLocationStateType = {
       actionType: 'update',
       postToSend: updatedPost,
       previewPost,
     };
 
-    history.push(`/update-article/preview`, state);
+    history.push(`/update-note/preview`, state);
   };
 
   return (
     <>
-      <PageTitle title="Редагування статті" />
+      <PageTitle title="Редагування допису" />
 
       {allDirections.length ? (
         <CheckboxDropdownFilterForm
@@ -135,7 +135,7 @@ const ArticleUpdation: React.FC<IArticleUpdationProps> = ({ post }) => {
       </Box>
       <Box mt={2}>
         <Typography variant="h5">Текст статті:</Typography>
-        <ArticleEditor
+        <NoteEditor
           initialContent={htmlContent}
           initialPreview={preview}
           dispatchContent={dispatchHtmlContent}
@@ -145,13 +145,10 @@ const ArticleUpdation: React.FC<IArticleUpdationProps> = ({ post }) => {
         />
       </Box>
       <Box display="flex" justifyContent="flex-end">
-        <PostCreationButtons
-          publishPost={sendPost}
-          goPreview={goArticlePreview}
-        />
+        <PostCreationButtons publishPost={sendPost} goPreview={goNotePreview} />
       </Box>
     </>
   );
 };
 
-export default ArticleUpdation;
+export default NoteUpdation;

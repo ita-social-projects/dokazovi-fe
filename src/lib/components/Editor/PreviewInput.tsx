@@ -1,4 +1,3 @@
-/* eslint-disable react/destructuring-assignment */
 import React, { useState } from 'react';
 import { Grid, TextField, Typography } from '@material-ui/core';
 import useEffectExceptOnMount from '../../hooks/useEffectExceptOnMount';
@@ -14,7 +13,7 @@ const trunkLength = (str: string) => {
 
 export interface IPreviewInputProps {
   initialPreview: string;
-  editorContent: string;
+  editorContent?: string;
   initialIsManuallyChanged: boolean;
   dispatchPreview: (value: string) => void;
   dispatchIsManuallyChanged?: () => void;
@@ -37,7 +36,7 @@ const PreviewInput: React.FC<IPreviewInputProps> = ({
 
   useEffectExceptOnMount(() => {
     const setPreviewFromEditor = () => {
-      if (!initialIsManuallyChanged) {
+      if (!initialIsManuallyChanged && editorContent) {
         setTextFieldValue(trunkLength(editorContent));
       }
     };
@@ -93,4 +92,4 @@ const PreviewInput: React.FC<IPreviewInputProps> = ({
   );
 };
 
-export default PreviewInput;
+export default React.memo(PreviewInput);

@@ -49,7 +49,9 @@ const ArticleEditor: React.FC<IArticleEditorProps> = ({
         >
           <PreviewInput
             initialPreview={initialPreview}
-            editorContent={textContent}
+            editorContent={
+              !initialIsPreviewManuallyChanged ? textContent : undefined // optimizing rerenders when we don't need editor content
+            }
             initialIsManuallyChanged={initialIsPreviewManuallyChanged}
             dispatchIsManuallyChanged={dispatchIsPreviewManuallyChanged}
             dispatchPreview={dispatchPreview}
@@ -63,4 +65,4 @@ const ArticleEditor: React.FC<IArticleEditorProps> = ({
   );
 };
 
-export default ArticleEditor;
+export default React.memo(ArticleEditor);

@@ -4,6 +4,8 @@ import { getPostById } from '../../../lib/utilities/API/api';
 import { IPost } from '../../../lib/types';
 import { sanitizeHtml } from '../../../lib/utilities/sanitizeHtml';
 import ArticleUpdation from './ArticleUpdation';
+import NoteUpdation from './NoteUpdations';
+import VideoUpdation from './VideoUpdation';
 
 const PostUpdationWrapper: React.FC = () => {
   const { postId } = useParams<{ postId: string }>();
@@ -27,13 +29,25 @@ const PostUpdationWrapper: React.FC = () => {
 
   useEffect(() => {
     fetchPost();
-  }, [fetchPost]);
+  }, []);
 
   if (statusCode === 404) {
     history.push('/error_404');
   }
 
-  return <>{loadedPost && <ArticleUpdation post={loadedPost} />}</>;
+  return (
+    <>
+      {loadedPost && loadedPost.type.id === 1 && (
+        <ArticleUpdation post={loadedPost} />
+      )}
+      {loadedPost && loadedPost.type.id === 2 && (
+        <NoteUpdation post={loadedPost} />
+      )}
+      {loadedPost && loadedPost.type.id === 3 && (
+        <VideoUpdation post={loadedPost} />
+      )}
+    </>
+  );
 };
 
 export default PostUpdationWrapper;

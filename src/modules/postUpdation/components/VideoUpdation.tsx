@@ -8,33 +8,32 @@ import {
   TextField,
   Typography,
 } from '@material-ui/core';
-import ArticleEditor from '../../../lib/components/Editor/Editors/ArticleEditor';
-import { sanitizeHtml } from '../../../lib/utilities/sanitizeHtml';
-import PageTitle from '../../../lib/components/Pages/PageTitle';
-import { updatePost } from '../../../lib/utilities/API/api';
 import { IDirection, IPost } from '../../../lib/types';
-import PostCreationButtons from '../../postCreation/components/PostCreationButtons';
-import { RootStateType } from '../../../store/rootReducer';
-import { UpdateArticlePostRequestType } from '../../../lib/utilities/API/types';
-import CheckboxDropdownFilterForm from '../../../lib/components/Filters/CheckboxDropdownFilterForm';
+import { UpdateVideoPostRequestType } from '../../../lib/utilities/API/types';
+import { sanitizeHtml } from '../../../lib/utilities/sanitizeHtml';
 import { CheckboxFormStateType } from '../../../lib/components/Filters/CheckboxFilterForm';
+import CheckboxDropdownFilterForm from '../../../lib/components/Filters/CheckboxDropdownFilterForm';
+import PostCreationButtons from '../../postCreation/components/PostCreationButtons';
 import { PostPreviewLocationStateType } from '../../postCreation/components/PostPreviewWrapper';
-import {
-  CONTENT_DEBOUNCE_TIMEOUT,
-  PREVIEW_DEBOUNCE_TIMEOUT,
-} from '../../../lib/constants/editors';
+import { updatePost } from '../../../lib/utilities/API/api';
+import { RootStateType } from '../../../store/rootReducer';
+import PageTitle from '../../../lib/components/Pages/PageTitle';
+import VideoUrlInputModal from '../../../lib/components/Editor/CustomModules/VideoUrlInputModal';
+import VideoEditor from '../../../lib/components/Editor/Editors/VideoEditor';
+import { parseVideoIdFromUrl } from '../../../lib/utilities/parseVideoIdFromUrl';
+import { CONTENT_DEBOUNCE_TIMEOUT } from '../../../lib/constants/editors';
 
-export interface IArticleUpdationProps {
+export interface IVideoUpdationProps {
   post: IPost;
 }
 
-const ArticleUpdation: React.FC<IArticleUpdationProps> = ({ post }) => {
+const VideoUpdation: React.FC<IVideoUpdationProps> = ({ post }) => {
   const history = useHistory();
   const [selectedDirections, setSelectedDirections] = useState<IDirection[]>(
     post.directions,
   );
   const [htmlContent, setHtmlContent] = useState(post.content);
-  const [preview, setPreview] = useState(post.preview);
+  const [videoUrl, setVideoUrl] = useState<string>(post.videoUrl as string);
   const [title, setTitle] = useState({
     value: post.title,
     error: '',
@@ -63,26 +62,21 @@ const ArticleUpdation: React.FC<IArticleUpdationProps> = ({ post }) => {
     [],
   );
 
-  const dispatchPreview = useCallback(
-    _.debounce((value: string) => {
-      setPreview(value);
-    }, PREVIEW_DEBOUNCE_TIMEOUT),
-    [],
-  );
+  const videoId = parseVideoIdFromUrl(videoUrl);
 
-  const updatedPost: UpdateArticlePostRequestType = {
+  const updatedPost: UpdateVideoPostRequestType = {
     id: post.id,
     content: htmlContent,
     directions: selectedDirections,
-    preview,
     title: title.value,
+    preview: post.preview, // currently leaving the previous preview
+    videoUrl,
     type: post.type,
   };
 
   const previewPost: IPost = {
     ...post,
     content: htmlContent,
-    preview,
     directions: selectedDirections,
     title: title.value,
     type: post.type,
@@ -93,19 +87,19 @@ const ArticleUpdation: React.FC<IArticleUpdationProps> = ({ post }) => {
     history.push(`/posts/${response.data.id}`);
   };
 
-  const goArticlePreview = () => {
+  const goVideoPreview = () => {
     const state: PostPreviewLocationStateType = {
       actionType: 'update',
       postToSend: updatedPost,
       previewPost,
     };
 
-    history.push(`/update-article/preview`, state);
+    history.push(`/update-video/preview`, state);
   };
 
   return (
     <>
-      <PageTitle title="Редагування статті" />
+      <PageTitle title="Редагування відео" />
 
       {allDirections.length ? (
         <CheckboxDropdownFilterForm
@@ -120,13 +114,13 @@ const ArticleUpdation: React.FC<IArticleUpdationProps> = ({ post }) => {
         <CircularProgress />
       )}
       <Box mt={2}>
-        <Typography variant="h5">Заголовок статті: </Typography>
+        <Typography variant="h5">Заголовок відео: </Typography>
         <TextField
           error={Boolean(title.error)}
           helperText={title.error}
           fullWidth
           required
-          id="article-name"
+          id="video-name"
           value={title.value}
           onChange={(e) => {
             setTitle({ ...title, value: e.target.value });
@@ -134,24 +128,33 @@ const ArticleUpdation: React.FC<IArticleUpdationProps> = ({ post }) => {
         />
       </Box>
       <Box mt={2}>
-        <Typography variant="h5">Текст статті:</Typography>
-        <ArticleEditor
+        <VideoUrlInputModal dispatchVideoUrl={setVideoUrl} />
+        {videoId && (
+          <iframe
+            title="video"
+            width="360"
+            height="240"
+            src={`http://www.youtube.com/embed/${videoId}`}
+            frameBorder="0"
+            allowFullScreen
+          />
+        )}
+      </Box>
+      <Box mt={2}>
+        <Typography variant="h5">Опис відео:</Typography>
+        <VideoEditor
           initialContent={htmlContent}
-          initialPreview={preview}
           dispatchContent={dispatchHtmlContent}
-          initialIsPreviewManuallyChanged
-          dispatchPreview={dispatchPreview}
-          previewPost={previewPost}
         />
       </Box>
       <Box display="flex" justifyContent="flex-end">
         <PostCreationButtons
           publishPost={sendPost}
-          goPreview={goArticlePreview}
+          goPreview={goVideoPreview}
         />
       </Box>
     </>
   );
 };
 
-export default ArticleUpdation;
+export default VideoUpdation;

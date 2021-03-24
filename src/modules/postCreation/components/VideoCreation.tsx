@@ -28,6 +28,10 @@ import { CreateVideoPostRequestType } from '../../../lib/utilities/API/types';
 import { CheckboxFormStateType } from '../../../lib/components/Filters/CheckboxFilterForm';
 import CheckboxDropdownFilterForm from '../../../lib/components/Filters/CheckboxDropdownFilterForm';
 import { PostPreviewLocationStateType } from './PostPreviewWrapper';
+import {
+  CONTENT_DEBOUNCE_TIMEOUT,
+  TITLE_DEBOUNCE_TIMEOUT,
+} from '../../../lib/constants/editors';
 
 const VideoCreation: React.FC = () => {
   const dispatch = useDispatch();
@@ -73,16 +77,13 @@ const VideoCreation: React.FC = () => {
   const dispatchTitle = useCallback(
     _.debounce((value: string) => {
       dispatch(setPostTitle({ postType: PostTypeEnum.VIDEO, value }));
-    }, 1000),
+    }, TITLE_DEBOUNCE_TIMEOUT),
     [],
   );
 
-  const dispatchVideoUrl = useCallback(
-    _.debounce((url: string) => {
-      dispatch(setVideoUrl(url));
-    }, 500),
-    [],
-  );
+  const dispatchVideoUrl = (url: string) => {
+    dispatch(setVideoUrl(url));
+  };
 
   const dispatchHtmlContent = useCallback(
     _.debounce((content: string) => {
@@ -98,7 +99,7 @@ const VideoCreation: React.FC = () => {
           value: true,
         }),
       );
-    }, 2000),
+    }, CONTENT_DEBOUNCE_TIMEOUT),
     [],
   );
 

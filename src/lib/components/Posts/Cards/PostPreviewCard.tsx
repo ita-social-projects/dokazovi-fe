@@ -147,4 +147,4 @@ const PostPreviewCard: React.FC<IPostPreviewCardProps> = ({
   );
 };
 
-export default PostPreviewCard;
+export default React.memo(PostPreviewCard);

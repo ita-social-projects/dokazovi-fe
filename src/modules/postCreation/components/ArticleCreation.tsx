@@ -27,6 +27,11 @@ import { createPost } from '../../../lib/utilities/API/api';
 import { CheckboxFormStateType } from '../../../lib/components/Filters/CheckboxFilterForm';
 import CheckboxDropdownFilterForm from '../../../lib/components/Filters/CheckboxDropdownFilterForm';
 import { PostPreviewLocationStateType } from './PostPreviewWrapper';
+import {
+  CONTENT_DEBOUNCE_TIMEOUT,
+  PREVIEW_DEBOUNCE_TIMEOUT,
+  TITLE_DEBOUNCE_TIMEOUT,
+} from '../../../lib/constants/editors';
 
 const ArticleCreation: React.FC = () => {
   const history = useHistory();
@@ -66,7 +71,7 @@ const ArticleCreation: React.FC = () => {
   const dispatchTitle = useCallback(
     _.debounce((value: string) => {
       dispatch(setPostTitle({ postType: PostTypeEnum.ARTICLE, value }));
-    }, 1000),
+    }, TITLE_DEBOUNCE_TIMEOUT),
     [],
   );
 
@@ -84,7 +89,7 @@ const ArticleCreation: React.FC = () => {
           value: true,
         }),
       );
-    }, 2000),
+    }, CONTENT_DEBOUNCE_TIMEOUT),
     [],
   );
 
@@ -96,7 +101,7 @@ const ArticleCreation: React.FC = () => {
           value,
         }),
       );
-    }, 1000),
+    }, PREVIEW_DEBOUNCE_TIMEOUT),
     [],
   );
 
