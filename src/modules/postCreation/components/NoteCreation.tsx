@@ -128,11 +128,6 @@ const NoteCreation: React.FC = () => {
     history.push(`/posts/${responsePost.data.id}`);
   };
 
-  const handleCancelClick = () => {
-    dispatch(resetDraft(PostTypeEnum.DOPYS));
-    history.goBack();
-  };
-
   return (
     <>
       <PageTitle title="Створення допису" />
@@ -192,7 +187,6 @@ const NoteCreation: React.FC = () => {
 
       <PostCreationButtons
         action="creating"
-        onCancelClick={handleCancelClick}
         onPublishClick={handlePublishClick}
         onPreviewClick={() => {
           setPreviewing(!previewing);

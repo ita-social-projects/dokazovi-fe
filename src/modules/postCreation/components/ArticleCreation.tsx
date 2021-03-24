@@ -128,11 +128,6 @@ const ArticleCreation: React.FC = () => {
     history.push(`/posts/${response.data.id}`);
   };
 
-  const handleCancelClick = () => {
-    dispatch(resetDraft(PostTypeEnum.ARTICLE));
-    history.goBack();
-  };
-
   return (
     <>
       <PageTitle title="Створення статті" />
@@ -192,7 +187,6 @@ const ArticleCreation: React.FC = () => {
 
       <PostCreationButtons
         action="creating"
-        onCancelClick={handleCancelClick}
         onPublishClick={handlePublishClick}
         onPreviewClick={() => {
           setPreviewing(!previewing);

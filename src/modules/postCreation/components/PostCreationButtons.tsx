@@ -4,7 +4,7 @@ import { ConfirmationModalWithButton } from '../../../lib/components/Modals/Conf
 
 export interface IPostCreationButtonsProps {
   action: 'creating' | 'updating';
-  onCancelClick: () => void;
+  onCancelClick?: () => void;
   onPublishClick: () => void;
   onPreviewClick: () => void;
   previewing?: boolean;
@@ -29,15 +29,17 @@ const PostCreationButtons: React.FC<IPostCreationButtonsProps> = ({
 
   return (
     <Box display="flex" flexDirection="row" marginTop="40px">
-      <ConfirmationModalWithButton
-        message={`Ви дійсно бажаєте відмінити ${
-          action === 'creating' ? 'створення' : 'редагування'
-        }?`}
-        buttonText={cancelButtonText}
-        onConfirmButtonClick={onCancelClick}
-        disabled={disabled}
-        loading={loading}
-      />
+      {onCancelClick && (
+        <ConfirmationModalWithButton
+          message={`Ви дійсно бажаєте відмінити ${
+            action === 'creating' ? 'створення' : 'редагування'
+          }?`}
+          buttonText={cancelButtonText}
+          onConfirmButtonClick={onCancelClick}
+          disabled={disabled}
+          loading={loading}
+        />
+      )}
 
       <Box display="flex" flexDirection="row" marginLeft="auto">
         <Button

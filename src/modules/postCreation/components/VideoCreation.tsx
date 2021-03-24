@@ -106,11 +106,6 @@ const VideoCreation: React.FC = () => {
     history.push(`/posts/${responsePost.data.id}`);
   };
 
-  const handleCancelClick = () => {
-    dispatch(resetDraft(PostTypeEnum.VIDEO));
-    history.goBack();
-  };
-
   const previewPost = React.useMemo(
     () =>
       ({
@@ -188,7 +183,6 @@ const VideoCreation: React.FC = () => {
 
       <PostCreationButtons
         action="creating"
-        onCancelClick={handleCancelClick}
         onPublishClick={handlePublishClick}
         onPreviewClick={() => {
           setPreviewing(!previewing);
