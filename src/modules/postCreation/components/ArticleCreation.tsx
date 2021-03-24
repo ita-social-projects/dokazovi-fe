@@ -167,7 +167,7 @@ const ArticleCreation: React.FC = () => {
                 setTyping({ ...typing, content: true });
                 handleHtmlContentChange(value);
               }}
-              initialIsPreviewManuallyChanged={
+              initialWasPreviewManuallyChanged={
                 savedPostDraft.preview.isManuallyChanged
               }
               onPreviewManuallyChanged={handlePreviewManuallyChanged}

@@ -10,7 +10,7 @@ const truncText = (str: string) => {
 export interface IPreviewInputProps {
   initialPreview: string;
   editorTextContent?: string;
-  initialIsManuallyChanged: boolean;
+  initialWasManuallyChanged: boolean;
   onPreviewChange: (value: string) => void;
   onManuallyChanged?: () => void;
 }
@@ -18,13 +18,13 @@ export interface IPreviewInputProps {
 const PreviewInput: React.FC<IPreviewInputProps> = ({
   initialPreview,
   editorTextContent,
-  initialIsManuallyChanged,
+  initialWasManuallyChanged,
   onPreviewChange,
   onManuallyChanged,
 }) => {
   const [textFieldValue, setTextFieldValue] = useState<string>(initialPreview);
   const [isTextFieldManuallyChanged, setIsTextFieldManuallyChanged] = useState(
-    initialIsManuallyChanged,
+    initialWasManuallyChanged,
   );
   const [isPreviewValid, setIsPreviewValid] = useState(
     textFieldValue.length <= MAX_PREVIEW_LENGTH,
@@ -32,7 +32,7 @@ const PreviewInput: React.FC<IPreviewInputProps> = ({
 
   useEffectExceptOnMount(() => {
     const setPreviewFromEditor = () => {
-      if (!initialIsManuallyChanged && editorTextContent) {
+      if (!initialWasManuallyChanged && editorTextContent) {
         setTextFieldValue(truncText(editorTextContent));
       }
     };

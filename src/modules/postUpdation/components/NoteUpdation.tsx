@@ -139,7 +139,7 @@ const NoteUpdation: React.FC<INoteUpdationProps> = ({ post }) => {
                 setTyping({ ...typing, content: true });
                 handleHtmlContentChange(value);
               }}
-              initialIsPreviewManuallyChanged
+              initialWasPreviewManuallyChanged
               onPreviewChange={(value) => {
                 setTyping({ ...typing, preview: true });
                 handlePreviewChange(value);

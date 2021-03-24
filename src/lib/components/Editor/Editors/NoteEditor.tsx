@@ -11,7 +11,7 @@ interface INoteEditorProps {
   initialHtmlContent?: string;
   initialPreview: string;
   onHtmlContentChange: (value: string) => void;
-  initialIsPreviewManuallyChanged: boolean;
+  initialWasPreviewManuallyChanged: boolean;
   onPreviewManuallyChanged?: () => void;
   onPreviewChange: (value: string) => void;
   previewPost: IPost;
@@ -21,7 +21,7 @@ const NoteEditor: React.FC<INoteEditorProps> = ({
   initialHtmlContent,
   initialPreview,
   onHtmlContentChange,
-  initialIsPreviewManuallyChanged,
+  initialWasPreviewManuallyChanged,
   onPreviewManuallyChanged,
   onPreviewChange,
   previewPost,
@@ -50,9 +50,9 @@ const NoteEditor: React.FC<INoteEditorProps> = ({
           <PreviewInput
             initialPreview={initialPreview}
             editorTextContent={
-              !initialIsPreviewManuallyChanged ? editorTextContent : undefined // optimizing rerenders when we don't need editor content
+              !initialWasPreviewManuallyChanged ? editorTextContent : undefined // optimizing rerenders when we don't need editor content
             }
-            initialIsManuallyChanged={initialIsPreviewManuallyChanged}
+            initialWasManuallyChanged={initialWasPreviewManuallyChanged}
             onManuallyChanged={onPreviewManuallyChanged}
             onPreviewChange={onPreviewChange}
           />

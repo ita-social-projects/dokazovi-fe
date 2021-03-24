@@ -29,7 +29,7 @@ const PostViewWrapper: React.FC = () => {
     }
   }, [postId]);
 
-  const onPostDelete = () => {
+  const handlePostDeletion = () => {
     if (!loadedPost) return;
     try {
       const response = 1; // Mock by status 1 =  success
@@ -64,7 +64,7 @@ const PostViewWrapper: React.FC = () => {
         <PostView
           post={loadedPost}
           modificationAllowed
-          onDelete={onPostDelete}
+          onDelete={handlePostDeletion}
         />
       )}
     </>

@@ -11,7 +11,7 @@ interface IArticleEditorProps {
   initialHtmlContent?: string;
   initialPreview: string;
   onHtmlContentChange: (value: string) => void;
-  initialIsPreviewManuallyChanged: boolean;
+  initialWasPreviewManuallyChanged: boolean;
   onPreviewManuallyChanged?: () => void;
   onPreviewChange: (value: string) => void;
   previewPost: IPost;
@@ -21,7 +21,7 @@ const ArticleEditor: React.FC<IArticleEditorProps> = ({
   initialHtmlContent,
   initialPreview,
   onHtmlContentChange,
-  initialIsPreviewManuallyChanged,
+  initialWasPreviewManuallyChanged,
   onPreviewManuallyChanged,
   onPreviewChange,
   previewPost,
@@ -50,9 +50,9 @@ const ArticleEditor: React.FC<IArticleEditorProps> = ({
           <PreviewInput
             initialPreview={initialPreview}
             editorTextContent={
-              !initialIsPreviewManuallyChanged ? textContent : undefined // optimizing rerenders when we don't need editor content
+              !initialWasPreviewManuallyChanged ? textContent : undefined // optimizing rerenders when we don't need editor content
             }
-            initialIsManuallyChanged={initialIsPreviewManuallyChanged}
+            initialWasManuallyChanged={initialWasPreviewManuallyChanged}
             onManuallyChanged={onPreviewManuallyChanged}
             onPreviewChange={onPreviewChange}
           />
