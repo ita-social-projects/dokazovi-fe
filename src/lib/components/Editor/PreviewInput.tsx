@@ -1,57 +1,56 @@
 import React, { useState } from 'react';
 import { Grid, TextField, Typography } from '@material-ui/core';
 import useEffectExceptOnMount from '../../hooks/useEffectExceptOnMount';
-
-const MAX_LENGTH = 150;
+import { MAX_PREVIEW_LENGTH } from '../../constants/editors';
 
 const trunkLength = (str: string) => {
-  if (str.length > MAX_LENGTH) {
-    return str.slice(0, MAX_LENGTH);
+  if (str.length > MAX_PREVIEW_LENGTH) {
+    return str.slice(0, MAX_PREVIEW_LENGTH);
   }
   return str;
 };
 
 export interface IPreviewInputProps {
   initialPreview: string;
-  editorContent?: string;
+  editorTextContent?: string;
   initialIsManuallyChanged: boolean;
-  dispatchPreview: (value: string) => void;
-  dispatchIsManuallyChanged?: () => void;
+  onPreviewChange: (value: string) => void;
+  onManuallyChanged?: () => void;
 }
 
 const PreviewInput: React.FC<IPreviewInputProps> = ({
   initialPreview,
-  editorContent,
+  editorTextContent,
   initialIsManuallyChanged,
-  dispatchPreview,
-  dispatchIsManuallyChanged,
+  onPreviewChange,
+  onManuallyChanged,
 }) => {
   const [textFieldValue, setTextFieldValue] = useState<string>(initialPreview);
   const [isTextFieldManuallyChanged, setIsTextFieldManuallyChanged] = useState(
     initialIsManuallyChanged,
   );
   const [isPreviewValid, setIsPreviewValid] = useState(
-    textFieldValue.length <= MAX_LENGTH,
+    textFieldValue.length <= MAX_PREVIEW_LENGTH,
   );
 
   useEffectExceptOnMount(() => {
     const setPreviewFromEditor = () => {
-      if (!initialIsManuallyChanged && editorContent) {
-        setTextFieldValue(trunkLength(editorContent));
+      if (!initialIsManuallyChanged && editorTextContent) {
+        setTextFieldValue(trunkLength(editorTextContent));
       }
     };
     setPreviewFromEditor();
-  }, [editorContent]);
+  }, [editorTextContent]);
 
   useEffectExceptOnMount(() => {
-    setIsPreviewValid(textFieldValue.length <= MAX_LENGTH);
-    dispatchPreview(trunkLength(textFieldValue));
-  }, [textFieldValue, dispatchPreview]);
+    setIsPreviewValid(textFieldValue.length <= MAX_PREVIEW_LENGTH);
+    onPreviewChange(trunkLength(textFieldValue));
+  }, [textFieldValue]);
 
-  const onManualChange = (value: string) => {
+  const handleManualChange = (value: string) => {
     if (!isTextFieldManuallyChanged) {
       setIsTextFieldManuallyChanged(true);
-      if (dispatchIsManuallyChanged) dispatchIsManuallyChanged();
+      if (onManuallyChanged) onManuallyChanged();
     }
     setTextFieldValue(value);
   };
@@ -68,7 +67,7 @@ const PreviewInput: React.FC<IPreviewInputProps> = ({
           multiline
           variant="outlined"
           onChange={(e) => {
-            onManualChange(e.target.value);
+            handleManualChange(e.target.value);
           }}
           InputProps={{
             inputProps: {
@@ -83,7 +82,7 @@ const PreviewInput: React.FC<IPreviewInputProps> = ({
           error={!isPreviewValid}
           helperText={
             (!isPreviewValid &&
-              `Максимальна довжина тексту: ${MAX_LENGTH} символів!`) ||
+              `Максимальна довжина тексту: ${MAX_PREVIEW_LENGTH} символів!`) ||
             `Довжина тексту: ${textFieldValue.length} символів`
           }
         />

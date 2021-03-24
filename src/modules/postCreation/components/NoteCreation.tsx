@@ -11,7 +11,6 @@ import {
 import NoteEditor from '../../../lib/components/Editor/Editors/NoteEditor';
 import {
   setPostBody,
-  setIsDone,
   setPostTitle,
   setPostDirections,
   setPostPreviewManuallyChanged,
@@ -30,7 +29,6 @@ import { PostPreviewLocationStateType } from './PostPreviewWrapper';
 import {
   CONTENT_DEBOUNCE_TIMEOUT,
   PREVIEW_DEBOUNCE_TIMEOUT,
-  TITLE_DEBOUNCE_TIMEOUT,
 } from '../../../lib/constants/editors';
 
 const NoteCreation: React.FC = () => {
@@ -50,14 +48,13 @@ const NoteCreation: React.FC = () => {
     error: '',
   });
 
-  const dispatchTitle = useCallback(
-    _.debounce((value: string) => {
-      dispatch(setPostTitle({ postType: PostTypeEnum.DOPYS, value }));
-    }, TITLE_DEBOUNCE_TIMEOUT),
-    [],
-  );
+  const [typing, setTyping] = useState({ content: false, preview: false });
 
-  const dispatchDirections = (checkedDirections: CheckboxFormStateType) => {
+  const dispatchTitle = (value: string) => {
+    dispatch(setPostTitle({ postType: PostTypeEnum.DOPYS, value }));
+  };
+
+  const handleDirectionsChange = (checkedDirections: CheckboxFormStateType) => {
     const checkedIds = Object.keys(checkedDirections).filter(
       (key) => checkedDirections[key],
     );
@@ -71,29 +68,20 @@ const NoteCreation: React.FC = () => {
     );
   };
 
-  const isDone = useSelector(
-    (state: RootStateType) => state.newPostDraft.DOPYS.isDone,
-  );
-
-  const dispatchHtmlContent = useCallback(
-    _.debounce((content: string) => {
+  const handleHtmlContentChange = useCallback(
+    _.debounce((value: string) => {
       dispatch(
         setPostBody({
           postType: PostTypeEnum.DOPYS,
-          value: sanitizeHtml(content) as string,
+          value: sanitizeHtml(value) as string,
         }),
       );
-      dispatch(
-        setIsDone({
-          postType: PostTypeEnum.DOPYS,
-          value: true,
-        }),
-      );
+      setTyping({ ...typing, content: false });
     }, CONTENT_DEBOUNCE_TIMEOUT),
     [],
   );
 
-  const dispatchPreview = useCallback(
+  const handlePreviewChange = useCallback(
     _.debounce((value: string) => {
       dispatch(
         setPostPreviewText({
@@ -101,11 +89,12 @@ const NoteCreation: React.FC = () => {
           value,
         }),
       );
+      setTyping({ ...typing, preview: false });
     }, PREVIEW_DEBOUNCE_TIMEOUT),
     [],
   );
 
-  const dispatchIsPreviewManuallyChanged = () => {
+  const handlePreviewManuallyChanged = () => {
     dispatch(setPostPreviewManuallyChanged(PostTypeEnum.DOPYS));
   };
 
@@ -152,7 +141,7 @@ const NoteCreation: React.FC = () => {
 
       {allDirections.length ? (
         <CheckboxDropdownFilterForm
-          onFormChange={dispatchDirections}
+          onFormChange={handleDirectionsChange}
           possibleFilters={allDirections}
           selectedFilters={savedPostDraft.directions}
           noAll
@@ -180,14 +169,20 @@ const NoteCreation: React.FC = () => {
       <Box mt={2}>
         <Typography variant="h5">Текст допису:</Typography>
         <NoteEditor
-          initialContent={savedPostDraft.htmlContent}
+          initialHtmlContent={savedPostDraft.htmlContent}
           initialPreview={savedPostDraft.preview.value}
-          dispatchContent={dispatchHtmlContent}
+          onHtmlContentChange={(value) => {
+            setTyping({ ...typing, content: true });
+            handleHtmlContentChange(value);
+          }}
           initialIsPreviewManuallyChanged={
             savedPostDraft.preview.isManuallyChanged
           }
-          dispatchIsPreviewManuallyChanged={dispatchIsPreviewManuallyChanged}
-          dispatchPreview={dispatchPreview}
+          onPreviewManuallyChanged={handlePreviewManuallyChanged}
+          onPreviewChange={(value) => {
+            setTyping({ ...typing, preview: true });
+            handlePreviewChange(value);
+          }}
           previewPost={previewPost}
         />
       </Box>
@@ -195,7 +190,7 @@ const NoteCreation: React.FC = () => {
         <PostCreationButtons
           publishPost={sendPost}
           goPreview={goNotePreview}
-          isDone={isDone}
+          disabled={Object.values(typing).some((i) => i)}
         />
       </Box>
     </>

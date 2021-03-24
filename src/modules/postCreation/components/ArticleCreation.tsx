@@ -13,7 +13,6 @@ import { RootStateType } from '../../../store/rootReducer';
 import {
   setPostDirections,
   setPostTitle,
-  setIsDone,
   setPostBody,
   setPostPreviewText,
   setPostPreviewManuallyChanged,
@@ -30,7 +29,6 @@ import { PostPreviewLocationStateType } from './PostPreviewWrapper';
 import {
   CONTENT_DEBOUNCE_TIMEOUT,
   PREVIEW_DEBOUNCE_TIMEOUT,
-  TITLE_DEBOUNCE_TIMEOUT,
 } from '../../../lib/constants/editors';
 
 const ArticleCreation: React.FC = () => {
@@ -50,11 +48,9 @@ const ArticleCreation: React.FC = () => {
     error: '',
   });
 
-  const isDone = useSelector(
-    (state: RootStateType) => state.newPostDraft.ARTICLE.isDone,
-  );
+  const [typing, setTyping] = useState({ content: false, preview: false });
 
-  const dispatchDirections = (checkedDirections: CheckboxFormStateType) => {
+  const handleDirectionsChange = (checkedDirections: CheckboxFormStateType) => {
     const checkedIds = Object.keys(checkedDirections).filter(
       (key) => checkedDirections[key],
     );
@@ -68,14 +64,11 @@ const ArticleCreation: React.FC = () => {
     );
   };
 
-  const dispatchTitle = useCallback(
-    _.debounce((value: string) => {
-      dispatch(setPostTitle({ postType: PostTypeEnum.ARTICLE, value }));
-    }, TITLE_DEBOUNCE_TIMEOUT),
-    [],
-  );
+  const handleTitleChange = (value: string) => {
+    dispatch(setPostTitle({ postType: PostTypeEnum.ARTICLE, value }));
+  };
 
-  const dispatchHtmlContent = useCallback(
+  const handleHtmlContentChange = useCallback(
     _.debounce((value: string) => {
       dispatch(
         setPostBody({
@@ -83,17 +76,12 @@ const ArticleCreation: React.FC = () => {
           value: sanitizeHtml(value) as string,
         }),
       );
-      dispatch(
-        setIsDone({
-          postType: PostTypeEnum.ARTICLE,
-          value: true,
-        }),
-      );
+      setTyping({ ...typing, content: false });
     }, CONTENT_DEBOUNCE_TIMEOUT),
     [],
   );
 
-  const dispatchPreview = useCallback(
+  const handlePreviewChange = useCallback(
     _.debounce((value: string) => {
       dispatch(
         setPostPreviewText({
@@ -101,11 +89,12 @@ const ArticleCreation: React.FC = () => {
           value,
         }),
       );
+      setTyping({ ...typing, preview: false });
     }, PREVIEW_DEBOUNCE_TIMEOUT),
     [],
   );
 
-  const dispatchIsPreviewManuallyChanged = () => {
+  const handlePreviewManuallyChanged = () => {
     dispatch(setPostPreviewManuallyChanged(PostTypeEnum.ARTICLE));
   };
 
@@ -152,7 +141,7 @@ const ArticleCreation: React.FC = () => {
 
       {allDirections.length ? (
         <CheckboxDropdownFilterForm
-          onFormChange={dispatchDirections}
+          onFormChange={handleDirectionsChange}
           possibleFilters={allDirections}
           selectedFilters={savedPostDraft.directions}
           noAll
@@ -173,21 +162,27 @@ const ArticleCreation: React.FC = () => {
           value={title.value}
           onChange={(e) => {
             setTitle({ ...title, value: e.target.value });
-            dispatchTitle(e.target.value);
+            handleTitleChange(e.target.value);
           }}
         />
       </Box>
       <Box mt={2}>
         <Typography variant="h5">Текст статті:</Typography>
         <ArticleEditor
-          initialContent={savedPostDraft.htmlContent}
+          initialHtmlContent={savedPostDraft.htmlContent}
           initialPreview={savedPostDraft.preview.value}
-          dispatchContent={dispatchHtmlContent}
+          onHtmlContentChange={(value) => {
+            setTyping({ ...typing, content: true });
+            handleHtmlContentChange(value);
+          }}
           initialIsPreviewManuallyChanged={
             savedPostDraft.preview.isManuallyChanged
           }
-          dispatchIsPreviewManuallyChanged={dispatchIsPreviewManuallyChanged}
-          dispatchPreview={dispatchPreview}
+          onPreviewManuallyChanged={handlePreviewManuallyChanged}
+          onPreviewChange={(value) => {
+            setTyping({ ...typing, preview: true });
+            handlePreviewChange(value);
+          }}
           previewPost={previewPost}
         />
       </Box>
@@ -195,7 +190,7 @@ const ArticleCreation: React.FC = () => {
         <PostCreationButtons
           publishPost={sendPost}
           goPreview={goArticlePreview}
-          isDone={isDone}
+          disabled={Object.values(typing).some((i) => i)}
         />
       </Box>
     </>

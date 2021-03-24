@@ -3,19 +3,19 @@ import GeneralEditor from '../GeneralEditor';
 import VideoEditorToolbar from './VideoEditorToolbar';
 
 interface IVideoEditorProps {
-  initialContent?: string;
-  dispatchContent: (content: string) => void;
+  initialHtmlContent?: string;
+  onHtmlContentChange: (content: string) => void;
 }
 
 const VideoEditor: React.FC<IVideoEditorProps> = ({
-  initialContent,
-  dispatchContent,
+  initialHtmlContent,
+  onHtmlContentChange,
 }) => {
   return (
     <>
       <GeneralEditor
-        initialContent={initialContent}
-        dispatchHtmlContent={dispatchContent}
+        initialHtmlContent={initialHtmlContent}
+        onHtmlContentChange={onHtmlContentChange}
         toolbar={VideoEditorToolbar}
       />
     </>

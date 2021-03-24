@@ -40,11 +40,13 @@ const ArticleUpdation: React.FC<IArticleUpdationProps> = ({ post }) => {
     error: '',
   });
 
+  const [typing, setTyping] = useState({ content: false, preview: false });
+
   const allDirections = useSelector(
     (state: RootStateType) => state.properties.directions,
   );
 
-  const dispatchDirections = (checkedDirections: CheckboxFormStateType) => {
+  const handleDirectionsChange = (checkedDirections: CheckboxFormStateType) => {
     const checkedIds = Object.keys(checkedDirections).filter(
       (key) => checkedDirections[key],
     );
@@ -56,16 +58,18 @@ const ArticleUpdation: React.FC<IArticleUpdationProps> = ({ post }) => {
     setSelectedDirections(directions);
   };
 
-  const dispatchHtmlContent = useCallback(
+  const handleHtmlContentChange = useCallback(
     _.debounce((content: string) => {
       setHtmlContent(sanitizeHtml(content) as string);
+      setTyping({ ...typing, content: false });
     }, CONTENT_DEBOUNCE_TIMEOUT),
     [],
   );
 
-  const dispatchPreview = useCallback(
+  const handlePreviewChange = useCallback(
     _.debounce((value: string) => {
       setPreview(value);
+      setTyping({ ...typing, preview: false });
     }, PREVIEW_DEBOUNCE_TIMEOUT),
     [],
   );
@@ -109,7 +113,7 @@ const ArticleUpdation: React.FC<IArticleUpdationProps> = ({ post }) => {
 
       {allDirections.length ? (
         <CheckboxDropdownFilterForm
-          onFormChange={dispatchDirections}
+          onFormChange={handleDirectionsChange}
           possibleFilters={allDirections}
           selectedFilters={selectedDirections}
           noAll
@@ -136,11 +140,17 @@ const ArticleUpdation: React.FC<IArticleUpdationProps> = ({ post }) => {
       <Box mt={2}>
         <Typography variant="h5">Текст статті:</Typography>
         <ArticleEditor
-          initialContent={htmlContent}
+          initialHtmlContent={htmlContent}
           initialPreview={preview}
-          dispatchContent={dispatchHtmlContent}
+          onHtmlContentChange={(value) => {
+            setTyping({ ...typing, content: true });
+            handleHtmlContentChange(value);
+          }}
           initialIsPreviewManuallyChanged
-          dispatchPreview={dispatchPreview}
+          onPreviewChange={(value) => {
+            setTyping({ ...typing, preview: true });
+            handlePreviewChange(value);
+          }}
           previewPost={previewPost}
         />
       </Box>
@@ -148,6 +158,7 @@ const ArticleUpdation: React.FC<IArticleUpdationProps> = ({ post }) => {
         <PostCreationButtons
           publishPost={sendPost}
           goPreview={goArticlePreview}
+          disabled={Object.values(typing).some((i) => i)}
         />
       </Box>
     </>

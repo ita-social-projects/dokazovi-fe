@@ -8,22 +8,22 @@ import PostPreviewCard from '../../Posts/Cards/PostPreviewCard';
 import { IPost } from '../../../types';
 
 interface IArticleEditorProps {
-  initialContent?: string;
+  initialHtmlContent?: string;
   initialPreview: string;
-  dispatchContent: (value: string) => void;
+  onHtmlContentChange: (value: string) => void;
   initialIsPreviewManuallyChanged: boolean;
-  dispatchIsPreviewManuallyChanged?: () => void;
-  dispatchPreview: (value: string) => void;
+  onPreviewManuallyChanged?: () => void;
+  onPreviewChange: (value: string) => void;
   previewPost: IPost;
 }
 
 const ArticleEditor: React.FC<IArticleEditorProps> = ({
-  initialContent,
+  initialHtmlContent,
   initialPreview,
-  dispatchContent,
+  onHtmlContentChange,
   initialIsPreviewManuallyChanged,
-  dispatchIsPreviewManuallyChanged,
-  dispatchPreview,
+  onPreviewManuallyChanged,
+  onPreviewChange,
   previewPost,
 }) => {
   const [textContent, setTextContent] = useState<string>('');
@@ -31,10 +31,10 @@ const ArticleEditor: React.FC<IArticleEditorProps> = ({
   return (
     <>
       <GeneralEditor
-        initialContent={initialContent}
-        dispatchHtmlContent={dispatchContent}
+        initialHtmlContent={initialHtmlContent}
+        onHtmlContentChange={onHtmlContentChange}
         toolbar={ArticleEditorToolbar}
-        dispatchTextContent={setTextContent}
+        onTextContentChange={setTextContent}
       />
       <BorderBottom />
       <Grid container direction="row" alignItems="stretch">
@@ -49,12 +49,12 @@ const ArticleEditor: React.FC<IArticleEditorProps> = ({
         >
           <PreviewInput
             initialPreview={initialPreview}
-            editorContent={
+            editorTextContent={
               !initialIsPreviewManuallyChanged ? textContent : undefined // optimizing rerenders when we don't need editor content
             }
             initialIsManuallyChanged={initialIsPreviewManuallyChanged}
-            dispatchIsManuallyChanged={dispatchIsPreviewManuallyChanged}
-            dispatchPreview={dispatchPreview}
+            onManuallyChanged={onPreviewManuallyChanged}
+            onPreviewChange={onPreviewChange}
           />
         </Grid>
         <Grid item xs={12} lg={4} md={6}>

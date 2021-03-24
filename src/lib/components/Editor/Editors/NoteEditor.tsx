@@ -8,33 +8,33 @@ import { IPost } from '../../../types';
 import NoteEditorToolbar from './NoteEditorToolbar';
 
 interface INoteEditorProps {
-  initialContent?: string;
+  initialHtmlContent?: string;
   initialPreview: string;
-  dispatchContent: (value: string) => void;
+  onHtmlContentChange: (value: string) => void;
   initialIsPreviewManuallyChanged: boolean;
-  dispatchIsPreviewManuallyChanged?: () => void;
-  dispatchPreview: (value: string) => void;
+  onPreviewManuallyChanged?: () => void;
+  onPreviewChange: (value: string) => void;
   previewPost: IPost;
 }
 
 const NoteEditor: React.FC<INoteEditorProps> = ({
-  initialContent,
+  initialHtmlContent,
   initialPreview,
-  dispatchContent,
+  onHtmlContentChange,
   initialIsPreviewManuallyChanged,
-  dispatchIsPreviewManuallyChanged,
-  dispatchPreview,
+  onPreviewManuallyChanged,
+  onPreviewChange,
   previewPost,
 }) => {
-  const [textContent, setTextContent] = useState<string>('');
+  const [editorTextContent, setEditorTextContent] = useState<string>('');
 
   return (
     <>
       <GeneralEditor
-        initialContent={initialContent}
-        dispatchHtmlContent={dispatchContent}
+        initialHtmlContent={initialHtmlContent}
+        onHtmlContentChange={onHtmlContentChange}
         toolbar={NoteEditorToolbar}
-        dispatchTextContent={setTextContent}
+        onTextContentChange={setEditorTextContent}
       />
       <BorderBottom />
       <Grid container direction="row" alignItems="stretch">
@@ -49,12 +49,12 @@ const NoteEditor: React.FC<INoteEditorProps> = ({
         >
           <PreviewInput
             initialPreview={initialPreview}
-            editorContent={
-              !initialIsPreviewManuallyChanged ? textContent : undefined // optimizing rerenders when we don't need editor content
+            editorTextContent={
+              !initialIsPreviewManuallyChanged ? editorTextContent : undefined // optimizing rerenders when we don't need editor content
             }
             initialIsManuallyChanged={initialIsPreviewManuallyChanged}
-            dispatchIsManuallyChanged={dispatchIsPreviewManuallyChanged}
-            dispatchPreview={dispatchPreview}
+            onManuallyChanged={onPreviewManuallyChanged}
+            onPreviewChange={onPreviewChange}
           />
         </Grid>
         <Grid item xs={12} lg={4} md={6}>

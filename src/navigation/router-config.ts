@@ -66,19 +66,19 @@ const ROUTER_CONFIG: IRouterConfig[] = [
   },
   {
     path: '/create-article',
-    key: 'ARTICLE',
+    key: 'CREATE_ARTICLE',
     component: RenderRoutes,
     private: true,
     routes: [
       {
         path: '/create-article',
-        key: 'ARTICLE',
+        key: 'CREATE_ARTICLE',
         exact: true,
         component: ArticleCreation,
       },
       {
         path: '/create-article/preview',
-        key: 'ARTICLE_PREVIEW',
+        key: 'CREATE_ARTICLE_PREVIEW',
         exact: true,
         component: PostPreviewWrapper,
       },
@@ -86,19 +86,19 @@ const ROUTER_CONFIG: IRouterConfig[] = [
   },
   {
     path: '/create-note',
-    key: 'NOTE',
+    key: 'CREATE_NOTE',
     component: RenderRoutes,
     private: true,
     routes: [
       {
         path: '/create-note',
-        key: 'NOTE',
+        key: 'CREATE_NOTE',
         exact: true,
         component: NoteCreation,
       },
       {
         path: '/create-note/preview',
-        key: 'NOTE_PREVIEW',
+        key: 'CREATE_NOTE_PREVIEW',
         exact: true,
         component: PostPreviewWrapper,
       },
@@ -106,19 +106,19 @@ const ROUTER_CONFIG: IRouterConfig[] = [
   },
   {
     path: '/create-video',
-    key: 'VIDEO',
+    key: 'CREATE_VIDEO',
     component: RenderRoutes,
     private: true,
     routes: [
       {
         path: '/create-video',
-        key: 'VIDEO',
+        key: 'CREATE_VIDEO',
         exact: true,
         component: VideoCreation,
       },
       {
         path: '/create-video/preview',
-        key: 'VIDEO_PREVIEW',
+        key: 'CREATE_VIDEO_PREVIEW',
         exact: true,
         component: PostPreviewWrapper,
       },
@@ -126,19 +126,19 @@ const ROUTER_CONFIG: IRouterConfig[] = [
   },
   {
     path: '/update-article/:postId',
-    key: 'ARTICLE-UPDATE',
+    key: 'UPDATE_ARTICLE',
     component: RenderRoutes,
     private: true,
     routes: [
       {
         path: '/update-article/preview',
-        key: 'ARTICLE-UPDATE-PREVIEW',
+        key: 'UPDATE_ARTICLE_PREVIEW',
         exact: true,
         component: PostPreviewWrapper,
       },
       {
         path: '/update-article/:postId',
-        key: 'ARTICLE-UPDATE',
+        key: 'UPDATE_ARTICLE',
         exact: true,
         component: PostUpdationWrapper,
       },
@@ -146,19 +146,19 @@ const ROUTER_CONFIG: IRouterConfig[] = [
   },
   {
     path: '/update-note/:postId',
-    key: 'NOTE-UPDATE',
+    key: 'UPDATE_NOTE',
     component: RenderRoutes,
     private: true,
     routes: [
       {
         path: '/update-note/preview',
-        key: 'NOTE-UPDATE-PREVIEW',
+        key: 'UPDATE_NOTE_PREVIEW',
         exact: true,
         component: PostPreviewWrapper,
       },
       {
         path: '/update-note/:postId',
-        key: 'NOTE-UPDATE',
+        key: 'UPDATE_NOTE',
         exact: true,
         component: PostUpdationWrapper,
       },
@@ -166,19 +166,19 @@ const ROUTER_CONFIG: IRouterConfig[] = [
   },
   {
     path: '/update-video/:postId',
-    key: 'VIDEO-UPDATE',
+    key: 'UPDATE_VIDEO',
     component: RenderRoutes,
     private: true,
     routes: [
       {
         path: '/update-video/preview',
-        key: 'VIDEO-UPDATE-PREVIEW',
+        key: 'UPDATE_VIDEO_PREVIEW',
         exact: true,
         component: PostPreviewWrapper,
       },
       {
         path: '/update-video/:postId',
-        key: 'VIDEO-UPDATE',
+        key: 'UPDATE_VIDEO',
         exact: true,
         component: PostUpdationWrapper,
       },
@@ -186,7 +186,7 @@ const ROUTER_CONFIG: IRouterConfig[] = [
   },
   {
     path: '/posts/:postId',
-    key: 'POST_PROFILE',
+    key: 'POST',
     exact: true,
     component: PostViewWrapper,
   },

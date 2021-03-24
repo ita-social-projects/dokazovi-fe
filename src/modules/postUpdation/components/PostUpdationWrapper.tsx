@@ -4,7 +4,7 @@ import { getPostById } from '../../../lib/utilities/API/api';
 import { IPost } from '../../../lib/types';
 import { sanitizeHtml } from '../../../lib/utilities/sanitizeHtml';
 import ArticleUpdation from './ArticleUpdation';
-import NoteUpdation from './NoteUpdations';
+import NoteUpdation from './NoteUpdation';
 import VideoUpdation from './VideoUpdation';
 
 const PostUpdationWrapper: React.FC = () => {

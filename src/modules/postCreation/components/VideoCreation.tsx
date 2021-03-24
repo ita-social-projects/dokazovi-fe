@@ -12,7 +12,6 @@ import VideoEditor from '../../../lib/components/Editor/Editors/VideoEditor';
 import {
   setPostTitle,
   setPostBody,
-  setIsDone,
   setVideoUrl,
   setPostDirections,
 } from '../store/postCreationSlice';
@@ -28,10 +27,7 @@ import { CreateVideoPostRequestType } from '../../../lib/utilities/API/types';
 import { CheckboxFormStateType } from '../../../lib/components/Filters/CheckboxFilterForm';
 import CheckboxDropdownFilterForm from '../../../lib/components/Filters/CheckboxDropdownFilterForm';
 import { PostPreviewLocationStateType } from './PostPreviewWrapper';
-import {
-  CONTENT_DEBOUNCE_TIMEOUT,
-  TITLE_DEBOUNCE_TIMEOUT,
-} from '../../../lib/constants/editors';
+import { CONTENT_DEBOUNCE_TIMEOUT } from '../../../lib/constants/editors';
 
 const VideoCreation: React.FC = () => {
   const dispatch = useDispatch();
@@ -50,13 +46,15 @@ const VideoCreation: React.FC = () => {
     error: '',
   });
 
+  const [typing, setTyping] = useState({ content: false });
+
   const videoUrl = useSelector(
     (state: RootStateType) => state.newPostDraft.VIDEO.videoUrl,
   );
 
   const videoId = parseVideoIdFromUrl(videoUrl);
 
-  const dispatchDirections = (checkedDirections: CheckboxFormStateType) => {
+  const handleDirectionsChange = (checkedDirections: CheckboxFormStateType) => {
     const checkedIds = Object.keys(checkedDirections).filter(
       (key) => checkedDirections[key],
     );
@@ -70,35 +68,23 @@ const VideoCreation: React.FC = () => {
     );
   };
 
-  const isDone = useSelector(
-    (state: RootStateType) => state.newPostDraft.VIDEO.isDone,
-  );
+  const handleTitleChange = (value: string) => {
+    dispatch(setPostTitle({ postType: PostTypeEnum.VIDEO, value }));
+  };
 
-  const dispatchTitle = useCallback(
-    _.debounce((value: string) => {
-      dispatch(setPostTitle({ postType: PostTypeEnum.VIDEO, value }));
-    }, TITLE_DEBOUNCE_TIMEOUT),
-    [],
-  );
-
-  const dispatchVideoUrl = (url: string) => {
+  const handleVideoUrlChange = (url: string) => {
     dispatch(setVideoUrl(url));
   };
 
-  const dispatchHtmlContent = useCallback(
-    _.debounce((content: string) => {
+  const handleHtmlContentChange = useCallback(
+    _.debounce((value: string) => {
       dispatch(
         setPostBody({
           postType: PostTypeEnum.VIDEO,
-          value: sanitizeHtml(content) as string,
+          value: sanitizeHtml(value) as string,
         }),
       );
-      dispatch(
-        setIsDone({
-          postType: PostTypeEnum.VIDEO,
-          value: true,
-        }),
-      );
+      setTyping({ ...typing, content: false });
     }, CONTENT_DEBOUNCE_TIMEOUT),
     [],
   );
@@ -143,7 +129,7 @@ const VideoCreation: React.FC = () => {
 
       {allDirections.length ? (
         <CheckboxDropdownFilterForm
-          onFormChange={dispatchDirections}
+          onFormChange={handleDirectionsChange}
           possibleFilters={allDirections}
           selectedFilters={savedPostDraft.directions}
           noAll
@@ -164,12 +150,12 @@ const VideoCreation: React.FC = () => {
           value={title.value}
           onChange={(e) => {
             setTitle({ ...title, value: e.target.value });
-            dispatchTitle(e.target.value);
+            handleTitleChange(e.target.value);
           }}
         />
       </Box>
       <Box mt={2}>
-        <VideoUrlInputModal dispatchVideoUrl={dispatchVideoUrl} />
+        <VideoUrlInputModal dispatchVideoUrl={handleVideoUrlChange} />
         {videoId && (
           <iframe
             title="video"
@@ -184,15 +170,18 @@ const VideoCreation: React.FC = () => {
       <Box mt={2}>
         <Typography variant="h5">Опис відео:</Typography>
         <VideoEditor
-          initialContent={savedPostDraft.htmlContent}
-          dispatchContent={dispatchHtmlContent}
+          initialHtmlContent={savedPostDraft.htmlContent}
+          onHtmlContentChange={(value) => {
+            setTyping({ ...typing, content: true });
+            handleHtmlContentChange(value);
+          }}
         />
       </Box>
       <Box display="flex" justifyContent="flex-end">
         <PostCreationButtons
           publishPost={sendPost}
           goPreview={goVideoPreview}
-          isDone={isDone}
+          disabled={Object.values(typing).some((i) => i)}
         />
       </Box>
     </>

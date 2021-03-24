@@ -5,7 +5,6 @@ import { IDirection, PostTypeEnum } from '../../../lib/types';
 interface INewPostDraft {
   title: string;
   directions: IDirection[];
-  isDone: boolean;
   htmlContent: string;
   preview: IPostPreview;
 }
@@ -35,21 +34,18 @@ const initialState: IPostCreationState = {
     directions: [],
     htmlContent: '',
     preview: { value: '', isManuallyChanged: false },
-    isDone: false,
   },
   [PostTypeEnum.DOPYS]: {
     title: '',
     directions: [],
     htmlContent: '',
     preview: { value: '', isManuallyChanged: false },
-    isDone: false,
   },
   [PostTypeEnum.VIDEO]: {
     title: '',
     directions: [],
     htmlContent: '',
     preview: { value: '', isManuallyChanged: false },
-    isDone: false,
     videoUrl: '',
   },
 };
@@ -75,15 +71,6 @@ export const postCreationSlice = createSlice({
       }>,
     ) => {
       state[action.payload.postType].title = action.payload.value;
-    },
-    setIsDone: (
-      state,
-      action: PayloadAction<{
-        postType: PostTypeEnum;
-        value: boolean;
-      }>,
-    ) => {
-      state[action.payload.postType].isDone = action.payload.value;
     },
     setPostBody: (
       state,
@@ -118,7 +105,6 @@ export const postCreationSlice = createSlice({
 export const {
   setPostDirections,
   setPostTitle,
-  setIsDone,
   setPostBody,
   setPostPreviewText,
   setPostPreviewManuallyChanged,

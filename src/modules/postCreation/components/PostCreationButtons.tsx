@@ -6,14 +6,16 @@ export interface IPostCreationButtonsProps {
   publishPost: () => void;
   goPreview: () => void;
   isOnPreview?: boolean;
-  isDone?: boolean;
+  disabled?: boolean;
+  loading?: boolean;
 }
 
 const PostCreationButtons: React.FC<IPostCreationButtonsProps> = ({
   publishPost,
   goPreview,
   isOnPreview,
-  isDone,
+  disabled,
+  loading,
 }) => {
   const classes = useStyles();
   const buttonText = isOnPreview
@@ -26,12 +28,13 @@ const PostCreationButtons: React.FC<IPostCreationButtonsProps> = ({
         <Button
           style={{ marginRight: '10px' }}
           variant="contained"
+          disabled={disabled || loading}
           onClick={goPreview}
         >
           {buttonText}
         </Button>
-        <Button disabled={!isDone} variant="contained" onClick={publishPost}>
-          Опублікувати
+        <Button disabled={disabled} variant="contained" onClick={publishPost}>
+          {!loading ? 'Опублікувати' : <CircularProgress size={20} />}
         </Button>
       </Box>
     </>

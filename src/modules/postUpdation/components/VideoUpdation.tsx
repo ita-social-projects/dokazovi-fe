@@ -39,11 +39,13 @@ const VideoUpdation: React.FC<IVideoUpdationProps> = ({ post }) => {
     error: '',
   });
 
+  const [typing, setTyping] = useState({ content: false });
+
   const allDirections = useSelector(
     (state: RootStateType) => state.properties.directions,
   );
 
-  const dispatchDirections = (checkedDirections: CheckboxFormStateType) => {
+  const handleDirectionsChange = (checkedDirections: CheckboxFormStateType) => {
     const checkedIds = Object.keys(checkedDirections).filter(
       (key) => checkedDirections[key],
     );
@@ -55,9 +57,10 @@ const VideoUpdation: React.FC<IVideoUpdationProps> = ({ post }) => {
     setSelectedDirections(directions);
   };
 
-  const dispatchHtmlContent = useCallback(
+  const handleHtmlContentChange = useCallback(
     _.debounce((content: string) => {
       setHtmlContent(sanitizeHtml(content) as string);
+      setTyping({ ...typing, content: false });
     }, CONTENT_DEBOUNCE_TIMEOUT),
     [],
   );
@@ -103,7 +106,7 @@ const VideoUpdation: React.FC<IVideoUpdationProps> = ({ post }) => {
 
       {allDirections.length ? (
         <CheckboxDropdownFilterForm
-          onFormChange={dispatchDirections}
+          onFormChange={handleDirectionsChange}
           possibleFilters={allDirections}
           selectedFilters={selectedDirections}
           noAll
@@ -143,14 +146,18 @@ const VideoUpdation: React.FC<IVideoUpdationProps> = ({ post }) => {
       <Box mt={2}>
         <Typography variant="h5">Опис відео:</Typography>
         <VideoEditor
-          initialContent={htmlContent}
-          dispatchContent={dispatchHtmlContent}
+          initialHtmlContent={htmlContent}
+          onHtmlContentChange={(value) => {
+            setTyping({ ...typing, content: true });
+            handleHtmlContentChange(value);
+          }}
         />
       </Box>
       <Box display="flex" justifyContent="flex-end">
         <PostCreationButtons
           publishPost={sendPost}
           goPreview={goVideoPreview}
+          disabled={Object.values(typing).some((i) => i)}
         />
       </Box>
     </>
