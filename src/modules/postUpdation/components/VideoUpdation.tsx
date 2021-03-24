@@ -14,7 +14,6 @@ import { sanitizeHtml } from '../../../lib/utilities/sanitizeHtml';
 import { CheckboxFormStateType } from '../../../lib/components/Filters/CheckboxFilterForm';
 import CheckboxDropdownFilterForm from '../../../lib/components/Filters/CheckboxDropdownFilterForm';
 import PostCreationButtons from '../../postCreation/components/PostCreationButtons';
-import { PostPreviewLocationStateType } from '../../postCreation/components/PostPreviewWrapper';
 import { updatePost } from '../../../lib/utilities/API/api';
 import { RootStateType } from '../../../store/rootReducer';
 import PageTitle from '../../../lib/components/Pages/PageTitle';
@@ -22,6 +21,7 @@ import VideoUrlInputModal from '../../../lib/components/Editor/CustomModules/Vid
 import VideoEditor from '../../../lib/components/Editor/Editors/VideoEditor';
 import { parseVideoIdFromUrl } from '../../../lib/utilities/parseVideoIdFromUrl';
 import { CONTENT_DEBOUNCE_TIMEOUT } from '../../../lib/constants/editors';
+import PostView from '../../posts/components/PostView';
 
 export interface IVideoUpdationProps {
   post: IPost;
@@ -40,6 +40,7 @@ const VideoUpdation: React.FC<IVideoUpdationProps> = ({ post }) => {
   });
 
   const [typing, setTyping] = useState({ content: false });
+  const [previewing, setPreviewing] = useState(false);
 
   const allDirections = useSelector(
     (state: RootStateType) => state.properties.directions,
@@ -85,78 +86,77 @@ const VideoUpdation: React.FC<IVideoUpdationProps> = ({ post }) => {
     type: post.type,
   };
 
-  const sendPost = async () => {
+  const handlePublishClick = async () => {
     const response = await updatePost(updatedPost);
     history.push(`/posts/${response.data.id}`);
-  };
-
-  const goVideoPreview = () => {
-    const state: PostPreviewLocationStateType = {
-      actionType: 'update',
-      postToSend: updatedPost,
-      previewPost,
-    };
-
-    history.push(`/update-video/preview`, state);
   };
 
   return (
     <>
       <PageTitle title="Редагування відео" />
 
-      {allDirections.length ? (
-        <CheckboxDropdownFilterForm
-          onFormChange={handleDirectionsChange}
-          possibleFilters={allDirections}
-          selectedFilters={selectedDirections}
-          noAll
-          maximumReached={selectedDirections.length === 3}
-          filterTitle="Напрямки: "
-        />
+      {!previewing ? (
+        <>
+          {allDirections.length ? (
+            <CheckboxDropdownFilterForm
+              onFormChange={handleDirectionsChange}
+              possibleFilters={allDirections}
+              selectedFilters={selectedDirections}
+              noAll
+              maximumReached={selectedDirections.length === 3}
+              filterTitle="Напрямки: "
+            />
+          ) : (
+            <CircularProgress />
+          )}
+          <Box mt={2}>
+            <Typography variant="h5">Заголовок відео: </Typography>
+            <TextField
+              error={Boolean(title.error)}
+              helperText={title.error}
+              fullWidth
+              required
+              id="video-name"
+              value={title.value}
+              onChange={(e) => {
+                setTitle({ ...title, value: e.target.value });
+              }}
+            />
+          </Box>
+          <Box mt={2}>
+            <VideoUrlInputModal dispatchVideoUrl={setVideoUrl} />
+            {videoId && (
+              <iframe
+                title="video"
+                width="360"
+                height="240"
+                src={`http://www.youtube.com/embed/${videoId}`}
+                frameBorder="0"
+                allowFullScreen
+              />
+            )}
+          </Box>
+          <Box mt={2}>
+            <Typography variant="h5">Опис відео:</Typography>
+            <VideoEditor
+              initialHtmlContent={htmlContent}
+              onHtmlContentChange={(value) => {
+                setTyping({ ...typing, content: true });
+                handleHtmlContentChange(value);
+              }}
+            />
+          </Box>
+        </>
       ) : (
-        <CircularProgress />
+        <PostView post={previewPost} />
       )}
-      <Box mt={2}>
-        <Typography variant="h5">Заголовок відео: </Typography>
-        <TextField
-          error={Boolean(title.error)}
-          helperText={title.error}
-          fullWidth
-          required
-          id="video-name"
-          value={title.value}
-          onChange={(e) => {
-            setTitle({ ...title, value: e.target.value });
-          }}
-        />
-      </Box>
-      <Box mt={2}>
-        <VideoUrlInputModal dispatchVideoUrl={setVideoUrl} />
-        {videoId && (
-          <iframe
-            title="video"
-            width="360"
-            height="240"
-            src={`http://www.youtube.com/embed/${videoId}`}
-            frameBorder="0"
-            allowFullScreen
-          />
-        )}
-      </Box>
-      <Box mt={2}>
-        <Typography variant="h5">Опис відео:</Typography>
-        <VideoEditor
-          initialHtmlContent={htmlContent}
-          onHtmlContentChange={(value) => {
-            setTyping({ ...typing, content: true });
-            handleHtmlContentChange(value);
-          }}
-        />
-      </Box>
       <Box display="flex" justifyContent="flex-end">
         <PostCreationButtons
-          publishPost={sendPost}
-          goPreview={goVideoPreview}
+          onPublishClick={handlePublishClick}
+          onPreviewClick={() => {
+            setPreviewing(!previewing);
+          }}
+          previewing={previewing}
           disabled={Object.values(typing).some((i) => i)}
         />
       </Box>

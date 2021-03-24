@@ -26,8 +26,8 @@ import { createPost } from '../../../lib/utilities/API/api';
 import { CreateVideoPostRequestType } from '../../../lib/utilities/API/types';
 import { CheckboxFormStateType } from '../../../lib/components/Filters/CheckboxFilterForm';
 import CheckboxDropdownFilterForm from '../../../lib/components/Filters/CheckboxDropdownFilterForm';
-import { PostPreviewLocationStateType } from './PostPreviewWrapper';
 import { CONTENT_DEBOUNCE_TIMEOUT } from '../../../lib/constants/editors';
+import PostView from '../../posts/components/PostView';
 
 const VideoCreation: React.FC = () => {
   const dispatch = useDispatch();
@@ -47,6 +47,7 @@ const VideoCreation: React.FC = () => {
   });
 
   const [typing, setTyping] = useState({ content: false });
+  const [previewing, setPreviewing] = useState(false);
 
   const videoUrl = useSelector(
     (state: RootStateType) => state.newPostDraft.VIDEO.videoUrl,
@@ -64,7 +65,7 @@ const VideoCreation: React.FC = () => {
     );
 
     dispatch(
-      setPostDirections({ postType: PostTypeEnum.ARTICLE, value: directions }),
+      setPostDirections({ postType: PostTypeEnum.VIDEO, value: directions }),
     );
   };
 
@@ -92,95 +93,98 @@ const VideoCreation: React.FC = () => {
   const newPost: CreateVideoPostRequestType = {
     content: savedPostDraft.htmlContent,
     directions: savedPostDraft.directions,
-    preview: savedPostDraft.htmlContent,
+    preview: savedPostDraft.htmlContent, // currently no preview
     type: { id: 3 }, // must not be hardcoded
     title: savedPostDraft.title,
     videoUrl: savedPostDraft.videoUrl,
   };
 
-  const sendPost = async () => {
+  const handlePublishClick = async () => {
     const responsePost = await createPost(newPost);
     history.push(`/posts/${responsePost.data.id}`);
   };
 
-  const goVideoPreview = () => {
-    const previewPost = {
-      author: user,
-      content: savedPostDraft.htmlContent,
-      createdAt: Date().toString(),
-      directions: savedPostDraft.directions,
-      title: savedPostDraft.title,
-      videoUrl: savedPostDraft.videoUrl,
-      type: { id: 3, name: 'Відео' }, // must not be hardcoded
-    } as IPost;
-
-    const state: PostPreviewLocationStateType = {
-      actionType: 'create',
-      postToSend: newPost,
-      previewPost,
-    };
-
-    history.push(`/create-video/preview`, state);
-  };
+  const previewPost = React.useMemo(
+    () =>
+      ({
+        author: user,
+        content: savedPostDraft.htmlContent,
+        createdAt: Date().toString(),
+        directions: savedPostDraft.directions,
+        title: savedPostDraft.title,
+        videoUrl: savedPostDraft.videoUrl,
+        type: { id: 3, name: 'Відео' }, // must not be hardcoded
+      } as IPost),
+    [user, savedPostDraft],
+  );
 
   return (
     <>
       <PageTitle title="Створення відео" />
 
-      {allDirections.length ? (
-        <CheckboxDropdownFilterForm
-          onFormChange={handleDirectionsChange}
-          possibleFilters={allDirections}
-          selectedFilters={savedPostDraft.directions}
-          noAll
-          maximumReached={savedPostDraft.directions.length === 3}
-          filterTitle="Напрямки: "
-        />
+      {!previewing ? (
+        <>
+          {allDirections.length ? (
+            <CheckboxDropdownFilterForm
+              onFormChange={handleDirectionsChange}
+              possibleFilters={allDirections}
+              selectedFilters={savedPostDraft.directions}
+              noAll
+              maximumReached={savedPostDraft.directions.length === 3}
+              filterTitle="Напрямки: "
+            />
+          ) : (
+            <CircularProgress />
+          )}
+          <Box mt={2}>
+            <Typography variant="h5">Заголовок відео: </Typography>
+            <TextField
+              error={Boolean(title.error)}
+              helperText={title.error}
+              fullWidth
+              required
+              id="video-name"
+              value={title.value}
+              onChange={(e) => {
+                setTitle({ ...title, value: e.target.value });
+                handleTitleChange(e.target.value);
+              }}
+            />
+          </Box>
+          <Box mt={2}>
+            <VideoUrlInputModal dispatchVideoUrl={handleVideoUrlChange} />
+            {videoId && (
+              <iframe
+                title="video"
+                width="360"
+                height="240"
+                src={`http://www.youtube.com/embed/${videoId}`}
+                frameBorder="0"
+                allowFullScreen
+              />
+            )}
+          </Box>
+          <Box mt={2}>
+            <Typography variant="h5">Опис відео:</Typography>
+            <VideoEditor
+              initialHtmlContent={savedPostDraft.htmlContent}
+              onHtmlContentChange={(value) => {
+                setTyping({ ...typing, content: true });
+                handleHtmlContentChange(value);
+              }}
+            />
+          </Box>
+        </>
       ) : (
-        <CircularProgress />
+        <PostView post={previewPost} />
       )}
-      <Box mt={2}>
-        <Typography variant="h5">Заголовок відео: </Typography>
-        <TextField
-          error={Boolean(title.error)}
-          helperText={title.error}
-          fullWidth
-          required
-          id="video-name"
-          value={title.value}
-          onChange={(e) => {
-            setTitle({ ...title, value: e.target.value });
-            handleTitleChange(e.target.value);
-          }}
-        />
-      </Box>
-      <Box mt={2}>
-        <VideoUrlInputModal dispatchVideoUrl={handleVideoUrlChange} />
-        {videoId && (
-          <iframe
-            title="video"
-            width="360"
-            height="240"
-            src={`http://www.youtube.com/embed/${videoId}`}
-            frameBorder="0"
-            allowFullScreen
-          />
-        )}
-      </Box>
-      <Box mt={2}>
-        <Typography variant="h5">Опис відео:</Typography>
-        <VideoEditor
-          initialHtmlContent={savedPostDraft.htmlContent}
-          onHtmlContentChange={(value) => {
-            setTyping({ ...typing, content: true });
-            handleHtmlContentChange(value);
-          }}
-        />
-      </Box>
       <Box display="flex" justifyContent="flex-end">
         <PostCreationButtons
-          publishPost={sendPost}
-          goPreview={goVideoPreview}
+          onPublishClick={handlePublishClick}
+          onPreviewClick={() => {
+            setPreviewing(!previewing);
+          }}
+          previewing={previewing}
           disabled={Object.values(typing).some((i) => i)}
         />
       </Box>

@@ -1,13 +1,10 @@
 import React, { useState } from 'react';
-import { Grid, TextField, Typography } from '@material-ui/core';
+import { TextField } from '@material-ui/core';
 import useEffectExceptOnMount from '../../hooks/useEffectExceptOnMount';
 import { MAX_PREVIEW_LENGTH } from '../../constants/editors';
 
-const trunkLength = (str: string) => {
-  if (str.length > MAX_PREVIEW_LENGTH) {
-    return str.slice(0, MAX_PREVIEW_LENGTH);
-  }
-  return str;
+const truncText = (str: string) => {
+  return str.slice(0, MAX_PREVIEW_LENGTH);
 };
 
 export interface IPreviewInputProps {
@@ -36,7 +33,7 @@ const PreviewInput: React.FC<IPreviewInputProps> = ({
   useEffectExceptOnMount(() => {
     const setPreviewFromEditor = () => {
       if (!initialIsManuallyChanged && editorTextContent) {
-        setTextFieldValue(trunkLength(editorTextContent));
+        setTextFieldValue(truncText(editorTextContent));
       }
     };
     setPreviewFromEditor();
@@ -44,7 +41,7 @@ const PreviewInput: React.FC<IPreviewInputProps> = ({
 
   useEffectExceptOnMount(() => {
     setIsPreviewValid(textFieldValue.length <= MAX_PREVIEW_LENGTH);
-    onPreviewChange(trunkLength(textFieldValue));
+    onPreviewChange(truncText(textFieldValue));
   }, [textFieldValue]);
 
   const handleManualChange = (value: string) => {
@@ -56,38 +53,32 @@ const PreviewInput: React.FC<IPreviewInputProps> = ({
   };
 
   return (
-    <>
-      <Grid item>
-        <Typography variant="h4">Текст картки матеріалу:</Typography>
-      </Grid>
-      <Grid item>
-        <TextField
-          aria-label="minimum height"
-          value={textFieldValue}
-          multiline
-          variant="outlined"
-          onChange={(e) => {
-            handleManualChange(e.target.value);
-          }}
-          InputProps={{
-            inputProps: {
-              style: {
-                height: '165px',
-              },
-            },
-          }}
-          style={{
-            width: '100%',
-          }}
-          error={!isPreviewValid}
-          helperText={
-            (!isPreviewValid &&
-              `Максимальна довжина тексту: ${MAX_PREVIEW_LENGTH} символів!`) ||
-            `Довжина тексту: ${textFieldValue.length} символів`
-          }
-        />
-      </Grid>
-    </>
+    <TextField
+      aria-label="minimum height"
+      value={textFieldValue}
+      multiline
+      label="Текст картки матеріалу"
+      variant="outlined"
+      onChange={(e) => {
+        handleManualChange(e.target.value);
+      }}
+      InputProps={{
+        inputProps: {
+          style: {
+            height: '165px',
+          },
+        },
+      }}
+      style={{
+        width: '100%',
+      }}
+      error={!isPreviewValid}
+      helperText={
+        (!isPreviewValid &&
+          `Максимальна довжина тексту: ${MAX_PREVIEW_LENGTH} символів!`) ||
+        `Довжина тексту: ${textFieldValue.length} символів`
+      }
+    />
   );
 };
 

@@ -3,22 +3,22 @@ import { Box, Button, CircularProgress } from '@material-ui/core';
 import { useStyles } from '../../../lib/styles/PostCreationButtons.styles';
 
 export interface IPostCreationButtonsProps {
-  publishPost: () => void;
-  goPreview: () => void;
-  isOnPreview?: boolean;
+  onPublishClick: () => void;
+  onPreviewClick: () => void;
+  previewing?: boolean;
   disabled?: boolean;
   loading?: boolean;
 }
 
 const PostCreationButtons: React.FC<IPostCreationButtonsProps> = ({
-  publishPost,
-  goPreview,
-  isOnPreview,
+  onPublishClick,
+  onPreviewClick,
+  previewing,
   disabled,
   loading,
 }) => {
   const classes = useStyles();
-  const buttonText = isOnPreview
+  const buttonText = previewing
     ? 'Назад до редагування'
     : 'Попередній перегляд';
 
@@ -29,11 +29,15 @@ const PostCreationButtons: React.FC<IPostCreationButtonsProps> = ({
           style={{ marginRight: '10px' }}
           variant="contained"
           disabled={disabled || loading}
-          onClick={goPreview}
+          onClick={onPreviewClick}
         >
           {buttonText}
         </Button>
-        <Button disabled={disabled} variant="contained" onClick={publishPost}>
+        <Button
+          disabled={disabled}
+          variant="contained"
+          onClick={onPublishClick}
+        >
           {!loading ? 'Опублікувати' : <CircularProgress size={20} />}
         </Button>
       </Box>

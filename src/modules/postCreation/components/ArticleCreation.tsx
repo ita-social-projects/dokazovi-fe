@@ -25,11 +25,11 @@ import PageTitle from '../../../lib/components/Pages/PageTitle';
 import { createPost } from '../../../lib/utilities/API/api';
 import { CheckboxFormStateType } from '../../../lib/components/Filters/CheckboxFilterForm';
 import CheckboxDropdownFilterForm from '../../../lib/components/Filters/CheckboxDropdownFilterForm';
-import { PostPreviewLocationStateType } from './PostPreviewWrapper';
 import {
   CONTENT_DEBOUNCE_TIMEOUT,
   PREVIEW_DEBOUNCE_TIMEOUT,
 } from '../../../lib/constants/editors';
+import PostView from '../../posts/components/PostView';
 
 const ArticleCreation: React.FC = () => {
   const history = useHistory();
@@ -49,6 +49,7 @@ const ArticleCreation: React.FC = () => {
   });
 
   const [typing, setTyping] = useState({ content: false, preview: false });
+  const [previewing, setPreviewing] = useState(false);
 
   const handleDirectionsChange = (checkedDirections: CheckboxFormStateType) => {
     const checkedIds = Object.keys(checkedDirections).filter(
@@ -120,76 +121,74 @@ const ArticleCreation: React.FC = () => {
     [user, savedPostDraft],
   );
 
-  const sendPost = async () => {
+  const handlePublishClick = async () => {
     const response = await createPost(newPost);
     history.push(`/posts/${response.data.id}`);
-  };
-
-  const goArticlePreview = () => {
-    const state: PostPreviewLocationStateType = {
-      actionType: 'create',
-      postToSend: newPost,
-      previewPost,
-    };
-
-    history.push(`/create-article/preview`, state);
   };
 
   return (
     <>
       <PageTitle title="Створення статті" />
-
-      {allDirections.length ? (
-        <CheckboxDropdownFilterForm
-          onFormChange={handleDirectionsChange}
-          possibleFilters={allDirections}
-          selectedFilters={savedPostDraft.directions}
-          noAll
-          maximumReached={savedPostDraft.directions.length === 3}
-          filterTitle="Напрямки: "
-        />
+      {!previewing ? (
+        <>
+          {allDirections.length ? (
+            <CheckboxDropdownFilterForm
+              onFormChange={handleDirectionsChange}
+              possibleFilters={allDirections}
+              selectedFilters={savedPostDraft.directions}
+              noAll
+              maximumReached={savedPostDraft.directions.length === 3}
+              filterTitle="Напрямки: "
+            />
+          ) : (
+            <CircularProgress />
+          )}
+          <Box mt={2}>
+            <Typography variant="h5">Заголовок статті: </Typography>
+            <TextField
+              error={Boolean(title.error)}
+              helperText={title.error}
+              fullWidth
+              required
+              id="article-name"
+              value={title.value}
+              onChange={(e) => {
+                setTitle({ ...title, value: e.target.value });
+                handleTitleChange(e.target.value);
+              }}
+            />
+          </Box>
+          <Box mt={2}>
+            <Typography variant="h5">Текст статті:</Typography>
+            <ArticleEditor
+              initialHtmlContent={savedPostDraft.htmlContent}
+              initialPreview={savedPostDraft.preview.value}
+              onHtmlContentChange={(value) => {
+                setTyping({ ...typing, content: true });
+                handleHtmlContentChange(value);
+              }}
+              initialIsPreviewManuallyChanged={
+                savedPostDraft.preview.isManuallyChanged
+              }
+              onPreviewManuallyChanged={handlePreviewManuallyChanged}
+              onPreviewChange={(value) => {
+                setTyping({ ...typing, preview: true });
+                handlePreviewChange(value);
+              }}
+              previewPost={previewPost}
+            />
+          </Box>
+        </>
       ) : (
-        <CircularProgress />
+        <PostView post={previewPost} />
       )}
-      <Box mt={2}>
-        <Typography variant="h5">Заголовок статті: </Typography>
-        <TextField
-          error={Boolean(title.error)}
-          helperText={title.error}
-          fullWidth
-          required
-          id="article-name"
-          value={title.value}
-          onChange={(e) => {
-            setTitle({ ...title, value: e.target.value });
-            handleTitleChange(e.target.value);
-          }}
-        />
-      </Box>
-      <Box mt={2}>
-        <Typography variant="h5">Текст статті:</Typography>
-        <ArticleEditor
-          initialHtmlContent={savedPostDraft.htmlContent}
-          initialPreview={savedPostDraft.preview.value}
-          onHtmlContentChange={(value) => {
-            setTyping({ ...typing, content: true });
-            handleHtmlContentChange(value);
-          }}
-          initialIsPreviewManuallyChanged={
-            savedPostDraft.preview.isManuallyChanged
-          }
-          onPreviewManuallyChanged={handlePreviewManuallyChanged}
-          onPreviewChange={(value) => {
-            setTyping({ ...typing, preview: true });
-            handlePreviewChange(value);
-          }}
-          previewPost={previewPost}
-        />
-      </Box>
       <Box display="flex" justifyContent="flex-end">
         <PostCreationButtons
-          publishPost={sendPost}
-          goPreview={goArticlePreview}
+          onPublishClick={handlePublishClick}
+          onPreviewClick={() => {
+            setPreviewing(!previewing);
+          }}
+          previewing={previewing}
           disabled={Object.values(typing).some((i) => i)}
         />
       </Box>

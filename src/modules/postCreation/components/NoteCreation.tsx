@@ -25,11 +25,11 @@ import { createPost } from '../../../lib/utilities/API/api';
 import { CheckboxFormStateType } from '../../../lib/components/Filters/CheckboxFilterForm';
 import CheckboxDropdownFilterForm from '../../../lib/components/Filters/CheckboxDropdownFilterForm';
 import { CreateDopysPostRequestType } from '../../../lib/utilities/API/types';
-import { PostPreviewLocationStateType } from './PostPreviewWrapper';
 import {
   CONTENT_DEBOUNCE_TIMEOUT,
   PREVIEW_DEBOUNCE_TIMEOUT,
 } from '../../../lib/constants/editors';
+import PostView from '../../posts/components/PostView';
 
 const NoteCreation: React.FC = () => {
   const dispatch = useDispatch();
@@ -49,6 +49,7 @@ const NoteCreation: React.FC = () => {
   });
 
   const [typing, setTyping] = useState({ content: false, preview: false });
+  const [previewing, setPreviewing] = useState(false);
 
   const dispatchTitle = (value: string) => {
     dispatch(setPostTitle({ postType: PostTypeEnum.DOPYS, value }));
@@ -120,76 +121,74 @@ const NoteCreation: React.FC = () => {
     [user, savedPostDraft],
   );
 
-  const sendPost = async () => {
+  const handlePublishClick = async () => {
     const responsePost = await createPost(newPost);
     history.push(`/posts/${responsePost.data.id}`);
-  };
-
-  const goNotePreview = () => {
-    const state: PostPreviewLocationStateType = {
-      actionType: 'create',
-      postToSend: newPost,
-      previewPost,
-    };
-
-    history.push(`/create-note/preview`, state);
   };
 
   return (
     <>
       <PageTitle title="Створення допису" />
-
-      {allDirections.length ? (
-        <CheckboxDropdownFilterForm
-          onFormChange={handleDirectionsChange}
-          possibleFilters={allDirections}
-          selectedFilters={savedPostDraft.directions}
-          noAll
-          maximumReached={savedPostDraft.directions.length === 3}
-          filterTitle="Напрямки: "
-        />
+      {!previewing ? (
+        <>
+          {allDirections.length ? (
+            <CheckboxDropdownFilterForm
+              onFormChange={handleDirectionsChange}
+              possibleFilters={allDirections}
+              selectedFilters={savedPostDraft.directions}
+              noAll
+              maximumReached={savedPostDraft.directions.length === 3}
+              filterTitle="Напрямки: "
+            />
+          ) : (
+            <CircularProgress />
+          )}
+          <Box mt={2}>
+            <Typography variant="h5">Заголовок допису: </Typography>
+            <TextField
+              error={Boolean(title.error)}
+              helperText={title.error}
+              fullWidth
+              required
+              id="article-name"
+              value={title.value}
+              onChange={(e) => {
+                setTitle({ ...title, value: e.target.value });
+                dispatchTitle(e.target.value);
+              }}
+            />
+          </Box>
+          <Box mt={2}>
+            <Typography variant="h5">Текст допису:</Typography>
+            <NoteEditor
+              initialHtmlContent={savedPostDraft.htmlContent}
+              initialPreview={savedPostDraft.preview.value}
+              onHtmlContentChange={(value) => {
+                setTyping({ ...typing, content: true });
+                handleHtmlContentChange(value);
+              }}
+              initialIsPreviewManuallyChanged={
+                savedPostDraft.preview.isManuallyChanged
+              }
+              onPreviewManuallyChanged={handlePreviewManuallyChanged}
+              onPreviewChange={(value) => {
+                setTyping({ ...typing, preview: true });
+                handlePreviewChange(value);
+              }}
+              previewPost={previewPost}
+            />
+          </Box>
+        </>
       ) : (
-        <CircularProgress />
+        <PostView post={previewPost} />
       )}
-      <Box mt={2}>
-        <Typography variant="h5">Заголовок допису: </Typography>
-        <TextField
-          error={Boolean(title.error)}
-          helperText={title.error}
-          fullWidth
-          required
-          id="article-name"
-          value={title.value}
-          onChange={(e) => {
-            setTitle({ ...title, value: e.target.value });
-            dispatchTitle(e.target.value);
-          }}
-        />
-      </Box>
-      <Box mt={2}>
-        <Typography variant="h5">Текст допису:</Typography>
-        <NoteEditor
-          initialHtmlContent={savedPostDraft.htmlContent}
-          initialPreview={savedPostDraft.preview.value}
-          onHtmlContentChange={(value) => {
-            setTyping({ ...typing, content: true });
-            handleHtmlContentChange(value);
-          }}
-          initialIsPreviewManuallyChanged={
-            savedPostDraft.preview.isManuallyChanged
-          }
-          onPreviewManuallyChanged={handlePreviewManuallyChanged}
-          onPreviewChange={(value) => {
-            setTyping({ ...typing, preview: true });
-            handlePreviewChange(value);
-          }}
-          previewPost={previewPost}
-        />
-      </Box>
       <Box display="flex" justifyContent="flex-end">
         <PostCreationButtons
-          publishPost={sendPost}
-          goPreview={goNotePreview}
+          onPublishClick={handlePublishClick}
+          onPreviewClick={() => {
+            setPreviewing(!previewing);
+          }}
+          previewing={previewing}
           disabled={Object.values(typing).some((i) => i)}
         />
       </Box>

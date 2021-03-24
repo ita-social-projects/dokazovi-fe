@@ -15,7 +15,6 @@ import { CheckboxFormStateType } from '../../../lib/components/Filters/CheckboxF
 import CheckboxDropdownFilterForm from '../../../lib/components/Filters/CheckboxDropdownFilterForm';
 import PostCreationButtons from '../../postCreation/components/PostCreationButtons';
 import NoteEditor from '../../../lib/components/Editor/Editors/NoteEditor';
-import { PostPreviewLocationStateType } from '../../postCreation/components/PostPreviewWrapper';
 import { updatePost } from '../../../lib/utilities/API/api';
 import { RootStateType } from '../../../store/rootReducer';
 import PageTitle from '../../../lib/components/Pages/PageTitle';
@@ -23,6 +22,7 @@ import {
   CONTENT_DEBOUNCE_TIMEOUT,
   PREVIEW_DEBOUNCE_TIMEOUT,
 } from '../../../lib/constants/editors';
+import PostView from '../../posts/components/PostView';
 
 export interface INoteUpdationProps {
   post: IPost;
@@ -41,6 +41,7 @@ const NoteUpdation: React.FC<INoteUpdationProps> = ({ post }) => {
   });
 
   const [typing, setTyping] = useState({ content: false, preview: false });
+  const [previewing, setPreviewing] = useState(false);
 
   const allDirections = useSelector(
     (state: RootStateType) => state.properties.directions,
@@ -92,72 +93,71 @@ const NoteUpdation: React.FC<INoteUpdationProps> = ({ post }) => {
     type: post.type,
   };
 
-  const sendPost = async () => {
+  const handlePublishClick = async () => {
     const response = await updatePost(updatedPost);
     history.push(`/posts/${response.data.id}`);
-  };
-
-  const goNotePreview = () => {
-    const state: PostPreviewLocationStateType = {
-      actionType: 'update',
-      postToSend: updatedPost,
-      previewPost,
-    };
-
-    history.push(`/update-note/preview`, state);
   };
 
   return (
     <>
       <PageTitle title="Редагування допису" />
 
-      {allDirections.length ? (
-        <CheckboxDropdownFilterForm
-          onFormChange={handleDirectionsChange}
-          possibleFilters={allDirections}
-          selectedFilters={selectedDirections}
-          noAll
-          maximumReached={selectedDirections.length === 3}
-          filterTitle="Напрямки: "
-        />
+      {!previewing ? (
+        <>
+          {allDirections.length ? (
+            <CheckboxDropdownFilterForm
+              onFormChange={handleDirectionsChange}
+              possibleFilters={allDirections}
+              selectedFilters={selectedDirections}
+              noAll
+              maximumReached={selectedDirections.length === 3}
+              filterTitle="Напрямки: "
+            />
+          ) : (
+            <CircularProgress />
+          )}
+          <Box mt={2}>
+            <Typography variant="h5">Заголовок статті: </Typography>
+            <TextField
+              error={Boolean(title.error)}
+              helperText={title.error}
+              fullWidth
+              required
+              id="article-name"
+              value={title.value}
+              onChange={(e) => {
+                setTitle({ ...title, value: e.target.value });
+              }}
+            />
+          </Box>
+          <Box mt={2}>
+            <Typography variant="h5">Текст статті:</Typography>
+            <NoteEditor
+              initialHtmlContent={htmlContent}
+              initialPreview={preview}
+              onHtmlContentChange={(value) => {
+                setTyping({ ...typing, content: true });
+                handleHtmlContentChange(value);
+              }}
+              initialIsPreviewManuallyChanged
+              onPreviewChange={(value) => {
+                setTyping({ ...typing, preview: true });
+                handlePreviewChange(value);
+              }}
+              previewPost={previewPost}
+            />
+          </Box>
+        </>
       ) : (
-        <CircularProgress />
+        <PostView post={previewPost} />
       )}
-      <Box mt={2}>
-        <Typography variant="h5">Заголовок статті: </Typography>
-        <TextField
-          error={Boolean(title.error)}
-          helperText={title.error}
-          fullWidth
-          required
-          id="article-name"
-          value={title.value}
-          onChange={(e) => {
-            setTitle({ ...title, value: e.target.value });
-          }}
-        />
-      </Box>
-      <Box mt={2}>
-        <Typography variant="h5">Текст статті:</Typography>
-        <NoteEditor
-          initialHtmlContent={htmlContent}
-          initialPreview={preview}
-          onHtmlContentChange={(value) => {
-            setTyping({ ...typing, content: true });
-            handleHtmlContentChange(value);
-          }}
-          initialIsPreviewManuallyChanged
-          onPreviewChange={(value) => {
-            setTyping({ ...typing, preview: true });
-            handlePreviewChange(value);
-          }}
-          previewPost={previewPost}
-        />
-      </Box>
       <Box display="flex" justifyContent="flex-end">
         <PostCreationButtons
-          publishPost={sendPost}
-          goPreview={goNotePreview}
+          onPublishClick={handlePublishClick}
+          onPreviewClick={() => {
+            setPreviewing(!previewing);
+          }}
+          previewing={previewing}
           disabled={Object.values(typing).some((i) => i)}
         />
       </Box>

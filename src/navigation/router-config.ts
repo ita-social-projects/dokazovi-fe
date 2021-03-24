@@ -25,9 +25,6 @@ const NoteCreation = lazy(
 const VideoCreation = lazy(
   () => import('../modules/postCreation/components/VideoCreation'),
 );
-const PostPreviewWrapper = lazy(
-  () => import('../modules/postCreation/components/PostPreviewWrapper'),
-);
 const PostUpdationWrapper = lazy(
   () => import('../modules/postUpdation/components/PostUpdationWrapper'),
 );
@@ -67,122 +64,44 @@ const ROUTER_CONFIG: IRouterConfig[] = [
   {
     path: '/create-article',
     key: 'CREATE_ARTICLE',
-    component: RenderRoutes,
+    component: ArticleCreation,
     private: true,
-    routes: [
-      {
-        path: '/create-article',
-        key: 'CREATE_ARTICLE',
-        exact: true,
-        component: ArticleCreation,
-      },
-      {
-        path: '/create-article/preview',
-        key: 'CREATE_ARTICLE_PREVIEW',
-        exact: true,
-        component: PostPreviewWrapper,
-      },
-    ],
+    exact: true,
   },
   {
     path: '/create-note',
     key: 'CREATE_NOTE',
-    component: RenderRoutes,
+    component: NoteCreation,
     private: true,
-    routes: [
-      {
-        path: '/create-note',
-        key: 'CREATE_NOTE',
-        exact: true,
-        component: NoteCreation,
-      },
-      {
-        path: '/create-note/preview',
-        key: 'CREATE_NOTE_PREVIEW',
-        exact: true,
-        component: PostPreviewWrapper,
-      },
-    ],
+    exact: true,
   },
   {
     path: '/create-video',
     key: 'CREATE_VIDEO',
-    component: RenderRoutes,
+    component: VideoCreation,
     private: true,
-    routes: [
-      {
-        path: '/create-video',
-        key: 'CREATE_VIDEO',
-        exact: true,
-        component: VideoCreation,
-      },
-      {
-        path: '/create-video/preview',
-        key: 'CREATE_VIDEO_PREVIEW',
-        exact: true,
-        component: PostPreviewWrapper,
-      },
-    ],
+    exact: true,
   },
   {
     path: '/update-article/:postId',
     key: 'UPDATE_ARTICLE',
-    component: RenderRoutes,
+    component: PostUpdationWrapper,
     private: true,
-    routes: [
-      {
-        path: '/update-article/preview',
-        key: 'UPDATE_ARTICLE_PREVIEW',
-        exact: true,
-        component: PostPreviewWrapper,
-      },
-      {
-        path: '/update-article/:postId',
-        key: 'UPDATE_ARTICLE',
-        exact: true,
-        component: PostUpdationWrapper,
-      },
-    ],
+    exact: true,
   },
   {
     path: '/update-note/:postId',
     key: 'UPDATE_NOTE',
-    component: RenderRoutes,
+    component: PostUpdationWrapper,
     private: true,
-    routes: [
-      {
-        path: '/update-note/preview',
-        key: 'UPDATE_NOTE_PREVIEW',
-        exact: true,
-        component: PostPreviewWrapper,
-      },
-      {
-        path: '/update-note/:postId',
-        key: 'UPDATE_NOTE',
-        exact: true,
-        component: PostUpdationWrapper,
-      },
-    ],
+    exact: true,
   },
   {
     path: '/update-video/:postId',
     key: 'UPDATE_VIDEO',
-    component: RenderRoutes,
+    component: PostUpdationWrapper,
     private: true,
-    routes: [
-      {
-        path: '/update-video/preview',
-        key: 'UPDATE_VIDEO_PREVIEW',
-        exact: true,
-        component: PostPreviewWrapper,
-      },
-      {
-        path: '/update-video/:postId',
-        key: 'UPDATE_VIDEO',
-        exact: true,
-        component: PostUpdationWrapper,
-      },
-    ],
+    exact: true,
   },
   {
     path: '/posts/:postId',
