@@ -1,7 +1,5 @@
 import { lazy } from 'react';
-import Oath2Redirect from '../lib/components/Service/Oath2Redirect';
-import { RenderRoutes } from './Router';
-import { IRouterConfig } from './types';
+import { IRouteConfig } from './types';
 
 const MainView = lazy(() => import('../modules/main/components/MainView'));
 const MaterialsView = lazy(
@@ -28,9 +26,12 @@ const VideoCreation = lazy(
 const PostUpdationWrapper = lazy(
   () => import('../modules/postUpdation/components/PostUpdationWrapper'),
 );
+const Oath2Redirect = lazy(
+  () => import('../lib/components/Service/Oath2Redirect'),
+);
 const Page404 = lazy(() => import('../lib/components/Errors/Page404'));
 
-const ROUTER_CONFIG: IRouterConfig[] = [
+const ROUTER_CONFIG: IRouteConfig[] = [
   {
     path: '/',
     key: 'ROOT',
@@ -44,22 +45,15 @@ const ROUTER_CONFIG: IRouterConfig[] = [
   },
   {
     path: '/experts',
-    key: 'EXPERTS',
-    component: RenderRoutes,
-    routes: [
-      {
-        path: '/experts',
-        key: 'EXPERTS_LIST',
-        exact: true,
-        component: ExpertsView,
-      },
-      {
-        path: '/experts/:expertId',
-        key: 'EXPERT_PROFILE',
-        exact: true,
-        component: ExpertProfileViewWrapper,
-      },
-    ],
+    key: 'EXPERTS_LIST',
+    component: ExpertsView,
+    exact: true,
+  },
+  {
+    path: '/experts/:expertId',
+    key: 'EXPERT_PROFILE',
+    component: ExpertProfileViewWrapper,
+    exact: true,
   },
   {
     path: '/create-article',
@@ -83,22 +77,8 @@ const ROUTER_CONFIG: IRouterConfig[] = [
     exact: true,
   },
   {
-    path: '/update-article/:postId',
-    key: 'UPDATE_ARTICLE',
-    component: PostUpdationWrapper,
-    private: true,
-    exact: true,
-  },
-  {
-    path: '/update-note/:postId',
-    key: 'UPDATE_NOTE',
-    component: PostUpdationWrapper,
-    private: true,
-    exact: true,
-  },
-  {
-    path: '/update-video/:postId',
-    key: 'UPDATE_VIDEO',
+    path: '/update-post',
+    key: 'UPDATE_POST',
     component: PostUpdationWrapper,
     private: true,
     exact: true,

@@ -74,7 +74,7 @@ const NoteCreation: React.FC = () => {
       dispatch(
         setPostBody({
           postType: PostTypeEnum.DOPYS,
-          value: sanitizeHtml(value) as string,
+          value: sanitizeHtml(value),
         }),
       );
       setTyping({ ...typing, content: false });
@@ -113,7 +113,7 @@ const NoteCreation: React.FC = () => {
         author: user,
         content: savedPostDraft.htmlContent,
         preview: savedPostDraft.preview.value,
-        createdAt: Date().toString(),
+        createdAt: new Date().toLocaleDateString('en-GB').split('/').join('.'),
         directions: savedPostDraft.directions,
         title: savedPostDraft.title,
         type: { id: 2, name: 'Допис' }, // must not be hardcoded

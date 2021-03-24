@@ -82,7 +82,7 @@ const VideoCreation: React.FC = () => {
       dispatch(
         setPostBody({
           postType: PostTypeEnum.VIDEO,
-          value: sanitizeHtml(value) as string,
+          value: sanitizeHtml(value),
         }),
       );
       setTyping({ ...typing, content: false });
@@ -109,7 +109,7 @@ const VideoCreation: React.FC = () => {
       ({
         author: user,
         content: savedPostDraft.htmlContent,
-        createdAt: Date().toString(),
+        createdAt: new Date().toLocaleDateString('en-GB').split('/').join('.'),
         directions: savedPostDraft.directions,
         title: savedPostDraft.title,
         videoUrl: savedPostDraft.videoUrl,

@@ -61,7 +61,7 @@ const NoteUpdation: React.FC<INoteUpdationProps> = ({ post }) => {
 
   const handleHtmlContentChange = useCallback(
     _.debounce((content: string) => {
-      setHtmlContent(sanitizeHtml(content) as string);
+      setHtmlContent(sanitizeHtml(content));
       setTyping({ ...typing, content: false });
     }, CONTENT_DEBOUNCE_TIMEOUT),
     [],

@@ -21,7 +21,7 @@ const PostViewWrapper: React.FC = () => {
       const { content } = postResponse.data;
       const sanitizedData = {
         ...postResponse.data,
-        content: sanitizeHtml(content) as string,
+        content: sanitizeHtml(content),
       };
       setLoadedPost(sanitizedData);
     } catch (error) {
