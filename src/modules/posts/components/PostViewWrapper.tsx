@@ -5,6 +5,7 @@ import { getPostById } from '../../../lib/utilities/API/api';
 import { IPost } from '../../../lib/types';
 import PostView from './PostView';
 import { sanitizeHtml } from '../../../lib/utilities/sanitizeHtml';
+import PageTitle from '../../../lib/components/Pages/PageTitle';
 
 const PostViewWrapper: React.FC = () => {
   const { enqueueSnackbar } = useSnackbar();
@@ -61,11 +62,15 @@ const PostViewWrapper: React.FC = () => {
   return (
     <>
       {loadedPost && (
-        <PostView
-          post={loadedPost}
-          modificationAllowed
-          onDelete={handlePostDeletion}
-        />
+        <>
+          <PageTitle title={loadedPost.title} />
+
+          <PostView
+            post={loadedPost}
+            modificationAllowed
+            onDelete={handlePostDeletion}
+          />
+        </>
       )}
     </>
   );

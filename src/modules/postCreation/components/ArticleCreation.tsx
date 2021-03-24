@@ -16,6 +16,7 @@ import {
   setPostBody,
   setPostPreviewText,
   setPostPreviewManuallyChanged,
+  resetDraft,
 } from '../store/postCreationSlice';
 import { IDirection, IPost, PostTypeEnum } from '../../../lib/types';
 import { sanitizeHtml } from '../../../lib/utilities/sanitizeHtml';
@@ -123,7 +124,13 @@ const ArticleCreation: React.FC = () => {
 
   const handlePublishClick = async () => {
     const response = await createPost(newPost);
+    dispatch(resetDraft(PostTypeEnum.ARTICLE));
     history.push(`/posts/${response.data.id}`);
+  };
+
+  const handleCancelClick = () => {
+    dispatch(resetDraft(PostTypeEnum.ARTICLE));
+    history.goBack();
   };
 
   return (
@@ -182,16 +189,17 @@ const ArticleCreation: React.FC = () => {
       ) : (
         <PostView post={previewPost} />
       )}
-      <Box display="flex" justifyContent="flex-end">
-        <PostCreationButtons
-          onPublishClick={handlePublishClick}
-          onPreviewClick={() => {
-            setPreviewing(!previewing);
-          }}
-          previewing={previewing}
-          disabled={Object.values(typing).some((i) => i)}
-        />
-      </Box>
+
+      <PostCreationButtons
+        action="creating"
+        onCancelClick={handleCancelClick}
+        onPublishClick={handlePublishClick}
+        onPreviewClick={() => {
+          setPreviewing(!previewing);
+        }}
+        previewing={previewing}
+        disabled={Object.values(typing).some((i) => i)}
+      />
     </>
   );
 };

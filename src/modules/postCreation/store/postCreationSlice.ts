@@ -54,6 +54,14 @@ export const postCreationSlice = createSlice({
   name: 'postCreation',
   initialState,
   reducers: {
+    resetDraft: (state, action: PayloadAction<PostTypeEnum>) => {
+      if (action.payload === PostTypeEnum.ARTICLE)
+        state[PostTypeEnum.ARTICLE] = initialState[PostTypeEnum.ARTICLE];
+      if (action.payload === PostTypeEnum.DOPYS)
+        state[PostTypeEnum.DOPYS] = initialState[PostTypeEnum.DOPYS];
+      if (action.payload === PostTypeEnum.VIDEO)
+        state[PostTypeEnum.VIDEO] = initialState[PostTypeEnum.VIDEO];
+    },
     setPostDirections: (
       state,
       action: PayloadAction<{
@@ -103,6 +111,7 @@ export const postCreationSlice = createSlice({
 });
 
 export const {
+  resetDraft,
   setPostDirections,
   setPostTitle,
   setPostBody,

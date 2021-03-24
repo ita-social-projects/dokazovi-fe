@@ -150,16 +150,17 @@ const VideoUpdation: React.FC<IVideoUpdationProps> = ({ post }) => {
       ) : (
         <PostView post={previewPost} />
       )}
-      <Box display="flex" justifyContent="flex-end">
-        <PostCreationButtons
-          onPublishClick={handlePublishClick}
-          onPreviewClick={() => {
-            setPreviewing(!previewing);
-          }}
-          previewing={previewing}
-          disabled={Object.values(typing).some((i) => i)}
-        />
-      </Box>
+
+      <PostCreationButtons
+        action="updating"
+        onCancelClick={() => history.goBack()}
+        onPublishClick={handlePublishClick}
+        onPreviewClick={() => {
+          setPreviewing(!previewing);
+        }}
+        previewing={previewing}
+        disabled={Object.values(typing).some((i) => i)}
+      />
     </>
   );
 };
