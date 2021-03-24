@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { useActions } from '../../../lib/hooks/useActions';
 import { RootStateType } from '../../../store/rootReducer';
 import { fetchNewestPosts } from '../store/mainSlice';
 import { useStyles } from '../styles/NewestContainer.style';
@@ -10,7 +11,6 @@ import LoadingContainer from '../../../lib/components/Loading/LoadingContainer';
 
 const NewestContainer: React.FC = () => {
   const classes = useStyles();
-  const dispatch = useDispatch();
 
   const {
     newestPostIds,
@@ -18,9 +18,10 @@ const NewestContainer: React.FC = () => {
   } = useSelector((state: RootStateType) => state.main.newest);
   const newestPosts = selectPostsByIds(newestPostIds);
 
+  const actionFetchNewestPosts = useActions(fetchNewestPosts);
+
   useEffect(() => {
-    const setNewestPosts = () => dispatch(fetchNewestPosts());
-    setNewestPosts();
+    actionFetchNewestPosts();
   }, []);
 
   return (
