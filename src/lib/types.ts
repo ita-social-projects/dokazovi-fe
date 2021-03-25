@@ -12,9 +12,9 @@ export enum PostStatus {
 }
 
 export enum PostTypeEnum {
-  ARTICLE = 'ARTICLE',
-  DOPYS = 'DOPYS',
-  VIDEO = 'VIDEO',
+  ARTICLE = 1,
+  DOPYS = 2,
+  VIDEO = 3,
 }
 
 export enum LoadingStatusEnum {

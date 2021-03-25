@@ -77,7 +77,7 @@ const ROUTER_CONFIG: IRouteConfig[] = [
     exact: true,
   },
   {
-    path: '/update-post',
+    path: '/edit-post',
     key: 'UPDATE_POST',
     component: PostUpdationWrapper,
     private: true,

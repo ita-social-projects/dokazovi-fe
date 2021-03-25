@@ -47,7 +47,7 @@ const PostView: React.FC<IPostViewProps> = ({
         </Box>
         {modificationAllowed && (
           <Box className={classes.actionsBlock}>
-            <Link to={`/update-post?id=${post.id}`}>
+            <Link to={`/edit-post?id=${post.id}`}>
               <EditIcon />
             </Link>
             {onDelete && (

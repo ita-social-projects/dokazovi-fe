@@ -2,12 +2,13 @@ import React, { useState } from 'react';
 import { Grid } from '@material-ui/core';
 import BorderBottom from '../../Border';
 import PreviewInput from '../PreviewInput';
-import GeneralEditor from '../GeneralEditor';
+import { GeneralEditor } from '../GeneralEditor';
 import PostPreviewCard from '../../Posts/Cards/PostPreviewCard';
 import { IPost } from '../../../types';
-import NoteEditorToolbar from './NoteEditorToolbar';
+import { IEditorToolbarProps } from '../types';
 
-interface INoteEditorProps {
+interface ITextPostEditorProps {
+  toolbar: React.ComponentType<IEditorToolbarProps>;
   initialHtmlContent?: string;
   initialPreview: string;
   onHtmlContentChange: (value: string) => void;
@@ -17,7 +18,8 @@ interface INoteEditorProps {
   previewPost: IPost;
 }
 
-const NoteEditor: React.FC<INoteEditorProps> = ({
+const PostEditor: React.FC<ITextPostEditorProps> = ({
+  toolbar,
   initialHtmlContent,
   initialPreview,
   onHtmlContentChange,
@@ -26,15 +28,15 @@ const NoteEditor: React.FC<INoteEditorProps> = ({
   onPreviewChange,
   previewPost,
 }) => {
-  const [editorTextContent, setEditorTextContent] = useState<string>('');
+  const [textContent, setTextContent] = useState<string>('');
 
   return (
     <>
       <GeneralEditor
         initialHtmlContent={initialHtmlContent}
         onHtmlContentChange={onHtmlContentChange}
-        toolbar={NoteEditorToolbar}
-        onTextContentChange={setEditorTextContent}
+        toolbar={toolbar}
+        onTextContentChange={setTextContent}
       />
       <BorderBottom />
       <Grid container direction="row" alignItems="stretch">
@@ -50,7 +52,7 @@ const NoteEditor: React.FC<INoteEditorProps> = ({
           <PreviewInput
             initialPreview={initialPreview}
             editorTextContent={
-              !initialWasPreviewManuallyChanged ? editorTextContent : undefined // optimizing rerenders when we don't need editor content
+              !initialWasPreviewManuallyChanged ? textContent : undefined // optimizing rerenders when we don't need editor content
             }
             initialWasManuallyChanged={initialWasPreviewManuallyChanged}
             onManuallyChanged={onPreviewManuallyChanged}
@@ -65,4 +67,4 @@ const NoteEditor: React.FC<INoteEditorProps> = ({
   );
 };
 
-export default React.memo(NoteEditor);
+export const TextPostEditor = React.memo(PostEditor);

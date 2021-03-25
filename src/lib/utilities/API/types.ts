@@ -10,34 +10,28 @@ type CreatePostRequestType = {
   };
 };
 
-export type CreateArticlePostRequestType = CreatePostRequestType;
-
-export type CreateDopysPostRequestType = CreatePostRequestType;
+export type CreateTextPostRequestType = CreatePostRequestType;
 
 export type CreateVideoPostRequestType = CreatePostRequestType & {
   videoUrl: string;
 };
 
 export type CreatePostRequestUnionType =
-  | CreateArticlePostRequestType
-  | CreateDopysPostRequestType
+  | CreateTextPostRequestType
   | CreateVideoPostRequestType;
 
 type UpdatePostRequestType = CreatePostRequestType & {
   id: number;
 };
 
-export type UpdateArticlePostRequestType = UpdatePostRequestType;
-
-export type UpdateDopysPostRequestType = UpdatePostRequestType;
+export type UpdateTextPostRequestType = UpdatePostRequestType;
 
 export type UpdateVideoPostRequestType = UpdatePostRequestType & {
   videoUrl: string;
 };
 
 export type UpdatePostRequestUnionType =
-  | UpdateArticlePostRequestType
-  | UpdateDopysPostRequestType
+  | UpdateTextPostRequestType
   | UpdateVideoPostRequestType;
 
 export type PostResponseType = {

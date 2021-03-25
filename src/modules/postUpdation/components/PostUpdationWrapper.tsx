@@ -3,8 +3,8 @@ import { useHistory } from 'react-router-dom';
 import { getPostById } from '../../../lib/utilities/API/api';
 import { IPost } from '../../../lib/types';
 import { sanitizeHtml } from '../../../lib/utilities/sanitizeHtml';
-import ArticleUpdation from './ArticleUpdation';
-import NoteUpdation from './NoteUpdation';
+import { ArticleUpdation } from './ArticleUpdation';
+import { NoteUpdation } from './NoteUpdation';
 import VideoUpdation from './VideoUpdation';
 import { useQuery } from '../../../lib/hooks/useQuery';
 

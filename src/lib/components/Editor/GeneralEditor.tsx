@@ -12,7 +12,7 @@ export interface IQuillEditorProps {
   onTextContentChange?: (textContent: string) => void;
 }
 
-const GeneralEditor: React.FC<IQuillEditorProps> = (props) => {
+const Editor: React.FC<IQuillEditorProps> = (props) => {
   const {
     initialHtmlContent,
     onHtmlContentChange,
@@ -50,4 +50,4 @@ const GeneralEditor: React.FC<IQuillEditorProps> = (props) => {
   );
 };
 
-export default React.memo(GeneralEditor);
+export const GeneralEditor = React.memo(Editor);
