@@ -9,7 +9,7 @@ export interface IPostCreationState {
 export interface INewPostDraft {
   topics: string[];
   title?: string;
-  isDone: boolean;
+  isDone?: boolean;
   htmlContent: string;
   preview: IPostPreview;
   videoUrl?: string;
