@@ -19,6 +19,10 @@ export const useStyles = makeStyles(
       filter: 'grayscale(100%)',
       marginRight: theme.spacing(4),
     },
+    controlBlock: {
+      alignSelf: 'flex-start',
+      marginLeft: 'auto',
+    },
     contentRoot: {
       minHeight: '550px',
     },

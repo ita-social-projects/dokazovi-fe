@@ -31,7 +31,11 @@ export const PostCreationButtons: React.FC<IPostCreationButtonsProps> = ({
           {buttonText}
         </Button>
         <Button disabled={!isDone} variant="contained" onClick={publishPost}>
-          {isDone ? 'Опублікувати' : <CircularProgress size={20} />}
+          {isDone === undefined || isDone ? (
+            'Опублікувати'
+          ) : (
+            <CircularProgress size={20} />
+          )}
         </Button>
       </Box>
     </>

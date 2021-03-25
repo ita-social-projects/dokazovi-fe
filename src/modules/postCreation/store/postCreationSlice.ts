@@ -7,14 +7,12 @@ const initialState: IPostCreationState = {
   [PostTypeEnum.ARTICLE]: {
     topics: [],
     title: '',
-    isDone: false,
     htmlContent: '',
     preview: { value: '', isManuallyChanged: false },
     backgroundImageUrl: '',
   },
   [PostTypeEnum.DOPYS]: {
     topics: [],
-    isDone: false,
     htmlContent: '',
     preview: { value: '', isManuallyChanged: false },
     backgroundImageUrl: '',
@@ -22,7 +20,6 @@ const initialState: IPostCreationState = {
   [PostTypeEnum.VIDEO]: {
     topics: [],
     title: '',
-    isDone: false,
     htmlContent: '',
     preview: { value: '', isManuallyChanged: false },
     videoUrl: '',
