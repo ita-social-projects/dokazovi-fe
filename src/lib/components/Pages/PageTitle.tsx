@@ -5,7 +5,7 @@ export interface IPageTitleProps {
   title?: string;
 }
 
-const PageTitle: React.FC<IPageTitleProps> = ({ title }) => {
+export const PageTitle: React.FC<IPageTitleProps> = ({ title }) => {
   const newTitle = title ? `${appTitle} | ${title}` : appTitle;
 
   useEffect(() => {
@@ -14,5 +14,3 @@ const PageTitle: React.FC<IPageTitleProps> = ({ title }) => {
 
   return null;
 };
-
-export default PageTitle;

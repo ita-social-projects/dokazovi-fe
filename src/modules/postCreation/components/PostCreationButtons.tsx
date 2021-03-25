@@ -9,7 +9,7 @@ export interface IPostCreationButtonsProps {
   isDone?: boolean;
 }
 
-const PostCreationButtons: React.FC<IPostCreationButtonsProps> = ({
+export const PostCreationButtons: React.FC<IPostCreationButtonsProps> = ({
   publishPost,
   goPreview,
   isOnPreview,
@@ -37,5 +37,3 @@ const PostCreationButtons: React.FC<IPostCreationButtonsProps> = ({
     </>
   );
 };
-
-export default PostCreationButtons;

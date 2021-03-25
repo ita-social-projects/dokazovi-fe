@@ -2,7 +2,7 @@ import { IconButton } from '@material-ui/core';
 import React from 'react';
 import Quill from 'quill';
 import CropOriginalIcon from '@material-ui/icons/CropOriginal';
-import UrlInputModal from './UrlInputModal';
+import { UrlInputModal } from './UrlInputModal';
 
 export interface IImageHandlersContainerProps {
   editor?: Quill;

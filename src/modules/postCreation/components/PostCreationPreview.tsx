@@ -5,8 +5,8 @@ import PostView from '../../posts/components/PostView';
 import { RootStateType } from '../../../store/rootReducer';
 import { IPost, PostTypeEnum } from '../../../lib/types';
 import usePostPreviewData from '../../../lib/hooks/usePostPreviewData';
-import PostCreationButtons from './PostCreationButtons';
-import PageTitle from '../../../lib/components/Pages/PageTitle';
+import { PostCreationButtons } from './PostCreationButtons';
+import { PageTitle } from '../../../lib/components/Pages/PageTitle';
 import { createPost } from '../../../lib/utilities/API/api';
 import { CreatePostRequestType } from '../../../lib/utilities/API/types';
 

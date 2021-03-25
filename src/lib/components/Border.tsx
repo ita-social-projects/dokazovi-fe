@@ -14,9 +14,7 @@ const useStyles = makeStyles(
   { name: 'BorderBottom' },
 );
 
-const BorderBottom: React.FC = () => {
+export const BorderBottom: React.FC = () => {
   const classes = useStyles();
   return <div className={classes.customBorder} />;
 };
-
-export default BorderBottom;

@@ -1,3 +1,9 @@
+export enum PostTypeEnum {
+  ARTICLE = 'ARTICLE',
+  DOPYS = 'DOPYS',
+  VIDEO = 'VIDEO',
+}
+
 export enum ExpertStatus {
   NEW = 'NEW',
   ACTIVE = 'ACTIVE',
@@ -9,12 +15,6 @@ export enum PostStatus {
   MODERATION_SECOND_SIGN = 'MODERATION_SECOND_SIGN',
   PUBLISHED = 'PUBLISHED',
   ARCHIVED = 'ARCHIVED',
-}
-
-export enum PostTypeEnum {
-  ARTICLE = 'ARTICLE',
-  DOPYS = 'DOPYS',
-  VIDEO = 'VIDEO',
 }
 
 export enum LoadingStatusEnum {

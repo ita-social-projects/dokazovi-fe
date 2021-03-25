@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Card, Box, Typography, CardMedia } from '@material-ui/core';
 import { useStyles } from '../styles/PostView.styles';
 import { IPost } from '../../../lib/types';
-import PageTitle from '../../../lib/components/Pages/PageTitle';
+import { PageTitle } from '../../../lib/components/Pages/PageTitle';
 
 export interface IPostViewProps {
   post: IPost;

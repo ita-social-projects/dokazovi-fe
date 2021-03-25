@@ -1,27 +1,7 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { PostTypeEnum } from '../../../lib/types';
-
-export interface INewPostDraft {
-  topics: string[];
-  title?: string;
-  isDone: boolean;
-  htmlContent: string;
-  preview: IPostPreview;
-  videoUrl?: string;
-  backgroundImageUrl?: string;
-}
-
-interface IPostPreview {
-  value: string;
-  isManuallyChanged: boolean;
-}
-
-export interface IPostCreationState {
-  [PostTypeEnum.ARTICLE]: INewPostDraft;
-  [PostTypeEnum.DOPYS]: INewPostDraft;
-  [PostTypeEnum.VIDEO]: INewPostDraft;
-}
+import { INewPostDraft, IPostCreationState } from '../types';
 
 const initialState: IPostCreationState = {
   [PostTypeEnum.ARTICLE]: {

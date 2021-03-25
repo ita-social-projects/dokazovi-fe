@@ -9,16 +9,11 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import CropOriginalIcon from '@material-ui/icons/CropOriginal';
 import { IconButton } from '@material-ui/core';
 import { useForm } from 'react-hook-form';
-import Quill from 'quill';
 import { Alert } from '@material-ui/lab';
-import insertFromUrl from './ImageFromURLHandler';
+import { insertFromUrl } from './ImageFromURLHandler';
+import { IUrlInputModalProps } from './types';
 
-interface IUrlInputModalProps {
-  editor?: Quill;
-  updateBackgroundImage?: (url: string) => void; // change name
-}
-
-const UrlInputModal: React.FC<IUrlInputModalProps> = ({
+export const UrlInputModal: React.FC<IUrlInputModalProps> = ({
   editor,
   updateBackgroundImage,
 }) => {
@@ -106,4 +101,4 @@ const UrlInputModal: React.FC<IUrlInputModalProps> = ({
   );
 };
 
-export default UrlInputModal;
+// export default UrlInputModal;

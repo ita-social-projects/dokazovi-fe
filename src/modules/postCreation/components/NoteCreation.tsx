@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import _ from 'lodash';
 import { CircularProgress, Typography, Box } from '@material-ui/core';
-import NoteEditor from '../../../lib/components/Editor/Editors/NoteEditor';
+import { NoteEditor } from '../../../lib/components/Editor/Editors/NoteEditor';
 import {
   setPostTopics,
   setPostBody,
@@ -14,13 +14,14 @@ import { PostTopicSelector } from './PostTopicSelector';
 import { PostTypeEnum } from '../../../lib/types';
 import { RootStateType } from '../../../store/rootReducer';
 import { sanitizeHtml } from '../../../lib/utilities/sanitizeHtml';
-import PostCreationButtons from './PostCreationButtons';
-import PageTitle from '../../../lib/components/Pages/PageTitle';
+import { PostCreationButtons } from './PostCreationButtons';
+import { PageTitle } from '../../../lib/components/Pages/PageTitle';
 import { CreatePostRequestType } from '../../../lib/utilities/API/types';
 import { createPost } from '../../../lib/utilities/API/api';
-import BorderBottom from '../../../lib/components/Border';
-import UrlInputModal from '../../../lib/components/Editor/CustomModules/UrlInputModal';
-import { getImgurImageUrl } from '../../../lib/utilities/getImgurImageUrl';
+import { BorderBottom } from '../../../lib/components/Border';
+import { getStringFromFile } from '../../../lib/utilities/Imgur/getStringFromFile';
+import { uploadImageToImgur } from '../../../lib/utilities/Imgur/uploadImageToImgur';
+import { BackgroundImageContainer } from '../../../lib/components/Editor/CustomModules/BackgroundImageContainer';
 
 const NoteCreation: React.FC = () => {
   const dispatch = useDispatch();
@@ -39,7 +40,7 @@ const NoteCreation: React.FC = () => {
 
   const [backgroundImage, setBackgroundImage] = useState<string | undefined>(
     '',
-  ); // state for a link from Imgur
+  );
 
   const isDone = useSelector(
     (state: RootStateType) => state.newPostDraft.DOPYS.isDone,
@@ -96,8 +97,16 @@ const NoteCreation: React.FC = () => {
     });
   };
 
-  const fileSelectorHandler = (e) => {
-    getImgurImageUrl(e);
+  const fileSelectorHandler = (
+    e: React.ChangeEvent<HTMLInputElement>,
+  ): void => {
+    getStringFromFile(e.target.files)
+      .then((str) => uploadImageToImgur(str))
+      .then((res) => {
+        if (res.data.status === 200) {
+          setBackgroundImage(res.data.data.link);
+        }
+      });
   };
 
   return (
@@ -115,20 +124,11 @@ const NoteCreation: React.FC = () => {
       ) : (
         <CircularProgress />
       )}
-      <Box mt={2} display="flex" flexDirection="column" alignItems="start">
-        <Typography variant="h5">Фонове зображення:</Typography>
-        <Box mb={2}>
-          <UrlInputModal updateBackgroundImage={dispatchImageUrl} />
-          <input type="file" name="file" onChange={fileSelectorHandler} />
-        </Box>
-        {newPost.backgroundImageUrl && (
-          <img
-            src={`${newPost.backgroundImageUrl}`}
-            alt="preview"
-            style={{ width: '360px', height: '240px' }}
-          />
-        )}
-      </Box>
+      <BackgroundImageContainer
+        dispatchImageUrl={dispatchImageUrl}
+        fileSelectorHandler={fileSelectorHandler}
+        newPost={newPost}
+      />
       <BorderBottom />
       <Box mt={2}>
         <Typography variant="h5">Текст статті:</Typography>

@@ -22,8 +22,8 @@ import { RootStateType } from '../../../store/rootReducer';
 import { sanitizeHtml } from '../../../lib/utilities/sanitizeHtml';
 import { parseVideoIdFromUrl } from '../../../lib/utilities/parseVideoIdFromUrl';
 import VideoUrlInputModal from '../../../lib/components/Editor/CustomModules/VideoUrlInputModal';
-import PostCreationButtons from './PostCreationButtons';
-import PageTitle from '../../../lib/components/Pages/PageTitle';
+import { PostCreationButtons } from './PostCreationButtons';
+import { PageTitle } from '../../../lib/components/Pages/PageTitle';
 import { createPost } from '../../../lib/utilities/API/api';
 import { CreatePostRequestType } from '../../../lib/utilities/API/types';
 

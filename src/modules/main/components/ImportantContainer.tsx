@@ -1,7 +1,7 @@
 import { Grid, Typography } from '@material-ui/core';
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import BorderBottom from '../../../lib/components/Border';
+import { BorderBottom } from '../../../lib/components/Border';
 import Carousel from '../../../lib/components/Carousel/Carousel';
 import LoadingInfo from '../../../lib/components/Loading/LoadingInfo';
 import { PostCard } from '../../../lib/components/Posts/Cards/PostCard';

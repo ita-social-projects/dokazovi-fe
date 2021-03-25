@@ -3,7 +3,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 // Disables required to allow using Quill methods
 import Quill, { RangeStatic } from 'quill';
-import insertFromUrl from './ImageFromURLHandler';
+import { insertFromUrl } from './ImageFromURLHandler';
 
 export interface IUploadFunc {
   upload: (file: string | Blob) => Promise<string>;

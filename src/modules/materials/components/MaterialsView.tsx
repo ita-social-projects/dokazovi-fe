@@ -25,7 +25,7 @@ import {
   mapQueryIdsStringToArray,
 } from '../../../lib/utilities/filters';
 import LoadingContainer from '../../../lib/components/Loading/LoadingContainer';
-import PageTitle from '../../../lib/components/Pages/PageTitle';
+import { PageTitle } from '../../../lib/components/Pages/PageTitle';
 import { useQuery } from '../../../lib/hooks/useQuery';
 import CheckboxDropdownFilterForm from '../../../lib/components/Filters/CheckboxDropdownFilterForm';
 

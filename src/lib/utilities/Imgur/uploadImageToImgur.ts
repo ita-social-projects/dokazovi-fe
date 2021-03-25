@@ -5,9 +5,10 @@ const CLIENT_ID = '4415dae57a57524';
 
 export type ImgurPostResponseType = {
   data: { deletehash: string; link: string };
+  status: number;
 };
 
-export const postImage = (
+export const uploadImageToImgur = (
   url: string,
   config = {
     headers: {
@@ -27,7 +28,7 @@ export const postImage = (
 // By defalut imgur provide us approximately 1,250 uploads per day or approximately 12,500 requests per day.
 // Max 12,500 requests - allowed during 1 month
 // If the daily limit is hit five times in a month, then the app will be blocked for the rest of the month
-export const getLimits = (
+export const getImgutLimits = (
   config = {
     headers: {
       Authorization: `Client-ID ${CLIENT_ID}`,

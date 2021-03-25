@@ -1,6 +1,6 @@
 import React from 'react';
 import { Typography } from '@material-ui/core';
-import PageTitle from '../Pages/PageTitle';
+import { PageTitle } from '../Pages/PageTitle';
 
 const Page404: React.FC = () => {
   return (

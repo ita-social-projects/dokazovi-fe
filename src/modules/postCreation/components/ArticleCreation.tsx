@@ -20,13 +20,14 @@ import {
 import { PostTopicSelector } from './PostTopicSelector';
 import { PostTypeEnum } from '../../../lib/types';
 import { sanitizeHtml } from '../../../lib/utilities/sanitizeHtml';
-import PostCreationButtons from './PostCreationButtons';
+import { PostCreationButtons } from './PostCreationButtons';
 import { CreatePostRequestType } from '../../../lib/utilities/API/types';
-import PageTitle from '../../../lib/components/Pages/PageTitle';
+import { PageTitle } from '../../../lib/components/Pages/PageTitle';
 import { createPost } from '../../../lib/utilities/API/api';
-import BorderBottom from '../../../lib/components/Border';
-import UrlInputModal from '../../../lib/components/Editor/CustomModules/UrlInputModal';
-import { getImgurImageUrl } from '../../../lib/utilities/getImgurImageUrl';
+import { BorderBottom } from '../../../lib/components/Border';
+import { getStringFromFile } from '../../../lib/utilities/Imgur/getStringFromFile';
+import { uploadImageToImgur } from '../../../lib/utilities/Imgur/uploadImageToImgur';
+import { BackgroundImageContainer } from '../../../lib/components/Editor/CustomModules/BackgroundImageContainer';
 
 const ArticleCreation: React.FC = () => {
   const history = useHistory();
@@ -46,8 +47,7 @@ const ArticleCreation: React.FC = () => {
 
   const [backgroundImage, setBackgroundImage] = useState<string | undefined>(
     '',
-  ); // state for a link recieved from Imgur
-
+  );
   const isDone = useSelector(
     (state: RootStateType) => state.newPostDraft.ARTICLE.isDone,
   );
@@ -65,7 +65,7 @@ const ArticleCreation: React.FC = () => {
     [],
   );
 
-  const dispatchImageUrl = (backgroundImageUrl: string) => {
+  const dispatchImageUrl = (backgroundImageUrl: string): void => {
     dispatch(
       setImageUrl({
         postType: PostTypeEnum.ARTICLE,
@@ -117,8 +117,16 @@ const ArticleCreation: React.FC = () => {
     });
   };
 
-  const fileSelectorHandler = (e) => {
-    getImgurImageUrl(e);
+  const fileSelectorHandler = (
+    e: React.ChangeEvent<HTMLInputElement>,
+  ): void => {
+    getStringFromFile(e.target.files)
+      .then((str) => uploadImageToImgur(str))
+      .then((res) => {
+        if (res.data.status === 200) {
+          setBackgroundImage(res.data.data.link);
+        }
+      });
   };
 
   return (
@@ -151,22 +159,12 @@ const ArticleCreation: React.FC = () => {
           }}
         />
       </Box>
-      <Box mt={2} display="flex" flexDirection="column" alignItems="start">
-        <Typography variant="h5">Фонове зображення:</Typography>
-        <Box mb={2}>
-          <UrlInputModal updateBackgroundImage={dispatchImageUrl} />
-          <input type="file" name="file" onChange={fileSelectorHandler} />
-        </Box>
-        {newPost.backgroundImageUrl && (
-          <img
-            src={`${newPost.backgroundImageUrl}`}
-            alt="preview"
-            style={{ width: '360px', height: '240px' }}
-          />
-        )}
-      </Box>
+      <BackgroundImageContainer
+        dispatchImageUrl={dispatchImageUrl}
+        fileSelectorHandler={fileSelectorHandler}
+        newPost={newPost}
+      />
       <BorderBottom />
-
       <Box mt={2}>
         <Typography variant="h5">Текст статті:</Typography>
         <ArticleEditor dispatchContent={dispatchHtmlContent} />
