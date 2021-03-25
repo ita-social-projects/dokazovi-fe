@@ -20,8 +20,6 @@ const ImportantContainer: React.FC = () => {
   } = useSelector((state: RootStateType) => state.main.important);
   const importantPosts = selectPostsByIds(importantPostIds);
 
-  const slidesToShow = 3;
-
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -39,7 +37,7 @@ const ImportantContainer: React.FC = () => {
       ) : (
         <>
           <Carousel>
-            {importantPosts.slice(0, slidesToShow).map((post) => (
+            {importantPosts.map((post) => (
               <PostCard post={post} key={post.title} />
             ))}
           </Carousel>

@@ -2,9 +2,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { LoadingStatusEnum } from '../../../lib/types';
 import { getPosts } from '../../../lib/utilities/API/api';
-
-import type { AppThunkType } from '../../../store/store';
-import type { RootStateType } from '../../../store/rootReducer';
 import { loadPosts, mapFetchedPosts } from '../../../store/dataSlice';
 import {
   LOAD_POSTS_LIMIT,
@@ -12,8 +9,6 @@ import {
 } from '../../../lib/constants/posts';
 
 interface INewestPostsMeta {
-  currentPage: number;
-  isLastPage: boolean;
   loading: LoadingStatusEnum;
   error: null | string;
 }
@@ -25,7 +20,6 @@ interface INewestPostsPayload {
 
 interface IFetchNewestPosts {
   loadedPostIds: number[];
-  isLastPage: boolean;
 }
 
 interface IImportantPostsMeta {
@@ -54,8 +48,6 @@ const initialState: IMainState = {
   newest: {
     newestPostIds: [],
     meta: {
-      currentPage: 0,
-      isLastPage: false,
       loading: LoadingStatusEnum.idle,
       error: null,
     },
@@ -64,22 +56,18 @@ const initialState: IMainState = {
 
 export const fetchNewestPosts = createAsyncThunk<IFetchNewestPosts>(
   'main/loadNewestPosts',
-  async (_, { dispatch, getState }) => {
-    const {
-      main: { newest },
-    } = getState() as RootStateType;
-
+  async (_, { dispatch }) => {
     const resp = await getPosts('latest', {
       params: {
         size: LOAD_POSTS_LIMIT,
-        page: newest.meta.currentPage,
       },
     });
 
     const { mappedPosts, ids } = mapFetchedPosts(resp.data.content);
+
     dispatch(loadPosts(mappedPosts));
 
-    return { loadedPostIds: ids, isLastPage: resp.data.last };
+    return { loadedPostIds: ids };
   },
 );
 
@@ -120,19 +108,6 @@ export const fetchImportantPosts = createAsyncThunk(
   },
 );
 
-export const fetchInitialNewestPosts = (): AppThunkType => async (
-  dispatch,
-  getState,
-) => {
-  const {
-    main: { newest },
-  } = getState();
-
-  if (!newest.newestPostIds.length) {
-    await dispatch(fetchNewestPosts());
-  }
-};
-
 export const mainSlice = createSlice({
   name: 'main',
   initialState,
@@ -156,10 +131,8 @@ export const mainSlice = createSlice({
       state.newest.meta.loading = LoadingStatusEnum.pending;
     });
     builder.addCase(fetchNewestPosts.fulfilled, (state, { payload }) => {
-      state.newest.meta.currentPage += 1;
-      state.newest.meta.isLastPage = payload.isLastPage;
       state.newest.meta.loading = LoadingStatusEnum.succeeded;
-      state.newest.newestPostIds.push(...payload.loadedPostIds);
+      state.newest.newestPostIds = payload.loadedPostIds;
     });
     builder.addCase(fetchNewestPosts.rejected, (state, { error }) => {
       if (error.message) {
