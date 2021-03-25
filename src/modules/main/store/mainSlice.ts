@@ -132,7 +132,7 @@ export const mainSlice = createSlice({
     });
     builder.addCase(fetchNewestPosts.fulfilled, (state, { payload }) => {
       state.newest.meta.loading = LoadingStatusEnum.succeeded;
-      state.newest.newestPostIds.push(...payload.loadedPostIds);
+      state.newest.newestPostIds = payload.loadedPostIds;
     });
     builder.addCase(fetchNewestPosts.rejected, (state, { error }) => {
       if (error.message) {
