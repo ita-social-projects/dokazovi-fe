@@ -27,7 +27,7 @@ import { createPost } from '../../../lib/utilities/API/api';
 import { BorderBottom } from '../../../lib/components/Border';
 import { getStringFromFile } from '../../../lib/utilities/Imgur/getStringFromFile';
 import { uploadImageToImgur } from '../../../lib/utilities/Imgur/uploadImageToImgur';
-import { BackgroundImageContainer } from '../../../lib/components/Editor/CustomModules/BackgroundImageContainer';
+import { BackgroundImageContainer } from '../../../lib/components/Editor/CustomModules/BackgroundImageContainer/BackgroundImageContainer';
 
 const ArticleCreation: React.FC = () => {
   const history = useHistory();

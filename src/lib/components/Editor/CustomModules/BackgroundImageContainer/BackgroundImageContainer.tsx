@@ -1,7 +1,8 @@
 import React from 'react';
 import { Box, Typography } from '@material-ui/core';
-import { UrlInputModal } from './UrlInputModal';
-import { IBackgroundImageContainerProps } from './types';
+import { UrlInputModal } from '../UrlInputModal';
+import { IBackgroundImageContainerProps } from '../types';
+import './backgroundImageContainer.css';
 
 export const BackgroundImageContainer: React.FC<IBackgroundImageContainerProps> = ({
   dispatchImageUrl,
@@ -16,11 +17,7 @@ export const BackgroundImageContainer: React.FC<IBackgroundImageContainerProps> 
         <input type="file" name="file" onChange={fileSelectorHandler} />
       </Box>
       {newPost?.backgroundImageUrl && (
-        <img
-          src={`${newPost?.backgroundImageUrl}`}
-          alt="preview"
-          style={{ width: '360px', height: '240px' }}
-        />
+        <img src={newPost?.backgroundImageUrl} alt="preview" />
       )}
     </Box>
   );
