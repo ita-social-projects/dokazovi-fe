@@ -8,6 +8,8 @@ const NoteCreation: React.FC = () => {
     <TextPostCreation
       editorToolbar={NoteEditorToolbar}
       pageTitle="Створення допису"
+      titleInputLabel="Заголовок допису:"
+      contentInputLabel="Текст допису:"
       postType={{ type: PostTypeEnum.DOPYS, name: 'Допис' }}
     />
   );

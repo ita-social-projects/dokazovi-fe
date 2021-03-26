@@ -13,6 +13,8 @@ export const ArticleUpdation: React.FC<IArticleUpdationProps> = ({ post }) => {
       post={post}
       editorToolbar={ArticleEditorToolbar}
       pageTitle="Редагування статті"
+      titleInputLabel="Заголовок статті:"
+      contentInputLabel="Текст статті:"
     />
   );
 };

@@ -1,22 +1,13 @@
 import React, { useCallback, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import _ from 'lodash';
-import { useSelector } from 'react-redux';
-import {
-  Box,
-  CircularProgress,
-  TextField,
-  Typography,
-} from '@material-ui/core';
+import { Box, TextField, Typography } from '@material-ui/core';
 import { sanitizeHtml } from '../../../lib/utilities/sanitizeHtml';
 import PageTitle from '../../../lib/components/Pages/PageTitle';
 import { updatePost } from '../../../lib/utilities/API/api';
 import { IDirection, IPost } from '../../../lib/types';
 import PostCreationButtons from '../../postCreation/components/PostCreationButtons';
-import { RootStateType } from '../../../store/rootReducer';
 import { UpdateTextPostRequestType } from '../../../lib/utilities/API/types';
-import CheckboxDropdownFilterForm from '../../../lib/components/Filters/CheckboxDropdownFilterForm';
-import { CheckboxFormStateType } from '../../../lib/components/Filters/CheckboxFilterForm';
 import {
   CONTENT_DEBOUNCE_TIMEOUT,
   PREVIEW_DEBOUNCE_TIMEOUT,
@@ -24,15 +15,20 @@ import {
 import PostView from '../../posts/components/PostView';
 import { TextPostEditor } from '../../../lib/components/Editor/Editors/TextPostEditor';
 import { IEditorToolbarProps } from '../../../lib/components/Editor/types';
+import { PostDirectionsSelector } from '../../postCreation/components/PostDirectionsSelector';
 
 export interface ITextPostUpdationProps {
   pageTitle: string;
+  titleInputLabel: string;
+  contentInputLabel: string;
   editorToolbar: React.ComponentType<IEditorToolbarProps>;
   post: IPost;
 }
 
 export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
   pageTitle,
+  titleInputLabel,
+  contentInputLabel,
   editorToolbar,
   post,
 }) => {
@@ -50,25 +46,13 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
   const [typing, setTyping] = useState({ content: false, preview: false });
   const [previewing, setPreviewing] = useState(false);
 
-  const allDirections = useSelector(
-    (state: RootStateType) => state.properties.directions,
-  );
-
-  const handleDirectionsChange = (checkedDirections: CheckboxFormStateType) => {
-    const checkedIds = Object.keys(checkedDirections).filter(
-      (key) => checkedDirections[key],
-    );
-
-    const directions: IDirection[] = allDirections.filter((direction) =>
-      checkedIds.includes(direction.id.toString()),
-    );
-
-    setSelectedDirections(directions);
+  const handleDirectionsChange = (value: IDirection[]) => {
+    setSelectedDirections(value);
   };
 
   const handleHtmlContentChange = useCallback(
-    _.debounce((content: string) => {
-      setHtmlContent(sanitizeHtml(content));
+    _.debounce((value: string) => {
+      setHtmlContent(sanitizeHtml(value));
       setTyping({ ...typing, content: false });
     }, CONTENT_DEBOUNCE_TIMEOUT),
     [],
@@ -111,20 +95,12 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
 
       {!previewing ? (
         <>
-          {allDirections.length ? (
-            <CheckboxDropdownFilterForm
-              onFormChange={handleDirectionsChange}
-              possibleFilters={allDirections}
-              selectedFilters={selectedDirections}
-              noAll
-              maximumReached={selectedDirections.length === 3}
-              filterTitle="Напрямки: "
-            />
-          ) : (
-            <CircularProgress />
-          )}
+          <PostDirectionsSelector
+            selectedDirections={selectedDirections}
+            onSelectedDirectionsChange={handleDirectionsChange}
+          />
           <Box mt={2}>
-            <Typography variant="h5">Заголовок статті: </Typography>
+            <Typography variant="h5">{titleInputLabel}</Typography>
             <TextField
               error={Boolean(title.error)}
               helperText={title.error}
@@ -138,7 +114,7 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
             />
           </Box>
           <Box mt={2}>
-            <Typography variant="h5">Текст статті:</Typography>
+            <Typography variant="h5">{contentInputLabel}</Typography>
             <TextPostEditor
               toolbar={editorToolbar}
               initialHtmlContent={htmlContent}

@@ -26,6 +26,7 @@ const PostCreationButtons: React.FC<IPostCreationButtonsProps> = ({
   const previewButtonText = previewing
     ? 'Назад до редагування'
     : 'Попередній перегляд';
+  const publishButtonText = action === 'creating' ? 'Опублікувати' : 'Зберегти';
 
   return (
     <Box display="flex" flexDirection="row" marginTop="40px">
@@ -51,15 +52,13 @@ const PostCreationButtons: React.FC<IPostCreationButtonsProps> = ({
           {previewButtonText}
         </Button>
 
-        <ConfirmationModalWithButton
-          message={`Ви дійсно бажаєте ${
-            action === 'creating' ? 'опублікувати' : 'зберегти'
-          } цей матеріал?`}
-          buttonText={action === 'creating' ? 'Опублікувати' : 'Зберегти'}
-          onConfirmButtonClick={onPublishClick}
-          disabled={disabled}
-          loading={loading}
-        />
+        <Button
+          variant="contained"
+          disabled={disabled || loading}
+          onClick={onPublishClick}
+        >
+          {publishButtonText}
+        </Button>
       </Box>
     </Box>
   );

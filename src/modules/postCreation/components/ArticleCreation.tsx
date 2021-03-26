@@ -8,6 +8,8 @@ const ArticleCreation: React.FC = () => {
     <TextPostCreation
       editorToolbar={ArticleEditorToolbar}
       pageTitle="Створення статті"
+      titleInputLabel="Заголовок статті:"
+      contentInputLabel="Текст статті:"
       postType={{ type: PostTypeEnum.ARTICLE, name: 'Стаття' }}
     />
   );

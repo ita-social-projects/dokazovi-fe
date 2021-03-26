@@ -13,6 +13,8 @@ export const NoteUpdation: React.FC<INoteUpdationProps> = ({ post }) => {
       post={post}
       editorToolbar={NoteEditorToolbar}
       pageTitle="Редагування допису"
+      titleInputLabel="Заголовок допису:"
+      contentInputLabel="Текст допису:"
     />
   );
 };

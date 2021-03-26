@@ -2,12 +2,7 @@ import React, { useCallback, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import _ from 'lodash';
-import {
-  CircularProgress,
-  Typography,
-  TextField,
-  Box,
-} from '@material-ui/core';
+import { Typography, TextField, Box } from '@material-ui/core';
 import VideoEditor from '../../../lib/components/Editor/Editors/VideoEditor';
 import {
   setPostTitle,
@@ -25,18 +20,14 @@ import PostCreationButtons from './PostCreationButtons';
 import PageTitle from '../../../lib/components/Pages/PageTitle';
 import { createPost } from '../../../lib/utilities/API/api';
 import { CreateVideoPostRequestType } from '../../../lib/utilities/API/types';
-import { CheckboxFormStateType } from '../../../lib/components/Filters/CheckboxFilterForm';
-import CheckboxDropdownFilterForm from '../../../lib/components/Filters/CheckboxDropdownFilterForm';
 import { CONTENT_DEBOUNCE_TIMEOUT } from '../../../lib/constants/editors';
 import PostView from '../../posts/components/PostView';
+import { PostDirectionsSelector } from './PostDirectionsSelector';
 
 const VideoCreation: React.FC = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const allDirections = useSelector(
-    (state: RootStateType) => state.properties.directions,
-  );
   const savedPostDraft = useSelector(
     (state: RootStateType) => state.newPostDraft[PostTypeEnum.VIDEO],
   );
@@ -56,18 +47,8 @@ const VideoCreation: React.FC = () => {
 
   const videoId = parseVideoIdFromUrl(videoUrl);
 
-  const handleDirectionsChange = (checkedDirections: CheckboxFormStateType) => {
-    const checkedIds = Object.keys(checkedDirections).filter(
-      (key) => checkedDirections[key],
-    );
-
-    const directions: IDirection[] = allDirections.filter((direction) =>
-      checkedIds.includes(direction.id.toString()),
-    );
-
-    dispatch(
-      setPostDirections({ postType: PostTypeEnum.VIDEO, value: directions }),
-    );
+  const handleDirectionsChange = (value: IDirection[]) => {
+    dispatch(setPostDirections({ postType: PostTypeEnum.VIDEO, value }));
   };
 
   const handleTitleChange = (value: string) => {
@@ -126,20 +107,12 @@ const VideoCreation: React.FC = () => {
 
       {!previewing ? (
         <>
-          {allDirections.length ? (
-            <CheckboxDropdownFilterForm
-              onFormChange={handleDirectionsChange}
-              possibleFilters={allDirections}
-              selectedFilters={savedPostDraft.directions}
-              noAll
-              maximumReached={savedPostDraft.directions.length === 3}
-              filterTitle="Напрямки: "
-            />
-          ) : (
-            <CircularProgress />
-          )}
+          <PostDirectionsSelector
+            selectedDirections={savedPostDraft.directions}
+            onSelectedDirectionsChange={handleDirectionsChange}
+          />
           <Box mt={2}>
-            <Typography variant="h5">Заголовок відео: </Typography>
+            <Typography variant="h5">Заголовок відео:</Typography>
             <TextField
               error={Boolean(title.error)}
               helperText={title.error}

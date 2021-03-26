@@ -1,27 +1,19 @@
 import React, { useCallback, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import _ from 'lodash';
-import { useSelector } from 'react-redux';
-import {
-  Box,
-  CircularProgress,
-  TextField,
-  Typography,
-} from '@material-ui/core';
+import { Box, TextField, Typography } from '@material-ui/core';
 import { IDirection, IPost } from '../../../lib/types';
 import { UpdateVideoPostRequestType } from '../../../lib/utilities/API/types';
 import { sanitizeHtml } from '../../../lib/utilities/sanitizeHtml';
-import { CheckboxFormStateType } from '../../../lib/components/Filters/CheckboxFilterForm';
-import CheckboxDropdownFilterForm from '../../../lib/components/Filters/CheckboxDropdownFilterForm';
 import PostCreationButtons from '../../postCreation/components/PostCreationButtons';
 import { updatePost } from '../../../lib/utilities/API/api';
-import { RootStateType } from '../../../store/rootReducer';
 import PageTitle from '../../../lib/components/Pages/PageTitle';
 import VideoUrlInputModal from '../../../lib/components/Editor/CustomModules/VideoUrlInputModal';
 import VideoEditor from '../../../lib/components/Editor/Editors/VideoEditor';
 import { parseVideoIdFromUrl } from '../../../lib/utilities/parseVideoIdFromUrl';
 import { CONTENT_DEBOUNCE_TIMEOUT } from '../../../lib/constants/editors';
 import PostView from '../../posts/components/PostView';
+import { PostDirectionsSelector } from '../../postCreation/components/PostDirectionsSelector';
 
 export interface IVideoUpdationProps {
   post: IPost;
@@ -42,25 +34,13 @@ const VideoUpdation: React.FC<IVideoUpdationProps> = ({ post }) => {
   const [typing, setTyping] = useState({ content: false });
   const [previewing, setPreviewing] = useState(false);
 
-  const allDirections = useSelector(
-    (state: RootStateType) => state.properties.directions,
-  );
-
-  const handleDirectionsChange = (checkedDirections: CheckboxFormStateType) => {
-    const checkedIds = Object.keys(checkedDirections).filter(
-      (key) => checkedDirections[key],
-    );
-
-    const directions: IDirection[] = allDirections.filter((direction) =>
-      checkedIds.includes(direction.id.toString()),
-    );
-
-    setSelectedDirections(directions);
+  const handleDirectionsChange = (value: IDirection[]) => {
+    setSelectedDirections(value);
   };
 
   const handleHtmlContentChange = useCallback(
-    _.debounce((content: string) => {
-      setHtmlContent(sanitizeHtml(content));
+    _.debounce((value: string) => {
+      setHtmlContent(sanitizeHtml(value));
       setTyping({ ...typing, content: false });
     }, CONTENT_DEBOUNCE_TIMEOUT),
     [],
@@ -97,18 +77,10 @@ const VideoUpdation: React.FC<IVideoUpdationProps> = ({ post }) => {
 
       {!previewing ? (
         <>
-          {allDirections.length ? (
-            <CheckboxDropdownFilterForm
-              onFormChange={handleDirectionsChange}
-              possibleFilters={allDirections}
-              selectedFilters={selectedDirections}
-              noAll
-              maximumReached={selectedDirections.length === 3}
-              filterTitle="Напрямки: "
-            />
-          ) : (
-            <CircularProgress />
-          )}
+          <PostDirectionsSelector
+            selectedDirections={selectedDirections}
+            onSelectedDirectionsChange={handleDirectionsChange}
+          />
           <Box mt={2}>
             <Typography variant="h5">Заголовок відео: </Typography>
             <TextField
