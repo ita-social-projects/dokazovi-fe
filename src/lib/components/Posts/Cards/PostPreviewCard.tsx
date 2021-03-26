@@ -5,7 +5,6 @@ import Box from '@material-ui/core/Box';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
-import VisibilityIcon from '@material-ui/icons/Visibility';
 import { IPost } from '../../../types';
 import { useStyles } from '../../../styles/PostPreviewCard.styles';
 
@@ -13,8 +12,6 @@ export interface IPostPreviewCardProps {
   post: IPost;
   shouldNotUseLink?: boolean;
 }
-
-const VIEWS_COUNT = 100;
 
 const PostPreviewCard: React.FC<IPostPreviewCardProps> = ({
   post,
@@ -86,7 +83,12 @@ const PostPreviewCard: React.FC<IPostPreviewCardProps> = ({
       justifyContent="space-between"
     >
       <CardContent className={classes.content}>
-        <Typography gutterBottom variant="h4" component="h3">
+        <Typography
+          gutterBottom
+          variant="h4"
+          component="h3"
+          className={classes.text}
+        >
           {post.title}
         </Typography>
         <Typography
@@ -94,6 +96,7 @@ const PostPreviewCard: React.FC<IPostPreviewCardProps> = ({
           variant="body2"
           color="textPrimary"
           component="p"
+          className={classes.text}
         >
           {post.preview}
         </Typography>
@@ -102,18 +105,8 @@ const PostPreviewCard: React.FC<IPostPreviewCardProps> = ({
         display="flex"
         justifyContent="space-between"
         alignItems="center"
-        mt={2}
+        mt={3}
       >
-        <Box display="flex" alignItems="center">
-          <VisibilityIcon className={classes.eyeIcon} />
-          <Typography
-            variant="caption"
-            className={classes.viewsCount}
-            color="textSecondary"
-          >
-            {VIEWS_COUNT}
-          </Typography>
-        </Box>
         <Typography variant="caption" color="textSecondary">
           {post.createdAt}
         </Typography>
