@@ -1,15 +1,9 @@
 import React from 'react';
-import Quill from 'quill';
 import ImageHandlersContainer from '../CustomModules/ImageHandlersContainer';
 import '../generalEditor.styles.css';
+import { IEditorToolbarProps } from '../types';
 
-interface IArticleEditorToolbarProps {
-  editor?: Quill;
-}
-
-const ArticleEditorToolbar: React.FC<IArticleEditorToolbarProps> = ({
-  editor,
-}) => {
+const ArticleEditorToolbar: React.FC<IEditorToolbarProps> = ({ editor }) => {
   return (
     <div id="toolbar">
       <span className="ql-formats">

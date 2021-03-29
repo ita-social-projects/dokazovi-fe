@@ -12,9 +12,9 @@ export enum PostStatus {
 }
 
 export enum PostTypeEnum {
-  ARTICLE = 'ARTICLE',
-  DOPYS = 'DOPYS',
-  VIDEO = 'VIDEO',
+  ARTICLE = 1,
+  DOPYS = 2,
+  VIDEO = 3,
 }
 
 export enum LoadingStatusEnum {
@@ -46,14 +46,28 @@ export enum QueryTypeEnum {
 export interface IPost {
   id: number;
   title: string;
-  content?: string;
-  author: IExpert;
-  directions?: IDirection[];
+  content: string;
+  author: {
+    avatar?: string;
+    firstName: string;
+    id: number;
+    lastName: string;
+    mainInstitution?: {
+      city: {
+        id: number;
+        name: string;
+      };
+      id: number;
+      name: string;
+    };
+  };
+  directions: IDirection[];
   tags?: IPostTag[];
-  postType: IPostType;
+  type: IPostType;
   createdAt: string;
   modifiedAt?: string;
-  preview?: string;
+  preview: string;
+  videoUrl?: string;
 }
 
 export interface IExpert {

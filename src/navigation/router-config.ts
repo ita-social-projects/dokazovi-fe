@@ -1,7 +1,5 @@
 import { lazy } from 'react';
-import Oath2Redirect from '../lib/components/Service/Oath2Redirect';
-import { RenderRoutes } from './Router';
-import { IRouterConfig } from './types';
+import { IRouteConfig } from './types';
 
 const MainView = lazy(() => import('../modules/main/components/MainView'));
 const MaterialsView = lazy(
@@ -25,12 +23,15 @@ const NoteCreation = lazy(
 const VideoCreation = lazy(
   () => import('../modules/postCreation/components/VideoCreation'),
 );
-const PostCreationPreview = lazy(
-  () => import('../modules/postCreation/components/PostCreationPreview'),
+const PostUpdationWrapper = lazy(
+  () => import('../modules/postUpdation/components/PostUpdationWrapper'),
+);
+const Oath2Redirect = lazy(
+  () => import('../lib/components/Service/Oath2Redirect'),
 );
 const Page404 = lazy(() => import('../lib/components/Errors/Page404'));
 
-const ROUTER_CONFIG: IRouterConfig[] = [
+const ROUTER_CONFIG: IRouteConfig[] = [
   {
     path: '/',
     key: 'ROOT',
@@ -44,86 +45,47 @@ const ROUTER_CONFIG: IRouterConfig[] = [
   },
   {
     path: '/experts',
-    key: 'EXPERTS',
-    component: RenderRoutes,
-    routes: [
-      {
-        path: '/experts',
-        key: 'EXPERTS_LIST',
-        exact: true,
-        component: ExpertsView,
-      },
-      {
-        path: '/experts/:expertId',
-        key: 'EXPERT_PROFILE',
-        exact: true,
-        component: ExpertProfileViewWrapper,
-      },
-    ],
+    key: 'EXPERTS_LIST',
+    component: ExpertsView,
+    exact: true,
+  },
+  {
+    path: '/experts/:expertId',
+    key: 'EXPERT_PROFILE',
+    component: ExpertProfileViewWrapper,
+    exact: true,
   },
   {
     path: '/create-article',
-    key: 'ARTICLE',
-    component: RenderRoutes,
+    key: 'CREATE_ARTICLE',
+    component: ArticleCreation,
     private: true,
-    routes: [
-      {
-        path: '/create-article',
-        key: 'ARTICLE',
-        exact: true,
-        component: ArticleCreation,
-      },
-      {
-        path: '/create-article/preview',
-        key: 'ARTICLE_PREVIEW',
-        exact: true,
-        component: PostCreationPreview,
-      },
-    ],
+    exact: true,
   },
   {
     path: '/create-note',
-    key: 'NOTE',
-    component: RenderRoutes,
+    key: 'CREATE_NOTE',
+    component: NoteCreation,
     private: true,
-    routes: [
-      {
-        path: '/create-note',
-        key: 'NOTE',
-        exact: true,
-        component: NoteCreation,
-      },
-      {
-        path: '/create-note/preview',
-        key: 'NOTE_PREVIEW',
-        exact: true,
-        component: PostCreationPreview,
-      },
-    ],
+    exact: true,
   },
   {
     path: '/create-video',
-    key: 'VIDEO',
-    component: RenderRoutes,
+    key: 'CREATE_VIDEO',
+    component: VideoCreation,
     private: true,
-    routes: [
-      {
-        path: '/create-video',
-        key: 'VIDEO',
-        exact: true,
-        component: VideoCreation,
-      },
-      {
-        path: '/create-video/preview',
-        key: 'VIDEO_PREVIEW',
-        exact: true,
-        component: PostCreationPreview,
-      },
-    ],
+    exact: true,
+  },
+  {
+    path: '/edit-post',
+    key: 'UPDATE_POST',
+    component: PostUpdationWrapper,
+    private: true,
+    exact: true,
   },
   {
     path: '/posts/:postId',
-    key: 'POST_PROFILE',
+    key: 'POST',
     exact: true,
     component: PostViewWrapper,
   },

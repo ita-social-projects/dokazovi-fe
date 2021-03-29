@@ -2,34 +2,45 @@ import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import { render, screen } from '@testing-library/react';
 import PostPreviewCard from '../Posts/Cards/PostPreviewCard';
+import { IPost } from '../../types';
 
-const POST_MOCK = {
+const POST_MOCK: IPost = {
   author: {
     id: 1,
     avatar: 'https://i.imgur.com/I80W1Q0.png',
     firstName: 'Іван',
     lastName: 'Іванов',
-    workPlace: 'Адоніс',
+    mainInstitution: {
+      city: {
+        id: 1,
+        name: 'Київ',
+      },
+      id: 1,
+      name: 'Адоніс',
+    },
   },
   createdAt: '27.11.2020',
-  mainDirection: {
-    id: 1,
-    color: 'red',
-    name: 'Хірургія',
-  },
   title: 'Ultrices eros in cursus',
-  postType: {
+  directions: [
+    {
+      id: 1,
+      color: 'red',
+      name: 'Хірургія',
+    },
+  ],
+  type: {
     id: 1,
     name: 'DOPYS',
   },
   preview: 'Dolor sit amet consectetur adipiscing elit ut aliquam purus.',
+  content: 'Dolor sit amet consectetur adipiscing elit ut aliquam purus.',
   id: 10,
 };
 
 beforeEach(() =>
   render(
     <MemoryRouter>
-      <PostPreviewCard data={POST_MOCK} />
+      <PostPreviewCard post={POST_MOCK} />
     </MemoryRouter>,
   ),
 );

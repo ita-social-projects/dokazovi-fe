@@ -1,35 +1,52 @@
 import React, { useCallback, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
 import _ from 'lodash';
-import { Typography, TextField, Box } from '@material-ui/core';
-import VideoEditor from '../../../lib/components/Editor/Editors/VideoEditor';
+import { useSelector, useDispatch } from 'react-redux';
+import { Box, TextField, Typography } from '@material-ui/core';
+import { RootStateType } from '../../../store/rootReducer';
 import {
+  setPostDirections,
   setPostTitle,
   setPostBody,
-  setVideoUrl,
-  setPostDirections,
+  setPostPreviewText,
+  setPostPreviewManuallyChanged,
   resetDraft,
 } from '../store/postCreationSlice';
 import { IDirection, IPost, PostTypeEnum } from '../../../lib/types';
-import { RootStateType } from '../../../store/rootReducer';
 import { sanitizeHtml } from '../../../lib/utilities/sanitizeHtml';
-import { parseVideoIdFromUrl } from '../../../lib/utilities/parseVideoIdFromUrl';
-import VideoUrlInputModal from '../../../lib/components/Editor/CustomModules/VideoUrlInputModal';
 import PostCreationButtons from './PostCreationButtons';
+import { CreateTextPostRequestType } from '../../../lib/utilities/API/types';
 import PageTitle from '../../../lib/components/Pages/PageTitle';
 import { createPost } from '../../../lib/utilities/API/api';
-import { CreateVideoPostRequestType } from '../../../lib/utilities/API/types';
-import { CONTENT_DEBOUNCE_TIMEOUT } from '../../../lib/constants/editors';
+import {
+  CONTENT_DEBOUNCE_TIMEOUT,
+  PREVIEW_DEBOUNCE_TIMEOUT,
+} from '../../../lib/constants/editors';
 import PostView from '../../posts/components/PostView';
+import { TextPostEditor } from '../../../lib/components/Editor/Editors/TextPostEditor';
+import { IEditorToolbarProps } from '../../../lib/components/Editor/types';
 import { PostDirectionsSelector } from './PostDirectionsSelector';
 
-const VideoCreation: React.FC = () => {
-  const dispatch = useDispatch();
+interface IPostCreationProps {
+  pageTitle: string;
+  titleInputLabel: string;
+  contentInputLabel: string;
+  postType: { type: PostTypeEnum; name: string };
+  editorToolbar: React.ComponentType<IEditorToolbarProps>;
+}
+
+export const TextPostCreation: React.FC<IPostCreationProps> = ({
+  pageTitle,
+  titleInputLabel,
+  contentInputLabel,
+  postType,
+  editorToolbar,
+}) => {
   const history = useHistory();
+  const dispatch = useDispatch();
 
   const savedPostDraft = useSelector(
-    (state: RootStateType) => state.newPostDraft[PostTypeEnum.VIDEO],
+    (state: RootStateType) => state.newPostDraft[postType.type],
   );
   const { user } = useSelector((state: RootStateType) => state.currentUser);
 
@@ -38,32 +55,22 @@ const VideoCreation: React.FC = () => {
     error: '',
   });
 
-  const [typing, setTyping] = useState({ content: false });
+  const [typing, setTyping] = useState({ content: false, preview: false });
   const [previewing, setPreviewing] = useState(false);
 
-  const videoUrl = useSelector(
-    (state: RootStateType) => state.newPostDraft[PostTypeEnum.VIDEO].videoUrl,
-  );
-
-  const videoId = parseVideoIdFromUrl(videoUrl);
-
   const handleDirectionsChange = (value: IDirection[]) => {
-    dispatch(setPostDirections({ postType: PostTypeEnum.VIDEO, value }));
+    dispatch(setPostDirections({ postType: postType.type, value }));
   };
 
   const handleTitleChange = (value: string) => {
-    dispatch(setPostTitle({ postType: PostTypeEnum.VIDEO, value }));
-  };
-
-  const handleVideoUrlChange = (url: string) => {
-    dispatch(setVideoUrl(url));
+    dispatch(setPostTitle({ postType: postType.type, value }));
   };
 
   const handleHtmlContentChange = useCallback(
     _.debounce((value: string) => {
       dispatch(
         setPostBody({
-          postType: PostTypeEnum.VIDEO,
+          postType: postType.type,
           value: sanitizeHtml(value),
         }),
       );
@@ -72,19 +79,29 @@ const VideoCreation: React.FC = () => {
     [],
   );
 
-  const newPost: CreateVideoPostRequestType = {
-    content: savedPostDraft.htmlContent,
-    directions: savedPostDraft.directions,
-    preview: savedPostDraft.htmlContent, // currently no preview
-    type: { id: PostTypeEnum.VIDEO },
-    title: savedPostDraft.title,
-    videoUrl: savedPostDraft.videoUrl,
+  const handlePreviewChange = useCallback(
+    _.debounce((value: string) => {
+      dispatch(
+        setPostPreviewText({
+          postType: postType.type,
+          value,
+        }),
+      );
+      setTyping({ ...typing, preview: false });
+    }, PREVIEW_DEBOUNCE_TIMEOUT),
+    [],
+  );
+
+  const handlePreviewManuallyChanged = () => {
+    dispatch(setPostPreviewManuallyChanged(postType.type));
   };
 
-  const handlePublishClick = async () => {
-    const responsePost = await createPost(newPost);
-    dispatch(resetDraft(PostTypeEnum.VIDEO));
-    history.push(`/posts/${responsePost.data.id}`);
+  const newPost: CreateTextPostRequestType = {
+    content: savedPostDraft.htmlContent,
+    directions: savedPostDraft.directions,
+    preview: savedPostDraft.preview.value,
+    title: savedPostDraft.title,
+    type: { id: postType.type },
   };
 
   const previewPost = React.useMemo(
@@ -92,19 +109,24 @@ const VideoCreation: React.FC = () => {
       ({
         author: user,
         content: savedPostDraft.htmlContent,
+        preview: savedPostDraft.preview.value,
         createdAt: new Date().toLocaleDateString('en-GB').split('/').join('.'),
         directions: savedPostDraft.directions,
         title: savedPostDraft.title,
-        videoUrl: savedPostDraft.videoUrl,
-        type: { id: PostTypeEnum.VIDEO, name: 'Відео' },
+        type: { id: postType.type, name: postType.name },
       } as IPost),
     [user, savedPostDraft],
   );
 
+  const handlePublishClick = async () => {
+    const response = await createPost(newPost);
+    dispatch(resetDraft(postType.type));
+    history.push(`/posts/${response.data.id}`);
+  };
+
   return (
     <>
-      <PageTitle title="Створення відео" />
-
+      <PageTitle title={pageTitle} />
       {!previewing ? (
         <>
           <PostDirectionsSelector
@@ -112,13 +134,13 @@ const VideoCreation: React.FC = () => {
             onSelectedDirectionsChange={handleDirectionsChange}
           />
           <Box mt={2}>
-            <Typography variant="h5">Заголовок відео:</Typography>
+            <Typography variant="h5">{titleInputLabel}</Typography>
             <TextField
               error={Boolean(title.error)}
               helperText={title.error}
               fullWidth
               required
-              id="video-name"
+              id="post-name"
               value={title.value}
               onChange={(e) => {
                 setTitle({ ...title, value: e.target.value });
@@ -127,26 +149,24 @@ const VideoCreation: React.FC = () => {
             />
           </Box>
           <Box mt={2}>
-            <VideoUrlInputModal dispatchVideoUrl={handleVideoUrlChange} />
-            {videoId && (
-              <iframe
-                title="video"
-                width="360"
-                height="240"
-                src={`http://www.youtube.com/embed/${videoId}`}
-                frameBorder="0"
-                allowFullScreen
-              />
-            )}
-          </Box>
-          <Box mt={2}>
-            <Typography variant="h5">Опис відео:</Typography>
-            <VideoEditor
+            <Typography variant="h5">{contentInputLabel}</Typography>
+            <TextPostEditor
+              toolbar={editorToolbar}
               initialHtmlContent={savedPostDraft.htmlContent}
+              initialPreview={savedPostDraft.preview.value}
               onHtmlContentChange={(value) => {
                 setTyping({ ...typing, content: true });
                 handleHtmlContentChange(value);
               }}
+              initialWasPreviewManuallyChanged={
+                savedPostDraft.preview.isManuallyChanged
+              }
+              onPreviewManuallyChanged={handlePreviewManuallyChanged}
+              onPreviewChange={(value) => {
+                setTyping({ ...typing, preview: true });
+                handlePreviewChange(value);
+              }}
+              previewPost={previewPost}
             />
           </Box>
         </>
@@ -166,5 +186,3 @@ const VideoCreation: React.FC = () => {
     </>
   );
 };
-
-export default VideoCreation;

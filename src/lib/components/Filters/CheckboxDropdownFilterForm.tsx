@@ -25,6 +25,8 @@ export interface ICheckboxDropdownFilterFormProps {
   possibleFilters: IFilter[];
   selectedFilters?: IFilter[];
   filterTitle: string;
+  noAll?: boolean;
+  maximumReached?: boolean;
 }
 
 const CheckboxDropdownFilterForm: React.FC<ICheckboxDropdownFilterFormProps> = ({
@@ -32,8 +34,10 @@ const CheckboxDropdownFilterForm: React.FC<ICheckboxDropdownFilterFormProps> = (
   possibleFilters,
   selectedFilters,
   filterTitle,
+  noAll,
+  maximumReached,
 }) => {
-  const isInitialStateEmpty = isEmpty(selectedFilters);
+  const isInitialStateEmpty = isEmpty(selectedFilters) && !noAll;
 
   const getCheckedStateFromFilters = (): CheckboxFormStateType => {
     return possibleFilters.reduce((acc, next) => {
@@ -83,6 +87,9 @@ const CheckboxDropdownFilterForm: React.FC<ICheckboxDropdownFilterFormProps> = (
   };
 
   const getNames = () => {
+    if (allChecked && noAll) {
+      return '';
+    }
     if (allChecked) {
       return 'Всі';
     }
@@ -104,17 +111,24 @@ const CheckboxDropdownFilterForm: React.FC<ICheckboxDropdownFilterFormProps> = (
       .join(', ');
   };
 
-  const checkBoxes = possibleFilters?.map((filter) => {
+  const checkBoxes = possibleFilters.map((filter) => {
     const id = filter.id.toString();
     return (
       <FormControlLabel
         key={id}
-        label={<ChipsList checkedNames={filter.name} isLabelItem />}
+        label={
+          <ChipsList
+            checkedNames={filter.name}
+            isLabelItem
+            max={!checked[id] && maximumReached}
+          />
+        }
         control={
           <Checkbox
             checked={checked[id]}
             onChange={(event) => onCheckboxCheck(event)}
             name={id}
+            disabled={!checked[id] && maximumReached}
             color="primary"
           />
         }
@@ -142,22 +156,26 @@ const CheckboxDropdownFilterForm: React.FC<ICheckboxDropdownFilterFormProps> = (
         <AccordionDetails>
           <Grid container>
             <Grid item xs={2} style={{ marginRight: '-30px' }} />
-            <Grid item xs={10}>
-              <FormControlLabel
-                style={{ width: '100%' }}
-                control={
-                  <Checkbox
-                    id="All"
-                    checked={allChecked}
-                    onChange={onCheckboxAllChange}
-                    name="All"
+            {!noAll && (
+              <>
+                <Grid item xs={10}>
+                  <FormControlLabel
+                    style={{ width: '100%' }}
+                    control={
+                      <Checkbox
+                        id="All"
+                        checked={allChecked}
+                        onChange={onCheckboxAllChange}
+                        name="All"
+                      />
+                    }
+                    label="Всі"
+                    key="All"
                   />
-                }
-                label="Всі"
-                key="All"
-              />
-            </Grid>
-            <Grid item xs={2} style={{ marginRight: '-30px' }} />
+                </Grid>
+                <Grid item xs={2} style={{ marginRight: '-30px' }} />
+              </>
+            )}
             <FormGroup
               style={{
                 height: '450px',

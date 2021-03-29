@@ -20,6 +20,9 @@ export const useStyles = makeStyles(
     body: {
       margin: theme.spacing(1, 4, 5),
     },
+    text: {
+      wordWrap: 'break-word',
+    },
     postType: {
       color: theme.palette.info.light,
     },

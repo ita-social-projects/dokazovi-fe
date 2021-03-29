@@ -1,44 +1,66 @@
 import React from 'react';
-import { Box, Button, CircularProgress } from '@material-ui/core';
-import { useStyles } from '../../../lib/styles/PostCreationButtons.styles';
+import { Box, Button } from '@material-ui/core';
+import { ConfirmationModalWithButton } from '../../../lib/components/Modals/ConfirmationModalWithButton';
 
 export interface IPostCreationButtonsProps {
-  publishPost: () => void;
-  goPreview: () => void;
-  isOnPreview?: boolean;
-  isDone?: boolean;
+  action: 'creating' | 'updating';
+  onCancelClick?: () => void;
+  onPublishClick: () => void;
+  onPreviewClick: () => void;
+  previewing?: boolean;
+  disabled?: boolean;
+  loading?: boolean;
 }
 
 const PostCreationButtons: React.FC<IPostCreationButtonsProps> = ({
-  publishPost,
-  goPreview,
-  isOnPreview,
-  isDone,
+  action,
+  onCancelClick,
+  onPublishClick,
+  onPreviewClick,
+  previewing,
+  disabled,
+  loading,
 }) => {
-  const classes = useStyles();
-  const buttonText = isOnPreview
+  const cancelButtonText =
+    action === 'creating' ? 'Відмінити створення' : 'Відмінити редагування';
+  const previewButtonText = previewing
     ? 'Назад до редагування'
     : 'Попередній перегляд';
+  const publishButtonText = action === 'creating' ? 'Опублікувати' : 'Зберегти';
 
   return (
-    <>
-      <Box className={classes.buttonHolder}>
+    <Box display="flex" flexDirection="row" marginTop="40px">
+      {onCancelClick && (
+        <ConfirmationModalWithButton
+          message={`Ви дійсно бажаєте відмінити ${
+            action === 'creating' ? 'створення' : 'редагування'
+          }?`}
+          buttonText={cancelButtonText}
+          onConfirmButtonClick={onCancelClick}
+          disabled={disabled}
+          loading={loading}
+        />
+      )}
+
+      <Box display="flex" flexDirection="row" marginLeft="auto">
         <Button
           style={{ marginRight: '10px' }}
           variant="contained"
-          onClick={goPreview}
+          disabled={disabled || loading}
+          onClick={onPreviewClick}
         >
-          {buttonText}
+          {previewButtonText}
         </Button>
-        <Button disabled={!isDone} variant="contained" onClick={publishPost}>
-          {isDone === undefined || isDone ? (
-            'Опублікувати'
-          ) : (
-            <CircularProgress size={20} />
-          )}
+
+        <Button
+          variant="contained"
+          disabled={disabled || loading}
+          onClick={onPublishClick}
+        >
+          {publishButtonText}
         </Button>
       </Box>
-    </>
+    </Box>
   );
 };
 

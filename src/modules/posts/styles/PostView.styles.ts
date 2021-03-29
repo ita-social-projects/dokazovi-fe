@@ -19,9 +19,10 @@ export const useStyles = makeStyles(
       filter: 'grayscale(100%)',
       marginRight: theme.spacing(4),
     },
-    controlBlock: {
-      alignSelf: 'flex-start',
+    actionsBlock: {
       marginLeft: 'auto',
+      display: 'flex',
+      alignItems: 'center',
     },
     contentRoot: {
       minHeight: '550px',
@@ -30,6 +31,7 @@ export const useStyles = makeStyles(
       color: theme.palette.info.light,
     },
     content: {
+      ...theme.typography.body1,
       marginTop: theme.spacing(6),
       '& h1': {
         fontSize: '2em',

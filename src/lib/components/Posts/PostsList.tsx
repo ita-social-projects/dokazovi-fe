@@ -9,9 +9,8 @@ export interface IPostsListProps {
   postsList: IPost[];
 }
 
-const PostsList: React.FC<IPostsListProps> = (props) => {
+const PostsList: React.FC<IPostsListProps> = ({ postsList }) => {
   const classes = useStyles();
-  const { postsList } = props;
 
   return (
     <Masonry
@@ -21,7 +20,7 @@ const PostsList: React.FC<IPostsListProps> = (props) => {
     >
       {postsList.map((post) => (
         <Box key={post.id} className={classes.masonryItem}>
-          <PostPreviewCard data={post} />
+          <PostPreviewCard post={post} />
         </Box>
       ))}
     </Masonry>

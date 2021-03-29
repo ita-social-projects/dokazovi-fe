@@ -1,66 +1,53 @@
-/* eslint-disable react/display-name */
-import React, { useCallback, useState } from 'react';
-import _ from 'lodash';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useEffect, useRef, useState } from 'react';
+import Quill from 'quill';
 import ReactQuill from 'react-quill';
 import { modules, formats } from './utilities';
 import 'react-quill/dist/quill.snow.css';
-import { RootStateType } from '../../../store/rootReducer';
-import { setIsDone } from '../../../modules/postCreation/store/postCreationSlice';
-import { PostTypeEnum } from '../../types';
+import { IEditorToolbarProps } from './types';
 
 export interface IQuillEditorProps {
-  type: PostTypeEnum;
-  toolbar: React.ReactNode;
-  dispatchContent: (s: string) => void;
+  toolbar: React.ComponentType<IEditorToolbarProps>;
+  initialHtmlContent?: string;
+  onHtmlContentChange: (htmlContent: string) => void;
+  onTextContentChange?: (textContent: string) => void;
 }
 
-const GeneralEditor = React.forwardRef<ReactQuill, IQuillEditorProps>(
-  ({ type, toolbar, dispatchContent }, ref) => {
-    const dispatch = useDispatch();
+const Editor: React.FC<IQuillEditorProps> = (props) => {
+  const {
+    initialHtmlContent,
+    onHtmlContentChange,
+    onTextContentChange,
+  } = props;
+  const editorRef = useRef<ReactQuill>(null);
+  const [editor, setEditor] = useState<Quill>();
 
-    const savedContent = useSelector(
-      (state: RootStateType) => state.newPostDraft[type].htmlContent,
-    );
-    const [text, setText] = useState<string>(savedContent);
+  useEffect(() => {
+    if (editorRef.current) {
+      const editorResult = editorRef.current.getEditor();
+      setEditor(editorResult);
 
-    const changeDone = useCallback(
-      _.debounce(
-        () => {
-          dispatch(
-            setIsDone({
-              postType: PostTypeEnum[type],
-              value: false,
-            }),
-          );
-        },
-        2000,
-        { leading: true, trailing: false },
-      ),
-      [],
-    );
+      if (onTextContentChange) {
+        editorResult.on('text-change', () => {
+          onTextContentChange(editorResult.getText());
+        });
+      }
+    }
+  }, []);
 
-    return (
-      <>
-        <div className="text-editor">
-          {toolbar}
-          <ReactQuill
-            theme="snow"
-            value={text}
-            onChange={(content) => {
-              setText(content);
-              dispatchContent(content);
-              changeDone();
-            }}
-            placeholder="Write something awesome..."
-            modules={modules}
-            formats={formats}
-            ref={ref}
-          />
-        </div>
-      </>
-    );
-  },
-);
+  return (
+    <div className="text-editor">
+      <props.toolbar editor={editor} />
+      <ReactQuill
+        theme="snow"
+        defaultValue={initialHtmlContent}
+        onChange={onHtmlContentChange}
+        placeholder="Write something awesome..."
+        modules={modules}
+        formats={formats}
+        ref={editorRef}
+      />
+    </div>
+  );
+};
 
-export default GeneralEditor;
+export const GeneralEditor = React.memo(Editor);

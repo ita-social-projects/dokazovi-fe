@@ -1,15 +1,38 @@
 import { IDirection } from '../../types';
 
-export type CreatePostRequestType = {
+type CreatePostRequestType = {
+  title: string;
   content: string;
   directions: IDirection[];
   preview: string;
-  title?: string;
   type: {
     id: number;
   };
-  videoUrl?: string;
 };
+
+export type CreateTextPostRequestType = CreatePostRequestType;
+
+export type CreateVideoPostRequestType = CreatePostRequestType & {
+  videoUrl: string;
+};
+
+export type CreatePostRequestUnionType =
+  | CreateTextPostRequestType
+  | CreateVideoPostRequestType;
+
+type UpdatePostRequestType = CreatePostRequestType & {
+  id: number;
+};
+
+export type UpdateTextPostRequestType = UpdatePostRequestType;
+
+export type UpdateVideoPostRequestType = UpdatePostRequestType & {
+  videoUrl: string;
+};
+
+export type UpdatePostRequestUnionType =
+  | UpdateTextPostRequestType
+  | UpdateVideoPostRequestType;
 
 export type PostResponseType = {
   author: {
@@ -27,6 +50,7 @@ export type PostResponseType = {
     };
   };
   content: string;
+  preview: string;
   postType: PostTypeResponseType;
   createdAt: string;
   directions: DirectionResponseType[];
@@ -36,6 +60,7 @@ export type PostResponseType = {
     id: number;
     name: string;
   };
+  videoUrl?: string;
 };
 
 export type ExpertResponseType = {

@@ -5,6 +5,7 @@ import { getPostById } from '../../../lib/utilities/API/api';
 import { IPost } from '../../../lib/types';
 import PostView from './PostView';
 import { sanitizeHtml } from '../../../lib/utilities/sanitizeHtml';
+import PageTitle from '../../../lib/components/Pages/PageTitle';
 
 const PostViewWrapper: React.FC = () => {
   const { enqueueSnackbar } = useSnackbar();
@@ -21,7 +22,7 @@ const PostViewWrapper: React.FC = () => {
       const { content } = postResponse.data;
       const sanitizedData = {
         ...postResponse.data,
-        content: sanitizeHtml(content) as string,
+        content: sanitizeHtml(content),
       };
       setLoadedPost(sanitizedData);
     } catch (error) {
@@ -29,7 +30,7 @@ const PostViewWrapper: React.FC = () => {
     }
   }, [postId]);
 
-  const deletePost = () => {
+  const handlePostDeletion = () => {
     if (!loadedPost) return;
     try {
       const response = 1; // Mock by status 1 =  success
@@ -60,7 +61,17 @@ const PostViewWrapper: React.FC = () => {
 
   return (
     <>
-      {loadedPost && <PostView post={loadedPost} deleteHandler={deletePost} />}
+      {loadedPost && (
+        <>
+          <PageTitle title={loadedPost.title} />
+
+          <PostView
+            post={loadedPost}
+            modificationAllowed
+            onDelete={handlePostDeletion}
+          />
+        </>
+      )}
     </>
   );
 };
