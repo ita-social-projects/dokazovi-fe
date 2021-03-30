@@ -38,19 +38,15 @@ const NoteCreation: React.FC = () => {
     dispatch(setPostTopics({ postType: PostTypeEnum.DOPYS, value: topics }));
   };
 
-  const [backgroundImage, setBackgroundImage] = useState<string | undefined>(
-    '',
-  );
-
   const isDone = useSelector(
     (state: RootStateType) => state.newPostDraft.DOPYS.isDone,
   );
 
-  const dispatchImageUrl = (backgroundImageUrl: string) => {
+  const dispatchImageUrl = (previewImageUrl: string) => {
     dispatch(
       setImageUrl({
         postType: PostTypeEnum.DOPYS,
-        value: backgroundImageUrl,
+        value: previewImageUrl,
       }),
     );
   };
@@ -78,7 +74,7 @@ const NoteCreation: React.FC = () => {
   );
 
   const newPost: CreatePostRequestType = {
-    backgroundImageUrl: savedPostDraft.backgroundImageUrl || backgroundImage,
+    previewImageUrl: savedPostDraft.previewImageUrl,
     content: savedPostDraft.htmlContent,
     directions: allDirections,
     preview: savedPostDraft.preview.value,
@@ -104,7 +100,7 @@ const NoteCreation: React.FC = () => {
       .then((str) => uploadImageToImgur(str))
       .then((res) => {
         if (res.data.status === 200) {
-          setBackgroundImage(res.data.data.link);
+          dispatchImageUrl(res.data.data.link);
         }
       });
   };

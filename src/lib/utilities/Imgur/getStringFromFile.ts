@@ -1,6 +1,6 @@
 export const getStringFromFile = (files: FileList | null): Promise<string> => {
   return new Promise((resolve) => {
-    if (!files) {
+    if (!files || !files[0]) {
       return;
     }
     const reader = new FileReader();

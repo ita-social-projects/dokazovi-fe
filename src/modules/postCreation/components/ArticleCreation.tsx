@@ -45,9 +45,6 @@ const ArticleCreation: React.FC = () => {
     error: '',
   });
 
-  const [backgroundImage, setBackgroundImage] = useState<string | undefined>(
-    '',
-  );
   const isDone = useSelector(
     (state: RootStateType) => state.newPostDraft.ARTICLE.isDone,
   );
@@ -65,11 +62,11 @@ const ArticleCreation: React.FC = () => {
     [],
   );
 
-  const dispatchImageUrl = (backgroundImageUrl: string): void => {
+  const dispatchImageUrl = (previewImageUrl: string): void => {
     dispatch(
       setImageUrl({
         postType: PostTypeEnum.ARTICLE,
-        value: backgroundImageUrl,
+        value: previewImageUrl,
       }),
     );
   };
@@ -97,7 +94,7 @@ const ArticleCreation: React.FC = () => {
   );
 
   const newPost: CreatePostRequestType = {
-    backgroundImageUrl: savedPostDraft.backgroundImageUrl || backgroundImage,
+    previewImageUrl: savedPostDraft.previewImageUrl,
     content: savedPostDraft.htmlContent,
     directions: allDirections,
     preview: savedPostDraft.preview.value,
@@ -124,7 +121,7 @@ const ArticleCreation: React.FC = () => {
       .then((str) => uploadImageToImgur(str))
       .then((res) => {
         if (res.data.status === 200) {
-          setBackgroundImage(res.data.data.link);
+          dispatchImageUrl(res.data.data.link);
         }
       });
   };

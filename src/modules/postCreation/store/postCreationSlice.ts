@@ -9,13 +9,13 @@ const initialState: IPostCreationState = {
     title: '',
     htmlContent: '',
     preview: { value: '', isManuallyChanged: false },
-    backgroundImageUrl: '',
+    previewImageUrl: '',
   },
   [PostTypeEnum.DOPYS]: {
     topics: [],
     htmlContent: '',
     preview: { value: '', isManuallyChanged: false },
-    backgroundImageUrl: '',
+    previewImageUrl: '',
   },
   [PostTypeEnum.VIDEO]: {
     topics: [],
@@ -98,10 +98,10 @@ export const postCreationSlice = createSlice({
       state,
       action: PayloadAction<{
         postType: PostTypeEnum;
-        value: INewPostDraft['backgroundImageUrl'];
+        value: INewPostDraft['previewImageUrl'];
       }>,
     ) => {
-      state[action.payload.postType].backgroundImageUrl = action.payload.value;
+      state[action.payload.postType].previewImageUrl = action.payload.value;
     },
   },
 });

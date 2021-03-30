@@ -8,7 +8,7 @@ export type CreatePostRequestType = {
   type: {
     id: number;
   };
-  backgroundImageUrl?: string;
+  previewImageUrl?: string;
   videoUrl?: string;
 };
 

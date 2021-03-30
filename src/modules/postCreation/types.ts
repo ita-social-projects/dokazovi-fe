@@ -13,7 +13,7 @@ export interface INewPostDraft {
   htmlContent: string;
   preview: IPostPreview;
   videoUrl?: string;
-  backgroundImageUrl?: string;
+  previewImageUrl?: string;
 }
 
 interface IPostPreview {
