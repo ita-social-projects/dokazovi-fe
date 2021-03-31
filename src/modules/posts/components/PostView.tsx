@@ -1,20 +1,24 @@
+/* eslint-disable react/no-danger */
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Card, Box, Typography, CardMedia } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
+import EditIcon from '@material-ui/icons/Edit';
 import { useStyles } from '../styles/PostView.styles';
 import { IPost } from '../../../lib/types';
-import { PageTitle } from '../../../lib/components/Pages/PageTitle';
-import ConfirmModal from '../../../lib/components/Modals/ConfirmModal';
+import { ConfirmationModalWithButton } from '../../../lib/components/Modals/ConfirmationModalWithButton';
 
 export interface IPostViewProps {
   post: IPost;
-  deleteHandler?: () => void;
+  modificationAllowed?: boolean;
+  onDelete?: () => void;
 }
 
-const PostView: React.FC<IPostViewProps> = ({ post, deleteHandler }) => {
-  const role = 'admin'; //  useSelector && token  = Mock
-
+const PostView: React.FC<IPostViewProps> = ({
+  post,
+  modificationAllowed,
+  onDelete,
+}) => {
   const classes = useStyles();
   const authorFullName = `${post.author.firstName} ${post.author.lastName}`;
   const authorMainInstitution = post.author.mainInstitution
@@ -23,60 +27,56 @@ const PostView: React.FC<IPostViewProps> = ({ post, deleteHandler }) => {
   const postContent = post.content ?? 'There is no post content';
 
   return (
-    <>
-      <PageTitle title={post.title} />
-
-      <Card className={classes.cardContainer}>
-        <Box className={classes.authorBlock}>
+    <Card className={classes.cardContainer}>
+      <Box className={classes.authorBlock}>
+        <Link to={`/experts/${post.author.id}`}>
+          <CardMedia
+            className={classes.avatar}
+            image={post.author.avatar} // paste default avatar if not present
+            title={authorFullName}
+            component="div"
+          />
+        </Link>
+        <Box>
           <Link to={`/experts/${post.author.id}`}>
-            <CardMedia
-              className={classes.avatar}
-              image={post.author.avatar} // paste default avatar if not present
-              title={authorFullName}
-              component="div"
-            />
+            <Typography variant="h4">{authorFullName}</Typography>
           </Link>
-          <Box>
-            <Link to={`/experts/${post.author.id}`}>
-              <Typography variant="h4">{authorFullName}</Typography>
+          <Typography variant="subtitle1" color="textSecondary">
+            {authorMainInstitution}
+          </Typography>
+        </Box>
+        {modificationAllowed && (
+          <Box className={classes.actionsBlock}>
+            <Link to={`/edit-post?id=${post.id}`}>
+              <EditIcon />
             </Link>
-            <Typography variant="subtitle1" color="textSecondary">
-              {authorMainInstitution}
-            </Typography>
+            {onDelete && (
+              <ConfirmationModalWithButton
+                message={`Ви дійсно бажаєте безповоротно видалити матеріал '${post.title}'?`}
+                buttonIcon={<DeleteIcon />}
+                onConfirmButtonClick={onDelete}
+              />
+            )}
           </Box>
-          <Box className={classes.controlBlock}>
-            {
-              role === 'admin' && deleteHandler && (
-                <ConfirmModal
-                  title={`Ви дійсно хочете безповоротно видалити матеріал '${post.title}'?`}
-                  icon={<DeleteIcon />}
-                  handleChoice={deleteHandler}
-                />
-              )
-              // user type admin
-            }
-          </Box>
-        </Box>
-        <Box className={classes.contentRoot}>
-          {post.title && (
-            <Typography variant="h1" gutterBottom>
-              {post.title}
-            </Typography>
-          )}
-          <Typography className={classes.createdAt} variant="caption">
-            {post.createdAt}
+        )}
+      </Box>
+      <Box className={classes.contentRoot}>
+        {post.title && (
+          <Typography variant="h1" gutterBottom>
+            {post.title}
           </Typography>
-          <Typography variant="body1">
-            <div
-              className={classes.content}
-              dangerouslySetInnerHTML={{
-                __html: postContent,
-              }}
-            />
-          </Typography>
-        </Box>
-      </Card>
-    </>
+        )}
+        <Typography className={classes.createdAt} variant="caption">
+          {post.createdAt}
+        </Typography>
+        <div
+          className={classes.content}
+          dangerouslySetInnerHTML={{
+            __html: postContent,
+          }}
+        />
+      </Box>
+    </Card>
   );
 };
 

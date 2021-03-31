@@ -5,28 +5,27 @@ import Box from '@material-ui/core/Box';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
-import VisibilityIcon from '@material-ui/icons/Visibility';
 import { IPost } from '../../../types';
 import { useStyles } from '../../../styles/PostPreviewCard.styles';
 
 export interface IPostPreviewCardProps {
-  data: IPost;
+  post: IPost;
   shouldNotUseLink?: boolean;
 }
 
-const VIEWS_COUNT = 100;
-
-const PostPreviewCard: React.FC<IPostPreviewCardProps> = (props) => {
+const PostPreviewCard: React.FC<IPostPreviewCardProps> = ({
+  post,
+  shouldNotUseLink,
+}) => {
   const classes = useStyles();
-  const { data, shouldNotUseLink } = props;
-  const expertLink = `/experts/${data.author.id}`;
-  const postLink = `/posts/${data.id}`;
-  const authorFullName = `${data.author.firstName} ${data.author.lastName}`;
-  const authorMainInstitution = data.author.mainInstitution
-    ? `${data.author.mainInstitution.city.name}, ${data.author.mainInstitution.name}`
+  const expertLink = `/experts/${post.author.id}`;
+  const postLink = `/posts/${post.id}`;
+  const authorFullName = `${post.author.firstName} ${post.author.lastName}`;
+  const authorMainInstitution = post.author.mainInstitution
+    ? `${post.author.mainInstitution.city.name}, ${post.author.mainInstitution.name}`
     : '';
 
-  const expert = (
+  const expertBody = (
     <Box
       className={classes.header}
       flexDirection="column"
@@ -51,7 +50,7 @@ const PostPreviewCard: React.FC<IPostPreviewCardProps> = (props) => {
             variant="overline"
             component="span"
           >
-            {data.postType.name}
+            {post.type.name}
           </Typography>
           <Typography variant="h5" component="span">
             {authorFullName}
@@ -59,8 +58,9 @@ const PostPreviewCard: React.FC<IPostPreviewCardProps> = (props) => {
         </Box>
         <CardMedia
           className={classes.avatar}
-          image={data.author.avatar} // paste default avatar if not present
+          image={post.author.avatar} // paste default avatar if not present
           title={authorFullName}
+          component="div"
         />
       </Box>
       <Typography
@@ -74,7 +74,7 @@ const PostPreviewCard: React.FC<IPostPreviewCardProps> = (props) => {
     </Box>
   );
 
-  const post = (
+  const postBody = (
     <Box
       className={classes.body}
       display="flex"
@@ -83,36 +83,32 @@ const PostPreviewCard: React.FC<IPostPreviewCardProps> = (props) => {
       justifyContent="space-between"
     >
       <CardContent className={classes.content}>
-        <Typography gutterBottom variant="h4" component="h3">
-          {data.title}
+        <Typography
+          gutterBottom
+          variant="h4"
+          component="h3"
+          className={classes.text}
+        >
+          {post.title}
         </Typography>
         <Typography
           gutterBottom
           variant="body2"
           color="textPrimary"
           component="p"
+          className={classes.text}
         >
-          {data.preview}
+          {post.preview}
         </Typography>
       </CardContent>
       <Box
         display="flex"
         justifyContent="space-between"
         alignItems="center"
-        mt={2}
+        mt={3}
       >
-        <Box display="flex" alignItems="center">
-          <VisibilityIcon className={classes.eyeIcon} />
-          <Typography
-            variant="caption"
-            className={classes.viewsCount}
-            color="textSecondary"
-          >
-            {VIEWS_COUNT}
-          </Typography>
-        </Box>
         <Typography variant="caption" color="textSecondary">
-          {data.createdAt}
+          {post.createdAt}
         </Typography>
       </Box>
     </Box>
@@ -132,12 +128,16 @@ const PostPreviewCard: React.FC<IPostPreviewCardProps> = (props) => {
           flexDirection="column"
           flexGrow="1"
         >
-          {shouldNotUseLink ? expert : <Link to={expertLink}>{expert}</Link>}
-          {shouldNotUseLink ? post : <Link to={postLink}>{post}</Link>}
+          {shouldNotUseLink ? (
+            expertBody
+          ) : (
+            <Link to={expertLink}>{expertBody}</Link>
+          )}
+          {shouldNotUseLink ? postBody : <Link to={postLink}>{postBody}</Link>}
         </Box>
       </Box>
     </Card>
   );
 };
 
-export default PostPreviewCard;
+export default React.memo(PostPreviewCard);

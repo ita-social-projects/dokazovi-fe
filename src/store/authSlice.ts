@@ -1,14 +1,21 @@
 /* eslint-disable no-param-reassign */
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { IExpert, IAuthInputs, LocalStorageKeys } from '../lib/types';
+import {
+  IExpert,
+  IAuthInputs,
+  LocalStorageKeys,
+  LoadingStatusEnum,
+} from '../lib/types';
 import { getCurrentUser, login } from '../lib/utilities/API/api';
 
 export interface IAuthState {
   user?: IExpert;
+  loading: LoadingStatusEnum;
   error: string | null;
 }
 
 const initialState: IAuthState = {
+  loading: LoadingStatusEnum.idle,
   error: null,
 };
 
@@ -46,12 +53,15 @@ export const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(loginUser.pending, (state) => {
+      state.loading = LoadingStatusEnum.pending;
       state.error = null;
     });
     builder.addCase(loginUser.fulfilled, (state, action) => {
+      state.loading = LoadingStatusEnum.succeeded;
       state.user = action.payload;
     });
     builder.addCase(loginUser.rejected, (state, { error }) => {
+      state.loading = LoadingStatusEnum.failed;
       if (error.message) {
         state.error = error.message;
       }

@@ -8,7 +8,7 @@ const useStyles = makeStyles(
         width: '100%',
         height: '1px',
         background: 'rgba(0, 0, 0, 0.2)',
-        margin: theme.spacing(10, 0),
+        margin: theme.spacing(5, 0),
       },
     }),
   { name: 'BorderBottom' },

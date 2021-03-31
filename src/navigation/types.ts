@@ -1,10 +1,7 @@
-export interface IRouterConfig {
-  component: React.ComponentType<{
-    routes?: IRouterConfig[];
-  }>;
+export interface IRouteConfig {
+  component: React.ComponentType;
   path: string;
-  key?: string;
+  key: string;
   exact?: boolean;
-  routes?: IRouterConfig[];
   private?: boolean;
 }

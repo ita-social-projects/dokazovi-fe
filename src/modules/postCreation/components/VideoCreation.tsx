@@ -2,22 +2,16 @@ import React, { useCallback, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import _ from 'lodash';
-import {
-  CircularProgress,
-  Typography,
-  TextField,
-  Box,
-} from '@material-ui/core';
+import { Typography, TextField, Box } from '@material-ui/core';
 import VideoEditor from '../../../lib/components/Editor/Editors/VideoEditor';
 import {
-  setPostTopics,
   setPostTitle,
   setPostBody,
-  setIsDone,
   setVideoUrl,
+  setPostDirections,
+  resetDraft,
 } from '../store/postCreationSlice';
-import { PostTopicSelector } from './PostTopicSelector';
-import { PostTypeEnum } from '../../../lib/types';
+import { IDirection, IPost, PostTypeEnum } from '../../../lib/types';
 import { RootStateType } from '../../../store/rootReducer';
 import { sanitizeHtml } from '../../../lib/utilities/sanitizeHtml';
 import { parseVideoIdFromUrl } from '../../../lib/utilities/parseVideoIdFromUrl';
@@ -25,152 +19,150 @@ import VideoUrlInputModal from '../../../lib/components/Editor/CustomModules/Vid
 import { PostCreationButtons } from './PostCreationButtons';
 import { PageTitle } from '../../../lib/components/Pages/PageTitle';
 import { createPost } from '../../../lib/utilities/API/api';
-import { CreatePostRequestType } from '../../../lib/utilities/API/types';
+import { CreateVideoPostRequestType } from '../../../lib/utilities/API/types';
+import { CONTENT_DEBOUNCE_TIMEOUT } from '../../../lib/constants/editors';
+import PostView from '../../posts/components/PostView';
+import { PostDirectionsSelector } from './PostDirectionsSelector';
 
 const VideoCreation: React.FC = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const directions = useSelector(
-    (state: RootStateType) => state.properties?.directions,
-  );
-
   const savedPostDraft = useSelector(
-    (state: RootStateType) => state.newPostDraft.VIDEO,
+    (state: RootStateType) => state.newPostDraft[PostTypeEnum.VIDEO],
   );
+  const { user } = useSelector((state: RootStateType) => state.currentUser);
 
   const [title, setTitle] = useState({
-    value: savedPostDraft.title || '',
+    value: savedPostDraft.title,
     error: '',
   });
 
-  const url = useSelector(
-    (state: RootStateType) => state.newPostDraft.VIDEO.videoUrl,
+  const [typing, setTyping] = useState({ content: false });
+  const [previewing, setPreviewing] = useState(false);
+
+  const videoUrl = useSelector(
+    (state: RootStateType) => state.newPostDraft[PostTypeEnum.VIDEO].videoUrl,
   );
 
-  const videoId = parseVideoIdFromUrl(url as string);
+  const videoId = parseVideoIdFromUrl(videoUrl);
 
-  const isDone = useSelector(
-    (state: RootStateType) => state.newPostDraft.VIDEO.isDone,
-  );
-
-  const dispatchTopics = (topics: string[]) => {
-    dispatch(setPostTopics({ postType: PostTypeEnum.VIDEO, value: topics }));
+  const handleDirectionsChange = (value: IDirection[]) => {
+    dispatch(setPostDirections({ postType: PostTypeEnum.VIDEO, value }));
   };
 
-  const dispatchTitle = useCallback(
-    _.debounce((storedTitle: string) => {
-      dispatch(
-        setPostTitle({ postType: PostTypeEnum.VIDEO, value: storedTitle }),
-      );
-    }, 1000),
-    [],
-  );
+  const handleTitleChange = (value: string) => {
+    dispatch(setPostTitle({ postType: PostTypeEnum.VIDEO, value }));
+  };
 
-  const dispatchVideoUrl = useCallback(
-    _.debounce((videoUrl: string) => {
-      dispatch(setVideoUrl({ postType: PostTypeEnum.VIDEO, value: videoUrl }));
-    }, 500),
-    [],
-  );
+  const handleVideoUrlChange = (url: string) => {
+    dispatch(setVideoUrl(url));
+  };
 
-  const dispatchHtmlContent = useCallback(
-    _.debounce((content: string) => {
+  const handleHtmlContentChange = useCallback(
+    _.debounce((value: string) => {
       dispatch(
         setPostBody({
           postType: PostTypeEnum.VIDEO,
-          value: sanitizeHtml(content) as string,
+          value: sanitizeHtml(value),
         }),
       );
-      dispatch(
-        setIsDone({
-          postType: PostTypeEnum.VIDEO,
-          value: true,
-        }),
-      );
-    }, 2000),
+      setTyping({ ...typing, content: false });
+    }, CONTENT_DEBOUNCE_TIMEOUT),
     [],
   );
 
-  const allDirections = directions.filter((direction) =>
-    savedPostDraft.topics.includes(direction.id.toString()),
-  );
-
-  const newPost: CreatePostRequestType = {
+  const newPost: CreateVideoPostRequestType = {
     content: savedPostDraft.htmlContent,
-    directions: allDirections,
-    preview: savedPostDraft.htmlContent,
-    type: { id: 3 }, // must not be hardcoded
+    directions: savedPostDraft.directions,
+    preview: savedPostDraft.htmlContent, // currently no preview
+    type: { id: PostTypeEnum.VIDEO },
     title: savedPostDraft.title,
     videoUrl: savedPostDraft.videoUrl,
   };
 
-  const sendPost = async () => {
+  const handlePublishClick = async () => {
     const responsePost = await createPost(newPost);
+    dispatch(resetDraft(PostTypeEnum.VIDEO));
     history.push(`/posts/${responsePost.data.id}`);
   };
 
-  const goVideoPreview = () => {
-    history.push(`/create-video/preview`, {
-      postType: 'VIDEO',
-      publishPost: newPost,
-    });
-  };
+  const previewPost = React.useMemo(
+    () =>
+      ({
+        author: user,
+        content: savedPostDraft.htmlContent,
+        createdAt: new Date().toLocaleDateString('en-GB').split('/').join('.'),
+        directions: savedPostDraft.directions,
+        title: savedPostDraft.title,
+        videoUrl: savedPostDraft.videoUrl,
+        type: { id: PostTypeEnum.VIDEO, name: 'Відео' },
+      } as IPost),
+    [user, savedPostDraft],
+  );
 
   return (
     <>
       <PageTitle title="Створення відео" />
 
-      {directions.length ? (
-        <PostTopicSelector
-          dispatchTopics={dispatchTopics}
-          topicList={directions}
-          prevCheckedTopicsIds={
-            _.isEmpty(savedPostDraft.topics) ? undefined : savedPostDraft.topics
-          }
-        />
-      ) : (
-        <CircularProgress />
-      )}
-      <Box mt={2}>
-        <Typography variant="h5">Заголовок відео: </Typography>
-        <TextField
-          error={Boolean(title.error)}
-          helperText={title.error}
-          fullWidth
-          required
-          id="video-name"
-          value={title.value}
-          onChange={(e) => {
-            setTitle({ ...title, value: e.target.value });
-            dispatchTitle(e.target.value);
-          }}
-        />
-      </Box>
-      <Box mt={2}>
-        <VideoUrlInputModal dispatchVideoUrl={dispatchVideoUrl} />
-        {videoId && (
-          <iframe
-            title="video"
-            width="360"
-            height="240"
-            src={`http://www.youtube.com/embed/${videoId}`}
-            frameBorder="0"
-            allowFullScreen
+      {!previewing ? (
+        <>
+          <PostDirectionsSelector
+            selectedDirections={savedPostDraft.directions}
+            onSelectedDirectionsChange={handleDirectionsChange}
           />
-        )}
-      </Box>
-      <Box mt={2}>
-        <Typography variant="h5">Опис відео:</Typography>
-        <VideoEditor dispatchContent={dispatchHtmlContent} />
-      </Box>
-      <Box display="flex" justifyContent="flex-end">
-        <PostCreationButtons
-          publishPost={sendPost}
-          goPreview={goVideoPreview}
-          isDone={isDone}
-        />
-      </Box>
+          <Box mt={2}>
+            <Typography variant="h5">Заголовок відео:</Typography>
+            <TextField
+              error={Boolean(title.error)}
+              helperText={title.error}
+              fullWidth
+              required
+              id="video-name"
+              value={title.value}
+              onChange={(e) => {
+                setTitle({ ...title, value: e.target.value });
+                handleTitleChange(e.target.value);
+              }}
+            />
+          </Box>
+          <Box mt={2}>
+            <VideoUrlInputModal dispatchVideoUrl={handleVideoUrlChange} />
+            {videoId && (
+              <iframe
+                title="video"
+                width="360"
+                height="240"
+                src={`http://www.youtube.com/embed/${videoId}`}
+                frameBorder="0"
+                allowFullScreen
+              />
+            )}
+          </Box>
+          <Box mt={2}>
+            <Typography variant="h5">Опис відео:</Typography>
+            <VideoEditor
+              initialHtmlContent={savedPostDraft.htmlContent}
+              onHtmlContentChange={(value) => {
+                setTyping({ ...typing, content: true });
+                handleHtmlContentChange(value);
+              }}
+            />
+          </Box>
+        </>
+      ) : (
+        <PostView post={previewPost} />
+      )}
+
+      <PostCreationButtons
+        action="creating"
+        onPublishClick={handlePublishClick}
+        onPreviewClick={() => {
+          setPreviewing(!previewing);
+        }}
+        previewing={previewing}
+        disabled={Object.values(typing).some((i) => i)}
+      />
     </>
   );
 };
