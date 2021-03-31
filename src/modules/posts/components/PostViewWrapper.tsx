@@ -1,14 +1,17 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
-import { useSnackbar } from 'notistack';
 import { getPostById } from '../../../lib/utilities/API/api';
 import { IPost } from '../../../lib/types';
 import PostView from './PostView';
 import { sanitizeHtml } from '../../../lib/utilities/sanitizeHtml';
 import PageTitle from '../../../lib/components/Pages/PageTitle';
+import {
+  NotificationTypeEnum,
+  useNotification,
+} from '../../../lib/hooks/useNotification';
 
 const PostViewWrapper: React.FC = () => {
-  const { enqueueSnackbar } = useSnackbar();
+  const createNotification = useNotification();
 
   const { postId } = useParams<{ postId: string }>();
   const history = useHistory();
@@ -36,18 +39,17 @@ const PostViewWrapper: React.FC = () => {
       const response = 1; // Mock by status 1 =  success
 
       if (response === 1) {
-        enqueueSnackbar(
+        createNotification(
           `Видалення матеріалу "${loadedPost.title}" пройшло успішно!`,
-          {
-            variant: 'success',
-          },
+          NotificationTypeEnum.Error,
         );
         history.go(-1);
       }
     } catch (e) {
-      enqueueSnackbar(`Видалити матеріал "${loadedPost.title}" не вдалося.`, {
-        variant: 'error',
-      });
+      createNotification(
+        `Видалити матеріал "${loadedPost.title}" не вдалося.`,
+        NotificationTypeEnum.Error,
+      );
     }
   };
 
