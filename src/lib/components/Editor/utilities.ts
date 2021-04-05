@@ -21,7 +21,7 @@ export const modules: StringMap = {
     container: '#toolbar',
   },
   imageResize: {
-    parchment: Quill.import('parchment'),
+    modules: ['Resize', 'DisplaySize'],
   },
   insertFromFile: {
     upload: (file: string | Blob): Promise<unknown> => {
