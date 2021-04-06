@@ -20,7 +20,7 @@ import {
   getQueryTypeByFilterType,
   mapQueryIdsStringToArray,
 } from '../../../lib/utilities/filters';
-import PageTitle from '../../../lib/components/Pages/PageTitle';
+import { PageTitle } from '../../../lib/components/Pages/PageTitle';
 import LoadingContainer from '../../../lib/components/Loading/LoadingContainer';
 import { useQuery } from '../../../lib/hooks/useQuery';
 import CheckboxDropdownFilterForm from '../../../lib/components/Filters/CheckboxDropdownFilterForm';

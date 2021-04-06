@@ -12,7 +12,7 @@ export interface IPostCreationButtonsProps {
   loading?: boolean;
 }
 
-const PostCreationButtons: React.FC<IPostCreationButtonsProps> = ({
+export const PostCreationButtons: React.FC<IPostCreationButtonsProps> = ({
   action,
   onCancelClick,
   onPublishClick,
@@ -63,5 +63,3 @@ const PostCreationButtons: React.FC<IPostCreationButtonsProps> = ({
     </Box>
   );
 };
-
-export default PostCreationButtons;

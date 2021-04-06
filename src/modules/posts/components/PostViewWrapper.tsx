@@ -5,7 +5,7 @@ import { getPostById } from '../../../lib/utilities/API/api';
 import { IPost } from '../../../lib/types';
 import PostView from './PostView';
 import { sanitizeHtml } from '../../../lib/utilities/sanitizeHtml';
-import PageTitle from '../../../lib/components/Pages/PageTitle';
+import { PageTitle } from '../../../lib/components/Pages/PageTitle';
 
 const PostViewWrapper: React.FC = () => {
   const { enqueueSnackbar } = useSnackbar();

@@ -8,15 +8,16 @@ import {
   setPostDirections,
   setPostTitle,
   setPostBody,
+  setImageUrl,
   setPostPreviewText,
   setPostPreviewManuallyChanged,
   resetDraft,
 } from '../store/postCreationSlice';
 import { IDirection, IPost, PostTypeEnum } from '../../../lib/types';
 import { sanitizeHtml } from '../../../lib/utilities/sanitizeHtml';
-import PostCreationButtons from './PostCreationButtons';
+import { PostCreationButtons } from './PostCreationButtons';
 import { CreateTextPostRequestType } from '../../../lib/utilities/API/types';
-import PageTitle from '../../../lib/components/Pages/PageTitle';
+import { PageTitle } from '../../../lib/components/Pages/PageTitle';
 import { createPost } from '../../../lib/utilities/API/api';
 import {
   CONTENT_DEBOUNCE_TIMEOUT,
@@ -26,6 +27,10 @@ import PostView from '../../posts/components/PostView';
 import { TextPostEditor } from '../../../lib/components/Editor/Editors/TextPostEditor';
 import { IEditorToolbarProps } from '../../../lib/components/Editor/types';
 import { PostDirectionsSelector } from './PostDirectionsSelector';
+import { BorderBottom } from '../../../lib/components/Border';
+import { getStringFromFile } from '../../../lib/utilities/Imgur/getStringFromFile';
+import { uploadImageToImgur } from '../../../lib/utilities/Imgur/uploadImageToImgur';
+import { BackgroundImageContainer } from '../../../lib/components/Editor/CustomModules/BackgroundImageContainer/BackgroundImageContainer';
 
 interface IPostCreationProps {
   pageTitle: string;
@@ -66,6 +71,15 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
     dispatch(setPostTitle({ postType: postType.type, value }));
   };
 
+  const dispatchImageUrl = (previewImageUrl: string): void => {
+    dispatch(
+      setImageUrl({
+        postType: PostTypeEnum.ARTICLE,
+        value: previewImageUrl,
+      }),
+    );
+  };
+
   const handleHtmlContentChange = useCallback(
     _.debounce((value: string) => {
       dispatch(
@@ -92,11 +106,25 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
     [],
   );
 
+  const fileSelectorHandler = (
+    e: React.ChangeEvent<HTMLInputElement>,
+  ): void => {
+    getStringFromFile(e.target.files)
+      .then((str) => uploadImageToImgur(str))
+      .then((res) => {
+        if (res.data.status === 200) {
+          console.log(res);
+          dispatchImageUrl(res.data.data.link);
+        }
+      });
+  };
+
   const handlePreviewManuallyChanged = () => {
     dispatch(setPostPreviewManuallyChanged(postType.type));
   };
 
   const newPost: CreateTextPostRequestType = {
+    previewImageUrl: savedPostDraft.previewImageUrl,
     content: savedPostDraft.htmlContent,
     directions: savedPostDraft.directions,
     preview: savedPostDraft.preview.value,
@@ -148,6 +176,12 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
               }}
             />
           </Box>
+          <BackgroundImageContainer
+            dispatchImageUrl={dispatchImageUrl}
+            fileSelectorHandler={fileSelectorHandler}
+            newPost={newPost}
+          />
+          <BorderBottom />
           <Box mt={2}>
             <Typography variant="h5">{contentInputLabel}</Typography>
             <TextPostEditor

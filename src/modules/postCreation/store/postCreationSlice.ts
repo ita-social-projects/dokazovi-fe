@@ -3,6 +3,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { IDirection, PostTypeEnum } from '../../../lib/types';
 
 interface INewPostDraft {
+  previewImageUrl?: string;
   title: string;
   directions: IDirection[];
   htmlContent: string;
@@ -34,12 +35,14 @@ const initialState: IPostCreationState = {
     directions: [],
     htmlContent: '',
     preview: { value: '', isManuallyChanged: false },
+    previewImageUrl: '',
   },
   [PostTypeEnum.DOPYS]: {
     title: '',
     directions: [],
     htmlContent: '',
     preview: { value: '', isManuallyChanged: false },
+    previewImageUrl: '',
   },
   [PostTypeEnum.VIDEO]: {
     title: '',
@@ -107,6 +110,15 @@ export const postCreationSlice = createSlice({
     setVideoUrl: (state, action: PayloadAction<string>) => {
       state[PostTypeEnum.VIDEO].videoUrl = action.payload;
     },
+    setImageUrl: (
+      state,
+      action: PayloadAction<{
+        postType: PostTypeEnum;
+        value: INewPostDraft['previewImageUrl'];
+      }>,
+    ) => {
+      state[action.payload.postType].previewImageUrl = action.payload.value;
+    },
   },
 });
 
@@ -118,6 +130,7 @@ export const {
   setPostPreviewText,
   setPostPreviewManuallyChanged,
   setVideoUrl,
+  setImageUrl,
 } = postCreationSlice.actions;
 
 const postCreationReducer = postCreationSlice.reducer;

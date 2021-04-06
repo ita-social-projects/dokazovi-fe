@@ -1,6 +1,6 @@
 import { IDirection } from '../../types';
 
-type CreatePostRequestType = {
+export type CreatePostRequestType = {
   title: string;
   content: string;
   directions: IDirection[];
@@ -8,6 +8,8 @@ type CreatePostRequestType = {
   type: {
     id: number;
   };
+  previewImageUrl?: string;
+  videoUrl?: string;
 };
 
 export type CreateTextPostRequestType = CreatePostRequestType;

@@ -9,15 +9,14 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import CropOriginalIcon from '@material-ui/icons/CropOriginal';
 import { IconButton } from '@material-ui/core';
 import { useForm } from 'react-hook-form';
-import Quill from 'quill';
 import { Alert } from '@material-ui/lab';
-import insertFromUrl from './ImageFromURLHandler';
+import { insertFromUrl } from './ImageFromURLHandler';
+import { IUrlInputModalProps } from './types';
 
-interface IUrlInputModalProps {
-  editor?: Quill;
-}
-
-const UrlInputModal: React.FC<IUrlInputModalProps> = ({ editor }) => {
+export const UrlInputModal: React.FC<IUrlInputModalProps> = ({
+  editor,
+  updateBackgroundImage,
+}) => {
   // eslint-disable-next-line @typescript-eslint/unbound-method
   const { register, handleSubmit, errors } = useForm();
 
@@ -35,6 +34,9 @@ const UrlInputModal: React.FC<IUrlInputModalProps> = ({ editor }) => {
   };
 
   const onSubmitHandler = () => {
+    if (updateBackgroundImage) {
+      updateBackgroundImage(url);
+    }
     handleClose();
     insertFromUrl(url, editor);
     setUrl('');
@@ -99,4 +101,4 @@ const UrlInputModal: React.FC<IUrlInputModalProps> = ({ editor }) => {
   );
 };
 
-export default UrlInputModal;
+// export default UrlInputModal;

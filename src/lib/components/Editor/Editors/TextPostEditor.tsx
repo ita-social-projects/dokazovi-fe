@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Grid } from '@material-ui/core';
-import BorderBottom from '../../Border';
+import { BorderBottom } from '../../Border';
 import PreviewInput from '../PreviewInput';
 import { GeneralEditor } from '../GeneralEditor';
 import PostPreviewCard from '../../Posts/Cards/PostPreviewCard';

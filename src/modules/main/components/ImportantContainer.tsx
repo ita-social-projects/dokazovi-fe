@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import BorderBottom from '../../../lib/components/Border';
+import { BorderBottom } from '../../../lib/components/Border';
 import Carousel from '../../../lib/components/Carousel/Carousel';
 import { PostCard } from '../../../lib/components/Posts/Cards/PostCard';
 import { RootStateType } from '../../../store/rootReducer';

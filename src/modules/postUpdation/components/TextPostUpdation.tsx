@@ -3,10 +3,10 @@ import { useHistory } from 'react-router-dom';
 import _ from 'lodash';
 import { Box, TextField, Typography } from '@material-ui/core';
 import { sanitizeHtml } from '../../../lib/utilities/sanitizeHtml';
-import PageTitle from '../../../lib/components/Pages/PageTitle';
+import { PageTitle } from '../../../lib/components/Pages/PageTitle';
 import { updatePost } from '../../../lib/utilities/API/api';
 import { IDirection, IPost } from '../../../lib/types';
-import PostCreationButtons from '../../postCreation/components/PostCreationButtons';
+import { PostCreationButtons } from '../../postCreation/components/PostCreationButtons';
 import { UpdateTextPostRequestType } from '../../../lib/utilities/API/types';
 import {
   CONTENT_DEBOUNCE_TIMEOUT,

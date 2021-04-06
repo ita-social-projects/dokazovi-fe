@@ -1,6 +1,6 @@
 import Quill from 'quill';
 
-const insertFromUrl = (url: string, editor?: Quill): void => {
+export const insertFromUrl = (url: string, editor?: Quill): void => {
   if (editor && url) {
     const range = editor.getSelection(true);
     const valueObj = {
@@ -13,5 +13,3 @@ const insertFromUrl = (url: string, editor?: Quill): void => {
     editor.setSelection(range.index + 3, 0, 'user');
   }
 };
-
-export default insertFromUrl;
