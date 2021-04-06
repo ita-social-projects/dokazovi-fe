@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable no-param-reassign */
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import qs from 'qs';
@@ -21,6 +22,10 @@ import {
 } from './types';
 import { LocalStorageKeys } from '../../types';
 import { BASE_URL } from '../../../apiURL';
+import {
+  NotificationTypeEnum,
+  useNotification,
+} from '../../hooks/useNotification';
 
 export const instance = axios.create({
   baseURL: BASE_URL,
@@ -37,6 +42,21 @@ instance.interceptors.request.use(
   },
   (error) => {
     Promise.reject(error);
+  },
+);
+
+instance.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    const createNotification = useNotification();
+
+    if (error.message === 'Network Error' && !error.response) {
+      createNotification(
+        "The server isn't responding...",
+        NotificationTypeEnum.Error,
+      );
+      throw error;
+    }
   },
 );
 
