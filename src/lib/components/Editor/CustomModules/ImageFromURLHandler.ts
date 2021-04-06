@@ -9,8 +9,8 @@ const insertFromUrl = (url: string, editor?: Quill): void => {
     };
     editor.insertText(range.index, '\n');
     editor.insertEmbed(range.index + 1, 'figureBlock', valueObj, 'user');
-    range.index += 2;
-    editor.setSelection(range, 'user');
+    editor.insertText(range.index + 2, '\n');
+    editor.setSelection(range.index + 3, 0, 'user');
   }
 };
 

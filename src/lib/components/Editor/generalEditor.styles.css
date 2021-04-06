@@ -53,8 +53,7 @@ s {
 }
 
 .ql-editor > h1,
-h2,
-p {
+h2 {
   line-height: 2rem;
 }
 
@@ -85,17 +84,7 @@ figure > img {
 }
 
 .imageTitle {
-  text-align: center;
+  font-weight: bold;
   line-height: 2rem;
   margin-right: 1.2rem;
-}
-
-.imageTitle::before {
-  display: inline-block;
-  content: '|';
-  font-size: 2rem;
-  line-height: 2rem;
-  color: #9c9695;
-  width: 20px;
-  margin-right: 1.5rem;
 }
