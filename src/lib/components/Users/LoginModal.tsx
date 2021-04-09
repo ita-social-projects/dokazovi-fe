@@ -25,6 +25,7 @@ import { clearError, loginUser } from '../../../store/authSlice';
 import { RootStateType } from '../../../store/rootReducer';
 import { FB_AUTH_URL, GOOGLE_AUTH_URL } from '../../../apiURL';
 import { useStyles } from './LoginModal.styles';
+import { AccountIcon } from '../icons/AccountIcon';
 
 export const LoginModal: React.FC = () => {
   const classes = useStyles();
@@ -76,11 +77,14 @@ export const LoginModal: React.FC = () => {
   return (
     <>
       <Button
-        classes={{ root: classes.button, label: classes.label }}
+        className={classes.button}
         color="primary"
         onClick={handleLoginOpen}
       >
-        Вхід / Реєстрація
+        <AccountIcon className={classes.icon} />
+        <Typography className={classes.label} variant="h5">
+          Увійти
+        </Typography>
       </Button>
 
       <Dialog
