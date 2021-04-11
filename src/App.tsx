@@ -1,7 +1,7 @@
 import React, { Suspense, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
-import { SnackbarProvider } from 'notistack';
+import { ToastContainer } from 'react-toastify';
 import {
   CircularProgress,
   CssBaseline,
@@ -22,6 +22,7 @@ import { LocalStorageKeys } from './lib/types';
 import { MAIN_THEME } from './lib/theme/theme';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import 'react-toastify/dist/ReactToastify.min.css';
 
 const App: React.FC = () => {
   const dispatch = useDispatch();
@@ -46,25 +47,25 @@ const App: React.FC = () => {
   return (
     <div className="App">
       <ThemeProvider theme={MAIN_THEME}>
-        <SnackbarProvider
-          maxSnack={4}
-          autoHideDuration={4000}
-          anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'right',
-          }}
-        >
-          <CssBaseline />
-          <BrowserRouter>
-            <div className="content">
-              <Header />
-              <Suspense fallback={<CircularProgress className="mainLoading" />}>
-                <RenderRoutes routes={ROUTER_CONFIG} />
-              </Suspense>
-            </div>
-            <Footer />
-          </BrowserRouter>
-        </SnackbarProvider>
+        <ToastContainer
+          position="bottom-right"
+          limit={3}
+          draggable={false}
+          hideProgressBar
+          closeOnClick={false}
+          autoClose={4000}
+        />
+
+        <CssBaseline />
+        <BrowserRouter>
+          <div className="content">
+            <Header />
+            <Suspense fallback={<CircularProgress className="mainLoading" />}>
+              <RenderRoutes routes={ROUTER_CONFIG} />
+            </Suspense>
+          </div>
+          <Footer />
+        </BrowserRouter>
       </ThemeProvider>
     </div>
   );

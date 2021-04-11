@@ -1,7 +1,7 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable no-param-reassign */
-import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 import qs from 'qs';
+import { toast } from 'react-toastify';
 import {
   RegionResponseType,
   DirectionResponseType,
@@ -22,10 +22,6 @@ import {
 } from './types';
 import { LocalStorageKeys } from '../../types';
 import { BASE_URL } from '../../../apiURL';
-import {
-  NotificationTypeEnum,
-  useNotification,
-} from '../../hooks/useNotification';
 
 export const instance = axios.create({
   baseURL: BASE_URL,
@@ -45,20 +41,21 @@ instance.interceptors.request.use(
   },
 );
 
-instance.interceptors.response.use(
-  (response) => response,
-  (error) => {
-    const createNotification = useNotification();
+instance.interceptors.response.use(undefined, (error: AxiosError) => {
+  if (error.message === 'Network Error' && !error.response) {
+    toast.error("The server isn't responding...");
+  }
 
-    if (error.message === 'Network Error' && !error.response) {
-      createNotification(
-        "The server isn't responding...",
-        NotificationTypeEnum.Error,
-      );
-      throw error;
-    }
-  },
-);
+  if (!error.response) {
+    throw error;
+  }
+
+  if (error.response.status === 500) {
+    toast.error('A server error occurred...');
+  }
+
+  throw error;
+});
 
 const defaultConfig = {
   paramsSerializer: (params: { [key: string]: unknown }): string => {
