@@ -11,7 +11,7 @@ export const MAIN_THEME = createMuiTheme({
       xs: 0,
       sm: 600,
       md: 960,
-      lg: 1280,
+      lg: 1305,
       xl: 1920,
     },
   },

@@ -1,19 +1,20 @@
-import { makeStyles } from '@material-ui/core';
+import { makeStyles, Theme } from '@material-ui/core';
 
 export const useStyles = makeStyles(
-  {
+  (theme: Theme) => ({
     root: {
-      minWidth: 275,
-      minHeight: 210,
-    },
-    pos: {
-      marginBottom: 12,
-      cursor: 'pointer',
+      backgroundColor: 'transparent',
     },
     name: {
       cursor: 'pointer',
+      margin: theme.spacing(5.4, 0, 2, 0),
     },
-  },
+    qualification: {
+      color: theme.palette.text.secondary,
+      fontSize: 15,
+      lineHeight: '20px',
+    },
+  }),
   {
     name: 'ExpertDataCard',
   },

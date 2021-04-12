@@ -1,15 +1,15 @@
-import { makeStyles } from '@material-ui/core';
+import { makeStyles, Theme } from '@material-ui/core';
 
 export const useStyles = makeStyles(
-  {
+  (theme: Theme) => ({
     root: {
-      display: 'inline-flex',
+      display: 'flex',
+      flexDirection: 'column',
+      backgroundColor: 'transparent',
+      borderRadius: 0,
+      marginBottom: theme.spacing(3),
     },
-    photo: {
-      minWidth: '300px',
-      minHeight: '302px',
-    },
-  },
+  }),
   {
     name: 'ExpertPhotoDataCard',
   },

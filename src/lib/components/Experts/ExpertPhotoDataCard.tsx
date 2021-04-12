@@ -1,5 +1,4 @@
 import React from 'react';
-import { Box } from '@material-ui/core';
 import Card from '@material-ui/core/Card';
 import { IExpert } from '../../types';
 import { useStyles } from '../../styles/ExpertPhotoDataCard.styles';
@@ -17,9 +16,7 @@ const ExpertPhotoDataCard: React.FC<IExpertPhotoDataCardProps> = (props) => {
 
   return (
     <Card className={classes.root}>
-      <Box className={classes.photo}>
-        <ExpertBlock expert={expert} />
-      </Box>
+      <ExpertBlock expert={expert} />
       <ExpertDataCard expert={expert} />
     </Card>
   );

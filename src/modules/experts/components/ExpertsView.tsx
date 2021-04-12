@@ -145,7 +145,7 @@ const ExpertsView: React.FC = () => {
           <LoadingContainer loading={loading} expand />
         ) : (
           <>
-            <Grid container spacing={4} style={{ marginTop: 20 }}>
+            <Grid container spacing={3} xs={9}>
               <ExpertsList experts={experts} />
             </Grid>
             <Box mt={2} mb={2}>
