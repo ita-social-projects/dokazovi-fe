@@ -9,6 +9,9 @@ export const useStyles = makeStyles(
       borderRadius: 0,
       marginBottom: theme.spacing(3),
     },
+    photo: {
+      height: '315px',
+    },
   }),
   {
     name: 'ExpertPhotoDataCard',
