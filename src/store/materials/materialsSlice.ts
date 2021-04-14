@@ -1,27 +1,11 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { LOAD_POSTS_LIMIT } from '../../lib/constants/posts';
-import { QueryTypeEnum, LoadingStatusEnum } from '../../lib/types';
+import { LoadingStatusEnum } from '../../lib/types';
 import { getPosts } from '../../lib/utilities/API/api';
 import { loadPosts, mapFetchedPosts } from '../dataSlice';
 import type { AppThunkType } from '../store';
-
-export interface IMaterialsState {
-  postIds: number[];
-  meta: IMaterialsMeta;
-  filters?: {
-    [key in QueryTypeEnum]?: number[];
-  };
-}
-
-export interface IMaterialsMeta {
-  loading: LoadingStatusEnum;
-  error: null | string;
-  isLastPage: boolean;
-  pageNumber: number;
-  totalPages: number;
-  totalElements: number;
-}
+import { IMaterialsState } from './types';
 
 const initialState: IMaterialsState = {
   postIds: [],

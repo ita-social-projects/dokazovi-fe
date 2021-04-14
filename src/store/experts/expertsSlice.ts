@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { LoadingStatusEnum, QueryTypeEnum } from '../../lib/types';
+import { LoadingStatusEnum } from '../../lib/types';
 import {
   getAllExperts,
   getExpertById,
@@ -11,35 +11,7 @@ import type { RootStateType } from '../rootReducer';
 import { loadExperts, loadPosts, mapFetchedPosts } from '../dataSlice';
 import { RequestParamsType } from '../../lib/utilities/API/types';
 import { LOAD_POSTS_LIMIT } from '../../lib/constants/posts';
-
-export interface IExpertPayload {
-  expertIds: number[];
-  meta: IExpertMeta;
-}
-
-export interface IExpertMeta {
-  totalPages?: number;
-  pageNumber: number;
-  loading: LoadingStatusEnum;
-  error: null | string;
-}
-
-export interface IMaterialsMeta {
-  loading: LoadingStatusEnum;
-  error: null | string;
-  isLastPage: boolean;
-  pageNumber: number;
-  totalPages: number;
-  totalElements: number;
-}
-
-interface IMaterialsState {
-  postIds: number[];
-  meta: IMaterialsMeta;
-  filters?: {
-    [QueryTypeEnum.POST_TYPES]: number[];
-  };
-}
+import { IMaterialsState, IExpertsState, IFetchExpertsOptions } from './types';
 
 const initialMaterialsState: IMaterialsState = {
   postIds: [],
@@ -53,11 +25,6 @@ const initialMaterialsState: IMaterialsState = {
   },
 };
 
-export interface IExpertsState {
-  experts: IExpertPayload;
-  materials: IMaterialsState;
-}
-
 const initialState: IExpertsState = {
   experts: {
     expertIds: [],
@@ -70,12 +37,6 @@ const initialState: IExpertsState = {
   },
   materials: initialMaterialsState,
 };
-
-interface IFetchExpertsOptions {
-  page: number;
-  regions: number[];
-  directions: number[];
-}
 
 export const fetchExperts = createAsyncThunk(
   'experts/loadExperts',
