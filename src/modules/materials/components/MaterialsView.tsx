@@ -157,7 +157,6 @@ const MaterialsView: React.FC = () => {
           <Grid container alignItems="center" style={{ marginTop: 20 }}>
             <PostsList postsList={materials} />
           </Grid>
-          <LoadingContainer loading={loading} />
           <Grid container justify="center" ref={gridRef}>
             <LoadMorePostsButton
               clicked={loadMore}
