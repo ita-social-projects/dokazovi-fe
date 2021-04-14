@@ -10,6 +10,7 @@ import type { AppThunkType } from '../store';
 import type { RootStateType } from '../rootReducer';
 import { loadExperts, loadPosts, mapFetchedPosts } from '../dataSlice';
 import { RequestParamsType } from '../../lib/utilities/API/types';
+import { LOAD_EXPERTS_LIMIT } from '../../lib/constants/experts';
 import { LOAD_POSTS_LIMIT } from '../../lib/constants/posts';
 import { IExpertsState, IFetchExpertsOptions } from './types';
 import { IMaterialsState } from '../materials/types';
@@ -30,10 +31,12 @@ const initialState: IExpertsState = {
   experts: {
     expertIds: [],
     meta: {
-      totalPages: undefined,
+      totalPages: 0,
       pageNumber: 0,
       loading: LoadingStatusEnum.idle,
       error: null,
+      isLastPage: false,
+      totalElements: 0,
     },
   },
   materials: initialMaterialsState,
@@ -42,21 +45,22 @@ const initialState: IExpertsState = {
 export const fetchExperts = createAsyncThunk(
   'experts/loadExperts',
   async (options: IFetchExpertsOptions, { dispatch }) => {
-    const { page, regions, directions } = options;
+    const { page, regions, directions, appendExperts } = options;
 
     const { data } = await getAllExperts({
       params: {
-        page,
+        page: appendExperts ? page : 0,
+        size: LOAD_EXPERTS_LIMIT,
         regions,
         directions,
       },
     });
     dispatch(loadExperts(data.content));
-
     return {
       expertIds: data.content.map((expert) => expert.id),
       number: data.number,
       totalPages: data.totalPages,
+      totalElements: data.totalElements,
     };
   },
 );
@@ -130,7 +134,10 @@ export const expertsSlice = createSlice({
       state.experts.meta.loading = LoadingStatusEnum.succeeded;
       state.experts.meta.pageNumber = payload.number;
       state.experts.meta.totalPages = payload.totalPages;
-      state.experts.expertIds = payload.expertIds;
+      state.experts.meta.totalElements = payload.totalElements;
+      state.experts.expertIds = state.experts.expertIds.concat(
+        payload.expertIds,
+      );
     });
     builder.addCase(fetchExperts.rejected, (state, { error }) => {
       if (error.message) {

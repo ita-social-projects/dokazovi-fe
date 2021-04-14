@@ -1,15 +1,16 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { isEmpty, uniq } from 'lodash';
 import { useHistory } from 'react-router-dom';
-import { Box, Grid } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
-import { Pagination } from '@material-ui/lab';
 import {
   fetchExperts,
   setExpertsPage,
 } from '../../../store/experts/expertsSlice';
 import { RootStateType } from '../../../store/rootReducer';
 import ExpertsList from '../../../lib/components/Experts/ExpertsList';
+import useEffectExceptOnMount from '../../../lib/hooks/useEffectExceptOnMount';
+import LoadMorePostsButton from '../../../lib/components/LoadMorePostsButton';
 import {
   FilterTypeEnum,
   IDirection,
@@ -23,19 +24,22 @@ import {
   getQueryTypeByFilterType,
   mapQueryIdsStringToArray,
 } from '../../../lib/utilities/filters';
+import usePrevious from '../../../lib/hooks/usePrevious';
 import { PageTitle } from '../../../lib/components/Pages/PageTitle';
 import LoadingContainer from '../../../lib/components/Loading/LoadingContainer';
 import { useQuery } from '../../../lib/hooks/useQuery';
 import CheckboxDropdownFilterForm from '../../../lib/components/Filters/CheckboxDropdownFilterForm';
 
 const ExpertsView: React.FC = () => {
+  const [page, setPage] = useState(0);
+  const previous = usePrevious({ page });
   const query = useQuery();
   const history = useHistory();
   const dispatch = useDispatch();
 
   const {
     expertIds,
-    meta: { totalPages, pageNumber, loading },
+    meta: { totalPages, pageNumber, loading, totalElements, isLastPage },
   } = useSelector((state: RootStateType) => state.experts.experts);
 
   const experts = selectExpertsByIds(expertIds);
@@ -48,12 +52,9 @@ const ExpertsView: React.FC = () => {
   );
   const propertiesLoaded = !isEmpty(regions) && !isEmpty(directions);
 
-  const fetchData = () => {
-    const pageQuery = Number(query.get(QueryTypeEnum.PAGE));
+  const fetchData = (appendExperts = false) => {
     const regionsQuery = query.get(QueryTypeEnum.REGIONS);
     const directionsQuery = query.get(QueryTypeEnum.DIRECTIONS);
-
-    const page = pageQuery ? pageQuery - 1 : 0;
 
     dispatch(setExpertsPage(page));
     dispatch(
@@ -61,6 +62,7 @@ const ExpertsView: React.FC = () => {
         page,
         regions: mapQueryIdsStringToArray(regionsQuery),
         directions: mapQueryIdsStringToArray(directionsQuery),
+        appendExperts,
       }),
     );
   };
@@ -78,24 +80,22 @@ const ExpertsView: React.FC = () => {
       query.delete(queryType);
     }
 
-    query.set(QueryTypeEnum.PAGE, '1');
+    setPage(0);
 
     history.push({
       search: query.toString(),
     });
   };
 
-  const handlePageChange = (_, newPage: number) => {
-    query.set(QueryTypeEnum.PAGE, newPage.toString());
-    history.push({
-      search: query.toString(),
-    });
+  const loadMore = () => {
+    setPage(page + 1);
   };
 
   useEffect(() => {
-    fetchData();
+    const appendExperts = previous && previous.page < page;
+    fetchData(appendExperts);
   }, [
-    query.get(QueryTypeEnum.PAGE),
+    page,
     query.get(QueryTypeEnum.REGIONS),
     query.get(QueryTypeEnum.DIRECTIONS),
   ]);
@@ -118,6 +118,13 @@ const ExpertsView: React.FC = () => {
   selectedDirections = !isEmpty(selectedDirections)
     ? selectedDirections
     : undefined;
+
+  const gridRef = useRef<HTMLDivElement>(null);
+  useEffectExceptOnMount(() => {
+    if (page > 0) {
+      gridRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [expertIds]);
 
   return (
     <>
@@ -144,24 +151,23 @@ const ExpertsView: React.FC = () => {
         </Grid>
       )}
       <>
-        {loading === LoadingStatusEnum.pending ? (
+        {page === 0 && loading === LoadingStatusEnum.pending ? (
           <LoadingContainer loading={loading} expand />
         ) : (
           <>
             <Grid container spacing={3} xs={9}>
               <ExpertsList experts={experts} />
-            </Grid>
-            <Box mt={2} mb={2}>
-              <Grid container direction="column" alignItems="center">
-                <Pagination
-                  count={totalPages}
-                  page={pageNumber + 1}
-                  showFirstButton
-                  showLastButton
-                  onChange={handlePageChange}
+              <Grid container justify="center" ref={gridRef}>
+                <LoadMorePostsButton
+                  clicked={loadMore}
+                  isLastPage={isLastPage}
+                  loading={loading}
+                  totalPages={totalPages}
+                  totalElements={totalElements}
+                  pageNumber={pageNumber}
                 />
               </Grid>
-            </Box>
+            </Grid>
           </>
         )}
       </>

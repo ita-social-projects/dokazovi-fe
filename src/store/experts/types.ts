@@ -7,10 +7,12 @@ export interface IExpertPayload {
 }
 
 export interface IExpertMeta {
-  totalPages?: number;
+  totalPages: number;
   pageNumber: number;
   loading: LoadingStatusEnum;
   error: null | string;
+  isLastPage: boolean;
+  totalElements: number;
 }
 
 export interface IExpertsState {
@@ -22,4 +24,5 @@ export interface IFetchExpertsOptions {
   page: number;
   regions: number[];
   directions: number[];
+  appendExperts: boolean;
 }
