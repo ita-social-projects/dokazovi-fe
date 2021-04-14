@@ -1,20 +1,16 @@
 /* eslint-disable no-param-reassign */
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { LoadingStatusEnum, QueryTypeEnum } from '../../../lib/types';
+import { LoadingStatusEnum, QueryTypeEnum } from '../../lib/types';
 import {
   getAllExperts,
   getExpertById,
   getPosts,
-} from '../../../lib/utilities/API/api';
-import type { AppThunkType } from '../../../store/store';
-import type { RootStateType } from '../../../store/rootReducer';
-import {
-  loadExperts,
-  loadPosts,
-  mapFetchedPosts,
-} from '../../../store/dataSlice';
-import { RequestParamsType } from '../../../lib/utilities/API/types';
-import { LOAD_POSTS_LIMIT } from '../../../lib/constants/posts';
+} from '../../lib/utilities/API/api';
+import type { AppThunkType } from '../store';
+import type { RootStateType } from '../rootReducer';
+import { loadExperts, loadPosts, mapFetchedPosts } from '../dataSlice';
+import { RequestParamsType } from '../../lib/utilities/API/types';
+import { LOAD_POSTS_LIMIT } from '../../lib/constants/posts';
 
 export interface IExpertPayload {
   expertIds: number[];

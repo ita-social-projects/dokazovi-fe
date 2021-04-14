@@ -4,7 +4,10 @@ import { useHistory } from 'react-router-dom';
 import { Box, Grid } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { Pagination } from '@material-ui/lab';
-import { fetchExperts, setExpertsPage } from '../store/expertsSlice';
+import {
+  fetchExperts,
+  setExpertsPage,
+} from '../../../store/experts/expertsSlice';
 import { RootStateType } from '../../../store/rootReducer';
 import ExpertsList from '../../../lib/components/Experts/ExpertsList';
 import {

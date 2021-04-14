@@ -25,7 +25,10 @@ import {
 } from '../../../lib/utilities/filters';
 import { RootStateType } from '../../../store/rootReducer';
 import { selectPostsByIds } from '../../../store/selectors';
-import { fetchExpertMaterials, resetMaterials } from '../store/expertsSlice';
+import {
+  fetchExpertMaterials,
+  resetMaterials,
+} from '../../../store/experts/expertsSlice';
 
 export interface IExpertMaterialsContainerProps {
   expertId: number;

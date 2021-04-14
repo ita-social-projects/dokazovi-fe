@@ -19,7 +19,7 @@ import {
 } from '../../../lib/types';
 import { RootStateType } from '../../../store/rootReducer';
 import { selectPostsByIds } from '../../../store/selectors';
-import { fetchMaterials } from '../store/materialsSlice';
+import { fetchMaterials } from '../../../store/materials/materialsSlice';
 import {
   getQueryTypeByFilterType,
   mapQueryIdsStringToArray,
