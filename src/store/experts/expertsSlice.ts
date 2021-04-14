@@ -11,7 +11,8 @@ import type { RootStateType } from '../rootReducer';
 import { loadExperts, loadPosts, mapFetchedPosts } from '../dataSlice';
 import { RequestParamsType } from '../../lib/utilities/API/types';
 import { LOAD_POSTS_LIMIT } from '../../lib/constants/posts';
-import { IMaterialsState, IExpertsState, IFetchExpertsOptions } from './types';
+import { IExpertsState, IFetchExpertsOptions } from './types';
+import { IMaterialsState } from '../materials/types';
 
 const initialMaterialsState: IMaterialsState = {
   postIds: [],
