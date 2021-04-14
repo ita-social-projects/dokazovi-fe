@@ -32,6 +32,9 @@ export interface IMaterialsMeta {
   loading: LoadingStatusEnum;
   error: null | string;
   isLastPage: boolean;
+  pageNumber: number;
+  totalPages: number;
+  totalElements: number;
 }
 
 interface IMaterialsState {
@@ -48,6 +51,9 @@ const initialMaterialsState: IMaterialsState = {
     isLastPage: false,
     loading: LoadingStatusEnum.idle,
     error: null,
+    pageNumber: 0,
+    totalElements: 0,
+    totalPages: 0,
   },
 };
 
@@ -236,6 +242,9 @@ export const fetchExpertMaterials = (
             loading: LoadingStatusEnum.succeeded,
             error: null,
             isLastPage: resp.data.last,
+            pageNumber: resp.data.number,
+            totalElements: resp.data.totalElements,
+            totalPages: resp.data.totalPages,
           },
         },
       }),

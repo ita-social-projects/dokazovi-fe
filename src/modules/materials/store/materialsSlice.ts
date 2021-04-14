@@ -18,6 +18,9 @@ export interface IMaterialsMeta {
   loading: LoadingStatusEnum;
   error: null | string;
   isLastPage: boolean;
+  pageNumber: number;
+  totalPages: number;
+  totalElements: number;
 }
 
 const initialState: IMaterialsState = {
@@ -26,6 +29,9 @@ const initialState: IMaterialsState = {
     isLastPage: false,
     loading: LoadingStatusEnum.idle,
     error: null,
+    pageNumber: 0,
+    totalElements: 0,
+    totalPages: 0,
   },
   filters: {},
 };
@@ -103,6 +109,9 @@ export const fetchMaterials = (
       loadMaterials({
         postIds: appendPosts ? postIds.concat(ids) : ids,
         meta: {
+          totalPages: response.data.totalPages,
+          totalElements: response.data.totalElements,
+          pageNumber: response.data.number,
           isLastPage: response.data.last,
           loading: LoadingStatusEnum.succeeded,
           error: null,

@@ -52,7 +52,7 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
   );
   const {
     postIds,
-    meta: { loading, isLastPage },
+    meta: { loading, isLastPage, pageNumber, totalElements, totalPages },
   } = expertData;
 
   const materials = selectPostsByIds(postIds);
@@ -142,6 +142,9 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
               clicked={loadMore}
               isLastPage={isLastPage}
               loading={loading}
+              totalPages={totalPages}
+              totalElements={totalElements}
+              pageNumber={pageNumber}
             />
           </Grid>
         </>

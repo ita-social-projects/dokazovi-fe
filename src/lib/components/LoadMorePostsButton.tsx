@@ -7,6 +7,7 @@ import {
   CircularProgress,
 } from '@material-ui/core';
 import { LoadingStatusEnum } from '../types';
+import { LOAD_POSTS_LIMIT } from '../constants/posts';
 
 const useStyles = makeStyles(
   (theme) =>
@@ -44,17 +45,25 @@ export interface ILoadMorePostsButtonProps {
   clicked: () => void;
   loading: LoadingStatusEnum;
   isLastPage: boolean;
+  totalPages: number;
+  totalElements: number;
+  pageNumber: number;
 }
 
 const LoadMorePostsButton: React.FC<ILoadMorePostsButtonProps> = ({
   clicked,
   loading,
   isLastPage,
+  pageNumber,
+  totalPages,
+  totalElements,
 }) => {
   const classes = useStyles();
   const renderLoadControls = (): JSX.Element => {
     let control: JSX.Element = <></>;
-
+    const isPreLastPage = pageNumber !== totalPages - 2;
+    const elemsInLastpage = totalElements % LOAD_POSTS_LIMIT;
+    const elements = isPreLastPage ? LOAD_POSTS_LIMIT : elemsInLastpage;
     control = (
       <Button
         className={classes.root}
@@ -74,7 +83,7 @@ const LoadMorePostsButton: React.FC<ILoadMorePostsButtonProps> = ({
           size={25}
           thickness={5}
         />
-        Показати ще 12 матеріалів
+        Показати ще {elements} матеріалів
       </Button>
     );
 
