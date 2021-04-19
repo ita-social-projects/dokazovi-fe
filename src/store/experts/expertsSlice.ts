@@ -49,7 +49,7 @@ export const fetchExperts = createAsyncThunk(
 
     const { data } = await getAllExperts({
       params: {
-        page: appendExperts ? page : 0,
+        page,
         size: LOAD_EXPERTS_LIMIT,
         regions,
         directions,
@@ -62,6 +62,7 @@ export const fetchExperts = createAsyncThunk(
       totalPages: data.totalPages,
       totalElements: data.totalElements,
       isLastPage: data.last,
+      appendExperts,
     };
   },
 );
@@ -134,9 +135,9 @@ export const expertsSlice = createSlice({
       state.experts.meta.totalPages = payload.totalPages;
       state.experts.meta.totalElements = payload.totalElements;
       state.experts.meta.isLastPage = payload.isLastPage;
-      state.experts.expertIds = state.experts.expertIds.concat(
-        payload.expertIds,
-      );
+      state.experts.expertIds = payload.appendExperts
+        ? state.experts.expertIds.concat(payload.expertIds)
+        : payload.expertIds;
     });
     builder.addCase(fetchExperts.rejected, (state, { error }) => {
       if (error.message) {
