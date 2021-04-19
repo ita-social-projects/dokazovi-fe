@@ -58,9 +58,10 @@ export const fetchExperts = createAsyncThunk(
     dispatch(loadExperts(data.content));
     return {
       expertIds: data.content.map((expert) => expert.id),
-      number: data.number,
+      pageNumber: data.number,
       totalPages: data.totalPages,
       totalElements: data.totalElements,
+      isLastPage: data.last,
     };
   },
 );
@@ -90,9 +91,6 @@ export const expertsSlice = createSlice({
   reducers: {
     resetMaterials: (state) => {
       state.materials = initialMaterialsState;
-    },
-    setExpertsPage: (state, action: PayloadAction<number>) => {
-      state.experts.meta.pageNumber = action.payload;
     },
     loadMaterials: (
       state,
@@ -132,9 +130,10 @@ export const expertsSlice = createSlice({
     });
     builder.addCase(fetchExperts.fulfilled, (state, { payload }) => {
       state.experts.meta.loading = LoadingStatusEnum.succeeded;
-      state.experts.meta.pageNumber = payload.number;
+      state.experts.meta.pageNumber = payload.pageNumber;
       state.experts.meta.totalPages = payload.totalPages;
       state.experts.meta.totalElements = payload.totalElements;
+      state.experts.meta.isLastPage = payload.isLastPage;
       state.experts.expertIds = state.experts.expertIds.concat(
         payload.expertIds,
       );
@@ -165,7 +164,6 @@ export const {
   resetMaterials,
   loadMaterials,
   setMaterialsLoadingStatus,
-  setExpertsPage,
 } = expertsSlice.actions;
 
 export const expertsReducer = expertsSlice.reducer;

@@ -6,7 +6,7 @@ import { useHistory } from 'react-router-dom';
 import CheckboxFilterForm, {
   CheckboxFormStateType,
 } from '../../../lib/components/Filters/CheckboxFilterForm';
-import LoadMorePostsButton from '../../../lib/components/LoadMorePostsButton';
+import LoadMoreButton from '../../../lib/components/LoadMoreButton/LoadMoreButton';
 import PostsList from '../../../lib/components/Posts/PostsList';
 import useEffectExceptOnMount from '../../../lib/hooks/useEffectExceptOnMount';
 import usePrevious from '../../../lib/hooks/usePrevious';
@@ -16,6 +16,7 @@ import {
   IPostType,
   LoadingStatusEnum,
   QueryTypeEnum,
+  LoadMoreButtonTextType,
 } from '../../../lib/types';
 import { RootStateType } from '../../../store/rootReducer';
 import { selectPostsByIds } from '../../../store/selectors';
@@ -158,13 +159,14 @@ const MaterialsView: React.FC = () => {
             <PostsList postsList={materials} />
           </Grid>
           <Grid container justify="center" ref={gridRef}>
-            <LoadMorePostsButton
+            <LoadMoreButton
               clicked={loadMore}
               isLastPage={isLastPage}
               loading={loading}
               totalPages={totalPages}
               totalElements={totalElements}
               pageNumber={pageNumber}
+              textType={LoadMoreButtonTextType.POST}
             />
           </Grid>
         </>

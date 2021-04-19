@@ -7,7 +7,7 @@ import CheckboxFilterForm, {
   CheckboxFormStateType,
 } from '../../../lib/components/Filters/CheckboxFilterForm';
 import LoadingContainer from '../../../lib/components/Loading/LoadingContainer';
-import LoadMorePostsButton from '../../../lib/components/LoadMorePostsButton';
+import LoadMoreButton from '../../../lib/components/LoadMoreButton/LoadMoreButton';
 import PostsList from '../../../lib/components/Posts/PostsList';
 import useEffectExceptOnMount from '../../../lib/hooks/useEffectExceptOnMount';
 import usePrevious from '../../../lib/hooks/usePrevious';
@@ -17,6 +17,7 @@ import {
   IPostType,
   LoadingStatusEnum,
   QueryTypeEnum,
+  LoadMoreButtonTextType,
 } from '../../../lib/types';
 import { RequestParamsType } from '../../../lib/utilities/API/types';
 import {
@@ -141,13 +142,14 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
           </Grid>
           <LoadingContainer loading={loading} />
           <Grid container direction="column" alignItems="center" ref={gridRef}>
-            <LoadMorePostsButton
+            <LoadMoreButton
               clicked={loadMore}
               isLastPage={isLastPage}
               loading={loading}
               totalPages={totalPages}
               totalElements={totalElements}
               pageNumber={pageNumber}
+              textType={LoadMoreButtonTextType.POST}
             />
           </Grid>
         </>

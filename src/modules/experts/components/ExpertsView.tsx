@@ -4,20 +4,19 @@ import { useHistory } from 'react-router-dom';
 import { Grid } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  fetchExperts,
-  setExpertsPage,
-} from '../../../store/experts/expertsSlice';
-import { RootStateType } from '../../../store/rootReducer';
-import ExpertsList from '../../../lib/components/Experts/ExpertsList';
-import useEffectExceptOnMount from '../../../lib/hooks/useEffectExceptOnMount';
-import LoadMorePostsButton from '../../../lib/components/LoadMorePostsButton';
-import {
+  LoadMoreButtonTextType,
   FilterTypeEnum,
   IDirection,
   IRegion,
   LoadingStatusEnum,
   QueryTypeEnum,
 } from '../../../lib/types';
+import { fetchExperts } from '../../../store/experts/expertsSlice';
+import { RootStateType } from '../../../store/rootReducer';
+import ExpertsList from '../../../lib/components/Experts/ExpertsList';
+import useEffectExceptOnMount from '../../../lib/hooks/useEffectExceptOnMount';
+import LoadMoreButton from '../../../lib/components/LoadMoreButton/LoadMoreButton';
+
 import { selectExpertsByIds } from '../../../store/selectors';
 import { CheckboxFormStateType } from '../../../lib/components/Filters/CheckboxFilterForm';
 import {
@@ -55,8 +54,6 @@ const ExpertsView: React.FC = () => {
   const fetchData = (appendExperts = false) => {
     const regionsQuery = query.get(QueryTypeEnum.REGIONS);
     const directionsQuery = query.get(QueryTypeEnum.DIRECTIONS);
-
-    dispatch(setExpertsPage(page));
     dispatch(
       fetchExperts({
         page,
@@ -158,13 +155,14 @@ const ExpertsView: React.FC = () => {
             <Grid container spacing={3} xs={9}>
               <ExpertsList experts={experts} />
               <Grid container justify="center" ref={gridRef}>
-                <LoadMorePostsButton
+                <LoadMoreButton
                   clicked={loadMore}
                   isLastPage={isLastPage}
                   loading={loading}
                   totalPages={totalPages}
                   totalElements={totalElements}
                   pageNumber={pageNumber}
+                  textType={LoadMoreButtonTextType.EXPERT}
                 />
               </Grid>
             </Grid>
