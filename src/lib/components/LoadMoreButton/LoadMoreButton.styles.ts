@@ -4,8 +4,30 @@ export const useStyles = makeStyles(
   (theme) =>
     createStyles({
       root: {
-        marginTop: theme.spacing(15),
-        marginBottom: theme.spacing(12),
+        width: '100%',
+        justifyContent: 'center',
+        display: 'flex',
+        '&::before, &::after ': {
+          alignItems: 'center',
+          display: 'flex',
+          flex: '1 1',
+          content: '""',
+          alignSelf: 'center',
+          boxSizing: 'border-box',
+          height: '1px',
+          margin: 'auto',
+          backgroundColor: theme.palette.common.black,
+        },
+        '&::before': {
+          marginLeft: theme.spacing(1.5),
+        },
+        '&::after': {
+          marginRight: theme.spacing(1.5),
+        },
+      },
+      button: {
+        alignItems: 'center',
+        margin: theme.spacing(15, 4.5),
         backgroundColor: theme.palette.common.black,
         height: '44px',
         borderRadius: '300px',

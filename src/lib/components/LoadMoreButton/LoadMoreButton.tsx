@@ -67,26 +67,28 @@ const LoadMoreButton: React.FC<ILoadMoreButtonProps> = ({
     const elementsInNextPage = isPreLastPage ? limit : elementsInLastPage;
     const buttonText = getButtonText(elementsInNextPage, textType);
     control = (
-      <Button
-        className={classes.root}
-        variant="outlined"
-        onClick={() => {
-          clicked();
-        }}
-      >
-        <CircularProgress
-          variant={
-            loading === LoadingStatusEnum.pending
-              ? 'indeterminate'
-              : 'determinate'
-          }
-          color="primary"
-          value={80}
-          size={25}
-          thickness={5}
-        />
-        Показати ще {elementsInNextPage} {buttonText}
-      </Button>
+      <Box className={classes.root}>
+        <Button
+          className={classes.button}
+          variant="outlined"
+          onClick={() => {
+            clicked();
+          }}
+        >
+          <CircularProgress
+            variant={
+              loading === LoadingStatusEnum.pending
+                ? 'indeterminate'
+                : 'determinate'
+            }
+            color="primary"
+            value={80}
+            size={25}
+            thickness={5}
+          />
+          Показати ще {elementsInNextPage} {buttonText}
+        </Button>
+      </Box>
     );
 
     if (isLastPage) {
@@ -95,11 +97,7 @@ const LoadMoreButton: React.FC<ILoadMoreButtonProps> = ({
 
     return control;
   };
-  return (
-    <>
-      <Box mt={2}>{renderLoadControls()}</Box>
-    </>
-  );
+  return renderLoadControls();
 };
 
 export default LoadMoreButton;
