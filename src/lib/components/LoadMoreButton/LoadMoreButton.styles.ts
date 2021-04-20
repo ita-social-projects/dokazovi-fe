@@ -18,12 +18,6 @@ export const useStyles = makeStyles(
           margin: 'auto',
           backgroundColor: theme.palette.common.black,
         },
-        '&::before': {
-          marginLeft: theme.spacing(1.5),
-        },
-        '&::after': {
-          marginRight: theme.spacing(1.5),
-        },
       },
       button: {
         alignItems: 'center',
