@@ -4,6 +4,7 @@ import { LoadingStatusEnum, LoadMoreButtonTextType } from '../../types';
 import { LOAD_POSTS_LIMIT } from '../../constants/posts';
 import { LOAD_EXPERTS_LIMIT } from '../../constants/experts';
 import { useStyles } from './LoadMoreButton.styles';
+import { localization } from '../../../localization';
 
 export interface ILoadMoreButtonProps {
   clicked: () => void;
@@ -21,18 +22,18 @@ function getButtonText(
 ): string {
   if (textType === LoadMoreButtonTextType.EXPERT) {
     if (count <= 4) {
-      return 'автора';
+      return localization.ua.experts.lessThanFour;
     }
-    return 'авторів';
+    return localization.ua.experts.moreThanFour;
   }
   if (textType === LoadMoreButtonTextType.POST) {
     if (count === 1) {
-      return 'матеріал';
+      return localization.ua.materials.one;
     }
     if (count > 1 && count <= 4) {
-      return 'матеріали';
+      return localization.ua.materials.lessThanFour;
     }
-    return 'матеріалів';
+    return localization.ua.materials.moreThanFour;
   }
   return '';
 }
