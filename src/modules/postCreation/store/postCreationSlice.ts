@@ -8,6 +8,7 @@ interface INewPostDraft {
   directions: IDirection[];
   htmlContent: string;
   preview: IPostPreview;
+  authorID?: number | null;
 }
 
 interface IPostPreview {
@@ -36,6 +37,7 @@ const initialState: IPostCreationState = {
     htmlContent: '',
     preview: { value: '', isManuallyChanged: false },
     previewImageUrl: '',
+    authorID: null,
   },
   [PostTypeEnum.DOPYS]: {
     title: '',
@@ -43,6 +45,7 @@ const initialState: IPostCreationState = {
     htmlContent: '',
     preview: { value: '', isManuallyChanged: false },
     previewImageUrl: '',
+    authorID: null,
   },
   [PostTypeEnum.VIDEO]: {
     title: '',
@@ -50,6 +53,7 @@ const initialState: IPostCreationState = {
     htmlContent: '',
     preview: { value: '', isManuallyChanged: false },
     videoUrl: '',
+    authorID: null,
   },
 };
 
@@ -119,6 +123,15 @@ export const postCreationSlice = createSlice({
     ) => {
       state[action.payload.postType].previewImageUrl = action.payload.value;
     },
+    setAuthorID: (
+      state,
+      action: PayloadAction<{
+        postType: PostTypeEnum;
+        value: INewPostDraft['authorID'];
+      }>,
+    ) => {
+      state[action.payload.postType].authorID = action.payload.value;
+    },
   },
 });
 
@@ -131,6 +144,7 @@ export const {
   setPostPreviewManuallyChanged,
   setVideoUrl,
   setImageUrl,
+  setAuthorID,
 } = postCreationSlice.actions;
 
 const postCreationReducer = postCreationSlice.reducer;

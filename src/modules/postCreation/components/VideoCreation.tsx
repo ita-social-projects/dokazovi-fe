@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import _ from 'lodash';
@@ -10,6 +10,7 @@ import {
   setVideoUrl,
   setPostDirections,
   resetDraft,
+  setAuthorID,
 } from '../store/postCreationSlice';
 import { IDirection, IPost, PostTypeEnum } from '../../../lib/types';
 import { RootStateType } from '../../../store/rootReducer';
@@ -18,11 +19,15 @@ import { parseVideoIdFromUrl } from '../../../lib/utilities/parseVideoIdFromUrl'
 import VideoUrlInputModal from '../../../lib/components/Editor/CustomModules/VideoUrlInputModal';
 import { PostCreationButtons } from './PostCreationButtons';
 import { PageTitle } from '../../../lib/components/Pages/PageTitle';
-import { createPost } from '../../../lib/utilities/API/api';
-import { CreateVideoPostRequestType } from '../../../lib/utilities/API/types';
+import { createPost, getAllExperts } from '../../../lib/utilities/API/api';
+import {
+  CreateVideoPostRequestType,
+  ExpertResponseType,
+} from '../../../lib/utilities/API/types';
 import { CONTENT_DEBOUNCE_TIMEOUT } from '../../../lib/constants/editors';
 import PostView from '../../posts/components/PostView';
 import { PostDirectionsSelector } from './PostDirectionsSelector';
+import { PostAuthorSelection } from './PostAuthorSelection';
 
 const VideoCreation: React.FC = () => {
   const dispatch = useDispatch();
@@ -40,6 +45,9 @@ const VideoCreation: React.FC = () => {
 
   const [typing, setTyping] = useState({ content: false });
   const [previewing, setPreviewing] = useState(false);
+  const [authors, setAuthors] = useState<ExpertResponseType[]>([]);
+  const [author, setAuthor] = useState<ExpertResponseType | null>(null);
+  const [searchValue, setSearchValue] = useState('');
 
   const videoUrl = useSelector(
     (state: RootStateType) => state.newPostDraft[PostTypeEnum.VIDEO].videoUrl,
@@ -72,7 +80,34 @@ const VideoCreation: React.FC = () => {
     [],
   );
 
+  const handleOnChange = (value: string) => {
+    setSearchValue(value);
+  };
+
+  useEffect(() => {
+    if (!searchValue) {
+      setAuthors([]);
+      return;
+    }
+    getAllExperts({ params: { userName: searchValue.trim() } }).then((res) => {
+      setAuthors(res.data.content);
+    });
+  }, [searchValue]);
+
+  const onAuthorTableClick = (value: number, item: ExpertResponseType) => {
+    dispatch(
+      setAuthorID({
+        postType: PostTypeEnum.VIDEO,
+        value,
+      }),
+    );
+    setAuthor(item);
+    setAuthors([]);
+    setSearchValue('');
+  };
+
   const newPost: CreateVideoPostRequestType = {
+    authorId: savedPostDraft.authorID,
     content: savedPostDraft.htmlContent,
     directions: savedPostDraft.directions,
     preview: savedPostDraft.htmlContent, // currently no preview
@@ -90,7 +125,7 @@ const VideoCreation: React.FC = () => {
   const previewPost = React.useMemo(
     () =>
       ({
-        author: user,
+        author: author || user,
         content: savedPostDraft.htmlContent,
         createdAt: new Date().toLocaleDateString('en-GB').split('/').join('.'),
         directions: savedPostDraft.directions,
@@ -126,6 +161,12 @@ const VideoCreation: React.FC = () => {
               }}
             />
           </Box>
+          <PostAuthorSelection
+            onAuthorTableClick={onAuthorTableClick}
+            handleOnChange={handleOnChange}
+            authors={authors}
+            searchValue={searchValue}
+          />
           <Box mt={2}>
             <VideoUrlInputModal dispatchVideoUrl={handleVideoUrlChange} />
             {videoId && (
