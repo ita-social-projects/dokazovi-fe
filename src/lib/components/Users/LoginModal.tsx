@@ -18,7 +18,7 @@ import { Alert } from '@material-ui/lab';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import { useSelector } from 'react-redux';
-import { AuthContext } from '../../../authProvider/AuthContex';
+import { AuthContext } from '../../../authProvider/AuthContext';
 import { emailValidationObj, passwordValidationObj } from './validationRules';
 import { IAuthInputs } from '../../types';
 import { RegistrationModal } from './RegistrationModal';

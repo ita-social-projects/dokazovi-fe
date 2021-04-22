@@ -6,7 +6,7 @@ import { useStyles } from './Header.styles';
 import { PostCreationMenu } from './PostCreationMenu';
 import { LoginModal } from '../Users/LoginModal';
 import { AccountMenu } from './AccountMenu';
-import { AuthContext } from '../../../authProvider/AuthContex';
+import { AuthContext } from '../../../authProvider/AuthContext';
 
 interface IHeaderProps {
   id: string;

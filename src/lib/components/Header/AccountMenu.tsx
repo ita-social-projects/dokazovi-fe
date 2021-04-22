@@ -5,7 +5,7 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import { useStyles } from './AccountMenu.styles';
 import { StyledMenu, StyledMenuItem } from '../Menu/StyledMenu';
 import { signOutAction } from '../../../store/user';
-import { AuthContext } from '../../../authProvider/AuthContex';
+import { AuthContext } from '../../../authProvider/AuthContext';
 
 export const AccountMenu: React.FC = () => {
   const classes = useStyles();

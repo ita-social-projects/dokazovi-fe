@@ -1,7 +1,7 @@
 import React, { useEffect, useContext } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
-import { AuthContext } from '../../../authProvider/AuthContex';
+import { AuthContext } from '../../../authProvider/AuthContext';
 
 const useQuery = () => {
   return new URLSearchParams(useLocation().search);

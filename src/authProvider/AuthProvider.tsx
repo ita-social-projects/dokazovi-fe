@@ -2,7 +2,7 @@ import React, { useMemo, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { getUserAsyncAction } from '../store/user';
 import { LocalStorageKeys } from '../lib/types';
-import { AuthContext } from './AuthContex';
+import { AuthContext } from './AuthContext';
 import { useAuthHook } from '../lib/hooks/useAuthHook';
 
 function getToken(): string | null {
