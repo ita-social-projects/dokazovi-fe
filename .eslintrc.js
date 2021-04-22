@@ -23,7 +23,6 @@ module.exports = {
     "prettier/react",
   ],
   rules: {
-    "no-param-reassign": ["error", { "props": false }],
     "react-hooks/exhaustive-deps": "off",
     "@typescript-eslint/no-empty-interface": [
       "warn",
