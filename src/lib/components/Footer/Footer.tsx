@@ -47,7 +47,7 @@ const linksList = navElements.map((item) => {
   );
 });
 
-const Footer: React.FC = () => {
+export const Footer: React.FC = () => {
   const classes = useStyles();
 
   return (
@@ -120,5 +120,3 @@ const Footer: React.FC = () => {
     </div>
   );
 };
-
-export default Footer;

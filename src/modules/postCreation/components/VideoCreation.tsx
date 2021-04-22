@@ -23,6 +23,7 @@ import { CreateVideoPostRequestType } from '../../../lib/utilities/API/types';
 import { CONTENT_DEBOUNCE_TIMEOUT } from '../../../lib/constants/editors';
 import PostView from '../../posts/components/PostView';
 import { PostDirectionsSelector } from './PostDirectionsSelector';
+import { selectCurrentUser } from '../../../store/user/selectors';
 
 const VideoCreation: React.FC = () => {
   const dispatch = useDispatch();
@@ -31,7 +32,7 @@ const VideoCreation: React.FC = () => {
   const savedPostDraft = useSelector(
     (state: RootStateType) => state.newPostDraft[PostTypeEnum.VIDEO],
   );
-  const { user } = useSelector((state: RootStateType) => state.currentUser);
+  const user = useSelector(selectCurrentUser);
 
   const [title, setTitle] = useState({
     value: savedPostDraft.title,
@@ -90,7 +91,7 @@ const VideoCreation: React.FC = () => {
   const previewPost = React.useMemo(
     () =>
       ({
-        author: user,
+        author: user.data,
         content: savedPostDraft.htmlContent,
         createdAt: new Date().toLocaleDateString('en-GB').split('/').join('.'),
         directions: savedPostDraft.directions,

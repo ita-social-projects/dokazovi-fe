@@ -26,6 +26,7 @@ import PostView from '../../posts/components/PostView';
 import { TextPostEditor } from '../../../lib/components/Editor/Editors/TextPostEditor';
 import { IEditorToolbarProps } from '../../../lib/components/Editor/types';
 import { PostDirectionsSelector } from './PostDirectionsSelector';
+import { selectCurrentUser } from '../../../store/user/selectors';
 
 interface IPostCreationProps {
   pageTitle: string;
@@ -48,7 +49,7 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
   const savedPostDraft = useSelector(
     (state: RootStateType) => state.newPostDraft[postType.type],
   );
-  const { user } = useSelector((state: RootStateType) => state.currentUser);
+  const user = useSelector(selectCurrentUser);
 
   const [title, setTitle] = useState({
     value: savedPostDraft.title,
@@ -107,7 +108,7 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
   const previewPost = React.useMemo(
     () =>
       ({
-        author: user,
+        author: user.data,
         content: savedPostDraft.htmlContent,
         preview: savedPostDraft.preview.value,
         createdAt: new Date().toLocaleDateString('en-GB').split('/').join('.'),

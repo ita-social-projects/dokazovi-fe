@@ -1,13 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import SearchIcon from '@material-ui/icons/Search';
 import { Box, Container, Toolbar, Typography } from '@material-ui/core';
 import { Link, NavLink } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import { useStyles } from './Header.styles';
 import { PostCreationMenu } from './PostCreationMenu';
 import { LoginModal } from '../Users/LoginModal';
-import { RootStateType } from '../../../store/rootReducer';
 import { AccountMenu } from './AccountMenu';
+import { AuthContext } from '../../../authProvider/AuthContex';
 
 interface IHeaderProps {
   id: string;
@@ -33,9 +32,9 @@ export const navElems: IHeaderProps[] = [
   },
 ];
 
-const Header: React.FC = () => {
+export const Header: React.FC = () => {
   const classes = useStyles();
-  const { user } = useSelector((state: RootStateType) => state.currentUser);
+  const { authenticated } = useContext(AuthContext);
 
   return (
     <Container>
@@ -59,7 +58,7 @@ const Header: React.FC = () => {
               <Typography variant="h5">Про нашу спільноту</Typography>
             </Link>
 
-            {user && (
+            {authenticated && (
               <div className={classes.postCreationMenu}>
                 <PostCreationMenu />
               </div>
@@ -67,7 +66,7 @@ const Header: React.FC = () => {
 
             <SearchIcon className={classes.search} fontSize="large" />
 
-            {user ? <AccountMenu /> : <LoginModal />}
+            {authenticated ? <AccountMenu /> : <LoginModal />}
           </Box>
         </Toolbar>
 
@@ -84,5 +83,3 @@ const Header: React.FC = () => {
     </Container>
   );
 };
-
-export default Header;
