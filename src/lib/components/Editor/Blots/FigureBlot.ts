@@ -6,7 +6,7 @@
 // Disables required to create new Quill Blot
 import Quill from 'quill';
 
-const BlockEmbed = Quill.import('blots/embed');
+const BlockEmbed = Quill.import('blots/block/embed');
 
 class FigureBlot extends BlockEmbed {
   static create(value) {
@@ -14,6 +14,7 @@ class FigureBlot extends BlockEmbed {
     const img = document.createElement('img');
     img.setAttribute('src', value.url);
     const caption = document.createElement('figcaption');
+    caption.setAttribute('align', 'left');
     caption.setAttribute('contenteditable', 'true');
     caption.classList.add('imageTitle');
     caption.innerHTML = value.caption;
