@@ -4,10 +4,16 @@ import { Menu, MenuItem, MenuProps, withStyles } from '@material-ui/core';
 
 export const StyledMenu = withStyles((theme) => ({
   paper: {
-    backgroundColor: theme.palette.info.light,
+    backgroundColor: theme.palette.common.black,
     borderRadius: 0,
-    borderTop: '1px solid',
+    border: '1px solid',
     borderColor: theme.palette.common.white,
+  },
+  list: {
+    padding: 0,
+    '& a:last-child li': {
+      border: 'none',
+    },
   },
 }))((props: MenuProps) => (
   <Menu
@@ -28,12 +34,11 @@ export const StyledMenu = withStyles((theme) => ({
 export const StyledMenuItem = withStyles((theme) => ({
   root: {
     padding: theme.spacing(2, 3),
-    color: theme.palette.common.white,
-    '& .MuiTypography-button': {
-      color: theme.palette.common.white,
-    },
+    color: theme.palette.primary.main,
     '&:hover': {
-      backgroundColor: theme.palette.info.main,
+      color: theme.palette.action.hover,
+      background: 'none',
     },
+    borderBottom: `1px solid ${theme.palette.primary.main}`,
   },
 }))(MenuItem);

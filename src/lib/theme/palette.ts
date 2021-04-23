@@ -32,7 +32,7 @@ export const PALETTE: PaletteOptions = {
   },
   action: {
     active: '#fff',
-    hover: '#A7A7A7',
+    hover: '#83E1FF',
   },
   divider: '#000',
 };

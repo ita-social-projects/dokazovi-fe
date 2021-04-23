@@ -6,7 +6,7 @@ import { useHistory } from 'react-router-dom';
 import CheckboxFilterForm, {
   CheckboxFormStateType,
 } from '../../../lib/components/Filters/CheckboxFilterForm';
-import LoadMorePostsButton from '../../../lib/components/LoadMorePostsButton';
+import LoadMoreButton from '../../../lib/components/LoadMoreButton/LoadMoreButton';
 import PostsList from '../../../lib/components/Posts/PostsList';
 import useEffectExceptOnMount from '../../../lib/hooks/useEffectExceptOnMount';
 import usePrevious from '../../../lib/hooks/usePrevious';
@@ -16,10 +16,11 @@ import {
   IPostType,
   LoadingStatusEnum,
   QueryTypeEnum,
+  LoadMoreButtonTextType,
 } from '../../../lib/types';
 import { RootStateType } from '../../../store/rootReducer';
 import { selectPostsByIds } from '../../../store/selectors';
-import { fetchMaterials } from '../store/materialsSlice';
+import { fetchMaterials } from '../../../store/materials/materialsSlice';
 import {
   getQueryTypeByFilterType,
   mapQueryIdsStringToArray,
@@ -34,6 +35,12 @@ const MaterialsView: React.FC = () => {
   const previous = usePrevious({ page });
   const history = useHistory();
   const query = useQuery();
+
+  const {
+    postIds,
+    meta: { loading, isLastPage, pageNumber, totalElements, totalPages },
+  } = useSelector((state: RootStateType) => state.materials);
+  const materials = selectPostsByIds(postIds);
 
   const directions = useSelector(
     (state: RootStateType) => state.properties.directions,
@@ -57,12 +64,6 @@ const MaterialsView: React.FC = () => {
 
     dispatch(fetchMaterials(filters, page, appendPosts));
   };
-
-  const {
-    postIds,
-    meta: { loading, isLastPage },
-  } = useSelector((state: RootStateType) => state.materials);
-  const materials = selectPostsByIds(postIds);
 
   const setFilters = (
     checked: CheckboxFormStateType,
@@ -157,12 +158,15 @@ const MaterialsView: React.FC = () => {
           <Grid container alignItems="center" style={{ marginTop: 20 }}>
             <PostsList postsList={materials} />
           </Grid>
-          <LoadingContainer loading={loading} />
           <Grid container justify="center" ref={gridRef}>
-            <LoadMorePostsButton
+            <LoadMoreButton
               clicked={loadMore}
               isLastPage={isLastPage}
               loading={loading}
+              totalPages={totalPages}
+              totalElements={totalElements}
+              pageNumber={pageNumber}
+              textType={LoadMoreButtonTextType.POST}
             />
           </Grid>
         </>

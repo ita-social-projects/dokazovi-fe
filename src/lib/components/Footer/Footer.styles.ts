@@ -7,45 +7,61 @@ export const useStyles = makeStyles(
     },
     root: {
       display: 'flex',
-      flexDirection: 'column',
       justifyContent: 'space-between',
-      height: '292px',
+      height: '240px',
       margin: '0 auto',
-      padding: theme.spacing(10, 0, 16),
+      padding: theme.spacing(11, 0, 12),
       color: theme.palette.common.white,
     },
-    navContainer: {
+    columnContainer: {
       display: 'flex',
-      flexDirection: 'row',
+      flexDirection: 'column',
       justifyContent: 'space-between',
-      alignItems: 'center',
     },
-    nav: {
+    navigationContainer: {
       display: 'flex',
-      justifyContent: 'space-between',
       alignItems: 'baseline',
-      width: '700px',
       '& span': {
+        lineHeight: '26px',
         color: theme.palette.common.white,
+      },
+    },
+    navigationLinks: {
+      display: 'flex',
+      justifyContent: 'space-evenly',
+      margin: theme.spacing(0, 8),
+      alignItems: 'baseline',
+      '& span': {
+        fontFamily: 'Raleway',
+        fontWeight: 600,
+        fontSize: '15px',
+        lineHeight: '18px',
+      },
+      '& a': {
+        margin: theme.spacing(0, 3),
       },
     },
     info: {
       display: 'flex',
+      minHeight: '56px',
       flexDirection: 'column',
       '& span': {
         color: theme.palette.common.white,
+        fontSize: '13px',
       },
     },
-    socials: {
+    companyLabel: {
       '& ul': {
         display: 'flex',
+        justifyContent: 'flex-end',
         alignItems: 'center',
-        color: theme.palette.common.white,
       },
-      '& ul li:not(:first-child)': {
+      '& ul li': {
         listStyle: 'none',
-        marginLeft: theme.spacing(2),
         lineHeight: '32px',
+      },
+      '& ul li:not(:last-child)': {
+        marginRight: theme.spacing(8),
       },
       '& ul li img': {
         verticalAlign: 'middle',

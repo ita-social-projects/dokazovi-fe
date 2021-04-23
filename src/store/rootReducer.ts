@@ -1,11 +1,11 @@
 import { combineReducers } from 'redux';
-import { expertsReducer } from '../modules/experts/store/expertsSlice';
+import { expertsReducer } from './experts/expertsSlice';
 import mainReducer from '../modules/main/store/mainSlice';
 import postCreationReducer from '../modules/postCreation/store/postCreationSlice';
 import propertiesReducer from './propertiesSlice';
 import dataReducer from './dataSlice';
 import authReducer from './authSlice';
-import { materialsReducer } from '../modules/materials/store/materialsSlice';
+import { materialsReducer } from './materials/materialsSlice';
 
 const rootReducer = combineReducers({
   main: mainReducer,

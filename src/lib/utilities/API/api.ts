@@ -1,6 +1,7 @@
 /* eslint-disable no-param-reassign */
-import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 import qs from 'qs';
+import { toast } from 'react-toastify';
 import {
   RegionResponseType,
   DirectionResponseType,
@@ -39,6 +40,22 @@ instance.interceptors.request.use(
     Promise.reject(error);
   },
 );
+
+instance.interceptors.response.use(undefined, (error: AxiosError) => {
+  if (error.message === 'Network Error' && !error.response) {
+    toast.error("The server isn't responding...");
+  }
+
+  if (!error.response) {
+    throw error;
+  }
+
+  if (error.response.status === 500) {
+    toast.error('A server error occurred...');
+  }
+
+  throw error;
+});
 
 const defaultConfig = {
   paramsSerializer: (params: { [key: string]: unknown }): string => {
