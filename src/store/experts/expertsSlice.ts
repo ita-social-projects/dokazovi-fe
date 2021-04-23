@@ -1,46 +1,19 @@
 /* eslint-disable no-param-reassign */
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { LoadingStatusEnum, QueryTypeEnum } from '../../../lib/types';
+import { LoadingStatusEnum } from '../../lib/types';
 import {
   getAllExperts,
   getExpertById,
   getPosts,
-} from '../../../lib/utilities/API/api';
-import type { AppThunkType } from '../../../store/store';
-import type { RootStateType } from '../../../store/rootReducer';
-import {
-  loadExperts,
-  loadPosts,
-  mapFetchedPosts,
-} from '../../../store/dataSlice';
-import { RequestParamsType } from '../../../lib/utilities/API/types';
-import { LOAD_POSTS_LIMIT } from '../../../lib/constants/posts';
-
-export interface IExpertPayload {
-  expertIds: number[];
-  meta: IExpertMeta;
-}
-
-export interface IExpertMeta {
-  totalPages?: number;
-  pageNumber: number;
-  loading: LoadingStatusEnum;
-  error: null | string;
-}
-
-export interface IMaterialsMeta {
-  loading: LoadingStatusEnum;
-  error: null | string;
-  isLastPage: boolean;
-}
-
-interface IMaterialsState {
-  postIds: number[];
-  meta: IMaterialsMeta;
-  filters?: {
-    [QueryTypeEnum.POST_TYPES]: number[];
-  };
-}
+} from '../../lib/utilities/API/api';
+import type { AppThunkType } from '../store';
+import type { RootStateType } from '../rootReducer';
+import { loadExperts, loadPosts, mapFetchedPosts } from '../dataSlice';
+import { RequestParamsType } from '../../lib/utilities/API/types';
+import { LOAD_EXPERTS_LIMIT } from '../../lib/constants/experts';
+import { LOAD_POSTS_LIMIT } from '../../lib/constants/posts';
+import { IExpertsState, IFetchExpertsOptions } from './types';
+import { IMaterialsState } from '../materials/types';
 
 const initialMaterialsState: IMaterialsState = {
   postIds: [],
@@ -48,51 +21,48 @@ const initialMaterialsState: IMaterialsState = {
     isLastPage: false,
     loading: LoadingStatusEnum.idle,
     error: null,
+    pageNumber: 0,
+    totalElements: 0,
+    totalPages: 0,
   },
 };
-
-export interface IExpertsState {
-  experts: IExpertPayload;
-  materials: IMaterialsState;
-}
 
 const initialState: IExpertsState = {
   experts: {
     expertIds: [],
     meta: {
-      totalPages: undefined,
+      totalPages: 0,
       pageNumber: 0,
       loading: LoadingStatusEnum.idle,
       error: null,
+      isLastPage: false,
+      totalElements: 0,
     },
   },
   materials: initialMaterialsState,
 };
 
-interface IFetchExpertsOptions {
-  page: number;
-  regions: number[];
-  directions: number[];
-}
-
 export const fetchExperts = createAsyncThunk(
   'experts/loadExperts',
   async (options: IFetchExpertsOptions, { dispatch }) => {
-    const { page, regions, directions } = options;
+    const { page, regions, directions, appendExperts } = options;
 
     const { data } = await getAllExperts({
       params: {
         page,
+        size: LOAD_EXPERTS_LIMIT,
         regions,
         directions,
       },
     });
     dispatch(loadExperts(data.content));
-
     return {
       expertIds: data.content.map((expert) => expert.id),
-      number: data.number,
+      pageNumber: data.number,
       totalPages: data.totalPages,
+      totalElements: data.totalElements,
+      isLastPage: data.last,
+      appendExperts,
     };
   },
 );
@@ -122,9 +92,6 @@ export const expertsSlice = createSlice({
   reducers: {
     resetMaterials: (state) => {
       state.materials = initialMaterialsState;
-    },
-    setExpertsPage: (state, action: PayloadAction<number>) => {
-      state.experts.meta.pageNumber = action.payload;
     },
     loadMaterials: (
       state,
@@ -164,9 +131,13 @@ export const expertsSlice = createSlice({
     });
     builder.addCase(fetchExperts.fulfilled, (state, { payload }) => {
       state.experts.meta.loading = LoadingStatusEnum.succeeded;
-      state.experts.meta.pageNumber = payload.number;
+      state.experts.meta.pageNumber = payload.pageNumber;
       state.experts.meta.totalPages = payload.totalPages;
-      state.experts.expertIds = payload.expertIds;
+      state.experts.meta.totalElements = payload.totalElements;
+      state.experts.meta.isLastPage = payload.isLastPage;
+      state.experts.expertIds = payload.appendExperts
+        ? state.experts.expertIds.concat(payload.expertIds)
+        : payload.expertIds;
     });
     builder.addCase(fetchExperts.rejected, (state, { error }) => {
       if (error.message) {
@@ -194,7 +165,6 @@ export const {
   resetMaterials,
   loadMaterials,
   setMaterialsLoadingStatus,
-  setExpertsPage,
 } = expertsSlice.actions;
 
 export const expertsReducer = expertsSlice.reducer;
@@ -236,6 +206,9 @@ export const fetchExpertMaterials = (
             loading: LoadingStatusEnum.succeeded,
             error: null,
             isLastPage: resp.data.last,
+            pageNumber: resp.data.number,
+            totalElements: resp.data.totalElements,
+            totalPages: resp.data.totalPages,
           },
         },
       }),

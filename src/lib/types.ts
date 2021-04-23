@@ -17,6 +17,11 @@ export enum PostTypeEnum {
   VIDEO = 3,
 }
 
+export enum LoadMoreButtonTextType {
+  EXPERT,
+  POST,
+}
+
 export enum LoadingStatusEnum {
   idle = 'idle',
   pending = 'pending',

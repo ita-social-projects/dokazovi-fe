@@ -1,24 +1,11 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { LOAD_POSTS_LIMIT } from '../../../lib/constants/posts';
-import { QueryTypeEnum, LoadingStatusEnum } from '../../../lib/types';
-import { getPosts } from '../../../lib/utilities/API/api';
-import { loadPosts, mapFetchedPosts } from '../../../store/dataSlice';
-import type { AppThunkType } from '../../../store/store';
-
-export interface IMaterialsState {
-  postIds: number[];
-  meta: IMaterialsMeta;
-  filters?: {
-    [key in QueryTypeEnum]?: number[];
-  };
-}
-
-export interface IMaterialsMeta {
-  loading: LoadingStatusEnum;
-  error: null | string;
-  isLastPage: boolean;
-}
+import { LOAD_POSTS_LIMIT } from '../../lib/constants/posts';
+import { LoadingStatusEnum } from '../../lib/types';
+import { getPosts } from '../../lib/utilities/API/api';
+import { loadPosts, mapFetchedPosts } from '../dataSlice';
+import type { AppThunkType } from '../store';
+import { IMaterialsState } from './types';
 
 const initialState: IMaterialsState = {
   postIds: [],
@@ -26,6 +13,9 @@ const initialState: IMaterialsState = {
     isLastPage: false,
     loading: LoadingStatusEnum.idle,
     error: null,
+    pageNumber: 0,
+    totalElements: 0,
+    totalPages: 0,
   },
   filters: {},
 };
@@ -103,6 +93,9 @@ export const fetchMaterials = (
       loadMaterials({
         postIds: appendPosts ? postIds.concat(ids) : ids,
         meta: {
+          totalPages: response.data.totalPages,
+          totalElements: response.data.totalElements,
+          pageNumber: response.data.number,
           isLastPage: response.data.last,
           loading: LoadingStatusEnum.succeeded,
           error: null,

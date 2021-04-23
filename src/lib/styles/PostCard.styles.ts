@@ -4,7 +4,6 @@ import background from '../images/importantBackground.jpg';
 export const useStyles = makeStyles((theme) => ({
   root: {
     height: 455,
-    maxWidth: 1250,
     display: 'flex',
     flexDirection: 'column',
     padding: theme.spacing(15, 0, 12, 11),

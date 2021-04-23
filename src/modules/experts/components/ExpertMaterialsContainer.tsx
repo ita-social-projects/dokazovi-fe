@@ -7,7 +7,7 @@ import CheckboxFilterForm, {
   CheckboxFormStateType,
 } from '../../../lib/components/Filters/CheckboxFilterForm';
 import LoadingContainer from '../../../lib/components/Loading/LoadingContainer';
-import LoadMorePostsButton from '../../../lib/components/LoadMorePostsButton';
+import LoadMoreButton from '../../../lib/components/LoadMoreButton/LoadMoreButton';
 import PostsList from '../../../lib/components/Posts/PostsList';
 import useEffectExceptOnMount from '../../../lib/hooks/useEffectExceptOnMount';
 import usePrevious from '../../../lib/hooks/usePrevious';
@@ -17,6 +17,7 @@ import {
   IPostType,
   LoadingStatusEnum,
   QueryTypeEnum,
+  LoadMoreButtonTextType,
 } from '../../../lib/types';
 import { RequestParamsType } from '../../../lib/utilities/API/types';
 import {
@@ -25,7 +26,10 @@ import {
 } from '../../../lib/utilities/filters';
 import { RootStateType } from '../../../store/rootReducer';
 import { selectPostsByIds } from '../../../store/selectors';
-import { fetchExpertMaterials, resetMaterials } from '../store/expertsSlice';
+import {
+  fetchExpertMaterials,
+  resetMaterials,
+} from '../../../store/experts/expertsSlice';
 
 export interface IExpertMaterialsContainerProps {
   expertId: number;
@@ -52,7 +56,7 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
   );
   const {
     postIds,
-    meta: { loading, isLastPage },
+    meta: { loading, isLastPage, pageNumber, totalElements, totalPages },
   } = expertData;
 
   const materials = selectPostsByIds(postIds);
@@ -138,10 +142,14 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
           </Grid>
           <LoadingContainer loading={loading} />
           <Grid container direction="column" alignItems="center" ref={gridRef}>
-            <LoadMorePostsButton
+            <LoadMoreButton
               clicked={loadMore}
               isLastPage={isLastPage}
               loading={loading}
+              totalPages={totalPages}
+              totalElements={totalElements}
+              pageNumber={pageNumber}
+              textType={LoadMoreButtonTextType.POST}
             />
           </Grid>
         </>
