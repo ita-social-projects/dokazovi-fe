@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { toast } from 'react-toastify';
 import { useHistory, useParams } from 'react-router-dom';
-import { useSnackbar } from 'notistack';
 import { getPostById } from '../../../lib/utilities/API/api';
 import { IPost } from '../../../lib/types';
 import PostView from './PostView';
@@ -8,8 +8,6 @@ import { sanitizeHtml } from '../../../lib/utilities/sanitizeHtml';
 import { PageTitle } from '../../../lib/components/Pages/PageTitle';
 
 const PostViewWrapper: React.FC = () => {
-  const { enqueueSnackbar } = useSnackbar();
-
   const { postId } = useParams<{ postId: string }>();
   const history = useHistory();
 
@@ -36,18 +34,13 @@ const PostViewWrapper: React.FC = () => {
       const response = 1; // Mock by status 1 =  success
 
       if (response === 1) {
-        enqueueSnackbar(
+        toast.success(
           `Видалення матеріалу "${loadedPost.title}" пройшло успішно!`,
-          {
-            variant: 'success',
-          },
         );
         history.go(-1);
       }
     } catch (e) {
-      enqueueSnackbar(`Видалити матеріал "${loadedPost.title}" не вдалося.`, {
-        variant: 'error',
-      });
+      toast.success(`Видалити матеріал "${loadedPost.title}" не вдалося.`);
     }
   };
 

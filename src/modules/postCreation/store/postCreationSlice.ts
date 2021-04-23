@@ -23,7 +23,7 @@ interface INewVideoPostDraft extends INewPostDraft {
   videoUrl: string;
 }
 
-interface IPostCreationState {
+export interface IPostCreationState {
   [PostTypeEnum.ARTICLE]: INewArticlePostDraft;
   [PostTypeEnum.DOPYS]: INewDopysPostDraft;
   [PostTypeEnum.VIDEO]: INewVideoPostDraft;
