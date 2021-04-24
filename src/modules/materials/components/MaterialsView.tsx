@@ -1,7 +1,7 @@
 import { Grid } from '@material-ui/core';
 import { isEmpty, uniq } from 'lodash';
 import React, { useEffect, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import CheckboxFilterForm, {
   CheckboxFormStateType,
@@ -29,17 +29,20 @@ import LoadingContainer from '../../../lib/components/Loading/LoadingContainer';
 import { PageTitle } from '../../../lib/components/Pages/PageTitle';
 import { useQuery } from '../../../lib/hooks/useQuery';
 import CheckboxDropdownFilterForm from '../../../lib/components/Filters/CheckboxDropdownFilterForm';
+import { useActions } from '../../../lib/hooks/useActions';
+import { LOAD_POSTS_LIMIT } from '../../../lib/constants/posts';
 
 const MaterialsView: React.FC = () => {
-  const [page, setPage] = useState(0);
-  const previous = usePrevious({ page });
-  const history = useHistory();
-  const query = useQuery();
-
   const {
     postIds,
     meta: { loading, isLastPage, pageNumber, totalElements, totalPages },
   } = useSelector((state: RootStateType) => state.materials);
+
+  const [page, setPage] = useState(pageNumber);
+  const previous = usePrevious({ page });
+  const history = useHistory();
+  const query = useQuery();
+
   const materials = selectPostsByIds(postIds);
 
   const directions = useSelector(
@@ -50,7 +53,7 @@ const MaterialsView: React.FC = () => {
   );
   const propertiesLoaded = !isEmpty(postTypes) && !isEmpty(directions);
 
-  const dispatch = useDispatch();
+  const [boundFetchMaterials] = useActions([fetchMaterials]);
 
   const fetchData = (appendPosts = false) => {
     const postTypesQuery = query.get(QueryTypeEnum.POST_TYPES);
@@ -62,7 +65,7 @@ const MaterialsView: React.FC = () => {
       directions: mapQueryIdsStringToArray(directionsQuery),
     };
 
-    dispatch(fetchMaterials(filters, page, appendPosts));
+    boundFetchMaterials(filters, page, appendPosts);
   };
 
   const setFilters = (
@@ -91,7 +94,12 @@ const MaterialsView: React.FC = () => {
 
   useEffect(() => {
     const appendPosts = previous && previous.page < page;
-    fetchData(appendPosts);
+    if (
+      !isLastPage &&
+      Math.ceil(materials.length / LOAD_POSTS_LIMIT) !== page + 1
+    ) {
+      fetchData(appendPosts);
+    }
   }, [
     page,
     query.get(QueryTypeEnum.POST_TYPES),

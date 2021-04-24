@@ -18,10 +18,10 @@ const NewestContainer: React.FC = () => {
   } = useSelector((state: RootStateType) => state.main.newest);
   const newestPosts = selectPostsByIds(newestPostIds);
 
-  const actionFetchNewestPosts = useActions(fetchNewestPosts);
+  const [boundFetchNewestPosts] = useActions([fetchNewestPosts]);
 
   useEffect(() => {
-    actionFetchNewestPosts();
+    boundFetchNewestPosts();
   }, []);
 
   return (
