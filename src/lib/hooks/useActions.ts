@@ -3,11 +3,9 @@ import { bindActionCreators } from 'redux';
 import { useDispatch } from 'react-redux';
 import { useMemo } from 'react';
 
-interface IAction {
-  (): void;
-}
+type ActionsType = ((...params: any[]) => void)[];
 
-export function useActions(actions, deps?): IAction {
+export function useActions(actions: ActionsType, deps?: any[]): ActionsType {
   const dispatch = useDispatch();
   return useMemo(
     () => {

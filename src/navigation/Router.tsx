@@ -5,7 +5,7 @@ import { IRouteConfig } from './types';
 import Page from '../lib/components/Pages/Page';
 import Page404 from '../lib/components/Errors/Page404';
 import { LoadingStatusEnum } from '../lib/types';
-import LoadingContainer from '../lib/components/Loading/LoadingContainer';
+import { LoadingContainer } from '../lib/components/Loading/LoadingContainer';
 import { Header } from '../lib/components/Header/Header';
 import { Footer } from '../lib/components/Footer/Footer';
 import { selectCurrentUser } from '../store/user/selectors';

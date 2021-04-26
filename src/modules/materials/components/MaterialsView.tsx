@@ -7,7 +7,7 @@ import CheckboxFilterForm, {
   CheckboxFormStateType,
 } from '../../../lib/components/Filters/CheckboxFilterForm';
 import LoadMorePostsButton from '../../../lib/components/LoadMorePostsButton';
-import PostsList from '../../../lib/components/Posts/PostsList';
+import { PostsList } from '../../../lib/components/Posts/PostsList';
 import useEffectExceptOnMount from '../../../lib/hooks/useEffectExceptOnMount';
 import usePrevious from '../../../lib/hooks/usePrevious';
 import {
@@ -24,7 +24,7 @@ import {
   getQueryTypeByFilterType,
   mapQueryIdsStringToArray,
 } from '../../../lib/utilities/filters';
-import LoadingContainer from '../../../lib/components/Loading/LoadingContainer';
+import { LoadingContainer } from '../../../lib/components/Loading/LoadingContainer';
 import PageTitle from '../../../lib/components/Pages/PageTitle';
 import { useQuery } from '../../../lib/hooks/useQuery';
 import CheckboxDropdownFilterForm from '../../../lib/components/Filters/CheckboxDropdownFilterForm';

@@ -8,7 +8,7 @@ import {
   ThemeProvider,
 } from '@material-ui/core';
 import { RenderRoutes } from './navigation/Router';
-import ROUTER_CONFIG from './navigation/router-config';
+import { ROUTER_CONFIG } from './navigation/router-config';
 import {
   fetchDirections,
   fetchPostsTypes,
