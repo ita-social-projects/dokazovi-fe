@@ -4,7 +4,7 @@ import { LoadingStatusEnum, LoadMoreButtonTextType } from '../../types';
 import { LOAD_POSTS_LIMIT } from '../../constants/posts';
 import { LOAD_EXPERTS_LIMIT } from '../../constants/experts';
 import { useStyles } from './LoadMoreButton.styles';
-import { localization } from '../../../localization';
+import { localization } from '../../../../localization';
 
 export interface ILoadMoreButtonProps {
   clicked: () => void;
