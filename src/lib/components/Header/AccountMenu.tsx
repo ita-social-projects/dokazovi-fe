@@ -1,22 +1,21 @@
-import React, { useContext } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useContext, useState } from 'react';
 import { IconButton, Typography } from '@material-ui/core';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import { useStyles } from './AccountMenu.styles';
 import { StyledMenu, StyledMenuItem } from '../Menu/StyledMenu';
 import { signOutAction } from '../../../store/user';
-import { AuthContext } from '../../../authProvider/AuthContext';
+import { useActions } from '../../hooks/useActions';
+import { AuthContext } from '../../../provider/AuthProvider/AuthContext';
 
 export const AccountMenu: React.FC = () => {
   const classes = useStyles();
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const { removeToken } = useContext(AuthContext);
-
-  const dispatch = useDispatch();
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const { removeAuthorization } = useContext(AuthContext);
+  const [boundSignOutAction] = useActions([signOutAction]);
 
   const onLogoutHandler = () => {
-    dispatch(signOutAction());
-    removeToken();
+    boundSignOutAction();
+    removeAuthorization();
   };
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {

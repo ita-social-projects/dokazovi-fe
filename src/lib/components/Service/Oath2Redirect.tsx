@@ -1,27 +1,24 @@
 import React, { useEffect, useContext } from 'react';
-import { useDispatch } from 'react-redux';
-import { useHistory, useLocation } from 'react-router-dom';
-import { AuthContext } from '../../../authProvider/AuthContext';
+import { useLocation } from 'react-router-dom';
+import { AuthContext } from '../../../provider/AuthProvider/AuthContext';
 
 const useQuery = () => {
   return new URLSearchParams(useLocation().search);
 };
 
 const Oath2Redirect: React.FC = () => {
-  const dispatch = useDispatch();
-  const history = useHistory();
   const query = useQuery();
-  const { setToken } = useContext(AuthContext);
+  const { setAuthorization } = useContext(AuthContext);
 
   const token = query.get('token');
 
   useEffect(() => {
     if (token) {
-      setToken(token);
+      setAuthorization(token);
     } else {
       console.error('NO TOKEN');
     }
-  }, [token, dispatch, history]);
+  }, [token]);
 
   return <></>;
 };

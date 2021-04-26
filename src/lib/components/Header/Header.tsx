@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import SearchIcon from '@material-ui/icons/Search';
 import { Box, Container, Toolbar, Typography } from '@material-ui/core';
 import { Link, NavLink } from 'react-router-dom';
@@ -6,7 +6,9 @@ import { useStyles } from './Header.styles';
 import { PostCreationMenu } from './PostCreationMenu';
 import { LoginModal } from '../Users/LoginModal';
 import { AccountMenu } from './AccountMenu';
-import { AuthContext } from '../../../authProvider/AuthContext';
+import { AuthContext } from '../../../provider/AuthProvider/AuthContext';
+import { getUserAsyncAction } from '../../../store/user';
+import { useActions } from '../../hooks/useActions';
 
 interface IHeaderProps {
   id: string;
@@ -35,6 +37,13 @@ export const navElems: IHeaderProps[] = [
 export const Header: React.FC = () => {
   const classes = useStyles();
   const { authenticated } = useContext(AuthContext);
+  const [boundGetUserAsyncAction] = useActions([getUserAsyncAction]);
+
+  useEffect(() => {
+    if (authenticated) {
+      boundGetUserAsyncAction();
+    }
+  }, [authenticated]);
 
   return (
     <Container>

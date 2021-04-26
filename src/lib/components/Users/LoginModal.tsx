@@ -18,7 +18,7 @@ import { Alert } from '@material-ui/lab';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import { useSelector } from 'react-redux';
-import { AuthContext } from '../../../authProvider/AuthContext';
+import { AuthContext } from '../../../provider/AuthProvider/AuthContext';
 import { emailValidationObj, passwordValidationObj } from './validationRules';
 import { IAuthInputs } from '../../types';
 import { RegistrationModal } from './RegistrationModal';
@@ -33,7 +33,7 @@ export const LoginModal: React.FC = () => {
   const [registrationOpen, setRegistrationOpen] = React.useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const user = useSelector(selectCurrentUser);
-  const { setToken } = useContext(AuthContext);
+  const { setAuthorization } = useContext(AuthContext);
 
   // eslint-disable-next-line @typescript-eslint/unbound-method
   const { register, handleSubmit, errors } = useForm<IAuthInputs>();
@@ -54,7 +54,7 @@ export const LoginModal: React.FC = () => {
   };
   const onSubmit = (inputs: IAuthInputs) => {
     login(inputs.email, inputs.password).then((response) => {
-      setToken(response.data.accessToken);
+      setAuthorization(response.data.accessToken);
       handleLoginClose();
     });
   };

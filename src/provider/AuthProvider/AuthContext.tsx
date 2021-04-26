@@ -2,12 +2,12 @@ import { createContext } from 'react';
 
 interface IAuthContext {
   authenticated: boolean;
-  setToken: (token: string) => void;
-  removeToken: () => void;
+  setAuthorization: (token: string) => void;
+  removeAuthorization: () => void;
 }
 
 export const AuthContext = createContext<IAuthContext>({
   authenticated: false,
-  setToken: () => {},
-  removeToken: () => {},
+  setAuthorization: () => {},
+  removeAuthorization: () => {},
 });

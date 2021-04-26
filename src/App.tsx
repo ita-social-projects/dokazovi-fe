@@ -14,7 +14,7 @@ import {
   fetchPostsTypes,
   fetchRegions,
 } from './store/propertiesSlice';
-import { AuthProvider } from './authProvider/AuthProvider';
+import { AuthProvider } from './provider/AuthProvider/AuthProvider';
 import { MAIN_THEME } from './lib/theme/theme';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
