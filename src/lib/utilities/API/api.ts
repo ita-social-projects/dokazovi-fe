@@ -19,8 +19,8 @@ import {
   CreatePostRequestUnionType,
   UpdatePostRequestUnionType,
 } from './types';
-import { LocalStorageKeys } from '../../types';
 import { BASE_URL } from '../../../apiURL';
+import { getToken } from '../getToken';
 
 export const instance = axios.create({
   baseURL: BASE_URL,
@@ -28,7 +28,7 @@ export const instance = axios.create({
 
 instance.interceptors.request.use(
   (config: AxiosRequestConfig) => {
-    const jwtToken = localStorage.getItem(LocalStorageKeys.ACCESS_TOKEN);
+    const jwtToken = getToken();
     if (jwtToken) {
       const header = `Bearer ${jwtToken}`;
       config.headers = { authorization: header };
