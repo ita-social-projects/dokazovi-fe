@@ -20,7 +20,7 @@ import {
 } from '../../../lib/types';
 import { RootStateType } from '../../../store/rootReducer';
 import { selectPostsByIds } from '../../../store/selectors';
-import { fetchMaterials } from '../../../store/materials/materialsSlice';
+import { fetchMaterials, selectMaterials } from '../../../store/materials';
 import {
   getQueryTypeByFilterType,
   mapQueryIdsStringToArray,
@@ -36,7 +36,7 @@ const MaterialsView: React.FC = () => {
   const {
     postIds,
     meta: { loading, isLastPage, pageNumber, totalElements, totalPages },
-  } = useSelector((state: RootStateType) => state.materials);
+  } = useSelector(selectMaterials);
 
   const [page, setPage] = useState(pageNumber);
   const previous = usePrevious({ page });
@@ -65,7 +65,7 @@ const MaterialsView: React.FC = () => {
       directions: mapQueryIdsStringToArray(directionsQuery),
     };
 
-    boundFetchMaterials(filters, page, appendPosts);
+    boundFetchMaterials({ filters, page, appendPosts });
   };
 
   const setFilters = (

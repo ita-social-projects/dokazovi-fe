@@ -2,7 +2,7 @@ import { IExpert, IPost } from '../lib/types';
 import { store } from './store';
 
 export const selectPostsByIds = (ids: number[]): IPost[] => {
-  return ids.map((id) => store.getState().data.posts[id]);
+  return ids.map((id) => store.getState().materials.posts[id]);
 };
 
 export const selectExpertsByIds = (ids: number[]): IExpert[] => {

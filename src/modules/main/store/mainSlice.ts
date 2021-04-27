@@ -2,7 +2,8 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { LoadingStatusEnum } from '../../../lib/types';
 import { getPosts } from '../../../lib/utilities/API/api';
-import { loadPosts, mapFetchedPosts } from '../../../store/dataSlice';
+// import { loadPosts, mapFetchedPosts } from '../../../store/dataSlice';
+import { loadPosts, mapFetchedPosts } from '../../../store/materials';
 import {
   LOAD_POSTS_LIMIT,
   LOAD_IMPORTANT_POSTS_LIMIT,

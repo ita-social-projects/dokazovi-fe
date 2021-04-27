@@ -1,8 +1,14 @@
-import { QueryTypeEnum, LoadingStatusEnum } from '../../lib/types';
+import { QueryTypeEnum, LoadingStatusEnum, IPost } from '../../lib/types';
 
-export interface IMaterialsState {
+export interface IMaterials {
   postIds: number[];
   meta: IMaterialsMeta;
+}
+
+export interface IMaterialsState extends IMaterials {
+  posts: {
+    [id: string]: IPost;
+  };
   filters?: {
     [key in QueryTypeEnum]?: number[];
   };

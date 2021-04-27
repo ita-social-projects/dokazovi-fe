@@ -1,5 +1,5 @@
 import { LoadingStatusEnum } from '../../lib/types';
-import { IMaterialsState } from '../materials/types';
+import { IMaterials, IMaterialsState } from '../materials/types';
 
 export interface IExpertPayload {
   expertIds: number[];
@@ -17,7 +17,7 @@ export interface IExpertMeta {
 
 export interface IExpertsState {
   experts: IExpertPayload;
-  materials: IMaterialsState;
+  materials: IMaterials;
 }
 
 export interface IFetchExpertsOptions {
