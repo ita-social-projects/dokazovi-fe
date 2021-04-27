@@ -11,6 +11,17 @@ export enum PostStatus {
   ARCHIVED = 'ARCHIVED',
 }
 
+export enum OriginTypeEnum {
+  EXPERT_OPINION = 1,
+  TRANSLATION = 2,
+  MEDIA = 3,
+}
+
+export type OriginType =
+  | OriginTypeEnum.EXPERT_OPINION
+  | OriginTypeEnum.MEDIA
+  | OriginTypeEnum.TRANSLATION;
+
 export enum PostTypeEnum {
   ARTICLE = 1,
   DOPYS = 2,
@@ -71,7 +82,9 @@ export interface IPost {
   type: IPostType;
   createdAt: string;
   modifiedAt?: string;
+  origins?: IOrigin[];
   preview: string;
+  previewImageUrl?: string;
   videoUrl?: string;
 }
 
@@ -91,6 +104,12 @@ export interface IExpert {
     id: number;
     title: string;
   };
+}
+
+export interface IOrigin {
+  id: OriginType;
+  name: string;
+  parameter?: string;
 }
 
 export interface IPostTag {
