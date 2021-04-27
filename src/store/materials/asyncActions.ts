@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { getPosts } from '../../lib/utilities/API/api';
 import { LOAD_POSTS_LIMIT } from '../../lib/constants/posts';
