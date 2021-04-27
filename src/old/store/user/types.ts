@@ -1,7 +1,7 @@
 import { IExpert, LoadingStatusEnum } from '../../lib/types';
 
 export interface IUserState {
-  data?: IExpert | unknown;
+  data?: IExpert;
   loading: LoadingStatusEnum;
   error: string | null;
 }

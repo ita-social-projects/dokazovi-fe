@@ -14,7 +14,7 @@ import {
   fetchPostsTypes,
   fetchRegions,
 } from './old/store/propertiesSlice';
-import { AuthProvider } from './provider/AuthProvider/AuthProvider';
+import { AuthProvider } from './old/provider/AuthProvider/AuthProvider';
 import { MAIN_THEME } from './old/lib/theme/theme';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -48,7 +48,9 @@ export const App: React.FC = () => {
         <BrowserRouter>
           <div className="content">
             <Suspense fallback={<CircularProgress className="mainLoading" />}>
-              <RenderRoutes routes={ROUTER_CONFIG} />
+              <AuthProvider>
+                <RenderRoutes routes={ROUTER_CONFIG} />
+              </AuthProvider>
             </Suspense>
           </div>
         </BrowserRouter>

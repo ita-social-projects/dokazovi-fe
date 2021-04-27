@@ -27,6 +27,11 @@ import PostView from '../../posts/components/PostView';
 import { TextPostEditor } from '../../../lib/components/Editor/Editors/TextPostEditor';
 import { IEditorToolbarProps } from '../../../lib/components/Editor/types';
 import { PostDirectionsSelector } from './PostDirectionsSelector';
+import { BorderBottom } from '../../../lib/components/Border';
+import { getStringFromFile } from '../../../lib/utilities/Imgur/getStringFromFile';
+import { uploadImageToImgur } from '../../../lib/utilities/Imgur/uploadImageToImgur';
+import { BackgroundImageContainer } from '../../../lib/components/Editor/CustomModules/BackgroundImageContainer/BackgroundImageContainer';
+
 import { selectCurrentUser } from '../../../store/user/selectors';
 
 interface IPostCreationProps {

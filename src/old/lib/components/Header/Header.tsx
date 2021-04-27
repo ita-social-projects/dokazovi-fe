@@ -1,5 +1,4 @@
 import React, { useContext, useEffect } from 'react';
-import SearchIcon from '@material-ui/icons/Search';
 import { Box, Container, Toolbar, Typography } from '@material-ui/core';
 import { Link, NavLink } from 'react-router-dom';
 import { useStyles } from './Header.styles';
