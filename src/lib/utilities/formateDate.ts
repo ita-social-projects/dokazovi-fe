@@ -1,4 +1,4 @@
-const formatDate = (dateString: string): string => {
+export const formatDate = (dateString: string): string => {
   const monthNames: { [index: string]: string } = {
     '1': 'січня',
     '2': 'лютого',
@@ -18,5 +18,3 @@ const formatDate = (dateString: string): string => {
 
   return `${+day.toString()} ${monthNames[+month]}`;
 };
-
-export default formatDate;
