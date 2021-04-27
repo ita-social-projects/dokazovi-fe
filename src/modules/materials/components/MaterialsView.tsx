@@ -37,7 +37,7 @@ const MaterialsView: React.FC = () => {
     loading,
     data: {
       postIds,
-      meta: { /*loading*/ isLastPage, pageNumber, totalElements, totalPages },
+      meta: { isLastPage, pageNumber, totalElements, totalPages },
     },
   } = useSelector(selectMaterials);
 

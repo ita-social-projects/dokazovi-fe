@@ -1,11 +1,10 @@
-/* eslint-disable */
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { getPosts } from '../../lib/utilities/API/api';
 import { LOAD_POSTS_LIMIT } from '../../lib/constants/posts';
 import { IPost, LoadingStatusEnum } from '../../lib/types';
 import { PostResponseType } from '../../lib/utilities/API/types';
 import { IFetchMaterialsOptions } from './types';
-// import {mapFetchedPosts} from "./reducers";
+import { RootStateType } from '../rootReducer';
 
 const mapFetchedPosts = (
   posts: PostResponseType[],
@@ -29,9 +28,12 @@ export const fetchMaterials = createAsyncThunk(
       },
     });
 
+    const {
+      materials: { data },
+    } = getState() as any;
+
     const { mappedPosts, ids } = mapFetchedPosts(response.data.content);
-    // @ts-ignore
-    const posts = { ...getState().materials.data.posts };
+    const posts = { ...data.posts };
     mappedPosts.forEach((post) => {
       if (posts && post.id) {
         posts[post.id] = post;
@@ -39,10 +41,7 @@ export const fetchMaterials = createAsyncThunk(
     });
 
     return {
-      // @ts-ignore
-      postIds: appendPosts
-        ? getState().materials.data.postIds.concat(ids)
-        : ids,
+      postIds: appendPosts ? data.postIds.concat(ids) : ids,
       posts,
       meta: {
         isLastPage: response.data.last,

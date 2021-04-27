@@ -1,4 +1,4 @@
-/* eslint-disable no-param-reassign */
+/* eslint-disable */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { IPost, LoadingStatusEnum } from '../../lib/types';
 import { PostResponseType } from '../../lib/utilities/API/types';
@@ -45,8 +45,7 @@ export const reducers = createSlice({
     },
   },
   extraReducers: {
-    // @ts-ignore
-    ...getAsyncActionsReducer(fetchMaterials),
+    ...getAsyncActionsReducer(fetchMaterials as any),
   },
 
   // extraReducers: (builder) => {
