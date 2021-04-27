@@ -8,9 +8,9 @@ import CheckboxFilterForm, {
 } from '../../../lib/components/Filters/CheckboxFilterForm';
 import { LoadingContainer } from '../../../lib/components/Loading/LoadingContainer';
 import { PostsList } from '../../../lib/components/Posts/PostsList';
-import LoadMoreButton from '../../../lib/components/LoadMoreButton/LoadMoreButton';
-import useEffectExceptOnMount from '../../../lib/hooks/useEffectExceptOnMount';
-import usePrevious from '../../../lib/hooks/usePrevious';
+import { LoadMoreButton } from '../../../lib/components/LoadMoreButton/LoadMoreButton';
+import { useEffectExceptOnMount } from '../../../lib/hooks/useEffectExceptOnMount';
+import { usePrevious } from '../../../lib/hooks/usePrevious';
 import { useQuery } from '../../../lib/hooks/useQuery';
 import {
   FilterTypeEnum,

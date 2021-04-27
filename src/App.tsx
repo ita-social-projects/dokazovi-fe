@@ -43,7 +43,6 @@ export const App: React.FC = () => {
           closeOnClick={false}
           autoClose={4000}
         />
-
         <CssBaseline />
         <BrowserRouter>
           <div className="content">

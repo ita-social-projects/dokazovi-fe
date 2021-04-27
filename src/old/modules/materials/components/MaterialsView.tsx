@@ -7,9 +7,9 @@ import CheckboxFilterForm, {
   CheckboxFormStateType,
 } from '../../../lib/components/Filters/CheckboxFilterForm';
 import { PostsList } from '../../../lib/components/Posts/PostsList';
-import LoadMoreButton from '../../../lib/components/LoadMoreButton/LoadMoreButton';
-import useEffectExceptOnMount from '../../../lib/hooks/useEffectExceptOnMount';
-import usePrevious from '../../../lib/hooks/usePrevious';
+import { LoadMoreButton } from '../../../lib/components/LoadMoreButton/LoadMoreButton';
+import { useEffectExceptOnMount } from '../../../lib/hooks/useEffectExceptOnMount';
+import { usePrevious } from '../../../lib/hooks/usePrevious';
 import {
   FilterTypeEnum,
   IDirection,
@@ -28,7 +28,7 @@ import {
 import { LoadingContainer } from '../../../lib/components/Loading/LoadingContainer';
 import { PageTitle } from '../../../lib/components/Pages/PageTitle';
 import { useQuery } from '../../../lib/hooks/useQuery';
-import CheckboxDropdownFilterForm from '../../../lib/components/Filters/CheckboxDropdownFilterForm';
+import { CheckboxDropdownFilterForm } from '../../../lib/components/Filters/CheckboxDropdownFilterForm';
 
 const MaterialsView: React.FC = () => {
   const [page, setPage] = useState(0);

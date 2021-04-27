@@ -17,7 +17,6 @@ const NewestContainer: React.FC = () => {
     meta: { loading },
   } = useSelector((state: RootStateType) => state.main.newest);
   const newestPosts = selectPostsByIds(newestPostIds);
-
   const [boundFetchNewestPosts] = useActions([fetchNewestPosts]);
 
   useEffect(() => {

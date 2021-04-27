@@ -49,7 +49,7 @@ function getLimit(textType: LoadMoreButtonTextType): number {
   }
 }
 
-const LoadMoreButton: React.FC<ILoadMoreButtonProps> = ({
+export const LoadMoreButton: React.FC<ILoadMoreButtonProps> = ({
   clicked,
   loading,
   textType,
@@ -100,5 +100,3 @@ const LoadMoreButton: React.FC<ILoadMoreButtonProps> = ({
   };
   return renderLoadControls();
 };
-
-export default LoadMoreButton;

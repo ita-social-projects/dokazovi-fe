@@ -1,9 +1,9 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Button, Typography, Avatar } from '@material-ui/core';
 import { useStyles } from './AccountMenu.styles';
 import { StyledMenu, StyledMenuItem } from '../Menu/StyledMenu';
-import { signOutAction } from '../../../store/user';
+import { signOutAction, getUserAsyncAction } from '../../../store/user';
 import { useActions } from '../../hooks/useActions';
 import { AuthContext } from '../../../provider/AuthProvider/AuthContext';
 import { selectCurrentUser } from '../../../store/user/selectors';
@@ -13,8 +13,10 @@ export const AccountMenu: React.FC = () => {
   const classes = useStyles();
   const user = useSelector(selectCurrentUser);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const { authenticated } = useContext(AuthContext);
   const { removeAuthorization } = useContext(AuthContext);
   const [boundSignOutAction] = useActions([signOutAction]);
+  const [boundGetUserAsyncAction] = useActions([getUserAsyncAction]);
 
   const onLogoutHandler = () => {
     boundSignOutAction();
@@ -29,7 +31,13 @@ export const AccountMenu: React.FC = () => {
     setAnchorEl(null);
   };
 
-  if (!user) {
+  useEffect(() => {
+    if (authenticated) {
+      boundGetUserAsyncAction();
+    }
+  }, [authenticated]);
+
+  if (!user.data) {
     return null;
   }
 
