@@ -34,8 +34,11 @@ import { LOAD_POSTS_LIMIT } from '../../../lib/constants/posts';
 
 const MaterialsView: React.FC = () => {
   const {
-    postIds,
-    meta: { loading, isLastPage, pageNumber, totalElements, totalPages },
+    loading,
+    data: {
+      postIds,
+      meta: { /*loading*/ isLastPage, pageNumber, totalElements, totalPages },
+    },
   } = useSelector(selectMaterials);
 
   const [page, setPage] = useState(pageNumber);
