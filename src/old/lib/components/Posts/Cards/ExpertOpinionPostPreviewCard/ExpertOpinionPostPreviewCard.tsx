@@ -7,7 +7,7 @@ import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 import { IPost } from '../../../../types';
 import { useStyles } from './ExpertOpinionPostPreviewCard.styles';
-import { formatDate } from '../../../../utilities/formateDate';
+import { formatDate } from '../../../../utilities/formatDate';
 
 export interface IPostPreviewCardProps {
   post: IPost;
