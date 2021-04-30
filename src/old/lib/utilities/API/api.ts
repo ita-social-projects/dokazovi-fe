@@ -21,7 +21,7 @@ import {
   UpdatePostRequestUnionType,
 } from './types';
 import { BASE_URL } from '../../../apiURL';
-import { getToken } from '../getToken';
+import { getToken } from '../../../provider/AuthProvider/getToken';
 
 export const instance = axios.create({
   baseURL: BASE_URL,

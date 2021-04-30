@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { AuthContext } from './AuthContext';
 import { useAuthHook } from './useAuthHook';
-import { getToken } from '../../lib/utilities/getToken';
+import { getToken } from './getToken';
 
 export const AuthProvider: React.FC = ({ children }) => {
   const token = getToken();
