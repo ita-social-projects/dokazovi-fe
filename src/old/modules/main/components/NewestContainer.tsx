@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { useActions } from '../../../lib/hooks/useActions';
+import { useActions } from '../../../../shared/hooks/useActions';
 import { RootStateType } from '../../../store/rootReducer';
 import { fetchNewestPosts } from '../store/mainSlice';
 import { useStyles } from '../styles/NewestContainer.style';

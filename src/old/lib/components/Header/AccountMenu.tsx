@@ -3,10 +3,10 @@ import { useSelector } from 'react-redux';
 import { Button, Typography, Avatar } from '@material-ui/core';
 import { useStyles } from './AccountMenu.styles';
 import { StyledMenu, StyledMenuItem } from '../Menu/StyledMenu';
-import { signOutAction, getUserAsyncAction } from '../../../store/user';
-import { useActions } from '../../hooks/useActions';
+import { signOutAction, getUserAsyncAction } from '../../../../models/user';
+import { useActions } from '../../../../shared/hooks';
 import { AuthContext } from '../../../provider/AuthProvider/AuthContext';
-import { selectCurrentUser } from '../../../store/user/selectors';
+import { selectCurrentUser } from '../../../../models/user/selectors';
 import { AccountIcon } from '../icons/AccountIcon';
 
 export const AccountMenu: React.FC = () => {

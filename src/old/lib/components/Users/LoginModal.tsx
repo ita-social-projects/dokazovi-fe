@@ -25,7 +25,7 @@ import { RegistrationModal } from './RegistrationModal';
 import { FB_AUTH_URL, GOOGLE_AUTH_URL } from '../../../apiURL';
 import { useStyles } from './LoginModal.styles';
 import { login } from '../../utilities/API/api';
-import { selectCurrentUser } from '../../../store/user/selectors';
+import { selectCurrentUser } from '../../../../models/user/selectors';
 import { AccountIcon } from '../icons/AccountIcon';
 
 export const LoginModal: React.FC = () => {

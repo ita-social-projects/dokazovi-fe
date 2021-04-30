@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { AuthContext } from './AuthContext';
-import { useAuthHook } from '../../lib/hooks/useAuthHook';
+import { useAuthHook } from './useAuthHook';
 import { getToken } from '../../lib/utilities/getToken';
 
 export const AuthProvider: React.FC = ({ children }) => {

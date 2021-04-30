@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { LocalStorageKeys } from '../types';
+import { LocalStorageKeys } from '../../lib/types';
 
 export const useAuthHook = (
   defaultValue: boolean,

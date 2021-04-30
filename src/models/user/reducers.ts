@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { createSlice } from '@reduxjs/toolkit';
-import { LoadingStatusEnum } from '../../lib/types';
+import { LoadingStatusEnum } from '../../old/lib/types';
 import { IUserState } from './types';
 import { getUserAsyncAction } from './asyncActions';
 import { getAsyncActionsReducer } from '../helpers/asyncActions';

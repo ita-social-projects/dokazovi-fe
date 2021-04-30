@@ -32,7 +32,7 @@ import { getStringFromFile } from '../../../lib/utilities/Imgur/getStringFromFil
 import { uploadImageToImgur } from '../../../lib/utilities/Imgur/uploadImageToImgur';
 import { BackgroundImageContainer } from '../../../lib/components/Editor/CustomModules/BackgroundImageContainer/BackgroundImageContainer';
 
-import { selectCurrentUser } from '../../../store/user/selectors';
+import { selectCurrentUser } from '../../../../models/user/selectors';
 
 interface IPostCreationProps {
   pageTitle: string;

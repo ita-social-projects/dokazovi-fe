@@ -23,7 +23,7 @@ import { CreateVideoPostRequestType } from '../../../lib/utilities/API/types';
 import { CONTENT_DEBOUNCE_TIMEOUT } from '../../../lib/constants/editors';
 import PostView from '../../posts/components/PostView';
 import { PostDirectionsSelector } from './PostDirectionsSelector';
-import { selectCurrentUser } from '../../../store/user/selectors';
+import { selectCurrentUser } from '../../../../models/user/selectors';
 
 const VideoCreation: React.FC = () => {
   const dispatch = useDispatch();

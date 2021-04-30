@@ -8,7 +8,7 @@ import { LoadingStatusEnum } from '../lib/types';
 import { LoadingContainer } from '../lib/components/Loading/LoadingContainer';
 import { Header } from '../lib/components/Header/Header';
 import { Footer } from '../lib/components/Footer/Footer';
-import { selectCurrentUser } from '../store/user/selectors';
+import { selectCurrentUser } from '../../models/user/selectors';
 
 const PrivateRoute: React.FC<IRouteConfig> = ({ path, exact, component }) => {
   const user = useSelector(selectCurrentUser);
