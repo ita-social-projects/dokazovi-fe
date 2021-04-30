@@ -12,27 +12,17 @@ export const Style3PostPreviewCard: React.FC<IPostPreviewCardProps> = ({
   post,
   shouldNotUseLink,
 }) => {
-  const classes = useStyles();
+  const bgImageURL = post.previewImageUrl ? post.previewImageUrl : background;
+  const classes = useStyles({ backgroundImageUrl: bgImageURL });
   const postLink = `/posts/${post.id}`;
   const authorFullName = `${post.author.firstName} ${post.author.lastName}`;
   const authorMainInstitution = post.author.mainInstitution
     ? `${post.author.mainInstitution.city.name}, ${post.author.mainInstitution.name}`
     : '';
 
-  const bgImageURL = post.previewImageUrl ? post.previewImageUrl : background;
-
   const card = (
     <>
-      <Box
-        className={classes.header}
-        flexDirection="column"
-        flexWrap="no-wrap"
-        justifyContent="space-between"
-        mb={6}
-        style={{
-          backgroundImage: `url(${bgImageURL})`,
-        }}
-      >
+      <Box className={classes.header}>
         <Box
           display="flex"
           flexDirection="column"

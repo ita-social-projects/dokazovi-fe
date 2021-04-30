@@ -1,6 +1,10 @@
 import { makeStyles, Theme } from '@material-ui/core';
 
-export const useStyles = makeStyles(
+interface IStyleProps {
+  backgroundImageUrl: string;
+}
+
+export const useStyles = makeStyles<Theme, IStyleProps>(
   (theme: Theme) => ({
     root: {
       position: 'relative',
@@ -15,8 +19,10 @@ export const useStyles = makeStyles(
       lineHeight: '21px',
       marginBottom: theme.spacing(-1),
     },
-    header: {
+    header: (props) => ({
       display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'space-between',
       height: 280,
       backgroundRepeat: 'no-repeat',
       backgroundPosition: 'center',
@@ -24,10 +30,11 @@ export const useStyles = makeStyles(
       paddingLeft: theme.spacing(5),
       paddingRight: theme.spacing(6),
       marginBottom: theme.spacing(6),
+      backgroundImage: `url(${props.backgroundImageUrl})`,
       '&>div': {
         height: '100%',
       },
-    },
+    }),
     body: {
       padding: theme.spacing(0, 6, 0, 5),
     },
