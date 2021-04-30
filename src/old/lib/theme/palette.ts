@@ -24,7 +24,7 @@ export const PALETTE: PaletteOptions = {
   },
   text: {
     primary: '#000',
-    secondary: '#575757',
+    secondary: '#767676',
   },
   background: {
     paper: '#fff',

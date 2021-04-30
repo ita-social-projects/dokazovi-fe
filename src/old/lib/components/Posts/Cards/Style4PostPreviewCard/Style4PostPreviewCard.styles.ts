@@ -57,16 +57,8 @@ export const useStyles = makeStyles(
     content: {
       padding: 0,
     },
-    eyeIcon: {
-      fill: theme.palette.text.secondary,
-    },
-    viewsCount: {
-      width: '23px',
-      height: '13px',
-      marginLeft: theme.spacing(2),
-    },
   }),
   {
-    name: 'PostPreviewCard',
+    name: 'Style4PostPreviewCard',
   },
 );

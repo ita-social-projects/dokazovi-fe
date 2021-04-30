@@ -4,17 +4,12 @@ import Card from '@material-ui/core/Card';
 import Box from '@material-ui/core/Box';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
-import Typography from '@material-ui/core/Typography';
-import { IPost } from '../../../../types';
-import { useStyles } from './ExpertOpinionPostPreviewCard.styles';
+import { Typography } from '@material-ui/core';
+import { useStyles } from './Style4PostPreviewCard.styles';
 import { formatDate } from '../../../../utilities/formatDate';
+import { IPostPreviewCardProps } from '../types';
 
-export interface IPostPreviewCardProps {
-  post: IPost;
-  shouldNotUseLink?: boolean;
-}
-
-const PostPreviewCardWithoutMemo: React.FC<IPostPreviewCardProps> = ({
+export const Style4PostPreviewCard: React.FC<IPostPreviewCardProps> = ({
   post,
   shouldNotUseLink,
 }) => {
@@ -125,7 +120,3 @@ const PostPreviewCardWithoutMemo: React.FC<IPostPreviewCardProps> = ({
     </Card>
   );
 };
-
-export const ExpertOpinionPostPreviewCard = React.memo(
-  PostPreviewCardWithoutMemo,
-);
