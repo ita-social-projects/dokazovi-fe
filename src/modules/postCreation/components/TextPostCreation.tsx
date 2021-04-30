@@ -12,7 +12,7 @@ import {
   setPostPreviewText,
   setPostPreviewManuallyChanged,
   resetDraft,
-  setAuthorID,
+  setAuthorId,
 } from '../store/postCreationSlice';
 import { IDirection, IPost, PostTypeEnum } from '../../../lib/types';
 import { sanitizeHtml } from '../../../lib/utilities/sanitizeHtml';
@@ -35,12 +35,12 @@ import { BorderBottom } from '../../../lib/components/Border';
 import { getStringFromFile } from '../../../lib/utilities/Imgur/getStringFromFile';
 import { uploadImageToImgur } from '../../../lib/utilities/Imgur/uploadImageToImgur';
 import { BackgroundImageContainer } from '../../../lib/components/Editor/CustomModules/BackgroundImageContainer/BackgroundImageContainer';
-import { PostAuthorSelection } from './PostAuthorSelection';
+import { PostAuthorSelection } from './PostAuthorSelection/PostAuthorSelection';
 
 interface IPostCreationProps {
-  pageTitle: string;
-  titleInputLabel: string;
-  contentInputLabel: string;
+  pageTitle?: string;
+  titleInputLabel?: string;
+  contentInputLabel?: string;
   postType: { type: PostTypeEnum; name: string };
   editorToolbar: React.ComponentType<IEditorToolbarProps>;
 }
@@ -130,7 +130,7 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
 
   const onAuthorTableClick = (value: number, item: ExpertResponseType) => {
     dispatch(
-      setAuthorID({
+      setAuthorId({
         postType: postType.type,
         value,
       }),
@@ -157,7 +157,7 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
   };
 
   const newPost: CreateTextPostRequestType = {
-    authorId: savedPostDraft.authorID,
+    authorId: savedPostDraft.authorId,
     previewImageUrl: savedPostDraft.previewImageUrl,
     content: savedPostDraft.htmlContent,
     directions: savedPostDraft.directions,

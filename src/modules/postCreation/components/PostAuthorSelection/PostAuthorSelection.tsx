@@ -4,14 +4,16 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import InputLabel from '@material-ui/core/InputLabel';
+import FormControl from '@material-ui/core/FormControl';
 import Input from '@material-ui/core/Input';
-import { ExpertResponseType } from '../../../lib/utilities/API/types';
+import { ExpertResponseType } from '../../../../lib/utilities/API/types';
 
 interface IPostAuthorSelectionProps {
   handleOnChange: (value: string) => void;
   onAuthorTableClick: (value: number, item: ExpertResponseType) => void;
-  authors: ExpertResponseType[];
-  searchValue: string;
+  authors?: ExpertResponseType[];
+  searchValue?: string;
 }
 
 export const PostAuthorSelection: React.FC<IPostAuthorSelectionProps> = ({
@@ -20,27 +22,35 @@ export const PostAuthorSelection: React.FC<IPostAuthorSelectionProps> = ({
   searchValue,
   authors,
 }) => {
-  const table = authors.map((item, idx) => {
+  const table = authors?.map((item, idx) => {
     const { id, firstName, lastName } = item;
     return (
       <TableRow key={id} onClick={() => onAuthorTableClick(id, item)} hover>
         <TableCell>{idx + 1}</TableCell>
         <TableCell>{firstName}</TableCell>
-        <TableCell>{lastName}</TableCell>
+        <TableCell data-testid="item">{lastName}</TableCell>
       </TableRow>
     );
   });
   return (
     <>
-      <Input
-        placeholder="Choose some author"
-        onChange={(e) => {
-          handleOnChange(e.target.value);
-        }}
-        type="inputTypeSearch"
-        value={searchValue}
-      />
-      {authors.length !== 0 && (
+      <FormControl>
+        <InputLabel htmlFor="author-input">Find post author</InputLabel>
+        <Input
+          inputComponent="input"
+          placeholder="Choose some author"
+          onChange={(e) => {
+            handleOnChange(e.target.value);
+          }}
+          type="inputTypeSearch"
+          value={searchValue}
+          id="author-input"
+          aria-label="author-input"
+          aria-describedby="component-helper-text"
+        />
+      </FormControl>
+
+      {authors?.length !== 0 && (
         <Table>
           <TableHead>
             <TableRow>

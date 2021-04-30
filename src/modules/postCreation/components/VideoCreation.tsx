@@ -10,7 +10,7 @@ import {
   setVideoUrl,
   setPostDirections,
   resetDraft,
-  setAuthorID,
+  setAuthorId,
 } from '../store/postCreationSlice';
 import { IDirection, IPost, PostTypeEnum } from '../../../lib/types';
 import { RootStateType } from '../../../store/rootReducer';
@@ -27,7 +27,7 @@ import {
 import { CONTENT_DEBOUNCE_TIMEOUT } from '../../../lib/constants/editors';
 import PostView from '../../posts/components/PostView';
 import { PostDirectionsSelector } from './PostDirectionsSelector';
-import { PostAuthorSelection } from './PostAuthorSelection';
+import { PostAuthorSelection } from './PostAuthorSelection/PostAuthorSelection';
 
 const VideoCreation: React.FC = () => {
   const dispatch = useDispatch();
@@ -96,7 +96,7 @@ const VideoCreation: React.FC = () => {
 
   const onAuthorTableClick = (value: number, item: ExpertResponseType) => {
     dispatch(
-      setAuthorID({
+      setAuthorId({
         postType: PostTypeEnum.VIDEO,
         value,
       }),
@@ -107,7 +107,7 @@ const VideoCreation: React.FC = () => {
   };
 
   const newPost: CreateVideoPostRequestType = {
-    authorId: savedPostDraft.authorID,
+    authorId: savedPostDraft.authorId,
     content: savedPostDraft.htmlContent,
     directions: savedPostDraft.directions,
     preview: savedPostDraft.htmlContent, // currently no preview

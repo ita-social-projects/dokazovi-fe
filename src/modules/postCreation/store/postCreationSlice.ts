@@ -8,7 +8,7 @@ interface INewPostDraft {
   directions: IDirection[];
   htmlContent: string;
   preview: IPostPreview;
-  authorID?: number | null;
+  authorId?: number | null;
 }
 
 interface IPostPreview {
@@ -37,7 +37,7 @@ const initialState: IPostCreationState = {
     htmlContent: '',
     preview: { value: '', isManuallyChanged: false },
     previewImageUrl: '',
-    authorID: null,
+    authorId: null,
   },
   [PostTypeEnum.DOPYS]: {
     title: '',
@@ -45,7 +45,7 @@ const initialState: IPostCreationState = {
     htmlContent: '',
     preview: { value: '', isManuallyChanged: false },
     previewImageUrl: '',
-    authorID: null,
+    authorId: null,
   },
   [PostTypeEnum.VIDEO]: {
     title: '',
@@ -53,7 +53,7 @@ const initialState: IPostCreationState = {
     htmlContent: '',
     preview: { value: '', isManuallyChanged: false },
     videoUrl: '',
-    authorID: null,
+    authorId: null,
   },
 };
 
@@ -123,14 +123,14 @@ export const postCreationSlice = createSlice({
     ) => {
       state[action.payload.postType].previewImageUrl = action.payload.value;
     },
-    setAuthorID: (
+    setAuthorId: (
       state,
       action: PayloadAction<{
         postType: PostTypeEnum;
-        value: INewPostDraft['authorID'];
+        value: INewPostDraft['authorId'];
       }>,
     ) => {
-      state[action.payload.postType].authorID = action.payload.value;
+      state[action.payload.postType].authorId = action.payload.value;
     },
   },
 });
@@ -144,7 +144,7 @@ export const {
   setPostPreviewManuallyChanged,
   setVideoUrl,
   setImageUrl,
-  setAuthorID,
+  setAuthorId,
 } = postCreationSlice.actions;
 
 const postCreationReducer = postCreationSlice.reducer;

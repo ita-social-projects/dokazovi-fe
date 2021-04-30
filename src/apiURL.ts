@@ -1,4 +1,6 @@
-export const BASE_URL = 'https://dokazovi-be.herokuapp.com/api';
+// export const BASE_URL = 'https://dokazovi-be.herokuapp.com/api';
+export const BASE_URL = 'http://127.0.0.2:8080/api';
+// export const BASE_URL = 'http://7a9bd3eba186.ngrok.io/api'; start
 
 const { origin } = window.location;
 export const OAUTH2_REDIRECT_URI = `${origin}/oauth2/redirect`;
