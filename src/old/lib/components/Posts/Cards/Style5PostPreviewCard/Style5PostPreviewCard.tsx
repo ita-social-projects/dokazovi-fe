@@ -1,17 +1,17 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
-import { useStyles } from '../../../styles/PostCard.styles';
-import { IPost } from '../../../types';
+import { useStyles } from './Style5PostPreviewCard.styles';
+import { IPostPreviewCardProps } from '../types';
+import background from '../../../../images/mock_img_slider_bg.png';
 
-export interface IPostCardProps {
-  post: IPost;
-}
-
-export const PostCard: React.FC<IPostCardProps> = (props) => {
-  const classes = useStyles();
-  const history = useHistory();
+export const Style5PostPreviewCard: React.FC<IPostPreviewCardProps> = (
+  props,
+) => {
   const { post } = props;
+  const bgImageURL = post.previewImageUrl ? post.previewImageUrl : background;
+  const classes = useStyles({ backgroundImageUrl: bgImageURL });
+  const history = useHistory();
   const author = post.author.id || '';
 
   const goPostPage = () => {
@@ -27,22 +27,20 @@ export const PostCard: React.FC<IPostCardProps> = (props) => {
       <Typography
         component="p"
         variant="h4"
-        gutterBottom
         onClick={goExpertPage}
-        className={classes.h4}
+        className={classes.authorsName}
       >
         {post.author.firstName} {post.author.lastName}
       </Typography>
       <Typography
         component="p"
         variant="subtitle2"
-        gutterBottom
-        className={classes.subtitle2}
+        className={classes.authorsDetails}
       >
         {post.author.mainInstitution?.name}
       </Typography>
       <Typography
-        variant="h1"
+        variant="h2"
         component="p"
         onClick={goPostPage}
         className={classes.title}
