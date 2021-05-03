@@ -8,64 +8,65 @@ import { formatDate } from '../../../../utilities/formatDate';
 import background from '../../../../images/mock_img_media_bg.png';
 import { IPostPreviewCardProps } from '../types';
 
-export const Style2PostPreviewCard: React.FC<IPostPreviewCardProps> = React.memo(
-  ({ post, shouldNotUseLink }) => {
-    const bgImageURL = post.previewImageUrl ? post.previewImageUrl : background;
-    const classes = useStyles({ backgroundImageUrl: `url(${bgImageURL})` });
-    const postLink = `/posts/${post.id}`;
+export const Style2PostPreviewCard: React.FC<IPostPreviewCardProps> = ({
+  post,
+  shouldNotUseLink,
+}) => {
+  const bgImageURL = post.previewImageUrl ? post.previewImageUrl : background;
+  const classes = useStyles({ backgroundImageUrl: `url(${bgImageURL})` });
+  const postLink = `/posts/${post.id}`;
 
-    const card = (
-      <>
-        <Box
-          className={classes.header}
-          flexDirection="column"
-          flexWrap="no-wrap"
-          justifyContent="space-between"
+  const card = (
+    <>
+      <Box
+        className={classes.header}
+        flexDirection="column"
+        flexWrap="no-wrap"
+        justifyContent="space-between"
+      >
+        <Typography
+          className={classes.postType}
+          variant="overline"
+          component="span"
         >
-          <Typography
-            className={classes.postType}
-            variant="overline"
-            component="span"
-          >
-            {post.type.name}
+          Медитка
+        </Typography>
+      </Box>
+      <Box className={classes.body}>
+        <Typography
+          gutterBottom
+          variant="h4"
+          component="h3"
+          className={classes.textHeader}
+        >
+          {post.title}
+        </Typography>
+        <Typography
+          gutterBottom
+          variant="body2"
+          color="textPrimary"
+          component="p"
+          className={classes.textBody}
+        >
+          {post.preview}
+        </Typography>
+        <Box
+          display="flex"
+          justifyContent="space-between"
+          alignItems="center"
+          mb={6}
+        >
+          <Typography variant="caption" color="textSecondary">
+            {formatDate(post.createdAt)}
           </Typography>
         </Box>
-        <Box className={classes.body}>
-          <Typography
-            gutterBottom
-            variant="h4"
-            component="h3"
-            className={classes.textHeader}
-          >
-            {post.title}
-          </Typography>
-          <Typography
-            gutterBottom
-            variant="body2"
-            color="textPrimary"
-            component="p"
-            className={classes.textBody}
-          >
-            {post.preview}
-          </Typography>
-          <Box
-            display="flex"
-            justifyContent="space-between"
-            alignItems="center"
-            mb={6}
-          >
-            <Typography variant="caption" color="textSecondary">
-              {formatDate(post.createdAt)}
-            </Typography>
-          </Box>
-        </Box>
-      </>
-    );
+      </Box>
+    </>
+  );
 
-    return (
-      <Card className={classes.root}>
-        {shouldNotUseLink ? card : <Link to={postLink}>{card}</Link>}
-      </Card>
-    );
-  },
-);
+  return (
+    <Card className={classes.root}>
+      {shouldNotUseLink ? card : <Link to={postLink}>{card}</Link>}
+    </Card>
+  );
+};

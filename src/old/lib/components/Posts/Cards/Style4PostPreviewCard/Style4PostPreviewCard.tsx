@@ -47,7 +47,7 @@ export const Style4PostPreviewCard: React.FC<IPostPreviewCardProps> = ({
             variant="overline"
             component="span"
           >
-            {post.type.name}
+            Думка експерта
           </Typography>
           <Typography
             className={classes.authorFullName}

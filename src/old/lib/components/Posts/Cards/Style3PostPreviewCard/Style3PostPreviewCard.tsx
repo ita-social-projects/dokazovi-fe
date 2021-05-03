@@ -35,7 +35,7 @@ export const Style3PostPreviewCard: React.FC<IPostPreviewCardProps> = ({
             variant="overline"
             component="span"
           >
-            {post.type.name}
+            Переклад
           </Typography>
           <Typography
             gutterBottom
