@@ -33,6 +33,7 @@ export const ExpertOpinionPostPreviewCard: React.FC<IPostPreviewCardProps> = ({
         display="flex"
         flexDirection="row"
         flexWrap="no-wrap"
+        gridGap={15}
         justifyContent="space-between"
         mb={4}
       >
