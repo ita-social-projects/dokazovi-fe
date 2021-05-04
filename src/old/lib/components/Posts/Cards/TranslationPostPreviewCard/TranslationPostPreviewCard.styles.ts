@@ -1,17 +1,15 @@
 import { makeStyles, Theme } from '@material-ui/core';
 
-export const useStyles = makeStyles(
+interface IStyleProps {
+  backgroundImageUrl: string;
+}
+
+export const useStyles = makeStyles<Theme, IStyleProps>(
   (theme: Theme) => ({
     root: {
       position: 'relative',
       borderRadius: 0,
       width: '315px',
-    },
-    avatar: {
-      height: 95,
-      width: 95,
-      padding: theme.spacing(3),
-      paddingLeft: theme.spacing(3),
     },
     authorFullName: {
       fontFamily: 'Raleway',
@@ -21,44 +19,41 @@ export const useStyles = makeStyles(
       lineHeight: '21px',
       marginBottom: theme.spacing(-1),
     },
-    header: {
-      display: 'flex',
-      paddingLeft: theme.spacing(5),
-      paddingRight: theme.spacing(3),
-    },
-    body: {
+    header: (props) => ({
       display: 'flex',
       flexDirection: 'column',
-      flexGrow: 1,
       justifyContent: 'space-between',
+      height: 280,
+      backgroundRepeat: 'no-repeat',
+      backgroundPosition: 'center',
+      backgroundSize: 'cover',
       paddingLeft: theme.spacing(5),
       paddingRight: theme.spacing(6),
+      marginBottom: theme.spacing(6),
+      backgroundImage: `url(${props.backgroundImageUrl})`,
+      '&>div': {
+        height: '100%',
+      },
+    }),
+    body: {
+      padding: theme.spacing(0, 6, 0, 5),
     },
     textHeader: {
       wordWrap: 'break-word',
       fontSize: '24px',
       lineHeight: '28px',
       marginBottom: theme.spacing(2.4),
+      color: theme.palette.common.white,
     },
     textBody: {
       wordWrap: 'break-word',
       marginBottom: theme.spacing(5),
     },
     postType: {
-      color: '#60B3CD',
-      fontFamily: 'Raleway',
-      fontStyle: 'normal',
-      fontWeight: 600,
-      fontSize: '10px',
-      lineHeight: '17px',
-      letterSpacing: '0.12em',
-      textTransform: 'uppercase',
-    },
-    content: {
-      padding: 0,
+      color: theme.palette.common.white,
     },
   }),
   {
-    name: 'Style4PostPreviewCard',
+    name: 'TranslationPostPreviewCard',
   },
 );

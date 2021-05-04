@@ -5,11 +5,11 @@ import Box from '@material-ui/core/Box';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import { Typography } from '@material-ui/core';
-import { useStyles } from './Style4PostPreviewCard.styles';
+import { useStyles } from './ExpertOpinionPostPreviewCard.styles';
 import { formatDate } from '../../../../utilities/formatDate';
 import { IPostPreviewCardProps } from '../types';
 
-export const Style4PostPreviewCard: React.FC<IPostPreviewCardProps> = ({
+export const ExpertOpinionPostPreviewCard: React.FC<IPostPreviewCardProps> = ({
   post,
   shouldNotUseLink,
 }) => {

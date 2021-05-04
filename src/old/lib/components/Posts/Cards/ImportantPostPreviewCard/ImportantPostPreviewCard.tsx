@@ -1,11 +1,11 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
-import { useStyles } from './Style5PostPreviewCard.styles';
+import { useStyles } from './ImportantPostPreviewCard.styles';
 import { IPostPreviewCardProps } from '../types';
 import background from '../../../../images/mock_img_slider_bg.png';
 
-export const Style5PostPreviewCard: React.FC<IPostPreviewCardProps> = (
+export const ImportantPostPreviewCard: React.FC<IPostPreviewCardProps> = (
   props,
 ) => {
   const { post } = props;

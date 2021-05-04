@@ -10,7 +10,7 @@ import {
 } from '../store/mainSlice';
 import { selectPostsByIds } from '../../../store/selectors';
 import LoadingContainer from '../../../lib/components/Loading/LoadingContainer';
-import { Style5PostPreviewCard } from '../../../lib/components/Posts/Cards/Style5PostPreviewCard/Style5PostPreviewCard';
+import { ImportantPostPreviewCard } from '../../../lib/components/Posts/Cards/ImportantPostPreviewCard/ImportantPostPreviewCard';
 
 const ImportantContainer: React.FC = () => {
   const classes = useStyles();
@@ -38,7 +38,7 @@ const ImportantContainer: React.FC = () => {
         <>
           <Carousel>
             {importantPosts.map((post) => (
-              <Style5PostPreviewCard post={post} key={post.title} />
+              <ImportantPostPreviewCard post={post} key={post.title} />
             ))}
           </Carousel>
           <BorderBottom />

@@ -1,6 +1,6 @@
 import { makeStyles, Theme } from '@material-ui/core';
 
-interface IStyleProps {
+export interface IStyleProps {
   backgroundImageUrl: string;
 }
 
@@ -11,29 +11,15 @@ export const useStyles = makeStyles<Theme, IStyleProps>(
       borderRadius: 0,
       width: '315px',
     },
-    authorFullName: {
-      fontFamily: 'Raleway',
-      fontStyle: 'normal',
-      fontWeight: 'bold',
-      fontSize: '18px',
-      lineHeight: '21px',
-      marginBottom: theme.spacing(-1),
-    },
     header: (props) => ({
       display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'space-between',
-      height: 280,
+      height: 182,
       backgroundRepeat: 'no-repeat',
       backgroundPosition: 'center',
       backgroundSize: 'cover',
-      paddingLeft: theme.spacing(5),
-      paddingRight: theme.spacing(6),
+      padding: theme.spacing(4, 6, 0, 5),
       marginBottom: theme.spacing(6),
-      backgroundImage: `url(${props.backgroundImageUrl})`,
-      '&>div': {
-        height: '100%',
-      },
+      backgroundImage: props.backgroundImageUrl,
     }),
     body: {
       padding: theme.spacing(0, 6, 0, 5),
@@ -43,7 +29,7 @@ export const useStyles = makeStyles<Theme, IStyleProps>(
       fontSize: '24px',
       lineHeight: '28px',
       marginBottom: theme.spacing(2.4),
-      color: theme.palette.common.white,
+      color: theme.palette.common.black,
     },
     textBody: {
       wordWrap: 'break-word',
@@ -54,6 +40,6 @@ export const useStyles = makeStyles<Theme, IStyleProps>(
     },
   }),
   {
-    name: 'Style3PostPreviewCard',
+    name: 'MediaPostPreviewCard',
   },
 );

@@ -3,12 +3,12 @@ import { Link } from 'react-router-dom';
 import Card from '@material-ui/core/Card';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
-import { useStyles } from './Style2PostPreviewCard.styles';
+import { useStyles } from './MediaPostPreviewCard.styles';
 import { formatDate } from '../../../../utilities/formatDate';
 import background from '../../../../images/mock_img_media_bg.png';
 import { IPostPreviewCardProps } from '../types';
 
-export const Style2PostPreviewCard: React.FC<IPostPreviewCardProps> = ({
+export const MediaPostPreviewCard: React.FC<IPostPreviewCardProps> = ({
   post,
   shouldNotUseLink,
 }) => {
