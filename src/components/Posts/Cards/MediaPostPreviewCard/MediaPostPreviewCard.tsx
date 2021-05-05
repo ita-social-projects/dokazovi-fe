@@ -4,8 +4,8 @@ import Card from '@material-ui/core/Card';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import { useStyles } from './MediaPostPreviewCard.styles';
-import { formatDate } from '../../../../utils/helpers/formatDate';
-import background from '../../../../assets/images/mock_img_media_bg.png';
+import { formatDate } from '../../../../utilities/formatDate';
+import background from '../mock_img_media_bg.png';
 import { IPostPreviewCardProps } from '../types';
 
 export const MediaPostPreviewCard: React.FC<IPostPreviewCardProps> = ({
