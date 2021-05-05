@@ -6,7 +6,7 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import { Typography } from '@material-ui/core';
 import { useStyles } from './ExpertOpinionPostPreviewCard.styles';
-import { formatDate } from '../../../../utilities/formatDate';
+import { formatDate } from '../../../../utils/helpers/formatDate';
 import { IPostPreviewCardProps } from '../types';
 
 export const ExpertOpinionPostPreviewCard: React.FC<IPostPreviewCardProps> = ({

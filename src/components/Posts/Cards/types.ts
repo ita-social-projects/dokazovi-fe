@@ -1,4 +1,4 @@
-import { IPost } from '../../../types';
+import { IPost } from '../../../old/lib/types';
 
 export interface IPostPreviewCardProps {
   post: IPost;

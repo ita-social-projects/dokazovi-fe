@@ -1,5 +1,5 @@
 import { makeStyles, Theme } from '@material-ui/core';
-import play from '../../../../images/play.png';
+import play from '../../../../assets/images/play.png';
 
 export const useStyles = makeStyles(
   (theme: Theme) => ({
