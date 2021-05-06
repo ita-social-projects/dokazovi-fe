@@ -13,9 +13,9 @@ import { RequestParamsType } from '../../lib/utilities/API/types';
 import { LOAD_EXPERTS_LIMIT } from '../../lib/constants/experts';
 import { LOAD_POSTS_LIMIT } from '../../lib/constants/posts';
 import { IExpertsState, IFetchExpertsOptions } from './types';
-import { IMaterialsState } from '../materials/types';
+import { IMaterials } from '../materials/types';
 
-const initialMaterialsState: IMaterialsState = {
+const initialMaterialsState: IMaterials = {
   postIds: [],
   meta: {
     isLastPage: false,
@@ -95,7 +95,7 @@ export const expertsSlice = createSlice({
     },
     loadMaterials: (
       state,
-      action: PayloadAction<{ expertId: number; materials: IMaterialsState }>,
+      action: PayloadAction<{ expertId: number; materials: IMaterials }>,
     ) => {
       const {
         materials: { postIds, meta },
