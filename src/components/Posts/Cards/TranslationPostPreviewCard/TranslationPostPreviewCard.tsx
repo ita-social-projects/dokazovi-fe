@@ -15,10 +15,35 @@ export const TranslationPostPreviewCard: React.FC<IPostPreviewCardProps> = ({
   const bgImageURL = post.previewImageUrl ? post.previewImageUrl : background;
   const classes = useStyles({ backgroundImageUrl: bgImageURL });
   const postLink = `/posts/${post.id}`;
+  const materialsLink = `/materials?source=3`;
   const authorFullName = `${post.author.firstName} ${post.author.lastName}`;
   const authorMainInstitution = post.author.mainInstitution
     ? `${post.author.mainInstitution.city.name}, ${post.author.mainInstitution.name}`
     : '';
+
+  const expertBody = (
+    <>
+      <Box mb={1.2}>
+        <Typography
+          className={classes.authorFullName}
+          variant="h5"
+          component="span"
+        >
+          {authorFullName}
+        </Typography>
+      </Box>
+      <Box mb={4}>
+        <Typography
+          color="textSecondary"
+          variant="subtitle2"
+          component="span"
+          gutterBottom
+        >
+          {authorMainInstitution}
+        </Typography>
+      </Box>
+    </>
+  );
 
   const card = (
     <>
@@ -48,25 +73,11 @@ export const TranslationPostPreviewCard: React.FC<IPostPreviewCardProps> = ({
         </Box>
       </Box>
       <Box className={classes.body}>
-        <Box mb={1.2}>
-          <Typography
-            className={classes.authorFullName}
-            variant="h5"
-            component="span"
-          >
-            {authorFullName}
-          </Typography>
-        </Box>
-        <Box mb={4}>
-          <Typography
-            color="textSecondary"
-            variant="subtitle2"
-            component="span"
-            gutterBottom
-          >
-            {authorMainInstitution}
-          </Typography>
-        </Box>
+        {shouldNotUseLink ? (
+          expertBody
+        ) : (
+          <Link to={materialsLink}>{expertBody}</Link>
+        )}
         <Typography
           gutterBottom
           variant="body2"
