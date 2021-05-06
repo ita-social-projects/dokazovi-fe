@@ -67,6 +67,7 @@ export interface IPost {
     };
   };
   directions: IDirection[];
+  origin: IOrigin[];
   tags?: IPostTag[];
   type: IPostType;
   createdAt: string;
@@ -108,6 +109,12 @@ export interface IDirection {
   color?: string;
   name: string;
   label?: string;
+}
+
+export interface IOrigin {
+  id: number;
+  name: string;
+  parameter: null;
 }
 
 export interface IRegion {

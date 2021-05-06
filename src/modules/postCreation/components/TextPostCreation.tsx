@@ -6,14 +6,17 @@ import { Box, TextField, Typography } from '@material-ui/core';
 import { RootStateType } from '../../../store/rootReducer';
 import {
   setPostDirections,
+  setPostOrigin,
   setPostTitle,
+  setAuthorsName,
+  setAuthorsDetails,
   setPostBody,
   setImageUrl,
   setPostPreviewText,
   setPostPreviewManuallyChanged,
   resetDraft,
 } from '../store/postCreationSlice';
-import { IDirection, IPost, PostTypeEnum } from '../../../lib/types';
+import { IDirection, IPost, IOrigin, PostTypeEnum } from '../../../lib/types';
 import { sanitizeHtml } from '../../../lib/utilities/sanitizeHtml';
 import { PostCreationButtons } from './PostCreationButtons';
 import { CreateTextPostRequestType } from '../../../lib/utilities/API/types';
@@ -27,6 +30,7 @@ import PostView from '../../posts/components/PostView';
 import { TextPostEditor } from '../../../lib/components/Editor/Editors/TextPostEditor';
 import { IEditorToolbarProps } from '../../../lib/components/Editor/types';
 import { PostDirectionsSelector } from './PostDirectionsSelector';
+import { PostOriginsSelector } from './PostOriginsSelector';
 import { BorderBottom } from '../../../lib/components/Border';
 import { getStringFromFile } from '../../../lib/utilities/Imgur/getStringFromFile';
 import { uploadImageToImgur } from '../../../lib/utilities/Imgur/uploadImageToImgur';
@@ -39,6 +43,8 @@ interface IPostCreationProps {
   postType: { type: PostTypeEnum; name: string };
   editorToolbar: React.ComponentType<IEditorToolbarProps>;
 }
+
+// type ExtraFieldsForTranslation = null | JSX.Element;
 
 export const TextPostCreation: React.FC<IPostCreationProps> = ({
   pageTitle,
@@ -60,6 +66,16 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
     error: '',
   });
 
+  const [authorsName, setAuthName] = useState({
+    value: savedPostDraft.authorsName,
+    error: '',
+  });
+
+  const [authorsDetails, setAuthDetails] = useState({
+    value: savedPostDraft.authorsDetails,
+    error: '',
+  });
+
   const [typing, setTyping] = useState({ content: false, preview: false });
   const [previewing, setPreviewing] = useState(false);
 
@@ -67,8 +83,22 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
     dispatch(setPostDirections({ postType: postType.type, value }));
   };
 
+  const handleOriginsChange = (value: IOrigin[]) => {
+    setAuthName({ ...authorsName, value: '' });
+    setAuthDetails({ ...authorsDetails, value: '' });
+    dispatch(setPostOrigin({ postType: postType.type, value }));
+  };
+
   const handleTitleChange = (value: string) => {
     dispatch(setPostTitle({ postType: postType.type, value }));
+  };
+
+  const handleAuthorsNameChange = (value: string) => {
+    dispatch(setAuthorsName({ postType: postType.type, value }));
+  };
+
+  const handleAuthorsDetailsChange = (value: string) => {
+    dispatch(setAuthorsDetails({ postType: postType.type, value }));
   };
 
   const dispatchImageUrl = (previewImageUrl: string): void => {
@@ -113,7 +143,6 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
       .then((str) => uploadImageToImgur(str))
       .then((res) => {
         if (res.data.status === 200) {
-          console.log(res);
           dispatchImageUrl(res.data.data.link);
         }
       });
@@ -127,8 +156,11 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
     previewImageUrl: savedPostDraft.previewImageUrl,
     content: savedPostDraft.htmlContent,
     directions: savedPostDraft.directions,
+    origin: savedPostDraft.origin,
     preview: savedPostDraft.preview.value,
     title: savedPostDraft.title,
+    authorsName: savedPostDraft.authorsName,
+    authorsDetails: savedPostDraft.authorsDetails,
     type: { id: postType.type },
   };
 
@@ -140,6 +172,7 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
         preview: savedPostDraft.preview.value,
         createdAt: new Date().toLocaleDateString('en-GB').split('/').join('.'),
         directions: savedPostDraft.directions,
+        origin: savedPostDraft.origin,
         title: savedPostDraft.title,
         type: { id: postType.type, name: postType.name },
       } as IPost),
@@ -152,6 +185,50 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
     history.push(`/posts/${response.data.id}`);
   };
 
+  let extraFieldsForTranslation: null | JSX.Element = null;
+
+  if (savedPostDraft.origin[0]) {
+    if (savedPostDraft.origin[0].id === 3) {
+      extraFieldsForTranslation = (
+        <>
+          <Box mt={2}>
+            <Typography variant="h5">Ім`я автора</Typography>
+            <TextField
+              error={Boolean(authorsName.error)}
+              helperText={authorsName.error}
+              fullWidth
+              required
+              id="authorsName"
+              value={authorsName.value}
+              onChange={(e) => {
+                setAuthName({ ...authorsName, value: e.target.value });
+                handleAuthorsNameChange(e.target.value);
+              }}
+            />
+          </Box>
+          <Box mt={2}>
+            <Typography variant="h5">Детальна інформація про автора</Typography>
+            <TextField
+              error={Boolean(authorsDetails.error)}
+              helperText={authorsDetails.error}
+              fullWidth
+              required
+              id="authorsDetails"
+              value={authorsDetails.value}
+              onChange={(e) => {
+                setAuthDetails({ ...authorsDetails, value: e.target.value });
+                handleAuthorsDetailsChange(e.target.value);
+              }}
+            />
+          </Box>
+        </>
+      );
+    } else {
+      handleAuthorsNameChange('');
+      handleAuthorsDetailsChange('');
+    }
+  }
+
   return (
     <>
       <PageTitle title={pageTitle} />
@@ -161,6 +238,11 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
             selectedDirections={savedPostDraft.directions}
             onSelectedDirectionsChange={handleDirectionsChange}
           />
+          <PostOriginsSelector
+            selectedOrigin={savedPostDraft.origin}
+            onSelectedOriginChange={handleOriginsChange}
+          />
+          {extraFieldsForTranslation}
           <Box mt={2}>
             <Typography variant="h5">{titleInputLabel}</Typography>
             <TextField
