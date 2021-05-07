@@ -10,6 +10,7 @@ export type CreatePostRequestType = {
   };
   previewImageUrl?: string;
   videoUrl?: string;
+  authorId?: number | null;
 };
 
 export type CreateTextPostRequestType = CreatePostRequestType;
@@ -174,4 +175,5 @@ export type RequestParamsType = {
   expert?: number;
   regions?: number[];
   tag?: number[];
+  userName?: string;
 };

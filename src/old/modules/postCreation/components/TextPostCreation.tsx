@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import _ from 'lodash';
 import { useSelector, useDispatch } from 'react-redux';
@@ -12,13 +12,17 @@ import {
   setPostPreviewText,
   setPostPreviewManuallyChanged,
   resetDraft,
+  setAuthorId,
 } from '../store/postCreationSlice';
 import { IDirection, IPost, PostTypeEnum } from '../../../lib/types';
 import { sanitizeHtml } from '../../../lib/utilities/sanitizeHtml';
 import { PostCreationButtons } from './PostCreationButtons';
-import { CreateTextPostRequestType } from '../../../lib/utilities/API/types';
+import {
+  CreateTextPostRequestType,
+  ExpertResponseType,
+} from '../../../lib/utilities/API/types';
 import { PageTitle } from '../../../lib/components/Pages/PageTitle';
-import { createPost } from '../../../lib/utilities/API/api';
+import { createPost, getAllExperts } from '../../../lib/utilities/API/api';
 import {
   CONTENT_DEBOUNCE_TIMEOUT,
   PREVIEW_DEBOUNCE_TIMEOUT,
@@ -31,11 +35,12 @@ import { BorderBottom } from '../../../lib/components/Border';
 import { getStringFromFile } from '../../../lib/utilities/Imgur/getStringFromFile';
 import { uploadImageToImgur } from '../../../lib/utilities/Imgur/uploadImageToImgur';
 import { BackgroundImageContainer } from '../../../lib/components/Editor/CustomModules/BackgroundImageContainer/BackgroundImageContainer';
+import { PostAuthorSelection } from './PostAuthorSelection/PostAuthorSelection';
 
 interface IPostCreationProps {
-  pageTitle: string;
-  titleInputLabel: string;
-  contentInputLabel: string;
+  pageTitle?: string;
+  titleInputLabel?: string;
+  contentInputLabel?: string;
   postType: { type: PostTypeEnum; name: string };
   editorToolbar: React.ComponentType<IEditorToolbarProps>;
 }
@@ -62,6 +67,9 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
 
   const [typing, setTyping] = useState({ content: false, preview: false });
   const [previewing, setPreviewing] = useState(false);
+  const [authors, setAuthors] = useState<ExpertResponseType[]>([]);
+  const [author, setAuthor] = useState<ExpertResponseType | null>(null);
+  const [searchValue, setSearchValue] = useState('');
 
   const handleDirectionsChange = (value: IDirection[]) => {
     dispatch(setPostDirections({ postType: postType.type, value }));
@@ -106,6 +114,32 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
     [],
   );
 
+  const handleOnChange = (value: string) => {
+    setSearchValue(value);
+  };
+
+  useEffect(() => {
+    if (!searchValue) {
+      setAuthors([]);
+      return;
+    }
+    getAllExperts({ params: { userName: searchValue.trim() } }).then((res) => {
+      setAuthors(res.data.content);
+    });
+  }, [searchValue]);
+
+  const onAuthorTableClick = (value: number, item: ExpertResponseType) => {
+    dispatch(
+      setAuthorId({
+        postType: postType.type,
+        value,
+      }),
+    );
+    setAuthor(item);
+    setAuthors([]);
+    setSearchValue('');
+  };
+
   const fileSelectorHandler = (
     e: React.ChangeEvent<HTMLInputElement>,
   ): void => {
@@ -113,7 +147,6 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
       .then((str) => uploadImageToImgur(str))
       .then((res) => {
         if (res.data.status === 200) {
-          console.log(res);
           dispatchImageUrl(res.data.data.link);
         }
       });
@@ -124,6 +157,7 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
   };
 
   const newPost: CreateTextPostRequestType = {
+    authorId: savedPostDraft.authorId,
     previewImageUrl: savedPostDraft.previewImageUrl,
     content: savedPostDraft.htmlContent,
     directions: savedPostDraft.directions,
@@ -135,7 +169,7 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
   const previewPost = React.useMemo(
     () =>
       ({
-        author: user,
+        author: author || user,
         content: savedPostDraft.htmlContent,
         preview: savedPostDraft.preview.value,
         createdAt: new Date().toLocaleDateString('en-GB').split('/').join('.'),
@@ -147,6 +181,7 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
   );
 
   const handlePublishClick = async () => {
+    console.log(newPost);
     const response = await createPost(newPost);
     dispatch(resetDraft(postType.type));
     history.push(`/posts/${response.data.id}`);
@@ -176,6 +211,12 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
               }}
             />
           </Box>
+          <PostAuthorSelection
+            onAuthorTableClick={onAuthorTableClick}
+            handleOnChange={handleOnChange}
+            authors={authors}
+            searchValue={searchValue}
+          />
           <BackgroundImageContainer
             dispatchImageUrl={dispatchImageUrl}
             fileSelectorHandler={fileSelectorHandler}

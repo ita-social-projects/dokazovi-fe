@@ -68,7 +68,7 @@ export interface IPost {
     firstName: string;
     id: number;
     lastName: string;
-    mainInstitution?: {
+    mainInstitution: {
       city: {
         id: number;
         name: string;
