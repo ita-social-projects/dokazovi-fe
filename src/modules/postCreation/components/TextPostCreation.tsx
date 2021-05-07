@@ -44,7 +44,7 @@ interface IPostCreationProps {
   editorToolbar: React.ComponentType<IEditorToolbarProps>;
 }
 
-// type ExtraFieldsForTranslation = null | JSX.Element;
+type ExtraFieldsType = null | JSX.Element;
 
 export const TextPostCreation: React.FC<IPostCreationProps> = ({
   pageTitle,
@@ -185,7 +185,7 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
     history.push(`/posts/${response.data.id}`);
   };
 
-  let extraFieldsForTranslation: null | JSX.Element = null;
+  let extraFieldsForTranslation: ExtraFieldsType = null;
 
   if (savedPostDraft.origin[0]) {
     if (savedPostDraft.origin[0].id === 3) {
