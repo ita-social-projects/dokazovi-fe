@@ -4,7 +4,7 @@ import mainReducer from '../modules/main/store/mainSlice';
 import postCreationReducer from '../modules/postCreation/store/postCreationSlice';
 import propertiesReducer from './propertiesSlice';
 import dataReducer from './dataSlice';
-import authReducer from './authSlice';
+import { signInReducer } from '../../models/user';
 import { materialsReducer } from './materials';
 
 const rootReducer = combineReducers({
@@ -14,7 +14,7 @@ const rootReducer = combineReducers({
   experts: expertsReducer,
   newPostDraft: postCreationReducer,
   data: dataReducer,
-  currentUser: authReducer,
+  currentUser: signInReducer,
 });
 
 export type RootStateType = ReturnType<typeof rootReducer>;

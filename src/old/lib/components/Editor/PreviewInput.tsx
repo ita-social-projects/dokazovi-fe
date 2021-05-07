@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { TextField } from '@material-ui/core';
-import useEffectExceptOnMount from '../../hooks/useEffectExceptOnMount';
+import { useEffectExceptOnMount } from '../../hooks/useEffectExceptOnMount';
 import { MAX_PREVIEW_LENGTH } from '../../constants/editors';
 
 const truncText = (str: string) => {

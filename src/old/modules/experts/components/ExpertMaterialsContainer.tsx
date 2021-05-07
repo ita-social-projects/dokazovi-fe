@@ -6,11 +6,11 @@ import { useHistory } from 'react-router-dom';
 import CheckboxFilterForm, {
   CheckboxFormStateType,
 } from '../../../lib/components/Filters/CheckboxFilterForm';
-import LoadingContainer from '../../../lib/components/Loading/LoadingContainer';
-import LoadMoreButton from '../../../lib/components/LoadMoreButton/LoadMoreButton';
-import PostsList from '../../../lib/components/Posts/PostsList';
-import useEffectExceptOnMount from '../../../lib/hooks/useEffectExceptOnMount';
-import usePrevious from '../../../lib/hooks/usePrevious';
+import { LoadingContainer } from '../../../lib/components/Loading/LoadingContainer';
+import { PostsList } from '../../../lib/components/Posts/PostsList';
+import { LoadMoreButton } from '../../../lib/components/LoadMoreButton/LoadMoreButton';
+import { useEffectExceptOnMount } from '../../../lib/hooks/useEffectExceptOnMount';
+import { usePrevious } from '../../../lib/hooks/usePrevious';
 import { useQuery } from '../../../lib/hooks/useQuery';
 import {
   FilterTypeEnum,

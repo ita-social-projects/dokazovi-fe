@@ -13,9 +13,9 @@ import {
 } from '../../../lib/types';
 import { fetchExperts } from '../../../store/experts/expertsSlice';
 import { RootStateType } from '../../../store/rootReducer';
-import ExpertsList from '../../../lib/components/Experts/ExpertsList';
-import useEffectExceptOnMount from '../../../lib/hooks/useEffectExceptOnMount';
-import LoadMoreButton from '../../../lib/components/LoadMoreButton/LoadMoreButton';
+import { ExpertsList } from '../../../lib/components/Experts/ExpertsList';
+import { useEffectExceptOnMount } from '../../../lib/hooks/useEffectExceptOnMount';
+import { LoadMoreButton } from '../../../lib/components/LoadMoreButton/LoadMoreButton';
 
 import { selectExpertsByIds } from '../../../store/selectors';
 import { CheckboxFormStateType } from '../../../lib/components/Filters/CheckboxFilterForm';
@@ -23,11 +23,11 @@ import {
   getQueryTypeByFilterType,
   mapQueryIdsStringToArray,
 } from '../../../lib/utilities/filters';
-import usePrevious from '../../../lib/hooks/usePrevious';
+import { LoadingContainer } from '../../../lib/components/Loading/LoadingContainer';
+import { usePrevious } from '../../../lib/hooks/usePrevious';
 import { PageTitle } from '../../../lib/components/Pages/PageTitle';
-import LoadingContainer from '../../../lib/components/Loading/LoadingContainer';
 import { useQuery } from '../../../lib/hooks/useQuery';
-import CheckboxDropdownFilterForm from '../../../lib/components/Filters/CheckboxDropdownFilterForm';
+import { CheckboxDropdownFilterForm } from '../../../lib/components/Filters/CheckboxDropdownFilterForm';
 
 const ExpertsView: React.FC = () => {
   const [page, setPage] = useState(0);

@@ -9,7 +9,7 @@ export interface IExpertDataCardProps {
   expert: IExpert;
 }
 
-const ExpertDataCard: React.FC<IExpertDataCardProps> = (props) => {
+export const ExpertDataCard: React.FC<IExpertDataCardProps> = (props) => {
   const { expert } = props;
   const history = useHistory();
   const fullName = `${expert.firstName} ${expert.lastName}`;
@@ -33,5 +33,3 @@ const ExpertDataCard: React.FC<IExpertDataCardProps> = (props) => {
     </Card>
   );
 };
-
-export default ExpertDataCard;
