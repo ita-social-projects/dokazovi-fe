@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { expertsReducer } from './experts/expertsSlice';
+import { expertsReducer } from './experts';
 import mainReducer from '../modules/main/store/mainSlice';
 import postCreationReducer from '../modules/postCreation/store/postCreationSlice';
 import propertiesReducer from './propertiesSlice';

@@ -2,7 +2,8 @@ import React, { useEffect, useState, useRef } from 'react';
 import { isEmpty, uniq } from 'lodash';
 import { useHistory } from 'react-router-dom';
 import { Grid } from '@material-ui/core';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { useActions } from '../../../lib/hooks/useActions';
 import {
   LoadMoreButtonTextType,
   FilterTypeEnum,
@@ -11,7 +12,7 @@ import {
   LoadingStatusEnum,
   QueryTypeEnum,
 } from '../../../lib/types';
-import { fetchExperts } from '../../../store/experts/expertsSlice';
+import { selectExperts, fetchExperts } from '../../../store/experts';
 import { RootStateType } from '../../../store/rootReducer';
 import ExpertsList from '../../../lib/components/Experts/ExpertsList';
 import useEffectExceptOnMount from '../../../lib/hooks/useEffectExceptOnMount';
@@ -30,16 +31,16 @@ import { useQuery } from '../../../lib/hooks/useQuery';
 import CheckboxDropdownFilterForm from '../../../lib/components/Filters/CheckboxDropdownFilterForm';
 
 const ExpertsView: React.FC = () => {
-  const [page, setPage] = useState(0);
+  const {
+    data: {
+      expertIds,
+      meta: { totalPages, pageNumber, loading, totalElements, isLastPage },
+    },
+  } = useSelector(selectExperts);
+  const [page, setPage] = useState(pageNumber);
   const previous = usePrevious({ page });
   const query = useQuery();
   const history = useHistory();
-  const dispatch = useDispatch();
-
-  const {
-    expertIds,
-    meta: { totalPages, pageNumber, loading, totalElements, isLastPage },
-  } = useSelector((state: RootStateType) => state.experts.experts);
 
   const experts = selectExpertsByIds(expertIds);
 
@@ -51,17 +52,18 @@ const ExpertsView: React.FC = () => {
   );
   const propertiesLoaded = !isEmpty(regions) && !isEmpty(directions);
 
+  const [boundFetchExperts] = useActions([fetchExperts]);
+
   const fetchData = (appendExperts = false) => {
     const regionsQuery = query.get(QueryTypeEnum.REGIONS);
     const directionsQuery = query.get(QueryTypeEnum.DIRECTIONS);
-    dispatch(
-      fetchExperts({
-        page,
-        regions: mapQueryIdsStringToArray(regionsQuery),
-        directions: mapQueryIdsStringToArray(directionsQuery),
-        appendExperts,
-      }),
-    );
+    const filters = {
+      page,
+      regions: mapQueryIdsStringToArray(regionsQuery),
+      directions: mapQueryIdsStringToArray(directionsQuery),
+      appendExperts,
+    };
+    boundFetchExperts(filters, appendExperts);
   };
 
   const setFilters = (
