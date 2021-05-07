@@ -15,6 +15,7 @@ import {
   fetchDirections,
   fetchPostsTypes,
   fetchRegions,
+  fetchOrigins,
 } from './store/propertiesSlice';
 import { RootStateType } from './store/rootReducer';
 import { loginUser } from './store/authSlice';
@@ -33,6 +34,7 @@ const App: React.FC = () => {
       dispatch(fetchPostsTypes());
       dispatch(fetchRegions());
       dispatch(fetchDirections());
+      dispatch(fetchOrigins());
     };
     fetchProperties();
   }, []);

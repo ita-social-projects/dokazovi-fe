@@ -5,8 +5,15 @@ import {
   getPostTypes,
   getRegions,
   getDirections,
+  getOrigins,
 } from '../lib/utilities/API/api';
-import { IPostTag, IPostType, IDirection, IRegion } from '../lib/types';
+import {
+  IPostTag,
+  IPostType,
+  IDirection,
+  IOrigin,
+  IRegion,
+} from '../lib/types';
 
 import type { AppThunkType } from './store';
 
@@ -15,6 +22,7 @@ export interface IPropertiesState {
   regions: IRegion[];
   postTags: IPostTag[];
   directions: IDirection[];
+  origins: IOrigin[];
 }
 
 const initialState: IPropertiesState = {
@@ -22,6 +30,7 @@ const initialState: IPropertiesState = {
   regions: [],
   postTags: [],
   directions: [],
+  origins: [],
 };
 
 export const propertiesSlice = createSlice({
@@ -40,6 +49,9 @@ export const propertiesSlice = createSlice({
     loadDirections: (state, action: PayloadAction<IDirection[]>) => {
       state.directions = action.payload;
     },
+    loadOrigins: (state, action: PayloadAction<IOrigin[]>) => {
+      state.origins = action.payload;
+    },
   },
 });
 
@@ -48,6 +60,7 @@ export const {
   loadRegions,
   loadPostsTags,
   loadDirections,
+  loadOrigins,
 } = propertiesSlice.actions;
 
 export default propertiesSlice.reducer;
@@ -81,4 +94,10 @@ export const fetchDirections = (): AppThunkType => async (dispatch) => {
   const response = await getDirections();
   const directions = response.data;
   dispatch(loadDirections(directions));
+};
+
+export const fetchOrigins = (): AppThunkType => async (dispatch) => {
+  const response = await getOrigins();
+  const origins = response.data;
+  dispatch(loadOrigins(origins));
 };

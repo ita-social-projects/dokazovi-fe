@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 import {
   RegionResponseType,
   DirectionResponseType,
+  OriginResponseType,
   PostTypeResponseType,
   ExpertResponseType,
   LoginResponseType,
@@ -132,6 +133,12 @@ export const getDirections = async (): Promise<
   AxiosResponse<DirectionResponseType[]>
 > => {
   return instance.get(`/direction`);
+};
+
+export const getOrigins = async (): Promise<
+  AxiosResponse<OriginResponseType[]>
+> => {
+  return instance.get(`/origin`);
 };
 
 export const createPost = async (
