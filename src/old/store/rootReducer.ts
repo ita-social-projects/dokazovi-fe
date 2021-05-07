@@ -5,7 +5,7 @@ import postCreationReducer from '../modules/postCreation/store/postCreationSlice
 import propertiesReducer from './propertiesSlice';
 import dataReducer from './dataSlice';
 import authReducer from './authSlice';
-import { materialsReducer } from './materials/materialsSlice';
+import { materialsReducer } from './materials';
 
 const rootReducer = combineReducers({
   main: mainReducer,

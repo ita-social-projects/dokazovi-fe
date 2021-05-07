@@ -3,18 +3,16 @@ import { bindActionCreators } from 'redux';
 import { useDispatch } from 'react-redux';
 import { useMemo } from 'react';
 
-interface IAction {
-  (): void;
-}
+type ActionsType = ((...params: any[]) => void)[];
 
-export function useActions(actions, deps?): IAction {
+export function useActions(
+  actions: ActionsType,
+  deps?: unknown[],
+): ActionsType {
   const dispatch = useDispatch();
   return useMemo(
     () => {
-      if (Array.isArray(actions)) {
-        return actions.map((a) => bindActionCreators(a, dispatch));
-      }
-      return bindActionCreators(actions, dispatch);
+      return actions.map((a) => bindActionCreators(a, dispatch));
     },
     deps ? [dispatch, ...deps] : [dispatch],
   );
