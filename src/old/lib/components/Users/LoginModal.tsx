@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useForm, DeepMap, FieldError } from 'react-hook-form';
 import {
   Button,
@@ -17,14 +17,15 @@ import {
 import { Alert } from '@material-ui/lab';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { AuthContext } from '../../../provider/AuthProvider/AuthContext';
 import { emailValidationObj, passwordValidationObj } from './validationRules';
 import { IAuthInputs } from '../../types';
 import { RegistrationModal } from './RegistrationModal';
-import { clearError, loginUser } from '../../../store/authSlice';
-import { RootStateType } from '../../../store/rootReducer';
 import { FB_AUTH_URL, GOOGLE_AUTH_URL } from '../../../apiURL';
 import { useStyles } from './LoginModal.styles';
+import { login } from '../../utilities/API/api';
+import { selectCurrentUser } from '../../../../models/user/selectors';
 import { AccountIcon } from '../icons/AccountIcon';
 
 export const LoginModal: React.FC = () => {
@@ -32,8 +33,8 @@ export const LoginModal: React.FC = () => {
   const [loginOpen, setLoginOpen] = React.useState(false);
   const [registrationOpen, setRegistrationOpen] = React.useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const dispatch = useDispatch();
-  const { error } = useSelector((state: RootStateType) => state.currentUser);
+  const user = useSelector(selectCurrentUser);
+  const { setAuthorization } = useContext(AuthContext);
 
   // eslint-disable-next-line @typescript-eslint/unbound-method
   const { register, handleSubmit, errors } = useForm<IAuthInputs>();
@@ -44,7 +45,6 @@ export const LoginModal: React.FC = () => {
 
   const handleLoginClose = () => {
     setLoginOpen(false);
-    dispatch(clearError());
   };
 
   const handleRegistrationOpen = (
@@ -53,8 +53,11 @@ export const LoginModal: React.FC = () => {
     event.preventDefault();
     setRegistrationOpen(true);
   };
-  const onSubmit = (data: IAuthInputs) => {
-    dispatch(loginUser(data));
+  const onSubmit = (inputs: IAuthInputs) => {
+    login(inputs.email, inputs.password).then((response) => {
+      setAuthorization(response.data.accessToken);
+      handleLoginClose();
+    });
   };
 
   const handleRegistrationClose = () => {
@@ -94,7 +97,7 @@ export const LoginModal: React.FC = () => {
       >
         <DialogTitle id="form-dialog-title">
           Введіть Ваші email та пароль
-          {error && (
+          {user.error && (
             <Alert severity="error">Неправильний email або пароль</Alert>
           )}
         </DialogTitle>

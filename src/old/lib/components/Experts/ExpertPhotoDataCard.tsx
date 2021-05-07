@@ -3,7 +3,7 @@ import { Box } from '@material-ui/core';
 import Card from '@material-ui/core/Card';
 import { IExpert } from '../../types';
 import { useStyles } from '../../styles/ExpertPhotoDataCard.styles';
-import ExpertDataCard from './ExpertDataCard';
+import { ExpertDataCard } from './ExpertDataCard';
 import { ExpertBlock } from './ExpertBlock';
 
 export interface IExpertPhotoDataCardProps {

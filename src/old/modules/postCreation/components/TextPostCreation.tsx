@@ -37,6 +37,8 @@ import { uploadImageToImgur } from '../../../lib/utilities/Imgur/uploadImageToIm
 import { BackgroundImageContainer } from '../../../lib/components/Editor/CustomModules/BackgroundImageContainer/BackgroundImageContainer';
 import { PostAuthorSelection } from './PostAuthorSelection/PostAuthorSelection';
 
+import { selectCurrentUser } from '../../../../models/user/selectors';
+
 interface IPostCreationProps {
   pageTitle?: string;
   titleInputLabel?: string;
@@ -58,7 +60,7 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
   const savedPostDraft = useSelector(
     (state: RootStateType) => state.newPostDraft[postType.type],
   );
-  const { user } = useSelector((state: RootStateType) => state.currentUser);
+  const user = useSelector(selectCurrentUser);
 
   const [title, setTitle] = useState({
     value: savedPostDraft.title,
@@ -169,7 +171,7 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
   const previewPost = React.useMemo(
     () =>
       ({
-        author: author || user,
+        author: user.data,
         content: savedPostDraft.htmlContent,
         preview: savedPostDraft.preview.value,
         createdAt: new Date().toLocaleDateString('en-GB').split('/').join('.'),

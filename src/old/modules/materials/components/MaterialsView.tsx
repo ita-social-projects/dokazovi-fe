@@ -6,10 +6,10 @@ import { useHistory } from 'react-router-dom';
 import CheckboxFilterForm, {
   CheckboxFormStateType,
 } from '../../../lib/components/Filters/CheckboxFilterForm';
-import LoadMoreButton from '../../../lib/components/LoadMoreButton/LoadMoreButton';
-import PostsList from '../../../lib/components/Posts/PostsList';
-import useEffectExceptOnMount from '../../../lib/hooks/useEffectExceptOnMount';
-import usePrevious from '../../../lib/hooks/usePrevious';
+import { PostsList } from '../../../lib/components/Posts/PostsList';
+import { LoadMoreButton } from '../../../lib/components/LoadMoreButton/LoadMoreButton';
+import { useEffectExceptOnMount } from '../../../lib/hooks/useEffectExceptOnMount';
+import { usePrevious } from '../../../lib/hooks/usePrevious';
 import {
   FilterTypeEnum,
   IDirection,
@@ -24,13 +24,13 @@ import {
   getQueryTypeByFilterType,
   mapQueryIdsStringToArray,
 } from '../../../lib/utilities/filters';
-import LoadingContainer from '../../../lib/components/Loading/LoadingContainer';
+import { LoadingContainer } from '../../../lib/components/Loading/LoadingContainer';
 import { PageTitle } from '../../../lib/components/Pages/PageTitle';
 import { useQuery } from '../../../lib/hooks/useQuery';
-import CheckboxDropdownFilterForm from '../../../lib/components/Filters/CheckboxDropdownFilterForm';
 import { selectMaterials, fetchMaterials } from '../../../store/materials';
-import { useActions } from '../../../lib/hooks/useActions';
+import { useActions } from '../../../../shared/hooks';
 import { LOAD_POSTS_LIMIT } from '../../../lib/constants/posts';
+import { CheckboxDropdownFilterForm } from '../../../lib/components/Filters/CheckboxDropdownFilterForm';
 
 const MaterialsView: React.FC = () => {
   const {
