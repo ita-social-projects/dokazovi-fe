@@ -1,11 +1,24 @@
-import { LoadingStatusEnum } from '../../lib/types';
-import { IMaterials } from '../materials/types';
+import { LoadingStatusEnum, IExpert } from '../../lib/types';
+import { IMaterialsState } from '../materials/types';
 
 export interface IExpertPayload {
   expertIds: number[];
   meta: IExpertMeta;
 }
 
+export interface IData {
+  expertIds: number[];
+  meta: IExpertMeta;
+  experts: {
+    [id: string]: IExpert;
+  };
+}
+
+export interface IExpertsState {
+  data: IData;
+  // experts: IExpertPayload;
+  posts: IMaterialsState;
+}
 export interface IExpertMeta {
   totalPages: number;
   pageNumber: number;
@@ -14,15 +27,20 @@ export interface IExpertMeta {
   isLastPage: boolean;
   totalElements: number;
 }
-
-export interface IExpertsState {
-  experts: IExpertPayload;
-  materials: IMaterials;
-}
-
 export interface IFetchExpertsOptions {
   page: number;
   regions: number[];
   directions: number[];
   appendExperts: boolean;
+}
+
+export interface IFetchExpertsMaterialsOptions {
+  expertId: number;
+  filters: {
+    page: number;
+    postTypes: number[];
+    directions: number[];
+  };
+  page: number;
+  appendPosts: boolean;
 }
