@@ -1,5 +1,5 @@
 import React, { Suspense, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import {
@@ -7,27 +7,22 @@ import {
   CssBaseline,
   ThemeProvider,
 } from '@material-ui/core';
-import { RenderRoutes } from './navigation/Router';
-import ROUTER_CONFIG from './navigation/router-config';
-import Header from './lib/components/Header/Header';
-import { Footer } from './lib/components/Footer/Footer';
+import { ROUTER_CONFIG } from './old/navigation/router-config';
+import { RenderRoutes } from './old/navigation/Router';
 import {
   fetchDirections,
   fetchPostsTypes,
   fetchRegions,
   fetchOrigins,
-} from './store/propertiesSlice';
-import { RootStateType } from './store/rootReducer';
-import { loginUser } from './store/authSlice';
-import { LocalStorageKeys } from './lib/types';
-import { MAIN_THEME } from './lib/theme/theme';
+} from './old/store/propertiesSlice';
+import { AuthProvider } from './old/provider/AuthProvider/AuthProvider';
+import { MAIN_THEME } from './old/lib/theme/theme';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import 'react-toastify/dist/ReactToastify.min.css';
 
-const App: React.FC = () => {
+export const App: React.FC = () => {
   const dispatch = useDispatch();
-  const { user } = useSelector((state: RootStateType) => state.currentUser);
 
   useEffect(() => {
     const fetchProperties = () => {
@@ -37,13 +32,6 @@ const App: React.FC = () => {
       dispatch(fetchOrigins());
     };
     fetchProperties();
-  }, []);
-
-  useEffect(() => {
-    const token = localStorage.getItem(LocalStorageKeys.ACCESS_TOKEN);
-    if (!user && token) {
-      dispatch(loginUser());
-    }
   }, []);
 
   return (
@@ -57,20 +45,17 @@ const App: React.FC = () => {
           closeOnClick={false}
           autoClose={4000}
         />
-
         <CssBaseline />
         <BrowserRouter>
           <div className="content">
-            <Header />
             <Suspense fallback={<CircularProgress className="mainLoading" />}>
-              <RenderRoutes routes={ROUTER_CONFIG} />
+              <AuthProvider>
+                <RenderRoutes routes={ROUTER_CONFIG} />
+              </AuthProvider>
             </Suspense>
           </div>
-          <Footer />
         </BrowserRouter>
       </ThemeProvider>
     </div>
   );
 };
-
-export default App;
