@@ -1,28 +1,40 @@
 /* eslint-disable */
-import { createAsyncThunk } from '@reduxjs/toolkit';
+import { createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { IFetchExpertsOptions, IFetchExpertsMaterialsOptions } from './types';
 import {
   getAllExperts,
   getExpertById,
   getPosts,
-} from '../../lib/utilities/API/api';
-import type { RootStateType } from '../rootReducer';
-import { LOAD_EXPERTS_LIMIT } from '../../lib/constants/experts';
-import type { AppThunkType } from '../store';
+} from '../../old/lib/utilities/API/api';
+import type { RootStateType } from '../../old/store/rootReducer';
+import { LOAD_EXPERTS_LIMIT } from '../../old/lib/constants/experts';
+import type { AppThunkType } from '../../old/store/store';
 import { mapFetchedPosts } from '../materials/asyncActions';
-import { loadExperts } from '../dataSlice';
+import { loadExperts } from '../../old/store/dataSlice';
 // import {
 //   PostResponseType,
 //   RequestParamsType,
 // } from '../../lib/utilities/API/types';
-import { LOAD_POSTS_LIMIT } from '../../lib/constants/posts';
-import { IPost, LoadingStatusEnum } from '../../lib/types';
+import { LOAD_POSTS_LIMIT } from '../../old/lib/constants/posts';
+import { IExpert, IPost, LoadingStatusEnum } from '../../old/lib/types';
+import {
+  ExpertResponseType,
+  PostResponseType,
+} from '../../old/lib/utilities/API/types';
 
 // import { loadPosts } from './reducers';
 
+export const mapFetchedExperts = (
+  experts: ExpertResponseType[],
+): { mappedExperts: IExpert[]; ids: number[] } => {
+  const ids: number[] = experts.map((expert) => expert.id);
+
+  return { mappedExperts: experts, ids };
+};
+
 export const fetchExperts = createAsyncThunk(
   'experts/loadExperts',
-  async (options: IFetchExpertsOptions, { dispatch }) => {
+  async (options: IFetchExpertsOptions, { getState }) => {
     const { page, regions, directions, appendExperts } = options;
 
     const response = await getAllExperts({
@@ -34,14 +46,28 @@ export const fetchExperts = createAsyncThunk(
       },
     });
 
-    dispatch(loadExperts(response.data.content));
+    const {
+      experts: { data },
+    } = getState() as any;
+
+    const { mappedExperts, ids } = mapFetchedExperts(response.data.content);
+    const experts = { ...data.experts };
+    mappedExperts.forEach((expert) => {
+      if (experts && expert.id) {
+        experts[expert.id] = expert;
+      }
+    });
+
     return {
-      expertIds: response.data.content.map((expert) => expert.id),
-      pageNumber: response.data.number,
-      totalPages: response.data.totalPages,
-      totalElements: response.data.totalElements,
-      isLastPage: response.data.last,
-      appendExperts,
+      expertIds: appendExperts ? data.expertIds.concat(ids) : ids,
+      experts,
+      meta: {
+        pageNumber: response.data.number,
+        totalPages: response.data.totalPages,
+        totalElements: response.data.totalElements,
+        isLastPage: response.data.last,
+        appendExperts,
+      },
     };
   },
 );
@@ -51,7 +77,7 @@ export const fetchExpertById = createAsyncThunk(
   async (id: number, { dispatch, getState }) => {
     const {
       data: { experts },
-    } = getState() as RootStateType;
+    } = getState() as any;
     const existingExpert = experts[id];
 
     if (existingExpert) {
@@ -109,7 +135,7 @@ export const fetchExpertMaterials = createAsyncThunk(
       },
     };
   },
-);
+); // it will overwrite posts on materials page ?
 
 // export const fetchInitialMaterials = createAsyncThunk(
 //   'materials/fetchMaterials',
@@ -131,4 +157,4 @@ export const fetchInitialMaterials = (expertId): AppThunkType => (
   if (!postIds.length) {
     dispatch(fetchExpertMaterials(expertId));
   }
-};
+}; // it can be implemented as function not thunk;

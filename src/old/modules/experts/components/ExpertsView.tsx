@@ -3,7 +3,6 @@ import { isEmpty, uniq } from 'lodash';
 import { useHistory } from 'react-router-dom';
 import { Grid } from '@material-ui/core';
 import { useSelector } from 'react-redux';
-import { useActions } from '../../../lib/hooks/useActions';
 import {
   LoadMoreButtonTextType,
   FilterTypeEnum,
@@ -12,7 +11,7 @@ import {
   LoadingStatusEnum,
   QueryTypeEnum,
 } from '../../../lib/types';
-import { selectExperts, fetchExperts } from '../../../store/experts';
+import { selectExperts, fetchExperts } from '../../../../models/experts';
 import { RootStateType } from '../../../store/rootReducer';
 import { ExpertsList } from '../../../lib/components/Experts/ExpertsList';
 import { useEffectExceptOnMount } from '../../../lib/hooks/useEffectExceptOnMount';
@@ -29,6 +28,9 @@ import { usePrevious } from '../../../lib/hooks/usePrevious';
 import { PageTitle } from '../../../lib/components/Pages/PageTitle';
 import { useQuery } from '../../../lib/hooks/useQuery';
 import { CheckboxDropdownFilterForm } from '../../../lib/components/Filters/CheckboxDropdownFilterForm';
+import { useActions } from '../../../../shared/hooks';
+import { LOAD_POSTS_LIMIT } from '../../../lib/constants/posts';
+import { LOAD_EXPERTS_LIMIT } from '../../../lib/constants/experts';
 
 const ExpertsView: React.FC = () => {
   const {
@@ -92,7 +94,11 @@ const ExpertsView: React.FC = () => {
 
   useEffect(() => {
     const appendExperts = previous && previous.page < page;
-    fetchData(appendExperts);
+    if (
+      !isLastPage &&
+      Math.ceil(experts.length / LOAD_EXPERTS_LIMIT) !== page + 1
+    )
+      fetchData(appendExperts);
   }, [
     page,
     query.get(QueryTypeEnum.REGIONS),

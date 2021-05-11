@@ -6,5 +6,5 @@ export const selectPostsByIds = (ids: number[]): IPost[] => {
 };
 
 export const selectExpertsByIds = (ids: number[]): IExpert[] => {
-  return ids.map((id) => store.getState().data.experts[id]);
+  return ids.map((id) => store.getState().experts.data.experts[id]);
 };

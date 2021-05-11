@@ -1,4 +1,4 @@
-import { LoadingStatusEnum, IExpert } from '../../lib/types';
+import { LoadingStatusEnum, IExpert } from '../../old/lib/types';
 import { IMaterialsState } from '../materials/types';
 
 export interface IExpertPayload {
@@ -16,6 +16,8 @@ export interface IData {
 
 export interface IExpertsState {
   data: IData;
+  loading: LoadingStatusEnum;
+  error: null | string;
   // experts: IExpertPayload;
   posts: IMaterialsState;
 }

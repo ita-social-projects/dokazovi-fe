@@ -1,4 +1,4 @@
-import { QueryTypeEnum, LoadingStatusEnum, IPost } from '../../lib/types';
+import { QueryTypeEnum, LoadingStatusEnum, IPost } from '../../old/lib/types';
 
 export interface IMaterials {
   postIds: number[];

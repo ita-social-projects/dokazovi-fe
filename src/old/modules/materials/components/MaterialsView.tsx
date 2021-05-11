@@ -27,7 +27,7 @@ import {
 import { LoadingContainer } from '../../../lib/components/Loading/LoadingContainer';
 import { PageTitle } from '../../../lib/components/Pages/PageTitle';
 import { useQuery } from '../../../lib/hooks/useQuery';
-import { selectMaterials, fetchMaterials } from '../../../store/materials';
+import { selectMaterials, fetchMaterials } from '../../../../models/materials';
 import { useActions } from '../../../../shared/hooks';
 import { LOAD_POSTS_LIMIT } from '../../../lib/constants/posts';
 import { CheckboxDropdownFilterForm } from '../../../lib/components/Filters/CheckboxDropdownFilterForm';

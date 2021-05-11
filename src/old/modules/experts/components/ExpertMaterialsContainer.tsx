@@ -4,7 +4,6 @@ import { isEmpty, uniq } from 'lodash';
 import React, { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { useActions } from '../../../lib/hooks/useActions';
 import CheckboxFilterForm, {
   CheckboxFormStateType,
 } from '../../../lib/components/Filters/CheckboxFilterForm';
@@ -28,7 +27,11 @@ import {
 } from '../../../lib/utilities/filters';
 import { RootStateType } from '../../../store/rootReducer';
 import { selectPostsByIds } from '../../../store/selectors';
-import { fetchExpertMaterials, resetMaterials } from '../../../store/experts';
+import {
+  fetchExpertMaterials,
+  resetMaterials,
+} from '../../../../models/experts';
+import { useActions } from '../../../../shared/hooks';
 
 export interface IExpertMaterialsContainerProps {
   expertId: number;
