@@ -31,7 +31,7 @@ const Oath2Redirect = lazy(
 );
 const Page404 = lazy(() => import('../lib/components/Errors/Page404'));
 
-const ROUTER_CONFIG: IRouteConfig[] = [
+export const ROUTER_CONFIG: IRouteConfig[] = [
   {
     path: '/',
     key: 'ROOT',
@@ -102,5 +102,3 @@ const ROUTER_CONFIG: IRouteConfig[] = [
     component: Oath2Redirect,
   },
 ];
-
-export default ROUTER_CONFIG;

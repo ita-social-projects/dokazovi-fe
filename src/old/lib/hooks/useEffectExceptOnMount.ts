@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 
-const useEffectExceptOnMount = (
+export const useEffectExceptOnMount = (
   func: (() => void) | (() => () => void),
   deps: React.DependencyList | undefined,
 ): void => {
@@ -10,5 +10,3 @@ const useEffectExceptOnMount = (
     else didMount.current = true;
   }, deps);
 };
-
-export default useEffectExceptOnMount;

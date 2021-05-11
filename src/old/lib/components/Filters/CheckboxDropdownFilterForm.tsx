@@ -29,7 +29,7 @@ export interface ICheckboxDropdownFilterFormProps {
   maximumReached?: boolean;
 }
 
-const CheckboxDropdownFilterForm: React.FC<ICheckboxDropdownFilterFormProps> = ({
+export const CheckboxDropdownFilterForm: React.FC<ICheckboxDropdownFilterFormProps> = ({
   onFormChange,
   possibleFilters,
   selectedFilters,
@@ -192,5 +192,3 @@ const CheckboxDropdownFilterForm: React.FC<ICheckboxDropdownFilterFormProps> = (
     </Box>
   );
 };
-
-export default CheckboxDropdownFilterForm;

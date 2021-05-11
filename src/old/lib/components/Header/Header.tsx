@@ -1,12 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Box, Container, Toolbar, Typography } from '@material-ui/core';
 import { Link, NavLink } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import { useStyles } from './Header.styles';
 import { PostCreationMenu } from './PostCreationMenu';
-import { RootStateType } from '../../../store/rootReducer';
-import { AccountMenu } from './AccountMenu';
 import { LoginModal } from '../Users/LoginModal';
+import { AccountMenu } from './AccountMenu';
+import { AuthContext } from '../../../provider/AuthProvider/AuthContext';
 
 interface IHeaderProps {
   id: string;
@@ -32,9 +31,9 @@ export const navElems: IHeaderProps[] = [
   },
 ];
 
-const Header: React.FC = () => {
+export const Header: React.FC = () => {
   const classes = useStyles();
-  const { user } = useSelector((state: RootStateType) => state.currentUser);
+  const { authenticated } = useContext(AuthContext);
 
   return (
     <div id="header" className={classes.header}>
@@ -62,16 +61,12 @@ const Header: React.FC = () => {
               ))}
             </Box>
           </Box>
-
           <Box className={classes.actionsContainer}>
-            {user && <PostCreationMenu />}
-
-            {user ? <AccountMenu /> : <LoginModal />}
+            {authenticated && <PostCreationMenu />}
+            {authenticated ? <AccountMenu /> : <LoginModal />}
           </Box>
         </Toolbar>
       </Container>
     </div>
   );
 };
-
-export default Header;

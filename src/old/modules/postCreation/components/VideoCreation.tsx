@@ -31,6 +31,7 @@ import { CONTENT_DEBOUNCE_TIMEOUT } from '../../../lib/constants/editors';
 import PostView from '../../posts/components/PostView';
 import { PostDirectionsSelector } from './PostDirectionsSelector';
 import { PostOriginsSelector } from './PostOriginsSelector';
+import { selectCurrentUser } from '../../../../models/user/selectors';
 import { PostAuthorSelection } from './PostAuthorSelection/PostAuthorSelection';
 
 const VideoCreation: React.FC = () => {
@@ -40,7 +41,7 @@ const VideoCreation: React.FC = () => {
   const savedPostDraft = useSelector(
     (state: RootStateType) => state.newPostDraft[PostTypeEnum.VIDEO],
   );
-  const { user } = useSelector((state: RootStateType) => state.currentUser);
+  const user = useSelector(selectCurrentUser);
 
   const [title, setTitle] = useState({
     value: savedPostDraft.title,
@@ -156,7 +157,7 @@ const VideoCreation: React.FC = () => {
   const previewPost = React.useMemo(
     () =>
       ({
-        author: author || user,
+        author: user.data,
         content: savedPostDraft.htmlContent,
         createdAt: new Date().toLocaleDateString('en-GB').split('/').join('.'),
         directions: savedPostDraft.directions,
