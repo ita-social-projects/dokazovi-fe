@@ -13,6 +13,7 @@ import {
   fetchDirections,
   fetchPostsTypes,
   fetchRegions,
+  fetchOrigins,
 } from './old/store/propertiesSlice';
 import { AuthProvider } from './old/provider/AuthProvider/AuthProvider';
 import { MAIN_THEME } from './old/lib/theme/theme';
@@ -28,6 +29,7 @@ export const App: React.FC = () => {
       dispatch(fetchPostsTypes());
       dispatch(fetchRegions());
       dispatch(fetchDirections());
+      dispatch(fetchOrigins());
     };
     fetchProperties();
   }, []);

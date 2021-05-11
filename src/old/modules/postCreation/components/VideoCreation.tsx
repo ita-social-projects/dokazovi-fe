@@ -6,13 +6,16 @@ import { Typography, TextField, Box } from '@material-ui/core';
 import VideoEditor from '../../../lib/components/Editor/Editors/VideoEditor';
 import {
   setPostTitle,
+  setAuthorsName,
+  setAuthorsDetails,
   setPostBody,
   setVideoUrl,
   setPostDirections,
+  setPostOrigin,
   resetDraft,
   setAuthorId,
 } from '../store/postCreationSlice';
-import { IDirection, IPost, PostTypeEnum } from '../../../lib/types';
+import { IDirection, IOrigin, IPost, PostTypeEnum } from '../../../lib/types';
 import { RootStateType } from '../../../store/rootReducer';
 import { sanitizeHtml } from '../../../lib/utilities/sanitizeHtml';
 import { parseVideoIdFromUrl } from '../../../lib/utilities/parseVideoIdFromUrl';
@@ -27,6 +30,7 @@ import {
 import { CONTENT_DEBOUNCE_TIMEOUT } from '../../../lib/constants/editors';
 import PostView from '../../posts/components/PostView';
 import { PostDirectionsSelector } from './PostDirectionsSelector';
+import { PostOriginsSelector } from './PostOriginsSelector';
 import { selectCurrentUser } from '../../../../models/user/selectors';
 import { PostAuthorSelection } from './PostAuthorSelection/PostAuthorSelection';
 
@@ -41,6 +45,16 @@ const VideoCreation: React.FC = () => {
 
   const [title, setTitle] = useState({
     value: savedPostDraft.title,
+    error: '',
+  });
+
+  const [authorsName, setAuthName] = useState({
+    value: savedPostDraft.authorsName,
+    error: '',
+  });
+
+  const [authorsDetails, setAuthDetails] = useState({
+    value: savedPostDraft.authorsDetails,
     error: '',
   });
 
@@ -60,8 +74,22 @@ const VideoCreation: React.FC = () => {
     dispatch(setPostDirections({ postType: PostTypeEnum.VIDEO, value }));
   };
 
+  const handleOriginsChange = (value: IOrigin[]) => {
+    setAuthName({ ...authorsName, value: '' });
+    setAuthDetails({ ...authorsDetails, value: '' });
+    dispatch(setPostOrigin({ postType: PostTypeEnum.VIDEO, value }));
+  };
+
   const handleTitleChange = (value: string) => {
     dispatch(setPostTitle({ postType: PostTypeEnum.VIDEO, value }));
+  };
+
+  const handleAuthorsNameChange = (value: string) => {
+    dispatch(setAuthorsName({ postType: PostTypeEnum.VIDEO, value }));
+  };
+
+  const handleAuthorsDetailsChange = (value: string) => {
+    dispatch(setAuthorsDetails({ postType: PostTypeEnum.VIDEO, value }));
   };
 
   const handleVideoUrlChange = (url: string) => {
@@ -111,9 +139,12 @@ const VideoCreation: React.FC = () => {
     authorId: savedPostDraft.authorId,
     content: savedPostDraft.htmlContent,
     directions: savedPostDraft.directions,
+    origin: savedPostDraft.origin,
     preview: savedPostDraft.htmlContent, // currently no preview
     type: { id: PostTypeEnum.VIDEO },
     title: savedPostDraft.title,
+    authorsName: savedPostDraft.authorsName,
+    authorsDetails: savedPostDraft.authorsDetails,
     videoUrl: savedPostDraft.videoUrl,
   };
 
@@ -137,6 +168,50 @@ const VideoCreation: React.FC = () => {
     [user, savedPostDraft],
   );
 
+  let extraFieldsForTranslation: null | JSX.Element = null;
+
+  if (savedPostDraft.origin[0]) {
+    if (savedPostDraft.origin[0].id === 3) {
+      extraFieldsForTranslation = (
+        <>
+          <Box mt={2}>
+            <Typography variant="h5">Ім`я автора</Typography>
+            <TextField
+              error={Boolean(authorsName.error)}
+              helperText={authorsName.error}
+              fullWidth
+              required
+              id="authorsName"
+              value={authorsName.value}
+              onChange={(e) => {
+                setAuthName({ ...authorsName, value: e.target.value });
+                handleAuthorsNameChange(e.target.value);
+              }}
+            />
+          </Box>
+          <Box mt={2}>
+            <Typography variant="h5">Детальна інформація про автора</Typography>
+            <TextField
+              error={Boolean(authorsDetails.error)}
+              helperText={authorsDetails.error}
+              fullWidth
+              required
+              id="authorsDetails"
+              value={authorsDetails.value}
+              onChange={(e) => {
+                setAuthDetails({ ...authorsDetails, value: e.target.value });
+                handleAuthorsDetailsChange(e.target.value);
+              }}
+            />
+          </Box>
+        </>
+      );
+    } else {
+      handleAuthorsNameChange('');
+      handleAuthorsDetailsChange('');
+    }
+  }
+
   return (
     <>
       <PageTitle title="Створення відео" />
@@ -147,6 +222,11 @@ const VideoCreation: React.FC = () => {
             selectedDirections={savedPostDraft.directions}
             onSelectedDirectionsChange={handleDirectionsChange}
           />
+          <PostOriginsSelector
+            selectedOrigin={savedPostDraft.origin}
+            onSelectedOriginChange={handleOriginsChange}
+          />
+          {extraFieldsForTranslation}
           <Box mt={2}>
             <Typography variant="h5">Заголовок відео:</Typography>
             <TextField
