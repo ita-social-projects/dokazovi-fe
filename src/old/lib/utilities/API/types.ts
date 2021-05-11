@@ -1,9 +1,12 @@
-import { IDirection } from '../../types';
+import { IDirection, IOrigin } from '../../types';
 
 export type CreatePostRequestType = {
   title: string;
+  authorsName?: string;
+  authorsDetails?: string;
   content: string;
   directions: IDirection[];
+  origin?: IOrigin[];
   preview: string;
   type: {
     id: number;
@@ -57,6 +60,7 @@ export type PostResponseType = {
   postType: PostTypeResponseType;
   createdAt: string;
   directions: DirectionResponseType[];
+  origin: IOrigin[];
   id: number;
   title: string;
   type: {
@@ -108,6 +112,12 @@ export type DirectionResponseType = {
   name: string;
   label: string;
   color: string;
+};
+
+export type OriginResponseType = {
+  id: number;
+  name: string;
+  parameter: null;
 };
 
 export type RegionResponseType = {
