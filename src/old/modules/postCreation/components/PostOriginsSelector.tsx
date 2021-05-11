@@ -1,7 +1,7 @@
 import { CircularProgress } from '@material-ui/core';
 import React from 'react';
 import { useSelector } from 'react-redux';
-import CheckboxDropdownFilterForm from '../../../lib/components/Filters/CheckboxDropdownFilterForm';
+import { CheckboxDropdownFilterForm } from '../../../lib/components/Filters/CheckboxDropdownFilterForm';
 import { CheckboxFormStateType } from '../../../lib/components/Filters/CheckboxFilterForm';
 import { MAX_POST_ORIGINS } from '../../../lib/constants/posts';
 import { IOrigin } from '../../../lib/types';
