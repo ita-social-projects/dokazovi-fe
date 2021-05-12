@@ -1,12 +1,11 @@
 /* eslint-disable */
-import { createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import { IFetchExpertsOptions, IFetchExpertsMaterialsOptions } from './types';
+import { createAsyncThunk } from '@reduxjs/toolkit';
+import { IFetchExpertsMaterialsOptions, IFetchExpertsOptions } from './types';
 import {
   getAllExperts,
   getExpertById,
   getPosts,
 } from '../../old/lib/utilities/API/api';
-import type { RootStateType } from '../../old/store/rootReducer';
 import { LOAD_EXPERTS_LIMIT } from '../../old/lib/constants/experts';
 import type { AppThunkType } from '../../old/store/store';
 import { mapFetchedPosts } from '../materials/asyncActions';
@@ -16,11 +15,8 @@ import { loadExperts } from '../../old/store/dataSlice';
 //   RequestParamsType,
 // } from '../../lib/utilities/API/types';
 import { LOAD_POSTS_LIMIT } from '../../old/lib/constants/posts';
-import { IExpert, IPost, LoadingStatusEnum } from '../../old/lib/types';
-import {
-  ExpertResponseType,
-  PostResponseType,
-} from '../../old/lib/utilities/API/types';
+import { IExpert, LoadingStatusEnum } from '../../old/lib/types';
+import { ExpertResponseType } from '../../old/lib/utilities/API/types';
 
 // import { loadPosts } from './reducers';
 
@@ -135,18 +131,7 @@ export const fetchExpertMaterials = createAsyncThunk(
       },
     };
   },
-); // it will overwrite posts on materials page ?
-
-// export const fetchInitialMaterials = createAsyncThunk(
-//   'materials/fetchMaterials',
-//   async (expertId: IFetchExpertsMaterialsOptions, { dispatch, getState }) => {
-//     const { postIds } = getState().experts.posts.data;
-
-//     if (!postIds.length) {
-//       dispatch(fetchExpertMaterials(expertId));
-//     }
-//   },
-// );
+);
 
 export const fetchInitialMaterials = (expertId): AppThunkType => (
   dispatch,

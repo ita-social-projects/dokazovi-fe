@@ -67,40 +67,6 @@ export const expertsSlice = createSlice({
   extraReducers: {
     ...getAsyncActionsReducer(fetchExperts as any),
   },
-  //     (builder) => {
-  //   builder.addCase(fetchExperts.pending, (state) => {
-  //     state.data.meta.loading = LoadingStatusEnum.pending;
-  //   });
-  //   builder.addCase(fetchExperts.fulfilled, (state, { payload }) => {
-  //     state.data.meta.loading = LoadingStatusEnum.succeeded;
-  //     state.data.meta.pageNumber = payload.pageNumber;
-  //     state.data.meta.totalPages = payload.totalPages;
-  //     state.data.meta.totalElements = payload.totalElements;
-  //     state.data.meta.isLastPage = payload.isLastPage;
-  //     state.data.expertIds = payload.appendExperts
-  //       ? state.data.expertIds.concat(payload.expertIds)
-  //       : payload.expertIds;
-  //   });
-  //   builder.addCase(fetchExperts.rejected, (state, { error }) => {
-  //     if (error.message) {
-  //       state.data.meta.error = error.message;
-  //     }
-  //
-  //     state.data.meta.loading = LoadingStatusEnum.failed;
-  //   });
-  //   builder.addCase(fetchExpertById.pending, (state) => {
-  //     state.data.meta.loading = LoadingStatusEnum.pending;
-  //   });
-  //   builder.addCase(fetchExpertById.fulfilled, (state) => {
-  //     state.data.meta.loading = LoadingStatusEnum.succeeded; // TODO add slice for single expert
-  //   });
-  //   builder.addCase(fetchExpertById.rejected, (state, { error }) => {
-  //     if (error.message) {
-  //       state.data.meta.error = error.message;
-  //     }
-  //     state.data.meta.loading = LoadingStatusEnum.failed;
-  //   });
-  // },
 });
 
 export const { resetMaterials, loadPosts } = expertsSlice.actions;

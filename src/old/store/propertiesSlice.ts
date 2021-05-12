@@ -55,49 +55,49 @@ export const propertiesSlice = createSlice({
   },
 });
 
-export const {
-  loadPostsTypes,
-  loadRegions,
-  loadPostsTags,
-  loadDirections,
-  loadOrigins,
-} = propertiesSlice.actions;
+// export const {
+//   loadPostsTypes,
+//   loadRegions,
+//   loadPostsTags,
+//   loadDirections,
+//   loadOrigins,
+// } = propertiesSlice.actions;
+//
+// export default propertiesSlice.reducer;
 
-export default propertiesSlice.reducer;
-
-export const fetchRegions = (): AppThunkType => async (dispatch) => {
-  const response = await getRegions();
-  const regions = response.data;
-  dispatch(loadRegions(regions));
-};
-
-export const fetchPostsTypes = (): AppThunkType => async (dispatch) => {
-  const response = await getPostTypes();
-  const postTypes = response.data;
-
-  dispatch(loadPostsTypes(postTypes));
-};
-
-export const fetchPostsTags = (tag: string): AppThunkType => async (
-  dispatch,
-) => {
-  const response = await getTagsByValue({
-    params: {
-      value: tag,
-    },
-  });
-  const postTags = response.data;
-  dispatch(loadPostsTags(postTags));
-};
-
-export const fetchDirections = (): AppThunkType => async (dispatch) => {
-  const response = await getDirections();
-  const directions = response.data;
-  dispatch(loadDirections(directions));
-};
-
-export const fetchOrigins = (): AppThunkType => async (dispatch) => {
-  const response = await getOrigins();
-  const origins = response.data;
-  dispatch(loadOrigins(origins));
-};
+// export const fetchRegions = (): AppThunkType => async (dispatch) => {
+//   const response = await getRegions();
+//   const regions = response.data;
+//   dispatch(loadRegions(regions));
+// };
+//
+// export const fetchPostsTypes = (): AppThunkType => async (dispatch) => {
+//   const response = await getPostTypes();
+//   const postTypes = response.data;
+//
+//   dispatch(loadPostsTypes(postTypes));
+// };
+//
+// export const fetchPostsTags = (tag: string): AppThunkType => async (
+//   dispatch,
+// ) => {
+//   const response = await getTagsByValue({
+//     params: {
+//       value: tag,
+//     },
+//   });
+//   const postTags = response.data;
+//   dispatch(loadPostsTags(postTags));
+// };
+//
+// export const fetchDirections = (): AppThunkType => async (dispatch) => {
+//   const response = await getDirections();
+//   const directions = response.data;
+//   dispatch(loadDirections(directions));
+// };
+//
+// export const fetchOrigins = (): AppThunkType => async (dispatch) => {
+//   const response = await getOrigins();
+//   const origins = response.data;
+//   dispatch(loadOrigins(origins));
+// };
