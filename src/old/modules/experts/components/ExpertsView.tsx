@@ -3,7 +3,6 @@ import { isEmpty, uniq } from 'lodash';
 import { useHistory } from 'react-router-dom';
 import { Grid } from '@material-ui/core';
 import { useSelector } from 'react-redux';
-import { useActions } from '../../../lib/hooks/useActions';
 import {
   LoadMoreButtonTextType,
   FilterTypeEnum,
@@ -29,6 +28,7 @@ import { usePrevious } from '../../../lib/hooks/usePrevious';
 import { PageTitle } from '../../../lib/components/Pages/PageTitle';
 import { useQuery } from '../../../lib/hooks/useQuery';
 import { CheckboxDropdownFilterForm } from '../../../lib/components/Filters/CheckboxDropdownFilterForm';
+import { useActions } from '../../../../shared/hooks';
 
 const ExpertsView: React.FC = () => {
   const {
