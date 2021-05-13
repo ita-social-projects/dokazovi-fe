@@ -97,11 +97,13 @@ export const fetchExpertMaterials = createAsyncThunk(
       },
     });
 
-    const { mappedPosts, ids } = mapFetchedPosts(response.data.content);
+    console.log(response.data.content);
 
     const {
       posts: { data },
     } = getState() as any;
+
+    const { mappedPosts, ids } = mapFetchedPosts(response.data.content);
 
     const posts = { ...data.posts };
     mappedPosts.forEach((post) => {
@@ -111,17 +113,21 @@ export const fetchExpertMaterials = createAsyncThunk(
     });
 
     return {
-      postIds: appendPosts ? data.postIds.concat(ids) : ids,
-      posts,
-      meta: {
-        isLastPage: response.data.last,
-        loading: LoadingStatusEnum.succeeded,
+      data: {
+        postIds: appendPosts ? data.postIds.concat(ids) : ids,
+        posts,
+        meta: {
+          isLastPage: response.data.last,
+          loading: LoadingStatusEnum.succeeded,
+          error: null,
+          pageNumber: response.data.number,
+          totalElements: response.data.totalElements,
+          totalPages: response.data.totalPages,
+        },
+        loading: LoadingStatusEnum.idle,
         error: null,
-        pageNumber: response.data.number,
-        totalElements: response.data.totalElements,
-        totalPages: response.data.totalPages,
+        filters: {},
       },
-
       // expertId,
       // materials: {
       //   data: {

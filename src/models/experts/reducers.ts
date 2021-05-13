@@ -3,7 +3,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { IPost, LoadingStatusEnum } from '../../old/lib/types';
 import { IExpertsState } from './types';
 import { IMaterialsState } from '../materials/types';
-import { fetchExperts } from './asyncActions';
+import { fetchExpertMaterials, fetchExperts } from './asyncActions';
 import { getAsyncActionsReducer } from '../helpers/asyncActions';
 
 const initialMaterialsState: IMaterialsState = {
@@ -59,6 +59,7 @@ export const expertsSlice = createSlice({
   },
   extraReducers: {
     ...getAsyncActionsReducer(fetchExperts as any),
+    ...getAsyncActionsReducer(fetchExpertMaterials as any, 'posts'),
   },
 });
 
