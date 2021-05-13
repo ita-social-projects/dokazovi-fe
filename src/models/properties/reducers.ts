@@ -29,21 +29,21 @@ const propertiesSlice = createSlice({
   name: 'properties',
   initialState,
   reducers: {
-    loadPostsTypes: (state, action: PayloadAction<IPostType[]>) => {
-      state.postTypes = action.payload;
-    },
-    loadRegions: (state, action: PayloadAction<IRegion[]>) => {
-      state.regions = action.payload;
-    },
-    loadPostsTags: (state, action: PayloadAction<IPostTag[]>) => {
-      state.postTags = action.payload;
-    },
-    loadDirections: (state, action: PayloadAction<IDirection[]>) => {
-      state.directions = action.payload;
-    },
-    loadOrigins: (state, action: PayloadAction<IOrigin[]>) => {
-      state.origins = action.payload;
-    },
+    // loadPostsTypes: (state, action: PayloadAction<IPostType[]>) => {
+    //   state.postTypes = action.payload;
+    // },
+    // loadRegions: (state, action: PayloadAction<IRegion[]>) => {
+    //   state.regions = action.payload;
+    // },
+    // loadPostsTags: (state, action: PayloadAction<IPostTag[]>) => {
+    //   state.postTags = action.payload;
+    // },
+    // loadDirections: (state, action: PayloadAction<IDirection[]>) => {
+    //   state.directions = action.payload;
+    // },
+    // loadOrigins: (state, action: PayloadAction<IOrigin[]>) => {
+    //   state.origins = action.payload;
+    // },
   },
   extraReducers: {
     ...getAsyncActionsReducer(fetchRegions, 'regions'),
@@ -54,12 +54,12 @@ const propertiesSlice = createSlice({
   },
 });
 
-export const {
-  loadPostsTypes,
-  loadRegions,
-  loadPostsTags,
-  loadDirections,
-  loadOrigins,
-} = propertiesSlice.actions;
+// export const {
+//   loadPostsTypes,
+//   loadRegions,
+//   loadPostsTags,
+//   loadDirections,
+//   loadOrigins,
+// } = propertiesSlice.actions;
 
 export const propertiesReducer = propertiesSlice.reducer;

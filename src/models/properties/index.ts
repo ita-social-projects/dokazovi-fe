@@ -1,13 +1,11 @@
 /* eslint-disable */
 export {} from './asyncActions';
-export {
-  propertiesReducer,
-  loadDirections,
-  loadOrigins,
-  loadPostsTags,
-  loadPostsTypes,
-  loadRegions,
-} from './reducers';
+export { propertiesReducer } from // loadDirections,
+// loadOrigins,
+// loadPostsTags,
+// loadPostsTypes,
+// loadRegions,
+'./reducers';
 export {
   selectDirections,
   selectOrigins,

@@ -10,15 +10,9 @@ import { LOAD_EXPERTS_LIMIT } from '../../old/lib/constants/experts';
 import type { AppThunkType } from '../../old/store/store';
 import { mapFetchedPosts } from '../materials/asyncActions';
 import { loadExperts } from '../../old/store/dataSlice';
-// import {
-//   PostResponseType,
-//   RequestParamsType,
-// } from '../../lib/utilities/API/types';
 import { LOAD_POSTS_LIMIT } from '../../old/lib/constants/posts';
 import { IExpert, LoadingStatusEnum } from '../../old/lib/types';
 import { ExpertResponseType } from '../../old/lib/utilities/API/types';
-
-// import { loadPosts } from './reducers';
 
 export const mapFetchedExperts = (
   experts: ExpertResponseType[],

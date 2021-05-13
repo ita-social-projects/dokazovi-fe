@@ -1,11 +1,6 @@
 import { LoadingStatusEnum, IExpert } from '../../old/lib/types';
 import { IMaterialsState } from '../materials/types';
 
-export interface IExpertPayload {
-  expertIds: number[];
-  meta: IExpertMeta;
-}
-
 export interface IData {
   expertIds: number[];
   meta: IExpertMeta;
@@ -18,7 +13,6 @@ export interface IExpertsState {
   data: IData;
   loading: LoadingStatusEnum;
   error: null | string;
-  // experts: IExpertPayload;
   posts: IMaterialsState;
 }
 export interface IExpertMeta {

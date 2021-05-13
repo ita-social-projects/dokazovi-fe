@@ -1,12 +1,5 @@
 /* eslint-disable */
 import {
-  loadDirections,
-  loadOrigins,
-  loadPostsTags,
-  loadPostsTypes,
-  loadRegions,
-} from './reducers';
-import {
   getDirections,
   getOrigins,
   getPostTypes,
@@ -14,12 +7,6 @@ import {
   getTagsByValue,
 } from '../../old/lib/utilities/API/api';
 import { createAsyncThunk } from '@reduxjs/toolkit';
-
-// export const fetchRegionsxxx = (): AppThunkType => async (dispatch) => {
-//     const response = await getRegions();
-//     const regions = response.data;
-//     dispatch(loadRegions(regions));
-// };
 
 export const fetchRegions = createAsyncThunk(
   'properties/fetchRegions',
@@ -29,13 +16,6 @@ export const fetchRegions = createAsyncThunk(
   },
 );
 
-// export const fetchPostsTypesxxx = (): AppThunkType => async (dispatch) => {
-//     const response = await getPostTypes();
-//     const postTypes = response.data;
-//
-//     dispatch(loadPostsTypes(postTypes));
-// };
-
 export const fetchPostsTypes = createAsyncThunk(
   'properties/fetchPostsTypes',
   async () => {
@@ -43,18 +23,6 @@ export const fetchPostsTypes = createAsyncThunk(
     return response.data;
   },
 );
-
-// export const fetchPostsTags = (tag: string): AppThunkType => async (
-//     dispatch,
-// ) => {
-//     const response = await getTagsByValue({
-//         params: {
-//             value: tag,
-//         },
-//     });
-//     const postTags = response.data;
-//     dispatch(loadPostsTags(postTags));
-// };
 
 export const fetchPostsTags = createAsyncThunk(
   'properties/fetchPostsTags',
@@ -68,30 +36,18 @@ export const fetchPostsTags = createAsyncThunk(
   },
 );
 
-// export const fetchDirectionsxxx = (): AppThunkType => async (dispatch) => {
-//     const response = await getDirections();
-//     const directions = response.data;
-//     dispatch(loadDirections(directions));
-// };
-
 export const fetchDirections = createAsyncThunk(
   'properties/fetchDirections',
   async () => {
-    const response = await getPostTypes();
+    const response = await getDirections();
     return response.data;
   },
 );
 
-// export const fetchOriginsxxx = (): AppThunkType => async (dispatch) => {
-//     const response = await getOrigins();
-//     const origins = response.data;
-//     dispatch(loadOrigins(origins));
-// };
-
 export const fetchOrigins = createAsyncThunk(
   'properties/fetchOrigins',
   async () => {
-    const response = await getPostTypes();
+    const response = await getOrigins();
     return response.data;
   },
 );

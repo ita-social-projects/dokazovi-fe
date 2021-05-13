@@ -3,15 +3,8 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { IPost, LoadingStatusEnum } from '../../old/lib/types';
 import { IExpertsState } from './types';
 import { IMaterialsState } from '../materials/types';
-import {
-  fetchExperts,
-  fetchExpertById,
-  fetchExpertMaterials,
-  fetchInitialMaterials,
-} from './asyncActions';
+import { fetchExperts } from './asyncActions';
 import { getAsyncActionsReducer } from '../../old/store/helpers/asyncActions';
-import { fetchMaterials } from '../materials';
-// import { getAsyncActionsReducer } from '../helpers/asyncActions';
 
 const initialMaterialsState: IMaterialsState = {
   data: {
