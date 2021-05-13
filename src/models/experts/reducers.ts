@@ -12,8 +12,6 @@ const initialMaterialsState: IMaterialsState = {
     posts: {},
     meta: {
       isLastPage: false,
-      loading: LoadingStatusEnum.idle, // will be removed;
-      error: null, // will be removed;
       pageNumber: 0,
       totalElements: 0,
       totalPages: 0,
@@ -31,8 +29,6 @@ const initialState: IExpertsState = {
     meta: {
       totalPages: 0,
       pageNumber: 0,
-      loading: LoadingStatusEnum.idle, // will be removed;
-      error: null, // will be removed;
       isLastPage: false,
       totalElements: 0,
     },

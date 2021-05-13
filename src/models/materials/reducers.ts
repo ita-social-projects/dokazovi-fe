@@ -11,8 +11,6 @@ const initialState: IMaterialsState = {
     posts: {},
     meta: {
       isLastPage: false,
-      loading: LoadingStatusEnum.idle, // will be removed;
-      error: null, // will be removed;
       pageNumber: 0,
       totalElements: 0,
       totalPages: 0,

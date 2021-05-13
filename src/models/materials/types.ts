@@ -1,11 +1,6 @@
-import { QueryTypeEnum, LoadingStatusEnum, IPost } from '../../old/lib/types';
+import { IPost, LoadingStatusEnum, QueryTypeEnum } from '../../old/lib/types';
 
-export interface IMaterials {
-  postIds: number[];
-  meta: IMaterialsMeta;
-} // Old type, used in expertsSlice, it will be removed;
-
-interface IData {
+export interface IMaterialsData {
   postIds: number[];
   meta: IMaterialsMeta;
   posts: {
@@ -14,7 +9,7 @@ interface IData {
 }
 
 export interface IMaterialsState {
-  data: IData;
+  data: IMaterialsData;
   loading: LoadingStatusEnum;
   error: null | string;
   filters?: {
@@ -33,10 +28,8 @@ export interface IFetchMaterialsOptions {
 }
 
 export interface IMaterialsMeta {
-  loading: LoadingStatusEnum;
-  error: null | string;
   isLastPage: boolean;
   pageNumber: number;
   totalPages: number;
   totalElements: number;
-} // Properties loading & error are used in expertsSlice, they will be removed from this interface;
+}

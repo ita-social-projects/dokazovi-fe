@@ -17,8 +17,8 @@ import {
   FilterTypeEnum,
   IPostType,
   LoadingStatusEnum,
-  QueryTypeEnum,
   LoadMoreButtonTextType,
+  QueryTypeEnum,
 } from '../../../lib/types';
 import { RequestParamsType } from '../../../lib/utilities/API/types';
 import {
@@ -26,12 +26,15 @@ import {
   mapQueryIdsStringToArray,
 } from '../../../lib/utilities/filters';
 import { RootStateType } from '../../../store/rootReducer';
-import { selectPostsByIds } from '../../../store/selectors';
 import {
   fetchExpertMaterials,
   resetMaterials,
 } from '../../../../models/experts';
 import { useActions } from '../../../../shared/hooks';
+import {
+  selectExpertsData,
+  selectLoadingExpertsPosts,
+} from '../../../../models/experts/selectors';
 
 export interface IExpertMaterialsContainerProps {
   expertId: number;
@@ -40,14 +43,13 @@ export interface IExpertMaterialsContainerProps {
 const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
   expertId,
 }) => {
-  const expertData = useSelector(
-    (state: RootStateType) => state.experts.posts.data,
-  );
   const {
     posts,
     postIds,
-    meta: { loading, isLastPage, pageNumber, totalElements, totalPages },
-  } = expertData;
+    meta: { isLastPage, pageNumber, totalElements, totalPages },
+  } = useSelector(selectExpertsData);
+
+  const loading = useSelector(selectLoadingExpertsPosts);
 
   const query = useQuery();
   const history = useHistory();
@@ -60,9 +62,7 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
     boundResetMaterials();
   }, [expertId]);
 
-  // const materials = selectPostsByIds(postIds);
   const materials = Object.values(posts);
-
   const postTypes = useSelector(
     (state: RootStateType) => state.properties.postTypes,
   );
@@ -100,13 +100,11 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
       page,
       type: mapQueryIdsStringToArray(postTypesQuery),
     };
-    console.log('fetchData');
 
-    boundFetchExpertMaterials(expertId, filters, appendPosts);
+    boundFetchExpertMaterials({ expertId, filters, page, appendPosts });
   };
 
   useEffect(() => {
-    console.log('useEffect');
     const appendPosts = previous && previous.page < page;
     fetchData(appendPosts);
   }, [query.get(QueryTypeEnum.POST_TYPES), page]);

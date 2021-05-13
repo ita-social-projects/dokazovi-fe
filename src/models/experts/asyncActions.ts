@@ -86,9 +86,7 @@ export const fetchExpertMaterials = createAsyncThunk(
   async (options: IFetchExpertsMaterialsOptions, { getState }) => {
     const { expertId, filters, page, appendPosts } = options;
 
-    console.log('fetchExpertMaterials');
-
-    const response = await getPosts('latest', {
+    const response = await getPosts('latest-by-expert', {
       params: {
         size: LOAD_POSTS_LIMIT,
         page: page,
@@ -97,15 +95,10 @@ export const fetchExpertMaterials = createAsyncThunk(
       },
     });
 
-    console.log(response.data.content);
-
-    const {
-      posts: { data },
-    } = getState() as any;
-
+    const { experts } = getState() as any;
     const { mappedPosts, ids } = mapFetchedPosts(response.data.content);
 
-    const posts = { ...data.posts };
+    const posts = { ...experts.posts.data.posts };
     mappedPosts.forEach((post) => {
       if (posts && post.id) {
         posts[post.id] = post;
@@ -114,35 +107,18 @@ export const fetchExpertMaterials = createAsyncThunk(
 
     return {
       data: {
-        postIds: appendPosts ? data.postIds.concat(ids) : ids,
+        postIds: appendPosts ? experts.posts.data.postIds.concat(ids) : ids,
         posts,
         meta: {
           isLastPage: response.data.last,
-          loading: LoadingStatusEnum.succeeded,
-          error: null,
           pageNumber: response.data.number,
           totalElements: response.data.totalElements,
           totalPages: response.data.totalPages,
         },
-        loading: LoadingStatusEnum.idle,
+        loading: LoadingStatusEnum.succeeded,
         error: null,
-        filters: {},
+        filters,
       },
-      // expertId,
-      // materials: {
-      //   data: {
-      //     postIds: appendPosts ? data.postIds.concat(ids) : ids,
-      //     posts,
-      //     meta: {
-      //       loading: LoadingStatusEnum.succeeded,
-      //       error: null,
-      //       isLastPage: response.data.last,
-      //       pageNumber: response.data.number,
-      //       totalElements: response.data.totalElements,
-      //       totalPages: response.data.totalPages,
-      //       },
-      //     },
-      //   },
     };
   },
 );
@@ -156,4 +132,4 @@ export const fetchInitialMaterials = (expertId): AppThunkType => (
   if (!postIds.length) {
     dispatch(fetchExpertMaterials(expertId));
   }
-}; // it can be implemented as function not thunk;
+}; // it doesn`t used and can be implemented as function not thunk;
