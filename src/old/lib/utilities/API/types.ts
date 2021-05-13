@@ -171,7 +171,9 @@ export type RequestParamsType = {
   sort?: string[];
   directions?: number[];
   type?: number[];
+  types?: number[];
   expert?: number;
   regions?: number[];
   tag?: number[];
+  origins?: number[];
 };

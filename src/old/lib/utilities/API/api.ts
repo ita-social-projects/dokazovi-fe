@@ -42,6 +42,7 @@ instance.interceptors.request.use(
 );
 
 instance.interceptors.response.use(undefined, (error: AxiosError) => {
+  console.dir(error);
   if (error.message === 'Network Error' && !error.response) {
     toast.error("The server isn't responding...");
   }
@@ -63,7 +64,11 @@ const defaultConfig = {
   },
 };
 
-type GetPostsRequestType = 'important' | 'latest' | 'latest-by-expert';
+type GetPostsRequestType =
+  | 'important'
+  | 'latest'
+  | 'latest-by-expert'
+  | 'all-posts';
 
 export const getPosts = async (
   postsRequestType: GetPostsRequestType,
