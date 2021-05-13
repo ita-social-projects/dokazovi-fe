@@ -44,6 +44,7 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
     (state: RootStateType) => state.experts.posts.data,
   );
   const {
+    posts,
     postIds,
     meta: { loading, isLastPage, pageNumber, totalElements, totalPages },
   } = expertData;
@@ -59,7 +60,10 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
     boundResetMaterials();
   }, [expertId]);
 
-  const materials = selectPostsByIds(postIds);
+  // const materials = selectPostsByIds(postIds);
+  const materials = Object.values(posts);
+  console.log(materials);
+
   const postTypes = useSelector(
     (state: RootStateType) => state.properties.postTypes,
   );

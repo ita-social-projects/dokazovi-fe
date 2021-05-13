@@ -96,11 +96,12 @@ export const fetchExpertMaterials = createAsyncThunk(
     });
 
     const {
-      materials: { data },
+      posts: { data },
     } = getState() as any;
 
     const { mappedPosts, ids } = mapFetchedPosts(response.data.content);
     const posts = { ...data.posts };
+    console.log(posts);
     mappedPosts.forEach((post) => {
       if (posts && post.id) {
         posts[post.id] = post;
@@ -108,21 +109,32 @@ export const fetchExpertMaterials = createAsyncThunk(
     });
 
     return {
-      expertId,
-      materials: {
-        data: {
-          postIds: appendPosts ? data.postIds.concat(ids) : ids,
-          posts,
-          meta: {
-            loading: LoadingStatusEnum.succeeded,
-            error: null,
-            isLastPage: response.data.last,
-            pageNumber: response.data.number,
-            totalElements: response.data.totalElements,
-            totalPages: response.data.totalPages,
-          },
-        },
+      postIds: appendPosts ? data.postIds.concat(ids) : ids,
+      posts,
+      meta: {
+        isLastPage: response.data.last,
+        loading: LoadingStatusEnum.succeeded,
+        error: null,
+        pageNumber: response.data.number,
+        totalElements: response.data.totalElements,
+        totalPages: response.data.totalPages,
       },
+
+      // expertId,
+      // materials: {
+      //   data: {
+      //     postIds: appendPosts ? data.postIds.concat(ids) : ids,
+      //     posts,
+      //     meta: {
+      //       loading: LoadingStatusEnum.succeeded,
+      //       error: null,
+      //       isLastPage: response.data.last,
+      //       pageNumber: response.data.number,
+      //       totalElements: response.data.totalElements,
+      //       totalPages: response.data.totalPages,
+      //       },
+      //     },
+      //   },
     };
   },
 );
