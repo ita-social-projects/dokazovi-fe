@@ -4,7 +4,7 @@ import { IPost, LoadingStatusEnum } from '../../old/lib/types';
 import { IExpertsState } from './types';
 import { IMaterialsState } from '../materials/types';
 import { fetchExperts } from './asyncActions';
-import { getAsyncActionsReducer } from '../../old/store/helpers/asyncActions';
+import { getAsyncActionsReducer } from '../helpers/asyncActions';
 
 const initialMaterialsState: IMaterialsState = {
   data: {

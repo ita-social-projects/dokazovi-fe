@@ -1,14 +1,6 @@
 /* eslint-disable no-param-reassign */
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import {
-  IPostTag,
-  IPostType,
-  IDirection,
-  IOrigin,
-  IRegion,
-} from '../../old/lib/types';
+import { createSlice } from '@reduxjs/toolkit';
 import { IPropertiesState } from './types';
-import { getAsyncActionsReducer } from '../../old/store/helpers/asyncActions';
 import {
   fetchDirections,
   fetchOrigins,
@@ -16,6 +8,7 @@ import {
   fetchPostsTypes,
   fetchRegions,
 } from './asyncActions';
+import { getAsyncActionsReducer } from '../helpers/asyncActions';
 
 const initialState: IPropertiesState = {
   postTypes: [],
@@ -28,23 +21,7 @@ const initialState: IPropertiesState = {
 const propertiesSlice = createSlice({
   name: 'properties',
   initialState,
-  reducers: {
-    // loadPostsTypes: (state, action: PayloadAction<IPostType[]>) => {
-    //   state.postTypes = action.payload;
-    // },
-    // loadRegions: (state, action: PayloadAction<IRegion[]>) => {
-    //   state.regions = action.payload;
-    // },
-    // loadPostsTags: (state, action: PayloadAction<IPostTag[]>) => {
-    //   state.postTags = action.payload;
-    // },
-    // loadDirections: (state, action: PayloadAction<IDirection[]>) => {
-    //   state.directions = action.payload;
-    // },
-    // loadOrigins: (state, action: PayloadAction<IOrigin[]>) => {
-    //   state.origins = action.payload;
-    // },
-  },
+  reducers: {},
   extraReducers: {
     ...getAsyncActionsReducer(fetchRegions, 'regions'),
     ...getAsyncActionsReducer(fetchPostsTypes, 'postTypes'),
@@ -53,13 +30,5 @@ const propertiesSlice = createSlice({
     ...getAsyncActionsReducer(fetchPostsTags as any, 'postTags'),
   },
 });
-
-// export const {
-//   loadPostsTypes,
-//   loadRegions,
-//   loadPostsTags,
-//   loadDirections,
-//   loadOrigins,
-// } = propertiesSlice.actions;
 
 export const propertiesReducer = propertiesSlice.reducer;
