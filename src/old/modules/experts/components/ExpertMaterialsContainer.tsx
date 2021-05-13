@@ -62,7 +62,6 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
 
   // const materials = selectPostsByIds(postIds);
   const materials = Object.values(posts);
-  console.log(materials);
 
   const postTypes = useSelector(
     (state: RootStateType) => state.properties.postTypes,
@@ -101,11 +100,13 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
       page,
       type: mapQueryIdsStringToArray(postTypesQuery),
     };
+    console.log('fetchData');
 
     boundFetchExpertMaterials(expertId, filters, appendPosts);
   };
 
   useEffect(() => {
+    console.log('useEffect');
     const appendPosts = previous && previous.page < page;
     fetchData(appendPosts);
   }, [query.get(QueryTypeEnum.POST_TYPES), page]);
