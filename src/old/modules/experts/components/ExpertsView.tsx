@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { isEmpty, uniq } from 'lodash';
 import { useHistory } from 'react-router-dom';
-import { Grid } from '@material-ui/core';
+import { Grid, Typography } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   LoadMoreButtonTextType,
@@ -27,7 +27,7 @@ import { LoadingContainer } from '../../../lib/components/Loading/LoadingContain
 import { usePrevious } from '../../../lib/hooks/usePrevious';
 import { PageTitle } from '../../../lib/components/Pages/PageTitle';
 import { useQuery } from '../../../lib/hooks/useQuery';
-import { CheckboxDropdownFilterForm } from '../../../lib/components/Filters/CheckboxDropdownFilterForm';
+import { CheckboxLeftsideFilterForm } from '../../../lib/components/Filters/CheckboxLeftsideFilterForm';
 
 const ExpertsView: React.FC = () => {
   const [page, setPage] = useState(0);
@@ -54,6 +54,7 @@ const ExpertsView: React.FC = () => {
   const fetchData = (appendExperts = false) => {
     const regionsQuery = query.get(QueryTypeEnum.REGIONS);
     const directionsQuery = query.get(QueryTypeEnum.DIRECTIONS);
+
     dispatch(
       fetchExperts({
         page,
@@ -127,32 +128,48 @@ const ExpertsView: React.FC = () => {
     <>
       <PageTitle title="Автори" />
 
-      {propertiesLoaded && (
-        <Grid container direction="column">
-          <CheckboxDropdownFilterForm
-            onFormChange={(checked) =>
-              setFilters(checked, FilterTypeEnum.REGIONS)
-            }
-            possibleFilters={regions}
-            selectedFilters={selectedRegions}
-            filterTitle="Регіони: "
-          />
-          <CheckboxDropdownFilterForm
-            onFormChange={(checked) =>
-              setFilters(checked, FilterTypeEnum.DIRECTIONS)
-            }
-            possibleFilters={directions}
-            selectedFilters={selectedDirections}
-            filterTitle="Напрямки: "
-          />
+      <Grid container direction="row">
+        <Grid item container direction="column" xs={3}>
+          {propertiesLoaded && (
+            <>
+              <Typography
+                variant="h1"
+                style={{
+                  width: '100%',
+                  fontSize: '28px',
+                  lineHeight: '28px',
+                  fontWeight: 'bold',
+                  margin: '0 0 28px 15px',
+                }}
+              >
+                Вибрати авторів...
+              </Typography>
+              <CheckboxLeftsideFilterForm
+                onFormChange={(checked) =>
+                  setFilters(checked, FilterTypeEnum.DIRECTIONS)
+                }
+                possibleFilters={directions}
+                selectedFilters={selectedDirections}
+                filterTitle="за темою"
+                allTitle="Всі теми"
+              />
+              <CheckboxLeftsideFilterForm
+                onFormChange={(checked) =>
+                  setFilters(checked, FilterTypeEnum.REGIONS)
+                }
+                possibleFilters={regions}
+                selectedFilters={selectedRegions}
+                filterTitle="за регіоном"
+                allTitle="Всі регіони"
+              />
+            </>
+          )}
         </Grid>
-      )}
-      <>
-        {page === 0 && loading === LoadingStatusEnum.pending ? (
-          <LoadingContainer loading={loading} expand />
-        ) : (
-          <>
-            <Grid container xs={9}>
+        <Grid item container xs={9}>
+          {page === 0 && loading === LoadingStatusEnum.pending ? (
+            <LoadingContainer loading={loading} expand />
+          ) : (
+            <>
               <ExpertsList experts={experts} />
               <Grid container justify="center" ref={gridRef}>
                 <LoadMoreButton
@@ -165,10 +182,10 @@ const ExpertsView: React.FC = () => {
                   textType={LoadMoreButtonTextType.EXPERT}
                 />
               </Grid>
-            </Grid>
-          </>
-        )}
-      </>
+            </>
+          )}
+        </Grid>
+      </Grid>
     </>
   );
 };

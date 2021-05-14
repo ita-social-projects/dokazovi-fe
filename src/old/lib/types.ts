@@ -90,7 +90,7 @@ export interface IPost {
 }
 
 export interface IExpert {
-  id: number;
+  id?: number | undefined;
   firstName: string;
   lastName: string;
   avatar?: string;
@@ -133,6 +133,7 @@ export interface IOrigin {
 export interface IRegion {
   id: number;
   name: string;
+  usersPresent?: boolean;
 }
 
 export interface IInstitution {

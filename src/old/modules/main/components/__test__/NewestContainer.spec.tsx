@@ -19,10 +19,10 @@ const initialState: IMainState = {
       error: '',
     },
   },
-  experts: {
-    expertIds: [],
-    meta: { loading: LoadingStatusEnum.failed, error: '', pageNumber: 0 },
-  },
+  // experts: {
+  //   expertIds: [],
+  //   meta: { loading: LoadingStatusEnum.failed, error: '', pageNumber: 0 },
+  // },
 };
 
 describe('newest', () => {

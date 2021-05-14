@@ -95,7 +95,10 @@ export const expertsSlice = createSlice({
     },
     loadMaterials: (
       state,
-      action: PayloadAction<{ expertId: number; materials: IMaterials }>,
+      action: PayloadAction<{
+        expertId: number | undefined;
+        materials: IMaterials;
+      }>,
     ) => {
       const {
         materials: { postIds, meta },
@@ -106,7 +109,7 @@ export const expertsSlice = createSlice({
     setMaterialsLoadingStatus: (
       state,
       action: PayloadAction<{
-        expertId: number;
+        expertId: number | undefined;
         status: LoadingStatusEnum;
         error?: string;
       }>,
@@ -170,7 +173,7 @@ export const {
 export const expertsReducer = expertsSlice.reducer;
 
 export const fetchExpertMaterials = (
-  expertId: number,
+  expertId: number | undefined,
   filters?: RequestParamsType,
   appendPosts = false,
 ): AppThunkType => async (dispatch, getState) => {

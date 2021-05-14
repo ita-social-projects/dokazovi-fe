@@ -32,7 +32,7 @@ import {
 } from '../../../store/experts/expertsSlice';
 
 export interface IExpertMaterialsContainerProps {
-  expertId: number;
+  expertId: number | undefined;
 }
 
 const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
@@ -60,6 +60,7 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
   } = expertData;
 
   const materials = selectPostsByIds(postIds);
+  console.log(materials);
   const postTypes = useSelector(
     (state: RootStateType) => state.properties.postTypes,
   );
