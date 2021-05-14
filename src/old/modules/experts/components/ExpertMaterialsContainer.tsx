@@ -32,7 +32,7 @@ import {
 } from '../../../store/experts/expertsSlice';
 
 export interface IExpertMaterialsContainerProps {
-  expertId: number | undefined;
+  expertId: number;
 }
 
 const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({

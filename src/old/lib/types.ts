@@ -90,7 +90,7 @@ export interface IPost {
 }
 
 export interface IExpert {
-  id?: number | undefined;
+  id: number;
   firstName: string;
   lastName: string;
   avatar?: string;
