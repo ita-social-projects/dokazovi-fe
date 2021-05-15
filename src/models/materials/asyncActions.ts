@@ -1,9 +1,9 @@
 /* eslint-disable */
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { getPosts } from '../../lib/utilities/API/api';
-import { LOAD_POSTS_LIMIT } from '../../lib/constants/posts';
-import { IPost, LoadingStatusEnum } from '../../lib/types';
-import { PostResponseType } from '../../lib/utilities/API/types';
+import { getPosts } from '../../old/lib/utilities/API/api';
+import { LOAD_POSTS_LIMIT } from '../../old/lib/constants/posts';
+import { IPost, LoadingStatusEnum } from '../../old/lib/types';
+import { PostResponseType } from '../../old/lib/utilities/API/types';
 import { IFetchMaterialsOptions } from './types';
 
 export const mapFetchedPosts = (
@@ -16,7 +16,7 @@ export const mapFetchedPosts = (
 
 export const fetchMaterials = createAsyncThunk(
   'materials/fetchMaterials',
-  async (options: IFetchMaterialsOptions, { dispatch, getState }) => {
+  async (options: IFetchMaterialsOptions, { getState }) => {
     const { filters, page, appendPosts } = options;
 
     const response = await getPosts('latest', {

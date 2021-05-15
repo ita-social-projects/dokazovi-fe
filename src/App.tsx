@@ -9,17 +9,17 @@ import {
 } from '@material-ui/core';
 import { ROUTER_CONFIG } from './old/navigation/router-config';
 import { RenderRoutes } from './old/navigation/Router';
-import {
-  fetchDirections,
-  fetchPostsTypes,
-  fetchRegions,
-  fetchOrigins,
-} from './old/store/propertiesSlice';
 import { AuthProvider } from './old/provider/AuthProvider/AuthProvider';
 import { MAIN_THEME } from './old/lib/theme/theme';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import 'react-toastify/dist/ReactToastify.min.css';
+import {
+  fetchDirections,
+  fetchOrigins,
+  fetchPostsTypes,
+  fetchRegions,
+} from './models/properties/asyncActions';
 
 export const App: React.FC = () => {
   const dispatch = useDispatch();

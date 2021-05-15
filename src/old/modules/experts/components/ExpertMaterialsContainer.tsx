@@ -1,7 +1,8 @@
+/* eslint-disable */
 import { Grid, Typography } from '@material-ui/core';
 import { isEmpty, uniq } from 'lodash';
 import React, { useEffect, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import CheckboxFilterForm, {
   CheckboxFormStateType,
@@ -16,8 +17,8 @@ import {
   FilterTypeEnum,
   IPostType,
   LoadingStatusEnum,
-  QueryTypeEnum,
   LoadMoreButtonTextType,
+  QueryTypeEnum,
 } from '../../../lib/types';
 import { RequestParamsType } from '../../../lib/utilities/API/types';
 import {
@@ -25,11 +26,15 @@ import {
   mapQueryIdsStringToArray,
 } from '../../../lib/utilities/filters';
 import { RootStateType } from '../../../store/rootReducer';
-import { selectPostsByIds } from '../../../store/selectors';
 import {
   fetchExpertMaterials,
   resetMaterials,
-} from '../../../store/experts/expertsSlice';
+} from '../../../../models/experts';
+import { useActions } from '../../../../shared/hooks';
+import {
+  selectExpertsData,
+  selectLoadingExpertsPosts,
+} from '../../../../models/experts/selectors';
 
 export interface IExpertMaterialsContainerProps {
   expertId: number;
@@ -38,28 +43,26 @@ export interface IExpertMaterialsContainerProps {
 const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
   expertId,
 }) => {
-  const dispatch = useDispatch();
+  const {
+    posts,
+    postIds,
+    meta: { isLastPage, pageNumber, totalElements, totalPages },
+  } = useSelector(selectExpertsData);
+
+  const loading = useSelector(selectLoadingExpertsPosts);
+
   const query = useQuery();
   const history = useHistory();
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(pageNumber);
   const previous = usePrevious({ page });
 
+  const [boundResetMaterials] = useActions([resetMaterials]);
+
   useEffect(() => {
-    const reset = () => {
-      dispatch(resetMaterials());
-    };
-    reset();
+    boundResetMaterials();
   }, [expertId]);
 
-  const expertData = useSelector(
-    (state: RootStateType) => state.experts.materials,
-  );
-  const {
-    postIds,
-    meta: { loading, isLastPage, pageNumber, totalElements, totalPages },
-  } = expertData;
-
-  const materials = selectPostsByIds(postIds);
+  const materials = Object.values(posts);
   const postTypes = useSelector(
     (state: RootStateType) => state.properties.postTypes,
   );
@@ -88,6 +91,8 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
     setPage(page + 1);
   };
 
+  const [boundFetchExpertMaterials] = useActions([fetchExpertMaterials]);
+
   const fetchData = (appendPosts = false) => {
     const postTypesQuery = query.get(QueryTypeEnum.POST_TYPES);
 
@@ -96,7 +101,7 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
       type: mapQueryIdsStringToArray(postTypesQuery),
     };
 
-    dispatch(fetchExpertMaterials(expertId, filters, appendPosts));
+    boundFetchExpertMaterials({ expertId, filters, page, appendPosts });
   };
 
   useEffect(() => {
