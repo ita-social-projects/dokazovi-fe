@@ -1,33 +1,30 @@
 import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { BorderBottom } from '../../../lib/components/Border';
 import Carousel from '../../../lib/components/Carousel/Carousel';
-import { RootStateType } from '../../../store/rootReducer';
 import { useStyles } from '../styles/ImportantContainer.styles';
-import {
-  fetchImportantPosts,
-  setImportantLoadingStatus,
-} from '../store/mainSlice';
-import { selectPostsByIds } from '../../../store/selectors';
 import { ImportantPostPreviewCard } from '../../../../components/Posts/Cards/ImportantPostPreviewCard/ImportantPostPreviewCard';
 import { LoadingContainer } from '../../../lib/components/Loading/LoadingContainer';
+import {
+  fetchImportantPosts,
+  selectImportantPosts,
+  selectLoadingMain,
+} from '../../../../models/main';
+import { useActions } from '../../../../shared/hooks';
 
 const ImportantContainer: React.FC = () => {
   const classes = useStyles();
-  const {
-    importantPostIds,
-    meta: { loading },
-  } = useSelector((state: RootStateType) => state.main.important);
-  const importantPosts = selectPostsByIds(importantPostIds);
+  const { importantPostIds, importantPosts: posts } = useSelector(
+    selectImportantPosts,
+  );
+  const loading = useSelector(selectLoadingMain);
+  // const importantPosts = selectPostsByIds(importantPostIds);
+  const importantPosts = Object.values(posts);
 
-  const dispatch = useDispatch();
+  const [boundFetchImportantPosts] = useActions([fetchImportantPosts]);
 
   useEffect(() => {
-    const dispatchFetchAction = () => {
-      dispatch(setImportantLoadingStatus());
-      dispatch(fetchImportantPosts());
-    };
-    dispatchFetchAction();
+    boundFetchImportantPosts();
   }, []);
 
   return (

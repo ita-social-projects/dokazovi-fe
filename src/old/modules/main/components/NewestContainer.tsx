@@ -1,22 +1,23 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useActions } from '../../../../shared/hooks/useActions';
-import { RootStateType } from '../../../store/rootReducer';
-import { fetchNewestPosts } from '../store/mainSlice';
 import { useStyles } from '../styles/NewestContainer.style';
 import { PostsList } from '../../../lib/components/Posts/PostsList';
 import { LoadingStatusEnum } from '../../../lib/types';
-import { selectPostsByIds } from '../../../store/selectors';
 import { LoadingContainer } from '../../../lib/components/Loading/LoadingContainer';
+import {
+  fetchNewestPosts,
+  selectLoadingMain,
+  selectNewestPosts,
+} from '../../../../models/main';
 
 const NewestContainer: React.FC = () => {
   const classes = useStyles();
 
-  const {
-    newestPostIds,
-    meta: { loading },
-  } = useSelector((state: RootStateType) => state.main.newest);
-  const newestPosts = selectPostsByIds(newestPostIds);
+  const { newestPostIds, newestPosts: posts } = useSelector(selectNewestPosts);
+  const loading = useSelector(selectLoadingMain);
+  // const newestPosts = selectPostsByIds(newestPostIds);
+  const newestPosts = Object.values(posts);
 
   const [boundFetchNewestPosts] = useActions([fetchNewestPosts]);
 
