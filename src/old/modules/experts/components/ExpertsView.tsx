@@ -1,7 +1,9 @@
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import React, { useEffect, useRef, useState } from 'react';
 import { isEmpty, uniq } from 'lodash';
 import { useHistory } from 'react-router-dom';
-import { Grid } from '@material-ui/core';
+import { Grid, Typography, Box } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 import {
   FilterTypeEnum,
@@ -27,10 +29,12 @@ import { LoadingContainer } from '../../../lib/components/Loading/LoadingContain
 import { usePrevious } from '../../../lib/hooks/usePrevious';
 import { PageTitle } from '../../../lib/components/Pages/PageTitle';
 import { useQuery } from '../../../lib/hooks/useQuery';
-import { CheckboxDropdownFilterForm } from '../../../lib/components/Filters/CheckboxDropdownFilterForm';
+import { CheckboxLeftsideFilterForm } from '../../../lib/components/Filters/CheckboxLeftsideFilterForm';
 import { useActions } from '../../../../shared/hooks';
-import { LOAD_EXPERTS_LIMIT } from '../../../lib/constants/experts';
+// import { LOAD_EXPERTS_LIMIT } from '../../../lib/constants/experts';
 import { selectLoadingExperts } from '../../../../models/experts/selectors';
+import ChipsList from '../../../../components/Chips/ChipsList/ChipsList';
+import { useStyles } from '../styles/ExpertsView.styles';
 
 const ExpertsView: React.FC = () => {
   const {
@@ -45,6 +49,7 @@ const ExpertsView: React.FC = () => {
   const previous = usePrevious({ page });
   const query = useQuery();
   const history = useHistory();
+  const classes = useStyles();
 
   const experts = selectExpertsByIds(expertIds);
 
@@ -96,11 +101,11 @@ const ExpertsView: React.FC = () => {
 
   useEffect(() => {
     const appendExperts = previous && previous.page < page;
-    if (
-      !isLastPage &&
-      Math.ceil(experts.length / LOAD_EXPERTS_LIMIT) !== page + 1
-    )
-      fetchData(appendExperts);
+    // if (
+    //   !isLastPage &&
+    //   Math.ceil(experts.length / LOAD_EXPERTS_LIMIT) !== page + 1
+    // )
+    fetchData(appendExperts);
   }, [
     page,
     query.get(QueryTypeEnum.REGIONS),
@@ -133,36 +138,150 @@ const ExpertsView: React.FC = () => {
     }
   }, [expertIds]);
 
+  const handleDelete = (filterToDelete) => () => {
+    if (selectedRegions !== undefined) {
+      const reg = selectedRegions.filter(
+        (filter) => filter.id !== filterToDelete.id,
+      );
+      history.push(`/experts?directions=${reg}`);
+    }
+  };
+
+  const getRegions = () => {
+    if (selectedRegions) {
+      const names = selectedRegions?.reduce((acc, filter) => {
+        acc.push(filter.name);
+        return acc;
+      }, [] as string[]);
+      if (names?.length < 4) {
+        return names.join(', ');
+      }
+      return `${names?.slice(0, 3).join(', ')} + ${names?.length - 3}`;
+    }
+    return regions
+      .reduce((acc, filter) => {
+        acc.push(filter.name);
+        return acc;
+      }, [] as string[])
+      .join(', ');
+  };
+
+  const getDirections = () => {
+    if (selectedDirections) {
+      const names = selectedDirections?.reduce((acc, filter) => {
+        acc.push(filter.name);
+        return acc;
+      }, [] as string[]);
+      if (names?.length < 4) {
+        return names.join(', ');
+      }
+      return `${names?.slice(0, 3).join(', ')} + ${names?.length - 3}`;
+    }
+    return directions
+      .reduce((acc, filter) => {
+        acc.push(filter.name);
+        return acc;
+      }, [] as string[])
+      .join(', ');
+  };
+
+  const declOfNum = (number: number, words: string[]) => {
+    return words[
+      number % 100 > 4 && number % 100 < 20
+        ? 2
+        : [2, 0, 1, 1, 1, 2][number % 10 < 5 ? number % 10 : 5]
+    ];
+  };
+
   return (
     <>
       <PageTitle title="Автори" />
-
-      {propertiesLoaded && (
-        <Grid container direction="column">
-          <CheckboxDropdownFilterForm
-            onFormChange={(checked) =>
-              setFilters(checked, FilterTypeEnum.REGIONS)
-            }
-            possibleFilters={regions}
-            selectedFilters={selectedRegions}
-            filterTitle="Регіони: "
-          />
-          <CheckboxDropdownFilterForm
-            onFormChange={(checked) =>
-              setFilters(checked, FilterTypeEnum.DIRECTIONS)
-            }
-            possibleFilters={directions}
-            selectedFilters={selectedDirections}
-            filterTitle="Напрямки: "
-          />
+      <Grid container direction="row">
+        <Grid item container direction="column" xs={3}>
+          {propertiesLoaded && (
+            <>
+              <Typography
+                variant="h1"
+                style={{
+                  width: '100%',
+                  fontSize: '28px',
+                  lineHeight: '28px',
+                  fontWeight: 'bold',
+                  margin: '0 0 28px 15px',
+                }}
+              >
+                Вибрати авторів...
+              </Typography>
+              <CheckboxLeftsideFilterForm
+                onFormChange={(checked) =>
+                  setFilters(checked, FilterTypeEnum.DIRECTIONS)
+                }
+                possibleFilters={directions}
+                selectedFilters={selectedDirections}
+                filterTitle="за темою"
+                allTitle="Всі теми"
+                // handleDelete={handleDelete()}
+              />
+              <CheckboxLeftsideFilterForm
+                onFormChange={(checked) =>
+                  setFilters(checked, FilterTypeEnum.REGIONS)
+                }
+                possibleFilters={regions}
+                selectedFilters={selectedRegions}
+                filterTitle="за регіоном"
+                handleDelete={handleDelete(selectedRegions)}
+                allTitle="Всі регіони"
+              />
+            </>
+          )}
         </Grid>
-      )}
-      <>
-        {page === 0 && loading === LoadingStatusEnum.pending ? (
-          <LoadingContainer loading={loading} expand />
-        ) : (
-          <>
-            <Grid container xs={9}>
+
+        <Grid item container xs={9}>
+          <Box className={classes.container}>
+            {selectedDirections === undefined ? (
+              <Typography
+                className={classes.selectedFilters}
+                component="span"
+                variant="subtitle2"
+              >
+                Всі теми
+              </Typography>
+            ) : (
+              <ChipsList checkedNames={getDirections()} />
+            )}
+            <Typography className={classes.divider} component="span">
+              |
+            </Typography>
+            {selectedRegions === undefined ? (
+              <Typography
+                className={classes.selectedFilters}
+                component="span"
+                variant="subtitle2"
+              >
+                Всі регіони
+              </Typography>
+            ) : (
+              <ChipsList checkedNames={getRegions()} />
+            )}
+
+            <Typography className={classes.divider} component="span">
+              |
+            </Typography>
+            <Typography
+              className={classes.totalFilters}
+              component="span"
+              variant="subtitle2"
+              color="textSecondary"
+            >
+              {totalElements}{' '}
+              {declOfNum(totalElements, ['автор', 'автори', 'авторів'])}
+            </Typography>
+          </Box>
+
+          {page === 0 && loading === LoadingStatusEnum.pending ? (
+            <LoadingContainer loading={loading} expand />
+          ) : (
+            <>
               <ExpertsList experts={experts} />
               <Grid container justify="center" ref={gridRef}>
                 <LoadMoreButton
@@ -175,10 +294,10 @@ const ExpertsView: React.FC = () => {
                   textType={LoadMoreButtonTextType.EXPERT}
                 />
               </Grid>
-            </Grid>
-          </>
-        )}
-      </>
+            </>
+          )}
+        </Grid>
+      </Grid>
     </>
   );
 };

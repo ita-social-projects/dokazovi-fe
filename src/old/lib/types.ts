@@ -124,6 +124,13 @@ export interface IDirection {
   label?: string;
 }
 
+export interface IFilter {
+  id: number;
+  color?: string;
+  name: string;
+  label?: string;
+}
+
 export interface IOrigin {
   id: number;
   name: string;
@@ -133,6 +140,7 @@ export interface IOrigin {
 export interface IRegion {
   id: number;
   name: string;
+  usersPresent?: boolean;
 }
 
 export interface IInstitution {
