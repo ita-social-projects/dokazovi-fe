@@ -1,4 +1,4 @@
-import { IDirection } from '../../types';
+import { IDirection, IOrigin, IPost } from '../../types';
 
 export type CreatePostRequestType = {
   title: string;
@@ -155,6 +155,20 @@ type GetResponseType<T> = {
 export type ExpertsResponseType = GetResponseType<ExpertResponseType>;
 
 export type PostsResponseType = GetResponseType<PostResponseType>;
+
+export type NewestPostsResponseType = GetResponseType<NewestPostResponseType>;
+
+export enum NewestTypeEnum {
+  MEDIA,
+  TRANSLATION,
+  EXPERT_OPINION,
+  VIDEO,
+}
+
+export type NewestPostResponseType = {
+  fieldName: string;
+  postDTOS: IPost[];
+};
 
 export type GetTagsConfigType = {
   params: {

@@ -20,6 +20,7 @@ import {
   GetPostsConfigType,
   CreatePostRequestUnionType,
   UpdatePostRequestUnionType,
+  NewestPostsResponseType,
 } from './types';
 import { BASE_URL } from '../../../apiURL';
 import { getToken } from '../../../provider/AuthProvider/getToken';
@@ -43,7 +44,6 @@ instance.interceptors.request.use(
 );
 
 instance.interceptors.response.use(undefined, (error: AxiosError) => {
-  console.dir(error);
   if (error.message === 'Network Error' && !error.response) {
     toast.error("The server isn't responding...");
   }
@@ -67,7 +67,7 @@ const defaultConfig = {
 
 type GetPostsRequestType =
   | 'important'
-  | 'latest'
+  | 'latest-all'
   | 'latest-by-expert'
   | 'all-posts';
 
@@ -79,6 +79,12 @@ export const getPosts = async (
     ...defaultConfig,
     ...config,
   });
+};
+
+export const getNewestPosts = async (): Promise<
+  AxiosResponse<NewestPostsResponseType>
+> => {
+  return instance.get(`/post/latest`);
 };
 
 export const getRandomExperts = async (
