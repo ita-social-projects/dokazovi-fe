@@ -1,6 +1,6 @@
 /* eslint-disable */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { IPost, LoadingStatusEnum } from '../../lib/types';
+import { IPost, LoadingStatusEnum } from '../../old/lib/types';
 import { IMaterialsState } from './types';
 import { fetchMaterials } from './asyncActions';
 import { getAsyncActionsReducer } from '../helpers/asyncActions';
@@ -11,8 +11,6 @@ const initialState: IMaterialsState = {
     posts: {},
     meta: {
       isLastPage: false,
-      loading: LoadingStatusEnum.idle, // will be removed;
-      error: null, // will be removed;
       pageNumber: 0,
       totalElements: 0,
       totalPages: 0,

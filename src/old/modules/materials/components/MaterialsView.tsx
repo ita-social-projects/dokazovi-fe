@@ -1,7 +1,7 @@
 import { Grid } from '@material-ui/core';
 import { isEmpty, uniq } from 'lodash';
 import React, { useEffect, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import CheckboxFilterForm, {
   CheckboxFormStateType,
@@ -15,8 +15,8 @@ import {
   IDirection,
   IPostType,
   LoadingStatusEnum,
-  QueryTypeEnum,
   LoadMoreButtonTextType,
+  QueryTypeEnum,
 } from '../../../lib/types';
 import { RootStateType } from '../../../store/rootReducer';
 import { selectPostsByIds } from '../../../store/selectors';
@@ -27,7 +27,7 @@ import {
 import { LoadingContainer } from '../../../lib/components/Loading/LoadingContainer';
 import { PageTitle } from '../../../lib/components/Pages/PageTitle';
 import { useQuery } from '../../../lib/hooks/useQuery';
-import { selectMaterials, fetchMaterials } from '../../../store/materials';
+import { fetchMaterials, selectMaterials } from '../../../../models/materials';
 import { useActions } from '../../../../shared/hooks';
 import { LOAD_POSTS_LIMIT } from '../../../lib/constants/posts';
 import { CheckboxDropdownFilterForm } from '../../../lib/components/Filters/CheckboxDropdownFilterForm';
