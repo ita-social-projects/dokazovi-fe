@@ -1,12 +1,7 @@
-import { LoadingStatusEnum, IExpert } from '../../lib/types';
+import { IExpert, LoadingStatusEnum } from '../../old/lib/types';
 import { IMaterialsState } from '../materials/types';
 
-export interface IExpertPayload {
-  expertIds: number[];
-  meta: IExpertMeta;
-}
-
-export interface IData {
+export interface IExpertsData {
   expertIds: number[];
   meta: IExpertMeta;
   experts: {
@@ -15,15 +10,14 @@ export interface IData {
 }
 
 export interface IExpertsState {
-  data: IData;
-  // experts: IExpertPayload;
+  data: IExpertsData;
+  loading: LoadingStatusEnum;
+  error: null | string;
   posts: IMaterialsState;
 }
 export interface IExpertMeta {
   totalPages: number;
   pageNumber: number;
-  loading: LoadingStatusEnum;
-  error: null | string;
   isLastPage: boolean;
   totalElements: number;
 }

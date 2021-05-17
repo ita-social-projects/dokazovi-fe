@@ -1,17 +1,17 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { isEmpty, uniq } from 'lodash';
 import { useHistory } from 'react-router-dom';
 import { Grid } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 import {
-  LoadMoreButtonTextType,
   FilterTypeEnum,
   IDirection,
   IRegion,
   LoadingStatusEnum,
+  LoadMoreButtonTextType,
   QueryTypeEnum,
 } from '../../../lib/types';
-import { selectExperts, fetchExperts } from '../../../store/experts';
+import { fetchExperts, selectExperts } from '../../../../models/experts';
 import { RootStateType } from '../../../store/rootReducer';
 import { ExpertsList } from '../../../lib/components/Experts/ExpertsList';
 import { useEffectExceptOnMount } from '../../../lib/hooks/useEffectExceptOnMount';
@@ -29,14 +29,18 @@ import { PageTitle } from '../../../lib/components/Pages/PageTitle';
 import { useQuery } from '../../../lib/hooks/useQuery';
 import { CheckboxDropdownFilterForm } from '../../../lib/components/Filters/CheckboxDropdownFilterForm';
 import { useActions } from '../../../../shared/hooks';
+import { LOAD_EXPERTS_LIMIT } from '../../../lib/constants/experts';
+import { selectLoadingExperts } from '../../../../models/experts/selectors';
 
 const ExpertsView: React.FC = () => {
   const {
     data: {
       expertIds,
-      meta: { totalPages, pageNumber, loading, totalElements, isLastPage },
+      meta: { totalPages, pageNumber, totalElements, isLastPage },
     },
   } = useSelector(selectExperts);
+  const loading = useSelector(selectLoadingExperts);
+
   const [page, setPage] = useState(pageNumber);
   const previous = usePrevious({ page });
   const query = useQuery();
@@ -92,7 +96,11 @@ const ExpertsView: React.FC = () => {
 
   useEffect(() => {
     const appendExperts = previous && previous.page < page;
-    fetchData(appendExperts);
+    if (
+      !isLastPage &&
+      Math.ceil(experts.length / LOAD_EXPERTS_LIMIT) !== page + 1
+    )
+      fetchData(appendExperts);
   }, [
     page,
     query.get(QueryTypeEnum.REGIONS),
