@@ -27,11 +27,9 @@ import { LoadingContainer } from '../../../lib/components/Loading/LoadingContain
 import { usePrevious } from '../../../lib/hooks/usePrevious';
 import { PageTitle } from '../../../lib/components/Pages/PageTitle';
 import { useQuery } from '../../../lib/hooks/useQuery';
-
 import { CheckboxLeftsideFilterForm } from '../../../lib/components/Filters/CheckboxLeftsideFilterForm';
-
-import { useActions } from '../../../../shared/hooks';
 import { LOAD_EXPERTS_LIMIT } from '../../../lib/constants/experts';
+import { useActions } from '../../../../shared/hooks';
 import { selectLoadingExperts } from '../../../../models/experts/selectors';
 
 const ExpertsView: React.FC = () => {
@@ -97,17 +95,19 @@ const ExpertsView: React.FC = () => {
   };
 
   useEffect(() => {
-    const appendExperts = previous && previous.page < page;
+    const appendExperts = (previous && previous.page < page) || page !== 0;
     if (
       !isLastPage &&
       Math.ceil(experts.length / LOAD_EXPERTS_LIMIT) !== page + 1
-    )
+    ) {
       fetchData(appendExperts);
-  }, [
-    page,
-    query.get(QueryTypeEnum.REGIONS),
-    query.get(QueryTypeEnum.DIRECTIONS),
-  ]);
+    }
+  }, [page]);
+
+  useEffect(() => {
+    const appendExperts = (previous && previous.page < page) || page !== 0;
+    fetchData(appendExperts);
+  }, [query.get(QueryTypeEnum.REGIONS), query.get(QueryTypeEnum.DIRECTIONS)]);
 
   const selectedRegionsString = query.get(QueryTypeEnum.REGIONS)?.split(',');
   const selectedDirectionsString = query
