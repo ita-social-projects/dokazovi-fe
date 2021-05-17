@@ -1,10 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { isEmpty, uniq } from 'lodash';
 import { useHistory } from 'react-router-dom';
-
 import { Grid, Typography } from '@material-ui/core';
 import { useSelector } from 'react-redux';
-
 import {
   FilterTypeEnum,
   IDirection,
@@ -49,7 +47,6 @@ const ExpertsView: React.FC = () => {
   const previous = usePrevious({ page });
   const query = useQuery();
   const history = useHistory();
-
   const experts = selectExpertsByIds(expertIds);
 
   const regions = useSelector(
