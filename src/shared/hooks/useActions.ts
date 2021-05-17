@@ -5,10 +5,7 @@ import { useMemo } from 'react';
 
 type ActionsType = ((...params: any[]) => void)[];
 
-export function useActions(
-  actions: ActionsType,
-  deps?: unknown[],
-): ActionsType {
+export function useActions(actions: ActionsType, deps?: any[]): ActionsType {
   const dispatch = useDispatch();
   return useMemo(
     () => {

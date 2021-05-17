@@ -1,21 +1,21 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { isEmpty, uniq } from 'lodash';
 import { useHistory } from 'react-router-dom';
 import { Grid } from '@material-ui/core';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import {
-  LoadMoreButtonTextType,
   FilterTypeEnum,
   IDirection,
   IRegion,
   LoadingStatusEnum,
+  LoadMoreButtonTextType,
   QueryTypeEnum,
 } from '../../../lib/types';
-import { fetchExperts } from '../../../store/experts/expertsSlice';
+import { fetchExperts, selectExperts } from '../../../../models/experts';
 import { RootStateType } from '../../../store/rootReducer';
-import ExpertsList from '../../../lib/components/Experts/ExpertsList';
-import useEffectExceptOnMount from '../../../lib/hooks/useEffectExceptOnMount';
-import LoadMoreButton from '../../../lib/components/LoadMoreButton/LoadMoreButton';
+import { ExpertsList } from '../../../lib/components/Experts/ExpertsList';
+import { useEffectExceptOnMount } from '../../../lib/hooks/useEffectExceptOnMount';
+import { LoadMoreButton } from '../../../lib/components/LoadMoreButton/LoadMoreButton';
 
 import { selectExpertsByIds } from '../../../store/selectors';
 import { CheckboxFormStateType } from '../../../lib/components/Filters/CheckboxFilterForm';
@@ -23,23 +23,28 @@ import {
   getQueryTypeByFilterType,
   mapQueryIdsStringToArray,
 } from '../../../lib/utilities/filters';
-import usePrevious from '../../../lib/hooks/usePrevious';
+import { LoadingContainer } from '../../../lib/components/Loading/LoadingContainer';
+import { usePrevious } from '../../../lib/hooks/usePrevious';
 import { PageTitle } from '../../../lib/components/Pages/PageTitle';
-import LoadingContainer from '../../../lib/components/Loading/LoadingContainer';
 import { useQuery } from '../../../lib/hooks/useQuery';
-import CheckboxDropdownFilterForm from '../../../lib/components/Filters/CheckboxDropdownFilterForm';
+import { CheckboxDropdownFilterForm } from '../../../lib/components/Filters/CheckboxDropdownFilterForm';
+import { useActions } from '../../../../shared/hooks';
+import { LOAD_EXPERTS_LIMIT } from '../../../lib/constants/experts';
+import { selectLoadingExperts } from '../../../../models/experts/selectors';
 
 const ExpertsView: React.FC = () => {
-  const [page, setPage] = useState(0);
+  const {
+    data: {
+      expertIds,
+      meta: { totalPages, pageNumber, totalElements, isLastPage },
+    },
+  } = useSelector(selectExperts);
+  const loading = useSelector(selectLoadingExperts);
+
+  const [page, setPage] = useState(pageNumber);
   const previous = usePrevious({ page });
   const query = useQuery();
   const history = useHistory();
-  const dispatch = useDispatch();
-
-  const {
-    expertIds,
-    meta: { totalPages, pageNumber, loading, totalElements, isLastPage },
-  } = useSelector((state: RootStateType) => state.experts.experts);
 
   const experts = selectExpertsByIds(expertIds);
 
@@ -51,17 +56,18 @@ const ExpertsView: React.FC = () => {
   );
   const propertiesLoaded = !isEmpty(regions) && !isEmpty(directions);
 
+  const [boundFetchExperts] = useActions([fetchExperts]);
+
   const fetchData = (appendExperts = false) => {
     const regionsQuery = query.get(QueryTypeEnum.REGIONS);
     const directionsQuery = query.get(QueryTypeEnum.DIRECTIONS);
-    dispatch(
-      fetchExperts({
-        page,
-        regions: mapQueryIdsStringToArray(regionsQuery),
-        directions: mapQueryIdsStringToArray(directionsQuery),
-        appendExperts,
-      }),
-    );
+    const filters = {
+      page,
+      regions: mapQueryIdsStringToArray(regionsQuery),
+      directions: mapQueryIdsStringToArray(directionsQuery),
+      appendExperts,
+    };
+    boundFetchExperts(filters, appendExperts);
   };
 
   const setFilters = (
@@ -90,7 +96,11 @@ const ExpertsView: React.FC = () => {
 
   useEffect(() => {
     const appendExperts = previous && previous.page < page;
-    fetchData(appendExperts);
+    if (
+      !isLastPage &&
+      Math.ceil(experts.length / LOAD_EXPERTS_LIMIT) !== page + 1
+    )
+      fetchData(appendExperts);
   }, [
     page,
     query.get(QueryTypeEnum.REGIONS),

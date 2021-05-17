@@ -9,8 +9,8 @@ import {
   setImportantLoadingStatus,
 } from '../store/mainSlice';
 import { selectPostsByIds } from '../../../store/selectors';
-import LoadingContainer from '../../../lib/components/Loading/LoadingContainer';
 import { ImportantPostPreviewCard } from '../../../../components/Posts/Cards/ImportantPostPreviewCard/ImportantPostPreviewCard';
+import { LoadingContainer } from '../../../lib/components/Loading/LoadingContainer';
 
 const ImportantContainer: React.FC = () => {
   const classes = useStyles();

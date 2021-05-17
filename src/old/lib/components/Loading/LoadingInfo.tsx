@@ -7,7 +7,7 @@ export interface ILoadingInfoProps {
   errorMsg?: string;
 }
 
-const LoadingInfo: React.FC<ILoadingInfoProps> = ({
+export const LoadingInfo: React.FC<ILoadingInfoProps> = ({
   loading,
   errorMsg = 'Не вдалося завантажити більше матеріалів',
 }) => {
@@ -24,5 +24,3 @@ const LoadingInfo: React.FC<ILoadingInfoProps> = ({
     </>
   );
 };
-
-export default LoadingInfo;

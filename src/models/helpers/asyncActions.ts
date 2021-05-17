@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* @typescript-eslint/no-inferrable-types */
 import { AsyncThunk, SerializedError, PayloadAction } from '@reduxjs/toolkit';
-import { LoadingStatusEnum } from '../../lib/types';
+import { LoadingStatusEnum } from '../../old/lib/types';
 
 export const getAsyncActionsReducer = (
   asyncAction: AsyncThunk<any, void, Record<string, unknown>>,

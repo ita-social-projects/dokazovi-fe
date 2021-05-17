@@ -9,7 +9,7 @@ export interface IPostsListProps {
   postsList: IPost[];
 }
 
-const PostsList: React.FC<IPostsListProps> = ({ postsList }) => {
+export const PostsList: React.FC<IPostsListProps> = ({ postsList }) => {
   const classes = useStyles();
 
   return (
@@ -26,5 +26,3 @@ const PostsList: React.FC<IPostsListProps> = ({ postsList }) => {
     </Masonry>
   );
 };
-
-export default PostsList;

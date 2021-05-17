@@ -7,7 +7,7 @@ export interface IExpertsListProps {
   experts: IExpert[];
 }
 
-const ExpertsList: React.FC<IExpertsListProps> = (props) => {
+export const ExpertsList: React.FC<IExpertsListProps> = (props) => {
   const { experts } = props;
 
   return (
@@ -20,5 +20,3 @@ const ExpertsList: React.FC<IExpertsListProps> = (props) => {
     </Grid>
   );
 };
-
-export default ExpertsList;

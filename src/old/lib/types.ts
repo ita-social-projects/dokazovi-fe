@@ -89,7 +89,7 @@ export interface IPost {
     firstName: string;
     id: number;
     lastName: string;
-    mainInstitution?: {
+    mainInstitution: {
       city: {
         id: number;
         name: string;
@@ -99,6 +99,7 @@ export interface IPost {
     };
   };
   directions: IDirection[];
+  origin: IOrigin[];
   tags?: IPostTag[];
   type: IPostType;
   createdAt: string;
@@ -127,12 +128,6 @@ export interface IExpert {
   };
 }
 
-export interface IOrigin {
-  id: OriginType;
-  name: string;
-  parameter?: string;
-}
-
 export interface IPostTag {
   id: number;
   tag: string;
@@ -148,6 +143,12 @@ export interface IDirection {
   color?: string;
   name: string;
   label?: string;
+}
+
+export interface IOrigin {
+  id: number;
+  name: string;
+  parameter: null | string | number;
 }
 
 export interface IRegion {

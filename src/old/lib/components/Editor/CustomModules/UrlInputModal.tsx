@@ -100,5 +100,3 @@ export const UrlInputModal: React.FC<IUrlInputModalProps> = ({
     </div>
   );
 };
-
-// export default UrlInputModal;
