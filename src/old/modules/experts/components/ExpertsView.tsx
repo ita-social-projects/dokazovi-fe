@@ -1,7 +1,9 @@
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import React, { useEffect, useRef, useState } from 'react';
 import { isEmpty, uniq } from 'lodash';
 import { useHistory } from 'react-router-dom';
-import { Grid, Typography } from '@material-ui/core';
+import { Grid, Typography, Box } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 import {
   FilterTypeEnum,
@@ -31,6 +33,8 @@ import { CheckboxLeftsideFilterForm } from '../../../lib/components/Filters/Chec
 import { LOAD_EXPERTS_LIMIT } from '../../../lib/constants/experts';
 import { useActions } from '../../../../shared/hooks';
 import { selectLoadingExperts } from '../../../../models/experts/selectors';
+import ChipsList from '../../../../components/Chips/ChipsList/ChipsList';
+import { useStyles } from '../styles/ExpertsView.styles';
 
 const ExpertsView: React.FC = () => {
   const {
@@ -45,6 +49,8 @@ const ExpertsView: React.FC = () => {
   const previous = usePrevious({ page });
   const query = useQuery();
   const history = useHistory();
+  const classes = useStyles();
+
   const experts = selectExpertsByIds(expertIds);
 
   const regions = useSelector(
@@ -114,8 +120,10 @@ const ExpertsView: React.FC = () => {
     .get(QueryTypeEnum.DIRECTIONS)
     ?.split(',');
 
-  let selectedRegions: IRegion[] | undefined = regions?.filter((region) =>
-    selectedRegionsString?.includes(region.id.toString()),
+  let selectedRegions: IRegion[] | undefined = regions?.filter(
+    (region) =>
+      selectedRegionsString?.includes(region.id.toString()) &&
+      region.usersPresent,
   );
   let selectedDirections:
     | IDirection[]
@@ -135,77 +143,168 @@ const ExpertsView: React.FC = () => {
     }
   }, [expertIds]);
 
+  const handleDelete = (filterToDelete) => () => {
+    if (selectedRegions !== undefined) {
+      const reg = selectedRegions.filter(
+        (filter) => filter.id !== filterToDelete.id,
+      );
+      history.push(`/experts?directions=${reg}`);
+    }
+  };
+
+  const getRegions = () => {
+    if (selectedRegions) {
+      const names = selectedRegions?.reduce((acc, filter) => {
+        acc.push(filter.name);
+        return acc;
+      }, [] as string[]);
+      if (names) {
+        return names.join(', ');
+      }
+    }
+
+    return regions
+      .reduce((acc, filter) => {
+        acc.push(filter.name);
+        return acc;
+      }, [] as string[])
+      .join(', ');
+  };
+
+  const getDirections = () => {
+    if (selectedDirections) {
+      const names = selectedDirections?.reduce((acc, filter) => {
+        acc.push(filter.name);
+        return acc;
+      }, [] as string[]);
+      if (names) {
+        return names.join(', ');
+      }
+    }
+    return directions
+      .reduce((acc, filter) => {
+        acc.push(filter.name);
+        return acc;
+      }, [] as string[])
+      .join(', ');
+  };
+
+  const declOfNum = (number: number, words: string[]) => {
+    return words[
+      number % 100 > 4 && number % 100 < 20
+        ? 2
+        : [2, 0, 1, 1, 1, 2][number % 10 < 5 ? number % 10 : 5]
+    ];
+  };
+
   return (
     <>
       <PageTitle title="Автори" />
-
-      <Grid container direction="column">
-        <Grid container direction="row">
-          <Grid item xs={3}>
-            {propertiesLoaded && (
-              <Typography
-                variant="h1"
-                style={{
-                  width: '90%',
-                  fontSize: '28px',
-                  lineHeight: '28px',
-                  fontWeight: 'bold',
-                  margin: '0 0 28px 15px',
-                }}
-              >
-                Вибрані автори:
-              </Typography>
-            )}
-          </Grid>
-          <Grid item xs={9}>
-            {propertiesLoaded && 'chips...'}
-          </Grid>
+      <Grid container direction="row">
+        <Grid item container direction="column" xs={3}>
+          <Typography
+            variant="h1"
+            style={{
+              width: '100%',
+              fontSize: '28px',
+              lineHeight: '28px',
+              fontWeight: 'bold',
+              margin: '0 0 28px 15px',
+            }}
+          >
+            Вибрати авторів...
+          </Typography>
         </Grid>
-        <Grid container direction="row">
-          <Grid item container direction="column" xs={3}>
-            {propertiesLoaded && (
-              <>
-                <CheckboxLeftsideFilterForm
-                  onFormChange={(checked) =>
-                    setFilters(checked, FilterTypeEnum.DIRECTIONS)
-                  }
-                  possibleFilters={directions}
-                  selectedFilters={selectedDirections}
-                  filterTitle="за темою"
-                  allTitle="Всі теми"
-                />
-                <CheckboxLeftsideFilterForm
-                  onFormChange={(checked) =>
-                    setFilters(checked, FilterTypeEnum.REGIONS)
-                  }
-                  possibleFilters={regions}
-                  selectedFilters={selectedRegions}
-                  filterTitle="за регіоном"
-                  allTitle="Всі регіони"
-                />
-              </>
-            )}
-          </Grid>
-          <Grid item container xs={9}>
-            {page === 0 && loading === LoadingStatusEnum.pending ? (
-              <LoadingContainer loading={loading} expand />
+        <Grid item container direction="column" xs={9}>
+          <Box className={classes.container}>
+            {selectedDirections === undefined ? (
+              <Typography
+                className={classes.selectedFilters}
+                component="div"
+                variant="subtitle2"
+              >
+                Всі теми
+              </Typography>
             ) : (
-              <>
-                <ExpertsList experts={experts} />
-                <Grid container justify="center" ref={gridRef}>
-                  <LoadMoreButton
-                    clicked={loadMore}
-                    isLastPage={isLastPage}
-                    loading={loading}
-                    totalPages={totalPages}
-                    totalElements={totalElements}
-                    pageNumber={pageNumber}
-                    textType={LoadMoreButtonTextType.EXPERT}
-                  />
-                </Grid>
-              </>
+              <ChipsList checkedNames={getDirections()} />
             )}
-          </Grid>
+            <Typography className={classes.divider} component="span">
+              |
+            </Typography>
+            {selectedRegions === undefined ? (
+              <Typography
+                className={classes.selectedFilters}
+                component="div"
+                variant="subtitle2"
+              >
+                Всі регіони
+              </Typography>
+            ) : (
+              <ChipsList checkedNames={getRegions()} />
+            )}
+
+            <Typography className={classes.divider} component="span">
+              |
+            </Typography>
+            <Typography
+              className={classes.totalFilters}
+              component="div"
+              variant="subtitle2"
+              color="textSecondary"
+            >
+              {totalElements}{' '}
+              {declOfNum(totalElements, ['автор', 'автори', 'авторів'])}
+            </Typography>
+          </Box>
+        </Grid>
+      </Grid>
+      <Grid container direction="row">
+        <Grid item container direction="column" xs={3}>
+          {propertiesLoaded && (
+            <>
+              <CheckboxLeftsideFilterForm
+                onFormChange={(checked) =>
+                  setFilters(checked, FilterTypeEnum.DIRECTIONS)
+                }
+                possibleFilters={directions}
+                selectedFilters={selectedDirections}
+                filterTitle="за темою"
+                allTitle="Всі теми"
+                // handleDelete={handleDelete()}
+              />
+              <CheckboxLeftsideFilterForm
+                onFormChange={(checked) =>
+                  setFilters(checked, FilterTypeEnum.REGIONS)
+                }
+                possibleFilters={regions}
+                selectedFilters={selectedRegions}
+                filterTitle="за регіоном"
+                handleDelete={handleDelete(selectedRegions)}
+                allTitle="Всі регіони"
+              />
+            </>
+          )}
+        </Grid>
+
+        <Grid item container xs={9} direction="column">
+          {page === 0 && loading === LoadingStatusEnum.pending ? (
+            <LoadingContainer loading={loading} expand />
+          ) : (
+            <>
+              <ExpertsList experts={experts} />
+              <Grid container justify="center" ref={gridRef}>
+                <LoadMoreButton
+                  clicked={loadMore}
+                  isLastPage={isLastPage}
+                  loading={loading}
+                  totalPages={totalPages}
+                  totalElements={totalElements}
+                  pageNumber={pageNumber}
+                  textType={LoadMoreButtonTextType.EXPERT}
+                />
+              </Grid>
+            </>
+          )}
         </Grid>
       </Grid>
     </>

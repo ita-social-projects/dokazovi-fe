@@ -25,6 +25,7 @@ export interface ICheckboxLeftsideFilterFormProps {
   selectedFilters?: IFilter[];
   filterTitle: string;
   allTitle: string;
+  handleDelete?: () => void;
 }
 
 export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormProps> = ({

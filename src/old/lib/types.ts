@@ -125,6 +125,13 @@ export interface IDirection {
   hasPosts?: boolean;
 }
 
+export interface IFilter {
+  id: number;
+  color?: string;
+  name: string;
+  label?: string;
+}
+
 export interface IOrigin {
   id: number;
   name: string;
