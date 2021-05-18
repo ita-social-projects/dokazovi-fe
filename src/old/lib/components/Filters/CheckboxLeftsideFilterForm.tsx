@@ -34,8 +34,8 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
   filterTitle,
   allTitle,
 }) => {
-  const [toggle, setToggle] = useState(true);
-  const isInitialStateEmpty = isEmpty(selectedFilters) && toggle;
+  const [toggleInitialState, setToggleInitialState] = useState(true);
+  const isInitialStateEmpty = isEmpty(selectedFilters) && toggleInitialState;
   const classes = useStyles();
   const [allChecked, setAllChecked] = useState(true);
   const getCheckedStateFromFilters = (): CheckboxFormStateType => {
@@ -69,10 +69,10 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
       setAllChecked(false);
     }
 
-    if (!toggle && event.target.checked) {
-      setToggle(true);
-    } else if (toggle && !event.target.checked) {
-      setToggle(false);
+    if (!toggleInitialState && event.target.checked) {
+      setToggleInitialState(true);
+    } else if (toggleInitialState && !event.target.checked) {
+      setToggleInitialState(false);
     }
 
     onFormChange({
@@ -82,10 +82,10 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
   };
 
   const onCheckboxAllChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (!toggle && event.target.checked) {
-      setToggle(true);
-    } else if (toggle && !event.target.checked) {
-      setToggle(false);
+    if (!toggleInitialState && event.target.checked) {
+      setToggleInitialState(true);
+    } else if (toggleInitialState && !event.target.checked) {
+      setToggleInitialState(false);
     }
 
     const checkedFilters = event.target.checked
