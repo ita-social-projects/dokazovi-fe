@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import React, { useEffect, useState } from 'react';
 import { isEmpty, mapValues } from 'lodash';
 import {
@@ -33,9 +34,10 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
   filterTitle,
   allTitle,
 }) => {
-  const isInitialStateEmpty = isEmpty(selectedFilters);
+  const [toggle, setToggle] = useState(true);
+  const isInitialStateEmpty = isEmpty(selectedFilters) && toggle;
   const classes = useStyles();
-
+  const [allChecked, setAllChecked] = useState(true);
   const getCheckedStateFromFilters = (): CheckboxFormStateType => {
     return possibleFilters.reduce((acc, next) => {
       acc[next.id] =
@@ -44,31 +46,33 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
       return acc;
     }, {});
   };
-
-  const [allChecked, setAllChecked] = useState(isInitialStateEmpty);
   const [checked, setChecked] = useState<CheckboxFormStateType>(
     getCheckedStateFromFilters(),
   );
-
-  // console.log(checked);
-
   const [regionItem, setRegionItem] = useState(false);
 
   useEffect(() => {
     if (
-      selectedFilters === undefined ||
+      isInitialStateEmpty ||
       selectedFilters?.length === possibleFilters.length
     ) {
       setAllChecked(true);
-    } else {
+    } else if (allChecked) {
       setAllChecked(false);
     }
+
     setChecked(getCheckedStateFromFilters());
   }, [selectedFilters]);
 
   const onCheckboxCheck = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (!event.target.checked && allChecked) {
       setAllChecked(false);
+    }
+
+    if (!toggle && event.target.checked) {
+      setToggle(true);
+    } else if (toggle && !event.target.checked) {
+      setToggle(false);
     }
 
     onFormChange({
@@ -78,6 +82,12 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
   };
 
   const onCheckboxAllChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (!toggle && event.target.checked) {
+      setToggle(true);
+    } else if (toggle && !event.target.checked) {
+      setToggle(false);
+    }
+
     const checkedFilters = event.target.checked
       ? mapValues(checked, () => true)
       : mapValues(checked, () => false);
@@ -91,23 +101,37 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
     const allRegions = store.getState().properties.regions;
     let result: boolean | undefined = false;
 
-    if (allRegions.find((dir) => dir.name === filterName)) {
+    if (allRegions.find((reg) => reg.name === filterName)) {
       if (regionItem === false) {
         setRegionItem(true);
       }
-      const region = allRegions.find((dir) => dir.name === filterName);
+      const region = allRegions.find((reg) => reg.name === filterName);
       result = region?.usersPresent;
     }
 
     return result;
   };
 
-  // console.log("123");
+  const getHasMaterialsProperty = (filterName: string | undefined) => {
+    const allDirections = store.getState().properties.directions;
+    let result: boolean | undefined = false;
+
+    if (allDirections.find((dir) => dir.name === filterName)) {
+      const region = allDirections.find((dir) => dir.name === filterName);
+      result = region?.hasPosts;
+    }
+
+    return result;
+  };
 
   const checkBoxes = possibleFilters.map((filter) => {
     const id = filter.id.toString();
     const filterName = filter.name;
     const disabled = !getUsersPresentProperty(filterName);
+
+    if (!regionItem && !getHasMaterialsProperty(filterName)) {
+      return null;
+    }
 
     return (
       <FormControlLabel

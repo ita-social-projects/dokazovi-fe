@@ -139,62 +139,73 @@ const ExpertsView: React.FC = () => {
     <>
       <PageTitle title="Автори" />
 
-      <Grid container direction="row">
-        <Grid item container direction="column" xs={3}>
-          {propertiesLoaded && (
-            <>
+      <Grid container direction="column">
+        <Grid container direction="row">
+          <Grid item xs={3}>
+            {propertiesLoaded && (
               <Typography
                 variant="h1"
                 style={{
-                  width: '100%',
+                  width: '90%',
                   fontSize: '28px',
                   lineHeight: '28px',
                   fontWeight: 'bold',
                   margin: '0 0 28px 15px',
                 }}
               >
-                Вибрати авторів...
+                Вибрані автори:
               </Typography>
-              <CheckboxLeftsideFilterForm
-                onFormChange={(checked) =>
-                  setFilters(checked, FilterTypeEnum.DIRECTIONS)
-                }
-                possibleFilters={directions}
-                selectedFilters={selectedDirections}
-                filterTitle="за темою"
-                allTitle="Всі теми"
-              />
-              <CheckboxLeftsideFilterForm
-                onFormChange={(checked) =>
-                  setFilters(checked, FilterTypeEnum.REGIONS)
-                }
-                possibleFilters={regions}
-                selectedFilters={selectedRegions}
-                filterTitle="за регіоном"
-                allTitle="Всі регіони"
-              />
-            </>
-          )}
+            )}
+          </Grid>
+          <Grid item xs={9}>
+            {propertiesLoaded && 'chips...'}
+          </Grid>
         </Grid>
-        <Grid item container xs={9}>
-          {page === 0 && loading === LoadingStatusEnum.pending ? (
-            <LoadingContainer loading={loading} expand />
-          ) : (
-            <>
-              <ExpertsList experts={experts} />
-              <Grid container justify="center" ref={gridRef}>
-                <LoadMoreButton
-                  clicked={loadMore}
-                  isLastPage={isLastPage}
-                  loading={loading}
-                  totalPages={totalPages}
-                  totalElements={totalElements}
-                  pageNumber={pageNumber}
-                  textType={LoadMoreButtonTextType.EXPERT}
+        <Grid container direction="row">
+          <Grid item container direction="column" xs={3}>
+            {propertiesLoaded && (
+              <>
+                <CheckboxLeftsideFilterForm
+                  onFormChange={(checked) =>
+                    setFilters(checked, FilterTypeEnum.DIRECTIONS)
+                  }
+                  possibleFilters={directions}
+                  selectedFilters={selectedDirections}
+                  filterTitle="за темою"
+                  allTitle="Всі теми"
                 />
-              </Grid>
-            </>
-          )}
+                <CheckboxLeftsideFilterForm
+                  onFormChange={(checked) =>
+                    setFilters(checked, FilterTypeEnum.REGIONS)
+                  }
+                  possibleFilters={regions}
+                  selectedFilters={selectedRegions}
+                  filterTitle="за регіоном"
+                  allTitle="Всі регіони"
+                />
+              </>
+            )}
+          </Grid>
+          <Grid item container xs={9}>
+            {page === 0 && loading === LoadingStatusEnum.pending ? (
+              <LoadingContainer loading={loading} expand />
+            ) : (
+              <>
+                <ExpertsList experts={experts} />
+                <Grid container justify="center" ref={gridRef}>
+                  <LoadMoreButton
+                    clicked={loadMore}
+                    isLastPage={isLastPage}
+                    loading={loading}
+                    totalPages={totalPages}
+                    totalElements={totalElements}
+                    pageNumber={pageNumber}
+                    textType={LoadMoreButtonTextType.EXPERT}
+                  />
+                </Grid>
+              </>
+            )}
+          </Grid>
         </Grid>
       </Grid>
     </>

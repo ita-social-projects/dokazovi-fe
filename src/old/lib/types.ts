@@ -122,6 +122,7 @@ export interface IDirection {
   color?: string;
   name: string;
   label?: string;
+  hasPosts?: boolean;
 }
 
 export interface IOrigin {
