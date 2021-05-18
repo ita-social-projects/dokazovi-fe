@@ -51,8 +51,6 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
     getCheckedStateFromFilters(),
   );
 
-  // console.log(checked);
-
   const [regionItem, setRegionItem] = useState(false);
 
   useEffect(() => {

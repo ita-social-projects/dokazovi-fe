@@ -20,7 +20,11 @@ export const useStyles = makeStyles(
     divider: {
       padding: '0 15px',
     },
-    container: { margin: '10px 0px 36px 0px' },
+
+    container: {
+      margin: '10px 0px 36px 0px',
+      height: '40px',
+    },
   }),
   {
     name: 'ExpertsView',

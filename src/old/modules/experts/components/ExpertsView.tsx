@@ -31,7 +31,7 @@ import { PageTitle } from '../../../lib/components/Pages/PageTitle';
 import { useQuery } from '../../../lib/hooks/useQuery';
 import { CheckboxLeftsideFilterForm } from '../../../lib/components/Filters/CheckboxLeftsideFilterForm';
 import { useActions } from '../../../../shared/hooks';
-// import { LOAD_EXPERTS_LIMIT } from '../../../lib/constants/experts';
+import { LOAD_EXPERTS_LIMIT } from '../../../lib/constants/experts';
 import { selectLoadingExperts } from '../../../../models/experts/selectors';
 import ChipsList from '../../../../components/Chips/ChipsList/ChipsList';
 import { useStyles } from '../styles/ExpertsView.styles';
@@ -100,17 +100,19 @@ const ExpertsView: React.FC = () => {
   };
 
   useEffect(() => {
-    const appendExperts = previous && previous.page < page;
-    // if (
-    //   !isLastPage &&
-    //   Math.ceil(experts.length / LOAD_EXPERTS_LIMIT) !== page + 1
-    // )
+    const appendExperts = (previous && previous.page < page) || page !== 0;
+    if (
+      !isLastPage &&
+      Math.ceil(experts.length / LOAD_EXPERTS_LIMIT) !== page + 1
+    ) {
+      fetchData(appendExperts);
+    }
+  }, [page]);
+
+  useEffect(() => {
+    const appendExperts = (previous && previous.page < page) || page !== 0;
     fetchData(appendExperts);
-  }, [
-    page,
-    query.get(QueryTypeEnum.REGIONS),
-    query.get(QueryTypeEnum.DIRECTIONS),
-  ]);
+  }, [query.get(QueryTypeEnum.REGIONS), query.get(QueryTypeEnum.DIRECTIONS)]);
 
   const selectedRegionsString = query.get(QueryTypeEnum.REGIONS)?.split(',');
   const selectedDirectionsString = query
@@ -196,6 +198,7 @@ const ExpertsView: React.FC = () => {
   return (
     <>
       <PageTitle title="Автори" />
+
       <Grid container direction="row">
         <Grid item container direction="column" xs={3}>
           {propertiesLoaded && (
@@ -277,7 +280,6 @@ const ExpertsView: React.FC = () => {
               {declOfNum(totalElements, ['автор', 'автори', 'авторів'])}
             </Typography>
           </Box>
-
           {page === 0 && loading === LoadingStatusEnum.pending ? (
             <LoadingContainer loading={loading} expand />
           ) : (
