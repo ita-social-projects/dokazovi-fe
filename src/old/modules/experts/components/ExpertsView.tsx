@@ -11,7 +11,11 @@ import {
   LoadMoreButtonTextType,
   QueryTypeEnum,
 } from '../../../lib/types';
-import { fetchExperts, selectExperts } from '../../../../models/experts';
+import {
+  fetchExperts,
+  selectExperts,
+  selectLoadingExperts,
+} from '../../../../models/experts';
 import { RootStateType } from '../../../store/rootReducer';
 import { ExpertsList } from '../../../lib/components/Experts/ExpertsList';
 import { useEffectExceptOnMount } from '../../../lib/hooks/useEffectExceptOnMount';
@@ -30,7 +34,6 @@ import { useQuery } from '../../../lib/hooks/useQuery';
 import { CheckboxDropdownFilterForm } from '../../../lib/components/Filters/CheckboxDropdownFilterForm';
 import { useActions } from '../../../../shared/hooks';
 import { LOAD_EXPERTS_LIMIT } from '../../../lib/constants/experts';
-import { selectLoadingExperts } from '../../../../models/experts/selectors';
 
 const ExpertsView: React.FC = () => {
   const {

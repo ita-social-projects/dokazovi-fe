@@ -1,7 +1,7 @@
 import React, { useCallback, useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import _ from 'lodash';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Box, TextField, Typography } from '@material-ui/core';
 import { RootStateType } from '../../../store/rootReducer';
 import {
@@ -16,7 +16,7 @@ import {
   setPostPreviewManuallyChanged,
   resetDraft,
   setAuthorId,
-} from '../store/postCreationSlice';
+} from '../../../../models/postCreation';
 import { IDirection, IPost, IOrigin, PostTypeEnum } from '../../../lib/types';
 import { sanitizeHtml } from '../../../lib/utilities/sanitizeHtml';
 import { PostCreationButtons } from './PostCreationButtons';
@@ -42,6 +42,8 @@ import { BackgroundImageContainer } from '../../../lib/components/Editor/CustomM
 import { PostAuthorSelection } from './PostAuthorSelection/PostAuthorSelection';
 
 import { selectCurrentUser } from '../../../../models/user/selectors';
+import { selectTextPostDraft } from '../../../../models/postCreation/selectors';
+import { useActions } from '../../../../shared/hooks';
 
 interface IPostCreationProps {
   pageTitle?: string;
@@ -61,10 +63,9 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
   editorToolbar,
 }) => {
   const history = useHistory();
-  const dispatch = useDispatch();
 
-  const savedPostDraft = useSelector(
-    (state: RootStateType) => state.newPostDraft[postType.type],
+  const savedPostDraft = useSelector((state: RootStateType) =>
+    selectTextPostDraft(state, postType.type),
   );
   const user = useSelector(selectCurrentUser);
 
@@ -89,45 +90,78 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
   const [author, setAuthor] = useState<ExpertResponseType | null>(null);
   const [searchValue, setSearchValue] = useState('');
 
+  const [
+    boundSetPostDirections,
+    boundSetPostOrigin,
+    boundSetPostTitle,
+    boundSetAuthorsName,
+    boundSetAuthorsDetails,
+    boundSetImageUrl,
+    boundSetPostBody,
+    boundSetPostPreviewText,
+    boundSetAuthorId,
+    boundSetPostPreviewManuallyChanged,
+    boundResetDraft,
+  ] = useActions([
+    setPostDirections,
+    setPostOrigin,
+    setPostTitle,
+    setAuthorsName,
+    setAuthorsDetails,
+    setImageUrl,
+    setPostBody,
+    setPostPreviewText,
+    setAuthorId,
+    setPostPreviewManuallyChanged,
+    resetDraft,
+  ]);
+
+  // const [boundSetPostOrigin] = useActions([setPostOrigin]);
+  // const [boundSetPostTitle] = useActions([setPostTitle]);
+  // const [boundSetAuthorsName] = useActions([setAuthorsName]);
+  // const [boundSetAuthorsDetails] = useActions([setAuthorsDetails]);
+  // const [boundSetImageUrl] = useActions([setImageUrl]);
+  // const [boundSetPostBody] = useActions([setPostBody]);
+  // const [boundSetPostPreviewText] = useActions([setPostPreviewText]);
+  // const [boundSetAuthorId] = useActions([setAuthorId]);
+  // const [boundSetPostPreviewManuallyChanged] = useActions([setPostPreviewManuallyChanged]);
+  // const [boundResetDraft] = useActions([resetDraft]);
+
   const handleDirectionsChange = (value: IDirection[]) => {
-    dispatch(setPostDirections({ postType: postType.type, value }));
+    boundSetPostDirections({ postType: postType.type, value });
   };
 
   const handleOriginsChange = (value: IOrigin[]) => {
     setAuthName({ ...authorsName, value: '' });
     setAuthDetails({ ...authorsDetails, value: '' });
-    dispatch(setPostOrigin({ postType: postType.type, value }));
+    boundSetPostOrigin({ postType: postType.type, value });
   };
 
   const handleTitleChange = (value: string) => {
-    dispatch(setPostTitle({ postType: postType.type, value }));
+    boundSetPostTitle({ postType: postType.type, value });
   };
 
   const handleAuthorsNameChange = (value: string) => {
-    dispatch(setAuthorsName({ postType: postType.type, value }));
+    boundSetAuthorsName({ postType: postType.type, value });
   };
 
   const handleAuthorsDetailsChange = (value: string) => {
-    dispatch(setAuthorsDetails({ postType: postType.type, value }));
+    boundSetAuthorsDetails({ postType: postType.type, value });
   };
 
   const dispatchImageUrl = (previewImageUrl: string): void => {
-    dispatch(
-      setImageUrl({
-        postType: PostTypeEnum.ARTICLE,
-        value: previewImageUrl,
-      }),
-    );
+    boundSetImageUrl({
+      postType: PostTypeEnum.ARTICLE,
+      value: previewImageUrl,
+    });
   };
 
   const handleHtmlContentChange = useCallback(
     _.debounce((value: string) => {
-      dispatch(
-        setPostBody({
-          postType: postType.type,
-          value: sanitizeHtml(value),
-        }),
-      );
+      boundSetPostBody({
+        postType: postType.type,
+        value: sanitizeHtml(value),
+      });
       setTyping({ ...typing, content: false });
     }, CONTENT_DEBOUNCE_TIMEOUT),
     [],
@@ -135,12 +169,10 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
 
   const handlePreviewChange = useCallback(
     _.debounce((value: string) => {
-      dispatch(
-        setPostPreviewText({
-          postType: postType.type,
-          value,
-        }),
-      );
+      boundSetPostPreviewText({
+        postType: postType.type,
+        value,
+      });
       setTyping({ ...typing, preview: false });
     }, PREVIEW_DEBOUNCE_TIMEOUT),
     [],
@@ -161,12 +193,10 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
   }, [searchValue]);
 
   const onAuthorTableClick = (value: number, item: ExpertResponseType) => {
-    dispatch(
-      setAuthorId({
-        postType: postType.type,
-        value,
-      }),
-    );
+    boundSetAuthorId({
+      postType: postType.type,
+      value,
+    });
     setAuthor(item);
     setAuthors([]);
     setSearchValue('');
@@ -185,7 +215,7 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
   };
 
   const handlePreviewManuallyChanged = () => {
-    dispatch(setPostPreviewManuallyChanged(postType.type));
+    boundSetPostPreviewManuallyChanged(postType.type);
   };
 
   const newPost: CreateTextPostRequestType = {
@@ -219,7 +249,7 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
   const handlePublishClick = async () => {
     // console.log(newPost);
     const response = await createPost(newPost);
-    dispatch(resetDraft(postType.type));
+    boundResetDraft(postType.type);
     history.push(`/posts/${response.data.id}`);
   };
 
