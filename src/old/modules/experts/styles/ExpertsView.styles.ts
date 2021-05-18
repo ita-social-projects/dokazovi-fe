@@ -8,6 +8,7 @@ export const useStyles = makeStyles(
       fontWeight: 500,
       fontSize: '14px',
       lineHeight: '1.4',
+      margin: '0px 15px 15px 0px',
     },
     totalFilters: {
       fontFamily: 'Literata',
@@ -15,16 +16,18 @@ export const useStyles = makeStyles(
       fontWeight: 'normal',
       fontSize: '14px',
       lineHeight: '1.3',
+      margin: '0px 15px 15px 0px',
     },
-
     divider: {
-      padding: '0 15px',
+      margin: '0px 15px 15px 0px',
     },
 
     container: {
-      // textAlign: 'justify',
-      margin: '10px 0px 36px 0px',
-      height: '40px',
+      display: 'flex',
+      justifyContent: 'flex-start',
+      alignItems: 'center',
+      flexWrap: 'wrap',
+      margin: '0px 0px 15px 0px',
     },
   }),
   {

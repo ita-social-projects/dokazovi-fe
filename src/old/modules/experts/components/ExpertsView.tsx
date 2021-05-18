@@ -119,8 +119,10 @@ const ExpertsView: React.FC = () => {
     .get(QueryTypeEnum.DIRECTIONS)
     ?.split(',');
 
-  let selectedRegions: IRegion[] | undefined = regions?.filter((region) =>
-    selectedRegionsString?.includes(region.id.toString()),
+  let selectedRegions: IRegion[] | undefined = regions?.filter(
+    (region) =>
+      selectedRegionsString?.includes(region.id.toString()) &&
+      region.usersPresent,
   );
   let selectedDirections:
     | IDirection[]
@@ -155,11 +157,11 @@ const ExpertsView: React.FC = () => {
         acc.push(filter.name);
         return acc;
       }, [] as string[]);
-      if (names?.length < 4) {
+      if (names) {
         return names.join(', ');
       }
-      return `${names?.slice(0, 3).join(', ')} + ${names?.length - 3}`;
     }
+
     return regions
       .reduce((acc, filter) => {
         acc.push(filter.name);
@@ -174,10 +176,9 @@ const ExpertsView: React.FC = () => {
         acc.push(filter.name);
         return acc;
       }, [] as string[]);
-      if (names?.length < 4) {
+      if (names) {
         return names.join(', ');
       }
-      return `${names?.slice(0, 3).join(', ')} + ${names?.length - 3}`;
     }
     return directions
       .reduce((acc, filter) => {
@@ -198,23 +199,68 @@ const ExpertsView: React.FC = () => {
   return (
     <>
       <PageTitle title="Автори" />
+      <Grid container direction="row">
+        <Grid item container direction="column" xs={3}>
+          <Typography
+            variant="h1"
+            style={{
+              width: '100%',
+              fontSize: '28px',
+              lineHeight: '28px',
+              fontWeight: 'bold',
+              margin: '0 0 28px 15px',
+            }}
+          >
+            Вибрати авторів...
+          </Typography>
+        </Grid>
+        <Grid item container direction="column" xs={9}>
+          <Box className={classes.container}>
+            {selectedDirections === undefined ? (
+              <Typography
+                className={classes.selectedFilters}
+                component="div"
+                variant="subtitle2"
+              >
+                Всі теми
+              </Typography>
+            ) : (
+              <ChipsList checkedNames={getDirections()} />
+            )}
+            <Typography className={classes.divider} component="span">
+              |
+            </Typography>
+            {selectedRegions === undefined ? (
+              <Typography
+                className={classes.selectedFilters}
+                component="div"
+                variant="subtitle2"
+              >
+                Всі регіони
+              </Typography>
+            ) : (
+              <ChipsList checkedNames={getRegions()} />
+            )}
 
+            <Typography className={classes.divider} component="span">
+              |
+            </Typography>
+            <Typography
+              className={classes.totalFilters}
+              component="div"
+              variant="subtitle2"
+              color="textSecondary"
+            >
+              {totalElements}{' '}
+              {declOfNum(totalElements, ['автор', 'автори', 'авторів'])}
+            </Typography>
+          </Box>
+        </Grid>
+      </Grid>
       <Grid container direction="row">
         <Grid item container direction="column" xs={3}>
           {propertiesLoaded && (
             <>
-              <Typography
-                variant="h1"
-                style={{
-                  width: '100%',
-                  fontSize: '28px',
-                  lineHeight: '28px',
-                  fontWeight: 'bold',
-                  margin: '0 0 28px 15px',
-                }}
-              >
-                Вибрати авторів...
-              </Typography>
               <CheckboxLeftsideFilterForm
                 onFormChange={(checked) =>
                   setFilters(checked, FilterTypeEnum.DIRECTIONS)
@@ -240,46 +286,6 @@ const ExpertsView: React.FC = () => {
         </Grid>
 
         <Grid item container xs={9} direction="column">
-          <Box className={classes.container}>
-            {selectedDirections === undefined ? (
-              <Typography
-                className={classes.selectedFilters}
-                component="span"
-                variant="subtitle2"
-              >
-                Всі теми
-              </Typography>
-            ) : (
-              <ChipsList checkedNames={getDirections()} />
-            )}
-            <Typography className={classes.divider} component="span">
-              |
-            </Typography>
-            {selectedRegions === undefined ? (
-              <Typography
-                className={classes.selectedFilters}
-                component="span"
-                variant="subtitle2"
-              >
-                Всі регіони
-              </Typography>
-            ) : (
-              <ChipsList checkedNames={getRegions()} />
-            )}
-
-            <Typography className={classes.divider} component="span">
-              |
-            </Typography>
-            <Typography
-              className={classes.totalFilters}
-              component="span"
-              variant="subtitle2"
-              color="textSecondary"
-            >
-              {totalElements}{' '}
-              {declOfNum(totalElements, ['автор', 'автори', 'авторів'])}
-            </Typography>
-          </Box>
           {page === 0 && loading === LoadingStatusEnum.pending ? (
             <LoadingContainer loading={loading} expand />
           ) : (
