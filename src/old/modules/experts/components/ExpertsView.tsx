@@ -239,7 +239,7 @@ const ExpertsView: React.FC = () => {
           )}
         </Grid>
 
-        <Grid item container xs={9}>
+        <Grid item container xs={9} direction="column">
           <Box className={classes.container}>
             {selectedDirections === undefined ? (
               <Typography

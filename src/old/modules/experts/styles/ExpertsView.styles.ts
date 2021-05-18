@@ -22,6 +22,7 @@ export const useStyles = makeStyles(
     },
 
     container: {
+      // textAlign: 'justify',
       margin: '10px 0px 36px 0px',
       height: '40px',
     },
