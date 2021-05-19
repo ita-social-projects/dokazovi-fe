@@ -270,7 +270,7 @@ const ExpertsView: React.FC = () => {
                 selectedFilters={selectedDirections}
                 filterTitle="за темою"
                 allTitle="Всі теми"
-                // handleDelete={handleDelete()}
+                // itemsFromChips={getRegions()}
               />
               <CheckboxLeftsideFilterForm
                 onFormChange={(checked) =>
@@ -281,6 +281,7 @@ const ExpertsView: React.FC = () => {
                 filterTitle="за регіоном"
                 handleDelete={handleDelete(selectedRegions)}
                 allTitle="Всі регіони"
+                // itemsFromChips={getDirections()}
               />
             </>
           )}

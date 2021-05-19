@@ -17,7 +17,7 @@ const ChipsList: React.FC<IChipsListProps> = ({ checkedNames }) => {
   const { directions } = useSelector(
     (state: RootStateType) => state.properties,
   );
-
+  console.log(checkedNames);
   // const history = useHistory();
 
   const destructNamesString = (str: string) => {

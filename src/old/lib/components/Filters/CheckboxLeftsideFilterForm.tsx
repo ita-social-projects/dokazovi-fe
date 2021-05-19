@@ -34,6 +34,7 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
   selectedFilters,
   filterTitle,
   allTitle,
+  // itemsFromChips,
 }) => {
   const [toggleInitialState, setToggleInitialState] = useState(true);
   const isInitialStateEmpty = isEmpty(selectedFilters) && toggleInitialState;
@@ -51,6 +52,8 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
     getCheckedStateFromFilters(),
   );
   const [regionItem, setRegionItem] = useState(false);
+
+  // itemsFromChips !=== value ? setState(itemsFromChips)
 
   useEffect(() => {
     if (
