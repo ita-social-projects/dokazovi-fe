@@ -1,24 +1,29 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/restrict-template-expressions */
 import React from 'react';
-// import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootStateType } from '../../../old/store/rootReducer';
 import PostDirectionChip from '../PostDirectionChip/PostDirectionChip';
+import { ChipFilterType, IRegion } from '../../../old/lib/types';
 
 export interface IChipsListProps {
   checkedNames: string;
   isLabelItem?: boolean;
   max?: boolean;
+  chipsListType?: ChipFilterType;
+  handleDelete?: (
+    arg0: number | undefined,
+    arg1: ChipFilterType | undefined,
+  ) => void;
 }
 
-const ChipsList: React.FC<IChipsListProps> = ({ checkedNames }) => {
+const ChipsList: React.FC<IChipsListProps> = ({
+  checkedNames,
+  chipsListType,
+  handleDelete,
+}) => {
   const { directions } = useSelector(
     (state: RootStateType) => state.properties,
   );
-  console.log(checkedNames);
-  // const history = useHistory();
+  const { regions } = useSelector((state: RootStateType) => state.properties);
 
   const destructNamesString = (str: string) => {
     const arr = str.split('+');
@@ -33,16 +38,11 @@ const ChipsList: React.FC<IChipsListProps> = ({ checkedNames }) => {
     checkedNames,
   );
 
-  // const handleDelete = (directionToDelete: any) => () => {
-  //   // if (directions) {
-  //   const dirDel = dirNames.filter(
-  //     (direction) => direction !== directionToDelete,
-  //   );
-  //   // console.log(dirDel);
-  //   // history.push(`/experts?directions=${dirDel}`);
-  //   // }
-  //   return dirDel;
-  // };
+  const onHandleDelete = (key: number) => {
+    if (handleDelete) {
+      handleDelete(key, chipsListType);
+    }
+  };
 
   return (
     <>
@@ -57,18 +57,22 @@ const ChipsList: React.FC<IChipsListProps> = ({ checkedNames }) => {
                 <PostDirectionChip
                   key={direction.id}
                   labelName={direction.label}
-                  // handleDelete={handleDelete(direction.id)}
+                  handleDelete={() => onHandleDelete(direction.id)}
                 />
               );
             }
 
-            return (
-              <PostDirectionChip
-                key={directionName}
-                labelName={directionName}
-                // handleDelete={handleDelete(directionName)}
-              />
-            );
+            const region = regions.find((reg) => reg.name === directionName);
+            if (region) {
+              return (
+                <PostDirectionChip
+                  key={directionName}
+                  labelName={directionName}
+                  handleDelete={() => onHandleDelete(region.id)}
+                />
+              );
+            }
+            return null;
           })}
           {restCounter ? (
             <>

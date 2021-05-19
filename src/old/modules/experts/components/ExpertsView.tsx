@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/restrict-template-expressions */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable no-console */
 import React, { useEffect, useRef, useState } from 'react';
 import { isEmpty, uniq } from 'lodash';
 import { useHistory } from 'react-router-dom';
@@ -12,6 +11,8 @@ import {
   LoadingStatusEnum,
   LoadMoreButtonTextType,
   QueryTypeEnum,
+  ChipFilterEnum,
+  ChipFilterType,
 } from '../../../lib/types';
 import { fetchExperts, selectExperts } from '../../../../models/experts';
 import { RootStateType } from '../../../store/rootReducer';
@@ -46,6 +47,12 @@ const ExpertsView: React.FC = () => {
   const loading = useSelector(selectLoadingExperts);
 
   const [page, setPage] = useState(pageNumber);
+  const [checkedFiltersDirections, setCheckedFiltersDirections] = useState<
+    CheckboxFormStateType
+  >();
+  const [checkedFiltersOrigins, setCheckedFiltersOrigins] = useState<
+    CheckboxFormStateType
+  >();
   const previous = usePrevious({ page });
   const query = useQuery();
   const history = useHistory();
@@ -80,6 +87,11 @@ const ExpertsView: React.FC = () => {
     checked: CheckboxFormStateType,
     filterType: FilterTypeEnum,
   ) => {
+    if (filterType === 1) {
+      setCheckedFiltersDirections(checked);
+    } else if (filterType === 2) {
+      setCheckedFiltersOrigins(checked);
+    }
     const queryType = getQueryTypeByFilterType(filterType);
     const checkedIds = Object.keys(checked).filter((key) => checked[key]);
     const isQuerySame = uniq(Object.values(checked)).length === 1; // removing the query if user checks/unchecks the last box
@@ -143,15 +155,6 @@ const ExpertsView: React.FC = () => {
     }
   }, [expertIds]);
 
-  const handleDelete = (filterToDelete) => () => {
-    if (selectedRegions !== undefined) {
-      const reg = selectedRegions.filter(
-        (filter) => filter.id !== filterToDelete.id,
-      );
-      history.push(`/experts?directions=${reg}`);
-    }
-  };
-
   const getRegions = () => {
     if (selectedRegions) {
       const names = selectedRegions?.reduce((acc, filter) => {
@@ -187,6 +190,27 @@ const ExpertsView: React.FC = () => {
         return acc;
       }, [] as string[])
       .join(', ');
+  };
+
+  const handleDeleteChip = (
+    key: number | undefined,
+    chipsListType: ChipFilterType | undefined,
+  ) => {
+    let filtersUpdatedByChips: undefined | CheckboxFormStateType;
+
+    if (chipsListType === 'DIRECTION') {
+      filtersUpdatedByChips = { ...checkedFiltersDirections };
+    } else if (chipsListType === 'REGION') {
+      filtersUpdatedByChips = { ...checkedFiltersOrigins };
+    }
+    if (filtersUpdatedByChips && key) {
+      filtersUpdatedByChips[key] = false;
+      if (chipsListType === 'DIRECTION') {
+        setFilters(filtersUpdatedByChips, FilterTypeEnum.DIRECTIONS);
+      } else if (chipsListType === 'REGION') {
+        setFilters(filtersUpdatedByChips, FilterTypeEnum.REGIONS);
+      }
+    }
   };
 
   const declOfNum = (number: number, words: string[]) => {
@@ -226,7 +250,11 @@ const ExpertsView: React.FC = () => {
                 Всі теми
               </Typography>
             ) : (
-              <ChipsList checkedNames={getDirections()} />
+              <ChipsList
+                checkedNames={getDirections()}
+                handleDelete={handleDeleteChip}
+                chipsListType={ChipFilterEnum.DIRECTION}
+              />
             )}
             <Typography className={classes.divider} component="span">
               |
@@ -240,7 +268,11 @@ const ExpertsView: React.FC = () => {
                 Всі регіони
               </Typography>
             ) : (
-              <ChipsList checkedNames={getRegions()} />
+              <ChipsList
+                checkedNames={getRegions()}
+                handleDelete={handleDeleteChip}
+                chipsListType={ChipFilterEnum.REGION}
+              />
             )}
 
             <Typography className={classes.divider} component="span">
@@ -279,7 +311,6 @@ const ExpertsView: React.FC = () => {
                 possibleFilters={regions}
                 selectedFilters={selectedRegions}
                 filterTitle="за регіоном"
-                handleDelete={handleDelete(selectedRegions)}
                 allTitle="Всі регіони"
                 // itemsFromChips={getDirections()}
               />
