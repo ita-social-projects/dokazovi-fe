@@ -1,24 +1,28 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/restrict-template-expressions */
 import React from 'react';
-// import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootStateType } from '../../../old/store/rootReducer';
 import PostDirectionChip from '../PostDirectionChip/PostDirectionChip';
+import { ChipFilterType } from '../../../old/lib/types';
 
 export interface IChipsListProps {
   checkedNames: string;
   isLabelItem?: boolean;
   max?: boolean;
+  chipsListType?: ChipFilterType;
+  handleDelete?: (
+    arg0: string | undefined,
+    arg1: ChipFilterType | undefined,
+  ) => void;
 }
 
-const ChipsList: React.FC<IChipsListProps> = ({ checkedNames }) => {
+const ChipsList: React.FC<IChipsListProps> = ({
+  checkedNames,
+  chipsListType,
+  handleDelete,
+}) => {
   const { directions } = useSelector(
     (state: RootStateType) => state.properties,
   );
-
-  // const history = useHistory();
 
   const destructNamesString = (str: string) => {
     const arr = str.split('+');
@@ -33,16 +37,11 @@ const ChipsList: React.FC<IChipsListProps> = ({ checkedNames }) => {
     checkedNames,
   );
 
-  // const handleDelete = (directionToDelete: any) => () => {
-  //   // if (directions) {
-  //   const dirDel = dirNames.filter(
-  //     (direction) => direction !== directionToDelete,
-  //   );
-  //   // console.log(dirDel);
-  //   // history.push(`/experts?directions=${dirDel}`);
-  //   // }
-  //   return dirDel;
-  // };
+  const onHandleDelete = (labelName) => {
+    if (handleDelete) {
+      handleDelete(labelName, chipsListType);
+    }
+  };
 
   return (
     <>
@@ -57,7 +56,7 @@ const ChipsList: React.FC<IChipsListProps> = ({ checkedNames }) => {
                 <PostDirectionChip
                   key={direction.id}
                   labelName={direction.label}
-                  // handleDelete={handleDelete(direction.id)}
+                  handleDelete={onHandleDelete}
                 />
               );
             }
@@ -66,7 +65,7 @@ const ChipsList: React.FC<IChipsListProps> = ({ checkedNames }) => {
               <PostDirectionChip
                 key={directionName}
                 labelName={directionName}
-                // handleDelete={handleDelete(directionName)}
+                handleDelete={onHandleDelete}
               />
             );
           })}

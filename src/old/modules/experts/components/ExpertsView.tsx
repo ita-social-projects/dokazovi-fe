@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/restrict-template-expressions */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable no-console */
 import React, { useEffect, useRef, useState } from 'react';
 import { isEmpty, uniq } from 'lodash';
 import { useHistory } from 'react-router-dom';
@@ -12,6 +11,8 @@ import {
   LoadingStatusEnum,
   LoadMoreButtonTextType,
   QueryTypeEnum,
+  ChipFilterEnum,
+  ChipFilterType,
 } from '../../../lib/types';
 import { fetchExperts, selectExperts } from '../../../../models/experts';
 import { RootStateType } from '../../../store/rootReducer';
@@ -142,15 +143,6 @@ const ExpertsView: React.FC = () => {
     }
   }, [expertIds]);
 
-  const handleDelete = (filterToDelete) => () => {
-    if (selectedRegions !== undefined) {
-      const reg = selectedRegions.filter(
-        (filter) => filter.id !== filterToDelete.id,
-      );
-      history.push(`/experts?directions=${reg}`);
-    }
-  };
-
   const getRegions = () => {
     if (selectedRegions) {
       const names = selectedRegions?.reduce((acc, filter) => {
@@ -186,6 +178,13 @@ const ExpertsView: React.FC = () => {
         return acc;
       }, [] as string[])
       .join(', ');
+  };
+
+  const handleDeleteChip = (
+    labelName: string | undefined,
+    chipsListType: ChipFilterType | undefined,
+  ) => {
+    console.log(labelName, chipsListType);
   };
 
   const declOfNum = (number: number, words: string[]) => {
@@ -225,7 +224,11 @@ const ExpertsView: React.FC = () => {
                 Всі теми
               </Typography>
             ) : (
-              <ChipsList checkedNames={getDirections()} />
+              <ChipsList
+                handleDelete={handleDeleteChip}
+                checkedNames={getDirections()}
+                chipsListType={ChipFilterEnum.DIRECTION}
+              />
             )}
             <Typography className={classes.divider} component="span">
               |
@@ -239,7 +242,11 @@ const ExpertsView: React.FC = () => {
                 Всі регіони
               </Typography>
             ) : (
-              <ChipsList checkedNames={getRegions()} />
+              <ChipsList
+                checkedNames={getRegions()}
+                handleDelete={handleDeleteChip}
+                chipsListType={ChipFilterEnum.REGION}
+              />
             )}
 
             <Typography className={classes.divider} component="span">
@@ -269,7 +276,6 @@ const ExpertsView: React.FC = () => {
                 selectedFilters={selectedDirections}
                 filterTitle="за темою"
                 allTitle="Всі теми"
-                // handleDelete={handleDelete()}
               />
               <CheckboxLeftsideFilterForm
                 onFormChange={(checked) =>
@@ -278,7 +284,6 @@ const ExpertsView: React.FC = () => {
                 possibleFilters={regions}
                 selectedFilters={selectedRegions}
                 filterTitle="за регіоном"
-                handleDelete={handleDelete(selectedRegions)}
                 allTitle="Всі регіони"
               />
             </>

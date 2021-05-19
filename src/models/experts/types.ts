@@ -35,7 +35,6 @@ export interface IFetchExpertsMaterialsOptions {
     postTypes: number[];
     directions: number[];
   };
-  // chips:
   page: number;
   appendPosts: boolean;
 }
