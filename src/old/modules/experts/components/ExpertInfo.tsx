@@ -26,11 +26,11 @@ const ExpertInfo: React.FC<IExpertInfoProps> = ({ expert }) => {
             <Typography variant="h4" gutterBottom>
               {expertFullName}
             </Typography>
-            <Divider className={classes.divider} />
+            <Divider className={classes.divider} data-testid={'divider'} />
             <Typography variant="body1" gutterBottom>
               {expert.qualification}
             </Typography>
-            <Box className={classes.directionList}>
+            <Box className={classes.directionList} id={'box'}>
               Напрямки:{' '}
               {expert.directions?.map((d) => {
                 return <PostDirectionLink direction={d} key={d.id} />;

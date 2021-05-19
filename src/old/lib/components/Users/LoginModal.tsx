@@ -54,10 +54,12 @@ export const LoginModal: React.FC = () => {
     setRegistrationOpen(true);
   };
   const onSubmit = (inputs: IAuthInputs) => {
-    login(inputs.email, inputs.password).then((response) => {
-      setAuthorization(response.data.accessToken);
-      handleLoginClose();
-    });
+    login(inputs.email, inputs.password)
+      .then((response) => {
+        setAuthorization(response.data.accessToken);
+        handleLoginClose();
+      })
+      .catch((error) => console.log(error.response.data));
   };
 
   const handleRegistrationClose = () => {
