@@ -64,6 +64,7 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
   }, [expertId]);
 
   const materials = Object.values(posts);
+
   const postTypes = useSelector(
     (state: RootStateType) => state.properties.postTypes,
   );
