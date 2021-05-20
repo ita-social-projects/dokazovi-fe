@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import React, { useEffect, useState } from 'react';
 import { isEmpty, mapValues } from 'lodash';
 import {
@@ -11,7 +10,7 @@ import {
 } from '@material-ui/core';
 import { store } from '../../../store/store';
 import { useStyles } from './CheckboxLeftsideFilterForm.styles';
-import FilterItemsList from '../FilterItems/FilterItemsList';
+import { FilterItemsList } from '../FilterItems/FilterItemsList';
 import { CheckboxFormStateType } from './CheckboxFilterForm';
 
 interface IFilter {
@@ -34,7 +33,6 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
   selectedFilters,
   filterTitle,
   allTitle,
-  // itemsFromChips,
 }) => {
   const [toggleInitialState, setToggleInitialState] = useState(true);
   const isInitialStateEmpty = isEmpty(selectedFilters) && toggleInitialState;
@@ -52,8 +50,6 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
     getCheckedStateFromFilters(),
   );
   const [regionItem, setRegionItem] = useState(false);
-
-  // itemsFromChips !=== value ? setState(itemsFromChips)
 
   useEffect(() => {
     if (

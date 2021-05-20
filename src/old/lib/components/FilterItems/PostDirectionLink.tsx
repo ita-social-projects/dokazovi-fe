@@ -1,13 +1,13 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { IDirection } from '../../types';
-import PostDirectionItem from './PostDirectionItem';
+import { PostDirectionItem } from './PostDirectionItem';
 
 interface IPostDirectionLinkProps {
   direction: IDirection;
 }
 
-const PostDirectionLink: React.FC<IPostDirectionLinkProps> = ({
+export const PostDirectionLink: React.FC<IPostDirectionLinkProps> = ({
   direction,
 }) => {
   const history = useHistory();
@@ -20,5 +20,3 @@ const PostDirectionLink: React.FC<IPostDirectionLinkProps> = ({
     <PostDirectionItem labelName={direction.label} handleClick={handleClick} />
   );
 };
-
-export default PostDirectionLink;

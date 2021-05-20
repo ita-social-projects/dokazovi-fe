@@ -1,9 +1,8 @@
-/* eslint-disable no-console */
 import React, { useEffect, useRef, useState } from 'react';
-import { isEmpty, uniq } from 'lodash';
 import { useHistory } from 'react-router-dom';
-import { Grid, Typography, Box } from '@material-ui/core';
 import { useSelector } from 'react-redux';
+import { isEmpty, uniq } from 'lodash';
+import { Grid, Typography, Box } from '@material-ui/core';
 import {
   FilterTypeEnum,
   IDirection,
@@ -19,7 +18,6 @@ import { RootStateType } from '../../../store/rootReducer';
 import { ExpertsList } from '../../../lib/components/Experts/ExpertsList';
 import { useEffectExceptOnMount } from '../../../lib/hooks/useEffectExceptOnMount';
 import { LoadMoreButton } from '../../../lib/components/LoadMoreButton/LoadMoreButton';
-
 import { selectExpertsByIds } from '../../../store/selectors';
 import { CheckboxFormStateType } from '../../../lib/components/Filters/CheckboxFilterForm';
 import {
@@ -34,7 +32,8 @@ import { CheckboxLeftsideFilterForm } from '../../../lib/components/Filters/Chec
 import { LOAD_EXPERTS_LIMIT } from '../../../lib/constants/experts';
 import { useActions } from '../../../../shared/hooks';
 import { selectLoadingExperts } from '../../../../models/experts/selectors';
-import ChipsList from '../../../../components/Chips/ChipsList/ChipsList';
+import { ChipsList } from '../../../../components/Chips/ChipsList/ChipsList';
+import { declOfNum } from '../../utilities/declOfNum';
 import { useStyles } from '../styles/ExpertsView.styles';
 
 const ExpertsView: React.FC = () => {
@@ -213,29 +212,12 @@ const ExpertsView: React.FC = () => {
     }
   };
 
-  const declOfNum = (number: number, words: string[]) => {
-    return words[
-      number % 100 > 4 && number % 100 < 20
-        ? 2
-        : [2, 0, 1, 1, 1, 2][number % 10 < 5 ? number % 10 : 5]
-    ];
-  };
-
   return (
     <>
       <PageTitle title="Автори" />
       <Grid container direction="row">
         <Grid item container direction="column" xs={3}>
-          <Typography
-            variant="h1"
-            style={{
-              width: '100%',
-              fontSize: '28px',
-              lineHeight: '28px',
-              fontWeight: 'bold',
-              margin: '0 0 28px 15px',
-            }}
-          >
+          <Typography className={classes.title} variant="h1">
             Вибрати авторів...
           </Typography>
         </Grid>
@@ -274,7 +256,6 @@ const ExpertsView: React.FC = () => {
                 chipsListType={ChipFilterEnum.REGION}
               />
             )}
-
             <Typography className={classes.divider} component="span">
               |
             </Typography>
@@ -302,7 +283,6 @@ const ExpertsView: React.FC = () => {
                 selectedFilters={selectedDirections}
                 filterTitle="за темою"
                 allTitle="Всі теми"
-                // itemsFromChips={getRegions()}
               />
               <CheckboxLeftsideFilterForm
                 onFormChange={(checked) =>
@@ -312,7 +292,6 @@ const ExpertsView: React.FC = () => {
                 selectedFilters={selectedRegions}
                 filterTitle="за регіоном"
                 allTitle="Всі регіони"
-                // itemsFromChips={getDirections()}
               />
             </>
           )}
