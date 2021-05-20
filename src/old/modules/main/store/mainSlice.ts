@@ -11,6 +11,8 @@ import {
 interface INewestPostsMeta {
   loading: LoadingStatusEnum;
   error: null | string;
+  currentPage?: number;
+  isLastPage?: boolean;
 }
 
 interface INewestPostsPayload {

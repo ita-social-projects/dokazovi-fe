@@ -72,6 +72,13 @@ export enum FilterTypeEnum {
   TAGS,
 }
 
+export enum ChipFilterEnum {
+  REGION = 'REGION',
+  DIRECTION = 'DIRECTION',
+}
+
+export type ChipFilterType = ChipFilterEnum.REGION | ChipFilterEnum.DIRECTION;
+
 export enum QueryTypeEnum {
   POST_TYPES = 'types',
   DIRECTIONS = 'directions',
@@ -143,6 +150,14 @@ export interface IDirection {
   color?: string;
   name: string;
   label?: string;
+  hasPosts?: boolean;
+}
+
+export interface IFilter {
+  id: number;
+  color?: string;
+  name: string;
+  label?: string;
 }
 
 export interface IOrigin {
@@ -154,6 +169,7 @@ export interface IOrigin {
 export interface IRegion {
   id: number;
   name: string;
+  usersPresent?: boolean;
 }
 
 export interface IInstitution {
