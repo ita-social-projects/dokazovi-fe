@@ -48,8 +48,12 @@ export const fetchExperts = createAsyncThunk(
       }
     });
 
+    const appendIds = [
+      ...new Set(appendExperts ? data.expertIds.concat(ids) : ids),
+    ];
+
     return {
-      expertIds: appendExperts ? data.expertIds.concat(ids) : ids,
+      expertIds: appendIds,
       experts,
       meta: {
         pageNumber: response.data.number,
