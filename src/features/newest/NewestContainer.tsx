@@ -16,10 +16,14 @@ export const NewestContainer: React.FC = () => {
   );
 
   useEffect(() => {
-    getNewestPosts().then((res): void => {
-      setPostsSets(res.data.content);
-      setLoadingStatus(LoadingStatusEnum.succeeded);
-    });
+    getNewestPosts()
+      .then((res): void => {
+        setPostsSets(res.data.content);
+        setLoadingStatus(LoadingStatusEnum.succeeded);
+      })
+      .catch((): void => {
+        setLoadingStatus(LoadingStatusEnum.failed);
+      });
   }, []);
 
   return (
