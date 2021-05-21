@@ -10,7 +10,7 @@ import {
 } from '@material-ui/core';
 import { store } from '../../../store/store';
 import { useStyles } from './CheckboxLeftsideFilterForm.styles';
-import FilterItemsList from '../FilterItems/FilterItemsList';
+import { FilterItemsList } from '../FilterItems/FilterItemsList';
 import { CheckboxFormStateType } from './CheckboxFilterForm';
 
 interface IFilter {
