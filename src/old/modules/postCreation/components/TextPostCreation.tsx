@@ -116,17 +116,6 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
     resetDraft,
   ]);
 
-  // const [boundSetPostOrigin] = useActions([setPostOrigin]);
-  // const [boundSetPostTitle] = useActions([setPostTitle]);
-  // const [boundSetAuthorsName] = useActions([setAuthorsName]);
-  // const [boundSetAuthorsDetails] = useActions([setAuthorsDetails]);
-  // const [boundSetImageUrl] = useActions([setImageUrl]);
-  // const [boundSetPostBody] = useActions([setPostBody]);
-  // const [boundSetPostPreviewText] = useActions([setPostPreviewText]);
-  // const [boundSetAuthorId] = useActions([setAuthorId]);
-  // const [boundSetPostPreviewManuallyChanged] = useActions([setPostPreviewManuallyChanged]);
-  // const [boundResetDraft] = useActions([resetDraft]);
-
   const handleDirectionsChange = (value: IDirection[]) => {
     boundSetPostDirections({ postType: postType.type, value });
   };

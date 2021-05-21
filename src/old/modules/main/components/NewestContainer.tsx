@@ -14,9 +14,9 @@ import {
 const NewestContainer: React.FC = () => {
   const classes = useStyles();
 
-  const { newestPostIds, newestPosts: posts } = useSelector(selectNewestPosts);
+  const { newestPosts: posts } = useSelector(selectNewestPosts);
   const loading = useSelector(selectLoadingMain);
-  // const newestPosts = selectPostsByIds(newestPostIds);
+
   const newestPosts = Object.values(posts);
 
   const [boundFetchNewestPosts] = useActions([fetchNewestPosts]);
