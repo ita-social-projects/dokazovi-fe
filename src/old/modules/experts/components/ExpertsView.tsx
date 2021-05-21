@@ -87,6 +87,7 @@ const ExpertsView: React.FC = () => {
     checked: CheckboxFormStateType,
     filterType: FilterTypeEnum,
   ) => {
+    // console.log(checked);
     if (filterType === 1) {
       setCheckedFiltersDirections(checked);
     } else if (filterType === 2) {

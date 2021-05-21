@@ -34,24 +34,31 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
   filterTitle,
   allTitle,
 }) => {
-  const [numberOfDisabledCheckBoxes, setNumberOfDisabledCheckBoxes] = useState<
-    number
+  const [disabledCheckBoxesIds, setDisabledCheckBoxesIds] = useState<
+    number[]
   >();
   const [toggleInitialState, setToggleInitialState] = useState(true);
   const isInitialStateEmpty = isEmpty(selectedFilters) && toggleInitialState;
   const classes = useStyles();
   const [allChecked, setAllChecked] = useState(true);
+  // const abc = { ...selectedFilters };
+  // abc?.reduce((acc, next) => {
+  //   acc[next.id] = Boolean(!disabledCheckBoxesIds?.find((disabled) => disabled === next.id));
+  //   return acc;
+  // });
   const getCheckedStateFromFilters = (): CheckboxFormStateType => {
     return possibleFilters.reduce((acc, next) => {
       acc[next.id] =
         isInitialStateEmpty ||
         Boolean(selectedFilters?.find((filter) => filter.id === next.id));
+
       return acc;
     }, {});
   };
   const [checked, setChecked] = useState<CheckboxFormStateType>(
     getCheckedStateFromFilters(),
   );
+  console.log(checked);
   const [regionItem, setRegionItem] = useState(false);
 
   useEffect(() => {
@@ -61,9 +68,9 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
     ) {
       setAllChecked(true);
     } else if (
-      numberOfDisabledCheckBoxes &&
+      disabledCheckBoxesIds?.length &&
       selectedFilters?.length ===
-        possibleFilters.length - numberOfDisabledCheckBoxes
+        possibleFilters.length - disabledCheckBoxesIds?.length
     ) {
       setAllChecked(true);
       if (!toggleInitialState) {
@@ -188,13 +195,18 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
       }
       return false;
     });
-    setNumberOfDisabledCheckBoxes(result.length);
+    const arrayOfIds = result.map((el, id) => {
+      return id;
+    });
+
+    setDisabledCheckBoxesIds(arrayOfIds);
+
     return result.length;
   };
 
   useEffect(() => {
     getNumberOfDisabledCheckBoxes();
-  }, [checkBoxes]);
+  }, []);
 
   return (
     <Box mt={2}>
