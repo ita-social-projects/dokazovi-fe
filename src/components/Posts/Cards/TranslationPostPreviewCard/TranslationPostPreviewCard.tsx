@@ -21,8 +21,36 @@ export const TranslationPostPreviewCard: React.FC<IPostPreviewCardProps> = ({
     ? `${post.author.mainInstitution.city.name}, ${post.author.mainInstitution.name}`
     : '';
 
-  const expertBody = (
-    <>
+  const cardHeader = (
+    <Box className={classes.header}>
+      <Box
+        display="flex"
+        flexDirection="column"
+        justifyContent="space-between"
+        pt={4}
+        mb={6}
+      >
+        <Typography
+          className={classes.postType}
+          variant="overline"
+          component="span"
+        >
+          Переклад
+        </Typography>
+        <Typography
+          gutterBottom
+          variant="h4"
+          component="h3"
+          className={classes.textHeader}
+        >
+          {post.title}
+        </Typography>
+      </Box>
+    </Box>
+  );
+
+  const cardBody = (
+    <Box className={classes.body}>
       <Box mb={1.2}>
         <Typography
           className={classes.authorFullName}
@@ -42,68 +70,32 @@ export const TranslationPostPreviewCard: React.FC<IPostPreviewCardProps> = ({
           {authorMainInstitution}
         </Typography>
       </Box>
-    </>
-  );
-
-  const card = (
-    <>
-      <Box className={classes.header}>
-        <Box
-          display="flex"
-          flexDirection="column"
-          justifyContent="space-between"
-          pt={4}
-          mb={6}
-        >
-          <Typography
-            className={classes.postType}
-            variant="overline"
-            component="span"
-          >
-            Переклад
-          </Typography>
-          <Typography
-            gutterBottom
-            variant="h4"
-            component="h3"
-            className={classes.textHeader}
-          >
-            {post.title}
-          </Typography>
-        </Box>
-      </Box>
-      <Box className={classes.body}>
-        {shouldNotUseLink ? (
-          expertBody
-        ) : (
-          <Link to={materialsLink}>{expertBody}</Link>
-        )}
-        <Typography
-          gutterBottom
-          variant="body2"
-          color="textPrimary"
-          component="p"
-          className={classes.textBody}
-        >
-          {post.preview}
+      <Typography
+        gutterBottom
+        variant="body2"
+        color="textPrimary"
+        component="p"
+        className={classes.textBody}
+      >
+        {post.preview}
+      </Typography>
+      <Box
+        display="flex"
+        justifyContent="space-between"
+        alignItems="center"
+        mb={6}
+      >
+        <Typography variant="caption" color="textSecondary">
+          {formatDate(post.createdAt)}
         </Typography>
-        <Box
-          display="flex"
-          justifyContent="space-between"
-          alignItems="center"
-          mb={6}
-        >
-          <Typography variant="caption" color="textSecondary">
-            {formatDate(post.createdAt)}
-          </Typography>
-        </Box>
       </Box>
-    </>
+    </Box>
   );
 
   return (
     <Card className={classes.root}>
-      {shouldNotUseLink ? card : <Link to={postLink}>{card}</Link>}
+      {shouldNotUseLink ? cardHeader : <Link to={postLink}>{cardHeader}</Link>}
+      {shouldNotUseLink ? cardBody : <Link to={materialsLink}>{cardBody}</Link>}
     </Card>
   );
 };
