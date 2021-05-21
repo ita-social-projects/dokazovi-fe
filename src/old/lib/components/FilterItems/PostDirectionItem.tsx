@@ -7,7 +7,7 @@ export interface IPostDirectionItemProps {
   isEnabledRegion?: boolean;
 }
 
-const PostDirectionItem: React.FC<IPostDirectionItemProps> = (props) => {
+export const PostDirectionItem: React.FC<IPostDirectionItemProps> = (props) => {
   const { labelName, handleClick, isEnabledRegion } = props;
 
   const onClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
@@ -45,5 +45,3 @@ const PostDirectionItem: React.FC<IPostDirectionItemProps> = (props) => {
     </Typography>
   );
 };
-
-export default PostDirectionItem;
