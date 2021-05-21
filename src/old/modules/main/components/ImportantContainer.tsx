@@ -12,7 +12,7 @@ import {
 } from '../../../../models/main';
 import { useActions } from '../../../../shared/hooks';
 
-const ImportantContainer: React.FC = () => {
+export const ImportantContainer: React.FC = () => {
   const classes = useStyles();
   const { importantPostIds, importantPosts: posts } = useSelector(
     selectImportantPosts,
@@ -38,11 +38,8 @@ const ImportantContainer: React.FC = () => {
               <ImportantPostPreviewCard post={post} key={post.title} />
             ))}
           </Carousel>
-          <BorderBottom />
         </>
       )}
     </div>
   );
 };
-
-export default ImportantContainer;

@@ -26,6 +26,7 @@ import {
   mapQueryIdsStringToArray,
 } from '../../../lib/utilities/filters';
 import { RootStateType } from '../../../store/rootReducer';
+import { selectPostsByIds } from '../../../store/selectors';
 import {
   fetchExpertMaterials,
   resetMaterials,
@@ -61,6 +62,7 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
   }, [expertId]);
 
   const materials = Object.values(posts);
+
   const postTypes = useSelector(
     (state: RootStateType) => state.properties.postTypes,
   );

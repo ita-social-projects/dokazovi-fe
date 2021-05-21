@@ -1,8 +1,6 @@
-import {
-  fetchNewestPosts,
-  IMainState,
-  mainSlice,
-} from '../../../../../models/main/mainSlice';
+import { fetchNewestPosts } from '../../../../../models/main';
+import { IMainState } from '../../../../../models/main/types';
+import { mainSlice } from '../../../../../models/main/reducers';
 import { RootStateType } from '../../../../store/rootReducer';
 import { LoadingStatusEnum } from '../../../../lib/types';
 

@@ -19,7 +19,7 @@ const initialState: IMainState = {
   error: null,
 };
 
-const mainSlice = createSlice({
+export const mainSlice = createSlice({
   name: 'main',
   initialState,
   reducers: {

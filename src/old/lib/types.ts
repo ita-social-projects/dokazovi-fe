@@ -33,12 +33,33 @@ export enum LoadMoreButtonTextType {
   POST,
 }
 
+export enum PostsPreviewCardStylesEnum {
+  VIDEO = 'VIDEO',
+  MEDIA = 'MEDIA',
+  TRANSLATION = 'TRANSLATION',
+  EXPERT_OPINION = 'EXPERT_OPINION',
+  IMPORTANT = 'IMPORTANT',
+}
+
+export type PostsPreviewCardStylesType =
+  | PostsPreviewCardStylesEnum.VIDEO
+  | PostsPreviewCardStylesEnum.MEDIA
+  | PostsPreviewCardStylesEnum.TRANSLATION
+  | PostsPreviewCardStylesEnum.EXPERT_OPINION
+  | PostsPreviewCardStylesEnum.IMPORTANT;
+
 export enum LoadingStatusEnum {
   idle = 'idle',
   pending = 'pending',
   succeeded = 'succeeded',
   failed = 'failed',
 }
+
+export type LoadingStatusType =
+  | LoadingStatusEnum.idle
+  | LoadingStatusEnum.pending
+  | LoadingStatusEnum.succeeded
+  | LoadingStatusEnum.failed;
 
 export enum LocalStorageKeys {
   ACCESS_TOKEN = 'ACCESS_TOKEN',
@@ -50,6 +71,13 @@ export enum FilterTypeEnum {
   REGIONS,
   TAGS,
 }
+
+export enum ChipFilterEnum {
+  REGION = 'REGION',
+  DIRECTION = 'DIRECTION',
+}
+
+export type ChipFilterType = ChipFilterEnum.REGION | ChipFilterEnum.DIRECTION;
 
 export enum QueryTypeEnum {
   POST_TYPES = 'types',
@@ -122,6 +150,14 @@ export interface IDirection {
   color?: string;
   name: string;
   label?: string;
+  hasPosts?: boolean;
+}
+
+export interface IFilter {
+  id: number;
+  color?: string;
+  name: string;
+  label?: string;
 }
 
 export interface IOrigin {
@@ -133,6 +169,7 @@ export interface IOrigin {
 export interface IRegion {
   id: number;
   name: string;
+  usersPresent?: boolean;
 }
 
 export interface IInstitution {

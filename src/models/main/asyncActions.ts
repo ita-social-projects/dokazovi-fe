@@ -12,7 +12,7 @@ import { LoadingStatusEnum } from '../../old/lib/types';
 export const fetchNewestPosts = createAsyncThunk(
   'main/loadNewestPosts',
   async (_, { getState }) => {
-    const response = await getPosts('latest', {
+    const response = await getPosts('latest-all', {
       params: {
         size: LOAD_POSTS_LIMIT,
       },

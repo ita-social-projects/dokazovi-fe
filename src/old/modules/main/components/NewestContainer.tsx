@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useActions } from '../../../../shared/hooks/useActions';
-import { useStyles } from '../styles/NewestContainer.style';
+import { useStyles } from '../styles/MainExpertsView.styles';
 import { PostsList } from '../../../lib/components/Posts/PostsList';
 import { LoadingStatusEnum } from '../../../lib/types';
 import { LoadingContainer } from '../../../lib/components/Loading/LoadingContainer';
