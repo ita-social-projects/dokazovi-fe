@@ -2,7 +2,7 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { store } from '../../../../store/store';
-import ImportantContainer from '../ImportantContainer';
+import { ImportantContainer } from '../ImportantContainer';
 
 describe('ImportantContainer', () => {
   it('carousel renders all posts from the redux store', () => {

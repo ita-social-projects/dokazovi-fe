@@ -1,4 +1,4 @@
-import { IDirection, IOrigin } from '../../types';
+import { IDirection, IOrigin, IPost } from '../../types';
 
 export type CreatePostRequestType = {
   title: string;
@@ -156,6 +156,20 @@ export type ExpertsResponseType = GetResponseType<ExpertResponseType>;
 
 export type PostsResponseType = GetResponseType<PostResponseType>;
 
+export type NewestPostsResponseType = GetResponseType<NewestPostResponseType>;
+
+export enum NewestTypeEnum {
+  MEDIA,
+  TRANSLATION,
+  EXPERT_OPINION,
+  VIDEO,
+}
+
+export type NewestPostResponseType = {
+  fieldName: string;
+  postDTOS: IPost[];
+};
+
 export type GetTagsConfigType = {
   params: {
     value: string;
@@ -182,8 +196,10 @@ export type RequestParamsType = {
   sort?: string[];
   directions?: number[];
   type?: number[];
+  types?: number[];
   expert?: number;
   regions?: number[];
   tag?: number[];
+  origins?: number[];
   userName?: string;
 };

@@ -33,12 +33,33 @@ export enum LoadMoreButtonTextType {
   POST,
 }
 
+export enum PostsPreviewCardStylesEnum {
+  VIDEO = 'VIDEO',
+  MEDIA = 'MEDIA',
+  TRANSLATION = 'TRANSLATION',
+  EXPERT_OPINION = 'EXPERT_OPINION',
+  IMPORTANT = 'IMPORTANT',
+}
+
+export type PostsPreviewCardStylesType =
+  | PostsPreviewCardStylesEnum.VIDEO
+  | PostsPreviewCardStylesEnum.MEDIA
+  | PostsPreviewCardStylesEnum.TRANSLATION
+  | PostsPreviewCardStylesEnum.EXPERT_OPINION
+  | PostsPreviewCardStylesEnum.IMPORTANT;
+
 export enum LoadingStatusEnum {
   idle = 'idle',
   pending = 'pending',
   succeeded = 'succeeded',
   failed = 'failed',
 }
+
+export type LoadingStatusType =
+  | LoadingStatusEnum.idle
+  | LoadingStatusEnum.pending
+  | LoadingStatusEnum.succeeded
+  | LoadingStatusEnum.failed;
 
 export enum LocalStorageKeys {
   ACCESS_TOKEN = 'ACCESS_TOKEN',
