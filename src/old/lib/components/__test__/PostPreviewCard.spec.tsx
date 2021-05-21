@@ -1,7 +1,7 @@
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
 import { render, screen } from '@testing-library/react';
-import PostPreviewCard from '../Posts/Cards/PostPreviewCard';
+import { PostPreviewCard } from '../../../../components/Posts/Cards/PostPreviewCard';
 import { IPost } from '../../types';
 
 const POST_MOCK: IPost = {

@@ -20,6 +20,7 @@ import {
   GetPostsConfigType,
   CreatePostRequestUnionType,
   UpdatePostRequestUnionType,
+  NewestPostsResponseType,
 } from './types';
 import { BASE_URL } from '../../../apiURL';
 import { getToken } from '../../../provider/AuthProvider/getToken';
@@ -64,7 +65,11 @@ const defaultConfig = {
   },
 };
 
-type GetPostsRequestType = 'important' | 'latest' | 'latest-by-expert';
+type GetPostsRequestType =
+  | 'important'
+  | 'latest-all'
+  | 'latest-by-expert'
+  | 'all-posts';
 
 export const getPosts = async (
   postsRequestType: GetPostsRequestType,
@@ -74,6 +79,12 @@ export const getPosts = async (
     ...defaultConfig,
     ...config,
   });
+};
+
+export const getNewestPosts = async (): Promise<
+  AxiosResponse<NewestPostsResponseType>
+> => {
+  return instance.get(`/post/latest`);
 };
 
 export const getRandomExperts = async (

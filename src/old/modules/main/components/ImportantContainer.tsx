@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { BorderBottom } from '../../../lib/components/Border';
 import Carousel from '../../../lib/components/Carousel/Carousel';
 import { RootStateType } from '../../../store/rootReducer';
 import { useStyles } from '../styles/ImportantContainer.styles';
@@ -12,7 +11,7 @@ import { selectPostsByIds } from '../../../store/selectors';
 import { ImportantPostPreviewCard } from '../../../../components/Posts/Cards/ImportantPostPreviewCard/ImportantPostPreviewCard';
 import { LoadingContainer } from '../../../lib/components/Loading/LoadingContainer';
 
-const ImportantContainer: React.FC = () => {
+export const ImportantContainer: React.FC = () => {
   const classes = useStyles();
   const {
     importantPostIds,
@@ -41,11 +40,8 @@ const ImportantContainer: React.FC = () => {
               <ImportantPostPreviewCard post={post} key={post.title} />
             ))}
           </Carousel>
-          <BorderBottom />
         </>
       )}
     </div>
   );
 };
-
-export default ImportantContainer;

@@ -59,7 +59,7 @@ const initialState: IMainState = {
 export const fetchNewestPosts = createAsyncThunk<IFetchNewestPosts>(
   'main/loadNewestPosts',
   async (_, { dispatch }) => {
-    const resp = await getPosts('latest', {
+    const resp = await getPosts('latest-all', {
       params: {
         size: LOAD_POSTS_LIMIT,
       },
