@@ -6,7 +6,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
 import { RootStateType } from '../../../store/rootReducer';
 import { IPostTag } from '../../types';
-import { fetchPostsTags } from '../../../store/propertiesSlice';
+import { fetchPostsTags } from '../../../../models/properties/asyncActions';
 
 export interface IPostTagsFilterProps {
   onTagsChange(tags: string[]): void;

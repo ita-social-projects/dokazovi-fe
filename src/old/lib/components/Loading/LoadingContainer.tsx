@@ -1,8 +1,8 @@
-import { Grid } from '@material-ui/core';
 import React from 'react';
+import { Grid } from '@material-ui/core';
 import { LoadingStatusEnum } from '../../types';
 import { useStyles } from './LoadingContainer.styles';
-import LoadingInfo from './LoadingInfo';
+import { LoadingInfo } from './LoadingInfo';
 
 export interface ILoadingContainerProps {
   loading: LoadingStatusEnum;
@@ -10,7 +10,7 @@ export interface ILoadingContainerProps {
   expand?: boolean;
 }
 
-const LoadingContainer: React.FC<ILoadingContainerProps> = (props) => {
+export const LoadingContainer: React.FC<ILoadingContainerProps> = (props) => {
   const { loading, errorMsg, expand } = props;
   const classes = useStyles();
 
@@ -23,5 +23,3 @@ const LoadingContainer: React.FC<ILoadingContainerProps> = (props) => {
     </Grid>
   );
 };
-
-export default LoadingContainer;

@@ -1,13 +1,16 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import _ from 'lodash';
 import { Box, TextField, Typography } from '@material-ui/core';
 import { sanitizeHtml } from '../../../lib/utilities/sanitizeHtml';
 import { PageTitle } from '../../../lib/components/Pages/PageTitle';
-import { updatePost } from '../../../lib/utilities/API/api';
+import { updatePost, getAllExperts } from '../../../lib/utilities/API/api';
 import { IDirection, IPost } from '../../../lib/types';
 import { PostCreationButtons } from '../../postCreation/components/PostCreationButtons';
-import { UpdateTextPostRequestType } from '../../../lib/utilities/API/types';
+import {
+  UpdateTextPostRequestType,
+  ExpertResponseType,
+} from '../../../lib/utilities/API/types';
 import {
   CONTENT_DEBOUNCE_TIMEOUT,
   PREVIEW_DEBOUNCE_TIMEOUT,
@@ -16,6 +19,7 @@ import PostView from '../../posts/components/PostView';
 import { TextPostEditor } from '../../../lib/components/Editor/Editors/TextPostEditor';
 import { IEditorToolbarProps } from '../../../lib/components/Editor/types';
 import { PostDirectionsSelector } from '../../postCreation/components/PostDirectionsSelector';
+import { PostAuthorSelection } from '../../postCreation/components/PostAuthorSelection/PostAuthorSelection';
 
 export interface ITextPostUpdationProps {
   pageTitle: string;
@@ -43,6 +47,11 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
     error: '',
   });
 
+  const [authors, setAuthors] = useState<ExpertResponseType[]>([]);
+  const [authorId, setAuthorId] = useState<number | null>(null);
+  const [author, setAuthor] = useState<ExpertResponseType>();
+  const [searchValue, setSearchValue] = useState('');
+
   const [typing, setTyping] = useState({ content: false, preview: false });
   const [previewing, setPreviewing] = useState(false);
 
@@ -66,6 +75,27 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
     [],
   );
 
+  const handleOnChange = (value: string) => {
+    setSearchValue(value);
+  };
+
+  useEffect(() => {
+    if (!searchValue) {
+      setAuthors([]);
+      return;
+    }
+    getAllExperts({ params: { userName: searchValue.trim() } }).then((res) => {
+      setAuthors(res.data.content);
+    });
+  }, [searchValue]);
+
+  const onAuthorTableClick = (value: number, item: ExpertResponseType) => {
+    setAuthorId(value);
+    setAuthor(item);
+    setAuthors([]);
+    setSearchValue('');
+  };
+
   const updatedPost: UpdateTextPostRequestType = {
     id: post.id,
     content: htmlContent,
@@ -73,10 +103,18 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
     preview,
     title: title.value,
     type: post.type,
+    authorId: authorId ?? post.author.id,
   };
 
   const previewPost: IPost = {
     ...post,
+    author: {
+      avatar: author?.avatar ?? post.author.avatar,
+      firstName: author?.firstName ?? post.author.firstName,
+      id: author?.id ?? post.author.id,
+      lastName: author?.lastName ?? post.author.lastName,
+      mainInstitution: author?.mainInstitution ?? post.author.mainInstitution,
+    },
     content: htmlContent,
     preview,
     directions: selectedDirections,
@@ -113,6 +151,12 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
               }}
             />
           </Box>
+          <PostAuthorSelection
+            onAuthorTableClick={onAuthorTableClick}
+            handleOnChange={handleOnChange}
+            authors={authors}
+            searchValue={searchValue}
+          />
           <Box mt={2}>
             <Typography variant="h5">{contentInputLabel}</Typography>
             <TextPostEditor

@@ -60,7 +60,7 @@ export const TYPOGRAPHY: TypographyOptions = {
     fontWeight: 400,
     fontStyle: 'italic',
     fontSize: '13px',
-    lineHeight: '17px',
+    lineHeight: '18px',
   },
   body1: {
     fontFamily: 'Literata',
@@ -84,14 +84,16 @@ export const TYPOGRAPHY: TypographyOptions = {
   caption: {
     fontFamily: 'Literata',
     fontWeight: 400,
-    fontSize: '12px',
-    lineHeight: '14px',
+    fontSize: '11px',
+    lineHeight: '13px',
   },
   overline: {
-    fontFamily: 'Montserrat',
+    fontFamily: 'Raleway',
+    fontStyle: 'normal',
     fontWeight: 600,
     fontSize: '10px',
-    lineHeight: '12px',
-    letterSpacing: '0.2em',
+    lineHeight: '17px',
+    letterSpacing: '0.12em',
+    textTransform: 'uppercase',
   },
 };

@@ -1,12 +1,15 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import _ from 'lodash';
 import { Box, TextField, Typography } from '@material-ui/core';
 import { IDirection, IPost } from '../../../lib/types';
-import { UpdateVideoPostRequestType } from '../../../lib/utilities/API/types';
+import {
+  UpdateVideoPostRequestType,
+  ExpertResponseType,
+} from '../../../lib/utilities/API/types';
 import { sanitizeHtml } from '../../../lib/utilities/sanitizeHtml';
 import { PostCreationButtons } from '../../postCreation/components/PostCreationButtons';
-import { updatePost } from '../../../lib/utilities/API/api';
+import { updatePost, getAllExperts } from '../../../lib/utilities/API/api';
 import { PageTitle } from '../../../lib/components/Pages/PageTitle';
 import VideoUrlInputModal from '../../../lib/components/Editor/CustomModules/VideoUrlInputModal';
 import VideoEditor from '../../../lib/components/Editor/Editors/VideoEditor';
@@ -14,6 +17,7 @@ import { parseVideoIdFromUrl } from '../../../lib/utilities/parseVideoIdFromUrl'
 import { CONTENT_DEBOUNCE_TIMEOUT } from '../../../lib/constants/editors';
 import PostView from '../../posts/components/PostView';
 import { PostDirectionsSelector } from '../../postCreation/components/PostDirectionsSelector';
+import { PostAuthorSelection } from '../../postCreation/components/PostAuthorSelection/PostAuthorSelection';
 
 export interface IVideoUpdationProps {
   post: IPost;
@@ -31,6 +35,11 @@ const VideoUpdation: React.FC<IVideoUpdationProps> = ({ post }) => {
     error: '',
   });
 
+  const [authors, setAuthors] = useState<ExpertResponseType[]>([]);
+  const [authorId, setAuthorId] = useState<number | null>(null);
+  const [author, setAuthor] = useState<ExpertResponseType>();
+  const [searchValue, setSearchValue] = useState('');
+
   const [typing, setTyping] = useState({ content: false });
   const [previewing, setPreviewing] = useState(false);
 
@@ -46,6 +55,27 @@ const VideoUpdation: React.FC<IVideoUpdationProps> = ({ post }) => {
     [],
   );
 
+  const handleOnChange = (value: string) => {
+    setSearchValue(value);
+  };
+
+  useEffect(() => {
+    if (!searchValue) {
+      setAuthors([]);
+      return;
+    }
+    getAllExperts({ params: { userName: searchValue.trim() } }).then((res) => {
+      setAuthors(res.data.content);
+    });
+  }, [searchValue]);
+
+  const onAuthorTableClick = (value: number, item: ExpertResponseType) => {
+    setAuthorId(value);
+    setAuthor(item);
+    setAuthors([]);
+    setSearchValue('');
+  };
+
   const videoId = parseVideoIdFromUrl(videoUrl);
 
   const updatedPost: UpdateVideoPostRequestType = {
@@ -56,10 +86,18 @@ const VideoUpdation: React.FC<IVideoUpdationProps> = ({ post }) => {
     preview: post.preview, // currently leaving the previous preview
     videoUrl,
     type: post.type,
+    authorId: authorId ?? post.author.id,
   };
 
   const previewPost: IPost = {
     ...post,
+    author: {
+      avatar: author?.avatar ?? post.author.avatar,
+      firstName: author?.firstName ?? post.author.firstName,
+      id: author?.id ?? post.author.id,
+      lastName: author?.lastName ?? post.author.lastName,
+      mainInstitution: author?.mainInstitution ?? post.author.mainInstitution,
+    },
     content: htmlContent,
     directions: selectedDirections,
     title: title.value,
@@ -95,6 +133,12 @@ const VideoUpdation: React.FC<IVideoUpdationProps> = ({ post }) => {
               }}
             />
           </Box>
+          <PostAuthorSelection
+            onAuthorTableClick={onAuthorTableClick}
+            handleOnChange={handleOnChange}
+            authors={authors}
+            searchValue={searchValue}
+          />
           <Box mt={2}>
             <VideoUrlInputModal dispatchVideoUrl={setVideoUrl} />
             {videoId && (

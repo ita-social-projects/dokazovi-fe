@@ -2,7 +2,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { LoadingStatusEnum } from '../../../lib/types';
 import { getPosts } from '../../../lib/utilities/API/api';
-import { loadPosts, mapFetchedPosts } from '../../../store/dataSlice';
+import { loadPosts, mapFetchedPosts } from '../../../../models/materials';
 import {
   LOAD_POSTS_LIMIT,
   LOAD_IMPORTANT_POSTS_LIMIT,
@@ -11,6 +11,8 @@ import {
 interface INewestPostsMeta {
   loading: LoadingStatusEnum;
   error: null | string;
+  currentPage?: number;
+  isLastPage?: boolean;
 }
 
 interface INewestPostsPayload {
@@ -57,7 +59,7 @@ const initialState: IMainState = {
 export const fetchNewestPosts = createAsyncThunk<IFetchNewestPosts>(
   'main/loadNewestPosts',
   async (_, { dispatch }) => {
-    const resp = await getPosts('latest', {
+    const resp = await getPosts('latest-all', {
       params: {
         size: LOAD_POSTS_LIMIT,
       },

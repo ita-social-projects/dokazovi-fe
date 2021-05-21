@@ -1,8 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { BorderBottom } from '../../../lib/components/Border';
 import Carousel from '../../../lib/components/Carousel/Carousel';
-import { PostCard } from '../../../lib/components/Posts/Cards/PostCard';
 import { RootStateType } from '../../../store/rootReducer';
 import { useStyles } from '../styles/ImportantContainer.styles';
 import {
@@ -10,9 +8,10 @@ import {
   setImportantLoadingStatus,
 } from '../store/mainSlice';
 import { selectPostsByIds } from '../../../store/selectors';
-import LoadingContainer from '../../../lib/components/Loading/LoadingContainer';
+import { ImportantPostPreviewCard } from '../../../../components/Posts/Cards/ImportantPostPreviewCard/ImportantPostPreviewCard';
+import { LoadingContainer } from '../../../lib/components/Loading/LoadingContainer';
 
-const ImportantContainer: React.FC = () => {
+export const ImportantContainer: React.FC = () => {
   const classes = useStyles();
   const {
     importantPostIds,
@@ -38,14 +37,11 @@ const ImportantContainer: React.FC = () => {
         <>
           <Carousel>
             {importantPosts.map((post) => (
-              <PostCard post={post} key={post.title} />
+              <ImportantPostPreviewCard post={post} key={post.title} />
             ))}
           </Carousel>
-          <BorderBottom />
         </>
       )}
     </div>
   );
 };
-
-export default ImportantContainer;

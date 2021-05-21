@@ -3,13 +3,13 @@ import React from 'react';
 import Masonry from 'react-masonry-css';
 import { useStyles, MASONRY_BREAKPOINTS } from '../../styles/PostsList.styles';
 import { IPost } from '../../types';
-import PostPreviewCard from './Cards/PostPreviewCard';
+import { PostPreviewCard } from '../../../../components/Posts/Cards/PostPreviewCard';
 
 export interface IPostsListProps {
   postsList: IPost[];
 }
 
-const PostsList: React.FC<IPostsListProps> = ({ postsList }) => {
+export const PostsList: React.FC<IPostsListProps> = ({ postsList }) => {
   const classes = useStyles();
 
   return (
@@ -26,5 +26,3 @@ const PostsList: React.FC<IPostsListProps> = ({ postsList }) => {
     </Masonry>
   );
 };
-
-export default PostsList;

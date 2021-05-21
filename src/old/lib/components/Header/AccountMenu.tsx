@@ -1,25 +1,26 @@
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import React, { useContext, useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { Button, Typography, Avatar } from '@material-ui/core';
 import { useStyles } from './AccountMenu.styles';
 import { StyledMenu, StyledMenuItem } from '../Menu/StyledMenu';
-import { logOut } from '../../../store/authSlice';
-import { RootStateType } from '../../../store/rootReducer';
+import { signOutAction, getUserAsyncAction } from '../../../../models/user';
+import { useActions } from '../../../../shared/hooks';
+import { AuthContext } from '../../../provider/AuthProvider/AuthContext';
+import { selectCurrentUser } from '../../../../models/user/selectors';
 import { AccountIcon } from '../icons/AccountIcon';
 
 export const AccountMenu: React.FC = () => {
   const classes = useStyles();
-  const { user } = useSelector((state: RootStateType) => state.currentUser);
-
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-
-  const dispatch = useDispatch();
-  const history = useHistory();
+  const user = useSelector(selectCurrentUser);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const { authenticated } = useContext(AuthContext);
+  const { removeAuthorization } = useContext(AuthContext);
+  const [boundSignOutAction] = useActions([signOutAction]);
+  const [boundGetUserAsyncAction] = useActions([getUserAsyncAction]);
 
   const onLogoutHandler = () => {
-    dispatch(logOut());
-    history.push(`/`);
+    boundSignOutAction();
+    removeAuthorization();
   };
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -30,7 +31,13 @@ export const AccountMenu: React.FC = () => {
     setAnchorEl(null);
   };
 
-  if (!user) {
+  useEffect(() => {
+    if (authenticated) {
+      boundGetUserAsyncAction();
+    }
+  }, [authenticated]);
+
+  if (!user.data) {
     return null;
   }
 
@@ -43,17 +50,17 @@ export const AccountMenu: React.FC = () => {
         onClick={handleClick}
         className={classes.button}
       >
-        {user.avatar ? (
+        {user.data ? (
           <Avatar
-            alt={`${user.firstName} ${user.lastName}`}
+            alt={`${user.data.firstName} ${user.data.lastName}`}
             className={classes.avatar}
-            src={user.avatar}
+            src={user.data.avatar}
           />
         ) : (
           <AccountIcon className={classes.avatar} />
         )}
         <Typography className={classes.name} variant="h5">
-          {user.firstName}
+          {user.data && user.data.firstName}
         </Typography>
       </Button>
 

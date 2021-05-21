@@ -11,6 +11,17 @@ export enum PostStatus {
   ARCHIVED = 'ARCHIVED',
 }
 
+export enum OriginTypeEnum {
+  EXPERT_OPINION = 1,
+  TRANSLATION = 2,
+  MEDIA = 3,
+}
+
+export type OriginType =
+  | OriginTypeEnum.EXPERT_OPINION
+  | OriginTypeEnum.MEDIA
+  | OriginTypeEnum.TRANSLATION;
+
 export enum PostTypeEnum {
   ARTICLE = 1,
   DOPYS = 2,
@@ -22,12 +33,33 @@ export enum LoadMoreButtonTextType {
   POST,
 }
 
+export enum PostsPreviewCardStylesEnum {
+  VIDEO = 'VIDEO',
+  MEDIA = 'MEDIA',
+  TRANSLATION = 'TRANSLATION',
+  EXPERT_OPINION = 'EXPERT_OPINION',
+  IMPORTANT = 'IMPORTANT',
+}
+
+export type PostsPreviewCardStylesType =
+  | PostsPreviewCardStylesEnum.VIDEO
+  | PostsPreviewCardStylesEnum.MEDIA
+  | PostsPreviewCardStylesEnum.TRANSLATION
+  | PostsPreviewCardStylesEnum.EXPERT_OPINION
+  | PostsPreviewCardStylesEnum.IMPORTANT;
+
 export enum LoadingStatusEnum {
   idle = 'idle',
   pending = 'pending',
   succeeded = 'succeeded',
   failed = 'failed',
 }
+
+export type LoadingStatusType =
+  | LoadingStatusEnum.idle
+  | LoadingStatusEnum.pending
+  | LoadingStatusEnum.succeeded
+  | LoadingStatusEnum.failed;
 
 export enum LocalStorageKeys {
   ACCESS_TOKEN = 'ACCESS_TOKEN',
@@ -39,6 +71,13 @@ export enum FilterTypeEnum {
   REGIONS,
   TAGS,
 }
+
+export enum ChipFilterEnum {
+  REGION = 'REGION',
+  DIRECTION = 'DIRECTION',
+}
+
+export type ChipFilterType = ChipFilterEnum.REGION | ChipFilterEnum.DIRECTION;
 
 export enum QueryTypeEnum {
   POST_TYPES = 'types',
@@ -57,7 +96,7 @@ export interface IPost {
     firstName: string;
     id: number;
     lastName: string;
-    mainInstitution?: {
+    mainInstitution: {
       city: {
         id: number;
         name: string;
@@ -67,11 +106,14 @@ export interface IPost {
     };
   };
   directions: IDirection[];
+  origin: IOrigin[];
   tags?: IPostTag[];
   type: IPostType;
   createdAt: string;
   modifiedAt?: string;
+  origins?: IOrigin[];
   preview: string;
+  previewImageUrl?: string;
   videoUrl?: string;
 }
 
@@ -108,11 +150,26 @@ export interface IDirection {
   color?: string;
   name: string;
   label?: string;
+  hasPosts?: boolean;
+}
+
+export interface IFilter {
+  id: number;
+  color?: string;
+  name: string;
+  label?: string;
+}
+
+export interface IOrigin {
+  id: number;
+  name: string;
+  parameter: null | string | number;
 }
 
 export interface IRegion {
   id: number;
   name: string;
+  usersPresent?: boolean;
 }
 
 export interface IInstitution {

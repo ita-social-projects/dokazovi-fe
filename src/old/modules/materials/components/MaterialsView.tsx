@@ -1,45 +1,51 @@
 import { Grid } from '@material-ui/core';
 import { isEmpty, uniq } from 'lodash';
 import React, { useEffect, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import CheckboxFilterForm, {
   CheckboxFormStateType,
 } from '../../../lib/components/Filters/CheckboxFilterForm';
-import LoadMoreButton from '../../../lib/components/LoadMoreButton/LoadMoreButton';
-import PostsList from '../../../lib/components/Posts/PostsList';
-import useEffectExceptOnMount from '../../../lib/hooks/useEffectExceptOnMount';
-import usePrevious from '../../../lib/hooks/usePrevious';
+import { PostsList } from '../../../lib/components/Posts/PostsList';
+import { LoadMoreButton } from '../../../lib/components/LoadMoreButton/LoadMoreButton';
+import { useEffectExceptOnMount } from '../../../lib/hooks/useEffectExceptOnMount';
+import { usePrevious } from '../../../lib/hooks/usePrevious';
 import {
   FilterTypeEnum,
   IDirection,
   IPostType,
   LoadingStatusEnum,
-  QueryTypeEnum,
   LoadMoreButtonTextType,
+  QueryTypeEnum,
 } from '../../../lib/types';
 import { RootStateType } from '../../../store/rootReducer';
 import { selectPostsByIds } from '../../../store/selectors';
-import { fetchMaterials } from '../../../store/materials/materialsSlice';
 import {
   getQueryTypeByFilterType,
   mapQueryIdsStringToArray,
 } from '../../../lib/utilities/filters';
-import LoadingContainer from '../../../lib/components/Loading/LoadingContainer';
+import { LoadingContainer } from '../../../lib/components/Loading/LoadingContainer';
 import { PageTitle } from '../../../lib/components/Pages/PageTitle';
 import { useQuery } from '../../../lib/hooks/useQuery';
-import CheckboxDropdownFilterForm from '../../../lib/components/Filters/CheckboxDropdownFilterForm';
+import { fetchMaterials, selectMaterials } from '../../../../models/materials';
+import { useActions } from '../../../../shared/hooks';
+import { LOAD_POSTS_LIMIT } from '../../../lib/constants/posts';
+import { CheckboxDropdownFilterForm } from '../../../lib/components/Filters/CheckboxDropdownFilterForm';
 
 const MaterialsView: React.FC = () => {
-  const [page, setPage] = useState(0);
+  const {
+    loading,
+    data: {
+      postIds,
+      meta: { isLastPage, pageNumber, totalElements, totalPages },
+    },
+  } = useSelector(selectMaterials);
+
+  const [page, setPage] = useState(pageNumber);
   const previous = usePrevious({ page });
   const history = useHistory();
   const query = useQuery();
 
-  const {
-    postIds,
-    meta: { loading, isLastPage, pageNumber, totalElements, totalPages },
-  } = useSelector((state: RootStateType) => state.materials);
   const materials = selectPostsByIds(postIds);
 
   const directions = useSelector(
@@ -50,7 +56,7 @@ const MaterialsView: React.FC = () => {
   );
   const propertiesLoaded = !isEmpty(postTypes) && !isEmpty(directions);
 
-  const dispatch = useDispatch();
+  const [boundFetchMaterials] = useActions([fetchMaterials]);
 
   const fetchData = (appendPosts = false) => {
     const postTypesQuery = query.get(QueryTypeEnum.POST_TYPES);
@@ -62,7 +68,7 @@ const MaterialsView: React.FC = () => {
       directions: mapQueryIdsStringToArray(directionsQuery),
     };
 
-    dispatch(fetchMaterials(filters, page, appendPosts));
+    boundFetchMaterials({ filters, page, appendPosts });
   };
 
   const setFilters = (
@@ -91,7 +97,12 @@ const MaterialsView: React.FC = () => {
 
   useEffect(() => {
     const appendPosts = previous && previous.page < page;
-    fetchData(appendPosts);
+    if (
+      !isLastPage &&
+      Math.ceil(materials.length / LOAD_POSTS_LIMIT) !== page + 1
+    ) {
+      fetchData(appendPosts);
+    }
   }, [
     page,
     query.get(QueryTypeEnum.POST_TYPES),
