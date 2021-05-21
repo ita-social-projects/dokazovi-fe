@@ -64,7 +64,7 @@ const defaultConfig = {
   },
 };
 
-type GetPostsRequestType = 'important' | 'latest' | 'latest-by-expert';
+type GetPostsRequestType = 'important' | 'latest-all' | 'latest-by-expert';
 
 export const getPosts = async (
   postsRequestType: GetPostsRequestType,

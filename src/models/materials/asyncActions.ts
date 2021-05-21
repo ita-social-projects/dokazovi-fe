@@ -19,7 +19,7 @@ export const fetchMaterials = createAsyncThunk(
   async (options: IFetchMaterialsOptions, { getState }) => {
     const { filters, page, appendPosts } = options;
 
-    const response = await getPosts('latest', {
+    const response = await getPosts('latest-all', {
       params: {
         page: page,
         size: LOAD_POSTS_LIMIT,

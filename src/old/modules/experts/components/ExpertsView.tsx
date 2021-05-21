@@ -218,7 +218,7 @@ const ExpertsView: React.FC = () => {
       <Grid container direction="row">
         <Grid item container direction="column" xs={3}>
           <Typography className={classes.title} variant="h1">
-            Вибрати авторів...
+            Вибрані автори...
           </Typography>
         </Grid>
         <Grid item container direction="column" xs={9}>
