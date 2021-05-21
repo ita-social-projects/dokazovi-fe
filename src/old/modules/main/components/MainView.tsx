@@ -1,7 +1,7 @@
 import React from 'react';
-import NewestContainer from './NewestContainer';
-import ImportantContainer from './ImportantContainer';
+import { ImportantContainer } from './ImportantContainer';
 import { PageTitle } from '../../../lib/components/Pages/PageTitle';
+import { NewestContainer } from '../../../../features/newest/NewestContainer';
 
 const MainView: React.FC = () => (
   <>
