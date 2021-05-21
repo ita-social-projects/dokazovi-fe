@@ -236,7 +236,7 @@ const ExpertsView: React.FC = () => {
               margin: '0 0 28px 15px',
             }}
           >
-            Вибрати авторів...
+            Вибрані автори:
           </Typography>
         </Grid>
         <Grid item container direction="column" xs={9}>
@@ -302,7 +302,6 @@ const ExpertsView: React.FC = () => {
                 selectedFilters={selectedDirections}
                 filterTitle="за темою"
                 allTitle="Всі теми"
-                // itemsFromChips={getRegions()}
               />
               <CheckboxLeftsideFilterForm
                 onFormChange={(checked) =>
@@ -312,7 +311,6 @@ const ExpertsView: React.FC = () => {
                 selectedFilters={selectedRegions}
                 filterTitle="за регіоном"
                 allTitle="Всі регіони"
-                // itemsFromChips={getDirections()}
               />
             </>
           )}

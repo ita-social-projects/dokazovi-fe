@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import React, { useEffect, useState } from 'react';
 import { isEmpty, mapValues } from 'lodash';
 import {
@@ -34,8 +33,10 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
   selectedFilters,
   filterTitle,
   allTitle,
-  // itemsFromChips,
 }) => {
+  const [numberOfDisabledCheckBoxes, setNumberOfDisabledCheckBoxes] = useState<
+    number
+  >();
   const [toggleInitialState, setToggleInitialState] = useState(true);
   const isInitialStateEmpty = isEmpty(selectedFilters) && toggleInitialState;
   const classes = useStyles();
@@ -53,14 +54,27 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
   );
   const [regionItem, setRegionItem] = useState(false);
 
-  // itemsFromChips !=== value ? setState(itemsFromChips)
-
   useEffect(() => {
     if (
       isInitialStateEmpty ||
       selectedFilters?.length === possibleFilters.length
     ) {
       setAllChecked(true);
+    } else if (
+      numberOfDisabledCheckBoxes &&
+      selectedFilters?.length ===
+        possibleFilters.length - numberOfDisabledCheckBoxes
+    ) {
+      setAllChecked(true);
+      if (!toggleInitialState) {
+        setToggleInitialState(true);
+      }
+      const checkedFilters = true
+        ? mapValues(checked, () => true)
+        : mapValues(checked, () => false);
+
+      setChecked(checkedFilters);
+      onFormChange(checkedFilters);
     } else if (allChecked) {
       setAllChecked(false);
     }
@@ -109,13 +123,16 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
       if (regionItem === false) {
         setRegionItem(true);
       }
+
       const region = allRegions.find((reg) => reg.name === filterName);
       result = region?.usersPresent;
     }
+    // else {
+    //   setRegionItem(false);
+    // }
 
     return result;
   };
-
   const getHasMaterialsProperty = (filterName: string | undefined) => {
     const allDirections = store.getState().properties.directions;
     let result: boolean | undefined = false;
@@ -132,8 +149,10 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
     const id = filter.id.toString();
     const filterName = filter.name;
     const disabled = !getUsersPresentProperty(filterName);
+    const allDirections = store.getState().properties.directions;
+    const isDirection = allDirections.find((dir) => dir.name === filterName);
 
-    if (!regionItem && !getHasMaterialsProperty(filterName)) {
+    if (isDirection && !getHasMaterialsProperty(filterName)) {
       return null;
     }
 
@@ -160,6 +179,22 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
       />
     );
   });
+
+  const getNumberOfDisabledCheckBoxes: () => number = () => {
+    const result = checkBoxes.filter((el: JSX.Element | null) => {
+      if (el) {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+        return el.props.control.props.disabled === true;
+      }
+      return false;
+    });
+    setNumberOfDisabledCheckBoxes(result.length);
+    return result.length;
+  };
+
+  useEffect(() => {
+    getNumberOfDisabledCheckBoxes();
+  }, [checkBoxes]);
 
   return (
     <Box mt={2}>

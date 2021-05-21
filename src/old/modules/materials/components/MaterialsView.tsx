@@ -1,11 +1,9 @@
-import { Grid } from '@material-ui/core';
+import { Grid, Typography } from '@material-ui/core';
 import { isEmpty, uniq } from 'lodash';
 import React, { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import CheckboxFilterForm, {
-  CheckboxFormStateType,
-} from '../../../lib/components/Filters/CheckboxFilterForm';
+import { CheckboxFormStateType } from '../../../lib/components/Filters/CheckboxFilterForm';
 import { PostsList } from '../../../lib/components/Posts/PostsList';
 import { LoadMoreButton } from '../../../lib/components/LoadMoreButton/LoadMoreButton';
 import { useEffectExceptOnMount } from '../../../lib/hooks/useEffectExceptOnMount';
@@ -13,6 +11,7 @@ import { usePrevious } from '../../../lib/hooks/usePrevious';
 import {
   FilterTypeEnum,
   IDirection,
+  IOrigin,
   IPostType,
   LoadingStatusEnum,
   LoadMoreButtonTextType,
@@ -30,7 +29,7 @@ import { useQuery } from '../../../lib/hooks/useQuery';
 import { fetchMaterials, selectMaterials } from '../../../../models/materials';
 import { useActions } from '../../../../shared/hooks';
 import { LOAD_POSTS_LIMIT } from '../../../lib/constants/posts';
-import { CheckboxDropdownFilterForm } from '../../../lib/components/Filters/CheckboxDropdownFilterForm';
+import { CheckboxLeftsideFilterForm } from '../../../lib/components/Filters/CheckboxLeftsideFilterForm';
 
 const MaterialsView: React.FC = () => {
   const {
@@ -48,22 +47,30 @@ const MaterialsView: React.FC = () => {
 
   const materials = selectPostsByIds(postIds);
 
-  const directions = useSelector(
-    (state: RootStateType) => state.properties.directions,
+  const origins = useSelector(
+    (state: RootStateType) => state.properties.origins,
   );
   const postTypes = useSelector(
     (state: RootStateType) => state.properties.postTypes,
   );
+  const directions = useSelector(
+    (state: RootStateType) => state.properties.directions,
+  );
+  // console.log(origins);
+  // console.log(postTypes);
+
   const propertiesLoaded = !isEmpty(postTypes) && !isEmpty(directions);
 
   const [boundFetchMaterials] = useActions([fetchMaterials]);
 
   const fetchData = (appendPosts = false) => {
+    const originsQuery = query.get(QueryTypeEnum.ORIGINS);
     const postTypesQuery = query.get(QueryTypeEnum.POST_TYPES);
     const directionsQuery = query.get(QueryTypeEnum.DIRECTIONS);
 
     const filters = {
       page,
+      origins: mapQueryIdsStringToArray(originsQuery),
       postTypes: mapQueryIdsStringToArray(postTypesQuery),
       directions: mapQueryIdsStringToArray(directionsQuery),
     };
@@ -105,9 +112,16 @@ const MaterialsView: React.FC = () => {
     }
   }, [
     page,
+    query.get(QueryTypeEnum.ORIGINS),
     query.get(QueryTypeEnum.POST_TYPES),
     query.get(QueryTypeEnum.DIRECTIONS),
   ]);
+
+  const selectedOriginsString = query.get(QueryTypeEnum.ORIGINS)?.split(',');
+  let selectedOrigins: IOrigin[] | undefined = origins?.filter((direction) =>
+    selectedOriginsString?.includes(direction.id.toString()),
+  );
+  selectedOrigins = !isEmpty(selectedOrigins) ? selectedOrigins : undefined;
 
   const selectedDirectionsString = query
     .get(QueryTypeEnum.DIRECTIONS)
@@ -141,47 +155,82 @@ const MaterialsView: React.FC = () => {
   return (
     <>
       <PageTitle title="Матеріали" />
-
-      {propertiesLoaded && (
-        <Grid container direction="column">
-          <CheckboxFilterForm
-            onFormChange={(checked) =>
-              setFilters(checked, FilterTypeEnum.POST_TYPES)
-            }
-            possibleFilters={postTypes}
-            selectedFilters={selectedPostTypes}
-          />
-          <CheckboxDropdownFilterForm
-            onFormChange={(checked) =>
-              setFilters(checked, FilterTypeEnum.DIRECTIONS)
-            }
-            possibleFilters={directions}
-            selectedFilters={selectedDirections}
-            filterTitle="Напрямки: "
-          />
+      <Grid container direction="row">
+        <Grid item container direction="column" xs={3}>
+          <Typography
+            variant="h1"
+            style={{
+              width: '100%',
+              fontSize: '28px',
+              lineHeight: '28px',
+              fontWeight: 'bold',
+              margin: '0 0 28px 15px',
+            }}
+          >
+            Вибрано матеріали:
+          </Typography>
         </Grid>
-      )}
-
-      {page === 0 && loading === LoadingStatusEnum.pending ? (
-        <LoadingContainer loading={loading} expand />
-      ) : (
-        <>
-          <Grid container alignItems="center" style={{ marginTop: 20 }}>
-            <PostsList postsList={materials} />
-          </Grid>
-          <Grid container justify="center" ref={gridRef}>
-            <LoadMoreButton
-              clicked={loadMore}
-              isLastPage={isLastPage}
-              loading={loading}
-              totalPages={totalPages}
-              totalElements={totalElements}
-              pageNumber={pageNumber}
-              textType={LoadMoreButtonTextType.POST}
-            />
-          </Grid>
-        </>
-      )}
+        <Grid item container direction="column" xs={9}>
+          Chips...
+        </Grid>
+      </Grid>
+      <Grid container direction="row">
+        <Grid item container direction="column" xs={3}>
+          {propertiesLoaded && (
+            <>
+              <CheckboxLeftsideFilterForm
+                onFormChange={(checked) =>
+                  setFilters(checked, FilterTypeEnum.ORIGINS)
+                }
+                possibleFilters={origins}
+                selectedFilters={selectedOrigins}
+                filterTitle="за джерелом"
+                allTitle="Всі джерела"
+              />
+              <CheckboxLeftsideFilterForm
+                onFormChange={(checked) =>
+                  setFilters(checked, FilterTypeEnum.POST_TYPES)
+                }
+                possibleFilters={postTypes}
+                selectedFilters={selectedPostTypes}
+                filterTitle="за типом"
+                allTitle="Всі типи"
+              />
+              <CheckboxLeftsideFilterForm
+                onFormChange={(checked) =>
+                  setFilters(checked, FilterTypeEnum.DIRECTIONS)
+                }
+                possibleFilters={directions}
+                selectedFilters={selectedDirections}
+                filterTitle="за темою"
+                allTitle="Всі теми"
+              />
+            </>
+          )}
+        </Grid>
+        <Grid item container xs={9} direction="column">
+          {page === 0 && loading === LoadingStatusEnum.pending ? (
+            <LoadingContainer loading={loading} expand />
+          ) : (
+            <>
+              <Grid container alignItems="center" style={{ marginTop: 20 }}>
+                <PostsList postsList={materials} />
+              </Grid>
+              <Grid container justify="center" ref={gridRef}>
+                <LoadMoreButton
+                  clicked={loadMore}
+                  isLastPage={isLastPage}
+                  loading={loading}
+                  totalPages={totalPages}
+                  totalElements={totalElements}
+                  pageNumber={pageNumber}
+                  textType={LoadMoreButtonTextType.POST}
+                />
+              </Grid>
+            </>
+          )}
+        </Grid>
+      </Grid>
     </>
   );
 };

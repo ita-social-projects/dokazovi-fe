@@ -49,6 +49,7 @@ export enum FilterTypeEnum {
   DIRECTIONS,
   REGIONS,
   TAGS,
+  ORIGINS,
 }
 
 export enum ChipFilterEnum {
@@ -64,6 +65,7 @@ export enum QueryTypeEnum {
   REGIONS = 'regions',
   TAGS = 'tags',
   PAGE = 'page',
+  ORIGINS = 'origins',
 }
 
 export interface IPost {
