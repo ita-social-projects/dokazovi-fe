@@ -1,14 +1,14 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { RootStateType } from '../../../store/rootReducer';
-import PostDirectionItem from './PostDirectionItem';
+import { PostDirectionItem } from './PostDirectionItem';
 
 export interface IFilterItemsListProps {
   checkedNames: string;
   isEnabledRegion: boolean;
 }
 
-const FilterItemsList: React.FC<IFilterItemsListProps> = ({
+export const FilterItemsList: React.FC<IFilterItemsListProps> = ({
   checkedNames,
   isEnabledRegion,
 }) => {
@@ -68,5 +68,3 @@ const FilterItemsList: React.FC<IFilterItemsListProps> = ({
     </>
   );
 };
-
-export default FilterItemsList;
