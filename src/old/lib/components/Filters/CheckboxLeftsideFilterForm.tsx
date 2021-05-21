@@ -41,24 +41,17 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
   const isInitialStateEmpty = isEmpty(selectedFilters) && toggleInitialState;
   const classes = useStyles();
   const [allChecked, setAllChecked] = useState(true);
-  // const abc = { ...selectedFilters };
-  // abc?.reduce((acc, next) => {
-  //   acc[next.id] = Boolean(!disabledCheckBoxesIds?.find((disabled) => disabled === next.id));
-  //   return acc;
-  // });
   const getCheckedStateFromFilters = (): CheckboxFormStateType => {
     return possibleFilters.reduce((acc, next) => {
       acc[next.id] =
         isInitialStateEmpty ||
         Boolean(selectedFilters?.find((filter) => filter.id === next.id));
-
       return acc;
     }, {});
   };
   const [checked, setChecked] = useState<CheckboxFormStateType>(
     getCheckedStateFromFilters(),
   );
-  console.log(checked);
   const [regionItem, setRegionItem] = useState(false);
 
   useEffect(() => {
@@ -76,9 +69,7 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
       if (!toggleInitialState) {
         setToggleInitialState(true);
       }
-      const checkedFilters = true
-        ? mapValues(checked, () => true)
-        : mapValues(checked, () => false);
+      const checkedFilters = mapValues(checked, () => true);
 
       setChecked(checkedFilters);
       onFormChange(checkedFilters);
@@ -94,24 +85,44 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
       setAllChecked(false);
     }
 
-    if (!toggleInitialState && event.target.checked) {
+    if (
+      !toggleInitialState &&
+      event.target.checked &&
+      selectedFilters?.length === possibleFilters.length - 1
+    ) {
       setToggleInitialState(true);
-    } else if (toggleInitialState && !event.target.checked) {
+    } else if (
+      toggleInitialState &&
+      !event.target.checked &&
+      selectedFilters?.length === 1
+    ) {
       setToggleInitialState(false);
     }
 
+    let result = { ...checked };
+
+    if (disabledCheckBoxesIds?.length) {
+      const resultWithoutDisabled = { ...checked };
+      // eslint-disable-next-line no-plusplus
+      for (let i = 0; i < disabledCheckBoxesIds.length; i++) {
+        resultWithoutDisabled[+disabledCheckBoxesIds[i]] = false;
+      }
+
+      result = { ...resultWithoutDisabled };
+    }
+
     onFormChange({
-      ...checked,
+      ...result,
       [event.target.name]: event.target.checked,
     });
   };
 
   const onCheckboxAllChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (!toggleInitialState && event.target.checked) {
-      setToggleInitialState(true);
-    } else if (toggleInitialState && !event.target.checked) {
-      setToggleInitialState(false);
-    }
+    // if (!toggleInitialState && event.target.checked) {
+    //   setToggleInitialState(true);
+    // } else if (toggleInitialState && !event.target.checked) {
+    //   setToggleInitialState(false);
+    // }
 
     const checkedFilters = event.target.checked
       ? mapValues(checked, () => true)
@@ -134,12 +145,10 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
       const region = allRegions.find((reg) => reg.name === filterName);
       result = region?.usersPresent;
     }
-    // else {
-    //   setRegionItem(false);
-    // }
 
     return result;
   };
+
   const getHasMaterialsProperty = (filterName: string | undefined) => {
     const allDirections = store.getState().properties.directions;
     let result: boolean | undefined = false;
@@ -151,6 +160,17 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
 
     return result;
   };
+
+  useEffect(() => {
+    const arrOfDisabled = [
+      ...possibleFilters.filter(
+        (filter) => regionItem && !getUsersPresentProperty(filter.name),
+      ),
+    ];
+    const arrOfDisabledIds: number[] = arrOfDisabled.map((el) => +el.id);
+
+    setDisabledCheckBoxesIds(arrOfDisabledIds);
+  }, []);
 
   const checkBoxes = possibleFilters.map((filter) => {
     const id = filter.id.toString();
@@ -186,27 +206,6 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
       />
     );
   });
-
-  const getNumberOfDisabledCheckBoxes: () => number = () => {
-    const result = checkBoxes.filter((el: JSX.Element | null) => {
-      if (el) {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-        return el.props.control.props.disabled === true;
-      }
-      return false;
-    });
-    const arrayOfIds = result.map((el, id) => {
-      return id;
-    });
-
-    setDisabledCheckBoxesIds(arrayOfIds);
-
-    return result.length;
-  };
-
-  useEffect(() => {
-    getNumberOfDisabledCheckBoxes();
-  }, []);
 
   return (
     <Box mt={2}>
