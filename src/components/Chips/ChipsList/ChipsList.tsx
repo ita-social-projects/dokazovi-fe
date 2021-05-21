@@ -1,8 +1,8 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { RootStateType } from '../../../old/store/rootReducer';
-import PostDirectionChip from '../PostDirectionChip/PostDirectionChip';
-import { ChipFilterType, IRegion } from '../../../old/lib/types';
+import { PostDirectionChip } from '../PostDirectionChip/PostDirectionChip';
+import { ChipFilterType } from '../../../old/lib/types';
 
 export interface IChipsListProps {
   checkedNames: string;
@@ -15,7 +15,7 @@ export interface IChipsListProps {
   ) => void;
 }
 
-const ChipsList: React.FC<IChipsListProps> = ({
+export const ChipsList: React.FC<IChipsListProps> = ({
   checkedNames,
   chipsListType,
   handleDelete,
@@ -85,5 +85,3 @@ const ChipsList: React.FC<IChipsListProps> = ({
     </>
   );
 };
-
-export default ChipsList;
