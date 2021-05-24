@@ -25,6 +25,10 @@ export const ChipsList: React.FC<IChipsListProps> = ({
   );
   const { regions } = useSelector((state: RootStateType) => state.properties);
 
+  const { origins } = useSelector((state: RootStateType) => state.properties);
+
+  const { postTypes } = useSelector((state: RootStateType) => state.properties);
+
   const destructNamesString = (str: string) => {
     const arr = str.split('+');
 
@@ -61,7 +65,6 @@ export const ChipsList: React.FC<IChipsListProps> = ({
                 />
               );
             }
-
             const region = regions.find((reg) => reg.name === directionName);
             if (region) {
               return (
@@ -69,6 +72,28 @@ export const ChipsList: React.FC<IChipsListProps> = ({
                   key={directionName}
                   labelName={directionName}
                   handleDelete={() => onHandleDelete(region.id)}
+                />
+              );
+            }
+            const origin = origins.find((or) => or.name === directionName);
+            if (origin) {
+              return (
+                <PostDirectionChip
+                  key={directionName}
+                  labelName={directionName}
+                  handleDelete={() => onHandleDelete(origin.id)}
+                />
+              );
+            }
+            const postType = postTypes.find(
+              (post) => post.name === directionName,
+            );
+            if (postType) {
+              return (
+                <PostDirectionChip
+                  key={directionName}
+                  labelName={directionName}
+                  handleDelete={() => onHandleDelete(postType.id)}
                 />
               );
             }

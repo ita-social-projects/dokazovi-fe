@@ -1,4 +1,5 @@
-import { Grid, Typography } from '@material-ui/core';
+/* eslint-disable @typescript-eslint/no-shadow */
+import { Grid, Typography, Box } from '@material-ui/core';
 import { isEmpty, uniq } from 'lodash';
 import React, { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -16,6 +17,8 @@ import {
   LoadingStatusEnum,
   LoadMoreButtonTextType,
   QueryTypeEnum,
+  ChipFilterEnum,
+  ChipFilterType,
 } from '../../../lib/types';
 import { RootStateType } from '../../../store/rootReducer';
 import { selectPostsByIds } from '../../../store/selectors';
@@ -30,6 +33,9 @@ import { fetchMaterials, selectMaterials } from '../../../../models/materials';
 import { useActions } from '../../../../shared/hooks';
 import { LOAD_POSTS_LIMIT } from '../../../lib/constants/posts';
 import { CheckboxLeftsideFilterForm } from '../../../lib/components/Filters/CheckboxLeftsideFilterForm';
+import { ChipsList } from '../../../../components/Chips/ChipsList/ChipsList';
+import { declOfNum } from '../../utilities/declOfNum';
+import { useStyles } from '../styles/MaterialsView.styles';
 
 const MaterialsView: React.FC = () => {
   const {
@@ -41,9 +47,19 @@ const MaterialsView: React.FC = () => {
   } = useSelector(selectMaterials);
 
   const [page, setPage] = useState(pageNumber);
+  const [checkedFiltersOrigins, setCheckedFiltersOrigins] = useState<
+    CheckboxFormStateType
+  >();
+  const [checkedFiltersDirections, setCheckedFiltersDirections] = useState<
+    CheckboxFormStateType
+  >();
+  const [checkedFiltersPostTypes, setCheckedFiltersPostTypes] = useState<
+    CheckboxFormStateType
+  >();
   const previous = usePrevious({ page });
   const history = useHistory();
   const query = useQuery();
+  const classes = useStyles();
 
   const materials = selectPostsByIds(postIds);
 
@@ -59,7 +75,8 @@ const MaterialsView: React.FC = () => {
   // console.log(origins);
   // console.log(postTypes);
 
-  const propertiesLoaded = !isEmpty(postTypes) && !isEmpty(directions);
+  const propertiesLoaded =
+    !isEmpty(postTypes) && !isEmpty(directions) && !isEmpty(origins);
 
   const [boundFetchMaterials] = useActions([fetchMaterials]);
 
@@ -82,6 +99,14 @@ const MaterialsView: React.FC = () => {
     checked: CheckboxFormStateType,
     filterType: FilterTypeEnum,
   ) => {
+    if (filterType === 0) {
+      setCheckedFiltersPostTypes(checked);
+    } else if (filterType === 1) {
+      setCheckedFiltersDirections(checked);
+    } else if (filterType === 4) {
+      setCheckedFiltersOrigins(checked);
+    }
+
     const queryType = getQueryTypeByFilterType(filterType);
     const checkedIds = Object.keys(checked).filter((key) => checked[key]);
     const isQuerySame = uniq(Object.values(checked)).length === 1; // removing the query if user checks/unchecks the last box
@@ -152,26 +177,165 @@ const MaterialsView: React.FC = () => {
     }
   }, [postIds]);
 
+  const getOrigins = () => {
+    if (selectedOrigins) {
+      const names = selectedOrigins?.reduce((acc, filter) => {
+        acc.push(filter.name);
+        return acc;
+      }, [] as string[]);
+      if (names) {
+        return names.join(', ');
+      }
+    }
+
+    return origins
+      .reduce((acc, filter) => {
+        acc.push(filter.name);
+        return acc;
+      }, [] as string[])
+      .join(', ');
+  };
+
+  const getDirections = () => {
+    if (selectedDirections) {
+      const names = selectedDirections?.reduce((acc, filter) => {
+        acc.push(filter.name);
+        return acc;
+      }, [] as string[]);
+      if (names) {
+        return names.join(', ');
+      }
+    }
+    return directions
+      .reduce((acc, filter) => {
+        acc.push(filter.name);
+        return acc;
+      }, [] as string[])
+      .join(', ');
+  };
+
+  const getPostTypes = () => {
+    if (selectedPostTypes) {
+      const names = selectedPostTypes?.reduce((acc, filter) => {
+        acc.push(filter.name);
+        return acc;
+      }, [] as string[]);
+      if (names) {
+        return names.join(', ');
+      }
+    }
+    return postTypes
+      .reduce((acc, filter) => {
+        acc.push(filter.name);
+        return acc;
+      }, [] as string[])
+      .join(', ');
+  };
+
+  const handleDeleteChip = (
+    key: number | undefined,
+    chipsListType: ChipFilterType | undefined,
+  ) => {
+    let filtersUpdatedByChips: undefined | CheckboxFormStateType;
+
+    if (chipsListType === 'ORIGIN') {
+      filtersUpdatedByChips = { ...checkedFiltersOrigins };
+    } else if (chipsListType === 'POST_TYPE') {
+      filtersUpdatedByChips = { ...checkedFiltersPostTypes };
+    } else if (chipsListType === 'DIRECTION') {
+      filtersUpdatedByChips = { ...checkedFiltersDirections };
+    }
+    if (filtersUpdatedByChips && key) {
+      filtersUpdatedByChips[key] = false;
+      if (chipsListType === 'ORIGIN') {
+        setFilters(filtersUpdatedByChips, FilterTypeEnum.ORIGINS);
+      } else if (chipsListType === 'POST_TYPE') {
+        setFilters(filtersUpdatedByChips, FilterTypeEnum.POST_TYPES);
+      } else if (chipsListType === 'DIRECTION') {
+        setFilters(filtersUpdatedByChips, FilterTypeEnum.DIRECTIONS);
+      }
+    }
+  };
+
   return (
     <>
       <PageTitle title="Матеріали" />
       <Grid container direction="row">
         <Grid item container direction="column" xs={3}>
-          <Typography
-            variant="h1"
-            style={{
-              width: '100%',
-              fontSize: '28px',
-              lineHeight: '28px',
-              fontWeight: 'bold',
-              margin: '0 0 28px 15px',
-            }}
-          >
-            Вибрано матеріали:
+          <Typography className={classes.title} variant="h1">
+            Вибрані матеріали:
           </Typography>
         </Grid>
         <Grid item container direction="column" xs={9}>
-          Chips...
+          <Box className={classes.container}>
+            {selectedOrigins === undefined ? (
+              <Typography
+                className={classes.selectedFilters}
+                component="div"
+                variant="subtitle2"
+              >
+                Всі джерела
+              </Typography>
+            ) : (
+              <ChipsList
+                checkedNames={getOrigins()}
+                handleDelete={handleDeleteChip}
+                chipsListType={ChipFilterEnum.ORIGIN}
+              />
+            )}
+            <Typography className={classes.divider} component="span">
+              |
+            </Typography>
+            {selectedPostTypes === undefined ? (
+              <Typography
+                className={classes.selectedFilters}
+                component="div"
+                variant="subtitle2"
+              >
+                Всі типи
+              </Typography>
+            ) : (
+              <ChipsList
+                checkedNames={getPostTypes()}
+                handleDelete={handleDeleteChip}
+                chipsListType={ChipFilterEnum.POST_TYPE}
+              />
+            )}
+            <Typography className={classes.divider} component="span">
+              |
+            </Typography>
+            {selectedDirections === undefined ? (
+              <Typography
+                className={classes.selectedFilters}
+                component="div"
+                variant="subtitle2"
+              >
+                Всі теми
+              </Typography>
+            ) : (
+              <ChipsList
+                checkedNames={getDirections()}
+                handleDelete={handleDeleteChip}
+                chipsListType={ChipFilterEnum.DIRECTION}
+              />
+            )}
+            <Typography className={classes.divider} component="span">
+              |
+            </Typography>
+            <Typography
+              className={classes.totalFilters}
+              component="div"
+              variant="subtitle2"
+              color="textSecondary"
+            >
+              {totalElements}{' '}
+              {declOfNum(totalElements, [
+                'матеріал',
+                'матеріали',
+                'матеріалів',
+              ])}
+            </Typography>
+          </Box>
         </Grid>
       </Grid>
       <Grid container direction="row">
@@ -213,9 +377,7 @@ const MaterialsView: React.FC = () => {
             <LoadingContainer loading={loading} expand />
           ) : (
             <>
-              <Grid container alignItems="center" style={{ marginTop: 20 }}>
-                <PostsList postsList={materials} />
-              </Grid>
+              <PostsList postsList={materials} />
               <Grid container justify="center" ref={gridRef}>
                 <LoadMoreButton
                   clicked={loadMore}
