@@ -76,9 +76,15 @@ export enum FilterTypeEnum {
 export enum ChipFilterEnum {
   REGION = 'REGION',
   DIRECTION = 'DIRECTION',
+  ORIGIN = 'ORIGIN',
+  POST_TYPE = 'POST_TYPE',
 }
 
-export type ChipFilterType = ChipFilterEnum.REGION | ChipFilterEnum.DIRECTION;
+export type ChipFilterType =
+  | ChipFilterEnum.REGION
+  | ChipFilterEnum.DIRECTION
+  | ChipFilterEnum.ORIGIN
+  | ChipFilterEnum.POST_TYPE;
 
 export enum QueryTypeEnum {
   POST_TYPES = 'types',

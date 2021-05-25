@@ -96,7 +96,6 @@ export const getRandomExperts = async (
 export const getAllExperts = async (
   config?: GetExpertsConfigType,
 ): Promise<AxiosResponse<ExpertsResponseType>> => {
-  console.log(config);
   return instance.get('/user/all-experts', { ...defaultConfig, ...config });
 };
 

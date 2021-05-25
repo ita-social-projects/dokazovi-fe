@@ -34,11 +34,9 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
   filterTitle,
   allTitle,
 }) => {
-  console.log('Poss. filters', possibleFilters);
   const [disabledCheckBoxesIds, setDisabledCheckBoxesIds] = useState<
     number[]
   >();
-  // const [possibleFilters1, setPossibleFilters1] = useState(possibleFilters);
   const [toggleInitialState, setToggleInitialState] = useState(true);
   const isInitialStateEmpty = isEmpty(selectedFilters) && toggleInitialState;
   const classes = useStyles();
@@ -56,10 +54,6 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
   );
   const [regionItem, setRegionItem] = useState(false);
 
-  // useEffect(() => {
-  //   setPossibleFilters1(possibleFilters1);
-  // }, [possibleFilters]);
-
   useEffect(() => {
     if (
       isInitialStateEmpty ||
@@ -71,7 +65,6 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
       selectedFilters?.length ===
         possibleFilters.length - disabledCheckBoxesIds?.length
     ) {
-      console.log('test');
       setAllChecked(true);
       if (!toggleInitialState) {
         setToggleInitialState(true);
@@ -87,24 +80,27 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
     setChecked(getCheckedStateFromFilters());
   }, [selectedFilters]);
 
+  useEffect(() => {
+    if (selectedFilters?.length === 1) {
+      setToggleInitialState(false);
+    } else if (selectedFilters?.length === possibleFilters.length - 1) {
+      setToggleInitialState(true);
+    }
+  }, [selectedFilters]);
+
   const onCheckboxCheck = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (!event.target.checked && allChecked) {
       setAllChecked(false);
     }
 
-    if (
-      !toggleInitialState &&
-      event.target.checked &&
-      selectedFilters?.length === possibleFilters.length - 1
-    ) {
-      setToggleInitialState(true);
-    } else if (
-      toggleInitialState &&
-      !event.target.checked &&
-      selectedFilters?.length === 1
-    ) {
-      setToggleInitialState(false);
-    }
+    // if (
+    //   !toggleInitialState &&
+    //   event.target.checked &&
+    //   selectedFilters?.length === possibleFilters.length - 1
+    // ) {
+    //   console.log("1");
+    //   setToggleInitialState(true);
+    // }
 
     let result = { ...checked };
 
