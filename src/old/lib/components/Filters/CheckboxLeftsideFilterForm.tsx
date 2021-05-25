@@ -34,9 +34,11 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
   filterTitle,
   allTitle,
 }) => {
+  console.log('Poss. filters', possibleFilters);
   const [disabledCheckBoxesIds, setDisabledCheckBoxesIds] = useState<
     number[]
   >();
+  // const [possibleFilters1, setPossibleFilters1] = useState(possibleFilters);
   const [toggleInitialState, setToggleInitialState] = useState(true);
   const isInitialStateEmpty = isEmpty(selectedFilters) && toggleInitialState;
   const classes = useStyles();
@@ -54,6 +56,10 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
   );
   const [regionItem, setRegionItem] = useState(false);
 
+  // useEffect(() => {
+  //   setPossibleFilters1(possibleFilters1);
+  // }, [possibleFilters]);
+
   useEffect(() => {
     if (
       isInitialStateEmpty ||
@@ -65,6 +71,7 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
       selectedFilters?.length ===
         possibleFilters.length - disabledCheckBoxesIds?.length
     ) {
+      console.log('test');
       setAllChecked(true);
       if (!toggleInitialState) {
         setToggleInitialState(true);
@@ -116,13 +123,12 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
       [event.target.name]: event.target.checked,
     });
   };
-
   const onCheckboxAllChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    // if (!toggleInitialState && event.target.checked) {
-    //   setToggleInitialState(true);
-    // } else if (toggleInitialState && !event.target.checked) {
-    //   setToggleInitialState(false);
-    // }
+    if (!toggleInitialState && event.target.checked) {
+      setToggleInitialState(true);
+    } else if (toggleInitialState && !event.target.checked) {
+      setToggleInitialState(false);
+    }
 
     const checkedFilters = event.target.checked
       ? mapValues(checked, () => true)

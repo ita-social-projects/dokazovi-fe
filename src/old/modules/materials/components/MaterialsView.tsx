@@ -30,6 +30,7 @@ import { fetchMaterials, selectMaterials } from '../../../../models/materials';
 import { useActions } from '../../../../shared/hooks';
 import { LOAD_POSTS_LIMIT } from '../../../lib/constants/posts';
 import { CheckboxLeftsideFilterForm } from '../../../lib/components/Filters/CheckboxLeftsideFilterForm';
+import { store } from '../../../store/store';
 
 const MaterialsView: React.FC = () => {
   const {
@@ -47,26 +48,57 @@ const MaterialsView: React.FC = () => {
 
   const materials = selectPostsByIds(postIds);
 
-  const origins = useSelector(
+  const origins: IOrigin[] = useSelector(
     (state: RootStateType) => state.properties.origins,
   );
+  console.log('useSelector', origins);
+
   const postTypes = useSelector(
     (state: RootStateType) => state.properties.postTypes,
   );
   const directions = useSelector(
     (state: RootStateType) => state.properties.directions,
   );
-  // console.log(origins);
-  // console.log(postTypes);
 
-  const propertiesLoaded = !isEmpty(postTypes) && !isEmpty(directions);
+  const propertiesLoaded =
+    !isEmpty(postTypes) && !isEmpty(directions) && !isEmpty(origins);
 
   const [boundFetchMaterials] = useActions([fetchMaterials]);
 
+  const stringOfOrigins = () => {
+    let result = '1';
+    for (let i = 1; i < origins.length; i += 1) {
+      result = `${result},${origins[i].id}`;
+    }
+    return result;
+  };
+
+  const stringOfPostTypes = () => {
+    let result = '1';
+    for (let i = 1; i < postTypes.length; i += 1) {
+      result = `${result},${postTypes[i].id}`;
+    }
+    return result;
+  };
+
+  const stringOfDirections = () => {
+    let result = '1';
+    for (let i = 1; i < directions.length; i += 1) {
+      result = `${result},${directions[i].id}`;
+    }
+    return result;
+  };
+
   const fetchData = (appendPosts = false) => {
-    const originsQuery = query.get(QueryTypeEnum.ORIGINS);
-    const postTypesQuery = query.get(QueryTypeEnum.POST_TYPES);
-    const directionsQuery = query.get(QueryTypeEnum.DIRECTIONS);
+    const originsQuery = query.get(QueryTypeEnum.ORIGINS)
+      ? query.get(QueryTypeEnum.ORIGINS)
+      : stringOfOrigins();
+    const postTypesQuery = query.get(QueryTypeEnum.POST_TYPES)
+      ? query.get(QueryTypeEnum.POST_TYPES)
+      : stringOfPostTypes();
+    const directionsQuery = query.get(QueryTypeEnum.DIRECTIONS)
+      ? query.get(QueryTypeEnum.DIRECTIONS)
+      : stringOfDirections();
 
     const filters = {
       page,
@@ -110,14 +142,19 @@ const MaterialsView: React.FC = () => {
     ) {
       fetchData(appendPosts);
     }
+  }, [page]);
+
+  useEffect(() => {
+    const appendPosts = previous && previous.page < page;
+    fetchData(appendPosts);
   }, [
-    page,
     query.get(QueryTypeEnum.ORIGINS),
     query.get(QueryTypeEnum.POST_TYPES),
     query.get(QueryTypeEnum.DIRECTIONS),
   ]);
 
   const selectedOriginsString = query.get(QueryTypeEnum.ORIGINS)?.split(',');
+
   let selectedOrigins: IOrigin[] | undefined = origins?.filter((direction) =>
     selectedOriginsString?.includes(direction.id.toString()),
   );
@@ -126,11 +163,13 @@ const MaterialsView: React.FC = () => {
   const selectedDirectionsString = query
     .get(QueryTypeEnum.DIRECTIONS)
     ?.split(',');
+
   let selectedDirections:
     | IDirection[]
     | undefined = directions?.filter((direction) =>
     selectedDirectionsString?.includes(direction.id.toString()),
   );
+
   selectedDirections = !isEmpty(selectedDirections)
     ? selectedDirections
     : undefined;
@@ -138,14 +177,17 @@ const MaterialsView: React.FC = () => {
   const selectedPostTypesString = query
     .get(QueryTypeEnum.POST_TYPES)
     ?.split(',');
+
   let selectedPostTypes: IPostType[] | undefined = postTypes?.filter((post) =>
     selectedPostTypesString?.includes(post.id.toString()),
   );
+
   selectedPostTypes = !isEmpty(selectedPostTypes)
     ? selectedPostTypes
     : undefined;
 
   const gridRef = useRef<HTMLDivElement>(null);
+
   useEffectExceptOnMount(() => {
     if (page > 0) {
       gridRef.current?.scrollIntoView({ behavior: 'smooth' });
