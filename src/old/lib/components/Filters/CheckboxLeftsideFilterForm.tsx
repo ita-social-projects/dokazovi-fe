@@ -34,6 +34,9 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
   filterTitle,
   allTitle,
 }) => {
+  const [disabledCheckBoxesIds, setDisabledCheckBoxesIds] = useState<
+    number[]
+  >();
   const [toggleInitialState, setToggleInitialState] = useState(true);
   const isInitialStateEmpty = isEmpty(selectedFilters) && toggleInitialState;
   const classes = useStyles();
@@ -57,6 +60,19 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
       selectedFilters?.length === possibleFilters.length
     ) {
       setAllChecked(true);
+    } else if (
+      disabledCheckBoxesIds?.length &&
+      selectedFilters?.length ===
+        possibleFilters.length - disabledCheckBoxesIds?.length
+    ) {
+      setAllChecked(true);
+      if (!toggleInitialState) {
+        setToggleInitialState(true);
+      }
+      const checkedFilters = mapValues(checked, () => true);
+
+      setChecked(checkedFilters);
+      onFormChange(checkedFilters);
     } else if (allChecked) {
       setAllChecked(false);
     }
@@ -64,23 +80,36 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
     setChecked(getCheckedStateFromFilters());
   }, [selectedFilters]);
 
+  useEffect(() => {
+    if (selectedFilters?.length === 1) {
+      setToggleInitialState(false);
+    } else if (selectedFilters?.length === possibleFilters.length - 1) {
+      setToggleInitialState(true);
+    }
+  }, [selectedFilters]);
+
   const onCheckboxCheck = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (!event.target.checked && allChecked) {
       setAllChecked(false);
     }
 
-    if (!toggleInitialState && event.target.checked) {
-      setToggleInitialState(true);
-    } else if (toggleInitialState && !event.target.checked) {
-      setToggleInitialState(false);
+    let result = { ...checked };
+
+    if (disabledCheckBoxesIds?.length) {
+      const resultWithoutDisabled = { ...checked };
+      // eslint-disable-next-line no-plusplus
+      for (let i = 0; i < disabledCheckBoxesIds.length; i++) {
+        resultWithoutDisabled[+disabledCheckBoxesIds[i]] = false;
+      }
+
+      result = { ...resultWithoutDisabled };
     }
 
     onFormChange({
-      ...checked,
+      ...result,
       [event.target.name]: event.target.checked,
     });
   };
-
   const onCheckboxAllChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (!toggleInitialState && event.target.checked) {
       setToggleInitialState(true);
@@ -105,6 +134,7 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
       if (regionItem === false) {
         setRegionItem(true);
       }
+
       const region = allRegions.find((reg) => reg.name === filterName);
       result = region?.usersPresent;
     }
@@ -124,12 +154,25 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
     return result;
   };
 
+  useEffect(() => {
+    const arrOfDisabled = [
+      ...possibleFilters.filter(
+        (filter) => regionItem && !getUsersPresentProperty(filter.name),
+      ),
+    ];
+    const arrOfDisabledIds: number[] = arrOfDisabled.map((el) => +el.id);
+
+    setDisabledCheckBoxesIds(arrOfDisabledIds);
+  }, []);
+
   const checkBoxes = possibleFilters.map((filter) => {
     const id = filter.id.toString();
     const filterName = filter.name;
     const disabled = !getUsersPresentProperty(filterName);
+    const allDirections = store.getState().properties.directions;
+    const isDirection = allDirections.find((dir) => dir.name === filterName);
 
-    if (!regionItem && !getHasMaterialsProperty(filterName)) {
+    if (isDirection && !getHasMaterialsProperty(filterName)) {
       return null;
     }
 
@@ -187,7 +230,7 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
       <Grid container>
         <FormGroup
           style={{
-            margin: '0 0 75px 15px',
+            margin: '0 0 55px 15px',
             height: 'auto',
             display: 'flex',
             flexDirection: 'column',

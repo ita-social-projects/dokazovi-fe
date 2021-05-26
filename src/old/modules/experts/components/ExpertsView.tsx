@@ -86,6 +86,7 @@ const ExpertsView: React.FC = () => {
     checked: CheckboxFormStateType,
     filterType: FilterTypeEnum,
   ) => {
+    // console.log(checked);
     if (filterType === 1) {
       setCheckedFiltersDirections(checked);
     } else if (filterType === 2) {
@@ -218,7 +219,7 @@ const ExpertsView: React.FC = () => {
       <Grid container direction="row">
         <Grid item container direction="column" xs={3}>
           <Typography className={classes.title} variant="h1">
-            Вибрані автори...
+            Вибрані автори:
           </Typography>
         </Grid>
         <Grid item container direction="column" xs={9}>
