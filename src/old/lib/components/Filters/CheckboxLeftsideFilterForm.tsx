@@ -93,15 +93,6 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
       setAllChecked(false);
     }
 
-    // if (
-    //   !toggleInitialState &&
-    //   event.target.checked &&
-    //   selectedFilters?.length === possibleFilters.length - 1
-    // ) {
-    //   console.log("1");
-    //   setToggleInitialState(true);
-    // }
-
     let result = { ...checked };
 
     if (disabledCheckBoxesIds?.length) {
@@ -239,7 +230,7 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
       <Grid container>
         <FormGroup
           style={{
-            margin: '0 0 75px 15px',
+            margin: '0 0 55px 15px',
             height: 'auto',
             display: 'flex',
             flexDirection: 'column',
