@@ -147,10 +147,10 @@ const ExpertsView: React.FC = () => {
     ? selectedDirections
     : undefined;
 
-  const gridRef = useRef<HTMLDivElement>(null);
+  const nodeToScrollToRef = useRef<HTMLDivElement>(null);
   useEffectExceptOnMount(() => {
     if (page > 0) {
-      gridRef.current?.scrollIntoView({ behavior: 'smooth' });
+      nodeToScrollToRef.current?.scrollIntoView({ behavior: 'smooth' });
     }
   }, [expertIds]);
 
@@ -302,8 +302,8 @@ const ExpertsView: React.FC = () => {
             <LoadingContainer loading={loading} expand />
           ) : (
             <>
-              <ExpertsList experts={experts} />
-              <Grid container justify="center" ref={gridRef}>
+              <ExpertsList experts={experts} ref={nodeToScrollToRef} />
+              <Grid container justify="center">
                 <LoadMoreButton
                   clicked={loadMore}
                   isLastPage={isLastPage}
