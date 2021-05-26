@@ -131,10 +131,13 @@ const MaterialsView: React.FC = () => {
     ? selectedPostTypes
     : undefined;
 
-  const gridRef = useRef<HTMLDivElement>(null);
+  const nodeToScrollToRef = useRef<HTMLDivElement>(null);
   useEffectExceptOnMount(() => {
     if (page > 0) {
-      gridRef.current?.scrollIntoView({ behavior: 'smooth' });
+      nodeToScrollToRef.current?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+      });
     }
   }, [postIds]);
 
@@ -167,9 +170,9 @@ const MaterialsView: React.FC = () => {
       ) : (
         <>
           <Grid container alignItems="center" style={{ marginTop: 20 }}>
-            <PostsList postsList={materials} />
+            <PostsList postsList={materials} ref={nodeToScrollToRef} />
           </Grid>
-          <Grid container justify="center" ref={gridRef}>
+          <Grid container justify="center">
             <LoadMoreButton
               clicked={loadMore}
               isLastPage={isLastPage}
