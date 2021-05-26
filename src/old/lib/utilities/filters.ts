@@ -12,6 +12,8 @@ export const getQueryTypeByFilterType = (
       return QueryTypeEnum.REGIONS;
     case FilterTypeEnum.TAGS:
       return QueryTypeEnum.TAGS;
+    case FilterTypeEnum.ORIGINS:
+      return QueryTypeEnum.ORIGINS;
     default:
       throw new Error('Could not find the corresponding query type');
   }

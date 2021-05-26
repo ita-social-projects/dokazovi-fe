@@ -2,13 +2,14 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { RootStateType } from '../../../old/store/rootReducer';
 import { PostDirectionChip } from '../PostDirectionChip/PostDirectionChip';
-import { ChipFilterType } from '../../../old/lib/types';
+import { ChipFilterType, IOrigin, IPostType } from '../../../old/lib/types';
 
 export interface IChipsListProps {
   checkedNames: string;
   isLabelItem?: boolean;
   max?: boolean;
   chipsListType?: ChipFilterType;
+  filtersPlural?: IOrigin[] | IPostType[];
   handleDelete?: (
     arg0: number | undefined,
     arg1: ChipFilterType | undefined,
@@ -19,11 +20,16 @@ export const ChipsList: React.FC<IChipsListProps> = ({
   checkedNames,
   chipsListType,
   handleDelete,
+  filtersPlural,
 }) => {
   const { directions } = useSelector(
     (state: RootStateType) => state.properties,
   );
   const { regions } = useSelector((state: RootStateType) => state.properties);
+
+  const { origins } = useSelector((state: RootStateType) => state.properties);
+
+  const { postTypes } = useSelector((state: RootStateType) => state.properties);
 
   const destructNamesString = (str: string) => {
     const arr = str.split('+');
@@ -61,7 +67,6 @@ export const ChipsList: React.FC<IChipsListProps> = ({
                 />
               );
             }
-
             const region = regions.find((reg) => reg.name === directionName);
             if (region) {
               return (
@@ -69,6 +74,52 @@ export const ChipsList: React.FC<IChipsListProps> = ({
                   key={directionName}
                   labelName={directionName}
                   handleDelete={() => onHandleDelete(region.id)}
+                />
+              );
+            }
+            const origin = origins.find((or) => or.name === directionName);
+            if (origin) {
+              return (
+                <PostDirectionChip
+                  key={directionName}
+                  labelName={directionName}
+                  handleDelete={() => onHandleDelete(origin.id)}
+                />
+              );
+            }
+            const originPlural = filtersPlural?.find(
+              (or) => or.name === directionName,
+            );
+            if (originPlural) {
+              return (
+                <PostDirectionChip
+                  key={directionName}
+                  labelName={directionName}
+                  handleDelete={() => onHandleDelete(originPlural.id)}
+                />
+              );
+            }
+            const postType = postTypes.find(
+              (post) => post.name === directionName,
+            );
+            if (postType) {
+              return (
+                <PostDirectionChip
+                  key={directionName}
+                  labelName={directionName}
+                  handleDelete={() => onHandleDelete(postType.id)}
+                />
+              );
+            }
+            const postTypePlural = filtersPlural?.find(
+              (post) => post.name === directionName,
+            );
+            if (postTypePlural) {
+              return (
+                <PostDirectionChip
+                  key={directionName}
+                  labelName={directionName}
+                  handleDelete={() => onHandleDelete(postTypePlural.id)}
                 />
               );
             }
