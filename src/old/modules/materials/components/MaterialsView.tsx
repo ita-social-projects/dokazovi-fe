@@ -1,13 +1,12 @@
 /* eslint-disable @typescript-eslint/no-shadow */
 import { Grid, Typography, Box } from '@material-ui/core';
 import { isEmpty, uniq } from 'lodash';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { CheckboxFormStateType } from '../../../lib/components/Filters/CheckboxFilterForm';
 import { PostsList } from '../../../lib/components/Posts/PostsList';
 import { LoadMoreButton } from '../../../lib/components/LoadMoreButton/LoadMoreButton';
-import { useEffectExceptOnMount } from '../../../lib/hooks/useEffectExceptOnMount';
 import { usePrevious } from '../../../lib/hooks/usePrevious';
 import {
   FilterTypeEnum,
@@ -265,17 +264,6 @@ const MaterialsView: React.FC = () => {
     ? selectedPostTypes
     : undefined;
 
-  const nodeToScrollToRef = useRef<HTMLDivElement>(null);
-
-  useEffectExceptOnMount(() => {
-    if (page > 0) {
-      nodeToScrollToRef.current?.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start',
-      });
-    }
-  }, [postIds]);
-
   const getOrigins = () => {
     if (selectedOrigins) {
       const names = selectedOrigins?.reduce((acc, filter) => {
@@ -478,7 +466,7 @@ const MaterialsView: React.FC = () => {
             <LoadingContainer loading={loading} expand />
           ) : (
             <>
-              <PostsList postsList={materials} ref={nodeToScrollToRef} />
+              <PostsList postsList={materials} />
               <Grid container justify="center">
                 <LoadMoreButton
                   clicked={loadMore}

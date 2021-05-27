@@ -1,5 +1,5 @@
 import { Grid } from '@material-ui/core';
-import React, { forwardRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { LOAD_EXPERTS_LIMIT } from '../../constants/experts';
 import { IExpert } from '../../types';
 import ExpertPhotoDataCard from './ExpertPhotoDataCard';
@@ -8,25 +8,38 @@ export interface IExpertsListProps {
   experts: IExpert[];
 }
 
-// eslint-disable-next-line react/display-name
-export const ExpertsList = forwardRef<HTMLDivElement, IExpertsListProps>(
-  ({ experts }, nodeToScrollToRef) => {
-    const expertsToScrollIntoViewIdx = experts.length - LOAD_EXPERTS_LIMIT;
+export const ExpertsList: React.FC<IExpertsListProps> = ({ experts }) => {
+  const expertIdxForScroll = experts.length - LOAD_EXPERTS_LIMIT;
+  const expertForScrollRef = useRef<HTMLDivElement>(null);
 
-    return (
-      <Grid container spacing={3}>
-        {experts.map((expert, idx) => (
-          <Grid
-            item
-            md={4}
-            lg={4}
-            key={expert.id}
-            ref={expertsToScrollIntoViewIdx === idx ? nodeToScrollToRef : null}
-          >
-            <ExpertPhotoDataCard expert={expert} key={expert.id} />
-          </Grid>
-        ))}
-      </Grid>
-    );
-  },
-);
+  const [prevExpertsCount, setPrevExpertsLength] = useState(experts.length);
+
+  useEffect(() => {
+    if (!expertForScrollRef.current) return;
+    if (
+      experts.length > LOAD_EXPERTS_LIMIT &&
+      experts.length !== prevExpertsCount
+    ) {
+      expertForScrollRef.current.scrollIntoView({
+        behavior: 'smooth',
+      });
+    }
+    setPrevExpertsLength(experts.length);
+  }, [experts.length]);
+
+  return (
+    <Grid container spacing={3}>
+      {experts.map((expert, idx) => (
+        <Grid
+          item
+          md={4}
+          lg={4}
+          key={expert.id}
+          ref={expertIdxForScroll === idx ? expertForScrollRef : null}
+        >
+          <ExpertPhotoDataCard expert={expert} key={expert.id} />
+        </Grid>
+      ))}
+    </Grid>
+  );
+};
