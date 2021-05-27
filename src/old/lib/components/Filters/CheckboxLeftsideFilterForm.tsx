@@ -183,7 +183,8 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
         label={
           <FilterItemsList
             checkedNames={filter.name}
-            isEnabledRegion={regionItem && !disabled}
+            isDisabledFilter={disabled && regionItem}
+            checked={regionItem && disabled ? false : checked[id]}
           />
         }
         control={
@@ -252,14 +253,25 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
             }
             label={
               <Typography
-                style={{
-                  fontFamily: 'Raleway',
-                  fontStyle: 'normal',
-                  fontSize: '16px',
-                  lineHeight: '18px',
-                  fontWeight: 700,
-                  color: '#000000',
-                }}
+                style={
+                  allChecked
+                    ? {
+                        fontFamily: 'Raleway',
+                        fontStyle: 'normal',
+                        fontSize: '16px',
+                        lineHeight: '18px',
+                        fontWeight: 700,
+                        color: '#000000',
+                      }
+                    : {
+                        fontFamily: 'Raleway',
+                        fontStyle: 'normal',
+                        fontSize: '16px',
+                        lineHeight: '18px',
+                        fontWeight: 500,
+                        color: '#000000',
+                      }
+                }
               >
                 {allTitle}
               </Typography>
