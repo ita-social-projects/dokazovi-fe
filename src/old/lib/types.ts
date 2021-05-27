@@ -114,12 +114,11 @@ export interface IPost {
     };
   };
   directions: IDirection[];
-  origin: IOrigin[];
   tags?: IPostTag[];
   type: IPostType;
   createdAt: string;
   modifiedAt?: string;
-  origins?: IOrigin[];
+  origins: IOrigin[];
   preview: string;
   previewImageUrl?: string;
   videoUrl?: string;
