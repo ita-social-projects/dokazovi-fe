@@ -193,7 +193,7 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
     previewImageUrl: savedPostDraft.previewImageUrl,
     content: savedPostDraft.htmlContent,
     directions: savedPostDraft.directions,
-    origin: savedPostDraft.origin,
+    origins: savedPostDraft.origins,
     preview: savedPostDraft.preview.value,
     title: savedPostDraft.title,
     authorsName: savedPostDraft.authorsName,
@@ -209,7 +209,7 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
         preview: savedPostDraft.preview.value,
         createdAt: new Date().toLocaleDateString('en-GB').split('/').join('.'),
         directions: savedPostDraft.directions,
-        origin: savedPostDraft.origin,
+        origins: savedPostDraft.origins,
         title: savedPostDraft.title,
         type: { id: postType.type, name: postType.name },
       } as IPost),
@@ -225,8 +225,8 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
 
   let extraFieldsForTranslation: ExtraFieldsType = null;
 
-  if (savedPostDraft.origin[0]) {
-    if (savedPostDraft.origin[0].id === 3) {
+  if (savedPostDraft.origins[0]) {
+    if (savedPostDraft.origins[0].id === 3) {
       extraFieldsForTranslation = (
         <>
           <Box mt={2}>
@@ -277,7 +277,7 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
             onSelectedDirectionsChange={handleDirectionsChange}
           />
           <PostOriginsSelector
-            selectedOrigin={savedPostDraft.origin}
+            selectedOrigin={savedPostDraft.origins}
             onSelectedOriginChange={handleOriginsChange}
           />
           {extraFieldsForTranslation}

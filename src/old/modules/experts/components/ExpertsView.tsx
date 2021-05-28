@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { isEmpty, uniq } from 'lodash';
@@ -16,7 +16,6 @@ import {
 import { fetchExperts, selectExperts } from '../../../../models/experts';
 import { RootStateType } from '../../../store/rootReducer';
 import { ExpertsList } from '../../../lib/components/Experts/ExpertsList';
-import { useEffectExceptOnMount } from '../../../lib/hooks/useEffectExceptOnMount';
 import { LoadMoreButton } from '../../../lib/components/LoadMoreButton/LoadMoreButton';
 import { selectExpertsByIds } from '../../../store/selectors';
 import { CheckboxFormStateType } from '../../../lib/components/Filters/CheckboxFilterForm';
@@ -147,13 +146,6 @@ const ExpertsView: React.FC = () => {
   selectedDirections = !isEmpty(selectedDirections)
     ? selectedDirections
     : undefined;
-
-  const gridRef = useRef<HTMLDivElement>(null);
-  useEffectExceptOnMount(() => {
-    if (page > 0) {
-      gridRef.current?.scrollIntoView({ behavior: 'smooth' });
-    }
-  }, [expertIds]);
 
   const getRegions = () => {
     if (selectedRegions) {
@@ -304,7 +296,7 @@ const ExpertsView: React.FC = () => {
           ) : (
             <>
               <ExpertsList experts={experts} />
-              <Grid container justify="center" ref={gridRef}>
+              <Grid container justify="center">
                 <LoadMoreButton
                   clicked={loadMore}
                   isLastPage={isLastPage}
