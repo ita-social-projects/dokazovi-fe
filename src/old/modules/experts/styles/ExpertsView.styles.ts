@@ -11,7 +11,7 @@ export const useStyles = makeStyles(
     },
     title: {
       width: '100%',
-      margin: '0 0 28px 15px',
+      margin: '0 0 28px 0',
       fontSize: '28px',
       lineHeight: '28px',
       fontWeight: 'bold',

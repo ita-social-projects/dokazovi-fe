@@ -10,6 +10,7 @@ import { LoadMoreButton } from '../../../lib/components/LoadMoreButton/LoadMoreB
 import { useEffectExceptOnMount } from '../../../lib/hooks/useEffectExceptOnMount';
 import { usePrevious } from '../../../lib/hooks/usePrevious';
 import { useQuery } from '../../../lib/hooks/useQuery';
+import ExpertInfo from './ExpertInfo';
 import { store } from '../../../store/store';
 import {
   FilterTypeEnum,
@@ -18,6 +19,7 @@ import {
   LoadingStatusEnum,
   LoadMoreButtonTextType,
   QueryTypeEnum,
+  IExpert,
 } from '../../../lib/types';
 import { RequestParamsType } from '../../../lib/utilities/API/types';
 import {
@@ -39,10 +41,12 @@ import { CheckboxLeftsideFilterForm } from '../../../lib/components/Filters/Chec
 
 export interface IExpertMaterialsContainerProps {
   expertId: number;
+  expert: IExpert;
 }
 
 const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
   expertId,
+  expert,
 }) => {
   const {
     posts,
@@ -197,9 +201,20 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
 
   return (
     <>
-      <Typography variant="h4">Вибрати матеріали автора</Typography>
       <Grid container direction="row">
         <Grid item container direction="column" xs={3}>
+          <ExpertInfo expert={expert} />
+          <Typography
+            style={{
+              fontWeight: 700,
+              fontFamily: 'Raleway',
+              width: '280px',
+              fontSize: '24px',
+              margin: '0 0 30px 0',
+            }}
+          >
+            Вибрати матеріали автора
+          </Typography>
           {propertiesLoaded && (
             <>
               <CheckboxLeftsideFilterForm

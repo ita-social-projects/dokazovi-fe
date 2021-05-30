@@ -227,9 +227,9 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
   });
 
   return (
-    <Box mt={2}>
+    <Box mt={2} className={classes.filtersWrapper}>
       <Grid container>
-        <Grid item style={{ marginLeft: '15px' }}>
+        <Grid item>
           <Typography
             variant="h5"
             style={{
@@ -256,7 +256,7 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
       <Grid container>
         <FormGroup
           style={{
-            margin: '0 0 55px 15px',
+            margin: '0 0 55px 0',
             height: 'auto',
             display: 'flex',
             flexDirection: 'column',
