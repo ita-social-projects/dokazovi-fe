@@ -12,6 +12,7 @@ import { store } from '../../../store/store';
 import { useStyles } from './CheckboxLeftsideFilterForm.styles';
 import { FilterItemsList } from '../FilterItems/FilterItemsList';
 import { CheckboxFormStateType } from './CheckboxFilterForm';
+import { IDirection } from '../../types';
 
 interface IFilter {
   id: string | number;
@@ -25,6 +26,8 @@ export interface ICheckboxLeftsideFilterFormProps {
   filterTitle: string;
   allTitle: string;
   handleDelete?: () => void;
+  expertId?: number;
+  disabledDirections?: IDirection[] | undefined;
 }
 
 export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormProps> = ({
@@ -33,6 +36,8 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
   selectedFilters,
   filterTitle,
   allTitle,
+  expertId,
+  disabledDirections,
 }) => {
   const [disabledCheckBoxesIds, setDisabledCheckBoxesIds] = useState<
     number[]
@@ -168,14 +173,26 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
   const checkBoxes = possibleFilters.map((filter) => {
     const id = filter.id.toString();
     const filterName = filter.name;
-    const disabled = !getUsersPresentProperty(filterName);
+    const disabledRegionItem =
+      !getUsersPresentProperty(filterName) && regionItem;
+    const disabledDirectionItem = () => {
+      if (disabledDirections) {
+        if (
+          disabledDirections.findIndex((el) => el.name === filterName) === -1
+        ) {
+          return false;
+        }
+        return true;
+      }
+      return false;
+    };
+
     const allDirections = store.getState().properties.directions;
     const isDirection = allDirections.find((dir) => dir.name === filterName);
 
     if (isDirection && !getHasMaterialsProperty(filterName)) {
       return null;
     }
-
     return (
       <FormControlLabel
         key={id}
@@ -183,16 +200,24 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
         label={
           <FilterItemsList
             checkedNames={filter.name}
-            isDisabledFilter={disabled && regionItem}
-            checked={regionItem && disabled ? false : checked[id]}
+            isDisabledFilter={disabledRegionItem || disabledDirectionItem()}
+            checked={
+              disabledRegionItem || disabledDirectionItem()
+                ? false
+                : checked[id]
+            }
           />
         }
         control={
           <Checkbox
-            checked={regionItem && disabled ? false : checked[id]}
+            checked={
+              disabledRegionItem || disabledDirectionItem()
+                ? false
+                : checked[id]
+            }
             onChange={(event) => onCheckboxCheck(event)}
             name={id}
-            disabled={regionItem && disabled}
+            disabled={disabledRegionItem || disabledDirectionItem()}
             icon={<span className={classes.icon} />}
             checkedIcon={<span className={classes.checkedIcon} />}
           />

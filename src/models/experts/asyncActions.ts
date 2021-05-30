@@ -94,9 +94,12 @@ export const fetchExpertMaterials = createAsyncThunk(
         size: LOAD_POSTS_LIMIT,
         page: page,
         expert: expertId,
-        type: filters?.postTypes,
+        type: filters?.type,
+        directions: filters?.directions,
       },
     });
+
+    // console.log(filters?.type, response.data.content);
 
     const { experts } = getState() as any;
     const { mappedPosts, ids } = mapFetchedPosts(response.data.content);
