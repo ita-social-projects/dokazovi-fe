@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { isEmpty, mapValues } from 'lodash';
 import {
   Box,
@@ -36,7 +36,6 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
   selectedFilters,
   filterTitle,
   allTitle,
-  expertId,
   disabledDirections,
 }) => {
   const [disabledCheckBoxesIds, setDisabledCheckBoxesIds] = useState<
@@ -147,6 +146,18 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
     return result;
   };
 
+  const checkWhetherDisabled = (filterName: string | undefined) => {
+    if (disabledDirections) {
+      if (
+        disabledDirections.find((el) => el.name === filterName) === undefined
+      ) {
+        return false;
+      }
+      return true;
+    }
+    return false;
+  };
+
   const getHasMaterialsProperty = (filterName: string | undefined) => {
     const allDirections = store.getState().properties.directions;
     let result: boolean | undefined = false;
@@ -162,30 +173,22 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
   useEffect(() => {
     const arrOfDisabled = [
       ...possibleFilters.filter(
-        (filter) => regionItem && !getUsersPresentProperty(filter.name),
+        (filter) =>
+          (regionItem && !getUsersPresentProperty(filter.name)) ||
+          checkWhetherDisabled(filter.name),
       ),
     ];
     const arrOfDisabledIds: number[] = arrOfDisabled.map((el) => +el.id);
 
     setDisabledCheckBoxesIds(arrOfDisabledIds);
-  }, []);
+  }, [possibleFilters, disabledDirections]);
 
   const checkBoxes = possibleFilters.map((filter) => {
     const id = filter.id.toString();
     const filterName = filter.name;
     const disabledRegionItem =
       !getUsersPresentProperty(filterName) && regionItem;
-    const disabledDirectionItem = () => {
-      if (disabledDirections) {
-        if (
-          disabledDirections.findIndex((el) => el.name === filterName) === -1
-        ) {
-          return false;
-        }
-        return true;
-      }
-      return false;
-    };
+    const disabledDirectionItem = checkWhetherDisabled(filterName);
 
     const allDirections = store.getState().properties.directions;
     const isDirection = allDirections.find((dir) => dir.name === filterName);
@@ -200,24 +203,20 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
         label={
           <FilterItemsList
             checkedNames={filter.name}
-            isDisabledFilter={disabledRegionItem || disabledDirectionItem()}
+            isDisabledFilter={disabledRegionItem || disabledDirectionItem}
             checked={
-              disabledRegionItem || disabledDirectionItem()
-                ? false
-                : checked[id]
+              disabledRegionItem || disabledDirectionItem ? false : checked[id]
             }
           />
         }
         control={
           <Checkbox
             checked={
-              disabledRegionItem || disabledDirectionItem()
-                ? false
-                : checked[id]
+              disabledRegionItem || disabledDirectionItem ? false : checked[id]
             }
             onChange={(event) => onCheckboxCheck(event)}
             name={id}
-            disabled={disabledRegionItem || disabledDirectionItem()}
+            disabled={disabledRegionItem || disabledDirectionItem}
             icon={<span className={classes.icon} />}
             checkedIcon={<span className={classes.checkedIcon} />}
           />
@@ -230,39 +229,14 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
     <Box mt={2} className={classes.filtersWrapper}>
       <Grid container>
         <Grid item>
-          <Typography
-            variant="h5"
-            style={{
-              fontFamily: 'Raleway',
-              fontStyle: 'normal',
-              width: '265px',
-              fontSize: '18px',
-              lineHeight: '18px',
-              fontWeight: 'bold',
-            }}
-          >
+          <Typography variant="h5" className={classes.filterTitle}>
             {filterTitle}
           </Typography>
-          <div
-            style={{
-              width: '280px',
-              height: '4px',
-              background: '#000000',
-              margin: '2px 0 20px 0',
-            }}
-          />
+          <div className={classes.divider} />
         </Grid>
       </Grid>
       <Grid container>
-        <FormGroup
-          style={{
-            margin: '0 0 55px 0',
-            height: 'auto',
-            display: 'flex',
-            flexDirection: 'column',
-            flexWrap: 'nowrap',
-          }}
-        >
+        <FormGroup className={classes.formGroup}>
           <FormControlLabel
             style={{ width: '100%' }}
             className={classes.formControlLabel}
@@ -278,24 +252,8 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
             }
             label={
               <Typography
-                style={
-                  allChecked
-                    ? {
-                        fontFamily: 'Raleway',
-                        fontStyle: 'normal',
-                        fontSize: '16px',
-                        lineHeight: '18px',
-                        fontWeight: 700,
-                        color: '#000000',
-                      }
-                    : {
-                        fontFamily: 'Raleway',
-                        fontStyle: 'normal',
-                        fontSize: '16px',
-                        lineHeight: '18px',
-                        fontWeight: 500,
-                        color: '#000000',
-                      }
+                className={
+                  allChecked ? classes.allCheckedTrue : classes.allCheckedFalse
                 }
               >
                 {allTitle}

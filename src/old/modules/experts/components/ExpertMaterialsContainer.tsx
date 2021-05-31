@@ -11,7 +11,6 @@ import { useEffectExceptOnMount } from '../../../lib/hooks/useEffectExceptOnMoun
 import { usePrevious } from '../../../lib/hooks/usePrevious';
 import { useQuery } from '../../../lib/hooks/useQuery';
 import ExpertInfo from './ExpertInfo';
-import { store } from '../../../store/store';
 import {
   FilterTypeEnum,
   IPostType,
@@ -37,7 +36,6 @@ import { useActions } from '../../../../shared/hooks';
 import {
   selectExpertsData,
   selectLoadingExpertsPosts,
-  selectExperts,
 } from '../../../../models/experts/selectors';
 import { CheckboxLeftsideFilterForm } from '../../../lib/components/Filters/CheckboxLeftsideFilterForm';
 import { ChipsList } from '../../../../components/Chips/ChipsList/ChipsList';
@@ -244,13 +242,6 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
     ? selectedDirections
     : undefined;
 
-  // const authorsDisabledDirections = () => {
-  //   const authorsDirections = currentExpertData.directions;
-  //   const result = authorsDirections?.filter((dir) => !dir.hasPosts);
-
-  //   return result;
-  // };
-
   const handleDeleteChip = (
     key: number | undefined,
     chipsListType: ChipFilterType | undefined,
@@ -272,7 +263,12 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
     }
   };
 
-  console.log(selectedPostTypes, selectedDirections);
+  const disabledDirections = directions.filter((dir) => {
+    if (expert.directions?.find((el) => el.id === dir.id)) {
+      return false;
+    }
+    return true;
+  });
 
   return (
     <>
@@ -303,7 +299,7 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
                 allTitle="Всі типи"
               />
               <CheckboxLeftsideFilterForm
-                // disabledDirections={authorsDisabledDirections()}
+                disabledDirections={disabledDirections}
                 expertId={expertId}
                 onFormChange={(checked) =>
                   setFilters(checked, FilterTypeEnum.DIRECTIONS)

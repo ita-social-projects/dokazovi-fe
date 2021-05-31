@@ -64,14 +64,7 @@ const ExpertInfo: React.FC<IExpertInfoProps> = ({ expert }) => {
                 <Typography className={classes.expandIcon}>
                   {expandIcon}
                 </Typography>
-                <div
-                  style={{
-                    width: '280px',
-                    height: '4px',
-                    background: '#000000',
-                    margin: '2px 0 0 0',
-                  }}
-                />
+                <div className={classes.headingsDivider} />
               </Grid>
             </AccordionSummary>
             <AccordionDetails>
@@ -100,7 +93,9 @@ const ExpertInfo: React.FC<IExpertInfoProps> = ({ expert }) => {
                     />
                   </svg>
                   <Typography variant="body1" className={classes.contacts}>
-                    <a href={mailTo}>{expert.email}</a>
+                    <a href={mailTo} className={classes.links}>
+                      {expert.email}
+                    </a>
                   </Typography>
                 </>
               ) : null}

@@ -55,4 +55,10 @@ export const useStyles = makeStyles(() => ({
   contactIcons: {
     margin: '0 7px 0 -10px',
   },
+  headingsDivider: {
+    width: '280px',
+    height: '4px',
+    background: '#000000',
+    margin: '2px 0 0 0',
+  },
 }));
