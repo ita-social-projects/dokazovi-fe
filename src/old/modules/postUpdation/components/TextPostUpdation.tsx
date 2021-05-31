@@ -113,6 +113,7 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
       firstName: author?.firstName ?? post.author.firstName,
       id: author?.id ?? post.author.id,
       lastName: author?.lastName ?? post.author.lastName,
+      bio: post.author.bio,
       mainInstitution: author?.mainInstitution ?? post.author.mainInstitution,
     },
     content: htmlContent,
