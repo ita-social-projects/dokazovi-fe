@@ -28,6 +28,4 @@ export const mainSlice = createSlice({
   },
 });
 
-export const {} = mainSlice.actions;
-
 export const mainReducer = mainSlice.reducer;
