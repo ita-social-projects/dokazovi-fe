@@ -54,6 +54,5 @@ export const useStyles = makeStyles(() => ({
   },
   contactIcons: {
     margin: '0 7px 0 -10px',
-    // paddingTop: '5px',
   },
 }));

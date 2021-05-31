@@ -1,4 +1,4 @@
-import { Grid, Typography } from '@material-ui/core';
+import { Grid, Typography, Box } from '@material-ui/core';
 import { isEmpty, uniq } from 'lodash';
 import React, { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -20,6 +20,8 @@ import {
   LoadMoreButtonTextType,
   QueryTypeEnum,
   IExpert,
+  ChipFilterType,
+  ChipFilterEnum,
 } from '../../../lib/types';
 import { RequestParamsType } from '../../../lib/utilities/API/types';
 import {
@@ -38,6 +40,9 @@ import {
   selectExperts,
 } from '../../../../models/experts/selectors';
 import { CheckboxLeftsideFilterForm } from '../../../lib/components/Filters/CheckboxLeftsideFilterForm';
+import { ChipsList } from '../../../../components/Chips/ChipsList/ChipsList';
+import { useStyles } from '../styles/ExpertsView.styles';
+import { declOfNum } from '../../utilities/declOfNum';
 
 export interface IExpertMaterialsContainerProps {
   expertId: number;
@@ -54,29 +59,33 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
     meta: { isLastPage, pageNumber, totalElements, totalPages },
   } = useSelector(selectExpertsData);
 
-  const {
-    data: { experts },
-  } = useSelector(selectExperts);
-  // const currentExpertData = experts.data.experts[expertId];
-  const expertNani = experts[expertId];
-  console.log(expertNani);
+  const [checkedFiltersDirections, setCheckedFiltersDirections] = useState<
+    CheckboxFormStateType
+  >();
+  const [checkedFiltersPostTypes, setCheckedFiltersPostTypes] = useState<
+    CheckboxFormStateType
+  >();
 
   const loading = useSelector(selectLoadingExpertsPosts);
-
+  const classes = useStyles();
   const query = useQuery();
   const history = useHistory();
   const [page, setPage] = useState(pageNumber);
   const previous = usePrevious({ page });
 
-  // const [boundResetMaterials] = useActions([resetMaterials]);
+  const [boundResetMaterials] = useActions([resetMaterials]);
 
-  // useEffect(() => {
-  //   boundResetMaterials();
-  // }, [expertId]);
+  useEffect(() => {
+    boundResetMaterials();
+  }, [expertId]);
 
-  const materials = Object.values(posts);
-
-  console.log(materials);
+  const allMaterials = Object.values(posts);
+  const materials = [...allMaterials].filter((el) => {
+    if (postIds.find((elem) => elem === el.id)) {
+      return true;
+    }
+    return false;
+  });
 
   const postTypes = useSelector(
     (state: RootStateType) => state.properties.postTypes,
@@ -115,12 +124,54 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
     (state: RootStateType) => state.properties.directions,
   );
 
+  const getDirections = () => {
+    if (selectedDirections) {
+      const names = selectedDirections?.reduce((acc, filter) => {
+        acc.push(filter.name);
+        return acc;
+      }, [] as string[]);
+      if (names) {
+        return names.join(', ');
+      }
+    }
+    return directions
+      .reduce((acc, filter) => {
+        acc.push(filter.name);
+        return acc;
+      }, [] as string[])
+      .join(', ');
+  };
+
+  const getPostTypes = () => {
+    if (selectedPostTypes) {
+      const names = selectedPostTypes?.reduce((acc, filter) => {
+        acc.push(filter.name);
+        return acc;
+      }, [] as string[]);
+      if (names) {
+        return names.join(', ');
+      }
+    }
+    return postTypesInPlural
+      .reduce((acc, filter) => {
+        acc.push(filter.name);
+        return acc;
+      }, [] as string[])
+      .join(', ');
+  };
+
   const propertiesLoaded = !isEmpty(postTypes) && !isEmpty(directions);
 
   const setFilters = (
     checked: CheckboxFormStateType,
     filterType: FilterTypeEnum,
   ) => {
+    if (filterType === 1) {
+      setCheckedFiltersDirections(checked);
+    } else if (filterType === 0) {
+      setCheckedFiltersPostTypes(checked);
+    }
+
     const queryType = getQueryTypeByFilterType(filterType);
     const checkedIds = Object.keys(checked).filter((key) => checked[key]);
     const isQuerySame = uniq(Object.values(checked)).length === 1; // removing the query if user checks/unchecks the last box
@@ -183,6 +234,7 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
   const selectedDirectionsString = query
     .get(QueryTypeEnum.DIRECTIONS)
     ?.split(',');
+
   let selectedDirections:
     | IDirection[]
     | undefined = directions?.filter((post) =>
@@ -198,6 +250,29 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
 
   //   return result;
   // };
+
+  const handleDeleteChip = (
+    key: number | undefined,
+    chipsListType: ChipFilterType | undefined,
+  ) => {
+    let filtersUpdatedByChips: undefined | CheckboxFormStateType;
+
+    if (chipsListType === 'POST_TYPE') {
+      filtersUpdatedByChips = { ...checkedFiltersPostTypes };
+    } else if (chipsListType === 'DIRECTION') {
+      filtersUpdatedByChips = { ...checkedFiltersDirections };
+    }
+    if (filtersUpdatedByChips && key) {
+      filtersUpdatedByChips[key] = false;
+      if (chipsListType === 'DIRECTION') {
+        setFilters(filtersUpdatedByChips, FilterTypeEnum.DIRECTIONS);
+      } else if (chipsListType === 'POST_TYPE') {
+        setFilters(filtersUpdatedByChips, FilterTypeEnum.POST_TYPES);
+      }
+    }
+  };
+
+  console.log(selectedPostTypes, selectedDirections);
 
   return (
     <>
@@ -242,6 +317,58 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
           )}
         </Grid>
         <Grid item container xs={9} direction="column">
+          <Box className={classes.container}>
+            {selectedPostTypes === undefined ? (
+              <Typography
+                className={classes.selectedFilters}
+                component="div"
+                variant="subtitle2"
+              >
+                Всі типи
+              </Typography>
+            ) : (
+              <ChipsList
+                filtersPlural={postTypesInPlural}
+                checkedNames={getPostTypes()}
+                handleDelete={handleDeleteChip}
+                chipsListType={ChipFilterEnum.POST_TYPE}
+              />
+            )}
+            <Typography className={classes.divider} component="span">
+              |
+            </Typography>
+            {selectedDirections === undefined ? (
+              <Typography
+                className={classes.selectedFilters}
+                component="div"
+                variant="subtitle2"
+              >
+                Всі теми
+              </Typography>
+            ) : (
+              <ChipsList
+                checkedNames={getDirections()}
+                handleDelete={handleDeleteChip}
+                chipsListType={ChipFilterEnum.DIRECTION}
+              />
+            )}
+            <Typography className={classes.divider} component="span">
+              |
+            </Typography>
+            <Typography
+              className={classes.totalFilters}
+              component="div"
+              variant="subtitle2"
+              color="textSecondary"
+            >
+              {totalElements}{' '}
+              {declOfNum(totalElements, [
+                'матеріал',
+                'матеріали',
+                'матеріалів',
+              ])}
+            </Typography>
+          </Box>
           {page === 0 && loading === LoadingStatusEnum.pending ? (
             <LoadingContainer loading={loading} expand />
           ) : (
