@@ -21,7 +21,7 @@ export const useStyles = makeStyles(
 );
 
 export const MASONRY_BREAKPOINTS = {
-  default: 4,
+  default: 3,
   '900': 3,
   '700': 2,
 };

@@ -70,14 +70,21 @@ export enum FilterTypeEnum {
   DIRECTIONS,
   REGIONS,
   TAGS,
+  ORIGINS,
 }
 
 export enum ChipFilterEnum {
   REGION = 'REGION',
   DIRECTION = 'DIRECTION',
+  ORIGIN = 'ORIGIN',
+  POST_TYPE = 'POST_TYPE',
 }
 
-export type ChipFilterType = ChipFilterEnum.REGION | ChipFilterEnum.DIRECTION;
+export type ChipFilterType =
+  | ChipFilterEnum.REGION
+  | ChipFilterEnum.DIRECTION
+  | ChipFilterEnum.ORIGIN
+  | ChipFilterEnum.POST_TYPE;
 
 export enum QueryTypeEnum {
   POST_TYPES = 'types',
@@ -85,6 +92,7 @@ export enum QueryTypeEnum {
   REGIONS = 'regions',
   TAGS = 'tags',
   PAGE = 'page',
+  ORIGINS = 'origins',
 }
 
 export interface IPost {
@@ -106,12 +114,11 @@ export interface IPost {
     };
   };
   directions: IDirection[];
-  origin: IOrigin[];
   tags?: IPostTag[];
   type: IPostType;
   createdAt: string;
   modifiedAt?: string;
-  origins?: IOrigin[];
+  origins: IOrigin[];
   preview: string;
   previewImageUrl?: string;
   videoUrl?: string;
