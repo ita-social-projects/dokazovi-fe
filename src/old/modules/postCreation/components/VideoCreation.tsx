@@ -155,7 +155,7 @@ const VideoCreation: React.FC = () => {
     authorId: savedPostDraft.authorId,
     content: savedPostDraft.htmlContent,
     directions: savedPostDraft.directions,
-    origin: savedPostDraft.origin,
+    origins: savedPostDraft.origins,
     preview: savedPostDraft.htmlContent, // currently no preview
     type: { id: PostTypeEnum.VIDEO },
     title: savedPostDraft.title,
@@ -186,8 +186,8 @@ const VideoCreation: React.FC = () => {
 
   let extraFieldsForTranslation: null | JSX.Element = null;
 
-  if (savedPostDraft.origin[0]) {
-    if (savedPostDraft.origin[0].id === 3) {
+  if (savedPostDraft.origins[0]) {
+    if (savedPostDraft.origins[0].id === 3) {
       extraFieldsForTranslation = (
         <>
           <Box mt={2}>
@@ -239,7 +239,7 @@ const VideoCreation: React.FC = () => {
             onSelectedDirectionsChange={handleDirectionsChange}
           />
           <PostOriginsSelector
-            selectedOrigin={savedPostDraft.origin}
+            selectedOrigin={savedPostDraft.origins}
             onSelectedOriginChange={handleOriginsChange}
           />
           {extraFieldsForTranslation}

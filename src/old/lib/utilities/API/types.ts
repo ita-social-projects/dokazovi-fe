@@ -6,7 +6,7 @@ export type CreatePostRequestType = {
   authorsDetails?: string;
   content: string;
   directions: IDirection[];
-  origin?: IOrigin[];
+  origins?: IOrigin[];
   preview: string;
   type: {
     id: number;
@@ -60,7 +60,7 @@ export type PostResponseType = {
   postType: PostTypeResponseType;
   createdAt: string;
   directions: DirectionResponseType[];
-  origin: IOrigin[];
+  origins: IOrigin[];
   id: number;
   title: string;
   type: {

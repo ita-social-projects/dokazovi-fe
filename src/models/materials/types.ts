@@ -22,6 +22,7 @@ export interface IFetchMaterialsOptions {
     page: number;
     postTypes: number[];
     directions: number[];
+    origins: number[];
   };
   page: number;
   appendPosts: boolean;

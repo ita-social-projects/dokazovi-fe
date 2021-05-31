@@ -7,7 +7,7 @@ const initialState: IPostCreationState = {
   [PostTypeEnum.ARTICLE]: {
     title: '',
     directions: [],
-    origin: [
+    origins: [
       {
         id: 1,
         name: 'Думка експерта',
@@ -24,7 +24,7 @@ const initialState: IPostCreationState = {
   [PostTypeEnum.DOPYS]: {
     title: '',
     directions: [],
-    origin: [
+    origins: [
       {
         id: 1,
         name: 'Думка експерта',
@@ -41,7 +41,7 @@ const initialState: IPostCreationState = {
   [PostTypeEnum.VIDEO]: {
     title: '',
     directions: [],
-    origin: [
+    origins: [
       {
         id: 1,
         name: 'Думка експерта',
@@ -85,7 +85,7 @@ export const postCreationSlice = createSlice({
         value: IOrigin[];
       }>,
     ) => {
-      state[action.payload.postType].origin = action.payload.value;
+      state[action.payload.postType].origins = action.payload.value;
     },
     setPostTitle: (
       state,

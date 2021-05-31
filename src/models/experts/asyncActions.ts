@@ -26,7 +26,6 @@ export const fetchExperts = createAsyncThunk(
   'experts/loadExperts',
   async (options: IFetchExpertsOptions, { getState }) => {
     const { page, regions, directions, appendExperts } = options;
-
     const response = await getAllExperts({
       params: {
         page,
