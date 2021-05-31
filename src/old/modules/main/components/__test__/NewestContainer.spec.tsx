@@ -1,4 +1,4 @@
-/* @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable */
 import { fetchNewestPosts } from '../../../../../models/main';
 import { IMainState } from '../../../../../models/main/types';
 import { mainSlice } from '../../../../../models/main/reducers';
