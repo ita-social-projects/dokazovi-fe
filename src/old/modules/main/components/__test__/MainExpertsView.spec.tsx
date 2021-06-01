@@ -13,6 +13,7 @@ const baseProps: ComponentPropsType = {
   expert: {
     firstName: 'Myhailo',
     lastName: 'Ordynskyi',
+    id: 1,
     avatar:
       'https://images.theconversation.com/files/304957/original/file-20191203-66986-im7o5.jpg?ixlib=rb-1.1.0&q=45&auto=format&w=1200&h=1200.0&fit=crop',
   },
@@ -37,7 +38,7 @@ describe('MainExpertsView', () => {
       </Provider>,
     );
     const resultLength = 11;
-    const blocks = screen.queryAllByAltText('doctor');
+    const blocks = screen.queryAllByAltText(/doctor/i);
     expect(blocks).toHaveLength(resultLength);
   });
 
@@ -47,7 +48,7 @@ describe('MainExpertsView', () => {
         <ExpertsViewCard cards={experts} />
       </Provider>,
     );
-    const renderedMainExpertsView = screen.queryAllByText('Експерти');
+    const renderedMainExpertsView = screen.queryAllByText(/Експерти/i);
     expect(renderedMainExpertsView).toBeTruthy();
   });
 
@@ -58,6 +59,7 @@ describe('MainExpertsView', () => {
       expert: {
         firstName: 'Myhailo',
         lastName: 'Ordynskyi',
+        id: 1,
       },
     });
   });

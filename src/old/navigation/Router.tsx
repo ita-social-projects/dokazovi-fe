@@ -9,6 +9,7 @@ import { LoadingContainer } from '../lib/components/Loading/LoadingContainer';
 import { Header } from '../lib/components/Header/Header';
 import { Footer } from '../lib/components/Footer/Footer';
 import { selectCurrentUser } from '../../models/user/selectors';
+import { ERROR_404 } from '../lib/constants/errors';
 
 const PrivateRoute: React.FC<IRouteConfig> = ({ path, exact, component }) => {
   const user = useSelector(selectCurrentUser);
@@ -58,7 +59,9 @@ export const RenderRoutes: React.FC<{ routes: IRouteConfig[] }> = ({
           </Route>
         );
       })}
-      <Route component={Page404} />
+      <Route>
+        <Page component={Page404} />
+      </Route>
     </Switch>
     <Footer />
   </>

@@ -6,26 +6,16 @@ import { RootStateType } from '../../../../store/rootReducer';
 import { LoadingStatusEnum } from '../../../../lib/types';
 
 const initialState: IMainState = {
-  newest: {
-    newestPostIds: [],
-    meta: {
-      currentPage: 0,
-      isLastPage: false,
-      loading: LoadingStatusEnum.idle,
-      error: null,
-    },
-  },
   important: {
     importantPostIds: [],
-    meta: {
-      loading: LoadingStatusEnum.failed,
-      error: '',
-    },
+    importantPosts: {},
   },
-  experts: {
-    expertIds: [],
-    meta: { loading: LoadingStatusEnum.failed, error: '', pageNumber: 0 },
+  newest: {
+    newestPostIds: [],
+    newestPosts: {},
   },
+  loading: LoadingStatusEnum.idle,
+  error: null,
 };
 
 describe('newest', () => {
@@ -34,13 +24,20 @@ describe('newest', () => {
 
     const rootState: RootStateType['main'] = { ...newState };
 
-    expect(rootState.newest.meta.loading).toEqual('pending');
+    expect(rootState.loading).toEqual('pending');
   });
 
-  // it('should set loading state on succeeded when API call is pending', async () => {
-  //   await store.dispatch(fetchNewestPosts());
-  //   expect(store.getState().main.newest.meta.loading).toEqual('succeeded');
-  // });
+  it('should set loading state on succeeded when API call is pending', async () => {
+    const newState = mainSlice.reducer(initialState, {
+      type: fetchNewestPosts.fulfilled,
+      payload: { newestPostIds: [1, 2, 3, 4] },
+    });
+
+    const rootState: RootStateType['main'] = { ...newState };
+
+    expect(rootState.loading).toEqual('succeeded');
+    expect(rootState.newest.newestPostIds).toEqual([1, 2, 3, 4]);
+  });
 
   it('should set loading state on failed when API call is rejected', () => {
     const newState = mainSlice.reducer(initialState, {
@@ -50,6 +47,6 @@ describe('newest', () => {
 
     const rootState: RootStateType['main'] = { ...newState };
 
-    expect(rootState.newest.meta.loading).toEqual('failed');
+    expect(rootState.loading).toEqual('failed');
   });
 });

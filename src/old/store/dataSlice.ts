@@ -40,7 +40,7 @@ const dataSlice = createSlice({
 
 export default dataSlice.reducer;
 
-export const { loadPosts, loadExperts } = dataSlice.actions;
+export const { loadPosts } = dataSlice.actions;
 
 export const mapFetchedPosts = (
   posts: PostResponseType[],
