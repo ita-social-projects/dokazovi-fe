@@ -40,6 +40,13 @@ export const useStyles = makeStyles(
       fontSize: '16px',
       lineHeight: '1.4',
     },
+    chipsHeading: {
+      margin: '0px 20px 15px 0px',
+      fontFamily: 'Raleway',
+      fontStyle: 'normal',
+      fontWeight: 700,
+      fontSize: '16px',
+    },
   }),
   {
     name: 'ExpertsView',

@@ -314,6 +314,13 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
         </Grid>
         <Grid item container xs={9} direction="column">
           <Box className={classes.container}>
+            <Typography
+              className={classes.chipsHeading}
+              component="div"
+              variant="subtitle2"
+            >
+              Вибрано матеріали автора:
+            </Typography>
             {selectedPostTypes === undefined ? (
               <Typography
                 className={classes.selectedFilters}
