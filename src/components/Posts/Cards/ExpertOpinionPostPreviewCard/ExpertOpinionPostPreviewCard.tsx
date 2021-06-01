@@ -14,7 +14,7 @@ export const ExpertOpinionPostPreviewCard: React.FC<IPostPreviewCardProps> = ({
   shouldNotUseLink,
 }) => {
   const classes = useStyles();
-  const expertLink = `/?expert=${post.author.id}`;
+  const expertLink = `/experts/${post.author.id}`;
   const postLink = `/posts/${post.id}`;
   const authorFullName = `${post.author.firstName} ${post.author.lastName}`;
   const authorMainInstitution = post.author.mainInstitution
