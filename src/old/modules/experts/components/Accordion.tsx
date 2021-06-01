@@ -9,7 +9,6 @@ export interface IAccordion {
 }
 
 const Accordion: React.FC<IAccordion> = ({ expert }) => {
-  console.log(expert);
   const [showDetails, setShowDetails] = useState('none');
   const [showContactsTitle, setShowContactsTitle] = useState<string>(
     'Показати контакти',
