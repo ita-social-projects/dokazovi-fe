@@ -3,7 +3,7 @@ import { Grid } from '@material-ui/core';
 import { BorderBottom } from '../../Border';
 import PreviewInput from '../PreviewInput';
 import { GeneralEditor } from '../GeneralEditor';
-import PostPreviewCard from '../../Posts/Cards/PostPreviewCard';
+import { PostPreviewCard } from '../../../../../components/Posts/Cards/PostPreviewCard';
 import { IPost } from '../../../types';
 import { IEditorToolbarProps } from '../types';
 

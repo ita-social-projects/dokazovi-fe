@@ -18,21 +18,21 @@ export const fetchMaterials = createAsyncThunk(
   'materials/fetchMaterials',
   async (options: IFetchMaterialsOptions, { getState }) => {
     const { filters, page, appendPosts } = options;
-
-    const response = await getPosts('latest', {
+    const response = await getPosts('all-posts', {
       params: {
         page: page,
         size: LOAD_POSTS_LIMIT,
-        type: filters.postTypes,
+        types: filters.postTypes,
         directions: filters.directions,
+        origins: filters.origins,
       },
     });
 
     const {
       materials: { data },
     } = getState() as any;
-
     const { mappedPosts, ids } = mapFetchedPosts(response.data.content);
+
     const posts = { ...data.posts };
     mappedPosts.forEach((post) => {
       if (posts && post.id) {

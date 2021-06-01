@@ -1,7 +1,7 @@
 /* eslint-disable import/no-cycle */
 export {
   fetchExperts,
-  fetchExpertById,
+  // fetchExpertById,
   fetchExpertMaterials,
 } from './asyncActions';
 export { resetMaterials, loadPosts, expertsReducer } from './reducers';

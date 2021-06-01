@@ -1,18 +1,16 @@
 /* eslint-disable */
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { IFetchNewestPosts } from './types';
 import { getPosts } from '../../old/lib/utilities/API/api';
 import {
   LOAD_IMPORTANT_POSTS_LIMIT,
   LOAD_POSTS_LIMIT,
 } from '../../old/lib/constants/posts';
-import { loadPosts, mapFetchedPosts } from '../materials';
-import { LoadingStatusEnum } from '../../old/lib/types';
+import { mapFetchedPosts } from '../materials';
 
 export const fetchNewestPosts = createAsyncThunk(
   'main/loadNewestPosts',
   async (_, { getState }) => {
-    const response = await getPosts('latest', {
+    const response = await getPosts('latest-all', {
       params: {
         size: LOAD_POSTS_LIMIT,
       },
@@ -62,36 +60,5 @@ export const fetchImportantPosts = createAsyncThunk(
       importantPostIds: ids,
       importantPosts,
     };
-    // try {
-    //     const posts = await getPosts('important', {
-    //         params: {
-    //             size: LOAD_IMPORTANT_POSTS_LIMIT,
-    //         },
-    //     });
-    //
-    //     const { mappedPosts, ids } = mapFetchedPosts(posts.data.content);
-    //
-    //     dispatch(loadPosts(mappedPosts));
-    //
-    //     dispatch(
-    //         loadImportant({
-    //             importantPostIds: ids,
-    //             meta: {
-    //                 loading: LoadingStatusEnum.succeeded,
-    //                 error: null,
-    //             },
-    //         }),
-    //     );
-    // } catch (e) {
-    //     dispatch(
-    //         loadImportant({
-    //             importantPostIds: [],
-    //             meta: {
-    //                 loading: LoadingStatusEnum.failed,
-    //                 error: String(e),
-    //             },
-    //         }),
-    //     );
-    // }
   },
 );

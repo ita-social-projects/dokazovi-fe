@@ -33,12 +33,33 @@ export enum LoadMoreButtonTextType {
   POST,
 }
 
+export enum PostsPreviewCardStylesEnum {
+  VIDEO = 'VIDEO',
+  MEDIA = 'MEDIA',
+  TRANSLATION = 'TRANSLATION',
+  EXPERT_OPINION = 'EXPERT_OPINION',
+  IMPORTANT = 'IMPORTANT',
+}
+
+export type PostsPreviewCardStylesType =
+  | PostsPreviewCardStylesEnum.VIDEO
+  | PostsPreviewCardStylesEnum.MEDIA
+  | PostsPreviewCardStylesEnum.TRANSLATION
+  | PostsPreviewCardStylesEnum.EXPERT_OPINION
+  | PostsPreviewCardStylesEnum.IMPORTANT;
+
 export enum LoadingStatusEnum {
   idle = 'idle',
   pending = 'pending',
   succeeded = 'succeeded',
   failed = 'failed',
 }
+
+export type LoadingStatusType =
+  | LoadingStatusEnum.idle
+  | LoadingStatusEnum.pending
+  | LoadingStatusEnum.succeeded
+  | LoadingStatusEnum.failed;
 
 export enum LocalStorageKeys {
   ACCESS_TOKEN = 'ACCESS_TOKEN',
@@ -49,7 +70,21 @@ export enum FilterTypeEnum {
   DIRECTIONS,
   REGIONS,
   TAGS,
+  ORIGINS,
 }
+
+export enum ChipFilterEnum {
+  REGION = 'REGION',
+  DIRECTION = 'DIRECTION',
+  ORIGIN = 'ORIGIN',
+  POST_TYPE = 'POST_TYPE',
+}
+
+export type ChipFilterType =
+  | ChipFilterEnum.REGION
+  | ChipFilterEnum.DIRECTION
+  | ChipFilterEnum.ORIGIN
+  | ChipFilterEnum.POST_TYPE;
 
 export enum QueryTypeEnum {
   POST_TYPES = 'types',
@@ -57,6 +92,7 @@ export enum QueryTypeEnum {
   REGIONS = 'regions',
   TAGS = 'tags',
   PAGE = 'page',
+  ORIGINS = 'origins',
 }
 
 export interface IPost {
@@ -78,12 +114,11 @@ export interface IPost {
     };
   };
   directions: IDirection[];
-  origin: IOrigin[];
   tags?: IPostTag[];
   type: IPostType;
   createdAt: string;
   modifiedAt?: string;
-  origins?: IOrigin[];
+  origins: IOrigin[];
   preview: string;
   previewImageUrl?: string;
   videoUrl?: string;
@@ -122,6 +157,14 @@ export interface IDirection {
   color?: string;
   name: string;
   label?: string;
+  hasPosts?: boolean;
+}
+
+export interface IFilter {
+  id: number;
+  color?: string;
+  name: string;
+  label?: string;
 }
 
 export interface IOrigin {
@@ -133,6 +176,7 @@ export interface IOrigin {
 export interface IRegion {
   id: number;
   name: string;
+  usersPresent?: boolean;
 }
 
 export interface IInstitution {

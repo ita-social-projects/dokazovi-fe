@@ -4,7 +4,7 @@ export interface INewPostDraft {
   previewImageUrl?: string;
   title: string;
   directions: IDirection[];
-  origin: IOrigin[];
+  origins: IOrigin[];
   htmlContent: string;
   preview: IPostPreview;
   authorsName: string;

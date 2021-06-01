@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { RootStateType } from '../../old/store/rootReducer';
 import { PostTypeEnum } from '../../old/lib/types';
 import {

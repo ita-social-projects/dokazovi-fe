@@ -9,7 +9,7 @@ import {
 import { LOAD_EXPERTS_LIMIT } from '../../old/lib/constants/experts';
 import type { AppThunkType } from '../../old/store/store';
 import { mapFetchedPosts } from '../materials/asyncActions';
-import { loadExperts } from '../../old/store/dataSlice';
+// import { loadExperts } from '../../old/store/dataSlice';
 import { LOAD_POSTS_LIMIT } from '../../old/lib/constants/posts';
 import { IExpert, LoadingStatusEnum } from '../../old/lib/types';
 import { ExpertResponseType } from '../../old/lib/utilities/API/types';
@@ -26,7 +26,6 @@ export const fetchExperts = createAsyncThunk(
   'experts/loadExperts',
   async (options: IFetchExpertsOptions, { getState }) => {
     const { page, regions, directions, appendExperts } = options;
-
     const response = await getAllExperts({
       params: {
         page,
@@ -48,8 +47,12 @@ export const fetchExperts = createAsyncThunk(
       }
     });
 
+    const appendIds = [
+      ...new Set(appendExperts ? data.expertIds.concat(ids) : ids),
+    ];
+
     return {
-      expertIds: appendExperts ? data.expertIds.concat(ids) : ids,
+      expertIds: appendIds,
       experts,
       meta: {
         pageNumber: response.data.number,
@@ -62,24 +65,27 @@ export const fetchExperts = createAsyncThunk(
   },
 );
 
-export const fetchExpertById = createAsyncThunk(
-  'experts/loadExpertProfile',
-  async (id: number, { dispatch, getState }) => {
-    const {
-      data: { experts },
-    } = getState() as any;
-    const existingExpert = experts[id];
-
-    if (existingExpert) {
-      return existingExpert.id;
-    }
-
-    const { data: fetchedExpert } = await getExpertById(id);
-    dispatch(loadExperts([fetchedExpert]));
-
-    return fetchedExpert.id;
-  },
-);
+// export const fetchExpertById = createAsyncThunk(
+//   'experts/loadExpertProfile',
+//   async (id: number, { dispatch, getState }) => {
+//     const {
+//       data: { experts },
+//     } = getState() as any;
+//     const existingExpert = experts[id];
+//       console.log(existingExpert.id);
+//       alert(existingExpert.id);
+//
+//     if (existingExpert) {
+//       return existingExpert.id;
+//     }
+//
+//     const { data: fetchedExpert } = await getExpertById(id);
+//     // dispatch(loadExperts([fetchedExpert]));
+//       console.log(fetchedExpert);
+//
+//     return fetchedExpert.id;
+//   },
+// ); // not used
 
 export const fetchExpertMaterials = createAsyncThunk(
   'experts/fetchExpertMaterials',
