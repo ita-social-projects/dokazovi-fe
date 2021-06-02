@@ -32,6 +32,13 @@ const POST_MOCK: IPost = {
     id: 1,
     name: 'DOPYS',
   },
+  origins: [
+    {
+      id: 1,
+      name: 'some origin',
+      parameter: null,
+    },
+  ],
   preview: 'Dolor sit amet consectetur adipiscing elit ut aliquam purus.',
   content: 'Dolor sit amet consectetur adipiscing elit ut aliquam purus.',
   id: 10,

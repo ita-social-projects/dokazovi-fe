@@ -1,9 +1,9 @@
 /* eslint-disable */
-import { fetchNewestPosts } from '../../../../../models/main';
-import { IMainState } from '../../../../../models/main/types';
-import { mainSlice } from '../../../../../models/main/reducers';
-import { RootStateType } from '../../../../store/rootReducer';
-import { LoadingStatusEnum } from '../../../../lib/types';
+import { IMainState } from '../types';
+import { mainSlice } from '../reducers';
+import { fetchImportantPosts } from '../asyncActions';
+import { RootStateType } from '../../../old/store/rootReducer';
+import { LoadingStatusEnum } from '../../../old/lib/types';
 
 const initialState: IMainState = {
   important: {
@@ -18,26 +18,29 @@ const initialState: IMainState = {
   error: null,
 };
 
-describe('newest', () => {
+describe('important', () => {
   it('should set loading state on pending when API call is pending', () => {
-    const newState = mainSlice.reducer(initialState, fetchNewestPosts.pending);
+    const newState = mainSlice.reducer(
+      initialState,
+      fetchImportantPosts.pending,
+    );
     const rootState: RootStateType['main'] = { ...newState };
     expect(rootState.loading).toEqual('pending');
   });
 
   it('should set loading state on succeeded when API call is pending', async () => {
     const newState = mainSlice.reducer(initialState, {
-      type: fetchNewestPosts.fulfilled,
-      payload: { newestPostIds: [1, 2, 3, 4] },
+      type: fetchImportantPosts.fulfilled,
+      payload: { importantPostIds: [1, 2, 3, 4] },
     });
     const rootState: RootStateType['main'] = { ...newState };
     expect(rootState.loading).toEqual('succeeded');
-    expect(rootState.newest.newestPostIds).toEqual([1, 2, 3, 4]);
+    expect(rootState.important.importantPostIds).toEqual([1, 2, 3, 4]);
   });
 
   it('should set loading state on failed when API call is rejected', () => {
     const newState = mainSlice.reducer(initialState, {
-      type: fetchNewestPosts.rejected,
+      type: fetchImportantPosts.rejected,
       error: 'Network Error',
     });
     const rootState: RootStateType['main'] = { ...newState };

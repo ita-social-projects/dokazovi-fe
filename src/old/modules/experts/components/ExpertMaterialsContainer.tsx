@@ -29,10 +29,12 @@ import { RootStateType } from '../../../store/rootReducer';
 import {
   fetchExpertMaterials,
   resetMaterials,
+  selectErrorExperts,
   selectExpertsData,
   selectLoadingExpertsPosts,
 } from '../../../../models/experts';
 import { useActions } from '../../../../shared/hooks';
+import { selectPostTypes } from '../../../../models/properties';
 
 export interface IExpertMaterialsContainerProps {
   expertId: number;
@@ -48,6 +50,7 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
   } = useSelector(selectExpertsData);
 
   const loading = useSelector(selectLoadingExpertsPosts);
+  const error = useSelector(selectErrorExperts);
 
   const query = useQuery();
   const history = useHistory();
@@ -62,9 +65,7 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
 
   const materials = Object.values(posts);
 
-  const postTypes = useSelector(
-    (state: RootStateType) => state.properties.postTypes,
-  );
+  const postTypes = useSelector(selectPostTypes);
 
   const setFilters = (
     checked: CheckboxFormStateType,
@@ -128,6 +129,7 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
   return (
     <>
       <Typography variant="h4">Матеріали</Typography>
+      <p>{error}</p>
       {!isEmpty(postTypes) && (
         <CheckboxFilterForm
           onFormChange={(checked) =>

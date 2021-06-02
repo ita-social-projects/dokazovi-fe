@@ -6,7 +6,7 @@ import { IMaterialsState } from '../materials/types';
 import { fetchExpertMaterials, fetchExperts } from './asyncActions';
 import { getAsyncActionsReducer } from '../helpers/asyncActions';
 
-const initialMaterialsState: IMaterialsState = {
+export const initialMaterialsState: IMaterialsState = {
   data: {
     postIds: [],
     posts: {},
@@ -22,7 +22,7 @@ const initialMaterialsState: IMaterialsState = {
   filters: {},
 };
 
-const initialState: IExpertsState = {
+export const initialState: IExpertsState = {
   data: {
     expertIds: [],
     experts: {},

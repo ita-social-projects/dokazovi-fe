@@ -16,3 +16,6 @@ export const selectLoadingExpertsPosts = (
 
 export const selectLoadingExperts = (state: RootStateType): LoadingStatusEnum =>
   state.experts.loading;
+
+export const selectErrorExperts = (state: RootStateType): null | string =>
+  state.experts.error;

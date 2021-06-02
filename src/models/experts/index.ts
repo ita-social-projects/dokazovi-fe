@@ -10,4 +10,5 @@ export {
   selectLoadingExpertsPosts,
   selectLoadingExperts,
   selectExpertsData,
+  selectErrorExperts,
 } from './selectors';

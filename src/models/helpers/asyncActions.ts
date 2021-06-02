@@ -15,10 +15,13 @@ export const getAsyncActionsReducer = (
     state.loading = LoadingStatusEnum.succeeded;
     state[key] = action.payload;
   },
-  [asyncAction.rejected.type]: (state: any, error: SerializedError) => {
+  [asyncAction.rejected.type]: (
+    state: any,
+    error: PayloadAction<SerializedError>,
+  ) => {
     state.loading = LoadingStatusEnum.failed;
-    if (error.message) {
-      state.error = error.message;
+    if (error.payload?.message) {
+      state.error = error.payload.message;
     }
   },
 });
