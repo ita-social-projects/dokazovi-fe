@@ -88,13 +88,14 @@ export const fetchExpertMaterials = createAsyncThunk(
   'experts/fetchExpertMaterials',
   async (options: IFetchExpertsMaterialsOptions, { getState }) => {
     const { expertId, filters, page, appendPosts } = options;
+    console.log();
     const response = await getPosts('latest-by-expert', {
       params: {
         size: LOAD_POSTS_LIMIT,
         page: page,
         expert: expertId,
         type: filters?.type,
-        directions: filters?.directions,
+        direction: filters?.directions,
       },
     });
 

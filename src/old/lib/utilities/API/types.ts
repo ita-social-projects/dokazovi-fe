@@ -195,6 +195,7 @@ export type RequestParamsType = {
   size?: number;
   sort?: string[];
   directions?: number[];
+  direction?: number[];
   type?: number[];
   types?: number[];
   expert?: number;

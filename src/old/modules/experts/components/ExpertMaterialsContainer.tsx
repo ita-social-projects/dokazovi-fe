@@ -208,7 +208,11 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
   useEffect(() => {
     const appendPosts = previous && previous.page < page;
     fetchData(appendPosts);
-  }, [query.get(QueryTypeEnum.POST_TYPES), page]);
+  }, [
+    query.get(QueryTypeEnum.POST_TYPES),
+    query.get(QueryTypeEnum.DIRECTIONS),
+    page,
+  ]);
 
   const gridRef = useRef<HTMLDivElement>(null);
   useEffectExceptOnMount(() => {
