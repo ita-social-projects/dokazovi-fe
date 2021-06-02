@@ -88,7 +88,6 @@ export const fetchExpertMaterials = createAsyncThunk(
   'experts/fetchExpertMaterials',
   async (options: IFetchExpertsMaterialsOptions, { getState }) => {
     const { expertId, filters, page, appendPosts } = options;
-    console.log();
     const response = await getPosts('latest-by-expert', {
       params: {
         size: LOAD_POSTS_LIMIT,
@@ -98,8 +97,6 @@ export const fetchExpertMaterials = createAsyncThunk(
         direction: filters?.directions,
       },
     });
-
-    console.log(response.data.content);
 
     const { experts } = getState() as any;
     const { mappedPosts, ids } = mapFetchedPosts(response.data.content);
