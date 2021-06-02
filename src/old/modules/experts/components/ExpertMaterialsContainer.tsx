@@ -22,7 +22,10 @@ import {
   ChipFilterType,
   ChipFilterEnum,
 } from '../../../lib/types';
-import { RequestParamsType } from '../../../lib/utilities/API/types';
+import {
+  RequestParamsType,
+  ActivePostType,
+} from '../../../lib/utilities/API/types';
 import {
   getQueryTypeByFilterType,
   mapQueryIdsStringToArray,
@@ -32,6 +35,7 @@ import {
   fetchExpertMaterials,
   resetMaterials,
 } from '../../../../models/experts';
+import { getActivePostTypes } from '../../../lib/utilities/API/api';
 import { useActions } from '../../../../shared/hooks';
 import {
   selectExpertsData,
@@ -69,6 +73,7 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
   const query = useQuery();
   const history = useHistory();
   const [page, setPage] = useState(pageNumber);
+  const [activePostTypes, setActivePostTypes] = useState<ActivePostType[]>();
   const previous = usePrevious({ page });
 
   const [boundResetMaterials] = useActions([resetMaterials]);
@@ -158,7 +163,7 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
       .join(', ');
   };
 
-  const propertiesLoaded = !isEmpty(postTypes) && !isEmpty(directions);
+  const propertiesLoaded = !isEmpty(postTypesInPlural) && !isEmpty(directions);
 
   const setFilters = (
     checked: CheckboxFormStateType,
@@ -204,6 +209,16 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
 
     boundFetchExpertMaterials({ expertId, filters, page, appendPosts });
   };
+
+  async function fetchActivePostTypes() {
+    const response = await getActivePostTypes(expertId);
+    const arr: ActivePostType[] = response.data;
+    setActivePostTypes(arr);
+  }
+
+  useEffect(() => {
+    fetchActivePostTypes();
+  }, []);
 
   useEffect(() => {
     const appendPosts = previous && previous.page < page;
@@ -274,6 +289,16 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
     return true;
   });
 
+  const disabledPostTypes = postTypes.filter((post) => {
+    if (activePostTypes?.length) {
+      if (activePostTypes?.find((el) => el.id === post.id)) {
+        return false;
+      }
+      return true;
+    }
+    return false;
+  });
+
   return (
     <>
       <Grid container direction="row">
@@ -293,6 +318,7 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
           {propertiesLoaded && (
             <>
               <CheckboxLeftsideFilterForm
+                disabledPostTypes={disabledPostTypes}
                 expertId={expertId}
                 onFormChange={(checked) =>
                   setFilters(checked, FilterTypeEnum.POST_TYPES)
@@ -380,10 +406,7 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
             <LoadingContainer loading={loading} expand />
           ) : (
             <>
-              <Grid container>
-                <PostsList postsList={materials} />
-              </Grid>
-              <LoadingContainer loading={loading} />
+              <PostsList postsList={materials} />
               <Grid
                 container
                 direction="column"

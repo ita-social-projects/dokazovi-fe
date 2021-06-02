@@ -12,7 +12,7 @@ import { store } from '../../../store/store';
 import { useStyles } from './CheckboxLeftsideFilterForm.styles';
 import { FilterItemsList } from '../FilterItems/FilterItemsList';
 import { CheckboxFormStateType } from './CheckboxFilterForm';
-import { IDirection } from '../../types';
+import { IDirection, IPostType } from '../../types';
 
 interface IFilter {
   id: string | number;
@@ -28,6 +28,7 @@ export interface ICheckboxLeftsideFilterFormProps {
   handleDelete?: () => void;
   expertId?: number;
   disabledDirections?: IDirection[] | undefined;
+  disabledPostTypes?: IPostType[] | undefined;
 }
 
 export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormProps> = ({
@@ -37,6 +38,7 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
   filterTitle,
   allTitle,
   disabledDirections,
+  disabledPostTypes,
 }) => {
   const [disabledCheckBoxesIds, setDisabledCheckBoxesIds] = useState<
     number[]
@@ -133,7 +135,6 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
   const getUsersPresentProperty = (filterName: string | undefined) => {
     const allRegions = store.getState().properties.regions;
     let result: boolean | undefined = false;
-
     if (allRegions.find((reg) => reg.name === filterName)) {
       if (regionItem === false) {
         setRegionItem(true);
@@ -146,11 +147,21 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
     return result;
   };
 
-  const checkWhetherDisabled = (filterName: string | undefined) => {
-    if (disabledDirections) {
+  const checkWhetherDisabledDirection = (filterName: string | undefined) => {
+    if (disabledDirections?.length) {
       if (
         disabledDirections.find((el) => el.name === filterName) === undefined
       ) {
+        return false;
+      }
+      return true;
+    }
+    return false;
+  };
+
+  const checkWhetherDisabledPostType = (id: number | undefined) => {
+    if (disabledPostTypes?.length) {
+      if (disabledPostTypes.find((el) => el.id === id) === undefined) {
         return false;
       }
       return true;
@@ -175,20 +186,30 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
       ...possibleFilters.filter(
         (filter) =>
           (regionItem && !getUsersPresentProperty(filter.name)) ||
-          checkWhetherDisabled(filter.name),
+          checkWhetherDisabledDirection(filter.name) ||
+          checkWhetherDisabledPostType(+filter.id),
       ),
     ];
     const arrOfDisabledIds: number[] = arrOfDisabled.map((el) => +el.id);
 
     setDisabledCheckBoxesIds(arrOfDisabledIds);
-  }, [possibleFilters, disabledDirections]);
+  }, [disabledPostTypes, disabledDirections]);
 
   const checkBoxes = possibleFilters.map((filter) => {
     const id = filter.id.toString();
     const filterName = filter.name;
+
     const disabledRegionItem =
       !getUsersPresentProperty(filterName) && regionItem;
-    const disabledDirectionItem = checkWhetherDisabled(filterName);
+    let disabledDirectionItem = false;
+    if (disabledDirections?.length) {
+      disabledDirectionItem = checkWhetherDisabledDirection(filterName);
+    }
+
+    let disabledPostTypeItem = false;
+    if (disabledPostTypes?.length) {
+      disabledPostTypeItem = checkWhetherDisabledPostType(+id);
+    }
 
     const allDirections = store.getState().properties.directions;
     const isDirection = allDirections.find((dir) => dir.name === filterName);
@@ -203,7 +224,11 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
         label={
           <FilterItemsList
             checkedNames={filter.name}
-            isDisabledFilter={disabledRegionItem || disabledDirectionItem}
+            isDisabledFilter={
+              disabledRegionItem ||
+              disabledDirectionItem ||
+              disabledPostTypeItem
+            }
             checked={
               disabledRegionItem || disabledDirectionItem ? false : checked[id]
             }
@@ -212,11 +237,19 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
         control={
           <Checkbox
             checked={
-              disabledRegionItem || disabledDirectionItem ? false : checked[id]
+              disabledRegionItem ||
+              disabledDirectionItem ||
+              disabledPostTypeItem
+                ? false
+                : checked[id]
             }
             onChange={(event) => onCheckboxCheck(event)}
             name={id}
-            disabled={disabledRegionItem || disabledDirectionItem}
+            disabled={
+              disabledRegionItem ||
+              disabledDirectionItem ||
+              disabledPostTypeItem
+            }
             icon={<span className={classes.icon} />}
             checkedIcon={<span className={classes.checkedIcon} />}
           />

@@ -94,6 +94,11 @@ export type ExpertResponseType = {
   qualification: string;
 };
 
+export type ActivePostType = {
+  id: number;
+  name: string;
+};
+
 export type CreateTagRequestType = {
   tag: string;
 };
