@@ -5,17 +5,16 @@ import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import { useStyles } from './VideoPostPreviewCard.styles';
 import { formatDate } from '../../../../utilities/formatDate';
-import background from '../mock_img_media_bg.png';
 import { IPostPreviewCardProps } from '../types';
 
 export const VideoPostPreviewCard: React.FC<IPostPreviewCardProps> = ({
   post,
   shouldNotUseLink,
 }) => {
+  const url = post.videoUrl || 'https://www.youtube.com/embed/RyzWMoyxwZo';
+
   const classes = useStyles();
   const postLink = `/posts/${post.id}`;
-
-  const bgImageURL = post.previewImageUrl ? post.previewImageUrl : background;
 
   const card = (
     <>
@@ -24,11 +23,8 @@ export const VideoPostPreviewCard: React.FC<IPostPreviewCardProps> = ({
         flexDirection="column"
         flexWrap="no-wrap"
         justifyContent="space-between"
-        style={{
-          backgroundImage: `url(${bgImageURL})`,
-        }}
       >
-        <Box className={classes.play} />
+        <iframe src={url} width="100%" height="100%" title={post.title} />
       </Box>
       <Box className={classes.body}>
         <Typography
