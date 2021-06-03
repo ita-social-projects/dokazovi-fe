@@ -70,3 +70,5 @@ export const Header: React.FC = () => {
     </div>
   );
 };
+
+// export const Header = React.memo(HeaderWithoutMemo);

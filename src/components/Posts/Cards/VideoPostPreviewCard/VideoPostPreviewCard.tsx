@@ -27,8 +27,9 @@ export const VideoPostPreviewCard: React.FC<IPostPreviewCardProps> = ({
         style={{
           backgroundImage: `url(${bgImageURL})`,
         }}
+        data-testid="bgImage"
       >
-        <Box className={classes.play} />
+        <Box className={classes.play} data-testid="video-icon" />
       </Box>
       <Box className={classes.body}>
         <Typography

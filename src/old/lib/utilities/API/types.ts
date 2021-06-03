@@ -43,6 +43,7 @@ export type UpdatePostRequestUnionType =
 export type PostResponseType = {
   author: {
     avatar: string;
+    bio: string;
     firstName: string;
     id: number;
     lastName: string;
@@ -72,6 +73,7 @@ export type PostResponseType = {
 
 export type ExpertResponseType = {
   avatar: string;
+  bio: string;
   firstName: string;
   id: number;
   lastAddedPost: {

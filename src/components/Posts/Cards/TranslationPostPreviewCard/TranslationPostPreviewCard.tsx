@@ -17,12 +17,12 @@ export const TranslationPostPreviewCard: React.FC<IPostPreviewCardProps> = ({
   const postLink = `/posts/${post.id}`;
   const materialsLink = `/materials?source=3`;
   const authorFullName = `${post.author.firstName} ${post.author.lastName}`;
-  const authorMainInstitution = post.author.mainInstitution
-    ? `${post.author.mainInstitution.city.name}, ${post.author.mainInstitution.name}`
-    : '';
+  // const authorMainInstitution = post.author.mainInstitution
+  //   ? `${post.author.mainInstitution.city.name}, ${post.author.mainInstitution.name}`
+  //   : '';
 
   const cardHeader = (
-    <Box className={classes.header}>
+    <Box className={classes.header} data-testid="bgImage">
       <Box
         display="flex"
         flexDirection="column"
@@ -67,7 +67,7 @@ export const TranslationPostPreviewCard: React.FC<IPostPreviewCardProps> = ({
           component="span"
           gutterBottom
         >
-          {authorMainInstitution}
+          {post.author.bio}
         </Typography>
       </Box>
       <Typography
