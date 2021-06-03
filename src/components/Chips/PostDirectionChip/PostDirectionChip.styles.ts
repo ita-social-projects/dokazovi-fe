@@ -12,6 +12,7 @@ export const useStyles = makeStyles(
       fontWeight: 500,
       fontSize: '14px',
       lineHeight: '1.17',
+      userSelect: 'none',
     }),
   }),
   { name: 'PostDirectionChip' },

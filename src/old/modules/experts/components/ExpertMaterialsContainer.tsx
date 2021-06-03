@@ -3,6 +3,7 @@ import { isEmpty, uniq } from 'lodash';
 import React, { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import SentimentVeryDissatisfiedIcon from '@material-ui/icons/SentimentVeryDissatisfied';
 import { CheckboxFormStateType } from '../../../lib/components/Filters/CheckboxFilterForm';
 import { LoadingContainer } from '../../../lib/components/Loading/LoadingContainer';
 import { PostsList } from '../../../lib/components/Posts/PostsList';
@@ -60,6 +61,13 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
     postIds,
     meta: { isLastPage, pageNumber, totalElements, totalPages },
   } = useSelector(selectExpertsData);
+
+  const [TheOnlyAvailablePostType, setTheOnlyAvailablePostType] = useState<
+    string
+  >();
+  const [TheOnlyAvailableDirection, setTheOnlyAvailableDirection] = useState<
+    string
+  >();
 
   const [checkedFiltersDirections, setCheckedFiltersDirections] = useState<
     CheckboxFormStateType
@@ -191,6 +199,17 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
     });
   };
 
+  const handleChipsLogicTransform = (
+    name: string,
+    filterType: FilterTypeEnum,
+  ) => {
+    if (filterType === 1) {
+      setTheOnlyAvailableDirection(name);
+    } else if (filterType === 0) {
+      setTheOnlyAvailablePostType(name);
+    }
+  };
+
   const loadMore = () => {
     setPage(page + 1);
   };
@@ -299,6 +318,45 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
     return false;
   });
 
+  let materialsData = <PostsList postsList={materials} />;
+  if (materials.length === 0) {
+    materialsData = (
+      <Grid
+        style={{
+          position: 'sticky',
+          top: '45vh',
+          fontSize: '24px',
+          userSelect: 'none',
+          width: '400px',
+          height: '200px',
+          margin: '0 auto',
+        }}
+        container
+        direction="column"
+        alignItems="center"
+      >
+        <SentimentVeryDissatisfiedIcon
+          style={{
+            height: '65px',
+            width: '65px',
+            marginBottom: '30px',
+          }}
+        />
+        <Typography
+          style={{
+            fontWeight: 500,
+            fontFamily: 'Raleway',
+            fontSize: '24px',
+            lineHeight: '32px',
+          }}
+          align="center"
+        >
+          На жаль, даних, що відповідають вашому запиту, не знайдено.
+        </Typography>
+      </Grid>
+    );
+  }
+
   return (
     <>
       <Grid container direction="row">
@@ -327,6 +385,9 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
                 selectedFilters={selectedPostTypes}
                 filterTitle="за типом"
                 allTitle="Всі типи"
+                setTheOnlyAvailableFilter={(name) => {
+                  handleChipsLogicTransform(name, FilterTypeEnum.POST_TYPES);
+                }}
               />
               <CheckboxLeftsideFilterForm
                 disabledDirections={disabledDirections}
@@ -338,6 +399,9 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
                 selectedFilters={selectedDirections}
                 filterTitle="за темою"
                 allTitle="Всі теми"
+                setTheOnlyAvailableFilter={(name) => {
+                  handleChipsLogicTransform(name, FilterTypeEnum.DIRECTIONS);
+                }}
               />
             </>
           )}
@@ -351,7 +415,7 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
             >
               Вибрано матеріали автора:
             </Typography>
-            {selectedPostTypes === undefined ? (
+            {selectedPostTypes === undefined && !TheOnlyAvailablePostType ? (
               <Typography
                 className={classes.selectedFilters}
                 component="div"
@@ -361,6 +425,7 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
               </Typography>
             ) : (
               <ChipsList
+                TheOnlyAvailablePostType={TheOnlyAvailablePostType}
                 filtersPlural={postTypesInPlural}
                 checkedNames={getPostTypes()}
                 handleDelete={handleDeleteChip}
@@ -370,7 +435,7 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
             <Typography className={classes.divider} component="span">
               |
             </Typography>
-            {selectedDirections === undefined ? (
+            {selectedDirections === undefined && !TheOnlyAvailableDirection ? (
               <Typography
                 className={classes.selectedFilters}
                 component="div"
@@ -380,6 +445,7 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
               </Typography>
             ) : (
               <ChipsList
+                TheOnlyAvailableDirection={TheOnlyAvailableDirection}
                 checkedNames={getDirections()}
                 handleDelete={handleDeleteChip}
                 chipsListType={ChipFilterEnum.DIRECTION}
@@ -406,7 +472,7 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
             <LoadingContainer loading={loading} expand />
           ) : (
             <>
-              <PostsList postsList={materials} />
+              {materialsData}
               <Grid
                 container
                 direction="column"

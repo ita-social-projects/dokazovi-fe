@@ -17,6 +17,7 @@ import { IDirection, IPostType } from '../../types';
 interface IFilter {
   id: string | number;
   name: string;
+  label?: string;
 }
 
 export interface ICheckboxLeftsideFilterFormProps {
@@ -29,6 +30,7 @@ export interface ICheckboxLeftsideFilterFormProps {
   expertId?: number;
   disabledDirections?: IDirection[] | undefined;
   disabledPostTypes?: IPostType[] | undefined;
+  setTheOnlyAvailableFilter?: (name: string) => void;
 }
 
 export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormProps> = ({
@@ -39,6 +41,7 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
   allTitle,
   disabledDirections,
   disabledPostTypes,
+  setTheOnlyAvailableFilter,
 }) => {
   const [disabledCheckBoxesIds, setDisabledCheckBoxesIds] = useState<
     number[]
@@ -195,6 +198,46 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
     setDisabledCheckBoxesIds(arrOfDisabledIds);
   }, [disabledPostTypes, disabledDirections]);
 
+  let theOnlyAvailableFilter = false;
+  if (
+    disabledCheckBoxesIds &&
+    possibleFilters.length - disabledCheckBoxesIds.length === 1
+  ) {
+    theOnlyAvailableFilter = true;
+  }
+
+  useEffect(() => {
+    if (theOnlyAvailableFilter && setTheOnlyAvailableFilter) {
+      possibleFilters.map((filter) => {
+        const id = filter.id.toString();
+        const filterName = filter.name;
+
+        let disabledDirectionItem = false;
+        if (disabledDirections?.length) {
+          disabledDirectionItem = checkWhetherDisabledDirection(filterName);
+        }
+
+        let disabledPostTypeItem = false;
+        if (disabledPostTypes?.length) {
+          disabledPostTypeItem = checkWhetherDisabledPostType(+id);
+        }
+
+        if (!disabledPostTypeItem && disabledPostTypes?.length) {
+          setTheOnlyAvailableFilter(filterName);
+        }
+        if (
+          !disabledDirectionItem &&
+          disabledDirections?.length &&
+          filter.label
+        ) {
+          setTheOnlyAvailableFilter(filter.label);
+        }
+
+        return null;
+      });
+    }
+  }, [theOnlyAvailableFilter]);
+
   const checkBoxes = possibleFilters.map((filter) => {
     const id = filter.id.toString();
     const filterName = filter.name;
@@ -217,6 +260,10 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
     if (isDirection && !getHasMaterialsProperty(filterName)) {
       return null;
     }
+
+    const disabledFilter =
+      disabledRegionItem || disabledDirectionItem || disabledPostTypeItem;
+
     return (
       <FormControlLabel
         key={id}
@@ -224,32 +271,16 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
         label={
           <FilterItemsList
             checkedNames={filter.name}
-            isDisabledFilter={
-              disabledRegionItem ||
-              disabledDirectionItem ||
-              disabledPostTypeItem
-            }
-            checked={
-              disabledRegionItem || disabledDirectionItem ? false : checked[id]
-            }
+            isDisabledFilter={disabledFilter || theOnlyAvailableFilter}
+            checked={disabledFilter ? false : checked[id]}
           />
         }
         control={
           <Checkbox
-            checked={
-              disabledRegionItem ||
-              disabledDirectionItem ||
-              disabledPostTypeItem
-                ? false
-                : checked[id]
-            }
+            checked={disabledFilter ? false : checked[id]}
             onChange={(event) => onCheckboxCheck(event)}
             name={id}
-            disabled={
-              disabledRegionItem ||
-              disabledDirectionItem ||
-              disabledPostTypeItem
-            }
+            disabled={disabledFilter || theOnlyAvailableFilter}
             icon={<span className={classes.icon} />}
             checkedIcon={<span className={classes.checkedIcon} />}
           />
@@ -279,6 +310,7 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
                 checked={allChecked}
                 onChange={onCheckboxAllChange}
                 name="All"
+                disabled={theOnlyAvailableFilter}
                 icon={<span className={classes.icon} />}
                 checkedIcon={<span className={classes.checkedIcon} />}
               />
@@ -287,6 +319,11 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
               <Typography
                 className={
                   allChecked ? classes.allCheckedTrue : classes.allCheckedFalse
+                }
+                style={
+                  theOnlyAvailableFilter
+                    ? { fontWeight: 500, color: '#767676' }
+                    : { fontWeight: 700 }
                 }
               >
                 {allTitle}
