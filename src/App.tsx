@@ -1,4 +1,5 @@
 import React, { Suspense, useEffect } from 'react';
+import ReactGA from 'react-ga';
 import { useDispatch } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
@@ -20,6 +21,10 @@ import {
   fetchPostsTypes,
   fetchRegions,
 } from './models/properties/asyncActions';
+
+ReactGA.initialize('UA-197683102-1', {
+  testMode: process.env.NODE_ENV === 'test',
+});
 
 export const App: React.FC = () => {
   const dispatch = useDispatch();

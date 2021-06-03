@@ -1,4 +1,5 @@
 import React, { useCallback, useState, useEffect } from 'react';
+import ReactGA from 'react-ga';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import _ from 'lodash';
@@ -112,6 +113,10 @@ const VideoCreation: React.FC = () => {
   const handleOnChange = (value: string) => {
     setSearchValue(value);
   };
+
+  useEffect(() => {
+    ReactGA.pageview(window.location.pathname + window.location.search);
+  }, []);
 
   useEffect(() => {
     if (!searchValue) {

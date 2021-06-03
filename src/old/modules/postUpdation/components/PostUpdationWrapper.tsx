@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import ReactGA from 'react-ga';
 import { useHistory } from 'react-router-dom';
 import { getPostById } from '../../../lib/utilities/API/api';
 import { IPost } from '../../../lib/types';
@@ -33,6 +34,10 @@ const PostUpdationWrapper: React.FC = () => {
       setStatusCode(404);
     }
   }, [postId]);
+
+  useEffect(() => {
+    ReactGA.pageview(window.location.pathname + window.location.search);
+  }, []);
 
   useEffect(() => {
     fetchPost();

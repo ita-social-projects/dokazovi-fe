@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import ReactGA from 'react-ga';
 import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { isEmpty, uniq } from 'lodash';
@@ -110,6 +111,10 @@ const ExpertsView: React.FC = () => {
   const loadMore = () => {
     setPage(page + 1);
   };
+
+  useEffect(() => {
+    ReactGA.pageview(window.location.pathname + window.location.search);
+  }, []);
 
   useEffect(() => {
     const appendExperts = (previous && previous.page < page) || page !== 0;

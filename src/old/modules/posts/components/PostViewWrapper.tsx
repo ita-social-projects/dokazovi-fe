@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import ReactGA from 'react-ga';
 import { toast } from 'react-toastify';
 import { useHistory, useParams } from 'react-router-dom';
 import { getPostById } from '../../../lib/utilities/API/api';
@@ -43,6 +44,10 @@ const PostViewWrapper: React.FC = () => {
       toast.success(`Видалити матеріал "${loadedPost.title}" не вдалося.`);
     }
   };
+
+  useEffect(() => {
+    ReactGA.pageview(window.location.pathname + window.location.search);
+  }, []);
 
   useEffect(() => {
     fetchPost();

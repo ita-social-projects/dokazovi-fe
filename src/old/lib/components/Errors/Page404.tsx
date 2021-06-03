@@ -1,8 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import ReactGA from 'react-ga';
 import { Typography } from '@material-ui/core';
 import { PageTitle } from '../Pages/PageTitle';
 
 const Page404: React.FC = () => {
+  useEffect(() => {
+    ReactGA.pageview(window.location.pathname + window.location.search);
+  }, []);
+
   return (
     <>
       <PageTitle title="Помилка 404" />

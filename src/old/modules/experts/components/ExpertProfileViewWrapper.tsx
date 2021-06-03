@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import ReactGA from 'react-ga';
 import { useHistory, useParams } from 'react-router-dom';
 import { IExpert } from '../../../lib/types';
 import { getExpertById } from '../../../lib/utilities/API/api';
@@ -18,6 +19,10 @@ const ExpertProfileViewWrapper: React.FC = () => {
       setStatusCode(404);
     }
   }, [expertId]);
+
+  useEffect(() => {
+    ReactGA.pageview(window.location.pathname + window.location.search);
+  }, []);
 
   useEffect(() => {
     fetchExpert();

@@ -2,6 +2,7 @@
 import { Grid, Typography, Box } from '@material-ui/core';
 import { isEmpty, uniq } from 'lodash';
 import React, { useEffect, useState } from 'react';
+import ReactGA from 'react-ga';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { CheckboxFormStateType } from '../../../lib/components/Filters/CheckboxFilterForm';
@@ -207,6 +208,10 @@ const MaterialsView: React.FC = () => {
   const loadMore = () => {
     setPage(page + 1);
   };
+
+  useEffect(() => {
+    ReactGA.pageview(window.location.pathname + window.location.search);
+  }, []);
 
   useEffect(() => {
     const appendPosts = previous && previous.page < page;
