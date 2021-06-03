@@ -8,11 +8,17 @@ const ArticleEditorToolbar: React.FC<IEditorToolbarProps> = ({ editor }) => {
     <div id="toolbar">
       <span className="ql-formats">
         <select className="ql-header" defaultValue="">
-          <option value="1">Заголовок 1</option>
-          <option value="2">Заголовок 2</option>
+          <option value="2">Заголовок 1</option>
+          <option value="3">Заголовок 2</option>
+          <option value="4">Для вступу</option>
           <option value="">Звичайний</option>
         </select>
       </span>
+      {/* <span className="ql-formats">
+        <select className="ql-font">
+          <option value="literata">ImgCaption</option>
+        </select>
+      </span> */}
       <span className="ql-formats">
         <button title="Bold" type="button" className="ql-bold" />
         <button title="Italic" type="button" className="ql-italic" />
@@ -53,7 +59,8 @@ const ArticleEditorToolbar: React.FC<IEditorToolbarProps> = ({ editor }) => {
           value="super"
         />
         <button title="Sub" type="button" className="ql-script" value="sub" />
-        <button title="Blockquote" type="button" className="ql-blockquote" />
+        <button title="Quote" type="button" className="ql-blockquote" />
+        <button type="button" className="ql-link" />
       </span>
       <span className="ql-formats">
         <select title="Align" className="ql-align" />

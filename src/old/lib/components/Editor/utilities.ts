@@ -1,16 +1,23 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 // Disable required to allow using Quill register method
 import Quill, { StringMap } from 'quill';
 import ImageUploader from 'quill-image-uploader';
 import ImageResize from 'quill-image-resize-module-react';
+// import MagicUrl from 'quill-magic-url';
 import { computerIcon } from './icons';
 import FigureBlot from './Blots/FigureBlot';
 import InsertFromFile from './CustomModules/ImageFromFileHandler';
 
+// Quill.register('modules/magicUrl', MagicUrl);
 Quill.register({ 'blots/figureBlock': FigureBlot });
 Quill.register('modules/imageUploader', ImageUploader);
 Quill.register('modules/imageResize', ImageResize);
 Quill.register('modules/insertFromFile', InsertFromFile);
+
+const Font = Quill.import('formats/font');
+Font.whitelist = ['raleway', 'literata'];
+Quill.register(Font, true);
 
 const Icons: StringMap = Quill.import('ui/icons');
 
@@ -36,6 +43,7 @@ export const modules: StringMap = {
     maxStack: 100,
     userOnly: true,
   },
+  // magicUrl: true,
 };
 
 export const formats: string[] = [

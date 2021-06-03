@@ -10,6 +10,11 @@ import { ConfirmationModalWithButton } from '../../../lib/components/Modals/Conf
 import PostInfo from '../../../../components/Posts/PostInfo/PostInfo';
 import TopSection from '../../../../components/Posts/TopSection/TopSection';
 import SecondTopSection from '../../../../components/Posts/SecondTopSection/SecondTopSection';
+// import {
+//   MEDIATEKA_ARTICLE_MOCK,
+//   MEDIATEKA_ARTICLE_SmHeaders_MOCK,
+//   MEDIATEKA_ARTICLE_Intro_SmHeaders_MOCK,
+// } from '../__mocks__/postContent';
 
 export interface IPostViewProps {
   post: IPost;
@@ -35,39 +40,44 @@ const PostView: React.FC<IPostViewProps> = ({
 
   return (
     <Card className={classes.cardContainer}>
-      {post.type.name !== 'Переклад' && <TopSection author={post.author} />}
-      {modificationAllowed && (
-        <Box className={classes.actionsBlock}>
-          <Link to={`/edit-post?id=${post.id}`}>
-            <EditIcon />
-          </Link>
-          {onDelete && (
-            <ConfirmationModalWithButton
-              message={`Ви дійсно бажаєте безповоротно видалити матеріал '${post.title}'?`}
-              buttonIcon={<DeleteIcon />}
-              onConfirmButtonClick={onDelete}
-            />
+      <Box className={classes.wrapper}>
+        {post.type.name !== 'Переклад' && <TopSection author={post.author} />}
+        {modificationAllowed && (
+          <Box className={classes.actionsBlock}>
+            <Link to={`/edit-post?id=${post.id}`}>
+              <EditIcon />
+            </Link>
+            {onDelete && (
+              <ConfirmationModalWithButton
+                message={`Ви дійсно бажаєте безповоротно видалити матеріал '${post.title}'?`}
+                buttonIcon={<DeleteIcon />}
+                onConfirmButtonClick={onDelete}
+              />
+            )}
+          </Box>
+        )}
+        <Box className={classes.contentRoot}>
+          {post.title && (
+            <Typography variant="h1" gutterBottom>
+              {post.title}
+            </Typography>
           )}
+
+          {post.type.name === 'Переклад' && (
+            <SecondTopSection author={post.author} />
+          )}
+
+          <PostInfo info={postInfo} />
+          <div
+            className={classes.content}
+            dangerouslySetInnerHTML={{
+              __html: postContent,
+            }}
+            // dangerouslySetInnerHTML={{
+            //   __html: MEDIATEKA_ARTICLE_Intro_SmHeaders_MOCK,
+            // }}
+          />
         </Box>
-      )}
-      <Box className={classes.contentRoot}>
-        {post.title && (
-          <Typography variant="h1" gutterBottom>
-            {post.title}
-          </Typography>
-        )}
-
-        {post.type.name === 'Переклад' && (
-          <SecondTopSection author={post.author} />
-        )}
-
-        <PostInfo info={postInfo} />
-        <div
-          className={classes.content}
-          dangerouslySetInnerHTML={{
-            __html: postContent,
-          }}
-        />
       </Box>
     </Card>
   );
