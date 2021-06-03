@@ -8,6 +8,7 @@ import ImageResize from 'quill-image-resize-module-react';
 import { computerIcon } from './icons';
 import FigureBlot from './Blots/FigureBlot';
 import InsertFromFile from './CustomModules/ImageFromFileHandler';
+import { uploadImageToImgur } from '../../utilities/Imgur/uploadImageToImgur';
 
 // Quill.register('modules/magicUrl', MagicUrl);
 Quill.register({ 'blots/figureBlock': FigureBlot });
@@ -30,12 +31,31 @@ export const modules: StringMap = {
   imageResize: {
     modules: ['Resize', 'DisplaySize'],
   },
+  // insertFromFile: {
+  //   upload: (file: string | Blob): Promise<unknown> => {
+  //     return new Promise((resolve, reject) => {
+  //       resolve(file);
+  //       reject(new Error('Failed image upload'));
+  //     });
+  //   },
+  // },
   insertFromFile: {
     upload: (file: string | Blob): Promise<unknown> => {
       return new Promise((resolve, reject) => {
-        resolve(file);
-        reject(new Error('Failed image upload'));
-      });
+        const reader = new FileReader();
+        reader.readAsDataURL(file as Blob);
+        reader.onload = () => {
+          const image = reader.result as string;
+          const result = image.slice(image.search(/[^,]*$/));
+          resolve(result);
+          reject(new Error('Failed image onload'));
+        };
+      })
+        .then((str) => uploadImageToImgur(str as string))
+        .then((res) => {
+          return res.data.data.link;
+        })
+        .catch((err) => console.log(err));
     },
   },
   history: {
