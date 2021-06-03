@@ -2,43 +2,26 @@ import { makeStyles, Theme } from '@material-ui/core';
 
 export const useStyles = makeStyles(
   (theme: Theme) => ({
-    cardContainer: {
-      minHeight: '550px',
-      padding: theme.spacing(9),
-    },
-    authorBlock: {
+    root: {
       minHeight: '100px',
       display: 'flex',
       alignItems: 'center',
       marginBottom: theme.spacing(5),
     },
     avatar: {
-      height: 130,
-      width: 130,
+      height: 150,
+      width: 150,
       borderRadius: '50%',
       filter: 'grayscale(100%)',
       marginRight: theme.spacing(4),
     },
-    actionsBlock: {
-      marginLeft: 'auto',
-      display: 'flex',
-      alignItems: 'center',
+    authorName: {
+      fontSize: '24px',
+      lineHeight: '1.17',
     },
-    contentRoot: {
-      minHeight: '550px',
-    },
-    createdAt: {
-      color: theme.palette.info.light,
-    },
-    content: {
-      ...theme.typography.body1,
-      marginTop: theme.spacing(6),
-      '& h1': {
-        fontSize: '2em',
-      },
-      '& h2': {
-        fontSize: '1.5em',
-      },
+    authorBio: {
+      fontSize: '15px',
+      lineHeight: '1.47',
     },
   }),
   { name: 'PostView' },

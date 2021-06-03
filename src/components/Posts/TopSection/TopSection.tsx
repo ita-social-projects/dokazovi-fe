@@ -18,7 +18,7 @@ export default function TopSection({ author }: ITopSection): JSX.Element {
   const { id, avatar = '', firstName, lastName, bio } = author;
   const authorFullName = `${firstName} ${lastName}`;
   return (
-    <Box className={classes.authorBlock}>
+    <Box className={classes.root}>
       <Link to={`/experts/${id}`}>
         <CardMedia
           className={classes.avatar}
@@ -29,9 +29,11 @@ export default function TopSection({ author }: ITopSection): JSX.Element {
       </Link>
       <Box>
         <Link to={`/experts/${id}`}>
-          <Typography variant="h4">{authorFullName}</Typography>
+          <Typography variant="h3" className={classes.authorName}>
+            {authorFullName}
+          </Typography>
         </Link>
-        <Typography variant="subtitle1" color="textSecondary">
+        <Typography color="textSecondary" className={classes.authorBio}>
           {bio}
         </Typography>
       </Box>
