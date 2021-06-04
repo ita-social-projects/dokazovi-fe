@@ -8,8 +8,7 @@ const NoteEditorToolbar: React.FC<IEditorToolbarProps> = ({ editor }) => {
     <div id="toolbar">
       <span className="ql-formats">
         <select className="ql-header" defaultValue="">
-          <option value="2">Заголовок 1</option>
-          <option value="3">Заголовок 2</option>
+          <option value="3">Заголовок</option>
           <option value="4">Для вступу</option>
           <option value="5">Для приміток</option>
           <option value="">Звичайний</option>
