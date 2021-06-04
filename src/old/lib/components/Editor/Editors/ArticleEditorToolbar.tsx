@@ -15,16 +15,11 @@ const ArticleEditorToolbar: React.FC<IEditorToolbarProps> = ({ editor }) => {
           <option value="">Звичайний</option>
         </select>
       </span>
-      {/* <span className="ql-formats">
-        <select className="ql-font">
-          <option value="literata">ImgCaption</option>
-        </select>
-      </span> */}
       <span className="ql-formats">
         <button title="Bold" type="button" className="ql-bold" />
         <button title="Italic" type="button" className="ql-italic" />
         <button title="Underline" type="button" className="ql-underline" />
-        <button title="Strike" type="button" className="ql-strike" />
+        {/* <button title="Strike" type="button" className="ql-strike" /> */}
       </span>
       <span className="ql-formats">
         <button
