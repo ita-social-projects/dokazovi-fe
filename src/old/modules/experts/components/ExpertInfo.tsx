@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { Avatar, Divider, Grid, Typography, Box } from '@material-ui/core';
 import React from 'react';
 import PostDirectionLink from '../../../lib/components/Chips/PostDirectionLink';
