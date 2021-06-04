@@ -1,6 +1,7 @@
 /* eslint no-param-reassign: "error" */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* @typescript-eslint/no-inferrable-types */
+/* @typescript-eslint/no-unsafe-assignment */
 import { AsyncThunk, SerializedError, PayloadAction } from '@reduxjs/toolkit';
 import { LoadingStatusEnum } from '../../old/lib/types';
 
@@ -20,6 +21,7 @@ export const getAsyncActionsReducer = (
     error: PayloadAction<SerializedError>,
   ) => {
     state.loading = LoadingStatusEnum.failed;
+    console.log(error);
     if (error.payload?.message) {
       state.error = error.payload.message;
     }

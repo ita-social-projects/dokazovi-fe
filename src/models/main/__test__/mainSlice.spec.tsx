@@ -38,12 +38,13 @@ describe('important', () => {
     expect(rootState.important.importantPostIds).toEqual([1, 2, 3, 4]);
   });
 
-  it('should set loading state on failed when API call is rejected', () => {
+  it('should set loading state on failed when API call is rejected', async () => {
     const newState = mainSlice.reducer(initialState, {
       type: fetchImportantPosts.rejected,
-      error: 'Network Error',
+      payload: { message: 'Network Error' },
     });
     const rootState: RootStateType['main'] = { ...newState };
     expect(rootState.loading).toEqual('failed');
+    expect(rootState.error).toMatch(/Network Error/i);
   });
 });

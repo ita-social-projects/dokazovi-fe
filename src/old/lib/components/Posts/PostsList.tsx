@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useEffect, useRef, useState } from 'react';
 import Masonry from 'react-masonry-css';
 import { useStyles, MASONRY_BREAKPOINTS } from '../../styles/PostsList.styles';

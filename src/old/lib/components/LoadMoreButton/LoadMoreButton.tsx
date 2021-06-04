@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React from 'react';
 import { Button, Box, CircularProgress } from '@material-ui/core';
 import { LoadingStatusEnum, LoadMoreButtonTextType } from '../../types';
