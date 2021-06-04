@@ -43,6 +43,7 @@ export const useStyles = makeStyles(
       ...theme.typography.body1,
 
       '& p': {
+        marginBottom: theme.spacing(9),
         fontFamily: 'Literata',
         fontWeight: 400,
         fontSize: '17px',
@@ -71,6 +72,12 @@ export const useStyles = makeStyles(
         color: ' #767676',
         lineHeight: 1.47,
       },
+      '& h5': {
+        fontFamily: 'Literata',
+        fontWeight: 400,
+        fontSize: '14px',
+        lineHeight: 1.86,
+      },
       '& a': {
         fontFamily: 'Literata',
         fontStyle: 'italic',
@@ -81,7 +88,8 @@ export const useStyles = makeStyles(
         color: '#0000ff',
       },
       '& blockquote': {
-        margin: '45px 0px',
+        marginBottom: theme.spacing(9),
+        // margin: '45px 0px',
         padding: '45px 110px',
         textAlign: 'center',
         fontFamily: 'Raleway, normal, sans-serif',
@@ -93,12 +101,14 @@ export const useStyles = makeStyles(
         borderBottom: '#4fdfff solid 1px',
       },
       '& ol': {
+        marginBottom: theme.spacing(9),
         paddingLeft: theme.spacing(5),
         fontFamily: 'Literata',
         fontSize: '17px',
         lineHeight: 1.65,
       },
       '& ul': {
+        marginBottom: theme.spacing(9),
         paddingLeft: theme.spacing(5),
         fontFamily: 'Literata',
         fontSize: '17px',

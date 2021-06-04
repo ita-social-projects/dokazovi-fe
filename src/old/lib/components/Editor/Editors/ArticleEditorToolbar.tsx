@@ -11,6 +11,7 @@ const ArticleEditorToolbar: React.FC<IEditorToolbarProps> = ({ editor }) => {
           <option value="2">Заголовок 1</option>
           <option value="3">Заголовок 2</option>
           <option value="4">Для вступу</option>
+          <option value="5">Для приміток</option>
           <option value="">Звичайний</option>
         </select>
       </span>
@@ -38,7 +39,7 @@ const ArticleEditorToolbar: React.FC<IEditorToolbarProps> = ({ editor }) => {
           className="ql-list"
           value="bullet"
         />
-        <button
+        {/* <button
           title="Left Indent"
           type="button"
           className="ql-indent"
@@ -49,7 +50,7 @@ const ArticleEditorToolbar: React.FC<IEditorToolbarProps> = ({ editor }) => {
           type="button"
           className="ql-indent"
           value="+1"
-        />
+        /> */}
       </span>
       <span className="ql-formats">
         <button
@@ -62,9 +63,9 @@ const ArticleEditorToolbar: React.FC<IEditorToolbarProps> = ({ editor }) => {
         <button title="Quote" type="button" className="ql-blockquote" />
         <button type="button" className="ql-link" />
       </span>
-      <span className="ql-formats">
+      {/* <span className="ql-formats">
         <select title="Align" className="ql-align" />
-      </span>
+      </span> */}
       <ImageHandlersContainer editor={editor} />
     </div>
   );

@@ -127,6 +127,12 @@ h4 {
   margin-bottom: 70px;
 }
 
+.ql-editor > h5 {
+  font-family: 'Literata';
+  font-size: 14px;
+  font-weight: 400;
+}
+
 blockquote {
   margin: 45px 0px;
   padding: 45px 110px;

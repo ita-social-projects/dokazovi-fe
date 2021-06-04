@@ -5,7 +5,7 @@ import { Box, TextField, Typography } from '@material-ui/core';
 import { sanitizeHtml } from '../../../lib/utilities/sanitizeHtml';
 import { PageTitle } from '../../../lib/components/Pages/PageTitle';
 import { updatePost, getAllExperts } from '../../../lib/utilities/API/api';
-import { IDirection, IPost } from '../../../lib/types';
+import { IDirection, IPost, IOrigin } from '../../../lib/types';
 import { PostCreationButtons } from '../../postCreation/components/PostCreationButtons';
 import {
   UpdateTextPostRequestType,
@@ -19,6 +19,7 @@ import PostView from '../../posts/components/PostView';
 import { TextPostEditor } from '../../../lib/components/Editor/Editors/TextPostEditor';
 import { IEditorToolbarProps } from '../../../lib/components/Editor/types';
 import { PostDirectionsSelector } from '../../postCreation/components/PostDirectionsSelector';
+import { PostOriginsSelector } from '../../postCreation/components/PostOriginsSelector';
 import { PostAuthorSelection } from '../../postCreation/components/PostAuthorSelection/PostAuthorSelection';
 
 export interface ITextPostUpdationProps {
@@ -40,6 +41,9 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
   const [selectedDirections, setSelectedDirections] = useState<IDirection[]>(
     post.directions,
   );
+  const [selectedOrigins, setSelectedOrigins] = useState<IOrigin[]>(
+    post.origins,
+  );
   const [htmlContent, setHtmlContent] = useState(post.content);
   const [preview, setPreview] = useState(post.preview);
   const [title, setTitle] = useState({
@@ -57,6 +61,10 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
 
   const handleDirectionsChange = (value: IDirection[]) => {
     setSelectedDirections(value);
+  };
+
+  const handleOriginsChange = (value: IOrigin[]) => {
+    setSelectedOrigins(value);
   };
 
   const handleHtmlContentChange = useCallback(
@@ -100,6 +108,7 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
     id: post.id,
     content: htmlContent,
     directions: selectedDirections,
+    origins: selectedOrigins,
     preview,
     title: title.value,
     type: post.type,
@@ -119,6 +128,7 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
     content: htmlContent,
     preview,
     directions: selectedDirections,
+    origins: selectedOrigins,
     title: title.value,
     type: post.type,
   };
@@ -137,6 +147,10 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
           <PostDirectionsSelector
             selectedDirections={selectedDirections}
             onSelectedDirectionsChange={handleDirectionsChange}
+          />
+          <PostOriginsSelector
+            selectedOrigins={selectedOrigins}
+            onSelectedOriginsChange={handleOriginsChange}
           />
           <Box mt={2}>
             <Typography variant="h5">{titleInputLabel}</Typography>

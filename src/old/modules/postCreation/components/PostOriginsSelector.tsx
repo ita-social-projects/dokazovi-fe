@@ -8,13 +8,13 @@ import { IOrigin } from '../../../lib/types';
 import { RootStateType } from '../../../store/rootReducer';
 
 interface IPostOriginsSelector {
-  selectedOrigin: IOrigin[];
-  onSelectedOriginChange: (origins: IOrigin[]) => void;
+  selectedOrigins: IOrigin[];
+  onSelectedOriginsChange: (origins: IOrigin[]) => void;
 }
 
 export const PostOriginsSelector: React.FC<IPostOriginsSelector> = ({
-  selectedOrigin,
-  onSelectedOriginChange,
+  selectedOrigins,
+  onSelectedOriginsChange,
 }) => {
   const allOrigins = useSelector(
     (state: RootStateType) => state.properties.origins,
@@ -29,7 +29,7 @@ export const PostOriginsSelector: React.FC<IPostOriginsSelector> = ({
       checkedIds.includes(origin.id.toString()),
     );
 
-    onSelectedOriginChange(origins);
+    onSelectedOriginsChange(origins);
   };
 
   return (
@@ -38,9 +38,9 @@ export const PostOriginsSelector: React.FC<IPostOriginsSelector> = ({
         <CheckboxDropdownFilterForm
           onFormChange={handleOriginsChange}
           possibleFilters={allOrigins}
-          selectedFilters={selectedOrigin}
+          selectedFilters={selectedOrigins}
           noAll
-          maximumReached={selectedOrigin.length === MAX_POST_ORIGINS}
+          maximumReached={selectedOrigins.length === MAX_POST_ORIGINS}
           filterTitle="Джерела: "
         />
       ) : (

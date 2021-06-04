@@ -10,22 +10,22 @@ export const PostPreviewCard: React.FC<IPostPreviewCardProps> = ({
   shouldNotUseLink,
 }) => {
   switch (true) {
-    case post.type && post.type.id === 2:
+    case post.type && post.type.id === 3:
       return (
         <VideoPostPreviewCard post={post} shouldNotUseLink={shouldNotUseLink} />
       );
-    case post.origins && post.origins[0] && post.origins[0].id === 1:
+    case post.origins && post.origins[0] && post.origins[0].id === 2:
       return (
         <MediaPostPreviewCard post={post} shouldNotUseLink={shouldNotUseLink} />
       );
-    case post.origins && post.origins[0] && post.origins[0].id === 2:
+    case post.origins && post.origins[0] && post.origins[0].id === 3:
       return (
         <TranslationPostPreviewCard
           post={post}
           shouldNotUseLink={shouldNotUseLink}
         />
       );
-    case post.origins && post.origins[0] && post.origins[0].id === 3:
+    case post.origins && post.origins[0] && post.origins[0].id === 1:
       return (
         <ExpertOpinionPostPreviewCard
           post={post}
