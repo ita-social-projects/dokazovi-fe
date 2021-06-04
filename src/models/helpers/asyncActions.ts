@@ -1,7 +1,7 @@
 /* eslint no-param-reassign: "error" */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* @typescript-eslint/no-inferrable-types */
-/* @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable */
 import { AsyncThunk, SerializedError, PayloadAction } from '@reduxjs/toolkit';
 import { LoadingStatusEnum } from '../../old/lib/types';
 
