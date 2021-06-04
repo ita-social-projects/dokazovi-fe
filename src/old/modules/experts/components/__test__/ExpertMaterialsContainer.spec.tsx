@@ -1,83 +1,152 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import ExpertMaterialsContainer from '../ExpertMaterialsContainer';
 import { Provider } from 'react-redux';
-import { store } from '../../../../store/store';
-import { MemoryRouter, Router } from 'react-router-dom';
+import { Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
-import { mainSlice } from '../../../../../models/main/reducers';
-import { fetchImportantPosts } from '../../../../../models/main';
-import { RootStateType } from '../../../../store/rootReducer';
-import {
-  expertsReducer,
-  expertsSlice,
-  initialState,
-} from '../../../../../models/experts/reducers';
-import {
-  fetchExpertMaterials,
-  selectExpertsData,
-} from '../../../../../models/experts';
-import { configureStore } from '@reduxjs/toolkit';
-import { reducer } from 'react-toastify/dist/hooks/toastContainerReducer';
-import * as reactRedux from 'react-redux';
-import { useSelector } from 'react-redux';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
+import { LoadMoreButton } from '../../../../lib/components/LoadMoreButton/LoadMoreButton';
+import {
+  LoadingStatusEnum,
+  LoadMoreButtonTextType,
+} from '../../../../lib/types';
+import userEvent from '@testing-library/user-event';
+import * as reactRedux from 'react-redux';
 
 const mockStore = configureMockStore([thunk]);
-
 const history = createMemoryHistory();
-jest.mock('react-redux', () => ({
-  useSelector: jest.fn(),
-}));
+
+const post = {
+  id: 16,
+  title: 'Ninth therapy post',
+  preview: null,
+  content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+  videoUrl: '',
+  previewImageUrl: '',
+  author: {
+    id: 10,
+    firstName: 'Марія',
+    lastName: 'Марієнко',
+    avatar: 'https://i.pravatar.cc/300?img=16',
+    bio: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+    mainInstitution: {
+      id: 5,
+      name: 'Medical Idea',
+      city: {
+        id: 55,
+        name: 'Бровари',
+      },
+    },
+  },
+  directions: [
+    {
+      id: 7,
+      name: 'pediatrics',
+      label: 'Педіатрія',
+      color: '#993333',
+      hasDoctors: true,
+      hasPosts: true,
+    },
+    {
+      id: 1,
+      name: 'covid-19',
+      label: 'Covid-19',
+      color: '#ef5350',
+      hasDoctors: true,
+      hasPosts: true,
+    },
+    {
+      id: 4,
+      name: 'therapy',
+      label: 'Терапія',
+      color: '#ffee58',
+      hasDoctors: true,
+      hasPosts: true,
+    },
+  ],
+  tags: [],
+  type: {
+    id: 1,
+    name: 'Стаття',
+  },
+  createdAt: '14.12.2020',
+  modifiedAt: '14.12.2020',
+  publishedAt: '01.06.2021',
+  origins: [
+    {
+      id: 2,
+      name: 'Медитека',
+      parameter: null,
+    },
+  ],
+};
+
+const postsArray = new Array(12).fill(post);
+const posts = postsArray.reduce(
+  (result, item, idx) => ({ ...result, [idx]: item }),
+  {},
+);
+
+const store = mockStore({
+  experts: {
+    error: 'Server Error',
+    posts: {
+      data: {
+        meta: { isLastPage: false },
+        posts: posts,
+      },
+    },
+  },
+  properties: {
+    postTypes: [
+      { id: 1, name: 'Стаття' },
+      { id: 2, name: 'Відео' },
+      { id: 3, name: 'Допис' },
+    ],
+  },
+});
+
+const loadMore = jest.fn();
 
 beforeEach(() => {
   render(
     <Provider store={store}>
       <Router history={history}>
-        <ExpertMaterialsContainer expertId={13} />
+        <ExpertMaterialsContainer expertId={10}>
+          <LoadMoreButton
+            clicked={loadMore}
+            textType={LoadMoreButtonTextType.POST}
+            loading={LoadingStatusEnum.idle}
+            isLastPage={false}
+            totalPages={2}
+            totalElements={18}
+            pageNumber={0}
+          />
+        </ExpertMaterialsContainer>
       </Router>
     </Provider>,
   );
 });
 
-const renderWithRedux = ({
-  store = configureStore({ reducer: expertsReducer }),
-} = {}) => {
-  return {
-    ...render(
-      <Provider store={store}>
-        <Router history={history}>
-          <ExpertMaterialsContainer expertId={13} />
-        </Router>
-      </Provider>,
-    ),
-    store,
-  };
-};
-
-describe('ExpertInfo testing', () => {
+describe('ExpertMaterialsContainer testing with store data', () => {
   // const useSelectorMock = jest.spyOn(reactRedux, 'useSelector');
   // const useDispatchMock = jest.spyOn(reactRedux, 'useDispatch');
+  //
+  // beforeEach(() => {
+  //     useSelectorMock.mockClear();
+  //     useDispatchMock.mockClear();
+  // });
 
-  beforeEach(() => {
-    // useSelectorMock.mockClear();
-    // useDispatchMock.mockClear();
-  });
-
-  it('Heading should exist', () => {
-    const heading = screen.getByRole('heading');
-    expect(heading).toBeInTheDocument();
-  });
   it('Headings name should be "Матеріали"', () => {
     const heading = screen.getByText(/Матеріали/i);
     expect(heading).toBeInTheDocument();
   });
-  it('Headings name should be "Матеріали" should', () => {
+  it('Headings name should be "Матеріали" (testing with another way)', () => {
     const { container } = render(
       <Provider store={store}>
         <Router history={history}>
-          <ExpertMaterialsContainer expertId={13} />
+          <ExpertMaterialsContainer expertId={10} />
         </Router>
       </Provider>,
     );
@@ -85,80 +154,86 @@ describe('ExpertInfo testing', () => {
     expect(heading[0].innerHTML).toMatch(/Матеріали/i);
     expect(heading[0]).toHaveTextContent(/Матеріали/i);
   });
-  it('Choice types of materials', async () => {
-    const newState = expertsSlice.reducer(initialState, {
-      type: fetchExpertMaterials.fulfilled,
-      payload: { data: { postIds: [1, 2, 3, 4] } },
-    });
-
-    const newStore = { ...store, ...newState };
-    console.log(newStore);
-
-    await render(
-      <Provider store={newStore}>
-        <Router history={history}>
-          <ExpertMaterialsContainer expertId={13} />
-        </Router>
-      </Provider>,
-    );
-
-    // const { getAllByRole } = renderWithRedux();
-
-    const [article, video, story] = await screen.findAllByRole('checkbox');
+  it('Choice types of materials with checkbox', () => {
+    const [article, video, story] = screen.getAllByRole('checkbox');
     expect(article).toBeInTheDocument();
     expect(video).toBeInTheDocument();
     expect(story).toBeInTheDocument();
   });
-  it('Is loading error', () => {
-    // const newState = expertsSlice.reducer(initialState, {
-    //     type: fetchExpertMaterials.rejected,
-    //     payload: new Error('Fucking error') ,
-    // });
-    // const newStore = {...store, ...newState};
-
-    // useSelectorMock.mockReturnValue({
-    //     experts: {
-    //         error: 'Fucking error',
-    //         posts: {
-    //             data: {
-    //                 meta: {isLastPage: false},
-    //                 posts: {
-    //                     id: {
-    //                         title: 'xxx'
-    //                     }
-    //                 }
-    //             }
-    //         }
-    //     },
-    //     properties: {
-    //         postTypes: [],
-    //     }
-    // });
-    // useSelectorMock.mockReturnValue({postTypes: []});
-    // useSelectorMock.mockReturnValue({meta: {isLastPage: false}, posts: {id: {title: 'xxx'}}});
-    // @ts-ignore
-    useSelector
-      .mockImplementationOnce(() => ({
-        meta: { isLastPage: false },
-        posts: { id: { title: 'xxx' } },
-      }))
-      .mockImplementationOnce(() => ({ postTypes: [] }))
-      .mockImplementationOnce(() => ({ error: 'Fucking error' }));
-
-    // jest.mock('../../../../../models/experts/selectors.ts', () => ({
-    //     selectExpertsData: jest.fn().mockReturnValue({meta: {isLastPage: false}, posts: {id: {title: 'xxx'}}}),
-    //     selectErrorExperts: jest.fn().mockReturnValue('Fucking error'),
-    // }));
-
-    render(
+  it('Should be only 3 checkboxes for choice materials here', () => {
+    const checkboxes = screen.getAllByRole('checkbox');
+    expect(checkboxes.length).toBe(3);
+  });
+  it('Check Article checkbox', () => {
+    const [article, video, story] = screen.getAllByRole('checkbox');
+    fireEvent.click(article);
+    expect(article).toBeChecked();
+  });
+  it('Check Video checkbox', () => {
+    const [article, video, story] = screen.getAllByRole('checkbox');
+    fireEvent.click(video);
+    expect(video).toBeChecked();
+  });
+  it('Check Story checkbox', () => {
+    const [article, video, story] = screen.getAllByRole('checkbox');
+    fireEvent.click(story);
+    expect(story).toBeChecked();
+  });
+  it('button for more materials should be on the page', () => {
+    const button = screen.getByRole('button');
+    expect(button).toBeInTheDocument();
+  });
+  it('name of button should be "Показати ще матеріалів"', () => {
+    const button = screen.getByText(/Показати ще/i);
+    expect(button).toBeInTheDocument();
+  });
+  it('name of button should be "Показати ще матеріалів" (another implementation)', () => {
+    const { container } = render(
       <Provider store={store}>
         <Router history={history}>
-          <ExpertMaterialsContainer expertId={13} />
+          <ExpertMaterialsContainer expertId={10} />
         </Router>
       </Provider>,
     );
-
-    const error = screen.getByText(/Fucking error/i);
-    expect(error).toBeInTheDocument();
+    const button = container.getElementsByTagName('button');
+    expect(button[0].innerHTML).toMatch(/Показати ще/i);
+  });
+  it('should be 12 posts on the page', () => {
+    const posts = screen.getAllByTestId('post_item');
+    expect(posts.length).toBe(12);
+  });
+  it('click of button for more materials', () => {
+    const button = screen.getByRole('button');
+    fireEvent.click(button);
+    expect(loadMore).toHaveBeenCalledTimes(1);
+  });
+  it('click on button "Показати ще матеріалів"', () => {
+    const button = screen.getByTestId('more_button');
+    fireEvent.click(button);
+    expect(loadMore).toHaveBeenCalledTimes(1);
+  });
+  it('click on button "Показати ще матеріалів" (another implementation)', () => {
+    const { container } = render(
+      <Provider store={store}>
+        <Router history={history}>
+          <ExpertMaterialsContainer expertId={10}>
+            <LoadMoreButton
+              clicked={loadMore}
+              textType={LoadMoreButtonTextType.POST}
+              loading={LoadingStatusEnum.idle}
+              isLastPage={false}
+              totalPages={2}
+              totalElements={18}
+              pageNumber={0}
+            />
+          </ExpertMaterialsContainer>
+        </Router>
+      </Provider>,
+    );
+    const [button1] = container.getElementsByClassName('MuiButton-root');
+    fireEvent.click(button1);
+    userEvent.click(button1);
+    expect(loadMore).toHaveBeenCalledTimes(1);
+    // expect(button[0]).toBeInTheDocument();
   });
 });

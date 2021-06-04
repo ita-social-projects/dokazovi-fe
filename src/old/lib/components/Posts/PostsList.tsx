@@ -38,6 +38,7 @@ export const PostsList: React.FC<IPostsListProps> = ({ postsList }) => {
     >
       {postsList.map((post, idx) => (
         <div
+          data-testid={'post_item'}
           key={post.id}
           className={classes.masonryItem}
           ref={postIdxForScroll === idx ? postForScrollRef : null}

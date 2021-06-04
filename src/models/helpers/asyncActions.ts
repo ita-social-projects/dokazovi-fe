@@ -11,7 +11,7 @@ export const getAsyncActionsReducer = (
   [asyncAction.pending.type]: (state: any) => {
     state.loading = LoadingStatusEnum.pending;
   },
-  [asyncAction.fulfilled.type]: (state: any, action: PayloadAction<number>) => {
+  [asyncAction.fulfilled.type]: (state: any, action: PayloadAction<any>) => {
     state.loading = LoadingStatusEnum.succeeded;
     state[key] = action.payload;
   },

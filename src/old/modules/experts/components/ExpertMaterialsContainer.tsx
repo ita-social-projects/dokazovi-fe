@@ -25,11 +25,9 @@ import {
   getQueryTypeByFilterType,
   mapQueryIdsStringToArray,
 } from '../../../lib/utilities/filters';
-import { RootStateType } from '../../../store/rootReducer';
 import {
   fetchExpertMaterials,
   resetMaterials,
-  selectErrorExperts,
   selectExpertsData,
   selectLoadingExpertsPosts,
 } from '../../../../models/experts';
@@ -50,7 +48,6 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
   } = useSelector(selectExpertsData);
 
   const loading = useSelector(selectLoadingExpertsPosts);
-  const error = useSelector(selectErrorExperts);
 
   const query = useQuery();
   const history = useHistory();
@@ -129,7 +126,6 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
   return (
     <>
       <Typography variant="h4">Матеріали</Typography>
-      <p>{error}</p>
       {!isEmpty(postTypes) && (
         <CheckboxFilterForm
           onFormChange={(checked) =>

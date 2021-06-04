@@ -70,6 +70,7 @@ export const LoadMoreButton: React.FC<ILoadMoreButtonProps> = ({
     control = (
       <Box className={classes.root}>
         <Button
+          data-testid={'more_button'}
           className={classes.button}
           variant="outlined"
           onClick={() => {
