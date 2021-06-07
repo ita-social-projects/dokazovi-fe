@@ -26,6 +26,7 @@ import {
   mapQueryIdsStringToArray,
 } from '../../../lib/utilities/filters';
 import { RootStateType } from '../../../store/rootReducer';
+import { selectPostsByIds } from '../../../store/selectors';
 import {
   fetchExpertMaterials,
   resetMaterials,
