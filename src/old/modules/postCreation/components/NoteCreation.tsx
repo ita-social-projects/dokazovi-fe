@@ -1,9 +1,14 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import NoteEditorToolbar from '../../../lib/components/Editor/Editors/NoteEditorToolbar';
 import { PostTypeEnum } from '../../../lib/types';
 import { TextPostCreation } from './TextPostCreation';
+import { setGALocation } from '../../../../utilities/setGALocation';
 
 const NoteCreation: React.FC = () => {
+  useEffect(() => {
+    setGALocation(window);
+  }, []);
+
   return (
     <TextPostCreation
       editorToolbar={NoteEditorToolbar}

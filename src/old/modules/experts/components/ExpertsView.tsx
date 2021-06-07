@@ -37,6 +37,7 @@ import { useActions } from '../../../../shared/hooks';
 import { ChipsList } from '../../../../components/Chips/ChipsList/ChipsList';
 import { declOfNum } from '../../utilities/declOfNum';
 import { useStyles } from '../styles/ExpertsView.styles';
+import { setGALocation } from '../../../../utilities/setGALocation';
 
 const ExpertsView: React.FC = () => {
   const {
@@ -113,6 +114,10 @@ const ExpertsView: React.FC = () => {
   const loadMore = () => {
     setPage(page + 1);
   };
+
+  useEffect(() => {
+    setGALocation(window);
+  }, []);
 
   useEffect(() => {
     const appendExperts = (previous && previous.page < page) || page !== 0;

@@ -6,6 +6,7 @@ import { IPost } from '../../../lib/types';
 import PostView from './PostView';
 import { sanitizeHtml } from '../../../lib/utilities/sanitizeHtml';
 import { PageTitle } from '../../../lib/components/Pages/PageTitle';
+import { setGALocation } from '../../../../utilities/setGALocation';
 import { ERROR_404 } from '../../../lib/constants/errors';
 
 const PostViewWrapper: React.FC = () => {
@@ -44,6 +45,10 @@ const PostViewWrapper: React.FC = () => {
       toast.success(`Видалити матеріал "${loadedPost.title}" не вдалося.`);
     }
   };
+
+  useEffect(() => {
+    setGALocation(window);
+  }, []);
 
   useEffect(() => {
     fetchPost();

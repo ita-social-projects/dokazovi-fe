@@ -34,6 +34,7 @@ import { PostDirectionsSelector } from './PostDirectionsSelector';
 import { PostOriginsSelector } from './PostOriginsSelector';
 import { selectCurrentUser } from '../../../../models/user/selectors';
 import { PostAuthorSelection } from './PostAuthorSelection/PostAuthorSelection';
+import { setGALocation } from '../../../../utilities/setGALocation';
 import { useActions } from '../../../../shared/hooks';
 
 const VideoCreation: React.FC = () => {
@@ -130,6 +131,10 @@ const VideoCreation: React.FC = () => {
   const handleOnChange = (value: string) => {
     setSearchValue(value);
   };
+
+  useEffect(() => {
+    setGALocation(window);
+  }, []);
 
   useEffect(() => {
     if (!searchValue) {

@@ -3,6 +3,7 @@ import { useHistory, useParams } from 'react-router-dom';
 import { IExpert } from '../../../lib/types';
 import { getExpertById } from '../../../lib/utilities/API/api';
 import ExpertProfileView from './ExpertProfileView';
+import { setGALocation } from '../../../../utilities/setGALocation';
 import { ERROR_404 } from '../../../lib/constants/errors';
 
 const ExpertProfileViewWrapper: React.FC = () => {
@@ -19,6 +20,10 @@ const ExpertProfileViewWrapper: React.FC = () => {
       setStatusCode(404);
     }
   }, [expertId]);
+
+  useEffect(() => {
+    setGALocation(window);
+  }, []);
 
   useEffect(() => {
     fetchExpert();
