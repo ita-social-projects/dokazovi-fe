@@ -24,8 +24,8 @@ export type OriginType =
 
 export enum PostTypeEnum {
   ARTICLE = 1,
-  DOPYS = 2,
-  VIDEO = 3,
+  DOPYS = 3,
+  VIDEO = 2,
 }
 
 export enum LoadMoreButtonTextType {

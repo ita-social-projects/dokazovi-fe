@@ -42,6 +42,7 @@ const VideoEditorToolbar: React.FC<IEditorToolbarProps> = () => {
         <button title="Sub" type="button" className="ql-script" value="sub" />
         <button title="Quote" type="button" className="ql-blockquote" />
         <button type="button" className="ql-link" />
+        <button type="button" className="ql-video" />
       </span>
     </div>
   );

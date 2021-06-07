@@ -4,10 +4,9 @@ export const useStyles = makeStyles(
   (theme: Theme) => ({
     cardContainer: {
       minHeight: '550px',
-      padding: '70px 225px 150px 225px',
+      padding: '70px 225px 150px',
     },
     wrapper: {
-      width: '855px',
       display: 'flex',
       flexDirection: 'column',
     },
@@ -38,18 +37,21 @@ export const useStyles = makeStyles(
     createdAt: {
       color: theme.palette.info.light,
     },
-
+    video: {
+      width: '1305px',
+      height: '734px',
+      margin: '20px -225px 70px',
+      borderBottom: '1px solid #767676',
+    },
     content: {
       ...theme.typography.body1,
-
       '& p': {
-        marginBottom: theme.spacing(9),
+        marginBottom: theme.spacing(8),
         fontFamily: 'Literata',
         fontWeight: 400,
         fontSize: '17px',
         lineHeight: 1.53,
       },
-
       '& h2': {
         marginBottom: theme.spacing(5),
         fontFamily: 'Raleway',
@@ -82,14 +84,13 @@ export const useStyles = makeStyles(
         fontFamily: 'Literata',
         fontStyle: 'italic',
         fontWeight: 400,
-        fontSize: '17px',
-        lineHeight: 1.53,
+        fontSize: '14px',
+        lineHeight: 1.86,
         textDecoration: 'underline',
         color: '#0000ff',
       },
       '& blockquote': {
-        marginBottom: theme.spacing(9),
-        // margin: '45px 0px',
+        marginBottom: theme.spacing(8),
         padding: '45px 110px',
         textAlign: 'center',
         fontFamily: 'Raleway, normal, sans-serif',
@@ -101,14 +102,14 @@ export const useStyles = makeStyles(
         borderBottom: '#4fdfff solid 1px',
       },
       '& ol': {
-        marginBottom: theme.spacing(9),
+        marginBottom: theme.spacing(8),
         paddingLeft: theme.spacing(5),
         fontFamily: 'Literata',
         fontSize: '17px',
         lineHeight: 1.65,
       },
       '& ul': {
-        marginBottom: theme.spacing(9),
+        marginBottom: theme.spacing(8),
         paddingLeft: theme.spacing(5),
         fontFamily: 'Literata',
         fontSize: '17px',

@@ -36,12 +36,14 @@ const PostView: React.FC<IPostViewProps> = ({
     type: post.type,
     publishedAt: post.publishedAt,
     counter: post.counter,
+    videoUrl: post.videoUrl,
   };
 
   return (
     <Card className={classes.cardContainer}>
       <Box className={classes.wrapper}>
         {post.type.name !== 'Переклад' && <TopSection author={post.author} />}
+
         {modificationAllowed && (
           <Box className={classes.actionsBlock}>
             <Link to={`/edit-post?id=${post.id}`}>
@@ -68,6 +70,15 @@ const PostView: React.FC<IPostViewProps> = ({
           )}
 
           <PostInfo info={postInfo} />
+          {post.type.name === 'Відео' && (
+            <iframe
+              className={classes.video}
+              src={post.videoUrl}
+              title={post.title}
+              width="100%"
+              height="100%"
+            />
+          )}
           <div
             className={classes.content}
             dangerouslySetInnerHTML={{
