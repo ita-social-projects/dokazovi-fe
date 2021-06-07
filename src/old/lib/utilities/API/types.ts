@@ -47,6 +47,7 @@ export type PostResponseType = {
     firstName: string;
     id: number;
     lastName: string;
+    bio: string;
     mainInstitution: {
       city: {
         id: number;
@@ -57,9 +58,11 @@ export type PostResponseType = {
     };
   };
   content: string;
+  counter: number;
   preview: string;
   postType: PostTypeResponseType;
   createdAt: string;
+  publishedAt: string;
   directions: DirectionResponseType[];
   origins: IOrigin[];
   id: number;

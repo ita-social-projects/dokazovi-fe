@@ -99,12 +99,14 @@ export interface IPost {
   id: number;
   title: string;
   content: string;
+  counter: number;
   author: {
     avatar?: string;
     bio: string;
     firstName: string;
     id: number;
     lastName: string;
+    bio?: string;
     mainInstitution: {
       city: {
         id: number;
@@ -118,6 +120,7 @@ export interface IPost {
   tags?: IPostTag[];
   type: IPostType;
   createdAt: string;
+  publishedAt: string;
   modifiedAt?: string;
   origins: IOrigin[];
   preview: string;
