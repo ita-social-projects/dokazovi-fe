@@ -1,7 +1,7 @@
 import axios, { AxiosResponse } from 'axios';
 
 const BASE_URL = 'https://api.imgur.com/3';
-const CLIENT_ID = '7a7ed86d4ab8dfc';
+const CLIENT_ID = process.env.REACT_APP_IMGUR_CLIENT_ID;
 
 export type ImgurPostResponseType = {
   data: { deletehash: string; link: string };
