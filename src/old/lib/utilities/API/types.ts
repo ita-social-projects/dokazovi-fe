@@ -98,6 +98,11 @@ export type ExpertResponseType = {
   qualification: string;
 };
 
+export type ActivePostType = {
+  id: number;
+  name: string;
+};
+
 export type CreateTagRequestType = {
   tag: string;
 };
@@ -199,6 +204,7 @@ export type RequestParamsType = {
   size?: number;
   sort?: string[];
   directions?: number[];
+  direction?: number[];
   type?: number[];
   types?: number[];
   expert?: number;

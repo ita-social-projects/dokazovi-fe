@@ -143,6 +143,7 @@ export interface IExpert {
     id: number;
     title: string;
   };
+  socialNetwork?: string;
 }
 
 export interface IPostTag {

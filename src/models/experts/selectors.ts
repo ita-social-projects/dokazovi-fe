@@ -2,7 +2,8 @@
 import { RootStateType } from '../../old/store/rootReducer';
 import { IExpertsState } from './types';
 import { IMaterialsData } from '../materials/types';
-import { LoadingStatusEnum } from '../../old/lib/types';
+import { LoadingStatusEnum, IExpert } from '../../old/lib/types';
+import { store } from '../../old/store/store';
 
 export const selectExperts = (state: RootStateType): IExpertsState =>
   state.experts;
@@ -16,3 +17,7 @@ export const selectLoadingExpertsPosts = (
 
 export const selectLoadingExperts = (state: RootStateType): LoadingStatusEnum =>
   state.experts.loading;
+
+export const selectExpertById = (state: RootStateType, id: number): IExpert => {
+  return store.getState().experts.data.experts[id];
+};
