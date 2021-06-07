@@ -190,7 +190,7 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
         (filter) =>
           (regionItem && !getUsersPresentProperty(filter.name)) ||
           checkWhetherDisabledDirection(filter.name) ||
-          checkWhetherDisabledPostType(+filter.id),
+          checkWhetherDisabledPostType(Number(filter.id)),
       ),
     ];
     const arrOfDisabledIds: number[] = arrOfDisabled.map((el) => +el.id);
@@ -219,7 +219,7 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
 
         let disabledPostTypeItem = false;
         if (disabledPostTypes?.length) {
-          disabledPostTypeItem = checkWhetherDisabledPostType(+id);
+          disabledPostTypeItem = checkWhetherDisabledPostType(Number(id));
         }
 
         if (!disabledPostTypeItem && disabledPostTypes?.length) {

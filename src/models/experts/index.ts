@@ -5,4 +5,9 @@ export {
   fetchExpertMaterials,
 } from './asyncActions';
 export { resetMaterials, loadPosts, expertsReducer } from './reducers';
-export { selectExperts } from './selectors';
+export {
+  selectExperts,
+  selectLoadingExpertsPosts,
+  selectLoadingExperts,
+  selectExpertsData,
+} from './selectors';

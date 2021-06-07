@@ -35,13 +35,11 @@ import { RootStateType } from '../../../store/rootReducer';
 import {
   fetchExpertMaterials,
   resetMaterials,
+  selectExpertsData,
+  selectLoadingExpertsPosts,
 } from '../../../../models/experts';
 import { getActivePostTypes } from '../../../lib/utilities/API/api';
 import { useActions } from '../../../../shared/hooks';
-import {
-  selectExpertsData,
-  selectLoadingExpertsPosts,
-} from '../../../../models/experts/selectors';
 import { CheckboxLeftsideFilterForm } from '../../../lib/components/Filters/CheckboxLeftsideFilterForm';
 import { ChipsList } from '../../../../components/Chips/ChipsList/ChipsList';
 import { useStyles } from '../styles/ExpertsView.styles';
