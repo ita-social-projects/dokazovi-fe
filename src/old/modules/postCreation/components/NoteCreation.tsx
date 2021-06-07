@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
-import ReactGA from 'react-ga';
 import NoteEditorToolbar from '../../../lib/components/Editor/Editors/NoteEditorToolbar';
 import { PostTypeEnum } from '../../../lib/types';
 import { TextPostCreation } from './TextPostCreation';
+import { setGALocation } from '../../../../utilities/setGALocation';
 
 const NoteCreation: React.FC = () => {
   useEffect(() => {
-    ReactGA.pageview(window.location.pathname + window.location.search);
+    setGALocation(window);
   }, []);
 
   return (

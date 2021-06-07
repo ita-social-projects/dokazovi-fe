@@ -1,5 +1,4 @@
 import React, { useCallback, useState, useEffect } from 'react';
-import ReactGA from 'react-ga';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import _ from 'lodash';
@@ -34,6 +33,7 @@ import { PostDirectionsSelector } from './PostDirectionsSelector';
 import { PostOriginsSelector } from './PostOriginsSelector';
 import { selectCurrentUser } from '../../../../models/user/selectors';
 import { PostAuthorSelection } from './PostAuthorSelection/PostAuthorSelection';
+import { setGALocation } from '../../../../utilities/setGALocation';
 
 const VideoCreation: React.FC = () => {
   const dispatch = useDispatch();
@@ -115,7 +115,7 @@ const VideoCreation: React.FC = () => {
   };
 
   useEffect(() => {
-    ReactGA.pageview(window.location.pathname + window.location.search);
+    setGALocation(window);
   }, []);
 
   useEffect(() => {

@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
-import ReactGA from 'react-ga';
 import ArticleEditorToolbar from '../../../lib/components/Editor/Editors/ArticleEditorToolbar';
 import { PostTypeEnum } from '../../../lib/types';
 import { TextPostCreation } from './TextPostCreation';
+import { setGALocation } from '../../../../utilities/setGALocation';
 
 const ArticleCreation: React.FC = () => {
   useEffect(() => {
-    ReactGA.pageview(window.location.pathname + window.location.search);
+    setGALocation(window);
   }, []);
 
   return (

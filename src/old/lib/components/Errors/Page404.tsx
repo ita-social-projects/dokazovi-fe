@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
-import ReactGA from 'react-ga';
 import { Typography } from '@material-ui/core';
 import { PageTitle } from '../Pages/PageTitle';
+import { setGALocation } from '../../../../utilities/setGALocation';
 
 const Page404: React.FC = () => {
   useEffect(() => {
-    ReactGA.pageview(window.location.pathname + window.location.search);
+    setGALocation(window);
   }, []);
 
   return (

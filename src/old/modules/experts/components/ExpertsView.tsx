@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import ReactGA from 'react-ga';
 import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { isEmpty, uniq } from 'lodash';
@@ -35,6 +34,7 @@ import { selectLoadingExperts } from '../../../../models/experts/selectors';
 import { ChipsList } from '../../../../components/Chips/ChipsList/ChipsList';
 import { declOfNum } from '../../utilities/declOfNum';
 import { useStyles } from '../styles/ExpertsView.styles';
+import { setGALocation } from '../../../../utilities/setGALocation';
 
 const ExpertsView: React.FC = () => {
   const {
@@ -113,7 +113,7 @@ const ExpertsView: React.FC = () => {
   };
 
   useEffect(() => {
-    ReactGA.pageview(window.location.pathname + window.location.search);
+    setGALocation(window);
   }, []);
 
   useEffect(() => {

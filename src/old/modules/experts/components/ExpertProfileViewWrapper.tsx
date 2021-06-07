@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import ReactGA from 'react-ga';
 import { useHistory, useParams } from 'react-router-dom';
 import { IExpert } from '../../../lib/types';
 import { getExpertById } from '../../../lib/utilities/API/api';
 import ExpertProfileView from './ExpertProfileView';
+import { setGALocation } from '../../../../utilities/setGALocation';
 
 const ExpertProfileViewWrapper: React.FC = () => {
   const { expertId } = useParams<{ expertId: string }>();
@@ -21,7 +21,7 @@ const ExpertProfileViewWrapper: React.FC = () => {
   }, [expertId]);
 
   useEffect(() => {
-    ReactGA.pageview(window.location.pathname + window.location.search);
+    setGALocation(window);
   }, []);
 
   useEffect(() => {

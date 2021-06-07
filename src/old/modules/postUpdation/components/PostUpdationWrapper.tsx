@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import ReactGA from 'react-ga';
 import { useHistory } from 'react-router-dom';
 import { getPostById } from '../../../lib/utilities/API/api';
 import { IPost } from '../../../lib/types';
@@ -8,6 +7,7 @@ import { ArticleUpdation } from './ArticleUpdation';
 import { NoteUpdation } from './NoteUpdation';
 import VideoUpdation from './VideoUpdation';
 import { useQuery } from '../../../lib/hooks/useQuery';
+import { setGALocation } from '../../../../utilities/setGALocation';
 
 const PostUpdationWrapper: React.FC = () => {
   const query = useQuery();
@@ -36,7 +36,7 @@ const PostUpdationWrapper: React.FC = () => {
   }, [postId]);
 
   useEffect(() => {
-    ReactGA.pageview(window.location.pathname + window.location.search);
+    setGALocation(window);
   }, []);
 
   useEffect(() => {

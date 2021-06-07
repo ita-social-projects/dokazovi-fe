@@ -2,7 +2,6 @@
 import { Grid, Typography, Box } from '@material-ui/core';
 import { isEmpty, uniq } from 'lodash';
 import React, { useEffect, useState } from 'react';
-import ReactGA from 'react-ga';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { CheckboxFormStateType } from '../../../lib/components/Filters/CheckboxFilterForm';
@@ -36,6 +35,7 @@ import { CheckboxLeftsideFilterForm } from '../../../lib/components/Filters/Chec
 import { ChipsList } from '../../../../components/Chips/ChipsList/ChipsList';
 import { declOfNum } from '../../utilities/declOfNum';
 import { useStyles } from '../styles/MaterialsView.styles';
+import { setGALocation } from '../../../../utilities/setGALocation';
 
 const MaterialsView: React.FC = () => {
   const {
@@ -210,7 +210,7 @@ const MaterialsView: React.FC = () => {
   };
 
   useEffect(() => {
-    ReactGA.pageview(window.location.pathname + window.location.search);
+    setGALocation(window);
   }, []);
 
   useEffect(() => {
