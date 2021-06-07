@@ -20,21 +20,32 @@ import {
   fetchOrigins,
   fetchPostsTypes,
   fetchRegions,
-} from './models/properties/asyncActions';
+} from './models/properties';
+import { useActions } from './shared/hooks';
 
 ReactGA.initialize('UA-197683102-1', {
   testMode: process.env.NODE_ENV === 'test',
 });
 
 export const App: React.FC = () => {
-  const dispatch = useDispatch();
+  const [
+    boundFetchDirections,
+    boundFetchOrigins,
+    boundFetchPostsTypes,
+    boundFetchRegions,
+  ] = useActions([
+    fetchDirections,
+    fetchOrigins,
+    fetchPostsTypes,
+    fetchRegions,
+  ]);
 
   useEffect(() => {
     const fetchProperties = () => {
-      dispatch(fetchPostsTypes());
-      dispatch(fetchRegions());
-      dispatch(fetchDirections());
-      dispatch(fetchOrigins());
+      boundFetchDirections();
+      boundFetchOrigins();
+      boundFetchPostsTypes();
+      boundFetchRegions();
     };
     fetchProperties();
   }, []);

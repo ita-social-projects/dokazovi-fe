@@ -1,22 +1,23 @@
-import React, { useCallback, useState, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import _ from 'lodash';
-import { Typography, TextField, Box } from '@material-ui/core';
+import { Box, TextField, Typography } from '@material-ui/core';
 import VideoEditor from '../../../lib/components/Editor/Editors/VideoEditor';
 import {
-  setPostTitle,
-  setAuthorsName,
+  resetDraft,
+  selectVideoPostDraft,
+  selectVideoUrl,
+  setAuthorId,
   setAuthorsDetails,
+  setAuthorsName,
   setPostBody,
-  setVideoUrl,
   setPostDirections,
   setPostOrigin,
-  resetDraft,
-  setAuthorId,
-} from '../store/postCreationSlice';
+  setPostTitle,
+  setVideoUrl,
+} from '../../../../models/postCreation';
 import { IDirection, IOrigin, IPost, PostTypeEnum } from '../../../lib/types';
-import { RootStateType } from '../../../store/rootReducer';
 import { sanitizeHtml } from '../../../lib/utilities/sanitizeHtml';
 import { parseVideoIdFromUrl } from '../../../lib/utilities/parseVideoIdFromUrl';
 import VideoUrlInputModal from '../../../lib/components/Editor/CustomModules/VideoUrlInputModal';
@@ -34,14 +35,13 @@ import { PostOriginsSelector } from './PostOriginsSelector';
 import { selectCurrentUser } from '../../../../models/user/selectors';
 import { PostAuthorSelection } from './PostAuthorSelection/PostAuthorSelection';
 import { setGALocation } from '../../../../utilities/setGALocation';
+import { useActions } from '../../../../shared/hooks';
 
 const VideoCreation: React.FC = () => {
-  const dispatch = useDispatch();
   const history = useHistory();
 
-  const savedPostDraft = useSelector(
-    (state: RootStateType) => state.newPostDraft[PostTypeEnum.VIDEO],
-  );
+  const savedPostDraft = useSelector(selectVideoPostDraft);
+
   const user = useSelector(selectCurrentUser);
 
   const [title, setTitle] = useState({
@@ -65,46 +65,64 @@ const VideoCreation: React.FC = () => {
   const [author, setAuthor] = useState<ExpertResponseType | null>(null);
   const [searchValue, setSearchValue] = useState('');
 
-  const videoUrl = useSelector(
-    (state: RootStateType) => state.newPostDraft[PostTypeEnum.VIDEO].videoUrl,
-  );
+  const videoUrl = useSelector(selectVideoUrl);
 
   const videoId = parseVideoIdFromUrl(videoUrl);
 
+  const [
+    boundSetPostDirections,
+    boundSetPostOrigin,
+    boundSetPostTitle,
+    boundSetAuthorsName,
+    boundSetAuthorsDetails,
+    boundSetVideoUrl,
+    boundSetPostBody,
+    boundSetAuthorId,
+    boundResetDraft,
+  ] = useActions([
+    setPostDirections,
+    setPostOrigin,
+    setPostTitle,
+    setAuthorsName,
+    setAuthorsDetails,
+    setVideoUrl,
+    setPostBody,
+    setAuthorId,
+    resetDraft,
+  ]);
+
   const handleDirectionsChange = (value: IDirection[]) => {
-    dispatch(setPostDirections({ postType: PostTypeEnum.VIDEO, value }));
+    boundSetPostDirections({ postType: PostTypeEnum.VIDEO, value });
   };
 
   const handleOriginsChange = (value: IOrigin[]) => {
     setAuthName({ ...authorsName, value: '' });
     setAuthDetails({ ...authorsDetails, value: '' });
-    dispatch(setPostOrigin({ postType: PostTypeEnum.VIDEO, value }));
+    boundSetPostOrigin({ postType: PostTypeEnum.VIDEO, value });
   };
 
   const handleTitleChange = (value: string) => {
-    dispatch(setPostTitle({ postType: PostTypeEnum.VIDEO, value }));
+    boundSetPostTitle({ postType: PostTypeEnum.VIDEO, value });
   };
 
   const handleAuthorsNameChange = (value: string) => {
-    dispatch(setAuthorsName({ postType: PostTypeEnum.VIDEO, value }));
+    boundSetAuthorsName({ postType: PostTypeEnum.VIDEO, value });
   };
 
   const handleAuthorsDetailsChange = (value: string) => {
-    dispatch(setAuthorsDetails({ postType: PostTypeEnum.VIDEO, value }));
+    boundSetAuthorsDetails({ postType: PostTypeEnum.VIDEO, value });
   };
 
   const handleVideoUrlChange = (url: string) => {
-    dispatch(setVideoUrl(url));
+    boundSetVideoUrl(url);
   };
 
   const handleHtmlContentChange = useCallback(
     _.debounce((value: string) => {
-      dispatch(
-        setPostBody({
-          postType: PostTypeEnum.VIDEO,
-          value: sanitizeHtml(value),
-        }),
-      );
+      boundSetPostBody({
+        postType: PostTypeEnum.VIDEO,
+        value: sanitizeHtml(value),
+      });
       setTyping({ ...typing, content: false });
     }, CONTENT_DEBOUNCE_TIMEOUT),
     [],
@@ -129,12 +147,10 @@ const VideoCreation: React.FC = () => {
   }, [searchValue]);
 
   const onAuthorTableClick = (value: number, item: ExpertResponseType) => {
-    dispatch(
-      setAuthorId({
-        postType: PostTypeEnum.VIDEO,
-        value,
-      }),
-    );
+    boundSetAuthorId({
+      postType: PostTypeEnum.VIDEO,
+      value,
+    });
     setAuthor(item);
     setAuthors([]);
     setSearchValue('');
@@ -155,7 +171,7 @@ const VideoCreation: React.FC = () => {
 
   const handlePublishClick = async () => {
     const responsePost = await createPost(newPost);
-    dispatch(resetDraft(PostTypeEnum.VIDEO));
+    boundResetDraft(PostTypeEnum.VIDEO);
     history.push(`/posts/${responsePost.data.id}`);
   };
 

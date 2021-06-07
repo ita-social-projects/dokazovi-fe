@@ -4,6 +4,7 @@ import { IExpert } from '../../../lib/types';
 import { getExpertById } from '../../../lib/utilities/API/api';
 import ExpertProfileView from './ExpertProfileView';
 import { setGALocation } from '../../../../utilities/setGALocation';
+import { ERROR_404 } from '../../../lib/constants/errors';
 
 const ExpertProfileViewWrapper: React.FC = () => {
   const { expertId } = useParams<{ expertId: string }>();
@@ -29,7 +30,7 @@ const ExpertProfileViewWrapper: React.FC = () => {
   }, [fetchExpert]);
 
   if (statusCode === 404) {
-    history.push('/error_404');
+    history.push(ERROR_404);
   }
 
   return <>{loadedExpert && <ExpertProfileView expert={loadedExpert} />}</>;

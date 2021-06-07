@@ -27,8 +27,9 @@ export const VideoPostPreviewCard: React.FC<IPostPreviewCardProps> = ({
         style={{
           backgroundImage: `url(${bgImageURL})`,
         }}
+        data-testid="bgImage"
       >
-        <Box className={classes.play} />
+        <Box className={classes.play} data-testid="video-icon" />
       </Box>
       <Box className={classes.body}>
         <Typography
@@ -45,9 +46,10 @@ export const VideoPostPreviewCard: React.FC<IPostPreviewCardProps> = ({
           color="textPrimary"
           component="p"
           className={classes.textBody}
-        >
-          {post.preview}
-        </Typography>
+          dangerouslySetInnerHTML={{
+            __html: post.preview,
+          }}
+        />
         <Box mb={6}>
           <Typography variant="caption" color="textSecondary">
             {formatDate(post.createdAt)}
@@ -56,7 +58,6 @@ export const VideoPostPreviewCard: React.FC<IPostPreviewCardProps> = ({
       </Box>
     </>
   );
-
   return (
     <Card className={classes.root}>
       {shouldNotUseLink ? card : <Link to={postLink}>{card}</Link>}

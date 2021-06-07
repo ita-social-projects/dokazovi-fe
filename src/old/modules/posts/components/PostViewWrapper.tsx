@@ -7,6 +7,7 @@ import PostView from './PostView';
 import { sanitizeHtml } from '../../../lib/utilities/sanitizeHtml';
 import { PageTitle } from '../../../lib/components/Pages/PageTitle';
 import { setGALocation } from '../../../../utilities/setGALocation';
+import { ERROR_404 } from '../../../lib/constants/errors';
 
 const PostViewWrapper: React.FC = () => {
   const { postId } = useParams<{ postId: string }>();
@@ -54,7 +55,7 @@ const PostViewWrapper: React.FC = () => {
   }, [fetchPost]);
 
   if (statusCode === 404) {
-    history.push('/error_404');
+    history.push(ERROR_404);
   }
 
   return (

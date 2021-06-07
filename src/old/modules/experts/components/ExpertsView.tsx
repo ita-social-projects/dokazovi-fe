@@ -13,7 +13,11 @@ import {
   ChipFilterEnum,
   ChipFilterType,
 } from '../../../lib/types';
-import { fetchExperts, selectExperts } from '../../../../models/experts';
+import {
+  fetchExperts,
+  selectExperts,
+  selectLoadingExperts,
+} from '../../../../models/experts';
 import { RootStateType } from '../../../store/rootReducer';
 import { ExpertsList } from '../../../lib/components/Experts/ExpertsList';
 import { LoadMoreButton } from '../../../lib/components/LoadMoreButton/LoadMoreButton';
@@ -30,7 +34,6 @@ import { useQuery } from '../../../lib/hooks/useQuery';
 import { CheckboxLeftsideFilterForm } from '../../../lib/components/Filters/CheckboxLeftsideFilterForm';
 import { LOAD_EXPERTS_LIMIT } from '../../../lib/constants/experts';
 import { useActions } from '../../../../shared/hooks';
-import { selectLoadingExperts } from '../../../../models/experts/selectors';
 import { ChipsList } from '../../../../components/Chips/ChipsList/ChipsList';
 import { declOfNum } from '../../utilities/declOfNum';
 import { useStyles } from '../styles/ExpertsView.styles';
