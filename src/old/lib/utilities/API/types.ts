@@ -43,7 +43,6 @@ export type UpdatePostRequestUnionType =
 export type PostResponseType = {
   author: {
     avatar: string;
-    bio: string;
     firstName: string;
     id: number;
     lastName: string;

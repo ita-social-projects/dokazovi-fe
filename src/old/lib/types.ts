@@ -102,7 +102,6 @@ export interface IPost {
   counter: number;
   author: {
     avatar?: string;
-    bio: string;
     firstName: string;
     id: number;
     lastName: string;
@@ -136,7 +135,7 @@ export interface IExpert {
   qualification?: string;
   phone?: string;
   email?: string;
-  bio?: string;
+  bio: string;
   mainInstitution?: IInstitution;
   mainDirection?: IDirection;
   directions?: IDirection[];
