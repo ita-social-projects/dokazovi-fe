@@ -110,10 +110,10 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
     ...post,
     author: {
       avatar: author?.avatar ?? post.author.avatar,
+      bio: author?.bio ?? post.author.bio,
       firstName: author?.firstName ?? post.author.firstName,
       id: author?.id ?? post.author.id,
       lastName: author?.lastName ?? post.author.lastName,
-      bio: post.author.bio,
       mainInstitution: author?.mainInstitution ?? post.author.mainInstitution,
     },
     content: htmlContent,

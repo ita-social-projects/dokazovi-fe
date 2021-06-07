@@ -135,7 +135,7 @@ export interface IExpert {
   qualification?: string;
   phone?: string;
   email?: string;
-  bio?: string;
+  bio: string;
   mainInstitution?: IInstitution;
   mainDirection?: IDirection;
   directions?: IDirection[];

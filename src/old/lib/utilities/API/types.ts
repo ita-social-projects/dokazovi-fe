@@ -75,6 +75,7 @@ export type PostResponseType = {
 
 export type ExpertResponseType = {
   avatar: string;
+  bio: string;
   firstName: string;
   id: number;
   lastAddedPost: {
