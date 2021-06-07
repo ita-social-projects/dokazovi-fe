@@ -40,5 +40,46 @@ export const useStyles = makeStyles({
   formControlLabel: {
     height: '30px',
     width: '260px',
+    margin: '0 0 0 -8px',
+  },
+  filtersWrapper: {
+    width: '280px',
+  },
+  filterTitle: {
+    fontFamily: 'Raleway',
+    fontStyle: 'normal',
+    width: '265px',
+    fontSize: '18px',
+    lineHeight: '18px',
+    fontWeight: 'bold',
+  },
+  divider: {
+    width: '280px',
+    height: '4px',
+    background: '#000000',
+    margin: '2px 0 20px 0',
+  },
+  formGroup: {
+    margin: '0 0 55px 0',
+    height: 'auto',
+    display: 'flex',
+    flexDirection: 'column',
+    flexWrap: 'nowrap',
+  },
+  allCheckedTrue: {
+    fontFamily: 'Raleway',
+    fontStyle: 'normal',
+    fontSize: '16px',
+    lineHeight: '18px',
+    fontWeight: 700,
+    color: '#000000',
+  },
+  allCheckedFalse: {
+    fontFamily: 'Raleway',
+    fontStyle: 'normal',
+    fontSize: '16px',
+    lineHeight: '18px',
+    fontWeight: 500,
+    color: '#000000',
   },
 });

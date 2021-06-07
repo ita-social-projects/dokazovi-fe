@@ -49,7 +49,6 @@ export const FilterItemsList: React.FC<IFilterItemsListProps> = ({
                 />
               );
             }
-
             return (
               <PostDirectionItem
                 key={directionName}

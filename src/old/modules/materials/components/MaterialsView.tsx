@@ -35,6 +35,7 @@ import { CheckboxLeftsideFilterForm } from '../../../lib/components/Filters/Chec
 import { ChipsList } from '../../../../components/Chips/ChipsList/ChipsList';
 import { declOfNum } from '../../utilities/declOfNum';
 import { useStyles } from '../styles/MaterialsView.styles';
+import { setGALocation } from '../../../../utilities/setGALocation';
 
 const MaterialsView: React.FC = () => {
   const {
@@ -207,6 +208,10 @@ const MaterialsView: React.FC = () => {
   const loadMore = () => {
     setPage(page + 1);
   };
+
+  useEffect(() => {
+    setGALocation(window);
+  }, []);
 
   useEffect(() => {
     const appendPosts = previous && previous.page < page;

@@ -14,6 +14,8 @@ export interface IChipsListProps {
     arg0: number | undefined,
     arg1: ChipFilterType | undefined,
   ) => void;
+  TheOnlyAvailablePostType?: string;
+  TheOnlyAvailableDirection?: string;
 }
 
 export const ChipsList: React.FC<IChipsListProps> = ({
@@ -21,6 +23,8 @@ export const ChipsList: React.FC<IChipsListProps> = ({
   chipsListType,
   handleDelete,
   filtersPlural,
+  TheOnlyAvailablePostType,
+  TheOnlyAvailableDirection,
 }) => {
   const { directions } = useSelector(
     (state: RootStateType) => state.properties,
@@ -49,6 +53,25 @@ export const ChipsList: React.FC<IChipsListProps> = ({
       handleDelete(key, chipsListType);
     }
   };
+
+  if (TheOnlyAvailablePostType) {
+    return (
+      <PostDirectionChip
+        key={TheOnlyAvailablePostType}
+        labelName={TheOnlyAvailablePostType}
+        theOnlyAvailable={Boolean(TheOnlyAvailablePostType)}
+      />
+    );
+  }
+  if (TheOnlyAvailableDirection) {
+    return (
+      <PostDirectionChip
+        key={TheOnlyAvailableDirection}
+        labelName={TheOnlyAvailableDirection}
+        theOnlyAvailable={Boolean(TheOnlyAvailableDirection)}
+      />
+    );
+  }
 
   return (
     <>

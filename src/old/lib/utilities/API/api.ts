@@ -21,6 +21,7 @@ import {
   CreatePostRequestUnionType,
   UpdatePostRequestUnionType,
   NewestPostsResponseType,
+  ActivePostType,
 } from './types';
 import { BASE_URL } from '../../../apiURL';
 import { getToken } from '../../../provider/AuthProvider/getToken';
@@ -79,6 +80,12 @@ export const getPosts = async (
     ...defaultConfig,
     ...config,
   });
+};
+
+export const getActivePostTypes = async (
+  userId: number,
+): Promise<AxiosResponse<ActivePostType[]>> => {
+  return instance.get(`/post-types/${userId}`);
 };
 
 export const getNewestPosts = async (): Promise<

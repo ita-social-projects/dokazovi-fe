@@ -7,6 +7,8 @@ import { ArticleUpdation } from './ArticleUpdation';
 import { NoteUpdation } from './NoteUpdation';
 import VideoUpdation from './VideoUpdation';
 import { useQuery } from '../../../lib/hooks/useQuery';
+import { setGALocation } from '../../../../utilities/setGALocation';
+import { ERROR_404 } from '../../../lib/constants/errors';
 
 const PostUpdationWrapper: React.FC = () => {
   const query = useQuery();
@@ -35,11 +37,15 @@ const PostUpdationWrapper: React.FC = () => {
   }, [postId]);
 
   useEffect(() => {
+    setGALocation(window);
+  }, []);
+
+  useEffect(() => {
     fetchPost();
   }, []);
 
   if (statusCode === 404) {
-    history.push('/error_404');
+    history.push(ERROR_404);
   }
 
   return (

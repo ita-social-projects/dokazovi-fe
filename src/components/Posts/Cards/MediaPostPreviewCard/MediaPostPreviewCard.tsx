@@ -23,13 +23,14 @@ export const MediaPostPreviewCard: React.FC<IPostPreviewCardProps> = ({
         flexDirection="column"
         flexWrap="no-wrap"
         justifyContent="space-between"
+        data-testid="bgImage"
       >
         <Typography
           className={classes.postType}
           variant="overline"
           component="span"
         >
-          Медитка
+          Медитека
         </Typography>
       </Box>
       <Box className={classes.body}>

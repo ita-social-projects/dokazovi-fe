@@ -17,9 +17,6 @@ export const ExpertOpinionPostPreviewCard: React.FC<IPostPreviewCardProps> = ({
   const expertLink = `/experts/${post.author.id}`;
   const postLink = `/posts/${post.id}`;
   const authorFullName = `${post.author.firstName} ${post.author.lastName}`;
-  const authorMainInstitution = post.author.mainInstitution
-    ? `${post.author.mainInstitution.city.name}, ${post.author.mainInstitution.name}`
-    : '';
 
   const expertBody = (
     <Box
@@ -63,6 +60,7 @@ export const ExpertOpinionPostPreviewCard: React.FC<IPostPreviewCardProps> = ({
           image={post.author.avatar} // paste default avatar if not present
           title={authorFullName}
           component="div"
+          data-testid="avatar"
         />
       </Box>
       <Typography
@@ -71,7 +69,7 @@ export const ExpertOpinionPostPreviewCard: React.FC<IPostPreviewCardProps> = ({
         component="span"
         gutterBottom
       >
-        {authorMainInstitution}
+        {post.author.bio}
       </Typography>
     </Box>
   );

@@ -135,7 +135,7 @@ export interface IExpert {
   qualification?: string;
   phone?: string;
   email?: string;
-  bio?: string;
+  bio: string;
   mainInstitution?: IInstitution;
   mainDirection?: IDirection;
   directions?: IDirection[];
@@ -143,6 +143,7 @@ export interface IExpert {
     id: number;
     title: string;
   };
+  socialNetwork?: string;
 }
 
 export interface IPostTag {

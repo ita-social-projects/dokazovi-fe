@@ -12,10 +12,12 @@ import { store } from '../../../store/store';
 import { useStyles } from './CheckboxLeftsideFilterForm.styles';
 import { FilterItemsList } from '../FilterItems/FilterItemsList';
 import { CheckboxFormStateType } from './CheckboxFilterForm';
+import { IDirection, IPostType } from '../../types';
 
 interface IFilter {
   id: string | number;
   name: string;
+  label?: string;
 }
 
 export interface ICheckboxLeftsideFilterFormProps {
@@ -25,6 +27,10 @@ export interface ICheckboxLeftsideFilterFormProps {
   filterTitle: string;
   allTitle: string;
   handleDelete?: () => void;
+  expertId?: number;
+  disabledDirections?: IDirection[] | undefined;
+  disabledPostTypes?: IPostType[] | undefined;
+  setTheOnlyAvailableFilter?: (name: string) => void;
 }
 
 export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormProps> = ({
@@ -33,6 +39,9 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
   selectedFilters,
   filterTitle,
   allTitle,
+  disabledDirections,
+  disabledPostTypes,
+  setTheOnlyAvailableFilter,
 }) => {
   const [disabledCheckBoxesIds, setDisabledCheckBoxesIds] = useState<
     number[]
@@ -129,7 +138,6 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
   const getUsersPresentProperty = (filterName: string | undefined) => {
     const allRegions = store.getState().properties.regions;
     let result: boolean | undefined = false;
-
     if (allRegions.find((reg) => reg.name === filterName)) {
       if (regionItem === false) {
         setRegionItem(true);
@@ -140,6 +148,28 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
     }
 
     return result;
+  };
+
+  const checkWhetherDisabledDirection = (filterName: string | undefined) => {
+    if (disabledDirections?.length) {
+      if (
+        disabledDirections.find((el) => el.name === filterName) === undefined
+      ) {
+        return false;
+      }
+      return true;
+    }
+    return false;
+  };
+
+  const checkWhetherDisabledPostType = (id: number | undefined) => {
+    if (disabledPostTypes?.length) {
+      if (disabledPostTypes.find((el) => el.id === id) === undefined) {
+        return false;
+      }
+      return true;
+    }
+    return false;
   };
 
   const getHasMaterialsProperty = (filterName: string | undefined) => {
@@ -157,24 +187,82 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
   useEffect(() => {
     const arrOfDisabled = [
       ...possibleFilters.filter(
-        (filter) => regionItem && !getUsersPresentProperty(filter.name),
+        (filter) =>
+          (regionItem && !getUsersPresentProperty(filter.name)) ||
+          checkWhetherDisabledDirection(filter.name) ||
+          checkWhetherDisabledPostType(Number(filter.id)),
       ),
     ];
     const arrOfDisabledIds: number[] = arrOfDisabled.map((el) => +el.id);
 
     setDisabledCheckBoxesIds(arrOfDisabledIds);
-  }, []);
+  }, [disabledPostTypes, disabledDirections]);
+
+  let theOnlyAvailableFilter = false;
+  if (
+    disabledCheckBoxesIds &&
+    possibleFilters.length - disabledCheckBoxesIds.length === 1
+  ) {
+    theOnlyAvailableFilter = true;
+  }
+
+  useEffect(() => {
+    if (theOnlyAvailableFilter && setTheOnlyAvailableFilter) {
+      possibleFilters.map((filter) => {
+        const id = filter.id.toString();
+        const filterName = filter.name;
+
+        let disabledDirectionItem = false;
+        if (disabledDirections?.length) {
+          disabledDirectionItem = checkWhetherDisabledDirection(filterName);
+        }
+
+        let disabledPostTypeItem = false;
+        if (disabledPostTypes?.length) {
+          disabledPostTypeItem = checkWhetherDisabledPostType(Number(id));
+        }
+
+        if (!disabledPostTypeItem && disabledPostTypes?.length) {
+          setTheOnlyAvailableFilter(filterName);
+        }
+        if (
+          !disabledDirectionItem &&
+          disabledDirections?.length &&
+          filter.label
+        ) {
+          setTheOnlyAvailableFilter(filter.label);
+        }
+
+        return null;
+      });
+    }
+  }, [theOnlyAvailableFilter]);
 
   const checkBoxes = possibleFilters.map((filter) => {
     const id = filter.id.toString();
     const filterName = filter.name;
-    const disabled = !getUsersPresentProperty(filterName);
+
+    const disabledRegionItem =
+      !getUsersPresentProperty(filterName) && regionItem;
+    let disabledDirectionItem = false;
+    if (disabledDirections?.length) {
+      disabledDirectionItem = checkWhetherDisabledDirection(filterName);
+    }
+
+    let disabledPostTypeItem = false;
+    if (disabledPostTypes?.length) {
+      disabledPostTypeItem = checkWhetherDisabledPostType(+id);
+    }
+
     const allDirections = store.getState().properties.directions;
     const isDirection = allDirections.find((dir) => dir.name === filterName);
 
     if (isDirection && !getHasMaterialsProperty(filterName)) {
       return null;
     }
+
+    const disabledFilter =
+      disabledRegionItem || disabledDirectionItem || disabledPostTypeItem;
 
     return (
       <FormControlLabel
@@ -183,16 +271,16 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
         label={
           <FilterItemsList
             checkedNames={filter.name}
-            isDisabledFilter={disabled && regionItem}
-            checked={regionItem && disabled ? false : checked[id]}
+            isDisabledFilter={disabledFilter || theOnlyAvailableFilter}
+            checked={disabledFilter ? false : checked[id]}
           />
         }
         control={
           <Checkbox
-            checked={regionItem && disabled ? false : checked[id]}
+            checked={disabledFilter ? false : checked[id]}
             onChange={(event) => onCheckboxCheck(event)}
             name={id}
-            disabled={regionItem && disabled}
+            disabled={disabledFilter || theOnlyAvailableFilter}
             icon={<span className={classes.icon} />}
             checkedIcon={<span className={classes.checkedIcon} />}
           />
@@ -202,42 +290,17 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
   });
 
   return (
-    <Box mt={2}>
+    <Box mt={2} className={classes.filtersWrapper}>
       <Grid container>
-        <Grid item style={{ marginLeft: '15px' }}>
-          <Typography
-            variant="h5"
-            style={{
-              fontFamily: 'Raleway',
-              fontStyle: 'normal',
-              width: '265px',
-              fontSize: '18px',
-              lineHeight: '18px',
-              fontWeight: 'bold',
-            }}
-          >
+        <Grid item>
+          <Typography variant="h5" className={classes.filterTitle}>
             {filterTitle}
           </Typography>
-          <div
-            style={{
-              width: '280px',
-              height: '4px',
-              background: '#000000',
-              margin: '2px 0 20px 0',
-            }}
-          />
+          <div className={classes.divider} />
         </Grid>
       </Grid>
       <Grid container>
-        <FormGroup
-          style={{
-            margin: '0 0 55px 15px',
-            height: 'auto',
-            display: 'flex',
-            flexDirection: 'column',
-            flexWrap: 'nowrap',
-          }}
-        >
+        <FormGroup className={classes.formGroup}>
           <FormControlLabel
             style={{ width: '100%' }}
             className={classes.formControlLabel}
@@ -247,30 +310,20 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
                 checked={allChecked}
                 onChange={onCheckboxAllChange}
                 name="All"
+                disabled={theOnlyAvailableFilter}
                 icon={<span className={classes.icon} />}
                 checkedIcon={<span className={classes.checkedIcon} />}
               />
             }
             label={
               <Typography
+                className={
+                  allChecked ? classes.allCheckedTrue : classes.allCheckedFalse
+                }
                 style={
-                  allChecked
-                    ? {
-                        fontFamily: 'Raleway',
-                        fontStyle: 'normal',
-                        fontSize: '16px',
-                        lineHeight: '18px',
-                        fontWeight: 700,
-                        color: '#000000',
-                      }
-                    : {
-                        fontFamily: 'Raleway',
-                        fontStyle: 'normal',
-                        fontSize: '16px',
-                        lineHeight: '18px',
-                        fontWeight: 500,
-                        color: '#000000',
-                      }
+                  theOnlyAvailableFilter
+                    ? { fontWeight: 500, color: '#767676' }
+                    : { fontWeight: 700 }
                 }
               >
                 {allTitle}
