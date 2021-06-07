@@ -26,16 +26,13 @@ import {
   mapQueryIdsStringToArray,
 } from '../../../lib/utilities/filters';
 import { RootStateType } from '../../../store/rootReducer';
-import { selectPostsByIds } from '../../../store/selectors';
 import {
   fetchExpertMaterials,
   resetMaterials,
-} from '../../../../models/experts';
-import { useActions } from '../../../../shared/hooks';
-import {
   selectExpertsData,
   selectLoadingExpertsPosts,
-} from '../../../../models/experts/selectors';
+} from '../../../../models/experts';
+import { useActions } from '../../../../shared/hooks';
 
 export interface IExpertMaterialsContainerProps {
   expertId: number;
