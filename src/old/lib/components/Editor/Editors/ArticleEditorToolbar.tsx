@@ -10,8 +10,8 @@ const ArticleEditorToolbar: React.FC<IEditorToolbarProps> = ({ editor }) => {
         <select className="ql-header" defaultValue="">
           <option value="2">Заголовок 1</option>
           <option value="3">Заголовок 2</option>
-          <option value="4">Для вступу</option>
-          <option value="5">Для приміток</option>
+          <option value="4">Вступ</option>
+          <option value="5">Примітка</option>
           <option value="">Звичайний</option>
         </select>
       </span>

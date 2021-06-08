@@ -8,8 +8,8 @@ const VideoEditorToolbar: React.FC<IEditorToolbarProps> = () => {
       <span className="ql-formats">
         <select className="ql-header" defaultValue="">
           <option value="3">Заголовок</option>
-          <option value="4">Для вступу</option>
-          <option value="5">Для приміток</option>
+          <option value="4">Вступ</option>
+          <option value="5">Примітка</option>
           <option value="">Звичайний</option>
         </select>
       </span>
