@@ -30,7 +30,7 @@ const PostView: React.FC<IPostViewProps> = ({
     origins: post.origins,
     type: post.type,
     publishedAt: post.publishedAt,
-    counter: post.counter,
+    uniqueViewsCounter: post.uniqueViewsCounter,
   };
 
   return (

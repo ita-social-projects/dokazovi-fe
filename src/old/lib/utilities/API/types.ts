@@ -57,7 +57,6 @@ export type PostResponseType = {
     };
   };
   content: string;
-  counter: number;
   preview: string;
   postType: PostTypeResponseType;
   createdAt: string;
