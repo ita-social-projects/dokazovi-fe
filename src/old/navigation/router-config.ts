@@ -21,7 +21,7 @@ const NoteCreation = lazy(
   () => import('../modules/postCreation/components/NoteCreation'),
 );
 const VideoCreation = lazy(
-  () => import('../modules/postCreation/components/VideoCreation'),
+  () => import('../../features/postCreation/VideoCreation/VideoCreation'),
 );
 const PostUpdationWrapper = lazy(
   () => import('../modules/postUpdation/components/PostUpdationWrapper'),

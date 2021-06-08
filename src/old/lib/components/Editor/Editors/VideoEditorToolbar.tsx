@@ -2,7 +2,7 @@ import React from 'react';
 import '../generalEditor.styles.css';
 import { IEditorToolbarProps } from '../types';
 
-const VideoEditorToolbar: React.FC<IEditorToolbarProps> = () => {
+export const VideoEditorToolbar: React.FC<IEditorToolbarProps> = () => {
   return (
     <div id="toolbar">
       <span className="ql-formats">
@@ -46,5 +46,3 @@ const VideoEditorToolbar: React.FC<IEditorToolbarProps> = () => {
     </div>
   );
 };
-
-export default VideoEditorToolbar;
