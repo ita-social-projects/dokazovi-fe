@@ -52,11 +52,6 @@ s {
   min-height: 560px;
 }
 
-/* .ql-editor > h1,
-h2 {
-  line-height: 2rem;
-} */
-
 .show {
   display: block;
 }
@@ -82,12 +77,6 @@ figure > img {
   display: block;
   margin: 0 auto;
 }
-
-/* .imageTitle {
-  font-weight: bold;
-  line-height: 2rem;
-  margin-right: 1.2rem;
-} */
 
 .imageTitle {
   font-family: 'Literata';
@@ -153,19 +142,3 @@ blockquote {
   text-decoration: underline;
   color: #0000ff;
 }
-
-/* 
-.ql-font-literata,
-.ql-font span[data-value='literata']::before {
-} */
-
-/* .ql-font-literata {
-  display: flex;
-  font-family: 'Literata', italic, sans-serif;
-  font-weight: 400;
-  font-size: 14px;
-  color: #767676;
-  line-height: 1;
-  border-bottom: 1px solid #cccccc;
-  padding-bottom: 40px;
-} */

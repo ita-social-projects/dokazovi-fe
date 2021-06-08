@@ -10,11 +10,6 @@ import { ConfirmationModalWithButton } from '../../../lib/components/Modals/Conf
 import PostInfo from '../../../../components/Posts/PostInfo/PostInfo';
 import TopSection from '../../../../components/Posts/TopSection/TopSection';
 import SecondTopSection from '../../../../components/Posts/SecondTopSection/SecondTopSection';
-// import {
-//   MEDIATEKA_ARTICLE_MOCK,
-//   MEDIATEKA_ARTICLE_SmHeaders_MOCK,
-//   MEDIATEKA_ARTICLE_Intro_SmHeaders_MOCK,
-// } from '../__mocks__/postContent';
 
 export interface IPostViewProps {
   post: IPost;
@@ -42,7 +37,9 @@ const PostView: React.FC<IPostViewProps> = ({
   return (
     <Card className={classes.cardContainer}>
       <Box className={classes.wrapper}>
-        {post.type.name !== 'Переклад' && <TopSection author={post.author} />}
+        {post.origins[0].name !== 'Переклад' && (
+          <TopSection author={post.author} />
+        )}
 
         {modificationAllowed && (
           <Box className={classes.actionsBlock}>
@@ -65,7 +62,7 @@ const PostView: React.FC<IPostViewProps> = ({
             </Typography>
           )}
 
-          {post.type.name === 'Переклад' && (
+          {post.origins[0].name === 'Переклад' && (
             <SecondTopSection author={post.author} />
           )}
 
@@ -84,9 +81,6 @@ const PostView: React.FC<IPostViewProps> = ({
             dangerouslySetInnerHTML={{
               __html: postContent,
             }}
-            // dangerouslySetInnerHTML={{
-            //   __html: MEDIATEKA_ARTICLE_Intro_SmHeaders_MOCK,
-            // }}
           />
         </Box>
       </Box>

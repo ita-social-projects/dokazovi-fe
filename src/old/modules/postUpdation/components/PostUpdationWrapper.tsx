@@ -53,10 +53,10 @@ const PostUpdationWrapper: React.FC = () => {
       {loadedPost && loadedPost.type.id === 1 && (
         <ArticleUpdation post={loadedPost} />
       )}
-      {loadedPost && loadedPost.type.id === 2 && (
+      {loadedPost && loadedPost.type.id === 3 && (
         <NoteUpdation post={loadedPost} />
       )}
-      {loadedPost && loadedPost.type.id === 3 && (
+      {loadedPost && loadedPost.type.id === 2 && (
         <VideoUpdation post={loadedPost} />
       )}
     </>
