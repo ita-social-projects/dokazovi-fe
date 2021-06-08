@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { RootStateType } from '../../../old/store/rootReducer';
+import { RootStateType } from '../../../models/rootReducer';
 import { PostDirectionChip } from '../PostDirectionChip/PostDirectionChip';
 import { ChipFilterType, IOrigin, IPostType } from '../../../old/lib/types';
 

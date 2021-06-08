@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { IExpert, IPost } from '../lib/types';
-import { PostResponseType } from '../lib/utilities/API/types';
+import { IExpert, IPost } from '../old/lib/types';
+import { PostResponseType } from '../old/lib/utilities/API/types';
 
 export interface IDataState {
   experts: {

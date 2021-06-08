@@ -18,10 +18,10 @@ import {
   selectExperts,
   selectLoadingExperts,
 } from '../../../../models/experts';
-import { RootStateType } from '../../../store/rootReducer';
+import { RootStateType } from '../../../../models/rootReducer';
 import { ExpertsList } from '../../../lib/components/Experts/ExpertsList';
 import { LoadMoreButton } from '../../../lib/components/LoadMoreButton/LoadMoreButton';
-import { selectExpertsByIds } from '../../../store/selectors';
+import { selectExpertsByIds } from '../../../../models/helpers/selectors';
 import { CheckboxFormStateType } from '../../../lib/components/Filters/CheckboxFilterForm';
 import {
   getQueryTypeByFilterType,

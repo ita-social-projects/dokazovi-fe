@@ -10,44 +10,64 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 
 export const fetchRegions = createAsyncThunk(
   'properties/fetchRegions',
-  async () => {
-    const response = await getRegions();
-    return response.data;
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await getRegions();
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(err.response?.data);
+    }
   },
 );
 
 export const fetchPostsTypes = createAsyncThunk(
   'properties/fetchPostsTypes',
-  async () => {
-    const response = await getPostTypes();
-    return response.data;
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await getPostTypes();
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(err.response?.data);
+    }
   },
 );
 
 export const fetchPostsTags = createAsyncThunk(
   'properties/fetchPostsTags',
-  async (tag: string) => {
-    const response = await getTagsByValue({
-      params: {
-        value: tag,
-      },
-    });
-    return response.data;
+  async (tag: string, { rejectWithValue }) => {
+    try {
+      const response = await getTagsByValue({
+        params: {
+          value: tag,
+        },
+      });
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(err.response?.data);
+    }
   },
 );
 
 export const fetchDirections = createAsyncThunk(
   'properties/fetchDirections',
-  async () => {
-    const response = await getDirections();
-    return response.data;
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await getDirections();
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(err.response?.data);
+    }
   },
 );
 
 export const fetchOrigins = createAsyncThunk(
   'properties/fetchOrigins',
-  async () => {
-    const response = await getOrigins();
-    return response.data;
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await getOrigins();
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(err.response?.data);
+    }
   },
 );

@@ -31,7 +31,7 @@ import {
   getQueryTypeByFilterType,
   mapQueryIdsStringToArray,
 } from '../../../lib/utilities/filters';
-import { RootStateType } from '../../../store/rootReducer';
+import { RootStateType } from '../../../../models/rootReducer';
 import {
   fetchExpertMaterials,
   resetMaterials,
@@ -44,6 +44,10 @@ import { CheckboxLeftsideFilterForm } from '../../../lib/components/Filters/Chec
 import { ChipsList } from '../../../../components/Chips/ChipsList/ChipsList';
 import { useStyles } from '../styles/ExpertsView.styles';
 import { declOfNum } from '../../utilities/declOfNum';
+import {
+  selectDirections,
+  selectPostTypes,
+} from '../../../../models/properties';
 
 export interface IExpertMaterialsContainerProps {
   expertId: number;
@@ -96,9 +100,7 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
     return false;
   });
 
-  const postTypes = useSelector(
-    (state: RootStateType) => state.properties.postTypes,
-  );
+  const postTypes = useSelector(selectPostTypes);
 
   const postTypesInPlural: IPostType[] = [];
 
@@ -129,9 +131,7 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
     postTypesInPlural.push(el1, el2, el3);
   }
 
-  const directions = useSelector(
-    (state: RootStateType) => state.properties.directions,
-  );
+  const directions = useSelector(selectDirections);
 
   const getDirections = () => {
     if (selectedDirections) {

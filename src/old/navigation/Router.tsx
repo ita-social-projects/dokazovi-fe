@@ -58,7 +58,9 @@ export const RenderRoutes: React.FC<{ routes: IRouteConfig[] }> = ({
           </Route>
         );
       })}
-      <Route component={Page404} />
+      <Route>
+        <Page component={Page404} />
+      </Route>
     </Switch>
     <Footer />
   </>

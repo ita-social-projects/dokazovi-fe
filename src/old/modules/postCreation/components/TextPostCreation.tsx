@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import _ from 'lodash';
 import { useSelector } from 'react-redux';
 import { Box, TextField, Typography } from '@material-ui/core';
-import { RootStateType } from '../../../store/rootReducer';
+import { RootStateType } from '../../../../models/rootReducer';
 import {
   setPostDirections,
   setPostOrigin,
