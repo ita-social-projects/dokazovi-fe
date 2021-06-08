@@ -1,6 +1,5 @@
 import React, { Suspense, useEffect } from 'react';
 import ReactGA from 'react-ga';
-import { useDispatch } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import {
@@ -23,7 +22,7 @@ import {
 } from './models/properties';
 import { useActions } from './shared/hooks';
 
-ReactGA.initialize('UA-197683102-1', {
+ReactGA.initialize(process.env.REACT_APP_GOOGLE_ID as string, {
   testMode: process.env.NODE_ENV === 'test',
 });
 
