@@ -2,11 +2,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { IPost, LoadingStatusEnum } from '../../old/lib/types';
 import { IExpertsState } from './types';
-import { IMaterialsState } from '../materials/types';
+import { IInitialMaterialsState } from '../materials/types';
 import { fetchExpertMaterials, fetchExperts } from './asyncActions';
 import { getAsyncActionsReducer } from '../helpers/asyncActions';
 
-const initialMaterialsState: IMaterialsState = {
+const initialMaterialsState: IInitialMaterialsState = {
   data: {
     postIds: [],
     posts: {},
@@ -16,10 +16,10 @@ const initialMaterialsState: IMaterialsState = {
       totalElements: 0,
       totalPages: 0,
     },
+    loading: LoadingStatusEnum.idle,
+    error: null,
+    filters: {},
   },
-  loading: LoadingStatusEnum.idle,
-  error: null,
-  filters: {},
 };
 
 const initialState: IExpertsState = {
@@ -52,6 +52,10 @@ export const expertsSlice = createSlice({
         }
       });
     },
+    setPending: (state) => {
+      console.log('set pending');
+      state.posts.data.loading = LoadingStatusEnum.pending;
+    },
   },
   extraReducers: {
     ...getAsyncActionsReducer(fetchExperts as any),
@@ -59,6 +63,6 @@ export const expertsSlice = createSlice({
   },
 });
 
-export const { resetMaterials, loadPosts } = expertsSlice.actions;
+export const { resetMaterials, loadPosts, setPending } = expertsSlice.actions;
 
 export const expertsReducer = expertsSlice.reducer;

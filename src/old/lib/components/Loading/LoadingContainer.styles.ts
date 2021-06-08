@@ -2,16 +2,16 @@ import { makeStyles } from '@material-ui/core';
 
 export const useStyles = makeStyles(
   {
-    container: {
+    relativeContainer: {
+      marginTop: '30vh',
       flexDirection: 'column',
       alignItems: 'center',
       justifyContent: 'center',
     },
-    expandedContainer: {
+    container: {
       flexDirection: 'column',
       alignItems: 'center',
       justifyContent: 'center',
-      flexGrow: 1,
     },
   },
   { name: 'LoadingContainer' },

@@ -13,7 +13,7 @@ export const selectExpertsData = (state: RootStateType): IMaterialsData =>
 
 export const selectLoadingExpertsPosts = (
   state: RootStateType,
-): LoadingStatusEnum => state.experts.posts.loading;
+): LoadingStatusEnum => state.experts.posts.data.loading;
 
 export const selectLoadingExperts = (state: RootStateType): LoadingStatusEnum =>
   state.experts.loading;
