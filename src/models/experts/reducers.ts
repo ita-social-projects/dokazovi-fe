@@ -53,7 +53,6 @@ export const expertsSlice = createSlice({
       });
     },
     setPending: (state) => {
-      console.log('set pending');
       state.posts.data.loading = LoadingStatusEnum.pending;
     },
   },

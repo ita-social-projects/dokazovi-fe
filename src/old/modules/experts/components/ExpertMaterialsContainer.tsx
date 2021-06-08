@@ -22,7 +22,6 @@ import {
   IExpert,
   ChipFilterType,
   ChipFilterEnum,
-  IPost,
 } from '../../../lib/types';
 import {
   RequestParamsType,
@@ -50,12 +49,6 @@ import { declOfNum } from '../../utilities/declOfNum';
 export interface IExpertMaterialsContainerProps {
   expertId: number;
   expert: IExpert;
-}
-
-export interface IPosts1 {
-  posts1: {
-    [id: string]: IPost;
-  };
 }
 
 const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
