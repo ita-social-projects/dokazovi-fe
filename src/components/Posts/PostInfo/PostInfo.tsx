@@ -15,13 +15,8 @@ export interface IPostInfo {
 }
 
 export default function PostInfo({ info }: IPostInfo): JSX.Element {
-  const {
-    directions,
-    origins,
-    type,
-    publishedAt,
-    uniqueViewsCounter = 0,
-  } = info;
+  const { directions, origins, type, publishedAt, uniqueViewsCounter } = info;
+
   const classes = useStyles();
   return (
     <div className={classes.root}>
@@ -44,7 +39,11 @@ export default function PostInfo({ info }: IPostInfo): JSX.Element {
           <VisibilityIcon fontSize="small" />
         </li>
         <li className={classes.counter}>
-          {uniqueViewsCounter || <Skeleton width={40} height={20} />}
+          {uniqueViewsCounter === undefined ? (
+            <Skeleton width={40} height={20} />
+          ) : (
+            uniqueViewsCounter
+          )}
         </li>
       </ul>
     </div>
