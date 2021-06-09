@@ -21,6 +21,8 @@ import {
   fetchRegions,
 } from './models/properties';
 import { useActions } from './shared/hooks';
+import { Header } from './old/lib/components/Header/Header';
+import { Footer } from './old/lib/components/Footer/Footer';
 
 ReactGA.initialize(process.env.REACT_APP_GOOGLE_ID as string, {
   testMode: process.env.NODE_ENV === 'test',
@@ -63,11 +65,19 @@ export const App: React.FC = () => {
         <CssBaseline />
         <BrowserRouter>
           <div className="content">
-            <Suspense fallback={<CircularProgress className="mainLoading" />}>
+            <Header />
+            <Suspense
+              fallback={
+                <div className="mainLoading">
+                  <CircularProgress />
+                </div>
+              }
+            >
               <AuthProvider>
                 <RenderRoutes routes={ROUTER_CONFIG} />
               </AuthProvider>
             </Suspense>
+            <Footer />
           </div>
         </BrowserRouter>
       </ThemeProvider>
