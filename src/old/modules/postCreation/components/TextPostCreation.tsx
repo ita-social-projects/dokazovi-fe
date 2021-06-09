@@ -296,8 +296,8 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
             onSelectedDirectionsChange={handleDirectionsChange}
           />
           <PostOriginsSelector
-            selectedOrigin={savedPostDraft.origins}
-            onSelectedOriginChange={handleOriginsChange}
+            selectedOrigins={savedPostDraft.origins}
+            onSelectedOriginsChange={handleOriginsChange}
           />
           {extraFieldsForTranslation}
           <Box mt={2}>

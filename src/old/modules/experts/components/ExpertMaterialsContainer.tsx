@@ -34,6 +34,7 @@ import {
 import {
   fetchExpertMaterials,
   resetMaterials,
+  setPending,
   selectExpertsData,
   selectLoadingExpertsPosts,
 } from '../../../../models/experts';
@@ -76,24 +77,26 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
   const [checkedFiltersPostTypes, setCheckedFiltersPostTypes] = useState<
     CheckboxFormStateType
   >();
-
   const loading = useSelector(selectLoadingExpertsPosts);
   const classes = useStyles();
   const query = useQuery();
   const history = useHistory();
-  console.log(pageNumber);
   const [page, setPage] = useState(pageNumber);
   const [activePostTypes, setActivePostTypes] = useState<ActivePostType[]>();
   const previous = usePrevious({ page });
 
-  const [boundResetMaterials] = useActions([resetMaterials]);
+  const [
+    boundResetMaterials,
+    boundFetchExpertMaterials,
+    boundSetPending,
+  ] = useActions([resetMaterials, fetchExpertMaterials, setPending]);
 
   useEffect(() => {
     boundResetMaterials();
   }, [expertId]);
 
   useEffect(() => {
-    return () => {
+    return function reseting() {
       boundResetMaterials();
     };
   }, []);
@@ -218,8 +221,6 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
     setPage(page + 1);
   };
 
-  const [boundFetchExpertMaterials] = useActions([fetchExpertMaterials]);
-
   const fetchData = (appendPosts = false) => {
     const postTypesQuery = query.get(QueryTypeEnum.POST_TYPES);
     const directionsQuery = query.get(QueryTypeEnum.DIRECTIONS);
@@ -246,6 +247,7 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
   useEffect(() => {
     const appendPosts = previous && previous.page < page;
     fetchData(appendPosts);
+    boundSetPending();
   }, [
     query.get(QueryTypeEnum.POST_TYPES),
     query.get(QueryTypeEnum.DIRECTIONS),
@@ -323,7 +325,7 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
   });
 
   let materialsData = <PostsList postsList={materials} />;
-  if (materials.length === 0) {
+  if (loading === LoadingStatusEnum.succeeded && materials.length === 0) {
     materialsData = (
       <Grid
         style={{
@@ -473,26 +475,28 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
             </Typography>
           </Box>
           {page === 0 && loading === LoadingStatusEnum.pending ? (
-            <LoadingContainer loading={loading} expand />
+            <LoadingContainer loading={LoadingStatusEnum.pending} expand />
           ) : (
             <>
               {materialsData}
-              <Grid
-                container
-                direction="column"
-                alignItems="center"
-                ref={gridRef}
-              >
-                <LoadMoreButton
-                  clicked={loadMore}
-                  isLastPage={isLastPage}
-                  loading={loading}
-                  totalPages={totalPages}
-                  totalElements={totalElements}
-                  pageNumber={pageNumber}
-                  textType={LoadMoreButtonTextType.POST}
-                />
-              </Grid>
+              {materials.length > 0 ? (
+                <Grid
+                  container
+                  direction="column"
+                  alignItems="center"
+                  ref={gridRef}
+                >
+                  <LoadMoreButton
+                    clicked={loadMore}
+                    isLastPage={isLastPage}
+                    loading={loading}
+                    totalPages={totalPages}
+                    totalElements={totalElements}
+                    pageNumber={pageNumber}
+                    textType={LoadMoreButtonTextType.POST}
+                  />
+                </Grid>
+              ) : null}
             </>
           )}
         </Grid>

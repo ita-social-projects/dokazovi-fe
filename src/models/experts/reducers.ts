@@ -50,6 +50,9 @@ export const expertsSlice = createSlice({
         }
       });
     },
+    setPending: (state) => {
+      state.loading = LoadingStatusEnum.pending;
+    },
   },
   extraReducers: {
     ...getAsyncActionsReducer(fetchExperts as any),
@@ -57,6 +60,6 @@ export const expertsSlice = createSlice({
   },
 });
 
-export const { resetMaterials, loadPosts } = expertsSlice.actions;
+export const { resetMaterials, loadPosts, setPending } = expertsSlice.actions;
 
 export const expertsReducer = expertsSlice.reducer;

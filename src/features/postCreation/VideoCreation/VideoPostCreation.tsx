@@ -1,43 +1,71 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import _ from 'lodash';
 import { Box, TextField, Typography } from '@material-ui/core';
-import VideoEditor from '../../../lib/components/Editor/Editors/VideoEditor';
 import {
-  resetDraft,
-  selectVideoPostDraft,
-  selectVideoUrl,
-  setAuthorId,
-  setAuthorsDetails,
-  setAuthorsName,
-  setPostBody,
   setPostDirections,
   setPostOrigin,
   setPostTitle,
+  setAuthorsName,
+  setAuthorsDetails,
+  setPostBody,
   setVideoUrl,
-} from '../../../../models/postCreation';
-import { IDirection, IOrigin, IPost, PostTypeEnum } from '../../../lib/types';
-import { sanitizeHtml } from '../../../lib/utilities/sanitizeHtml';
-import { parseVideoIdFromUrl } from '../../../lib/utilities/parseVideoIdFromUrl';
-import VideoUrlInputModal from '../../../lib/components/Editor/CustomModules/VideoUrlInputModal';
-import { PostCreationButtons } from './PostCreationButtons';
-import { PageTitle } from '../../../lib/components/Pages/PageTitle';
-import { createPost, getAllExperts } from '../../../lib/utilities/API/api';
+  selectVideoUrl,
+  setPostPreviewText,
+  setPostPreviewManuallyChanged,
+  resetDraft,
+  setAuthorId,
+} from '../../../models/postCreation';
+import {
+  IDirection,
+  IPost,
+  IOrigin,
+  PostTypeEnum,
+} from '../../../old/lib/types';
+import { sanitizeHtml } from '../../../old/lib/utilities/sanitizeHtml';
+import { parseVideoIdFromUrl } from '../../../old/lib/utilities/parseVideoIdFromUrl';
+import VideoUrlInputModal from '../../../old/lib/components/Editor/CustomModules/VideoUrlInputModal';
+import { PostCreationButtons } from '../../../old/modules/postCreation/components/PostCreationButtons';
 import {
   CreateVideoPostRequestType,
   ExpertResponseType,
-} from '../../../lib/utilities/API/types';
-import { CONTENT_DEBOUNCE_TIMEOUT } from '../../../lib/constants/editors';
-import PostView from '../../posts/components/PostView';
-import { PostDirectionsSelector } from './PostDirectionsSelector';
-import { PostOriginsSelector } from './PostOriginsSelector';
-import { selectCurrentUser } from '../../../../models/user/selectors';
-import { PostAuthorSelection } from './PostAuthorSelection/PostAuthorSelection';
-import { setGALocation } from '../../../../utilities/setGALocation';
-import { useActions } from '../../../../shared/hooks';
+} from '../../../old/lib/utilities/API/types';
+import { PageTitle } from '../../../old/lib/components/Pages/PageTitle';
+import { createPost, getAllExperts } from '../../../old/lib/utilities/API/api';
+import {
+  CONTENT_DEBOUNCE_TIMEOUT,
+  PREVIEW_DEBOUNCE_TIMEOUT,
+} from '../../../old/lib/constants/editors';
+import PostView from '../../../old/modules/posts/components/PostView';
+import { TextPostEditor } from '../../../old/lib/components/Editor/Editors/TextPostEditor';
+import { IEditorToolbarProps } from '../../../old/lib/components/Editor/types';
+import { PostDirectionsSelector } from '../../../old/modules/postCreation/components/PostDirectionsSelector';
+import { PostOriginsSelector } from '../../../old/modules/postCreation/components/PostOriginsSelector';
+import { BorderBottom } from '../../../old/lib/components/Border';
+import { PostAuthorSelection } from '../../../old/modules/postCreation/components/PostAuthorSelection/PostAuthorSelection';
 
-const VideoCreation: React.FC = () => {
+import { selectCurrentUser } from '../../../models/user/selectors';
+import { selectVideoPostDraft } from '../../../models/postCreation/selectors';
+import { useActions } from '../../../shared/hooks';
+
+interface IVideoPostCreationProps {
+  pageTitle?: string;
+  titleInputLabel?: string;
+  contentInputLabel?: string;
+  postType: { type: PostTypeEnum; name: string };
+  editorToolbar: React.ComponentType<IEditorToolbarProps>;
+}
+
+type ExtraFieldsType = null | JSX.Element;
+
+export const VideoPostCreation: React.FC<IVideoPostCreationProps> = ({
+  pageTitle,
+  titleInputLabel,
+  contentInputLabel,
+  postType,
+  editorToolbar,
+}) => {
   const history = useHistory();
 
   const savedPostDraft = useSelector(selectVideoPostDraft);
@@ -59,7 +87,7 @@ const VideoCreation: React.FC = () => {
     error: '',
   });
 
-  const [typing, setTyping] = useState({ content: false });
+  const [typing, setTyping] = useState({ content: false, preview: false });
   const [previewing, setPreviewing] = useState(false);
   const [authors, setAuthors] = useState<ExpertResponseType[]>([]);
   const [author, setAuthor] = useState<ExpertResponseType | null>(null);
@@ -77,7 +105,9 @@ const VideoCreation: React.FC = () => {
     boundSetAuthorsDetails,
     boundSetVideoUrl,
     boundSetPostBody,
+    boundSetPostPreviewText,
     boundSetAuthorId,
+    boundSetPostPreviewManuallyChanged,
     boundResetDraft,
   ] = useActions([
     setPostDirections,
@@ -87,30 +117,32 @@ const VideoCreation: React.FC = () => {
     setAuthorsDetails,
     setVideoUrl,
     setPostBody,
+    setPostPreviewText,
     setAuthorId,
+    setPostPreviewManuallyChanged,
     resetDraft,
   ]);
 
   const handleDirectionsChange = (value: IDirection[]) => {
-    boundSetPostDirections({ postType: PostTypeEnum.VIDEO, value });
+    boundSetPostDirections({ postType: postType.type, value });
   };
 
   const handleOriginsChange = (value: IOrigin[]) => {
     setAuthName({ ...authorsName, value: '' });
     setAuthDetails({ ...authorsDetails, value: '' });
-    boundSetPostOrigin({ postType: PostTypeEnum.VIDEO, value });
+    boundSetPostOrigin({ postType: postType.type, value });
   };
 
   const handleTitleChange = (value: string) => {
-    boundSetPostTitle({ postType: PostTypeEnum.VIDEO, value });
+    boundSetPostTitle({ postType: postType.type, value });
   };
 
   const handleAuthorsNameChange = (value: string) => {
-    boundSetAuthorsName({ postType: PostTypeEnum.VIDEO, value });
+    boundSetAuthorsName({ postType: postType.type, value });
   };
 
   const handleAuthorsDetailsChange = (value: string) => {
-    boundSetAuthorsDetails({ postType: PostTypeEnum.VIDEO, value });
+    boundSetAuthorsDetails({ postType: postType.type, value });
   };
 
   const handleVideoUrlChange = (url: string) => {
@@ -120,7 +152,7 @@ const VideoCreation: React.FC = () => {
   const handleHtmlContentChange = useCallback(
     _.debounce((value: string) => {
       boundSetPostBody({
-        postType: PostTypeEnum.VIDEO,
+        postType: postType.type,
         value: sanitizeHtml(value),
       });
       setTyping({ ...typing, content: false });
@@ -128,13 +160,20 @@ const VideoCreation: React.FC = () => {
     [],
   );
 
+  const handlePreviewChange = useCallback(
+    _.debounce((value: string) => {
+      boundSetPostPreviewText({
+        postType: postType.type,
+        value,
+      });
+      setTyping({ ...typing, preview: false });
+    }, PREVIEW_DEBOUNCE_TIMEOUT),
+    [],
+  );
+
   const handleOnChange = (value: string) => {
     setSearchValue(value);
   };
-
-  useEffect(() => {
-    setGALocation(window);
-  }, []);
 
   useEffect(() => {
     if (!searchValue) {
@@ -148,7 +187,7 @@ const VideoCreation: React.FC = () => {
 
   const onAuthorTableClick = (value: number, item: ExpertResponseType) => {
     boundSetAuthorId({
-      postType: PostTypeEnum.VIDEO,
+      postType: postType.type,
       value,
     });
     setAuthor(item);
@@ -156,23 +195,22 @@ const VideoCreation: React.FC = () => {
     setSearchValue('');
   };
 
+  const handlePreviewManuallyChanged = () => {
+    boundSetPostPreviewManuallyChanged(postType.type);
+  };
+
   const newPost: CreateVideoPostRequestType = {
     authorId: savedPostDraft.authorId,
+    previewImageUrl: savedPostDraft.previewImageUrl,
     content: savedPostDraft.htmlContent,
     directions: savedPostDraft.directions,
     origins: savedPostDraft.origins,
-    preview: savedPostDraft.htmlContent, // currently no preview
-    type: { id: PostTypeEnum.VIDEO },
+    preview: savedPostDraft.preview.value,
     title: savedPostDraft.title,
     authorsName: savedPostDraft.authorsName,
     authorsDetails: savedPostDraft.authorsDetails,
     videoUrl: savedPostDraft.videoUrl,
-  };
-
-  const handlePublishClick = async () => {
-    const responsePost = await createPost(newPost);
-    boundResetDraft(PostTypeEnum.VIDEO);
-    history.push(`/posts/${responsePost.data.id}`);
+    type: { id: postType.type },
   };
 
   const previewPost = React.useMemo(
@@ -180,16 +218,24 @@ const VideoCreation: React.FC = () => {
       ({
         author: user.data,
         content: savedPostDraft.htmlContent,
+        preview: savedPostDraft.preview.value,
         createdAt: new Date().toLocaleDateString('en-GB').split('/').join('.'),
         directions: savedPostDraft.directions,
+        origins: savedPostDraft.origins,
         title: savedPostDraft.title,
         videoUrl: savedPostDraft.videoUrl,
-        type: { id: PostTypeEnum.VIDEO, name: 'Відео' },
+        type: { id: postType.type },
       } as IPost),
     [user, savedPostDraft],
   );
 
-  let extraFieldsForTranslation: null | JSX.Element = null;
+  const handlePublishClick = async () => {
+    const response = await createPost(newPost);
+    boundResetDraft(postType.type);
+    history.push(`/posts/${response.data.id}`);
+  };
+
+  let extraFieldsForTranslation: ExtraFieldsType = null;
 
   if (savedPostDraft.origins[0]) {
     if (savedPostDraft.origins[0].id === 3) {
@@ -235,8 +281,7 @@ const VideoCreation: React.FC = () => {
 
   return (
     <>
-      <PageTitle title="Створення відео" />
-
+      <PageTitle title={pageTitle} />
       {!previewing ? (
         <>
           <PostDirectionsSelector
@@ -249,13 +294,13 @@ const VideoCreation: React.FC = () => {
           />
           {extraFieldsForTranslation}
           <Box mt={2}>
-            <Typography variant="h5">Заголовок відео:</Typography>
+            <Typography variant="h5">{titleInputLabel}</Typography>
             <TextField
               error={Boolean(title.error)}
               helperText={title.error}
               fullWidth
               required
-              id="video-name"
+              id="post-name"
               value={title.value}
               onChange={(e) => {
                 setTitle({ ...title, value: e.target.value });
@@ -282,14 +327,26 @@ const VideoCreation: React.FC = () => {
               />
             )}
           </Box>
+          <BorderBottom />
           <Box mt={2}>
-            <Typography variant="h5">Опис відео:</Typography>
-            <VideoEditor
+            <Typography variant="h5">{contentInputLabel}</Typography>
+            <TextPostEditor
+              toolbar={editorToolbar}
               initialHtmlContent={savedPostDraft.htmlContent}
+              initialPreview={savedPostDraft.preview.value}
               onHtmlContentChange={(value) => {
                 setTyping({ ...typing, content: true });
                 handleHtmlContentChange(value);
               }}
+              initialWasPreviewManuallyChanged={
+                savedPostDraft.preview.isManuallyChanged
+              }
+              onPreviewManuallyChanged={handlePreviewManuallyChanged}
+              onPreviewChange={(value) => {
+                setTyping({ ...typing, preview: true });
+                handlePreviewChange(value);
+              }}
+              previewPost={previewPost}
             />
           </Box>
         </>
@@ -309,5 +366,3 @@ const VideoCreation: React.FC = () => {
     </>
   );
 };
-
-export default VideoCreation;

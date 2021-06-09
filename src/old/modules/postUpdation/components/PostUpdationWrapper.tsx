@@ -5,7 +5,7 @@ import { IPost } from '../../../lib/types';
 import { sanitizeHtml } from '../../../lib/utilities/sanitizeHtml';
 import { ArticleUpdation } from './ArticleUpdation';
 import { NoteUpdation } from './NoteUpdation';
-import VideoUpdation from './VideoUpdation';
+import { VideoUpdation } from '../../../../features/postUpdation/VideoUpdation/VideoUpdation';
 import { useQuery } from '../../../lib/hooks/useQuery';
 import { setGALocation } from '../../../../utilities/setGALocation';
 import { ERROR_404 } from '../../../lib/constants/routes';
@@ -53,10 +53,10 @@ const PostUpdationWrapper: React.FC = () => {
       {loadedPost && loadedPost.type.id === 1 && (
         <ArticleUpdation post={loadedPost} />
       )}
-      {loadedPost && loadedPost.type.id === 2 && (
+      {loadedPost && loadedPost.type.id === 3 && (
         <NoteUpdation post={loadedPost} />
       )}
-      {loadedPost && loadedPost.type.id === 3 && (
+      {loadedPost && loadedPost.type.id === 2 && (
         <VideoUpdation post={loadedPost} />
       )}
     </>

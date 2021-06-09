@@ -8,6 +8,7 @@ export const useStyles = makeStyles(
       alignItems: 'center',
       marginBottom: theme.spacing(5),
     },
+
     avatar: {
       height: 150,
       width: 150,
@@ -19,6 +20,7 @@ export const useStyles = makeStyles(
       fontSize: '24px',
       lineHeight: '1.17',
     },
+
     authorBio: {
       fontSize: '15px',
       lineHeight: '1.47',

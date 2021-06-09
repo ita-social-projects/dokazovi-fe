@@ -11,8 +11,8 @@ export interface IChipsListProps {
 
 const ChipsList: React.FC<IChipsListProps> = ({
   checkedNames,
-  isLabelItem,
-  max,
+  // isLabelItem,
+  // max,
 }) => {
   const { directions } = useSelector(
     (state: RootStateType) => state.properties,
@@ -43,7 +43,7 @@ const ChipsList: React.FC<IChipsListProps> = ({
               return (
                 <PostDirectionChip
                   key={direction.id}
-                  backgroundColor={isLabelItem && max ? '' : direction.color}
+                  // backgroundColor={isLabelItem && max ? '' : direction.color}
                   labelName={direction.label}
                 />
               );
