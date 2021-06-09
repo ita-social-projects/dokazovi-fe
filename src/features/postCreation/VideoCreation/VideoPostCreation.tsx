@@ -1,9 +1,8 @@
 import React, { useCallback, useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import _ from 'lodash';
 import { useSelector } from 'react-redux';
+import _ from 'lodash';
 import { Box, TextField, Typography } from '@material-ui/core';
-import { RootStateType } from '../../../store/rootReducer';
 import {
   setPostDirections,
   setPostOrigin,
@@ -11,41 +10,46 @@ import {
   setAuthorsName,
   setAuthorsDetails,
   setPostBody,
-  setImageUrl,
+  setVideoUrl,
+  selectVideoUrl,
   setPostPreviewText,
   setPostPreviewManuallyChanged,
   resetDraft,
   setAuthorId,
-} from '../../../../models/postCreation';
-import { IDirection, IPost, IOrigin, PostTypeEnum } from '../../../lib/types';
-import { sanitizeHtml } from '../../../lib/utilities/sanitizeHtml';
-import { PostCreationButtons } from './PostCreationButtons';
+} from '../../../models/postCreation';
 import {
-  CreateTextPostRequestType,
+  IDirection,
+  IPost,
+  IOrigin,
+  PostTypeEnum,
+} from '../../../old/lib/types';
+import { sanitizeHtml } from '../../../old/lib/utilities/sanitizeHtml';
+import { parseVideoIdFromUrl } from '../../../old/lib/utilities/parseVideoIdFromUrl';
+import VideoUrlInputModal from '../../../old/lib/components/Editor/CustomModules/VideoUrlInputModal';
+import { PostCreationButtons } from '../../../old/modules/postCreation/components/PostCreationButtons';
+import {
+  CreateVideoPostRequestType,
   ExpertResponseType,
-} from '../../../lib/utilities/API/types';
-import { PageTitle } from '../../../lib/components/Pages/PageTitle';
-import { createPost, getAllExperts } from '../../../lib/utilities/API/api';
+} from '../../../old/lib/utilities/API/types';
+import { PageTitle } from '../../../old/lib/components/Pages/PageTitle';
+import { createPost, getAllExperts } from '../../../old/lib/utilities/API/api';
 import {
   CONTENT_DEBOUNCE_TIMEOUT,
   PREVIEW_DEBOUNCE_TIMEOUT,
-} from '../../../lib/constants/editors';
-import PostView from '../../posts/components/PostView';
-import { TextPostEditor } from '../../../lib/components/Editor/Editors/TextPostEditor';
-import { IEditorToolbarProps } from '../../../lib/components/Editor/types';
-import { PostDirectionsSelector } from './PostDirectionsSelector';
-import { PostOriginsSelector } from './PostOriginsSelector';
-import { BorderBottom } from '../../../lib/components/Border';
-import { getStringFromFile } from '../../../lib/utilities/Imgur/getStringFromFile';
-import { uploadImageToImgur } from '../../../lib/utilities/Imgur/uploadImageToImgur';
-import { BackgroundImageContainer } from '../../../lib/components/Editor/CustomModules/BackgroundImageContainer/BackgroundImageContainer';
-import { PostAuthorSelection } from './PostAuthorSelection/PostAuthorSelection';
+} from '../../../old/lib/constants/editors';
+import PostView from '../../../old/modules/posts/components/PostView';
+import { TextPostEditor } from '../../../old/lib/components/Editor/Editors/TextPostEditor';
+import { IEditorToolbarProps } from '../../../old/lib/components/Editor/types';
+import { PostDirectionsSelector } from '../../../old/modules/postCreation/components/PostDirectionsSelector';
+import { PostOriginsSelector } from '../../../old/modules/postCreation/components/PostOriginsSelector';
+import { BorderBottom } from '../../../old/lib/components/Border';
+import { PostAuthorSelection } from '../../../old/modules/postCreation/components/PostAuthorSelection/PostAuthorSelection';
 
-import { selectCurrentUser } from '../../../../models/user/selectors';
-import { selectTextPostDraft } from '../../../../models/postCreation/selectors';
-import { useActions } from '../../../../shared/hooks';
+import { selectCurrentUser } from '../../../models/user/selectors';
+import { selectVideoPostDraft } from '../../../models/postCreation/selectors';
+import { useActions } from '../../../shared/hooks';
 
-interface IPostCreationProps {
+interface IVideoPostCreationProps {
   pageTitle?: string;
   titleInputLabel?: string;
   contentInputLabel?: string;
@@ -55,7 +59,7 @@ interface IPostCreationProps {
 
 type ExtraFieldsType = null | JSX.Element;
 
-export const TextPostCreation: React.FC<IPostCreationProps> = ({
+export const VideoPostCreation: React.FC<IVideoPostCreationProps> = ({
   pageTitle,
   titleInputLabel,
   contentInputLabel,
@@ -64,9 +68,8 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
 }) => {
   const history = useHistory();
 
-  const savedPostDraft = useSelector((state: RootStateType) =>
-    selectTextPostDraft(state, postType.type),
-  );
+  const savedPostDraft = useSelector(selectVideoPostDraft);
+
   const user = useSelector(selectCurrentUser);
 
   const [title, setTitle] = useState({
@@ -90,13 +93,17 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
   const [author, setAuthor] = useState<ExpertResponseType | null>(null);
   const [searchValue, setSearchValue] = useState('');
 
+  const videoUrl = useSelector(selectVideoUrl);
+
+  const videoId = parseVideoIdFromUrl(videoUrl);
+
   const [
     boundSetPostDirections,
     boundSetPostOrigin,
     boundSetPostTitle,
     boundSetAuthorsName,
     boundSetAuthorsDetails,
-    boundSetImageUrl,
+    boundSetVideoUrl,
     boundSetPostBody,
     boundSetPostPreviewText,
     boundSetAuthorId,
@@ -108,7 +115,7 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
     setPostTitle,
     setAuthorsName,
     setAuthorsDetails,
-    setImageUrl,
+    setVideoUrl,
     setPostBody,
     setPostPreviewText,
     setAuthorId,
@@ -138,11 +145,8 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
     boundSetAuthorsDetails({ postType: postType.type, value });
   };
 
-  const dispatchImageUrl = (previewImageUrl: string): void => {
-    boundSetImageUrl({
-      postType: PostTypeEnum.ARTICLE,
-      value: previewImageUrl,
-    });
+  const handleVideoUrlChange = (url: string) => {
+    boundSetVideoUrl(url);
   };
 
   const handleHtmlContentChange = useCallback(
@@ -191,23 +195,11 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
     setSearchValue('');
   };
 
-  const fileSelectorHandler = (
-    e: React.ChangeEvent<HTMLInputElement>,
-  ): void => {
-    getStringFromFile(e.target.files)
-      .then((str) => uploadImageToImgur(str))
-      .then((res) => {
-        if (res.data.status === 200) {
-          dispatchImageUrl(res.data.data.link);
-        }
-      });
-  };
-
   const handlePreviewManuallyChanged = () => {
     boundSetPostPreviewManuallyChanged(postType.type);
   };
 
-  const newPost: CreateTextPostRequestType = {
+  const newPost: CreateVideoPostRequestType = {
     authorId: savedPostDraft.authorId,
     previewImageUrl: savedPostDraft.previewImageUrl,
     content: savedPostDraft.htmlContent,
@@ -217,6 +209,7 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
     title: savedPostDraft.title,
     authorsName: savedPostDraft.authorsName,
     authorsDetails: savedPostDraft.authorsDetails,
+    videoUrl: savedPostDraft.videoUrl,
     type: { id: postType.type },
   };
 
@@ -230,13 +223,13 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
         directions: savedPostDraft.directions,
         origins: savedPostDraft.origins,
         title: savedPostDraft.title,
-        type: { id: postType.type, name: postType.name },
+        videoUrl: savedPostDraft.videoUrl,
+        type: { id: postType.type },
       } as IPost),
     [user, savedPostDraft],
   );
 
   const handlePublishClick = async () => {
-    // console.log(newPost);
     const response = await createPost(newPost);
     boundResetDraft(postType.type);
     history.push(`/posts/${response.data.id}`);
@@ -321,11 +314,19 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
             authors={authors}
             searchValue={searchValue}
           />
-          <BackgroundImageContainer
-            dispatchImageUrl={dispatchImageUrl}
-            fileSelectorHandler={fileSelectorHandler}
-            newPost={newPost}
-          />
+          <Box mt={2}>
+            <VideoUrlInputModal dispatchVideoUrl={handleVideoUrlChange} />
+            {videoId && (
+              <iframe
+                title="video"
+                width="360"
+                height="240"
+                src={`http://www.youtube.com/embed/${videoId}`}
+                frameBorder="0"
+                allowFullScreen
+              />
+            )}
+          </Box>
           <BorderBottom />
           <Box mt={2}>
             <Typography variant="h5">{contentInputLabel}</Typography>

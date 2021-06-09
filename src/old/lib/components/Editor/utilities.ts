@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 // Disable required to allow using Quill register method
 import Quill, { StringMap } from 'quill';
@@ -6,11 +7,16 @@ import ImageResize from 'quill-image-resize-module-react';
 import { computerIcon } from './icons';
 import FigureBlot from './Blots/FigureBlot';
 import InsertFromFile from './CustomModules/ImageFromFileHandler';
+import { uploadImageToImgur } from '../../utilities/Imgur/uploadImageToImgur';
 
 Quill.register({ 'blots/figureBlock': FigureBlot });
 Quill.register('modules/imageUploader', ImageUploader);
 Quill.register('modules/imageResize', ImageResize);
 Quill.register('modules/insertFromFile', InsertFromFile);
+
+const Font = Quill.import('formats/font');
+Font.whitelist = ['raleway', 'literata'];
+Quill.register(Font, true);
 
 const Icons: StringMap = Quill.import('ui/icons');
 
@@ -26,9 +32,20 @@ export const modules: StringMap = {
   insertFromFile: {
     upload: (file: string | Blob): Promise<unknown> => {
       return new Promise((resolve, reject) => {
-        resolve(file);
-        reject(new Error('Failed image upload'));
-      });
+        const reader = new FileReader();
+        reader.readAsDataURL(file as Blob);
+        reader.onload = () => {
+          const image = reader.result as string;
+          const result = image.slice(image.search(/[^,]*$/));
+          resolve(result);
+          reject(new Error('Failed image onload'));
+        };
+      })
+        .then((str) => uploadImageToImgur(str as string))
+        .then((res) => {
+          return res.data.data.link;
+        })
+        .catch((err) => console.log(err));
     },
   },
   history: {
