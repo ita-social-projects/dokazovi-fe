@@ -1,15 +1,9 @@
 /* eslint-disable */
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { IFetchExpertsMaterialsOptions, IFetchExpertsOptions } from './types';
-import {
-  getAllExperts,
-  getExpertById,
-  getPosts,
-} from '../../old/lib/utilities/API/api';
+import { getAllExperts, getPosts } from '../../old/lib/utilities/API/api';
 import { LOAD_EXPERTS_LIMIT } from '../../old/lib/constants/experts';
-import type { AppThunkType } from '../store';
 import { mapFetchedPosts } from '../materials/asyncActions';
-import { loadExperts } from '../dataSlice';
 import { LOAD_POSTS_LIMIT } from '../../old/lib/constants/posts';
 import { IExpert, LoadingStatusEnum } from '../../old/lib/types';
 import { ExpertResponseType } from '../../old/lib/utilities/API/types';
@@ -69,29 +63,6 @@ export const fetchExperts = createAsyncThunk(
   },
 );
 
-export const fetchExpertById = createAsyncThunk(
-  'experts/loadExpertProfile',
-  async (id: number, { dispatch, getState, rejectWithValue }) => {
-    try {
-      const {
-        data: { experts },
-      } = getState() as any;
-      const existingExpert = experts[id];
-
-      if (existingExpert) {
-        return existingExpert.id;
-      }
-
-      const { data: fetchedExpert } = await getExpertById(id);
-      dispatch(loadExperts([fetchedExpert]));
-
-      return fetchedExpert.id;
-    } catch (err) {
-      return rejectWithValue(err.response?.data);
-    }
-  },
-); // not used
-
 export const fetchExpertMaterials = createAsyncThunk(
   'experts/fetchExpertMaterials',
   async (
@@ -140,14 +111,3 @@ export const fetchExpertMaterials = createAsyncThunk(
     }
   },
 );
-
-export const fetchInitialMaterials = (expertId): AppThunkType => (
-  dispatch,
-  getState,
-) => {
-  const { postIds } = getState().experts.posts.data;
-
-  if (!postIds.length) {
-    dispatch(fetchExpertMaterials(expertId));
-  }
-}; // it doesn`t used and can be implemented as function not thunk;

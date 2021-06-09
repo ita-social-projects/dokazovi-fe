@@ -2,11 +2,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { IPost, LoadingStatusEnum } from '../../old/lib/types';
 import { IExpertsState } from './types';
-import { IMaterialsState } from '../materials/types';
+import { IMaterialsDataWithFilters } from '../materials/types';
 import { fetchExpertMaterials, fetchExperts } from './asyncActions';
 import { getAsyncActionsReducer } from '../helpers/asyncActions';
 
-const initialMaterialsState: IMaterialsState = {
+const initialMaterialsState: IMaterialsDataWithFilters = {
   data: {
     postIds: [],
     posts: {},
@@ -17,8 +17,6 @@ const initialMaterialsState: IMaterialsState = {
       totalPages: 0,
     },
   },
-  loading: LoadingStatusEnum.idle,
-  error: null,
   filters: {},
 };
 

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-shadow */
-import { Grid, Typography, Box } from '@material-ui/core';
+import { Box, Grid, Typography } from '@material-ui/core';
 import { isEmpty, uniq } from 'lodash';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -9,6 +9,8 @@ import { PostsList } from '../../../lib/components/Posts/PostsList';
 import { LoadMoreButton } from '../../../lib/components/LoadMoreButton/LoadMoreButton';
 import { usePrevious } from '../../../lib/hooks/usePrevious';
 import {
+  ChipFilterEnum,
+  ChipFilterType,
   FilterTypeEnum,
   IDirection,
   IOrigin,
@@ -16,10 +18,7 @@ import {
   LoadingStatusEnum,
   LoadMoreButtonTextType,
   QueryTypeEnum,
-  ChipFilterEnum,
-  ChipFilterType,
 } from '../../../lib/types';
-import { RootStateType } from '../../../../models/rootReducer';
 import { selectPostsByIds } from '../../../../models/helpers/selectors';
 import {
   getQueryTypeByFilterType,
@@ -52,6 +51,13 @@ const MaterialsView: React.FC = () => {
   } = useSelector(selectMaterials);
 
   const [page, setPage] = useState(pageNumber);
+
+  useEffect(() => {
+    if (pageNumber > 0) {
+      setPage(0);
+    }
+  }, []);
+
   const [checkedFiltersOrigins, setCheckedFiltersOrigins] = useState<
     CheckboxFormStateType
   >();

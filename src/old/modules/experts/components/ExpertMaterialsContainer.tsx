@@ -1,4 +1,4 @@
-import { Grid, Typography, Box } from '@material-ui/core';
+import { Box, Grid, Typography } from '@material-ui/core';
 import { isEmpty, uniq } from 'lodash';
 import React, { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -13,25 +13,24 @@ import { usePrevious } from '../../../lib/hooks/usePrevious';
 import { useQuery } from '../../../lib/hooks/useQuery';
 import ExpertInfo from './ExpertInfo';
 import {
+  ChipFilterEnum,
+  ChipFilterType,
   FilterTypeEnum,
-  IPostType,
   IDirection,
+  IExpert,
+  IPostType,
   LoadingStatusEnum,
   LoadMoreButtonTextType,
   QueryTypeEnum,
-  IExpert,
-  ChipFilterType,
-  ChipFilterEnum,
 } from '../../../lib/types';
 import {
-  RequestParamsType,
   ActivePostType,
+  RequestParamsType,
 } from '../../../lib/utilities/API/types';
 import {
   getQueryTypeByFilterType,
   mapQueryIdsStringToArray,
 } from '../../../lib/utilities/filters';
-import { RootStateType } from '../../../../models/rootReducer';
 import {
   fetchExpertMaterials,
   resetMaterials,
@@ -85,6 +84,12 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
   const [page, setPage] = useState(pageNumber);
   const [activePostTypes, setActivePostTypes] = useState<ActivePostType[]>();
   const previous = usePrevious({ page });
+
+  useEffect(() => {
+    if (pageNumber > 0) {
+      setPage(0);
+    }
+  }, []);
 
   const [boundResetMaterials] = useActions([resetMaterials]);
 

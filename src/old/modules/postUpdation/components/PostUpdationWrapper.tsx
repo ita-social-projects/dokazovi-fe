@@ -8,7 +8,7 @@ import { NoteUpdation } from './NoteUpdation';
 import VideoUpdation from './VideoUpdation';
 import { useQuery } from '../../../lib/hooks/useQuery';
 import { setGALocation } from '../../../../utilities/setGALocation';
-import { ERROR_404 } from '../../../lib/constants/errors';
+import { ERROR_404 } from '../../../lib/constants/routes';
 
 const PostUpdationWrapper: React.FC = () => {
   const query = useQuery();
