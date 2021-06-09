@@ -65,19 +65,19 @@ export const App: React.FC = () => {
         <CssBaseline />
         <BrowserRouter>
           <div className="content">
-            <Header />
-            <Suspense
-              fallback={
-                <div className="mainLoading">
-                  <CircularProgress />
-                </div>
-              }
-            >
-              <AuthProvider>
+            <AuthProvider>
+              <Header />
+              <Suspense
+                fallback={
+                  <div className="mainLoading">
+                    <CircularProgress />
+                  </div>
+                }
+              >
                 <RenderRoutes routes={ROUTER_CONFIG} />
-              </AuthProvider>
-            </Suspense>
-            <Footer />
+              </Suspense>
+              <Footer />
+            </AuthProvider>
           </div>
         </BrowserRouter>
       </ThemeProvider>
