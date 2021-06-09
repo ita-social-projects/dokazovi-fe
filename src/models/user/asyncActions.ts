@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { getCurrentUser } from '../../old/lib/utilities/API/api';
 

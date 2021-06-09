@@ -52,12 +52,6 @@ const MaterialsView: React.FC = () => {
 
   const [page, setPage] = useState(pageNumber);
 
-  useEffect(() => {
-    if (pageNumber > 0) {
-      setPage(0);
-    }
-  }, []);
-
   const [checkedFiltersOrigins, setCheckedFiltersOrigins] = useState<
     CheckboxFormStateType
   >();

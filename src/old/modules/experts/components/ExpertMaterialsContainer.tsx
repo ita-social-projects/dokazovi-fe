@@ -81,21 +81,22 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
   const classes = useStyles();
   const query = useQuery();
   const history = useHistory();
+  console.log(pageNumber);
   const [page, setPage] = useState(pageNumber);
   const [activePostTypes, setActivePostTypes] = useState<ActivePostType[]>();
   const previous = usePrevious({ page });
-
-  useEffect(() => {
-    if (pageNumber > 0) {
-      setPage(0);
-    }
-  }, []);
 
   const [boundResetMaterials] = useActions([resetMaterials]);
 
   useEffect(() => {
     boundResetMaterials();
   }, [expertId]);
+
+  useEffect(() => {
+    return () => {
+      boundResetMaterials();
+    };
+  }, []);
 
   const allMaterials = Object.values(posts);
   const materials = [...allMaterials].filter((el) => {
