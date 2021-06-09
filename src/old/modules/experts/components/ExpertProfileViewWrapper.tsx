@@ -4,7 +4,7 @@ import { IExpert } from '../../../lib/types';
 import { getExpertById } from '../../../lib/utilities/API/api';
 import ExpertProfileView from './ExpertProfileView';
 import { setGALocation } from '../../../../utilities/setGALocation';
-import { ERROR_404 } from '../../../lib/constants/errors';
+import { ERROR_404 } from '../../../lib/constants/routes';
 
 const ExpertProfileViewWrapper: React.FC = () => {
   const { expertId } = useParams<{ expertId: string }>();

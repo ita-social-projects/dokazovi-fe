@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-shadow */
-import { Grid, Typography, Box } from '@material-ui/core';
+import { Box, Grid, Typography } from '@material-ui/core';
 import { isEmpty, uniq } from 'lodash';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -9,6 +9,8 @@ import { PostsList } from '../../../lib/components/Posts/PostsList';
 import { LoadMoreButton } from '../../../lib/components/LoadMoreButton/LoadMoreButton';
 import { usePrevious } from '../../../lib/hooks/usePrevious';
 import {
+  ChipFilterEnum,
+  ChipFilterType,
   FilterTypeEnum,
   IDirection,
   IOrigin,
@@ -16,11 +18,8 @@ import {
   LoadingStatusEnum,
   LoadMoreButtonTextType,
   QueryTypeEnum,
-  ChipFilterEnum,
-  ChipFilterType,
 } from '../../../lib/types';
-import { RootStateType } from '../../../store/rootReducer';
-import { selectPostsByIds } from '../../../store/selectors';
+import { selectPostsByIds } from '../../../../models/helpers/selectors';
 import {
   getQueryTypeByFilterType,
   mapQueryIdsStringToArray,
@@ -36,6 +35,11 @@ import { ChipsList } from '../../../../components/Chips/ChipsList/ChipsList';
 import { declOfNum } from '../../utilities/declOfNum';
 import { useStyles } from '../styles/MaterialsView.styles';
 import { setGALocation } from '../../../../utilities/setGALocation';
+import {
+  selectDirections,
+  selectOrigins,
+  selectPostTypes,
+} from '../../../../models/properties';
 
 const MaterialsView: React.FC = () => {
   const {
@@ -47,6 +51,7 @@ const MaterialsView: React.FC = () => {
   } = useSelector(selectMaterials);
 
   const [page, setPage] = useState(pageNumber);
+
   const [checkedFiltersOrigins, setCheckedFiltersOrigins] = useState<
     CheckboxFormStateType
   >();
@@ -63,9 +68,7 @@ const MaterialsView: React.FC = () => {
 
   const materials = selectPostsByIds(postIds);
 
-  const origins = useSelector(
-    (state: RootStateType) => state.properties.origins,
-  );
+  const origins = useSelector(selectOrigins);
 
   const originsInPlural: IOrigin[] = [];
 
@@ -90,9 +93,7 @@ const MaterialsView: React.FC = () => {
     originsInPlural.push(el1, el2, el3);
   }
 
-  const postTypes = useSelector(
-    (state: RootStateType) => state.properties.postTypes,
-  );
+  const postTypes = useSelector(selectPostTypes);
 
   const postTypesInPlural: IPostType[] = [];
 
@@ -123,9 +124,7 @@ const MaterialsView: React.FC = () => {
     postTypesInPlural.push(el1, el2, el3);
   }
 
-  const directions = useSelector(
-    (state: RootStateType) => state.properties.directions,
-  );
+  const directions = useSelector(selectDirections);
 
   const propertiesLoaded =
     !isEmpty(postTypes) && !isEmpty(directions) && !isEmpty(origins);

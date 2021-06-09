@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { RootStateType } from '../../old/store/rootReducer';
+import { RootStateType } from '../rootReducer';
 import { PostTypeEnum } from '../../old/lib/types';
 import {
   INewArticlePostDraft,

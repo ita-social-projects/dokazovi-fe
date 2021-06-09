@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import _ from 'lodash';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
-import { RootStateType } from '../../../store/rootReducer';
+import { RootStateType } from '../../../../models/rootReducer';
 import { IPostTag } from '../../types';
 import { fetchPostsTags } from '../../../../models/properties/asyncActions';
 

@@ -25,13 +25,16 @@ export interface IMaterialsData {
   };
 }
 
-export interface IMaterialsState {
+export interface IMaterialsDataWithFilters {
   data: IMaterialsData;
-  loading: LoadingStatusEnum;
-  error: null | string;
   filters?: {
     [key in QueryTypeEnum]?: number[];
   };
+}
+
+export interface IMaterialsState extends IMaterialsDataWithFilters {
+  loading: LoadingStatusEnum;
+  error: null | string;
 }
 
 export interface IFetchMaterialsOptions {

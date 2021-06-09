@@ -5,7 +5,7 @@ import { CheckboxDropdownFilterForm } from '../../../lib/components/Filters/Chec
 import { CheckboxFormStateType } from '../../../lib/components/Filters/CheckboxFilterForm';
 import { MAX_POST_ORIGINS } from '../../../lib/constants/posts';
 import { IOrigin } from '../../../lib/types';
-import { RootStateType } from '../../../store/rootReducer';
+import { RootStateType } from '../../../../models/rootReducer';
 
 interface IPostOriginsSelector {
   selectedOrigins: IOrigin[];

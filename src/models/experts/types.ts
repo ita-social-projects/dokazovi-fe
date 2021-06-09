@@ -1,5 +1,5 @@
 import { IExpert, LoadingStatusEnum } from '../../old/lib/types';
-import { IInitialMaterialsState } from '../materials/types';
+import { IMaterialsDataWithFilters, IMaterialsState } from '../materials/types';
 
 export interface IExpertsData {
   expertIds: number[];
@@ -13,7 +13,7 @@ export interface IExpertsState {
   data: IExpertsData;
   loading: LoadingStatusEnum;
   error: null | string;
-  posts: IInitialMaterialsState;
+  posts: IMaterialsDataWithFilters;
 }
 export interface IExpertMeta {
   totalPages: number;

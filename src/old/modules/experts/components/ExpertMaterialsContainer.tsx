@@ -1,4 +1,4 @@
-import { Grid, Typography, Box } from '@material-ui/core';
+import { Box, Grid, Typography } from '@material-ui/core';
 import { isEmpty, uniq } from 'lodash';
 import React, { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -13,25 +13,24 @@ import { usePrevious } from '../../../lib/hooks/usePrevious';
 import { useQuery } from '../../../lib/hooks/useQuery';
 import ExpertInfo from './ExpertInfo';
 import {
+  ChipFilterEnum,
+  ChipFilterType,
   FilterTypeEnum,
-  IPostType,
   IDirection,
+  IExpert,
+  IPostType,
   LoadingStatusEnum,
   LoadMoreButtonTextType,
   QueryTypeEnum,
-  IExpert,
-  ChipFilterType,
-  ChipFilterEnum,
 } from '../../../lib/types';
 import {
-  RequestParamsType,
   ActivePostType,
+  RequestParamsType,
 } from '../../../lib/utilities/API/types';
 import {
   getQueryTypeByFilterType,
   mapQueryIdsStringToArray,
 } from '../../../lib/utilities/filters';
-import { RootStateType } from '../../../store/rootReducer';
 import {
   fetchExpertMaterials,
   resetMaterials,
@@ -45,6 +44,10 @@ import { CheckboxLeftsideFilterForm } from '../../../lib/components/Filters/Chec
 import { ChipsList } from '../../../../components/Chips/ChipsList/ChipsList';
 import { useStyles } from '../styles/ExpertsView.styles';
 import { declOfNum } from '../../utilities/declOfNum';
+import {
+  selectDirections,
+  selectPostTypes,
+} from '../../../../models/properties';
 
 export interface IExpertMaterialsContainerProps {
   expertId: number;
@@ -82,6 +85,22 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
   const [activePostTypes, setActivePostTypes] = useState<ActivePostType[]>();
   const previous = usePrevious({ page });
 
+  const [
+    boundResetMaterials,
+    boundFetchExpertMaterials,
+    boundSetPending,
+  ] = useActions([resetMaterials, fetchExpertMaterials, setPending]);
+
+  useEffect(() => {
+    boundResetMaterials();
+  }, [expertId]);
+
+  useEffect(() => {
+    return function reseting() {
+      boundResetMaterials();
+    };
+  }, []);
+
   const allMaterials = Object.values(posts);
   const materials = [...allMaterials].filter((el) => {
     if (postIds.find((elem) => elem === el.id)) {
@@ -90,9 +109,7 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
     return false;
   });
 
-  const postTypes = useSelector(
-    (state: RootStateType) => state.properties.postTypes,
-  );
+  const postTypes = useSelector(selectPostTypes);
 
   const postTypesInPlural: IPostType[] = [];
 
@@ -123,9 +140,7 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
     postTypesInPlural.push(el1, el2, el3);
   }
 
-  const directions = useSelector(
-    (state: RootStateType) => state.properties.directions,
-  );
+  const directions = useSelector(selectDirections);
 
   const getDirections = () => {
     if (selectedDirections) {
@@ -206,8 +221,6 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
     setPage(page + 1);
   };
 
-  const [boundFetchExpertMaterials] = useActions([fetchExpertMaterials]);
-
   const fetchData = (appendPosts = false) => {
     const postTypesQuery = query.get(QueryTypeEnum.POST_TYPES);
     const directionsQuery = query.get(QueryTypeEnum.DIRECTIONS);
@@ -240,16 +253,6 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
     query.get(QueryTypeEnum.DIRECTIONS),
     page,
   ]);
-
-  const [boundResetMaterials] = useActions([resetMaterials]);
-
-  useEffect(() => {
-    return function reseting() {
-      boundResetMaterials();
-    };
-  }, []);
-
-  const [boundSetPending] = useActions([setPending]);
 
   const gridRef = useRef<HTMLDivElement>(null);
   useEffectExceptOnMount(() => {
