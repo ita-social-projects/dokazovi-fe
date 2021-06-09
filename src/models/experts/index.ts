@@ -4,7 +4,12 @@ export {
   fetchExpertById,
   fetchExpertMaterials,
 } from './asyncActions';
-export { resetMaterials, loadPosts, expertsReducer } from './reducers';
+export {
+  resetMaterials,
+  loadPosts,
+  expertsReducer,
+  setPending,
+} from './reducers';
 export {
   selectExperts,
   selectLoadingExpertsPosts,
