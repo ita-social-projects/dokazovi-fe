@@ -17,9 +17,10 @@ body {
 }
 
 .mainLoading {
-  position: absolute;
-  top: 50%;
-  left: 50%;
+  flex-grow: 1;
+  display: grid;
+  place-content: center;
+  place-items: center;
 }
 
 .content {

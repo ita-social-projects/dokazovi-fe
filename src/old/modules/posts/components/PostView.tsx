@@ -31,43 +31,58 @@ const PostView: React.FC<IPostViewProps> = ({
     type: post.type,
     publishedAt: post.publishedAt,
     uniqueViewsCounter: post.uniqueViewsCounter,
+    videoUrl: post.videoUrl,
   };
 
   return (
     <Card className={classes.cardContainer}>
-      {post.type.name !== 'Переклад' && <TopSection author={post.author} />}
-      {modificationAllowed && (
-        <Box className={classes.actionsBlock}>
-          <Link to={`/edit-post?id=${post.id}`}>
-            <EditIcon />
-          </Link>
-          {onDelete && (
-            <ConfirmationModalWithButton
-              message={`Ви дійсно бажаєте безповоротно видалити матеріал '${post.title}'?`}
-              buttonIcon={<DeleteIcon />}
-              onConfirmButtonClick={onDelete}
+      <Box className={classes.wrapper}>
+        {post.origins[0].name !== 'Переклад' && (
+          <TopSection author={post.author} />
+        )}
+
+        {modificationAllowed && (
+          <Box className={classes.actionsBlock}>
+            <Link to={`/edit-post?id=${post.id}`}>
+              <EditIcon />
+            </Link>
+            {onDelete && (
+              <ConfirmationModalWithButton
+                message={`Ви дійсно бажаєте безповоротно видалити матеріал '${post.title}'?`}
+                buttonIcon={<DeleteIcon />}
+                onConfirmButtonClick={onDelete}
+              />
+            )}
+          </Box>
+        )}
+        <Box className={classes.contentRoot}>
+          {post.title && (
+            <Typography variant="h1" gutterBottom>
+              {post.title}
+            </Typography>
+          )}
+
+          {post.origins[0].name === 'Переклад' && (
+            <SecondTopSection author={post.author} />
+          )}
+
+          <PostInfo info={postInfo} />
+          {post.type.name === 'Відео' && (
+            <iframe
+              className={classes.video}
+              src={post.videoUrl}
+              title={post.title}
+              width="100%"
+              height="100%"
             />
           )}
+          <div
+            className={classes.content}
+            dangerouslySetInnerHTML={{
+              __html: postContent,
+            }}
+          />
         </Box>
-      )}
-      <Box className={classes.contentRoot}>
-        {post.title && (
-          <Typography variant="h1" gutterBottom>
-            {post.title}
-          </Typography>
-        )}
-
-        {post.type.name === 'Переклад' && (
-          <SecondTopSection author={post.author} />
-        )}
-
-        <PostInfo info={postInfo} />
-        <div
-          className={classes.content}
-          dangerouslySetInnerHTML={{
-            __html: postContent,
-          }}
-        />
       </Box>
     </Card>
   );

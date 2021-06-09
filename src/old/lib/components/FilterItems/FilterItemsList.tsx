@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { RootStateType } from '../../../store/rootReducer';
+import { RootStateType } from '../../../../models/rootReducer';
 import { PostDirectionItem } from './PostDirectionItem';
 
 export interface IFilterItemsListProps {

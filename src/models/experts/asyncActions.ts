@@ -1,15 +1,9 @@
 /* eslint-disable */
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { IFetchExpertsMaterialsOptions, IFetchExpertsOptions } from './types';
-import {
-  getAllExperts,
-  getExpertById,
-  getPosts,
-} from '../../old/lib/utilities/API/api';
+import { getAllExperts, getPosts } from '../../old/lib/utilities/API/api';
 import { LOAD_EXPERTS_LIMIT } from '../../old/lib/constants/experts';
-import type { AppThunkType } from '../../old/store/store';
 import { mapFetchedPosts } from '../materials/asyncActions';
-import { loadExperts } from '../../old/store/dataSlice';
 import { LOAD_POSTS_LIMIT } from '../../old/lib/constants/posts';
 import { IExpert, LoadingStatusEnum } from '../../old/lib/types';
 import { ExpertResponseType } from '../../old/lib/utilities/API/types';
@@ -24,115 +18,96 @@ export const mapFetchedExperts = (
 
 export const fetchExperts = createAsyncThunk(
   'experts/loadExperts',
-  async (options: IFetchExpertsOptions, { getState }) => {
-    const { page, regions, directions, appendExperts } = options;
-    const response = await getAllExperts({
-      params: {
-        page,
-        size: LOAD_EXPERTS_LIMIT,
-        regions,
-        directions,
-      },
-    });
+  async (options: IFetchExpertsOptions, { getState, rejectWithValue }) => {
+    try {
+      const { page, regions, directions, appendExperts } = options;
+      const response = await getAllExperts({
+        params: {
+          page,
+          size: LOAD_EXPERTS_LIMIT,
+          regions,
+          directions,
+        },
+      });
 
-    const {
-      experts: { data },
-    } = getState() as any;
+      const {
+        experts: { data },
+      } = getState() as any;
 
-    const { mappedExperts, ids } = mapFetchedExperts(response.data.content);
-    const experts = { ...data.experts };
-    mappedExperts.forEach((expert) => {
-      if (experts && expert.id) {
-        experts[expert.id] = expert;
-      }
-    });
+      const { mappedExperts, ids } = mapFetchedExperts(response.data.content);
+      const experts = { ...data.experts };
+      mappedExperts.forEach((expert) => {
+        if (experts && expert.id) {
+          experts[expert.id] = expert;
+        }
+      });
 
-    const appendIds = [
-      ...new Set(appendExperts ? data.expertIds.concat(ids) : ids),
-    ];
+      const appendIds = [
+        ...new Set(appendExperts ? data.expertIds.concat(ids) : ids),
+      ];
 
-    return {
-      expertIds: appendIds,
-      experts,
-      meta: {
-        pageNumber: response.data.number,
-        totalPages: response.data.totalPages,
-        totalElements: response.data.totalElements,
-        isLastPage: response.data.last,
-        appendExperts,
-      },
-    };
-  },
-);
-
-export const fetchExpertById = createAsyncThunk(
-  'experts/loadExpertProfile',
-  async (id: number, { dispatch, getState }) => {
-    const {
-      data: { experts },
-    } = getState() as any;
-    const existingExpert = experts[id];
-
-    if (existingExpert) {
-      return existingExpert.id;
+      return {
+        expertIds: appendIds,
+        experts,
+        meta: {
+          pageNumber: response.data.number,
+          totalPages: response.data.totalPages,
+          totalElements: response.data.totalElements,
+          isLastPage: response.data.last,
+          appendExperts,
+        },
+      };
+    } catch (err) {
+      return rejectWithValue(err.response?.data);
     }
-
-    const { data: fetchedExpert } = await getExpertById(id);
-    dispatch(loadExperts([fetchedExpert]));
-
-    return fetchedExpert.id;
   },
 );
 
 export const fetchExpertMaterials = createAsyncThunk(
   'experts/fetchExpertMaterials',
-  async (options: IFetchExpertsMaterialsOptions, { getState }) => {
-    const { expertId, filters, page, appendPosts } = options;
-    const response = await getPosts('latest-by-expert', {
-      params: {
-        size: LOAD_POSTS_LIMIT,
-        page: page,
-        expert: expertId,
-        type: filters?.type,
-        direction: filters?.directions,
-      },
-    });
-
-    const { experts } = getState() as any;
-    const { mappedPosts, ids } = mapFetchedPosts(response.data.content);
-
-    const posts = { ...experts.posts.data.posts };
-    mappedPosts.forEach((post) => {
-      if (posts && post.id) {
-        posts[post.id] = post;
-      }
-    });
-
-    return {
-      data: {
-        postIds: appendPosts ? experts.posts.data.postIds.concat(ids) : ids,
-        posts,
-        meta: {
-          isLastPage: response.data.last,
-          pageNumber: response.data.number,
-          totalElements: response.data.totalElements,
-          totalPages: response.data.totalPages,
+  async (
+    options: IFetchExpertsMaterialsOptions,
+    { getState, rejectWithValue },
+  ) => {
+    try {
+      const { expertId, filters, page, appendPosts } = options;
+      const response = await getPosts('latest-by-expert', {
+        params: {
+          size: LOAD_POSTS_LIMIT,
+          page: page,
+          expert: expertId,
+          type: filters?.type,
+          direction: filters?.directions,
         },
-        loading: LoadingStatusEnum.succeeded,
-        error: null,
-        filters,
-      },
-    };
+      });
+
+      const { experts } = getState() as any;
+      const { mappedPosts, ids } = mapFetchedPosts(response.data.content);
+
+      const posts = { ...experts.posts.data.posts };
+      mappedPosts.forEach((post) => {
+        if (posts && post.id) {
+          posts[post.id] = post;
+        }
+      });
+
+      return {
+        data: {
+          postIds: appendPosts ? experts.posts.data.postIds.concat(ids) : ids,
+          posts,
+          meta: {
+            isLastPage: response.data.last,
+            pageNumber: response.data.number,
+            totalElements: response.data.totalElements,
+            totalPages: response.data.totalPages,
+          },
+          loading: LoadingStatusEnum.succeeded,
+          error: null,
+          filters,
+        },
+      };
+    } catch (err) {
+      return rejectWithValue(err.response?.data);
+    }
   },
 );
-
-export const fetchInitialMaterials = (expertId): AppThunkType => (
-  dispatch,
-  getState,
-) => {
-  const { postIds } = getState().experts.posts.data;
-
-  if (!postIds.length) {
-    dispatch(fetchExpertMaterials(expertId));
-  }
-}; // it doesn`t used and can be implemented as function not thunk;

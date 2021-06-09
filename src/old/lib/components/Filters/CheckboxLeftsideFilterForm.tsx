@@ -8,7 +8,7 @@ import {
   Grid,
   Typography,
 } from '@material-ui/core';
-import { store } from '../../../store/store';
+import { store } from '../../../../models/store';
 import { useStyles } from './CheckboxLeftsideFilterForm.styles';
 import { FilterItemsList } from '../FilterItems/FilterItemsList';
 import { CheckboxFormStateType } from './CheckboxFilterForm';

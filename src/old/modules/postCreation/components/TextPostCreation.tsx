@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import _ from 'lodash';
 import { useSelector } from 'react-redux';
 import { Box, TextField, Typography } from '@material-ui/core';
-import { RootStateType } from '../../../store/rootReducer';
+import { RootStateType } from '../../../../models/rootReducer';
 import {
   setPostDirections,
   setPostOrigin,
@@ -296,8 +296,8 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
             onSelectedDirectionsChange={handleDirectionsChange}
           />
           <PostOriginsSelector
-            selectedOrigin={savedPostDraft.origins}
-            onSelectedOriginChange={handleOriginsChange}
+            selectedOrigins={savedPostDraft.origins}
+            onSelectedOriginsChange={handleOriginsChange}
           />
           {extraFieldsForTranslation}
           <Box mt={2}>

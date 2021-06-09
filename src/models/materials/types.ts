@@ -1,5 +1,22 @@
 import { IPost, LoadingStatusEnum, QueryTypeEnum } from '../../old/lib/types';
 
+export interface IInitialMaterialsState {
+  data: IInitialMaterialsData;
+}
+
+export interface IInitialMaterialsData {
+  postIds: number[];
+  meta: IMaterialsMeta;
+  posts: {
+    [id: string]: IPost;
+  };
+  loading: LoadingStatusEnum;
+  error: null | string;
+  filters?: {
+    [key in QueryTypeEnum]?: number[];
+  };
+}
+
 export interface IMaterialsData {
   postIds: number[];
   meta: IMaterialsMeta;
@@ -8,13 +25,16 @@ export interface IMaterialsData {
   };
 }
 
-export interface IMaterialsState {
+export interface IMaterialsDataWithFilters {
   data: IMaterialsData;
-  loading: LoadingStatusEnum;
-  error: null | string;
   filters?: {
     [key in QueryTypeEnum]?: number[];
   };
+}
+
+export interface IMaterialsState extends IMaterialsDataWithFilters {
+  loading: LoadingStatusEnum;
+  error: null | string;
 }
 
 export interface IFetchMaterialsOptions {

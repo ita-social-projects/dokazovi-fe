@@ -52,11 +52,6 @@ s {
   min-height: 560px;
 }
 
-.ql-editor > h1,
-h2 {
-  line-height: 2rem;
-}
-
 .show {
   display: block;
 }
@@ -84,7 +79,66 @@ figure > img {
 }
 
 .imageTitle {
-  font-weight: bold;
+  font-family: 'Literata';
+  font-style: italic;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1;
+  color: #767676;
+  margin-top: 10px;
+}
+
+.ql-editor > h2,
+h3,
+h4 {
   line-height: 2rem;
-  margin-right: 1.2rem;
+}
+
+.ql-editor > h2 {
+  font-family: 'Raleway';
+  font-weight: 700;
+  font-size: 32px;
+  margin-bottom: 25px;
+}
+
+.ql-editor > h3 {
+  font-family: 'Raleway';
+  font-weight: 700;
+  font-size: 19px;
+  margin-bottom: 20px;
+}
+
+.ql-editor > h4 {
+  font-family: 'Raleway';
+  font-weight: 500;
+  font-size: 19px;
+  color: #767676;
+  margin-bottom: 70px;
+}
+
+.ql-editor > h5 {
+  font-family: 'Literata';
+  font-size: 14px;
+  font-weight: 400;
+}
+
+blockquote {
+  margin: 45px 0px;
+  padding: 45px 110px;
+  text-align: center;
+  font-family: 'Raleway', normal, sans-serif;
+  font-weight: 500;
+  font-size: 24px;
+  color: #ff5c00;
+  word-wrap: break-word;
+  border-top: #4fdfff solid 1px;
+  border-bottom: #4fdfff solid 1px;
+}
+
+.ql-editor > a {
+  font-family: 'Literata';
+  font-weight: 400;
+  font-size: 17px;
+  text-decoration: underline;
+  color: #0000ff;
 }

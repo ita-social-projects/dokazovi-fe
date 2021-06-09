@@ -1,4 +1,4 @@
-import { RootStateType } from '../../old/store/rootReducer';
+import { RootStateType } from '../rootReducer';
 import { LoadingStatusEnum } from '../../old/lib/types';
 import { IImportantPostsPayload, INewestPostsPayload } from './types';
 

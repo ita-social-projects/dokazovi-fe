@@ -17,7 +17,7 @@ export const LoadingContainer: React.FC<ILoadingContainerProps> = (props) => {
   return (
     <Grid
       container
-      className={expand ? classes.expandedContainer : classes.container}
+      className={expand ? classes.relativeContainer : classes.container}
     >
       <LoadingInfo loading={loading} errorMsg={errorMsg} />
     </Grid>
