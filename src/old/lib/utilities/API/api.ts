@@ -106,6 +106,16 @@ export const getAllExperts = async (
   return instance.get('/user/all-experts', { ...defaultConfig, ...config });
 };
 
+export const getUniquePostViewsCounter = async (
+  id: number,
+): Promise<AxiosResponse<number>> => {
+  return instance.get('/post/post-view-count', {
+    params: {
+      url: `/posts/${id}`,
+    },
+  });
+};
+
 export const getPostById = async (
   id: number,
 ): Promise<AxiosResponse<PostResponseType>> => {

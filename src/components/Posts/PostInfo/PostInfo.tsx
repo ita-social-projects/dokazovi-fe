@@ -1,4 +1,5 @@
 import React from 'react';
+import { Skeleton } from '@material-ui/lab';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import { IDirection, IOrigin, IPostType } from '../../../old/lib/types';
 import { useStyles } from './PostInfo.styles';
@@ -9,12 +10,13 @@ export interface IPostInfo {
     origins: IOrigin[];
     type: IPostType;
     publishedAt: string;
-    counter: number;
+    uniqueViewsCounter?: number;
   };
 }
 
 export default function PostInfo({ info }: IPostInfo): JSX.Element {
-  const { directions, origins, type, publishedAt, counter = 0 } = info;
+  const { directions, origins, type, publishedAt, uniqueViewsCounter } = info;
+
   const classes = useStyles();
   return (
     <div className={classes.root}>
@@ -36,7 +38,13 @@ export default function PostInfo({ info }: IPostInfo): JSX.Element {
         <li className={classes.icon}>
           <VisibilityIcon fontSize="small" />
         </li>
-        <li className={classes.counter}>{counter}</li>
+        <li className={classes.counter}>
+          {uniqueViewsCounter === undefined ? (
+            <Skeleton width={40} height={20} />
+          ) : (
+            uniqueViewsCounter
+          )}
+        </li>
       </ul>
     </div>
   );

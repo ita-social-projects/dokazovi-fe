@@ -29,7 +29,6 @@ const POST_MOCK: IPost = {
       name: 'Хірургія',
     },
   ],
-  counter: 1,
   publishedAt: '11.09.2020',
   type: {
     id: 1,
