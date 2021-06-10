@@ -168,9 +168,9 @@ export type PostsResponseType = GetResponseType<PostResponseType>;
 export type NewestPostsResponseType = GetResponseType<NewestPostResponseType>;
 
 export enum NewestTypeEnum {
+  EXPERT_OPINION,
   MEDIA,
   TRANSLATION,
-  EXPERT_OPINION,
   VIDEO,
 }
 
