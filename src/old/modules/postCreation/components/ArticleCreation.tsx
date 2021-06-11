@@ -1,9 +1,14 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import ArticleEditorToolbar from '../../../lib/components/Editor/Editors/ArticleEditorToolbar';
 import { PostTypeEnum } from '../../../lib/types';
 import { TextPostCreation } from './TextPostCreation';
+import { setGALocation } from '../../../../utilities/setGALocation';
 
 const ArticleCreation: React.FC = () => {
+  useEffect(() => {
+    setGALocation(window);
+  }, []);
+
   return (
     <TextPostCreation
       editorToolbar={ArticleEditorToolbar}

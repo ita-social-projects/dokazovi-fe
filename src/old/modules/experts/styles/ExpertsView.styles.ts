@@ -11,7 +11,7 @@ export const useStyles = makeStyles(
     },
     title: {
       width: '100%',
-      margin: '0 0 28px 15px',
+      margin: '0 0 28px 0',
       fontSize: '28px',
       lineHeight: '28px',
       fontWeight: 'bold',
@@ -39,6 +39,13 @@ export const useStyles = makeStyles(
       fontWeight: 500,
       fontSize: '16px',
       lineHeight: '1.4',
+    },
+    chipsHeading: {
+      margin: '0px 20px 15px 0px',
+      fontFamily: 'Raleway',
+      fontStyle: 'normal',
+      fontWeight: 700,
+      fontSize: '16px',
     },
   }),
   {

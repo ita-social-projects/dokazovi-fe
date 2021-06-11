@@ -24,8 +24,8 @@ export type OriginType =
 
 export enum PostTypeEnum {
   ARTICLE = 1,
-  DOPYS = 2,
-  VIDEO = 3,
+  DOPYS = 3,
+  VIDEO = 2,
 }
 
 export enum LoadMoreButtonTextType {
@@ -70,14 +70,21 @@ export enum FilterTypeEnum {
   DIRECTIONS,
   REGIONS,
   TAGS,
+  ORIGINS,
 }
 
 export enum ChipFilterEnum {
   REGION = 'REGION',
   DIRECTION = 'DIRECTION',
+  ORIGIN = 'ORIGIN',
+  POST_TYPE = 'POST_TYPE',
 }
 
-export type ChipFilterType = ChipFilterEnum.REGION | ChipFilterEnum.DIRECTION;
+export type ChipFilterType =
+  | ChipFilterEnum.REGION
+  | ChipFilterEnum.DIRECTION
+  | ChipFilterEnum.ORIGIN
+  | ChipFilterEnum.POST_TYPE;
 
 export enum QueryTypeEnum {
   POST_TYPES = 'types',
@@ -85,17 +92,20 @@ export enum QueryTypeEnum {
   REGIONS = 'regions',
   TAGS = 'tags',
   PAGE = 'page',
+  ORIGINS = 'origins',
 }
 
 export interface IPost {
   id: number;
   title: string;
   content: string;
+  uniqueViewsCounter?: number;
   author: {
     avatar?: string;
     firstName: string;
     id: number;
     lastName: string;
+    bio?: string;
     mainInstitution: {
       city: {
         id: number;
@@ -106,12 +116,12 @@ export interface IPost {
     };
   };
   directions: IDirection[];
-  origin: IOrigin[];
   tags?: IPostTag[];
   type: IPostType;
   createdAt: string;
+  publishedAt: string;
   modifiedAt?: string;
-  origins?: IOrigin[];
+  origins: IOrigin[];
   preview: string;
   previewImageUrl?: string;
   videoUrl?: string;
@@ -125,7 +135,7 @@ export interface IExpert {
   qualification?: string;
   phone?: string;
   email?: string;
-  bio?: string;
+  bio: string;
   mainInstitution?: IInstitution;
   mainDirection?: IDirection;
   directions?: IDirection[];
@@ -133,6 +143,7 @@ export interface IExpert {
     id: number;
     title: string;
   };
+  socialNetwork?: string;
 }
 
 export interface IPostTag {

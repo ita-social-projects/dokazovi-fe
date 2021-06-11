@@ -21,6 +21,7 @@ import {
   CreatePostRequestUnionType,
   UpdatePostRequestUnionType,
   NewestPostsResponseType,
+  ActivePostType,
 } from './types';
 import { BASE_URL } from '../../../apiURL';
 import { getToken } from '../../../provider/AuthProvider/getToken';
@@ -81,6 +82,12 @@ export const getPosts = async (
   });
 };
 
+export const getActivePostTypes = async (
+  userId: number,
+): Promise<AxiosResponse<ActivePostType[]>> => {
+  return instance.get(`/post-types/${userId}`);
+};
+
 export const getNewestPosts = async (): Promise<
   AxiosResponse<NewestPostsResponseType>
 > => {
@@ -97,6 +104,16 @@ export const getAllExperts = async (
   config?: GetExpertsConfigType,
 ): Promise<AxiosResponse<ExpertsResponseType>> => {
   return instance.get('/user/all-experts', { ...defaultConfig, ...config });
+};
+
+export const getUniquePostViewsCounter = async (
+  id: number,
+): Promise<AxiosResponse<number>> => {
+  return instance.get('/post/post-view-count', {
+    params: {
+      url: `/posts/${id}`,
+    },
+  });
 };
 
 export const getPostById = async (

@@ -1,5 +1,11 @@
 /* eslint-disable */
-export {} from './asyncActions';
+export {
+  fetchDirections,
+  fetchOrigins,
+  fetchPostsTags,
+  fetchPostsTypes,
+  fetchRegions,
+} from './asyncActions';
 export { propertiesReducer } from './reducers';
 export {
   selectDirections,

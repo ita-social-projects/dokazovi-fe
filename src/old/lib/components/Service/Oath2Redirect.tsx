@@ -1,6 +1,7 @@
 import React, { useEffect, useContext } from 'react';
 import { useLocation } from 'react-router-dom';
 import { AuthContext } from '../../../provider/AuthProvider/AuthContext';
+import { setGALocation } from '../../../../utilities/setGALocation';
 
 const useQuery = () => {
   return new URLSearchParams(useLocation().search);
@@ -11,6 +12,10 @@ const Oath2Redirect: React.FC = () => {
   const { setAuthorization } = useContext(AuthContext);
 
   const token = query.get('token');
+
+  useEffect(() => {
+    setGALocation(window);
+  }, []);
 
   useEffect(() => {
     if (token) {

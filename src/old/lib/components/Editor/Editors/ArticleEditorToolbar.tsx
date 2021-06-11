@@ -8,8 +8,10 @@ const ArticleEditorToolbar: React.FC<IEditorToolbarProps> = ({ editor }) => {
     <div id="toolbar">
       <span className="ql-formats">
         <select className="ql-header" defaultValue="">
-          <option value="1">Заголовок 1</option>
-          <option value="2">Заголовок 2</option>
+          <option value="2">Заголовок 1</option>
+          <option value="3">Заголовок 2</option>
+          <option value="4">Вступ</option>
+          <option value="5">Примітка</option>
           <option value="">Звичайний</option>
         </select>
       </span>
@@ -17,7 +19,6 @@ const ArticleEditorToolbar: React.FC<IEditorToolbarProps> = ({ editor }) => {
         <button title="Bold" type="button" className="ql-bold" />
         <button title="Italic" type="button" className="ql-italic" />
         <button title="Underline" type="button" className="ql-underline" />
-        <button title="Strike" type="button" className="ql-strike" />
       </span>
       <span className="ql-formats">
         <button
@@ -32,18 +33,6 @@ const ArticleEditorToolbar: React.FC<IEditorToolbarProps> = ({ editor }) => {
           className="ql-list"
           value="bullet"
         />
-        <button
-          title="Left Indent"
-          type="button"
-          className="ql-indent"
-          value="-1"
-        />
-        <button
-          title="Right Indent"
-          type="button"
-          className="ql-indent"
-          value="+1"
-        />
       </span>
       <span className="ql-formats">
         <button
@@ -53,10 +42,8 @@ const ArticleEditorToolbar: React.FC<IEditorToolbarProps> = ({ editor }) => {
           value="super"
         />
         <button title="Sub" type="button" className="ql-script" value="sub" />
-        <button title="Blockquote" type="button" className="ql-blockquote" />
-      </span>
-      <span className="ql-formats">
-        <select title="Align" className="ql-align" />
+        <button title="Quote" type="button" className="ql-blockquote" />
+        <button type="button" className="ql-link" />
       </span>
       <ImageHandlersContainer editor={editor} />
     </div>

@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import React, { useCallback, useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import _ from 'lodash';
 import { Box, TextField, Typography } from '@material-ui/core';
-import { IDirection, IPost } from '../../../lib/types';
+import { IDirection, IPost, IOrigin } from '../../../lib/types';
 import {
   UpdateVideoPostRequestType,
   ExpertResponseType,
@@ -18,6 +19,7 @@ import { CONTENT_DEBOUNCE_TIMEOUT } from '../../../lib/constants/editors';
 import PostView from '../../posts/components/PostView';
 import { PostDirectionsSelector } from '../../postCreation/components/PostDirectionsSelector';
 import { PostAuthorSelection } from '../../postCreation/components/PostAuthorSelection/PostAuthorSelection';
+import { PostOriginsSelector } from '../../postCreation/components/PostOriginsSelector';
 
 export interface IVideoUpdationProps {
   post: IPost;
@@ -27,6 +29,9 @@ const VideoUpdation: React.FC<IVideoUpdationProps> = ({ post }) => {
   const history = useHistory();
   const [selectedDirections, setSelectedDirections] = useState<IDirection[]>(
     post.directions,
+  );
+  const [selectedOrigins, setSelectedOrigins] = useState<IOrigin[]>(
+    post.origins,
   );
   const [htmlContent, setHtmlContent] = useState(post.content);
   const [videoUrl, setVideoUrl] = useState<string>(post.videoUrl as string);
@@ -45,6 +50,10 @@ const VideoUpdation: React.FC<IVideoUpdationProps> = ({ post }) => {
 
   const handleDirectionsChange = (value: IDirection[]) => {
     setSelectedDirections(value);
+  };
+
+  const handleOriginsChange = (value: IOrigin[]) => {
+    setSelectedOrigins(value);
   };
 
   const handleHtmlContentChange = useCallback(
@@ -82,6 +91,7 @@ const VideoUpdation: React.FC<IVideoUpdationProps> = ({ post }) => {
     id: post.id,
     content: htmlContent,
     directions: selectedDirections,
+    origins: selectedOrigins,
     title: title.value,
     preview: post.preview, // currently leaving the previous preview
     videoUrl,
@@ -93,6 +103,7 @@ const VideoUpdation: React.FC<IVideoUpdationProps> = ({ post }) => {
     ...post,
     author: {
       avatar: author?.avatar ?? post.author.avatar,
+      bio: author?.bio ?? post.author.bio,
       firstName: author?.firstName ?? post.author.firstName,
       id: author?.id ?? post.author.id,
       lastName: author?.lastName ?? post.author.lastName,
@@ -100,6 +111,7 @@ const VideoUpdation: React.FC<IVideoUpdationProps> = ({ post }) => {
     },
     content: htmlContent,
     directions: selectedDirections,
+    origins: selectedOrigins,
     title: title.value,
     type: post.type,
   };
@@ -118,6 +130,10 @@ const VideoUpdation: React.FC<IVideoUpdationProps> = ({ post }) => {
           <PostDirectionsSelector
             selectedDirections={selectedDirections}
             onSelectedDirectionsChange={handleDirectionsChange}
+          />
+          <PostOriginsSelector
+            selectedOrigins={selectedOrigins}
+            onSelectedOriginsChange={handleOriginsChange}
           />
           <Box mt={2}>
             <Typography variant="h5">Заголовок відео: </Typography>

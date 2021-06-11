@@ -15,7 +15,7 @@ export const VideoPostPreviewCard: React.FC<IPostPreviewCardProps> = ({
   const classes = useStyles();
   const postLink = `/posts/${post.id}`;
 
-  const bgImageURL = post.previewImageUrl ? post.previewImageUrl : background;
+  const url = post.videoUrl ? post.videoUrl : background;
 
   const card = (
     <>
@@ -24,11 +24,9 @@ export const VideoPostPreviewCard: React.FC<IPostPreviewCardProps> = ({
         flexDirection="column"
         flexWrap="no-wrap"
         justifyContent="space-between"
-        style={{
-          backgroundImage: `url(${bgImageURL})`,
-        }}
       >
-        <Box className={classes.play} />
+        {url === background && <Box className={classes.play} />}
+        <iframe src={url} width="100%" height="100%" title={post.title} />
       </Box>
       <Box className={classes.body}>
         <Typography
@@ -45,9 +43,10 @@ export const VideoPostPreviewCard: React.FC<IPostPreviewCardProps> = ({
           color="textPrimary"
           component="p"
           className={classes.textBody}
-        >
-          {post.preview}
-        </Typography>
+          dangerouslySetInnerHTML={{
+            __html: post.preview,
+          }}
+        />
         <Box mb={6}>
           <Typography variant="caption" color="textSecondary">
             {formatDate(post.createdAt)}
@@ -56,7 +55,6 @@ export const VideoPostPreviewCard: React.FC<IPostPreviewCardProps> = ({
       </Box>
     </>
   );
-
   return (
     <Card className={classes.root}>
       {shouldNotUseLink ? card : <Link to={postLink}>{card}</Link>}

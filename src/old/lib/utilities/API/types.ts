@@ -6,7 +6,7 @@ export type CreatePostRequestType = {
   authorsDetails?: string;
   content: string;
   directions: IDirection[];
-  origin?: IOrigin[];
+  origins?: IOrigin[];
   preview: string;
   type: {
     id: number;
@@ -46,6 +46,7 @@ export type PostResponseType = {
     firstName: string;
     id: number;
     lastName: string;
+    bio: string;
     mainInstitution: {
       city: {
         id: number;
@@ -59,8 +60,9 @@ export type PostResponseType = {
   preview: string;
   postType: PostTypeResponseType;
   createdAt: string;
+  publishedAt: string;
   directions: DirectionResponseType[];
-  origin: IOrigin[];
+  origins: IOrigin[];
   id: number;
   title: string;
   type: {
@@ -72,6 +74,7 @@ export type PostResponseType = {
 
 export type ExpertResponseType = {
   avatar: string;
+  bio: string;
   firstName: string;
   id: number;
   lastAddedPost: {
@@ -92,6 +95,11 @@ export type ExpertResponseType = {
     name: string;
   };
   qualification: string;
+};
+
+export type ActivePostType = {
+  id: number;
+  name: string;
 };
 
 export type CreateTagRequestType = {
@@ -159,9 +167,9 @@ export type PostsResponseType = GetResponseType<PostResponseType>;
 export type NewestPostsResponseType = GetResponseType<NewestPostResponseType>;
 
 export enum NewestTypeEnum {
+  EXPERT_OPINION,
   MEDIA,
   TRANSLATION,
-  EXPERT_OPINION,
   VIDEO,
 }
 
@@ -195,6 +203,7 @@ export type RequestParamsType = {
   size?: number;
   sort?: string[];
   directions?: number[];
+  direction?: number[];
   type?: number[];
   types?: number[];
   expert?: number;

@@ -4,11 +4,12 @@ import { Typography } from '@material-ui/core';
 export interface IPostDirectionItemProps {
   labelName?: string;
   handleClick?: () => void;
-  isEnabledRegion?: boolean;
+  isDisabledFilter?: boolean;
+  checked?: boolean;
 }
 
 export const PostDirectionItem: React.FC<IPostDirectionItemProps> = (props) => {
-  const { labelName, handleClick, isEnabledRegion } = props;
+  const { labelName, handleClick, isDisabledFilter, checked } = props;
 
   const onClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.stopPropagation();
@@ -17,26 +18,20 @@ export const PostDirectionItem: React.FC<IPostDirectionItemProps> = (props) => {
     }
   };
 
-  let style: React.CSSProperties;
+  const style: React.CSSProperties = {
+    fontFamily: 'Raleway',
+    fontStyle: 'normal',
+    fontSize: '16px',
+    lineHeight: '18,78px',
+    fontWeight: 500,
+    color: '#00000',
+  };
 
-  if (isEnabledRegion) {
-    style = {
-      fontFamily: 'Raleway',
-      fontStyle: 'normal',
-      fontSize: '16px',
-      lineHeight: '18,78px',
-      fontWeight: 500,
-      color: '#000000',
-    };
-  } else {
-    style = {
-      fontFamily: 'Raleway',
-      fontStyle: 'normal',
-      fontSize: '16px',
-      lineHeight: '18px',
-      fontWeight: 'normal',
-      color: '#767676',
-    };
+  if (isDisabledFilter) {
+    style.fontWeight = 500;
+    style.color = '#767676';
+  } else if (checked) {
+    style.fontWeight = 'bold';
   }
 
   return (

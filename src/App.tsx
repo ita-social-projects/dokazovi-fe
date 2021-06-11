@@ -1,5 +1,5 @@
 import React, { Suspense, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import ReactGA from 'react-ga';
 import { BrowserRouter } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import {
@@ -19,17 +19,34 @@ import {
   fetchOrigins,
   fetchPostsTypes,
   fetchRegions,
-} from './models/properties/asyncActions';
+} from './models/properties';
+import { useActions } from './shared/hooks';
+import { Header } from './old/lib/components/Header/Header';
+import { Footer } from './old/lib/components/Footer/Footer';
+
+ReactGA.initialize(process.env.REACT_APP_GOOGLE_ID as string, {
+  testMode: process.env.NODE_ENV === 'test',
+});
 
 export const App: React.FC = () => {
-  const dispatch = useDispatch();
+  const [
+    boundFetchDirections,
+    boundFetchOrigins,
+    boundFetchPostsTypes,
+    boundFetchRegions,
+  ] = useActions([
+    fetchDirections,
+    fetchOrigins,
+    fetchPostsTypes,
+    fetchRegions,
+  ]);
 
   useEffect(() => {
     const fetchProperties = () => {
-      dispatch(fetchPostsTypes());
-      dispatch(fetchRegions());
-      dispatch(fetchDirections());
-      dispatch(fetchOrigins());
+      boundFetchDirections();
+      boundFetchOrigins();
+      boundFetchPostsTypes();
+      boundFetchRegions();
     };
     fetchProperties();
   }, []);
@@ -48,11 +65,19 @@ export const App: React.FC = () => {
         <CssBaseline />
         <BrowserRouter>
           <div className="content">
-            <Suspense fallback={<CircularProgress className="mainLoading" />}>
-              <AuthProvider>
+            <AuthProvider>
+              <Header />
+              <Suspense
+                fallback={
+                  <div className="mainLoading">
+                    <CircularProgress />
+                  </div>
+                }
+              >
                 <RenderRoutes routes={ROUTER_CONFIG} />
-              </AuthProvider>
-            </Suspense>
+              </Suspense>
+              <Footer />
+            </AuthProvider>
           </div>
         </BrowserRouter>
       </ThemeProvider>

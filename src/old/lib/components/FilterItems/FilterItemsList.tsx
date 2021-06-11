@@ -1,22 +1,22 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { RootStateType } from '../../../store/rootReducer';
+import { RootStateType } from '../../../../models/rootReducer';
 import { PostDirectionItem } from './PostDirectionItem';
 
 export interface IFilterItemsListProps {
   checkedNames: string;
-  isEnabledRegion: boolean;
+  isDisabledFilter: boolean;
+  checked: boolean;
 }
 
 export const FilterItemsList: React.FC<IFilterItemsListProps> = ({
   checkedNames,
-  isEnabledRegion,
+  isDisabledFilter,
+  checked,
 }) => {
   const { directions } = useSelector(
     (state: RootStateType) => state.properties,
   );
-
-  // console.log("filteritems");
 
   const destructNamesString = (str: string) => {
     const arr = str.split('+');
@@ -44,16 +44,17 @@ export const FilterItemsList: React.FC<IFilterItemsListProps> = ({
                 <PostDirectionItem
                   key={direction.id}
                   labelName={direction.label}
-                  isEnabledRegion={isEnabledRegion}
+                  isDisabledFilter={isDisabledFilter}
+                  checked={checked}
                 />
               );
             }
-
             return (
               <PostDirectionItem
                 key={directionName}
                 labelName={directionName}
-                isEnabledRegion={isEnabledRegion}
+                isDisabledFilter={isDisabledFilter}
+                checked={checked}
               />
             );
           })}

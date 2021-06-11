@@ -9,11 +9,12 @@ export interface IPostDirectionChipProps {
   backgroundColor?: string;
   handleClick?: () => void;
   handleDelete?: (arg0: string | undefined) => void;
+  theOnlyAvailable?: boolean;
 }
 
 export const PostDirectionChip: React.FC<IPostDirectionChipProps> = (props) => {
   const classes = useStyles(props);
-  const { labelName, handleClick, handleDelete } = props;
+  const { labelName, handleClick, handleDelete, theOnlyAvailable } = props;
 
   const onClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     if (handleClick) {
@@ -29,14 +30,23 @@ export const PostDirectionChip: React.FC<IPostDirectionChipProps> = (props) => {
 
   return (
     <>
-      <Chip
-        key={labelName}
-        className={classes.directionChip}
-        label={labelName}
-        size="medium"
-        onClick={onClick}
-        onDelete={() => onDeleteClick(labelName)}
-      />
+      {theOnlyAvailable ? (
+        <Chip
+          key={labelName}
+          className={classes.directionChip}
+          label={labelName}
+          size="medium"
+        />
+      ) : (
+        <Chip
+          key={labelName}
+          className={classes.directionChip}
+          label={labelName}
+          size="medium"
+          onClick={onClick}
+          onDelete={() => onDeleteClick(labelName)}
+        />
+      )}
     </>
   );
 };

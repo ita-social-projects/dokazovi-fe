@@ -1,43 +1,13 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { IDirection, IOrigin, PostTypeEnum } from '../../../lib/types';
-
-interface INewPostDraft {
-  previewImageUrl?: string;
-  title: string;
-  directions: IDirection[];
-  origin: IOrigin[];
-  htmlContent: string;
-  preview: IPostPreview;
-  authorsName: string;
-  authorsDetails: string;
-  authorId?: number | null;
-}
-
-interface IPostPreview {
-  value: string;
-  isManuallyChanged: boolean;
-}
-
-interface INewArticlePostDraft extends INewPostDraft {}
-
-interface INewDopysPostDraft extends INewPostDraft {}
-
-interface INewVideoPostDraft extends INewPostDraft {
-  videoUrl: string;
-}
-
-export interface IPostCreationState {
-  [PostTypeEnum.ARTICLE]: INewArticlePostDraft;
-  [PostTypeEnum.DOPYS]: INewDopysPostDraft;
-  [PostTypeEnum.VIDEO]: INewVideoPostDraft;
-}
+import { IDirection, IOrigin, PostTypeEnum } from '../../old/lib/types';
+import { INewPostDraft, IPostCreationState } from './types';
 
 const initialState: IPostCreationState = {
   [PostTypeEnum.ARTICLE]: {
     title: '',
     directions: [],
-    origin: [
+    origins: [
       {
         id: 1,
         name: 'Думка експерта',
@@ -54,7 +24,7 @@ const initialState: IPostCreationState = {
   [PostTypeEnum.DOPYS]: {
     title: '',
     directions: [],
-    origin: [
+    origins: [
       {
         id: 1,
         name: 'Думка експерта',
@@ -71,7 +41,7 @@ const initialState: IPostCreationState = {
   [PostTypeEnum.VIDEO]: {
     title: '',
     directions: [],
-    origin: [
+    origins: [
       {
         id: 1,
         name: 'Думка експерта',
@@ -115,7 +85,7 @@ export const postCreationSlice = createSlice({
         value: IOrigin[];
       }>,
     ) => {
-      state[action.payload.postType].origin = action.payload.value;
+      state[action.payload.postType].origins = action.payload.value;
     },
     setPostTitle: (
       state,
@@ -207,6 +177,4 @@ export const {
   setAuthorId,
 } = postCreationSlice.actions;
 
-const postCreationReducer = postCreationSlice.reducer;
-
-export default postCreationReducer;
+export const postCreationReducer = postCreationSlice.reducer;

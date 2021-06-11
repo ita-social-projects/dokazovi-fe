@@ -5,7 +5,7 @@ import { CheckboxDropdownFilterForm } from '../../../lib/components/Filters/Chec
 import { CheckboxFormStateType } from '../../../lib/components/Filters/CheckboxFilterForm';
 import { MAX_POST_DIRECTIONS } from '../../../lib/constants/posts';
 import { IDirection } from '../../../lib/types';
-import { RootStateType } from '../../../store/rootReducer';
+import { RootStateType } from '../../../../models/rootReducer';
 
 interface IPostDirectionsSelector {
   selectedDirections: IDirection[];

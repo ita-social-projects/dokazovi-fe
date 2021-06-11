@@ -3,7 +3,7 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { render, screen } from '@testing-library/react';
 import { ExpertsViewCard } from '../../../../lib/components/Experts/ExpertsViewCard';
-import { store } from '../../../../store/store';
+import { store } from '../../../../../models/store';
 import { ExpertBlock } from '../../../../lib/components/Experts/ExpertBlock';
 import { experts } from '../../../../__mocks__/experts';
 
