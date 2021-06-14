@@ -186,7 +186,7 @@ export const VideoPostUpdation: React.FC<ITextPostUpdationProps> = ({
                 title="video"
                 width="360"
                 height="240"
-                src={`http://www.youtube.com/embed/${videoId}`}
+                src={`https://www.youtube.com/embed/${videoId}`}
                 frameBorder="0"
                 allowFullScreen
               />
