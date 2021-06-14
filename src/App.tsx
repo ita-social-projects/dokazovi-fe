@@ -24,7 +24,7 @@ import { useActions } from './shared/hooks';
 import { Header } from './old/lib/components/Header/Header';
 import { Footer } from './old/lib/components/Footer/Footer';
 
-ReactGA.initialize(process.env.REACT_APP_GOOGLE_ID as string, {
+ReactGA.initialize('UA-197683102-1', {
   testMode: process.env.NODE_ENV === 'test',
 });
 
