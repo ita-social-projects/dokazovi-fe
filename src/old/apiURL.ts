@@ -1,4 +1,4 @@
-export const BASE_URL = process.env.REACT_APP_BASE_URL as string;
+export const BASE_URL = 'https://dokazovi-be.herokuapp.com/api';
 
 const { origin } = window.location;
 export const OAUTH2_REDIRECT_URI = `${origin}/oauth2/redirect`;
