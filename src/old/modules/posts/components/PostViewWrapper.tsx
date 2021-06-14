@@ -53,7 +53,9 @@ const PostViewWrapper: React.FC = () => {
           ...postResponse.data,
           content: sanitizeHtml(content),
         };
-        setLoadedPost(sanitizedData);
+        setLoadedPost((post) => {
+          return { ...post, ...sanitizedData } as IPost;
+        });
         setLoadingStatus(LoadingStatusEnum.succeeded);
       })
       .catch(() => {
