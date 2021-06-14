@@ -16,6 +16,7 @@ import {
   setPostPreviewManuallyChanged,
   resetDraft,
   setAuthorId,
+  selectVideoPostDraft,
 } from '../../../models/postCreation';
 import {
   IDirection,
@@ -46,14 +47,12 @@ import { BorderBottom } from '../../../old/lib/components/Border';
 import { PostAuthorSelection } from '../../../old/modules/postCreation/components/PostAuthorSelection/PostAuthorSelection';
 
 import { selectCurrentUser } from '../../../models/user/selectors';
-import { selectVideoPostDraft } from '../../../models/postCreation/selectors';
 import { useActions } from '../../../shared/hooks';
 
 interface IVideoPostCreationProps {
   pageTitle?: string;
   titleInputLabel?: string;
   contentInputLabel?: string;
-  postType: { type: PostTypeEnum; name: string };
   editorToolbar: React.ComponentType<IEditorToolbarProps>;
 }
 
@@ -63,7 +62,6 @@ export const VideoPostCreation: React.FC<IVideoPostCreationProps> = ({
   pageTitle,
   titleInputLabel,
   contentInputLabel,
-  postType,
   editorToolbar,
 }) => {
   const history = useHistory();
@@ -124,25 +122,25 @@ export const VideoPostCreation: React.FC<IVideoPostCreationProps> = ({
   ]);
 
   const handleDirectionsChange = (value: IDirection[]) => {
-    boundSetPostDirections({ postType: postType.type, value });
+    boundSetPostDirections({ postType: PostTypeEnum.VIDEO, value });
   };
 
   const handleOriginsChange = (value: IOrigin[]) => {
     setAuthName({ ...authorsName, value: '' });
     setAuthDetails({ ...authorsDetails, value: '' });
-    boundSetPostOrigin({ postType: postType.type, value });
+    boundSetPostOrigin({ postType: PostTypeEnum.VIDEO, value });
   };
 
   const handleTitleChange = (value: string) => {
-    boundSetPostTitle({ postType: postType.type, value });
+    boundSetPostTitle({ postType: PostTypeEnum.VIDEO, value });
   };
 
   const handleAuthorsNameChange = (value: string) => {
-    boundSetAuthorsName({ postType: postType.type, value });
+    boundSetAuthorsName({ postType: PostTypeEnum.VIDEO, value });
   };
 
   const handleAuthorsDetailsChange = (value: string) => {
-    boundSetAuthorsDetails({ postType: postType.type, value });
+    boundSetAuthorsDetails({ postType: PostTypeEnum.VIDEO, value });
   };
 
   const handleVideoUrlChange = (url: string) => {
@@ -152,7 +150,7 @@ export const VideoPostCreation: React.FC<IVideoPostCreationProps> = ({
   const handleHtmlContentChange = useCallback(
     _.debounce((value: string) => {
       boundSetPostBody({
-        postType: postType.type,
+        postType: PostTypeEnum.VIDEO,
         value: sanitizeHtml(value),
       });
       setTyping({ ...typing, content: false });
@@ -163,7 +161,7 @@ export const VideoPostCreation: React.FC<IVideoPostCreationProps> = ({
   const handlePreviewChange = useCallback(
     _.debounce((value: string) => {
       boundSetPostPreviewText({
-        postType: postType.type,
+        postType: PostTypeEnum.VIDEO,
         value,
       });
       setTyping({ ...typing, preview: false });
@@ -187,7 +185,7 @@ export const VideoPostCreation: React.FC<IVideoPostCreationProps> = ({
 
   const onAuthorTableClick = (value: number, item: ExpertResponseType) => {
     boundSetAuthorId({
-      postType: postType.type,
+      postType: PostTypeEnum.VIDEO,
       value,
     });
     setAuthor(item);
@@ -196,7 +194,7 @@ export const VideoPostCreation: React.FC<IVideoPostCreationProps> = ({
   };
 
   const handlePreviewManuallyChanged = () => {
-    boundSetPostPreviewManuallyChanged(postType.type);
+    boundSetPostPreviewManuallyChanged(PostTypeEnum.VIDEO);
   };
 
   const newPost: CreateVideoPostRequestType = {
@@ -210,7 +208,7 @@ export const VideoPostCreation: React.FC<IVideoPostCreationProps> = ({
     authorsName: savedPostDraft.authorsName,
     authorsDetails: savedPostDraft.authorsDetails,
     videoUrl: savedPostDraft.videoUrl,
-    type: { id: postType.type },
+    type: { id: PostTypeEnum.VIDEO },
   };
 
   const previewPost = React.useMemo(
@@ -224,14 +222,14 @@ export const VideoPostCreation: React.FC<IVideoPostCreationProps> = ({
         origins: savedPostDraft.origins,
         title: savedPostDraft.title,
         videoUrl: savedPostDraft.videoUrl,
-        type: { id: postType.type },
+        type: { id: PostTypeEnum.VIDEO, name: 'Відео' },
       } as IPost),
     [user, savedPostDraft],
   );
 
   const handlePublishClick = async () => {
     const response = await createPost(newPost);
-    boundResetDraft(postType.type);
+    boundResetDraft(PostTypeEnum.VIDEO);
     history.push(`/posts/${response.data.id}`);
   };
 
@@ -321,7 +319,7 @@ export const VideoPostCreation: React.FC<IVideoPostCreationProps> = ({
                 title="video"
                 width="360"
                 height="240"
-                src={`http://www.youtube.com/embed/${videoId}`}
+                src={`https://www.youtube.com/embed/${videoId}`}
                 frameBorder="0"
                 allowFullScreen
               />
