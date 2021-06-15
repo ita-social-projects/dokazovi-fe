@@ -8,8 +8,16 @@ import { LoadingStatusEnum } from '../../old/lib/types';
 export const getAsyncActionsReducer = (
   asyncAction: AsyncThunk<any, void, Record<string, unknown>>,
   key = 'data',
+  loadingKey: null | string = null,
 ) => ({
   [asyncAction.pending.type]: (state: any) => {
+    switch (loadingKey) {
+      case null:
+        state.loading = LoadingStatusEnum.pending;
+        break;
+      default:
+        state[loadingKey].loading = LoadingStatusEnum.pending;
+    }
     state.loading = LoadingStatusEnum.pending;
   },
   [asyncAction.fulfilled.type]: (state: any, action: PayloadAction<any>) => {

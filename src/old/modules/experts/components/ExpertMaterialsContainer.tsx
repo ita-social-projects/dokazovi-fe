@@ -34,7 +34,6 @@ import {
 import {
   fetchExpertMaterials,
   resetMaterials,
-  setPending,
   selectExpertsData,
   selectLoadingExpertsPosts,
 } from '../../../../models/experts';
@@ -88,8 +87,8 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
   const [
     boundResetMaterials,
     boundFetchExpertMaterials,
-    boundSetPending,
-  ] = useActions([resetMaterials, fetchExpertMaterials, setPending]);
+    // boundSetPending,
+  ] = useActions([resetMaterials, fetchExpertMaterials]);
 
   useEffect(() => {
     boundResetMaterials();
@@ -247,7 +246,7 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
   useEffect(() => {
     const appendPosts = previous && previous.page < page;
     fetchData(appendPosts);
-    boundSetPending();
+    // boundSetPending();
   }, [
     query.get(QueryTypeEnum.POST_TYPES),
     query.get(QueryTypeEnum.DIRECTIONS),
