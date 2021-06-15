@@ -1,10 +1,9 @@
 import React, { useContext, useEffect } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { useParams, NavLink } from 'react-router-dom';
 import { Typography, Container, Box } from '@material-ui/core';
 import CreateIcon from '@material-ui/icons/Create';
 import { AuthContext } from '../../old/provider/AuthProvider/AuthContext';
 import { useStyles } from './Conditions.styles';
-import { useParams } from 'react-router-dom';
 
 export default function Conditions(): JSX.Element {
   const { authenticated } = useContext(AuthContext);
@@ -13,7 +12,7 @@ export default function Conditions(): JSX.Element {
   const { to } = useParams<{ to: string }>();
   useEffect(() => {
     const element: HTMLElement | null = document.getElementById(to);
-    element && element.scrollIntoView({ block: 'center', behavior: 'smooth' });
+    element && element.scrollIntoView({ block: 'start', behavior: 'smooth' });
   }, [to]);
 
   return (
@@ -49,9 +48,13 @@ export default function Conditions(): JSX.Element {
           </li>
         </ul>
 
-        <div id="about">
-          <Typography>Про платформу</Typography>
-          {authenticated && <CreateIcon />}
+        <div id="about" className={classes.section}>
+          <div className={classes.wrap}>
+            <Typography className={classes.title} variant="h2">
+              Про платформу
+            </Typography>
+            {authenticated && <CreateIcon className={classes.icon} />}
+          </div>
           <p>
             Доказові — платформа з перевіреною і надійною інформацією про
             COVID-19, вакцинацію та інші важливі теми, пов’язані з медициною. На
@@ -162,9 +165,13 @@ export default function Conditions(): JSX.Element {
           </p>
         </div>
 
-        <div id="rules">
-          <Typography>Правила користування</Typography>
-          {authenticated && <CreateIcon />}
+        <div id="rules" className={classes.section}>
+          <div className={classes.wrap}>
+            <Typography className={classes.title} variant="h2">
+              Правила користування
+            </Typography>
+            {authenticated && <CreateIcon className={classes.icon} />}
+          </div>
           <p>
             Платформа Доказові заохочує використовувати, публікувати і
             розповсюджувати оприлюднені на ній матеріали. Водночас використання
@@ -263,9 +270,13 @@ export default function Conditions(): JSX.Element {
           </p>
         </div>
 
-        <div id="contacts">
-          <Typography>Контакти</Typography>
-          {authenticated && <CreateIcon />}
+        <div id="contacts" className={classes.section}>
+          <div className={classes.wrap}>
+            <Typography className={classes.title} variant="h2">
+              Контакти
+            </Typography>
+            {authenticated && <CreateIcon className={classes.icon} />}
+          </div>
           <p>
             Хочете стати автором платформи? Бажаєте співпрацювати? Маєте
             запитання? Пишіть нам на contact@dokazovi.info

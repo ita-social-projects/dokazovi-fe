@@ -4,10 +4,26 @@ export const useStyles = makeStyles(
   (theme: Theme) => ({
     root: {},
 
+    section: {
+      marginBottom: '100px',
+    },
+
+    wrap: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      marginBottom: '30px',
+    },
+
+    title: {
+      fontSize: '24px',
+      lineHeight: '28px',
+    },
+
     nav: {
       display: 'flex',
+      marginBottom: '80px',
       listStyle: 'none',
-      '& > *:not(:last-child)': {
+      '& :not(:last-child)': {
         marginRight: '20px',
       },
     },
@@ -22,6 +38,10 @@ export const useStyles = makeStyles(
       color: '#000000',
       fontWeight: 700,
       textDecoration: 'none',
+    },
+
+    icon: {
+      cursor: 'pointer',
     },
   }),
   { name: 'ConditionsView' },
