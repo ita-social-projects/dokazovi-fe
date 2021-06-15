@@ -10,10 +10,18 @@ export const useStyles = makeStyles(
       '& > *:not(:last-child)': {
         marginRight: '20px',
       },
-      '& > li': {
-        color: '#2F80ED',
-        textDecoration: 'underline',
-      },
+    },
+    link: {
+      color: '#2F80ED',
+      fontFamily: 'Raleway',
+      fontWeight: 500,
+      lineHeight: '16px',
+      textDecoration: 'underline',
+    },
+    linkSelected: {
+      color: '#000000',
+      fontWeight: 700,
+      textDecoration: 'none',
     },
   }),
   { name: 'ConditionsView' },

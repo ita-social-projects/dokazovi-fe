@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, NavLink } from 'react-router-dom';
 import { Box, Typography, Container } from '@material-ui/core';
 import Link from '@material-ui/core/Link';
 import { useStyles } from './Footer.styles';
@@ -32,9 +32,9 @@ const navElements: IFooterNavProps[] = [
 
 const linksList = navElements.map((item) => {
   return (
-    <Link component={RouterLink} to={item.url} key={item.id}>
+    <NavLink to={item.url} key={item.id} exact>
       <Typography component="span">{item.label}</Typography>
-    </Link>
+    </NavLink>
   );
 });
 

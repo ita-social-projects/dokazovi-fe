@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { Typography, Container, Box } from '@material-ui/core';
 import CreateIcon from '@material-ui/icons/Create';
 import { AuthContext } from '../../old/provider/AuthProvider/AuthContext';
@@ -21,13 +21,31 @@ export default function Conditions(): JSX.Element {
       <Box>
         <ul className={classes.nav}>
           <li key="about">
-            <Link to="/conditions/about">Про платформу</Link>
+            <NavLink
+              to="/conditions/about"
+              className={classes.link}
+              activeClassName={classes.linkSelected}
+            >
+              Про платформу
+            </NavLink>
           </li>
           <li key="rules">
-            <Link to="/conditions/rules">Правила користування</Link>
+            <NavLink
+              to="/conditions/rules"
+              className={classes.link}
+              activeClassName={classes.linkSelected}
+            >
+              Правила користування
+            </NavLink>
           </li>
           <li key="contacts">
-            <Link to="/conditions/contacts">Контакти</Link>
+            <NavLink
+              to="/conditions/contacts"
+              className={classes.link}
+              activeClassName={classes.linkSelected}
+            >
+              Контакти
+            </NavLink>
           </li>
         </ul>
 
