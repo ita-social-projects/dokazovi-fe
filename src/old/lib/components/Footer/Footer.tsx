@@ -16,17 +16,17 @@ const navElements: IFooterNavProps[] = [
   {
     id: 1,
     label: 'Про платформу',
-    url: '/',
+    url: '/conditions/about',
   },
   {
     id: 2,
     label: 'Правила використання',
-    url: '/',
+    url: '/conditions/rules',
   },
   {
     id: 3,
     label: 'Контакти',
-    url: '/',
+    url: '/conditions/contacts',
   },
 ];
 
