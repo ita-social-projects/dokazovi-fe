@@ -134,8 +134,8 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
   };
 
   const handlePublishClick = async () => {
-    const response = await updatePost(updatedPost);
-    history.push(`/posts/${response.data.id}`);
+    await updatePost(updatedPost);
+    history.goBack();
   };
 
   return (

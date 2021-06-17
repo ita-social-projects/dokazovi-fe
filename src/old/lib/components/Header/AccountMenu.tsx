@@ -1,4 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { Button, Typography, Avatar } from '@material-ui/core';
 import { useStyles } from './AccountMenu.styles';
@@ -10,6 +11,7 @@ import { selectCurrentUser } from '../../../../models/user/selectors';
 import { AccountIcon } from '../icons/AccountIcon';
 
 export const AccountMenu: React.FC = () => {
+  const history = useHistory();
   const classes = useStyles();
   const user = useSelector(selectCurrentUser);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -29,6 +31,11 @@ export const AccountMenu: React.FC = () => {
 
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const openAdminPage = () => {
+    history.push('/admin');
+    handleClose();
   };
 
   useEffect(() => {
@@ -75,6 +82,11 @@ export const AccountMenu: React.FC = () => {
         <StyledMenuItem onClick={onLogoutHandler}>
           <Typography variant="button" color="inherit">
             Вийти
+          </Typography>
+        </StyledMenuItem>
+        <StyledMenuItem onClick={openAdminPage}>
+          <Typography variant="button" color="inherit">
+            Адміністрування
           </Typography>
         </StyledMenuItem>
       </StyledMenu>
