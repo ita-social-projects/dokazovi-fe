@@ -15,10 +15,10 @@ const initialState: IMaterialsState = {
       totalElements: 0,
       totalPages: 0,
     },
+    filters: {},
   },
   loading: LoadingStatusEnum.idle,
   error: null,
-  filters: {},
 };
 
 export const reducers = createSlice({

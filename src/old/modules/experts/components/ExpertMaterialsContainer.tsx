@@ -31,12 +31,6 @@ import {
   getQueryTypeByFilterType,
   mapQueryIdsStringToArray,
 } from '../../../lib/utilities/filters';
-import {
-  fetchExpertMaterials,
-  resetMaterials,
-  selectExpertsData,
-  selectLoadingExpertsPosts,
-} from '../../../../models/experts';
 import { getActivePostTypes } from '../../../lib/utilities/API/api';
 import { useActions } from '../../../../shared/hooks';
 import { CheckboxLeftsideFilterForm } from '../../../lib/components/Filters/CheckboxLeftsideFilterForm';
@@ -47,6 +41,12 @@ import {
   selectDirections,
   selectPostTypes,
 } from '../../../../models/properties';
+import {
+  fetchExpertMaterials,
+  resetMaterials,
+  selectExpertMaterialsLoading,
+  selectExpertsData,
+} from '../../../../models/expertMaterials';
 
 export interface IExpertMaterialsContainerProps {
   expertId: number;
@@ -76,7 +76,7 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
   const [checkedFiltersPostTypes, setCheckedFiltersPostTypes] = useState<
     CheckboxFormStateType
   >();
-  const loading = useSelector(selectLoadingExpertsPosts);
+  const loading = useSelector(selectExpertMaterialsLoading);
   const classes = useStyles();
   const query = useQuery();
   const history = useHistory();
@@ -84,11 +84,10 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
   const [activePostTypes, setActivePostTypes] = useState<ActivePostType[]>();
   const previous = usePrevious({ page });
 
-  const [
-    boundResetMaterials,
-    boundFetchExpertMaterials,
-    // boundSetPending,
-  ] = useActions([resetMaterials, fetchExpertMaterials]);
+  const [boundResetMaterials, boundFetchExpertMaterials] = useActions([
+    resetMaterials,
+    fetchExpertMaterials,
+  ]);
 
   useEffect(() => {
     boundResetMaterials();
@@ -246,7 +245,6 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
   useEffect(() => {
     const appendPosts = previous && previous.page < page;
     fetchData(appendPosts);
-    // boundSetPending();
   }, [
     query.get(QueryTypeEnum.POST_TYPES),
     query.get(QueryTypeEnum.DIRECTIONS),
