@@ -284,6 +284,7 @@ const ExpertsView: React.FC = () => {
                 selectedFilters={selectedDirections}
                 filterTitle="за темою"
                 allTitle="Всі теми"
+                filterType={QueryTypeEnum.DIRECTIONS}
               />
               <CheckboxLeftsideFilterForm
                 onFormChange={(checked) =>
@@ -293,6 +294,7 @@ const ExpertsView: React.FC = () => {
                 selectedFilters={selectedRegions}
                 filterTitle="за регіоном"
                 allTitle="Всі регіони"
+                filterType={QueryTypeEnum.REGIONS}
               />
             </>
           )}

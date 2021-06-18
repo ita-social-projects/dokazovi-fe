@@ -90,10 +90,6 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
   ]);
 
   useEffect(() => {
-    boundResetMaterials();
-  }, [expertId]);
-
-  useEffect(() => {
     return function reseting() {
       boundResetMaterials();
     };
@@ -391,6 +387,7 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
                 setTheOnlyAvailableFilter={(name) => {
                   handleChipsLogicTransform(name, FilterTypeEnum.POST_TYPES);
                 }}
+                filterType={QueryTypeEnum.POST_TYPES}
               />
               <CheckboxLeftsideFilterForm
                 disabledDirections={disabledDirections}
@@ -405,6 +402,7 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
                 setTheOnlyAvailableFilter={(name) => {
                   handleChipsLogicTransform(name, FilterTypeEnum.DIRECTIONS);
                 }}
+                filterType={QueryTypeEnum.DIRECTIONS}
               />
             </>
           )}
