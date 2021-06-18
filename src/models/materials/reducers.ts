@@ -24,20 +24,12 @@ const initialState: IMaterialsState = {
 export const reducers = createSlice({
   name: 'materials',
   initialState,
-  reducers: {
-    loadPosts: (state, action: PayloadAction<IPost[]>) => {
-      action.payload.forEach((post) => {
-        if (state.data.posts && post.id) {
-          state.data.posts[post.id] = post;
-        }
-      });
-    },
-  },
+  reducers: {},
   extraReducers: {
     ...getAsyncActionsReducer(fetchMaterials as any),
   },
 });
 
-export const { loadPosts } = reducers.actions;
+export const {} = reducers.actions;
 
 export const materialsReducer = reducers.reducer;
