@@ -21,7 +21,6 @@ export const getAsyncActionsReducer = (
     error: PayloadAction<SerializedError>,
   ) => {
     state.loading = LoadingStatusEnum.failed;
-    console.log(error);
     if (error.payload?.message) {
       state.error = error.payload.message;
     }

@@ -443,6 +443,7 @@ const MaterialsView: React.FC = () => {
                 selectedFilters={selectedOrigins}
                 filterTitle="за джерелом"
                 allTitle="Всі джерела"
+                filterType={QueryTypeEnum.ORIGINS}
               />
               <CheckboxLeftsideFilterForm
                 onFormChange={(checked) =>
@@ -452,6 +453,7 @@ const MaterialsView: React.FC = () => {
                 selectedFilters={selectedPostTypes}
                 filterTitle="за типом"
                 allTitle="Всі типи"
+                filterType={QueryTypeEnum.POST_TYPES}
               />
               <CheckboxLeftsideFilterForm
                 onFormChange={(checked) =>
@@ -461,6 +463,7 @@ const MaterialsView: React.FC = () => {
                 selectedFilters={selectedDirections}
                 filterTitle="за темою"
                 allTitle="Всі теми"
+                filterType={QueryTypeEnum.DIRECTIONS}
               />
             </>
           )}

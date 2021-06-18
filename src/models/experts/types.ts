@@ -1,5 +1,4 @@
 import { IExpert, LoadingStatusEnum } from '../../old/lib/types';
-import { IMaterialsDataWithFilters, IMaterialsState } from '../materials/types';
 
 export interface IExpertsData {
   expertIds: number[];
@@ -13,7 +12,6 @@ export interface IExpertsState {
   data: IExpertsData;
   loading: LoadingStatusEnum;
   error: null | string;
-  posts: IMaterialsDataWithFilters;
 }
 export interface IExpertMeta {
   totalPages: number;
@@ -26,15 +24,4 @@ export interface IFetchExpertsOptions {
   regions: number[];
   directions: number[];
   appendExperts: boolean;
-}
-
-export interface IFetchExpertsMaterialsOptions {
-  expertId: number;
-  filters: {
-    page: number;
-    type: number[];
-    directions: number[];
-  };
-  page: number;
-  appendPosts: boolean;
 }

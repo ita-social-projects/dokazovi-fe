@@ -1,36 +1,30 @@
 /* eslint-disable */
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import { IFetchExpertsMaterialsOptions } from './types';
 import { getPosts } from '../../old/lib/utilities/API/api';
+import { mapFetchedPosts } from '../materials/asyncActions';
 import { LOAD_POSTS_LIMIT } from '../../old/lib/constants/posts';
-import { IPost, LoadingStatusEnum } from '../../old/lib/types';
-import { PostResponseType } from '../../old/lib/utilities/API/types';
-import { IFetchMaterialsOptions } from './types';
 
-export const mapFetchedPosts = (
-  posts: PostResponseType[],
-): { mappedPosts: IPost[]; ids: number[] } => {
-  const ids: number[] = posts.map((post) => post.id);
-
-  return { mappedPosts: posts, ids };
-};
-
-export const fetchMaterials = createAsyncThunk(
-  'materials/fetchMaterials',
-  async (options: IFetchMaterialsOptions, { getState, rejectWithValue }) => {
+export const fetchExpertMaterials = createAsyncThunk(
+  'experts/fetchExpertMaterials',
+  async (
+    options: IFetchExpertsMaterialsOptions,
+    { getState, rejectWithValue },
+  ) => {
     try {
-      const { filters, page, appendPosts } = options;
-      const response = await getPosts('all-posts', {
+      const { expertId, filters, page, appendPosts } = options;
+      const response = await getPosts('latest-by-expert', {
         params: {
-          page: page,
           size: LOAD_POSTS_LIMIT,
-          types: filters.postTypes,
-          directions: filters.directions,
-          origins: filters.origins,
+          page: page,
+          expert: expertId,
+          type: filters?.type,
+          direction: filters?.directions,
         },
       });
 
       const {
-        materials: { data },
+        expertMaterials: { data },
       } = getState() as any;
       const { mappedPosts, ids } = mapFetchedPosts(response.data.content);
 
