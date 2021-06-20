@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { Grid, Typography, Link } from '@material-ui/core';
+import { useTranslation } from 'react-i18next';
 import { ExpertBlock } from './ExpertBlock';
 import { useStyles } from '../../../modules/main/styles/MainExpertsView.styles';
 import { ExpertPopover } from './ExpertPopover';
 import { ExpertDataCard } from './ExpertDataCard';
 import { IExpert, LoadingStatusEnum } from '../../types';
 import { LoadingInfo } from '../Loading/LoadingInfo';
-import { useTranslation } from 'react-i18next';
 import { langTokens } from '../../../../locales/localizationInit';
 
 const cardsClasses = Array.from(Array(11).keys()).map((el) => `item_${el}`);

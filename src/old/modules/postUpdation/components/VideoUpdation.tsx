@@ -3,6 +3,7 @@ import React, { useCallback, useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import _ from 'lodash';
 import { Box, TextField, Typography } from '@material-ui/core';
+import { useTranslation } from 'react-i18next';
 import { IDirection, IPost, IOrigin } from '../../../lib/types';
 import {
   UpdateVideoPostRequestType,
@@ -20,7 +21,6 @@ import PostView from '../../posts/components/PostView';
 import { PostDirectionsSelector } from '../../postCreation/components/PostDirectionsSelector';
 import { PostAuthorSelection } from '../../postCreation/components/PostAuthorSelection/PostAuthorSelection';
 import { PostOriginsSelector } from '../../postCreation/components/PostOriginsSelector';
-import { useTranslation } from 'react-i18next';
 import { langTokens } from '../../../../locales/localizationInit';
 
 export interface IVideoUpdationProps {

@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import _ from 'lodash';
 import { Box, TextField, Typography } from '@material-ui/core';
+import { useTranslation } from 'react-i18next';
 import VideoEditor from '../../../lib/components/Editor/Editors/VideoEditor';
 import {
   resetDraft,
@@ -36,7 +37,6 @@ import { selectCurrentUser } from '../../../../models/user/selectors';
 import { PostAuthorSelection } from './PostAuthorSelection/PostAuthorSelection';
 import { setGALocation } from '../../../../utilities/setGALocation';
 import { useActions } from '../../../../shared/hooks';
-import { useTranslation } from 'react-i18next';
 import { langTokens } from '../../../../locales/localizationInit';
 
 const VideoCreation: React.FC = () => {
