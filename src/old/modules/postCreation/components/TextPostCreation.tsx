@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 import _ from 'lodash';
 import { useSelector } from 'react-redux';
 import { Box, TextField, Typography } from '@material-ui/core';
+import { useTranslation } from 'react-i18next';
 import { RootStateType } from '../../../../models/rootReducer';
 import {
   setPostDirections,
@@ -44,6 +45,7 @@ import { PostAuthorSelection } from './PostAuthorSelection/PostAuthorSelection';
 import { selectCurrentUser } from '../../../../models/user/selectors';
 import { selectTextPostDraft } from '../../../../models/postCreation/selectors';
 import { useActions } from '../../../../shared/hooks';
+import { langTokens } from '../../../../locales/localizationInit';
 
 interface IPostCreationProps {
   pageTitle?: string;
@@ -62,6 +64,7 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
   postType,
   editorToolbar,
 }) => {
+  const { t } = useTranslation();
   const history = useHistory();
 
   const savedPostDraft = useSelector((state: RootStateType) =>
@@ -249,7 +252,9 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
       extraFieldsForTranslation = (
         <>
           <Box mt={2}>
-            <Typography variant="h5">Ім`я автора</Typography>
+            <Typography variant="h5">
+              {t(langTokens.experts.expertName)}
+            </Typography>
             <TextField
               error={Boolean(authorsName.error)}
               helperText={authorsName.error}
@@ -264,7 +269,9 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
             />
           </Box>
           <Box mt={2}>
-            <Typography variant="h5">Детальна інформація про автора</Typography>
+            <Typography variant="h5">
+              {t(langTokens.experts.expertDetailInfo)}
+            </Typography>
             <TextField
               error={Boolean(authorsDetails.error)}
               helperText={authorsDetails.error}

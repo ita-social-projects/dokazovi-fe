@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import _ from 'lodash';
 import { Box, TextField, Typography } from '@material-ui/core';
+import { useTranslation } from 'react-i18next';
 import {
   setPostDirections,
   setPostOrigin,
@@ -48,6 +49,7 @@ import { PostAuthorSelection } from '../../../old/modules/postCreation/component
 
 import { selectCurrentUser } from '../../../models/user/selectors';
 import { useActions } from '../../../shared/hooks';
+import { langTokens } from '../../../locales/localizationInit';
 
 interface IVideoPostCreationProps {
   pageTitle?: string;
@@ -64,6 +66,7 @@ export const VideoPostCreation: React.FC<IVideoPostCreationProps> = ({
   contentInputLabel,
   editorToolbar,
 }) => {
+  const { t } = useTranslation();
   const history = useHistory();
 
   const savedPostDraft = useSelector(selectVideoPostDraft);
@@ -222,7 +225,7 @@ export const VideoPostCreation: React.FC<IVideoPostCreationProps> = ({
         origins: savedPostDraft.origins,
         title: savedPostDraft.title,
         videoUrl: savedPostDraft.videoUrl,
-        type: { id: PostTypeEnum.VIDEO, name: 'Відео' },
+        type: { id: PostTypeEnum.VIDEO, name: t(langTokens.common.video) },
       } as IPost),
     [user, savedPostDraft],
   );
@@ -240,7 +243,9 @@ export const VideoPostCreation: React.FC<IVideoPostCreationProps> = ({
       extraFieldsForTranslation = (
         <>
           <Box mt={2}>
-            <Typography variant="h5">Ім`я автора</Typography>
+            <Typography variant="h5">
+              {t(langTokens.experts.expertName)}
+            </Typography>
             <TextField
               error={Boolean(authorsName.error)}
               helperText={authorsName.error}
@@ -255,7 +260,9 @@ export const VideoPostCreation: React.FC<IVideoPostCreationProps> = ({
             />
           </Box>
           <Box mt={2}>
-            <Typography variant="h5">Детальна інформація про автора</Typography>
+            <Typography variant="h5">
+              {t(langTokens.experts.expertDetailInfo)}
+            </Typography>
             <TextField
               error={Boolean(authorsDetails.error)}
               helperText={authorsDetails.error}

@@ -10,7 +10,9 @@ import PhotoCamera from '@material-ui/icons/PhotoCamera';
 import { IconButton, Box, Typography } from '@material-ui/core';
 import { useForm } from 'react-hook-form';
 import { Alert } from '@material-ui/lab';
+import { useTranslation } from 'react-i18next';
 import { parseVideoIdFromUrl } from '../../../utilities/parseVideoIdFromUrl';
+import { langTokens } from '../../../../../locales/localizationInit';
 
 interface IVideoUrlInputModalProps {
   dispatchVideoUrl: (videoUrl: string) => void;
@@ -25,6 +27,8 @@ const VideoUrlInputModal: React.FC<IVideoUrlInputModalProps> = ({
 }) => {
   // eslint-disable-next-line @typescript-eslint/unbound-method
   const { register, handleSubmit, errors } = useForm<IFormData>();
+  const { t } = useTranslation();
+
   const [open, setOpen] = useState(false);
   const [videoUrl, setVideoUrl] = useState<string>('');
 
@@ -55,12 +59,12 @@ const VideoUrlInputModal: React.FC<IVideoUrlInputModalProps> = ({
   return (
     <Box mt={2}>
       <Typography variant="h5">
-        <span>Відеофайл:</span>
+        <span>{`${t(langTokens.editor.videoFile)}:`}</span>
         <IconButton
           color="primary"
           aria-label="upload picture"
           onClick={handleClickOpen}
-          title="За посиланням"
+          title={t(langTokens.editor.byUrl)}
           component="span"
         >
           <PhotoCamera />
@@ -71,18 +75,26 @@ const VideoUrlInputModal: React.FC<IVideoUrlInputModalProps> = ({
         onClose={handleClose}
         aria-labelledby="form-dialog-title"
       >
-        <DialogTitle id="form-dialog-title">За посиланням</DialogTitle>
+        <DialogTitle id="form-dialog-title">
+          {t(langTokens.editor.byUrl)}
+        </DialogTitle>
         <DialogContent>
           <form onSubmit={handleSubmit(onSubmitHandler)}>
             <DialogContentText>
-              Введіть посилання на відео https://www.youtube.com/...
+              {`${t(
+                langTokens.editor.enterUrlForVideo,
+              )} https://www.youtube.com/...`}
             </DialogContentText>
             {errors.url && errors.url.type === 'required' && (
-              <Alert severity="error">Заповніть поле з посиланням!</Alert>
+              <Alert severity="error">
+                {`${t(langTokens.editor.fillFieldWithUrl)}!`}
+              </Alert>
             )}
 
             {errors.url && errors.url.type === 'correctLink' && (
-              <Alert severity="error">Введіть коректну URL-адресу!</Alert>
+              <Alert severity="error">
+                {`${t(langTokens.editor.enterCorrectUrl)}!`}
+              </Alert>
             )}
             <TextField
               autoFocus
@@ -104,10 +116,10 @@ const VideoUrlInputModal: React.FC<IVideoUrlInputModalProps> = ({
             />
             <DialogActions>
               <Button onClick={handleClose} color="primary">
-                Скасувати
+                {t(langTokens.common.cancel)}
               </Button>
               <Button color="primary" type="submit">
-                Додати
+                {t(langTokens.common.add)}
               </Button>
             </DialogActions>
           </form>

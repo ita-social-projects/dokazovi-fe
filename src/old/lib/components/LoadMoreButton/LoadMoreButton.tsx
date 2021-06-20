@@ -1,10 +1,11 @@
 import React from 'react';
 import { Button, Box, CircularProgress } from '@material-ui/core';
+import { useTranslation } from 'react-i18next';
 import { LoadingStatusEnum, LoadMoreButtonTextType } from '../../types';
 import { LOAD_POSTS_LIMIT } from '../../constants/posts';
 import { LOAD_EXPERTS_LIMIT } from '../../constants/experts';
 import { useStyles } from './LoadMoreButton.styles';
-import { localization } from '../../../../localization';
+import { langTokens } from '../../../../locales/localizationInit';
 
 export interface ILoadMoreButtonProps {
   clicked: () => void;
@@ -16,30 +17,8 @@ export interface ILoadMoreButtonProps {
   pageNumber: number;
 }
 
-function getButtonText(
-  count: number,
-  textType: LoadMoreButtonTextType,
-): string {
-  if (textType === LoadMoreButtonTextType.EXPERT) {
-    if (count <= 4) {
-      return localization.ua.experts.lessThanFour;
-    }
-    return localization.ua.experts.moreThanFour;
-  }
-  if (textType === LoadMoreButtonTextType.POST) {
-    if (count === 1) {
-      return localization.ua.materials.one;
-    }
-    if (count > 1 && count <= 4) {
-      return localization.ua.materials.lessThanFour;
-    }
-    return localization.ua.materials.moreThanFour;
-  }
-  return '';
-}
-
-function getLimit(textType: LoadMoreButtonTextType): number {
-  switch (textType) {
+function getLimit(textTypeLimit: LoadMoreButtonTextType): number {
+  switch (textTypeLimit) {
     case LoadMoreButtonTextType.EXPERT:
       return LOAD_EXPERTS_LIMIT;
     case LoadMoreButtonTextType.POST:
@@ -59,6 +38,22 @@ export const LoadMoreButton: React.FC<ILoadMoreButtonProps> = ({
   totalElements,
 }) => {
   const classes = useStyles();
+
+  const { t } = useTranslation();
+
+  const getButtonText = (
+    count: number,
+    textTypeLimit: LoadMoreButtonTextType,
+  ) => {
+    if (textTypeLimit === LoadMoreButtonTextType.EXPERT) {
+      return t(langTokens.experts.expertGenitiveCase, { count }).toLowerCase();
+    }
+    if (textTypeLimit === LoadMoreButtonTextType.POST) {
+      return t(langTokens.materials.material, { count }).toLowerCase();
+    }
+    return '';
+  };
+
   const renderLoadControls = (): JSX.Element => {
     let control: JSX.Element = <></>;
     const limit = getLimit(textType);
@@ -87,7 +82,7 @@ export const LoadMoreButton: React.FC<ILoadMoreButtonProps> = ({
             size={25}
             thickness={5}
           />
-          Показати ще {elementsInNextPage} {buttonText}
+          {t(langTokens.common.showMore)} {elementsInNextPage} {buttonText}
         </Button>
       </Box>
     );

@@ -13,8 +13,10 @@ import {
 } from '@material-ui/core';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import { useTranslation } from 'react-i18next';
 import { emailValidationObj, passwordValidationObj } from './validationRules';
 import { IAuthInputs } from '../../types';
+import { langTokens } from '../../../../locales/localizationInit';
 
 export interface IRegistrationProps {
   registrationOpen: boolean;
@@ -26,6 +28,7 @@ export interface IRegistrationProps {
 }
 
 export const RegistrationModal: React.FC<IRegistrationProps> = (props) => {
+  const { t } = useTranslation();
   const { onRegistrationClose, registrationOpen, showErrorMessage } = props;
   const [showPassword, setShowPassword] = useState(false);
 
@@ -45,7 +48,7 @@ export const RegistrationModal: React.FC<IRegistrationProps> = (props) => {
         aria-labelledby="form-dialog-title"
       >
         <DialogTitle id="form-dialog-title">
-          Введіть інформацію про себе
+          {t(langTokens.loginRegistration.enterInfoAboutYourself)}
         </DialogTitle>
         <DialogContent>
           <form
@@ -59,10 +62,10 @@ export const RegistrationModal: React.FC<IRegistrationProps> = (props) => {
                   inputRef={register({
                     required: {
                       value: true,
-                      message: "Це поле є обов'язковим",
+                      message: t(langTokens.loginRegistration.recuired),
                     },
                   })}
-                  label="Ім'я"
+                  label={t(langTokens.loginRegistration.firstName)}
                   style={{ width: '100%' }}
                 />
               </Grid>
@@ -72,10 +75,10 @@ export const RegistrationModal: React.FC<IRegistrationProps> = (props) => {
                   inputRef={register({
                     required: {
                       value: true,
-                      message: "Це поле є обов'язковим",
+                      message: t(langTokens.loginRegistration.recuired),
                     },
                   })}
-                  label="Прізвище"
+                  label={t(langTokens.loginRegistration.lastName)}
                   style={{ width: '100%' }}
                 />
               </Grid>
@@ -114,7 +117,7 @@ export const RegistrationModal: React.FC<IRegistrationProps> = (props) => {
                       </InputAdornment>
                     ),
                   }}
-                  label="Пароль"
+                  label={t(langTokens.loginRegistration.password)}
                   style={{ width: '100%' }}
                 />
               </Grid>
@@ -128,11 +131,12 @@ export const RegistrationModal: React.FC<IRegistrationProps> = (props) => {
                   inputRef={register({
                     required: {
                       value: true,
-                      message: "Це поле є обов'язковим",
+                      message: t(langTokens.loginRegistration.recuired),
                     },
                     validate: (value) => {
                       return (
-                        value === watch('password') || 'Паролі не збігаються'
+                        value === watch('password') ||
+                        `${t(langTokens.loginRegistration.passwordsNotMatch)}`
                       ); // value is from password2 and watch will return value from password
                     },
                   })}
@@ -149,7 +153,7 @@ export const RegistrationModal: React.FC<IRegistrationProps> = (props) => {
                       </InputAdornment>
                     ),
                   }}
-                  label="Повторіть пароль"
+                  label={t(langTokens.loginRegistration.repeatPassword)}
                   style={{ width: '100%' }}
                 />
               </Grid>
@@ -166,12 +170,12 @@ export const RegistrationModal: React.FC<IRegistrationProps> = (props) => {
                 }}
               >
                 <Button type="submit" variant="outlined">
-                  Зареєструватися
+                  {t(langTokens.loginRegistration.register)}
                 </Button>
               </Grid>
               <Grid item xs={12}>
                 <Typography style={{ marginBottom: '10px', textAlign: 'left' }}>
-                  Або увійдіть за допомогою:
+                  {t(langTokens.loginRegistration.orLogInWith)}
                 </Typography>
               </Grid>
               <Grid item xs={12} style={{ margin: '0px auto' }}>

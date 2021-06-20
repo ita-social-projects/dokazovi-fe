@@ -4,6 +4,7 @@ import { isEmpty, uniq } from 'lodash';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { CheckboxFormStateType } from '../../../lib/components/Filters/CheckboxFilterForm';
 import { PostsList } from '../../../lib/components/Posts/PostsList';
 import { LoadMoreButton } from '../../../lib/components/LoadMoreButton/LoadMoreButton';
@@ -32,7 +33,6 @@ import { useActions } from '../../../../shared/hooks';
 import { LOAD_POSTS_LIMIT } from '../../../lib/constants/posts';
 import { CheckboxLeftsideFilterForm } from '../../../lib/components/Filters/CheckboxLeftsideFilterForm';
 import { ChipsList } from '../../../../components/Chips/ChipsList/ChipsList';
-import { declOfNum } from '../../utilities/declOfNum';
 import { useStyles } from '../styles/MaterialsView.styles';
 import { setGALocation } from '../../../../utilities/setGALocation';
 import {
@@ -40,8 +40,13 @@ import {
   selectOrigins,
   selectPostTypes,
 } from '../../../../models/properties';
+import {
+  defaultPlural,
+  langTokens,
+} from '../../../../locales/localizationInit';
 
 const MaterialsView: React.FC = () => {
+  const { t } = useTranslation();
   const {
     loading,
     data: {
@@ -81,13 +86,13 @@ const MaterialsView: React.FC = () => {
       enumerable: false,
       configurable: true,
       writable: true,
-      value: 'Думки експертів',
+      value: `${t(langTokens.experts.expertOpinion, defaultPlural)}`,
     });
     Object.defineProperty(el3, 'name', {
       enumerable: false,
       configurable: true,
       writable: true,
-      value: 'Переклади',
+      value: `${t(langTokens.common.translation, defaultPlural)}`,
     });
 
     originsInPlural.push(el1, el2, el3);
@@ -106,19 +111,19 @@ const MaterialsView: React.FC = () => {
       enumerable: false,
       configurable: true,
       writable: true,
-      value: 'Статті',
+      value: `${t(langTokens.common.article, defaultPlural)}`,
     });
     Object.defineProperty(el2, 'name', {
       enumerable: false,
       configurable: true,
       writable: true,
-      value: 'Відео',
+      value: `${t(langTokens.common.video)}`,
     });
     Object.defineProperty(el3, 'name', {
       enumerable: false,
       configurable: true,
       writable: true,
-      value: 'Дописи',
+      value: `${t(langTokens.common.post, defaultPlural)}`,
     });
 
     postTypesInPlural.push(el1, el2, el3);
@@ -350,11 +355,11 @@ const MaterialsView: React.FC = () => {
 
   return (
     <>
-      <PageTitle title="Матеріали" />
+      <PageTitle title={t(langTokens.common.materials)} />
       <Grid container direction="row">
         <Grid item container direction="column" xs={3}>
           <Typography className={classes.title} variant="h1">
-            Вибрані матеріали:
+            {`${t(langTokens.materials.selectedMaterials)}:`}
           </Typography>
         </Grid>
         <Grid item container direction="column" xs={9}>
@@ -365,7 +370,7 @@ const MaterialsView: React.FC = () => {
                 component="div"
                 variant="subtitle2"
               >
-                Всі джерела
+                {t(langTokens.common.allOrigins)}
               </Typography>
             ) : (
               <ChipsList
@@ -384,7 +389,7 @@ const MaterialsView: React.FC = () => {
                 component="div"
                 variant="subtitle2"
               >
-                Всі типи
+                {t(langTokens.common.allTypes)}
               </Typography>
             ) : (
               <ChipsList
@@ -403,7 +408,7 @@ const MaterialsView: React.FC = () => {
                 component="div"
                 variant="subtitle2"
               >
-                Всі теми
+                {t(langTokens.common.allDirections)}
               </Typography>
             ) : (
               <ChipsList
@@ -422,11 +427,9 @@ const MaterialsView: React.FC = () => {
               color="textSecondary"
             >
               {totalElements}{' '}
-              {declOfNum(totalElements, [
-                'матеріал',
-                'матеріали',
-                'матеріалів',
-              ])}
+              {t(langTokens.materials.material, {
+                count: totalElements,
+              }).toLowerCase()}
             </Typography>
           </Box>
         </Grid>
@@ -441,8 +444,8 @@ const MaterialsView: React.FC = () => {
                 }
                 possibleFilters={originsInPlural}
                 selectedFilters={selectedOrigins}
-                filterTitle="за джерелом"
-                allTitle="Всі джерела"
+                filterTitle={t(langTokens.common.byOrigin).toLowerCase()}
+                allTitle={t(langTokens.common.allOrigins)}
               />
               <CheckboxLeftsideFilterForm
                 onFormChange={(checked) =>
@@ -450,8 +453,8 @@ const MaterialsView: React.FC = () => {
                 }
                 possibleFilters={postTypesInPlural}
                 selectedFilters={selectedPostTypes}
-                filterTitle="за типом"
-                allTitle="Всі типи"
+                filterTitle={t(langTokens.common.byType).toLowerCase()}
+                allTitle={t(langTokens.common.allTypes)}
               />
               <CheckboxLeftsideFilterForm
                 onFormChange={(checked) =>
@@ -459,8 +462,8 @@ const MaterialsView: React.FC = () => {
                 }
                 possibleFilters={directions}
                 selectedFilters={selectedDirections}
-                filterTitle="за темою"
-                allTitle="Всі теми"
+                filterTitle={t(langTokens.common.byDirection).toLowerCase()}
+                allTitle={t(langTokens.common.allDirections)}
               />
             </>
           )}

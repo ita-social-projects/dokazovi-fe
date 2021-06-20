@@ -6,6 +6,8 @@ import { ExpertPopover } from './ExpertPopover';
 import { ExpertDataCard } from './ExpertDataCard';
 import { IExpert, LoadingStatusEnum } from '../../types';
 import { LoadingInfo } from '../Loading/LoadingInfo';
+import { useTranslation } from 'react-i18next';
+import { langTokens } from '../../../../locales/localizationInit';
 
 const cardsClasses = Array.from(Array(11).keys()).map((el) => `item_${el}`);
 
@@ -16,6 +18,8 @@ export interface IExpertsViewCardProps {
 }
 
 export const ExpertsViewCard: React.FC<IExpertsViewCardProps> = (props) => {
+  const { t } = useTranslation();
+
   const { cards, loading, isOnDirection } = props;
   const [anchorEl, setAnchorEl] = useState<HTMLDivElement | null>(null);
   const [popoverCard, setPopoverCard] = useState<IExpert | null>(null);
@@ -45,7 +49,7 @@ export const ExpertsViewCard: React.FC<IExpertsViewCardProps> = (props) => {
     </div>
   ));
 
-  const errorMsg = 'Не вдалося завантажити експертів';
+  const errorMsg = t(langTokens.experts.expertsLoadingFail);
 
   return (
     <div className={classes.container}>
@@ -61,10 +65,10 @@ export const ExpertsViewCard: React.FC<IExpertsViewCardProps> = (props) => {
       ) : (
         <>
           {isOnDirection ? (
-            <Typography variant="h4">Експерти</Typography>
+            <Typography variant="h4">{t(langTokens.common.experts)}</Typography>
           ) : (
             <Typography variant="h4">
-              <Link href="/experts">Експерти</Link>
+              <Link href="/experts">{t(langTokens.common.experts)}</Link>
             </Typography>
           )}
           <div className={classes.experts}>

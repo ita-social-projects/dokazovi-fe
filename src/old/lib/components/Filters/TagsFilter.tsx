@@ -7,6 +7,8 @@ import TextField from '@material-ui/core/TextField';
 import { RootStateType } from '../../../../models/rootReducer';
 import { IPostTag } from '../../types';
 import { fetchPostsTags } from '../../../../models/properties/asyncActions';
+import { useTranslation } from 'react-i18next';
+import { langTokens } from '../../../../locales/localizationInit';
 
 export interface IPostTagsFilterProps {
   onTagsChange(tags: string[]): void;
@@ -15,6 +17,8 @@ export interface IPostTagsFilterProps {
 export const PostTagsFilter: React.FC<IPostTagsFilterProps> = ({
   onTagsChange,
 }) => {
+  const { t } = useTranslation();
+
   const dispatch = useDispatch();
   const postTags = useSelector(
     (state: RootStateType) => state.properties.postTags,
@@ -63,11 +67,11 @@ export const PostTagsFilter: React.FC<IPostTagsFilterProps> = ({
         onInputChange={(event, inputValue) =>
           handleTagsFetch(event, inputValue)
         }
-        noOptionsText="Тегів не знайдено"
+        noOptionsText={t(langTokens.common.noTagsFound)}
         renderInput={(params) => (
           <TextField
             {...params}
-            label="Введіть назву тега"
+            label={t(langTokens.common.enterTagName)}
             variant="outlined"
           />
         )}

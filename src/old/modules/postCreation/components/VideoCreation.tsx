@@ -36,8 +36,11 @@ import { selectCurrentUser } from '../../../../models/user/selectors';
 import { PostAuthorSelection } from './PostAuthorSelection/PostAuthorSelection';
 import { setGALocation } from '../../../../utilities/setGALocation';
 import { useActions } from '../../../../shared/hooks';
+import { useTranslation } from 'react-i18next';
+import { langTokens } from '../../../../locales/localizationInit';
 
 const VideoCreation: React.FC = () => {
+  const { t } = useTranslation();
   const history = useHistory();
 
   const savedPostDraft = useSelector(selectVideoPostDraft);
@@ -184,7 +187,7 @@ const VideoCreation: React.FC = () => {
         directions: savedPostDraft.directions,
         title: savedPostDraft.title,
         videoUrl: savedPostDraft.videoUrl,
-        type: { id: PostTypeEnum.VIDEO, name: 'Відео' },
+        type: { id: PostTypeEnum.VIDEO, name: t(langTokens.common.video) },
       } as IPost),
     [user, savedPostDraft],
   );
@@ -196,7 +199,9 @@ const VideoCreation: React.FC = () => {
       extraFieldsForTranslation = (
         <>
           <Box mt={2}>
-            <Typography variant="h5">Ім`я автора</Typography>
+            <Typography variant="h5">
+              {t(langTokens.experts.expertName)}
+            </Typography>
             <TextField
               error={Boolean(authorsName.error)}
               helperText={authorsName.error}
@@ -211,7 +216,9 @@ const VideoCreation: React.FC = () => {
             />
           </Box>
           <Box mt={2}>
-            <Typography variant="h5">Детальна інформація про автора</Typography>
+            <Typography variant="h5">
+              {t(langTokens.experts.expertDetailInfo)}
+            </Typography>
             <TextField
               error={Boolean(authorsDetails.error)}
               helperText={authorsDetails.error}
@@ -235,7 +242,7 @@ const VideoCreation: React.FC = () => {
 
   return (
     <>
-      <PageTitle title="Створення відео" />
+      <PageTitle title={t(langTokens.editor.videoCreation)} />
 
       {!previewing ? (
         <>
@@ -249,7 +256,9 @@ const VideoCreation: React.FC = () => {
           />
           {extraFieldsForTranslation}
           <Box mt={2}>
-            <Typography variant="h5">Заголовок відео:</Typography>
+            <Typography variant="h5">{`${t(
+              langTokens.editor.videoTitle,
+            )}:`}</Typography>
             <TextField
               error={Boolean(title.error)}
               helperText={title.error}
@@ -283,7 +292,9 @@ const VideoCreation: React.FC = () => {
             )}
           </Box>
           <Box mt={2}>
-            <Typography variant="h5">Опис відео:</Typography>
+            <Typography variant="h5">{`${t(
+              langTokens.editor.videoDescription,
+            )}:`}</Typography>
             <VideoEditor
               initialHtmlContent={savedPostDraft.htmlContent}
               onHtmlContentChange={(value) => {

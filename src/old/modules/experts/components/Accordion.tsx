@@ -1,19 +1,23 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Typography } from '@material-ui/core';
+import { useTranslation } from 'react-i18next';
 import { useStyles } from '../styles/Accordion.styles';
 import { IExpert } from '../../../lib/types';
 import email from '../../../lib/images/email.png';
 import facebook from '../../../lib/images/facebook_expert_contacts.png';
+import { langTokens } from '../../../../locales/localizationInit';
 
 export interface IAccordion {
   expert: IExpert;
 }
 
 const Accordion: React.FC<IAccordion> = ({ expert }) => {
+  const { t } = useTranslation();
+
   const [showDetails, setShowDetails] = useState('none');
   const [showContactsTitle, setShowContactsTitle] = useState<string>(
-    'Показати контакти',
+    t(langTokens.experts.showContacts),
   );
   const [expandIcon, setExpandIcon] = useState<string>('+');
 
@@ -21,11 +25,11 @@ const Accordion: React.FC<IAccordion> = ({ expert }) => {
   function toggleDetails() {
     if (showDetails === 'none') {
       setShowDetails('block');
-      setShowContactsTitle('Сховати контакти');
+      setShowContactsTitle(t(langTokens.common.hideContacts));
       setExpandIcon('−');
     } else {
       setShowDetails('none');
-      setShowContactsTitle('Показати контакти');
+      setShowContactsTitle(t(langTokens.common.showContacts));
       setExpandIcon('+');
     }
   }
