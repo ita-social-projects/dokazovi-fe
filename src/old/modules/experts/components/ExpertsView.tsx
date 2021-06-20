@@ -5,19 +5,19 @@ import { isEmpty, uniq } from 'lodash';
 import { Grid, Typography, Box } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
 import {
+  ChipFilterEnum,
+  ChipFilterType,
   FilterTypeEnum,
   IDirection,
   IRegion,
   LoadingStatusEnum,
   LoadMoreButtonTextType,
   QueryTypeEnum,
-  ChipFilterEnum,
-  ChipFilterType,
 } from '../../../lib/types';
 import {
   fetchExperts,
   selectExperts,
-  selectLoadingExperts,
+  selectExpertsLoading,
 } from '../../../../models/experts';
 import { RootStateType } from '../../../../models/rootReducer';
 import { ExpertsList } from '../../../lib/components/Experts/ExpertsList';
@@ -48,7 +48,7 @@ const ExpertsView: React.FC = () => {
       meta: { totalPages, pageNumber, totalElements, isLastPage },
     },
   } = useSelector(selectExperts);
-  const loading = useSelector(selectLoadingExperts);
+  const loading = useSelector(selectExpertsLoading);
 
   const [page, setPage] = useState(pageNumber);
   const [checkedFiltersDirections, setCheckedFiltersDirections] = useState<
@@ -288,6 +288,7 @@ const ExpertsView: React.FC = () => {
                 selectedFilters={selectedDirections}
                 filterTitle={t(langTokens.common.byOrigin).toLowerCase()}
                 allTitle={t(langTokens.common.allOrigins)}
+                filterType={QueryTypeEnum.DIRECTIONS}
               />
               <CheckboxLeftsideFilterForm
                 onFormChange={(checked) =>
@@ -297,6 +298,7 @@ const ExpertsView: React.FC = () => {
                 selectedFilters={selectedRegions}
                 filterTitle={t(langTokens.common.byRegion).toLowerCase()}
                 allTitle={t(langTokens.common.allRegions)}
+                filterType={QueryTypeEnum.REGIONS}
               />
             </>
           )}

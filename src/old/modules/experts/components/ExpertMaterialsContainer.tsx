@@ -32,13 +32,6 @@ import {
   getQueryTypeByFilterType,
   mapQueryIdsStringToArray,
 } from '../../../lib/utilities/filters';
-import {
-  fetchExpertMaterials,
-  resetMaterials,
-  setPending,
-  selectExpertsData,
-  selectLoadingExpertsPosts,
-} from '../../../../models/experts';
 import { getActivePostTypes } from '../../../lib/utilities/API/api';
 import { useActions } from '../../../../shared/hooks';
 import { CheckboxLeftsideFilterForm } from '../../../lib/components/Filters/CheckboxLeftsideFilterForm';
@@ -52,6 +45,12 @@ import {
   defaultPlural,
   langTokens,
 } from '../../../../locales/localizationInit';
+import {
+  fetchExpertMaterials,
+  resetMaterials,
+  selectExpertMaterialsLoading,
+  selectExpertsData,
+} from '../../../../models/expertMaterials';
 
 export interface IExpertMaterialsContainerProps {
   expertId: number;
@@ -82,7 +81,7 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
   const [checkedFiltersPostTypes, setCheckedFiltersPostTypes] = useState<
     CheckboxFormStateType
   >();
-  const loading = useSelector(selectLoadingExpertsPosts);
+  const loading = useSelector(selectExpertMaterialsLoading);
   const classes = useStyles();
   const query = useQuery();
   const history = useHistory();
@@ -90,15 +89,10 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
   const [activePostTypes, setActivePostTypes] = useState<ActivePostType[]>();
   const previous = usePrevious({ page });
 
-  const [
-    boundResetMaterials,
-    boundFetchExpertMaterials,
-    boundSetPending,
-  ] = useActions([resetMaterials, fetchExpertMaterials, setPending]);
-
-  useEffect(() => {
-    boundResetMaterials();
-  }, [expertId]);
+  const [boundResetMaterials, boundFetchExpertMaterials] = useActions([
+    resetMaterials,
+    fetchExpertMaterials,
+  ]);
 
   useEffect(() => {
     return function reseting() {
@@ -252,7 +246,6 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
   useEffect(() => {
     const appendPosts = previous && previous.page < page;
     fetchData(appendPosts);
-    boundSetPending();
   }, [
     query.get(QueryTypeEnum.POST_TYPES),
     query.get(QueryTypeEnum.DIRECTIONS),
@@ -399,6 +392,7 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
                 setTheOnlyAvailableFilter={(name) => {
                   handleChipsLogicTransform(name, FilterTypeEnum.POST_TYPES);
                 }}
+                filterType={QueryTypeEnum.POST_TYPES}
               />
               <CheckboxLeftsideFilterForm
                 disabledDirections={disabledDirections}
@@ -413,6 +407,7 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
                 setTheOnlyAvailableFilter={(name) => {
                   handleChipsLogicTransform(name, FilterTypeEnum.DIRECTIONS);
                 }}
+                filterType={QueryTypeEnum.DIRECTIONS}
               />
             </>
           )}

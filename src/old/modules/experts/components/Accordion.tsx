@@ -14,23 +14,18 @@ export interface IAccordion {
 
 const Accordion: React.FC<IAccordion> = ({ expert }) => {
   const { t } = useTranslation();
-
-  const [showDetails, setShowDetails] = useState('none');
-  const [showContactsTitle, setShowContactsTitle] = useState<string>(
-    t(langTokens.experts.showContacts),
-  );
-  const [expandIcon, setExpandIcon] = useState<string>('+');
+  const [showDetails, setShowDetails] = useState([
+    'none',
+    'Показати контакти',
+    '+',
+  ]);
 
   const classes = useStyles();
   function toggleDetails() {
-    if (showDetails === 'none') {
-      setShowDetails('block');
-      setShowContactsTitle(t(langTokens.common.hideContacts));
-      setExpandIcon('−');
+    if (showDetails[0] === 'none') {
+      setShowDetails(['block', t(langTokens.common.hideContacts), '-']);
     } else {
-      setShowDetails('none');
-      setShowContactsTitle(t(langTokens.common.showContacts));
-      setExpandIcon('+');
+      setShowDetails(['none', t(langTokens.common.showContacts), '+']);
     }
   }
 
@@ -47,18 +42,20 @@ const Accordion: React.FC<IAccordion> = ({ expert }) => {
           className={classes.accordionSummary}
           role="button"
           tabIndex={0}
-          onKeyDown={function () {}}
+          onKeyDown={toggleDetails}
         >
           <div className={classes.accordionSummaryTitle}>
             <Typography className={classes.showContacts}>
-              {showContactsTitle}
+              {showDetails[1]}
             </Typography>
-            <Typography className={classes.expandIcon}>{expandIcon}</Typography>
+            <Typography className={classes.expandIcon}>
+              {showDetails[2]}
+            </Typography>
           </div>
           <div className={classes.headingsDivider} />
         </div>
         <div
-          style={{ display: showDetails }}
+          style={{ display: showDetails[0] }}
           className={classes.accordionDetails}
         >
           {expert.email || expert.socialNetwork ? (

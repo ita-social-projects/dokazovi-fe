@@ -446,6 +446,7 @@ const MaterialsView: React.FC = () => {
                 selectedFilters={selectedOrigins}
                 filterTitle={t(langTokens.common.byOrigin).toLowerCase()}
                 allTitle={t(langTokens.common.allOrigins)}
+                filterType={QueryTypeEnum.ORIGINS}
               />
               <CheckboxLeftsideFilterForm
                 onFormChange={(checked) =>
@@ -455,6 +456,7 @@ const MaterialsView: React.FC = () => {
                 selectedFilters={selectedPostTypes}
                 filterTitle={t(langTokens.common.byType).toLowerCase()}
                 allTitle={t(langTokens.common.allTypes)}
+                filterType={QueryTypeEnum.POST_TYPES}
               />
               <CheckboxLeftsideFilterForm
                 onFormChange={(checked) =>
@@ -464,6 +466,7 @@ const MaterialsView: React.FC = () => {
                 selectedFilters={selectedDirections}
                 filterTitle={t(langTokens.common.byDirection).toLowerCase()}
                 allTitle={t(langTokens.common.allDirections)}
+                filterType={QueryTypeEnum.DIRECTIONS}
               />
             </>
           )}
