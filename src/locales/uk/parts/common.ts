@@ -22,7 +22,7 @@ export const common = {
   cancel: 'Скасувати',
   create: 'Створити',
   add: 'Додати',
-  error: 'Помилка',
+  error404: 'Помилка 404',
   byType: 'За типом',
   byOrigin: 'За джерелом',
   allOrigins: 'Всі джерела',

@@ -14,7 +14,7 @@ const Page404: React.FC = () => {
 
   return (
     <>
-      <PageTitle title={`${t(langTokens.common.error)} 404`} />
+      <PageTitle title={t(langTokens.common.error404)} />
       <Typography align="center" variant="h1">
         404 Page not found
       </Typography>
