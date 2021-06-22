@@ -1,5 +1,5 @@
 /* eslint-disable react/no-danger */
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { Card, Box, Typography } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -12,6 +12,7 @@ import PostInfo from '../../../../components/Posts/PostInfo/PostInfo';
 import TopSection from '../../../../components/Posts/TopSection/TopSection';
 import SecondTopSection from '../../../../components/Posts/SecondTopSection/SecondTopSection';
 import { langTokens } from '../../../../locales/localizationInit';
+import { AuthContext } from '../../../provider/AuthProvider/AuthContext';
 
 export interface IPostViewProps {
   post: IPost;
@@ -25,7 +26,7 @@ const PostView: React.FC<IPostViewProps> = ({
   onDelete,
 }) => {
   const { t } = useTranslation();
-
+  const { authenticated } = useContext(AuthContext);
   const classes = useStyles();
 
   const postContent = post.content ?? 'There is no post content';
@@ -45,7 +46,7 @@ const PostView: React.FC<IPostViewProps> = ({
           <TopSection author={post.author} />
         )}
 
-        {modificationAllowed && (
+        {authenticated && (
           <Box className={classes.actionsBlock}>
             <Link to={`/edit-post?id=${post.id}`}>
               <EditIcon />
