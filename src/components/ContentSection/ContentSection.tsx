@@ -1,5 +1,6 @@
+/* eslint-disable react/no-danger */
 import React, { useContext, useEffect, useState } from 'react';
-import { Typography, Container, Box, Button } from '@material-ui/core';
+import { Typography } from '@material-ui/core';
 import CreateIcon from '@material-ui/icons/Create';
 import { AuthContext } from '../../old/provider/AuthProvider/AuthContext';
 import { GeneralEditor } from '../../old/lib/components/Editor/GeneralEditor';
@@ -60,6 +61,7 @@ export default function ContentSection(prop: { type: string }): JSX.Element {
           <PostCreationButtons
             action="updating"
             onCancelClick={closeEditor}
+            // eslint-disable-next-line no-console
             onPublishClick={() => console.log(content)}
             onPreviewClick={() => setEdit(!edit)}
           />

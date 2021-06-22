@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-curly-brace-presence */
 import React from 'react';
 import { Container, Box } from '@material-ui/core';
 import ConditionNav from '../../components/ConditionNav';
