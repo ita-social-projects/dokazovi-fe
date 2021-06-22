@@ -185,13 +185,14 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
   }, [searchValue]);
 
   const onAuthorTableClick = (value: number, item: ExpertResponseType) => {
+    const authorFullName = `${item.firstName} ${item.lastName}`;
     boundSetAuthorId({
       postType: postType.type,
       value,
     });
     setAuthor(item);
     setAuthors([]);
-    setSearchValue('');
+    setSearchValue(authorFullName);
   };
 
   const fileSelectorHandler = (

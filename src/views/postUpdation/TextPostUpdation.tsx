@@ -98,10 +98,11 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
   }, [searchValue]);
 
   const onAuthorTableClick = (value: number, item: ExpertResponseType) => {
+    const authorFullName = `${item.firstName} ${item.lastName}`;
     setAuthorId(value);
     setAuthor(item);
     setAuthors([]);
-    setSearchValue('');
+    setSearchValue(authorFullName);
   };
 
   const updatedPost: UpdateTextPostRequestType = {

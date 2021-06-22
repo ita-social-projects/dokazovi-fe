@@ -187,13 +187,14 @@ export const VideoPostCreation: React.FC<IVideoPostCreationProps> = ({
   }, [searchValue]);
 
   const onAuthorTableClick = (value: number, item: ExpertResponseType) => {
+    const authorFullName = `${item.firstName} ${item.lastName}`;
     boundSetAuthorId({
       postType: PostTypeEnum.VIDEO,
       value,
     });
     setAuthor(item);
     setAuthors([]);
-    setSearchValue('');
+    setSearchValue(authorFullName);
   };
 
   const handlePreviewManuallyChanged = () => {
