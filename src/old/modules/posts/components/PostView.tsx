@@ -26,6 +26,7 @@ const PostView: React.FC<IPostViewProps> = ({
   onDelete,
 }) => {
   const { t } = useTranslation();
+
   const { authenticated } = useContext(AuthContext);
   const classes = useStyles();
 
