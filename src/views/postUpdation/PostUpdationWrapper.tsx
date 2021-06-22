@@ -1,14 +1,14 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
-import { getPostById } from '../../../lib/utilities/API/api';
-import { IPost } from '../../../lib/types';
-import { sanitizeHtml } from '../../../lib/utilities/sanitizeHtml';
+import { getPostById } from '../../old/lib/utilities/API/api';
+import { IPost } from '../../old/lib/types';
+import { sanitizeHtml } from '../../old/lib/utilities/sanitizeHtml';
 import { ArticleUpdation } from './ArticleUpdation';
 import { NoteUpdation } from './NoteUpdation';
-import { VideoUpdation } from '../../../../views/postUpdation/VideoUpdation/VideoUpdation';
-import { useQuery } from '../../../lib/hooks/useQuery';
-import { setGALocation } from '../../../../utilities/setGALocation';
-import { ERROR_404 } from '../../../lib/constants/routes';
+import { VideoUpdation } from './VideoUpdation/VideoUpdation';
+import { useQuery } from '../../old/lib/hooks/useQuery';
+import { setGALocation } from '../../utilities/setGALocation';
+import { ERROR_404 } from '../../old/lib/constants/routes';
 
 const PostUpdationWrapper: React.FC = () => {
   const query = useQuery();
