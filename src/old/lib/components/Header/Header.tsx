@@ -1,11 +1,13 @@
 import React, { useContext } from 'react';
 import { Box, Container, Toolbar, Typography } from '@material-ui/core';
 import { Link, NavLink } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { useStyles } from './Header.styles';
 import { PostCreationMenu } from './PostCreationMenu';
 import { LoginModal } from '../Users/LoginModal';
 import { AccountMenu } from './AccountMenu';
 import { AuthContext } from '../../../provider/AuthProvider/AuthContext';
+import i18n, { langTokens } from '../../../../locales/localizationInit';
 
 interface IHeaderProps {
   id: string;
@@ -16,23 +18,24 @@ interface IHeaderProps {
 export const navElems: IHeaderProps[] = [
   {
     id: 'main',
-    label: 'Головна',
+    label: i18n.t(langTokens.common.main),
     url: '/',
   },
   {
     id: 'materials',
-    label: 'Матеріали',
+    label: i18n.t(langTokens.common.materials),
     url: '/materials',
   },
   {
     id: 'experts',
-    label: 'Автори',
+    label: i18n.t(langTokens.common.experts),
     url: '/experts',
   },
 ];
 
 export const Header: React.FC = () => {
   const classes = useStyles();
+  const { t } = useTranslation();
   const { authenticated } = useContext(AuthContext);
 
   return (
@@ -42,7 +45,7 @@ export const Header: React.FC = () => {
           <Box display="flex">
             <Link to="/">
               <Typography className={classes.logo} variant="h1">
-                Доказові
+                {t(langTokens.common.projectName)}
               </Typography>
             </Link>
 

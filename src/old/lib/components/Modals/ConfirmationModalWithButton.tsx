@@ -3,6 +3,8 @@ import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { Box, CircularProgress, IconButton } from '@material-ui/core';
+import { useTranslation } from 'react-i18next';
+import { langTokens } from '../../../../locales/localizationInit';
 
 export interface IConfirmationModalWithButtonProps {
   message: string | JSX.Element;
@@ -21,6 +23,7 @@ export const ConfirmationModalWithButton: React.FC<IConfirmationModalWithButtonP
   loading,
   disabled,
 }) => {
+  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
 
   return (
@@ -57,10 +60,10 @@ export const ConfirmationModalWithButton: React.FC<IConfirmationModalWithButtonP
             }}
             color="primary"
           >
-            Так
+            {t(langTokens.common.yes)}
           </Button>
           <Button onClick={() => setOpen(false)} color="primary" autoFocus>
-            Ні
+            {t(langTokens.common.no)}
           </Button>
         </Box>
       </Dialog>

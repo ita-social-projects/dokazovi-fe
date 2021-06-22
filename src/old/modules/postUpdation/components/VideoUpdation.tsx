@@ -3,6 +3,7 @@ import React, { useCallback, useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import _ from 'lodash';
 import { Box, TextField, Typography } from '@material-ui/core';
+import { useTranslation } from 'react-i18next';
 import { IDirection, IPost, IOrigin } from '../../../lib/types';
 import {
   UpdateVideoPostRequestType,
@@ -20,12 +21,14 @@ import PostView from '../../posts/components/PostView';
 import { PostDirectionsSelector } from '../../postCreation/components/PostDirectionsSelector';
 import { PostAuthorSelection } from '../../postCreation/components/PostAuthorSelection/PostAuthorSelection';
 import { PostOriginsSelector } from '../../postCreation/components/PostOriginsSelector';
+import { langTokens } from '../../../../locales/localizationInit';
 
 export interface IVideoUpdationProps {
   post: IPost;
 }
 
 const VideoUpdation: React.FC<IVideoUpdationProps> = ({ post }) => {
+  const { t } = useTranslation();
   const history = useHistory();
   const [selectedDirections, setSelectedDirections] = useState<IDirection[]>(
     post.directions,
@@ -123,7 +126,7 @@ const VideoUpdation: React.FC<IVideoUpdationProps> = ({ post }) => {
 
   return (
     <>
-      <PageTitle title="Редагування відео" />
+      <PageTitle title={t(langTokens.editor.videoUpdation)} />
 
       {!previewing ? (
         <>
@@ -136,7 +139,9 @@ const VideoUpdation: React.FC<IVideoUpdationProps> = ({ post }) => {
             onSelectedOriginsChange={handleOriginsChange}
           />
           <Box mt={2}>
-            <Typography variant="h5">Заголовок відео: </Typography>
+            <Typography variant="h5">{`${t(
+              langTokens.editor.videoTitle,
+            )}: `}</Typography>
             <TextField
               error={Boolean(title.error)}
               helperText={title.error}
@@ -169,7 +174,9 @@ const VideoUpdation: React.FC<IVideoUpdationProps> = ({ post }) => {
             )}
           </Box>
           <Box mt={2}>
-            <Typography variant="h5">Опис відео:</Typography>
+            <Typography variant="h5">{`${t(
+              langTokens.editor.videoDescription,
+            )}:`}</Typography>
             <VideoEditor
               initialHtmlContent={htmlContent}
               onHtmlContentChange={(value) => {

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useStyles } from './NewestContainer.style';
 import { LoadingStatusEnum, LoadingStatusType } from '../../old/lib/types';
 import { NewestPostsList } from './newestPostsList/NewestPostsList';
@@ -7,9 +8,12 @@ import {
   NewestTypeEnum,
 } from '../../old/lib/utilities/API/types';
 import { getNewestPosts } from '../../old/lib/utilities/API/api';
+import { defaultPlural, langTokens } from '../../locales/localizationInit';
 
 export const NewestContainer: React.FC = () => {
   const classes = useStyles();
+  const { t } = useTranslation();
+
   const [postsSets, setPostsSets] = useState<NewestPostResponseType[]>([]);
   const [loadingStatus, setLoadingStatus] = useState<LoadingStatusType>(
     LoadingStatusEnum.pending,
@@ -31,7 +35,7 @@ export const NewestContainer: React.FC = () => {
       <div className={classes.container}>
         <NewestPostsList
           loadingStatus={loadingStatus}
-          postsListTitle="Думки експертів"
+          postsListTitle={t(langTokens.experts.expertOpinion, defaultPlural)}
           postsListPath="materials?origins=1"
           postsList={
             postsSets[NewestTypeEnum.EXPERT_OPINION] &&
@@ -40,7 +44,7 @@ export const NewestContainer: React.FC = () => {
         />
         <NewestPostsList
           loadingStatus={loadingStatus}
-          postsListTitle="Медитека"
+          postsListTitle={t(langTokens.common.media)}
           postsListPath="materials?origins=2"
           postsList={
             postsSets[NewestTypeEnum.MEDIA] &&
@@ -49,7 +53,7 @@ export const NewestContainer: React.FC = () => {
         />
         <NewestPostsList
           loadingStatus={loadingStatus}
-          postsListTitle="Переклади"
+          postsListTitle={t(langTokens.common.translation, defaultPlural)}
           postsListPath="materials?origins=3"
           postsList={
             postsSets[NewestTypeEnum.TRANSLATION] &&
@@ -58,7 +62,7 @@ export const NewestContainer: React.FC = () => {
         />
         <NewestPostsList
           loadingStatus={loadingStatus}
-          postsListTitle="Відео"
+          postsListTitle={t(langTokens.common.video)}
           postsListPath="materials?types=2"
           postsList={
             postsSets[NewestTypeEnum.VIDEO] &&

@@ -12,8 +12,10 @@ import {
   Typography,
 } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import { useTranslation } from 'react-i18next';
 import ChipsList from '../Chips/ChipsList';
 import { CheckboxFormStateType } from './CheckboxFilterForm';
+import { langTokens } from '../../../../locales/localizationInit';
 
 interface IFilter {
   id: string | number;
@@ -37,6 +39,7 @@ export const CheckboxDropdownFilterForm: React.FC<ICheckboxDropdownFilterFormPro
   noAll,
   maximumReached,
 }) => {
+  const { t } = useTranslation();
   const isInitialStateEmpty = isEmpty(selectedFilters) && !noAll;
 
   const getCheckedStateFromFilters = (): CheckboxFormStateType => {
@@ -91,7 +94,7 @@ export const CheckboxDropdownFilterForm: React.FC<ICheckboxDropdownFilterFormPro
       return '';
     }
     if (allChecked) {
-      return 'Всі';
+      return t(langTokens.common.all);
     }
     if (selectedFilters) {
       const names = selectedFilters?.reduce((acc, filter) => {
@@ -169,7 +172,7 @@ export const CheckboxDropdownFilterForm: React.FC<ICheckboxDropdownFilterFormPro
                         name="All"
                       />
                     }
-                    label="Всі"
+                    label={t(langTokens.common.all)}
                     key="All"
                   />
                 </Grid>

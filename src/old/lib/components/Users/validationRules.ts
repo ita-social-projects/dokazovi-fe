@@ -1,25 +1,27 @@
+import i18n, { langTokens } from '../../../../locales/localizationInit';
+
 export const emailValidationObj = {
   required: {
     value: true,
-    message: "Це поле є обов'язковим",
+    message: i18n.t(langTokens.loginRegistration.recuired),
   },
   pattern: {
     value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-    message: 'Неправильний формат email',
+    message: i18n.t(langTokens.loginRegistration.incorrectEmail),
   },
 };
 
 export const passwordValidationObj = {
   required: {
     value: true,
-    message: "Це поле є обов'язковим",
+    message: i18n.t(langTokens.loginRegistration.recuired),
   },
   minLength: {
     value: 4,
-    message: 'Пароль повинен містити щонайменше 4 символи',
+    message: i18n.t(langTokens.loginRegistration.minLenForPassword),
   },
   maxLength: {
     value: 16,
-    message: 'Пароль повинен містити щонайбільше 16 символів',
+    message: i18n.t(langTokens.loginRegistration.maxLenForPassword),
   },
 };

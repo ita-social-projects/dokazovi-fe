@@ -5,14 +5,17 @@ import Box from '@material-ui/core/Box';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import { Typography } from '@material-ui/core';
+import { useTranslation } from 'react-i18next';
 import { useStyles } from './ExpertOpinionPostPreviewCard.styles';
 import { formatDate } from '../../../../utilities/formatDate';
 import { IPostPreviewCardProps } from '../types';
+import { langTokens } from '../../../../locales/localizationInit';
 
 export const ExpertOpinionPostPreviewCard: React.FC<IPostPreviewCardProps> = ({
   post,
   shouldNotUseLink,
 }) => {
+  const { t } = useTranslation();
   const classes = useStyles();
   const expertLink = `/experts/${post.author.id}`;
   const postLink = `/posts/${post.id}`;
@@ -45,7 +48,7 @@ export const ExpertOpinionPostPreviewCard: React.FC<IPostPreviewCardProps> = ({
             variant="overline"
             component="span"
           >
-            Думка експерта
+            {t(langTokens.experts.expertOpinion)}
           </Typography>
           <Typography
             className={classes.authorFullName}
