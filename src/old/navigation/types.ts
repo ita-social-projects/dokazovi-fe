@@ -5,3 +5,14 @@ export interface IRouteConfig {
   exact?: boolean;
   private?: boolean;
 }
+
+export interface IVirtualHistoryRecord {
+  key: string;
+  pathname: string;
+}
+export interface IVirtualHistory {
+  back: IVirtualHistoryRecord[];
+  forward: IVirtualHistoryRecord[];
+}
+
+export interface ITransformPathnameConfig {}
