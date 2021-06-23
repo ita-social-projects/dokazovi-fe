@@ -1,6 +1,6 @@
 /* eslint-disable */
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { IPost, LoadingStatusEnum } from '../../old/lib/types';
+import { createSlice } from '@reduxjs/toolkit';
+import { LoadingStatusEnum } from '../../old/lib/types';
 import { IMaterialsState } from './types';
 import { fetchMaterials } from './asyncActions';
 import { getAsyncActionsReducer } from '../helpers/asyncActions';
