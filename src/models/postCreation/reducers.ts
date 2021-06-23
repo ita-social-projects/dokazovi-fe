@@ -1,5 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import i18n, { langTokens } from '../../locales/localizationInit';
 import { IDirection, IOrigin, PostTypeEnum } from '../../old/lib/types';
 import { INewPostDraft, IPostCreationState } from './types';
 
@@ -10,7 +11,7 @@ const initialState: IPostCreationState = {
     origins: [
       {
         id: 1,
-        name: 'Думка експерта',
+        name: i18n.t(langTokens.experts.expertOpinion),
         parameter: null,
       },
     ],
@@ -27,7 +28,7 @@ const initialState: IPostCreationState = {
     origins: [
       {
         id: 1,
-        name: 'Думка експерта',
+        name: i18n.t(langTokens.experts.expertOpinion),
         parameter: null,
       },
     ],
@@ -44,7 +45,7 @@ const initialState: IPostCreationState = {
     origins: [
       {
         id: 1,
-        name: 'Думка експерта',
+        name: i18n.t(langTokens.experts.expertOpinion),
         parameter: null,
       },
     ],

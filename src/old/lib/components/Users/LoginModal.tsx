@@ -17,23 +17,25 @@ import { Alert } from '@material-ui/lab';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import { AuthContext } from '../../../provider/AuthProvider/AuthContext';
 import { emailValidationObj, passwordValidationObj } from './validationRules';
 import { IAuthInputs } from '../../types';
-import { RegistrationModal } from './RegistrationModal';
 import { useStyles } from './LoginModal.styles';
 import { login } from '../../utilities/API/api';
 import { selectCurrentUser } from '../../../../models/user/selectors';
 import { AccountIcon } from '../icons/AccountIcon';
 import CloseIcon from '@material-ui/icons/Close';
 import DoneIcon from '@material-ui/icons/Done';
+import { langTokens } from '../../../../locales/localizationInit';
+import { RegistrationModal } from './RegistrationModal';
 
 export const LoginModal: React.FC = () => {
+  const { t } = useTranslation();
   const classes = useStyles();
   const [loginOpen, setLoginOpen] = React.useState(false);
   const [registrationOpen, setRegistrationOpen] = React.useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const user = useSelector(selectCurrentUser);
   const { setAuthorization } = useContext(AuthContext);
   const [checked, setChecked] = useState(false);
   const [error, setError] = useState(null);
@@ -103,7 +105,7 @@ export const LoginModal: React.FC = () => {
       >
         <AccountIcon className={classes.icon} />
         <Typography className={classes.label} variant="h5">
-          Увійти
+          {t(langTokens.loginRegistration.logIn)}
         </Typography>
       </Button>
 
@@ -118,7 +120,7 @@ export const LoginModal: React.FC = () => {
               variant={'subtitle1'}
               className={classes.dialogTitleText}
             >
-              Введіть E-mail і пароль
+              {t(langTokens.loginRegistration.enterEmailAndPassword)}
             </Typography>
             <IconButton
               className={classes.closeIconButton}
@@ -156,6 +158,7 @@ export const LoginModal: React.FC = () => {
                   margin={'normal'}
                   fullWidth
                   name="password"
+                  label={t(langTokens.loginRegistration.password)}
                   type={showPassword ? 'text' : 'password'}
                   inputRef={register(passwordValidationObj)}
                   error={!!errors.password}
@@ -184,7 +187,6 @@ export const LoginModal: React.FC = () => {
                       </InputAdornment>
                     ),
                   }}
-                  label="Пароль"
                 />
               </Grid>
               {error && (
@@ -193,7 +195,7 @@ export const LoginModal: React.FC = () => {
                   component={'p'}
                   className={classes.error}
                 >
-                  Ви ввели неправильний логін та/або пароль!
+                  {t(langTokens.loginRegistration.wrongEmailOrPassword)}
                 </Typography>
               )}
               <Grid item xs={12}>
@@ -207,7 +209,7 @@ export const LoginModal: React.FC = () => {
                         onChange={(e) => setChecked(e.target.checked)}
                       />
                     }
-                    label="Запам'ятати мене"
+                    label={t(langTokens.loginRegistration.rememberMe)}
                   />
                   {checked && <DoneIcon className={classes.doneIcon} />}
                   <Button
@@ -222,7 +224,7 @@ export const LoginModal: React.FC = () => {
                       !!error
                     }
                   >
-                    Увійти
+                    {t(langTokens.loginRegistration.logIn)}
                   </Button>
                 </div>
               </Grid>

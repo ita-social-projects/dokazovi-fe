@@ -1,18 +1,22 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
+import { langTokens } from '../../../../../locales/localizationInit';
 import ImageHandlersContainer from '../CustomModules/ImageHandlersContainer';
 import '../generalEditor.styles.css';
 import { IEditorToolbarProps } from '../types';
 
 const ArticleEditorToolbar: React.FC<IEditorToolbarProps> = ({ editor }) => {
+  const { t } = useTranslation();
+
   return (
     <div id="toolbar">
       <span className="ql-formats">
         <select className="ql-header" defaultValue="">
-          <option value="2">Заголовок 1</option>
-          <option value="3">Заголовок 2</option>
-          <option value="4">Вступ</option>
-          <option value="5">Примітка</option>
-          <option value="">Звичайний</option>
+          <option value="2">{`${t(langTokens.editor.title)} 1`}</option>
+          <option value="3">{`${t(langTokens.editor.title)} 2`}</option>
+          <option value="4">{t(langTokens.editor.introduction)}</option>
+          <option value="5">{t(langTokens.editor.note)}</option>
+          <option value="">{t(langTokens.editor.plain)}</option>
         </select>
       </span>
       <span className="ql-formats">

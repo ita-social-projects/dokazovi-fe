@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import SentimentVeryDissatisfiedIcon from '@material-ui/icons/SentimentVeryDissatisfied';
+import { useTranslation } from 'react-i18next';
 import { CheckboxFormStateType } from '../../../lib/components/Filters/CheckboxFilterForm';
 import { LoadingContainer } from '../../../lib/components/Loading/LoadingContainer';
 import { PostsList } from '../../../lib/components/Posts/PostsList';
@@ -36,11 +37,14 @@ import { useActions } from '../../../../shared/hooks';
 import { CheckboxLeftsideFilterForm } from '../../../lib/components/Filters/CheckboxLeftsideFilterForm';
 import { ChipsList } from '../../../../components/Chips/ChipsList/ChipsList';
 import { useStyles } from '../styles/ExpertsView.styles';
-import { declOfNum } from '../../utilities/declOfNum';
 import {
   selectDirections,
   selectPostTypes,
 } from '../../../../models/properties';
+import {
+  defaultPlural,
+  langTokens,
+} from '../../../../locales/localizationInit';
 import {
   fetchExpertMaterials,
   resetMaterials,
@@ -62,6 +66,7 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
     postIds,
     meta: { isLastPage, pageNumber, totalElements, totalPages },
   } = useSelector(selectExpertsData);
+  const { t } = useTranslation();
 
   const [TheOnlyAvailablePostType, setTheOnlyAvailablePostType] = useState<
     string
@@ -90,10 +95,6 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
   ]);
 
   useEffect(() => {
-    boundResetMaterials();
-  }, [expertId]);
-
-  useEffect(() => {
     return function reseting() {
       boundResetMaterials();
     };
@@ -120,19 +121,19 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
       enumerable: false,
       configurable: true,
       writable: true,
-      value: 'Статті',
+      value: `${t(langTokens.common.article, defaultPlural)}`,
     });
     Object.defineProperty(el2, 'name', {
       enumerable: false,
       configurable: true,
       writable: true,
-      value: 'Відео',
+      value: `${t(langTokens.common.video)}`,
     });
     Object.defineProperty(el3, 'name', {
       enumerable: false,
       configurable: true,
       writable: true,
-      value: 'Дописи',
+      value: `${t(langTokens.common.post, defaultPlural)}`,
     });
 
     postTypesInPlural.push(el1, el2, el3);
@@ -354,7 +355,7 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
           }}
           align="center"
         >
-          На жаль, даних, що відповідають вашому запиту, не знайдено.
+          {`${t(langTokens.common.noItemsFoundForReques)}.`}
         </Typography>
       </Grid>
     );
@@ -374,7 +375,7 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
               margin: '0 0 30px 0',
             }}
           >
-            Вибрати матеріали автора
+            {t(langTokens.experts.selectExpertMaterials)}
           </Typography>
           {propertiesLoaded && (
             <>
@@ -386,11 +387,12 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
                 }
                 possibleFilters={postTypesInPlural}
                 selectedFilters={selectedPostTypes}
-                filterTitle="за типом"
-                allTitle="Всі типи"
+                filterTitle={t(langTokens.common.byType).toLowerCase()}
+                allTitle={t(langTokens.common.allTypes)}
                 setTheOnlyAvailableFilter={(name) => {
                   handleChipsLogicTransform(name, FilterTypeEnum.POST_TYPES);
                 }}
+                filterType={QueryTypeEnum.POST_TYPES}
               />
               <CheckboxLeftsideFilterForm
                 disabledDirections={disabledDirections}
@@ -400,11 +402,12 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
                 }
                 possibleFilters={directions}
                 selectedFilters={selectedDirections}
-                filterTitle="за темою"
-                allTitle="Всі теми"
+                filterTitle={t(langTokens.common.byDirection).toLowerCase()}
+                allTitle={t(langTokens.common.allDirections)}
                 setTheOnlyAvailableFilter={(name) => {
                   handleChipsLogicTransform(name, FilterTypeEnum.DIRECTIONS);
                 }}
+                filterType={QueryTypeEnum.DIRECTIONS}
               />
             </>
           )}
@@ -416,7 +419,7 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
               component="div"
               variant="subtitle2"
             >
-              Вибрано матеріали автора:
+              {`${t(langTokens.experts.selectedExpertMaterials)}:`}
             </Typography>
             {selectedPostTypes === undefined && !TheOnlyAvailablePostType ? (
               <Typography
@@ -424,7 +427,7 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
                 component="div"
                 variant="subtitle2"
               >
-                Всі типи
+                {t(langTokens.common.allTypes)}
               </Typography>
             ) : (
               <ChipsList
@@ -444,7 +447,7 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
                 component="div"
                 variant="subtitle2"
               >
-                Всі теми
+                {t(langTokens.common.allDirections)}
               </Typography>
             ) : (
               <ChipsList
@@ -464,11 +467,9 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
               color="textSecondary"
             >
               {totalElements}{' '}
-              {declOfNum(totalElements, [
-                'матеріал',
-                'матеріали',
-                'матеріалів',
-              ])}
+              {t(langTokens.materials.material, {
+                count: totalElements,
+              }).toLowerCase()}
             </Typography>
           </Box>
           {page === 0 && loading === LoadingStatusEnum.pending ? (

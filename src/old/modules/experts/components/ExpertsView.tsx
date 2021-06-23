@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { isEmpty, uniq } from 'lodash';
-import { Box, Grid, Typography } from '@material-ui/core';
+import { Grid, Typography, Box } from '@material-ui/core';
+import { useTranslation } from 'react-i18next';
 import {
   ChipFilterEnum,
   ChipFilterType,
@@ -35,11 +36,12 @@ import { CheckboxLeftsideFilterForm } from '../../../lib/components/Filters/Chec
 import { LOAD_EXPERTS_LIMIT } from '../../../lib/constants/experts';
 import { useActions } from '../../../../shared/hooks';
 import { ChipsList } from '../../../../components/Chips/ChipsList/ChipsList';
-import { declOfNum } from '../../utilities/declOfNum';
 import { useStyles } from '../styles/ExpertsView.styles';
 import { setGALocation } from '../../../../utilities/setGALocation';
+import { langTokens } from '../../../../locales/localizationInit';
 
 const ExpertsView: React.FC = () => {
+  const { t } = useTranslation();
   const {
     data: {
       expertIds,
@@ -215,11 +217,11 @@ const ExpertsView: React.FC = () => {
 
   return (
     <>
-      <PageTitle title="Автори" />
+      <PageTitle title={t(langTokens.common.experts)} />
       <Grid container direction="row">
         <Grid item container direction="column" xs={3}>
           <Typography className={classes.title} variant="h1">
-            Вибрані автори:
+            {`${t(langTokens.experts.selectedExperts)}:`}
           </Typography>
         </Grid>
         <Grid item container direction="column" xs={9}>
@@ -230,7 +232,7 @@ const ExpertsView: React.FC = () => {
                 component="div"
                 variant="subtitle2"
               >
-                Всі теми
+                {t(langTokens.common.allDirections)}
               </Typography>
             ) : (
               <ChipsList
@@ -248,7 +250,7 @@ const ExpertsView: React.FC = () => {
                 component="div"
                 variant="subtitle2"
               >
-                Всі регіони
+                {t(langTokens.common.allRegions)}
               </Typography>
             ) : (
               <ChipsList
@@ -267,7 +269,9 @@ const ExpertsView: React.FC = () => {
               color="textSecondary"
             >
               {totalElements}{' '}
-              {declOfNum(totalElements, ['автор', 'автори', 'авторів'])}
+              {t(langTokens.experts.expert, {
+                count: totalElements,
+              }).toLowerCase()}
             </Typography>
           </Box>
         </Grid>
@@ -282,8 +286,9 @@ const ExpertsView: React.FC = () => {
                 }
                 possibleFilters={directions}
                 selectedFilters={selectedDirections}
-                filterTitle="за темою"
-                allTitle="Всі теми"
+                filterTitle={t(langTokens.common.byOrigin).toLowerCase()}
+                allTitle={t(langTokens.common.allOrigins)}
+                filterType={QueryTypeEnum.DIRECTIONS}
               />
               <CheckboxLeftsideFilterForm
                 onFormChange={(checked) =>
@@ -291,8 +296,9 @@ const ExpertsView: React.FC = () => {
                 }
                 possibleFilters={regions}
                 selectedFilters={selectedRegions}
-                filterTitle="за регіоном"
-                allTitle="Всі регіони"
+                filterTitle={t(langTokens.common.byRegion).toLowerCase()}
+                allTitle={t(langTokens.common.allRegions)}
+                filterType={QueryTypeEnum.REGIONS}
               />
             </>
           )}
