@@ -40,8 +40,15 @@ export default function ContentSection(prop: { type: string }): JSX.Element {
     }
   }, [type]);
 
+  const saveContent = () => {
+    // todo sendContent
+
+    // eslint-disable-next-line no-console
+    console.log(`type=${type}, content=${content}`);
+  };
+
   return (
-    <div id={type} className={classes.section}>
+    <div id={type} key={type} className={classes.section}>
       <div className={classes.wrap}>
         <Typography className={classes.title} variant="h2">
           {title}
@@ -61,8 +68,7 @@ export default function ContentSection(prop: { type: string }): JSX.Element {
           <PostCreationButtons
             action="updating"
             onCancelClick={closeEditor}
-            // eslint-disable-next-line no-console
-            onPublishClick={() => console.log(content)}
+            onPublishClick={saveContent}
             onPreviewClick={() => setEdit(!edit)}
           />
         </>
