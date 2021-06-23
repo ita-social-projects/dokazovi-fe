@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import {
@@ -16,15 +17,16 @@ import {
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import { useTranslation } from 'react-i18next';
+import CloseIcon from '@material-ui/icons/Close';
+import DoneIcon from '@material-ui/icons/Done';
 import { AuthContext } from '../../../provider/AuthProvider/AuthContext';
 import { emailValidationObj, passwordValidationObj } from './validationRules';
 import { IAuthInputs } from '../../types';
 import { useStyles } from './LoginModal.styles';
 import { login } from '../../utilities/API/api';
 import { AccountIcon } from '../icons/AccountIcon';
-import CloseIcon from '@material-ui/icons/Close';
-import DoneIcon from '@material-ui/icons/Done';
 import { langTokens } from '../../../../locales/localizationInit';
+import { PayloadAction, SerializedError } from '@reduxjs/toolkit';
 
 export const LoginModal: React.FC = () => {
   const { t } = useTranslation();
