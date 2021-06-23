@@ -182,11 +182,20 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
   const setFilters = (
     checked: CheckboxFormStateType,
     filterType: FilterTypeEnum,
+    disabled?: CheckboxFormStateType,
   ) => {
     if (filterType === 1) {
-      setCheckedFiltersDirections(checked);
+      if (disabled) {
+        setCheckedFiltersDirections(disabled);
+      } else {
+        setCheckedFiltersDirections(checked);
+      }
     } else if (filterType === 0) {
-      setCheckedFiltersPostTypes(checked);
+      if (disabled) {
+        setCheckedFiltersPostTypes(disabled);
+      } else {
+        setCheckedFiltersPostTypes(checked);
+      }
     }
 
     const queryType = getQueryTypeByFilterType(filterType);
@@ -382,8 +391,8 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
               <CheckboxLeftsideFilterForm
                 disabledPostTypes={disabledPostTypes}
                 expertId={expertId}
-                onFormChange={(checked) =>
-                  setFilters(checked, FilterTypeEnum.POST_TYPES)
+                onFormChange={(checked, disabled) =>
+                  setFilters(checked, FilterTypeEnum.POST_TYPES, disabled)
                 }
                 possibleFilters={postTypesInPlural}
                 selectedFilters={selectedPostTypes}
@@ -397,8 +406,8 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
               <CheckboxLeftsideFilterForm
                 disabledDirections={disabledDirections}
                 expertId={expertId}
-                onFormChange={(checked) =>
-                  setFilters(checked, FilterTypeEnum.DIRECTIONS)
+                onFormChange={(checked, disabled) =>
+                  setFilters(checked, FilterTypeEnum.DIRECTIONS, disabled)
                 }
                 possibleFilters={directions}
                 selectedFilters={selectedDirections}

@@ -54,7 +54,7 @@ const ExpertsView: React.FC = () => {
   const [checkedFiltersDirections, setCheckedFiltersDirections] = useState<
     CheckboxFormStateType
   >();
-  const [checkedFiltersOrigins, setCheckedFiltersOrigins] = useState<
+  const [checkedFiltersRegions, setCheckedFiltersRegions] = useState<
     CheckboxFormStateType
   >();
   const previous = usePrevious({ page });
@@ -90,12 +90,16 @@ const ExpertsView: React.FC = () => {
   const setFilters = (
     checked: CheckboxFormStateType,
     filterType: FilterTypeEnum,
+    disabled?: CheckboxFormStateType,
   ) => {
-    // console.log(checked);
     if (filterType === 1) {
       setCheckedFiltersDirections(checked);
     } else if (filterType === 2) {
-      setCheckedFiltersOrigins(checked);
+      if (disabled) {
+        setCheckedFiltersRegions(disabled);
+      } else {
+        setCheckedFiltersRegions(checked);
+      }
     }
     const queryType = getQueryTypeByFilterType(filterType);
     const checkedIds = Object.keys(checked).filter((key) => checked[key]);
@@ -203,7 +207,7 @@ const ExpertsView: React.FC = () => {
     if (chipsListType === 'DIRECTION') {
       filtersUpdatedByChips = { ...checkedFiltersDirections };
     } else if (chipsListType === 'REGION') {
-      filtersUpdatedByChips = { ...checkedFiltersOrigins };
+      filtersUpdatedByChips = { ...checkedFiltersRegions };
     }
     if (filtersUpdatedByChips && key) {
       filtersUpdatedByChips[key] = false;
@@ -291,8 +295,8 @@ const ExpertsView: React.FC = () => {
                 filterType={QueryTypeEnum.DIRECTIONS}
               />
               <CheckboxLeftsideFilterForm
-                onFormChange={(checked) =>
-                  setFilters(checked, FilterTypeEnum.REGIONS)
+                onFormChange={(checked, disabled) =>
+                  setFilters(checked, FilterTypeEnum.REGIONS, disabled)
                 }
                 possibleFilters={regions}
                 selectedFilters={selectedRegions}

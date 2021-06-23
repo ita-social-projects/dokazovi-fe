@@ -21,7 +21,10 @@ interface IFilter {
 }
 
 export interface ICheckboxLeftsideFilterFormProps {
-  onFormChange: (checked: CheckboxFormStateType) => void;
+  onFormChange: (
+    checked: CheckboxFormStateType,
+    disabled?: CheckboxFormStateType,
+  ) => void;
   possibleFilters: IFilter[];
   selectedFilters?: IFilter[];
   filterTitle: string;
@@ -70,23 +73,28 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
       selectedFilters?.length === possibleFilters.length
     ) {
       setAllChecked(true);
-    } else if (
-      disabledCheckBoxesIds?.length &&
-      selectedFilters?.length ===
-        possibleFilters.length - disabledCheckBoxesIds?.length
-    ) {
-      setAllChecked(true);
-      if (!toggleInitialState) {
-        setToggleInitialState(true);
-      }
-      const checkedFilters = mapValues(checked, () => true);
+      // } else if (
+      //   disabledCheckBoxesIds?.length &&
+      //   selectedFilters?.length ===
+      //     possibleFilters.length - disabledCheckBoxesIds?.length
+      // ) {
+      //   setAllChecked(true);
+      //   if (!toggleInitialState) {
+      //     setToggleInitialState(true);
+      //   }
+      //   const checkedFilters = mapValues(checked, () => true);
 
-      setChecked(checkedFilters);
-      onFormChange(checkedFilters);
-    } else if (allChecked) {
+      //   setChecked(checkedFilters);
+      //   onFormChange(checkedFilters);
+    } else if (
+      allChecked &&
+      disabledCheckBoxesIds &&
+      selectedFilters &&
+      selectedFilters.length ===
+        possibleFilters.length - disabledCheckBoxesIds.length - 1
+    ) {
       setAllChecked(false);
     }
-
     setChecked(getCheckedStateFromFilters());
   }, [selectedFilters]);
 
@@ -98,27 +106,54 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
     }
   }, [selectedFilters]);
 
+  const getResultWithoutDisabled = () => {
+    const resultWithoutDisabled = { ...checked };
+    if (disabledCheckBoxesIds) {
+      // eslint-disable-next-line no-plusplus
+      for (let i = 0; i < disabledCheckBoxesIds.length; i++) {
+        resultWithoutDisabled[+disabledCheckBoxesIds[i]] = false;
+      }
+    }
+    return resultWithoutDisabled;
+  };
+
   const onCheckboxCheck = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (!event.target.checked && allChecked) {
       setAllChecked(false);
     }
 
     let result = { ...checked };
+    let disabled: CheckboxFormStateType | undefined;
 
     if (disabledCheckBoxesIds?.length) {
-      const resultWithoutDisabled = { ...checked };
-      // eslint-disable-next-line no-plusplus
-      for (let i = 0; i < disabledCheckBoxesIds.length; i++) {
-        resultWithoutDisabled[+disabledCheckBoxesIds[i]] = false;
-      }
+      if (
+        selectedFilters &&
+        event.target.checked &&
+        selectedFilters.length + 1 ===
+          possibleFilters.length - disabledCheckBoxesIds?.length
+      ) {
+        setAllChecked(true);
 
-      result = { ...resultWithoutDisabled };
+        if (!toggleInitialState) {
+          setToggleInitialState(true);
+        }
+        const checkedFilters = mapValues(checked, () => true);
+
+        setChecked(checkedFilters);
+        result = { ...checkedFilters };
+        disabled = { ...getResultWithoutDisabled() };
+      } else {
+        result = { ...getResultWithoutDisabled() };
+      }
     }
 
-    onFormChange({
-      ...result,
-      [event.target.name]: event.target.checked,
-    });
+    onFormChange(
+      {
+        ...result,
+        [event.target.name]: event.target.checked,
+      },
+      disabled,
+    );
   };
   const onCheckboxAllChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (!toggleInitialState && event.target.checked) {
