@@ -72,7 +72,7 @@ export const LoginModal: React.FC = () => {
         setAuthorization(response.data.accessToken);
         handleLoginClose();
       })
-      .catch((err) => setError(err.response?.data.status));
+      .catch((err) => setError(err?.response?.data?.status));
   };
 
   return (
