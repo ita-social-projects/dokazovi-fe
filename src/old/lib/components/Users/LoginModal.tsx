@@ -94,10 +94,7 @@ export const LoginModal: React.FC = () => {
       >
         <DialogTitle id="form-dialog-title" className={classes.dialogTitle}>
           <div className={classes.titleContainer}>
-            <Typography
-              variant={'subtitle1'}
-              className={classes.dialogTitleText}
-            >
+            <Typography variant="subtitle1" className={classes.dialogTitleText}>
               {t(langTokens.loginRegistration.enterEmailAndPassword)}
             </Typography>
             <IconButton
@@ -114,8 +111,8 @@ export const LoginModal: React.FC = () => {
               <Grid item xs={12}>
                 <TextField
                   className={classes.emailInput}
-                  variant={'outlined'}
-                  margin={'normal'}
+                  variant="outlined"
+                  margin="normal"
                   fullWidth
                   name="email"
                   inputRef={register(emailValidationObj)}
@@ -132,8 +129,8 @@ export const LoginModal: React.FC = () => {
               </Grid>
               <Grid item xs={12}>
                 <TextField
-                  variant={'outlined'}
-                  margin={'normal'}
+                  variant="outlined"
+                  margin="normal"
                   fullWidth
                   name="password"
                   label={t(langTokens.loginRegistration.password)}
