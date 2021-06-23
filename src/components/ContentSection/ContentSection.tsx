@@ -3,9 +3,10 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Typography } from '@material-ui/core';
 import CreateIcon from '@material-ui/icons/Create';
 import { AuthContext } from '../../old/provider/AuthProvider/AuthContext';
-import { GeneralEditor } from '../../old/lib/components/Editor/GeneralEditor';
-import { VideoEditorToolbar } from '../../old/lib/components/Editor/Editors/VideoEditorToolbar';
-import { PostCreationButtons } from '../../old/modules/postCreation/components/PostCreationButtons';
+import { GeneralEditor } from '../Editor/GeneralEditor';
+import { VideoEditorToolbar } from '../Editor/Editors/VideoEditorToolbar';
+import { PostCreationButtons } from '../../views/postCreation/PostCreationButtons';
+import i18n, { langTokens } from '../../locales/localizationInit';
 import { useStyles } from './ContentSection.styles';
 import getDefContent from './defContent';
 
@@ -25,15 +26,15 @@ export default function ContentSection(prop: { type: string }): JSX.Element {
     switch (type) {
       case 'about':
         setContent(getDefContent(1));
-        setTitle('Про платформу');
+        setTitle(i18n.t(langTokens.footer.aboutPlatform));
         break;
       case 'rules':
         setContent(getDefContent(2));
-        setTitle('Правила користування');
+        setTitle(i18n.t(langTokens.footer.termsOfUse));
         break;
       case 'contacts':
         setContent(getDefContent(3));
-        setTitle('Контакти');
+        setTitle(i18n.t(langTokens.footer.contacts));
         break;
       default:
         break;

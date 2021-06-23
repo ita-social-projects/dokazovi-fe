@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useParams, NavLink } from 'react-router-dom';
+import i18n, { langTokens } from '../../locales/localizationInit';
 import { useStyles } from './ConditionNav.styles';
 
 export default function ConditionNav(): JSX.Element {
@@ -21,7 +22,7 @@ export default function ConditionNav(): JSX.Element {
           className={classes.link}
           activeClassName={classes.linkSelected}
         >
-          Про платформу
+          {i18n.t(langTokens.footer.aboutPlatform)}
         </NavLink>
       </li>
       <li key="rules">
@@ -30,7 +31,7 @@ export default function ConditionNav(): JSX.Element {
           className={classes.link}
           activeClassName={classes.linkSelected}
         >
-          Правила користування
+          {i18n.t(langTokens.footer.termsOfUse)}
         </NavLink>
       </li>
       <li key="contacts">
@@ -39,7 +40,7 @@ export default function ConditionNav(): JSX.Element {
           className={classes.link}
           activeClassName={classes.linkSelected}
         >
-          Контакти
+          {i18n.t(langTokens.footer.contacts)}
         </NavLink>
       </li>
     </ul>
