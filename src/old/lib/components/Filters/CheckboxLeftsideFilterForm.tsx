@@ -73,19 +73,6 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
       selectedFilters?.length === possibleFilters.length
     ) {
       setAllChecked(true);
-      // } else if (
-      //   disabledCheckBoxesIds?.length &&
-      //   selectedFilters?.length ===
-      //     possibleFilters.length - disabledCheckBoxesIds?.length
-      // ) {
-      //   setAllChecked(true);
-      //   if (!toggleInitialState) {
-      //     setToggleInitialState(true);
-      //   }
-      //   const checkedFilters = mapValues(checked, () => true);
-
-      //   setChecked(checkedFilters);
-      //   onFormChange(checkedFilters);
     } else if (
       allChecked &&
       disabledCheckBoxesIds &&
