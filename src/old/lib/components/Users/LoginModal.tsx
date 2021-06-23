@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import {
@@ -26,7 +25,6 @@ import { useStyles } from './LoginModal.styles';
 import { login } from '../../utilities/API/api';
 import { AccountIcon } from '../icons/AccountIcon';
 import { langTokens } from '../../../../locales/localizationInit';
-import { PayloadAction, SerializedError } from '@reduxjs/toolkit';
 
 export const LoginModal: React.FC = () => {
   const { t } = useTranslation();
@@ -73,7 +71,7 @@ export const LoginModal: React.FC = () => {
         setAuthorization(response.data.accessToken);
         handleLoginClose();
       })
-      .catch((err) => setError(err.response.data.status));
+      .catch((err) => setError(err.response?.data.status));
   };
 
   return (
