@@ -68,7 +68,7 @@ const ImportantView: React.FC = () => {
                 post={post}
                 position={index + 1}
                 viewMode="selected"
-                sectionLength={mappedPosts.length}
+                postsAmount={mappedPosts.length}
                 updateRemovedPosts={updateRemovedPosts}
               />
             ))

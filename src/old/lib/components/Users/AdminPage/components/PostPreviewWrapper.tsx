@@ -6,6 +6,7 @@ import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/DeleteOutlineRounded';
 import Typography from '@material-ui/core/Typography';
 import Input from '@material-ui/core/Input';
+import { toast } from 'react-toastify';
 import { useStyles } from '../styles/PostPreviewWrapper.styles';
 import {
   addToImportant,
@@ -19,7 +20,7 @@ interface IPostPreviewWrapper {
   post: IPost;
   position: number;
   viewMode: ViewModsType;
-  sectionLength?: number;
+  postsAmount: number;
   updateRemovedPosts: (post: IPost, status: ViewModsType) => void;
 }
 
@@ -27,7 +28,7 @@ const PostPreviewWrapper: React.FC<IPostPreviewWrapper> = ({
   post,
   position,
   viewMode,
-  sectionLength,
+  postsAmount,
   updateRemovedPosts,
 }) => {
   const [isHovered, switchHover] = useState(false);
@@ -41,6 +42,11 @@ const PostPreviewWrapper: React.FC<IPostPreviewWrapper> = ({
   }, [position]);
 
   const addPostToImportant = (newPost: IPost) => {
+    if (postsAmount === 99) {
+      toast.warn('Досягнуто максимум важливих постів');
+      return;
+    }
+
     dispatch(addToImportant(newPost));
     updateRemovedPosts(newPost, viewMode);
   };
@@ -65,11 +71,10 @@ const PostPreviewWrapper: React.FC<IPostPreviewWrapper> = ({
   };
 
   const handlePositionChange = (changedPosition: number) => {
-    const castedSectionLength = sectionLength as number;
     let updatedPosition: number | string = changedPosition;
 
-    if (updatedPosition > castedSectionLength) {
-      updatedPosition = castedSectionLength;
+    if (updatedPosition > postsAmount) {
+      updatedPosition = postsAmount;
     } else if (updatedPosition <= 0) {
       updatedPosition = '';
     }

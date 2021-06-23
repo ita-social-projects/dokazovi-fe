@@ -44,21 +44,14 @@ const AddImportantMaterial: React.FC<IAddImportantMaterial> = ({
   const renderImportantMaterialsSelector = () => {
     let selector: JSX.Element | JSX.Element[] = <></>;
 
-    if (loading === 'pending') {
-      selector = (
-        <LoadingContainer
-          loading={loading}
-          expand
-          errorMsg="Виникла помилка при завантаженні матеріалів"
-        />
-      );
-    } else if (unselectedPosts.length || !meta.isLastPage) {
+    if (unselectedPosts.length || !meta.isLastPage) {
       selector = unselectedPosts.map((post, index) => (
         <PostPreviewWrapper
           key={post.id}
           post={post}
           position={index + 1}
           viewMode="preview"
+          postsAmount={selectedPosts.length}
           updateRemovedPosts={updateRemovedPosts}
         />
       ));
@@ -100,6 +93,12 @@ const AddImportantMaterial: React.FC<IAddImportantMaterial> = ({
             className={`${classes.adminImportantSection} ${classes.addMaterialsBody}`}
           >
             {renderImportantMaterialsSelector()}
+            {loading === 'pending' && (
+              <LoadingContainer
+                loading={loading}
+                errorMsg="Виникла помилка при завантаженні матеріалів"
+              />
+            )}
           </div>
         </>
       </AccordionDetails>
