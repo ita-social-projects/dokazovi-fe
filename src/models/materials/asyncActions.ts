@@ -46,12 +46,11 @@ export const fetchMaterials = createAsyncThunk(
         posts,
         meta: {
           isLastPage: response.data.last,
-          loading: LoadingStatusEnum.succeeded,
-          error: null,
           pageNumber: response.data.number,
           totalElements: response.data.totalElements,
           totalPages: response.data.totalPages,
         },
+        filters,
       };
     } catch (err) {
       return rejectWithValue(err.response?.data);

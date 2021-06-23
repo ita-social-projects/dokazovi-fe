@@ -1,14 +1,8 @@
 /* eslint-disable import/no-cycle */
-export { fetchExperts, fetchExpertMaterials } from './asyncActions';
-export {
-  resetMaterials,
-  loadPosts,
-  expertsReducer,
-  setPending,
-} from './reducers';
+export { fetchExperts } from './asyncActions';
+export { expertsReducer } from './reducers';
 export {
   selectExperts,
-  selectLoadingExpertsPosts,
-  selectLoadingExperts,
-  selectExpertsData,
+  selectExpertsLoading,
+  selectExpertById,
 } from './selectors';

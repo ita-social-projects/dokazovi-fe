@@ -5,7 +5,7 @@ import { IPost } from '../../../lib/types';
 import { sanitizeHtml } from '../../../lib/utilities/sanitizeHtml';
 import { ArticleUpdation } from './ArticleUpdation';
 import { NoteUpdation } from './NoteUpdation';
-import { VideoUpdation } from '../../../../features/postUpdation/VideoUpdation/VideoUpdation';
+import { VideoUpdation } from '../../../../views/postUpdation/VideoUpdation/VideoUpdation';
 import { useQuery } from '../../../lib/hooks/useQuery';
 import { setGALocation } from '../../../../utilities/setGALocation';
 import { ERROR_404 } from '../../../lib/constants/routes';

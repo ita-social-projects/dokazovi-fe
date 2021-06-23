@@ -49,6 +49,7 @@ export const App: React.FC = () => {
       boundFetchRegions();
     };
     fetchProperties();
+    if (!localStorage.getItem('lang')) localStorage.setItem('lang', 'uk');
   }, []);
 
   return (

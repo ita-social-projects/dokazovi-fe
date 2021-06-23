@@ -18,6 +18,7 @@ import { Alert } from '@material-ui/lab';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import { AuthContext } from '../../../provider/AuthProvider/AuthContext';
 import { emailValidationObj, passwordValidationObj } from './validationRules';
 import { IAuthInputs } from '../../types';
@@ -27,8 +28,10 @@ import { useStyles } from './LoginModal.styles';
 import { login } from '../../utilities/API/api';
 import { selectCurrentUser } from '../../../../models/user/selectors';
 import { AccountIcon } from '../icons/AccountIcon';
+import { langTokens } from '../../../../locales/localizationInit';
 
 export const LoginModal: React.FC = () => {
+  const { t } = useTranslation();
   const classes = useStyles();
   const [loginOpen, setLoginOpen] = React.useState(false);
   const [registrationOpen, setRegistrationOpen] = React.useState(false);
@@ -86,7 +89,7 @@ export const LoginModal: React.FC = () => {
       >
         <AccountIcon className={classes.icon} />
         <Typography className={classes.label} variant="h5">
-          Увійти
+          {t(langTokens.loginRegistration.logIn)}
         </Typography>
       </Button>
 
@@ -96,9 +99,11 @@ export const LoginModal: React.FC = () => {
         aria-labelledby="form-dialog-title"
       >
         <DialogTitle id="form-dialog-title">
-          Введіть Ваші email та пароль
+          {t(langTokens.loginRegistration.enterEmailAndPassword)}
           {user.error && (
-            <Alert severity="error">Неправильний email або пароль</Alert>
+            <Alert severity="error">
+              {t(langTokens.loginRegistration.wrongEmailOrPassword)}
+            </Alert>
           )}
         </DialogTitle>
         <DialogContent>
@@ -136,7 +141,7 @@ export const LoginModal: React.FC = () => {
                       </InputAdornment>
                     ),
                   }}
-                  label="Пароль"
+                  label={t(langTokens.loginRegistration.password)}
                   style={{ width: '100%' }}
                 />
               </Grid>
@@ -159,7 +164,7 @@ export const LoginModal: React.FC = () => {
                         color="primary"
                       />
                     }
-                    label="Запам'ятати мене"
+                    label={t(langTokens.loginRegistration.rememberMe)}
                   />
 
                   <Button
@@ -167,21 +172,22 @@ export const LoginModal: React.FC = () => {
                     variant="outlined"
                     style={{ marginRight: '0px', alignSelf: 'flex-end' }}
                   >
-                    Увійти
+                    {t(langTokens.loginRegistration.logIn)}
                   </Button>
                 </div>
               </Grid>
               <Grid item xs={12}>
                 <Typography style={{ marginBottom: '10px' }}>
-                  Не маєте облікового запису? {/* eslint-disable-next-line */}
+                  {`${t(langTokens.loginRegistration.dontHaveAccount)}?`}{' '}
+                  {/* eslint-disable-next-line */}
                   <Link component="button" onClick={handleRegistrationOpen}>
-                    Зареєструйтеся зараз!
+                    {`${t(langTokens.loginRegistration.registerNow)}!`}
                   </Link>
                 </Typography>
               </Grid>
               <Grid item xs={12}>
                 <Typography style={{ marginBottom: '10px', textAlign: 'left' }}>
-                  Або увійдіть за допомогою:
+                  {`${t(langTokens.loginRegistration.orLogInWith)}:`}
                 </Typography>
               </Grid>
               <Grid item xs={12} style={{ margin: '0px auto' }}>
