@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import {
@@ -72,6 +71,7 @@ export const LoginModal: React.FC = () => {
         setAuthorization(response.data.accessToken);
         handleLoginClose();
       })
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       .catch((err) => setError(err.response.data.status));
   };
 
