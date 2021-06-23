@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { DeepMap, FieldError, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import {
   Button,
   Checkbox,
@@ -13,28 +13,23 @@ import {
   TextField,
   Typography,
 } from '@material-ui/core';
-import { Alert } from '@material-ui/lab';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
-import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { AuthContext } from '../../../provider/AuthProvider/AuthContext';
 import { emailValidationObj, passwordValidationObj } from './validationRules';
 import { IAuthInputs } from '../../types';
 import { useStyles } from './LoginModal.styles';
 import { login } from '../../utilities/API/api';
-import { selectCurrentUser } from '../../../../models/user/selectors';
 import { AccountIcon } from '../icons/AccountIcon';
 import CloseIcon from '@material-ui/icons/Close';
 import DoneIcon from '@material-ui/icons/Done';
 import { langTokens } from '../../../../locales/localizationInit';
-import { RegistrationModal } from './RegistrationModal';
 
 export const LoginModal: React.FC = () => {
   const { t } = useTranslation();
   const classes = useStyles();
   const [loginOpen, setLoginOpen] = React.useState(false);
-  const [registrationOpen, setRegistrationOpen] = React.useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const { setAuthorization } = useContext(AuthContext);
   const [checked, setChecked] = useState(false);
@@ -77,23 +72,6 @@ export const LoginModal: React.FC = () => {
         handleLoginClose();
       })
       .catch((err) => setError(err.response.data.status));
-  };
-
-  const handleRegistrationClose = () => {
-    setRegistrationOpen(false);
-    setLoginOpen(false);
-  };
-
-  const showErrorMessage = (
-    errorsObj: DeepMap<IAuthInputs, FieldError>,
-    inputName: string,
-  ): JSX.Element => {
-    return (
-      errorsObj[inputName] && (
-        // eslint-disable-next-line
-        <Alert severity="error">{errorsObj[inputName].message}</Alert>
-      )
-    );
   };
 
   return (
@@ -230,11 +208,6 @@ export const LoginModal: React.FC = () => {
               </Grid>
             </Grid>
           </form>
-          <RegistrationModal
-            registrationOpen={registrationOpen}
-            onRegistrationClose={handleRegistrationClose}
-            showErrorMessage={showErrorMessage}
-          />
         </DialogContent>
       </Dialog>
     </>
