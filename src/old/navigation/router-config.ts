@@ -15,16 +15,16 @@ const PostViewWrapper = lazy(
   () => import('../modules/posts/components/PostViewWrapper'),
 );
 const ArticleCreation = lazy(
-  () => import('../modules/postCreation/components/ArticleCreation'),
+  () => import('../../views/postCreation/ArticleCreation'),
 );
 const NoteCreation = lazy(
-  () => import('../modules/postCreation/components/NoteCreation'),
+  () => import('../../views/postCreation/NoteCreation'),
 );
 const VideoCreation = lazy(
-  () => import('../../features/postCreation/VideoCreation/VideoCreation'),
+  () => import('../../views/postCreation/VideoCreation/VideoCreation'),
 );
 const PostUpdationWrapper = lazy(
-  () => import('../modules/postUpdation/components/PostUpdationWrapper'),
+  () => import('../../views/postUpdation/PostUpdationWrapper'),
 );
 const Oath2Redirect = lazy(
   () => import('../lib/components/Service/Oath2Redirect'),
