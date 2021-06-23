@@ -69,9 +69,9 @@ export const useStyles = makeStyles((theme: Theme) => ({
     },
   },
   error: {
-    ontFamily: 'Raleway',
+    fontFamily: 'Raleway',
     fontWeight: 600,
-    fontSize: 17,
+    fontSize: 18,
     lineHeight: '22px',
     color: '#FF0707',
     marginTop: 20,

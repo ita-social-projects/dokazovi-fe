@@ -188,9 +188,13 @@ export const LoginModal: React.FC = () => {
                 />
               </Grid>
               {error && (
-                <p className={classes.error}>
+                <Typography
+                  variant={'subtitle1'}
+                  component={'p'}
+                  className={classes.error}
+                >
                   Ви ввели неправильний логін та/або пароль!
-                </p>
+                </Typography>
               )}
               <Grid item xs={12}>
                 <div className={classes.bottomContainer}>
