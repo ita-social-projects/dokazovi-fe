@@ -1,3 +1,4 @@
+//@typescript-eslint/no-unsafe-member-access
 import React, { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import {
@@ -166,8 +167,8 @@ export const LoginModal: React.FC = () => {
               </Grid>
               {error && (
                 <Typography
-                  variant={'subtitle1'}
-                  component={'p'}
+                  variant="subtitle1"
+                  component="p"
                   className={classes.error}
                 >
                   {t(langTokens.loginRegistration.wrongEmailOrPassword)}
@@ -190,7 +191,7 @@ export const LoginModal: React.FC = () => {
                   <Button
                     className={classes.submitButton}
                     type="submit"
-                    variant={'contained'}
+                    variant="contained"
                     disabled={
                       !!errors.email ||
                       !!errors.password ||
