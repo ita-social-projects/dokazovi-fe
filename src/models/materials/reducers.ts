@@ -30,6 +30,4 @@ export const reducers = createSlice({
   },
 });
 
-export const {} = reducers.actions;
-
 export const materialsReducer = reducers.reducer;
