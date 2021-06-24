@@ -1,32 +1,28 @@
-import React, { useState, useContext } from 'react';
-import { useForm, DeepMap, FieldError } from 'react-hook-form';
+import React, { useContext, useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
 import {
   Button,
-  TextField,
-  InputAdornment,
-  IconButton,
-  Grid,
-  Typography,
-  Link,
-  FormControlLabel,
   Checkbox,
   Dialog,
-  DialogTitle,
   DialogContent,
+  DialogTitle,
+  FormControlLabel,
+  Grid,
+  IconButton,
+  InputAdornment,
+  TextField,
+  Typography,
 } from '@material-ui/core';
-import { Alert } from '@material-ui/lab';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
-import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import CloseIcon from '@material-ui/icons/Close';
+import DoneIcon from '@material-ui/icons/Done';
 import { AuthContext } from '../../../provider/AuthProvider/AuthContext';
 import { emailValidationObj, passwordValidationObj } from './validationRules';
 import { IAuthInputs } from '../../types';
-import { RegistrationModal } from './RegistrationModal';
-import { FB_AUTH_URL, GOOGLE_AUTH_URL } from '../../../apiURL';
 import { useStyles } from './LoginModal.styles';
 import { login } from '../../utilities/API/api';
-import { selectCurrentUser } from '../../../../models/user/selectors';
 import { AccountIcon } from '../icons/AccountIcon';
 import { langTokens } from '../../../../locales/localizationInit';
 
@@ -34,13 +30,25 @@ export const LoginModal: React.FC = () => {
   const { t } = useTranslation();
   const classes = useStyles();
   const [loginOpen, setLoginOpen] = React.useState(false);
-  const [registrationOpen, setRegistrationOpen] = React.useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const user = useSelector(selectCurrentUser);
   const { setAuthorization } = useContext(AuthContext);
+  const [checked, setChecked] = useState(false);
+  const [error, setError] = useState(null);
+  const [formData, setFormData] = useState({
+    email: '',
+    password: '',
+  });
+
+  useEffect(() => {
+    if (error) {
+      setError(null);
+    }
+  }, [formData.email, formData.password]);
 
   // eslint-disable-next-line @typescript-eslint/unbound-method
-  const { register, handleSubmit, errors } = useForm<IAuthInputs>();
+  const { register, handleSubmit, errors, reset } = useForm<IAuthInputs>({
+    mode: 'onTouched',
+  });
 
   const handleLoginOpen = () => {
     setLoginOpen(true);
@@ -48,36 +56,23 @@ export const LoginModal: React.FC = () => {
 
   const handleLoginClose = () => {
     setLoginOpen(false);
-  };
-
-  const handleRegistrationOpen = (
-    event: React.MouseEvent<HTMLSpanElement, MouseEvent>,
-  ) => {
-    event.preventDefault();
-    setRegistrationOpen(true);
-  };
-  const onSubmit = (inputs: IAuthInputs) => {
-    login(inputs.email, inputs.password).then((response) => {
-      setAuthorization(response.data.accessToken);
-      handleLoginClose();
+    setChecked(false);
+    setError(null);
+    setFormData({
+      email: '',
+      password: '',
     });
+    reset();
   };
 
-  const handleRegistrationClose = () => {
-    setRegistrationOpen(false);
-    setLoginOpen(false);
-  };
-
-  const showErrorMessage = (
-    errorsObj: DeepMap<IAuthInputs, FieldError>,
-    inputName: string,
-  ): JSX.Element => {
-    return (
-      errorsObj[inputName] && (
-        // eslint-disable-next-line
-        <Alert severity="error">{errorsObj[inputName].message}</Alert>
-      )
-    );
+  const onSubmit = (inputs: IAuthInputs) => {
+    login(inputs.email, inputs.password)
+      .then((response) => {
+        setAuthorization(response.data.accessToken);
+        handleLoginClose();
+      })
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      .catch((err) => setError(err.response.data.status));
   };
 
   return (
@@ -98,115 +93,119 @@ export const LoginModal: React.FC = () => {
         onClose={handleLoginClose}
         aria-labelledby="form-dialog-title"
       >
-        <DialogTitle id="form-dialog-title">
-          {t(langTokens.loginRegistration.enterEmailAndPassword)}
-          {user.error && (
-            <Alert severity="error">
-              {t(langTokens.loginRegistration.wrongEmailOrPassword)}
-            </Alert>
-          )}
+        <DialogTitle id="form-dialog-title" className={classes.dialogTitle}>
+          <div className={classes.titleContainer}>
+            <Typography variant="subtitle1" className={classes.dialogTitleText}>
+              {t(langTokens.loginRegistration.enterEmailAndPassword)}
+            </Typography>
+            <IconButton
+              className={classes.closeIconButton}
+              onClick={handleLoginClose}
+            >
+              <CloseIcon className={classes.closeIcon} />
+            </IconButton>
+          </div>
         </DialogTitle>
         <DialogContent>
-          <form
-            onSubmit={handleSubmit(onSubmit)}
-            style={{ width: '300px', height: 'fit-content', margin: '0 auto' }}
-          >
+          <form onSubmit={handleSubmit(onSubmit)} className={classes.form}>
             <Grid container justify="center">
               <Grid item xs={12}>
                 <TextField
+                  className={classes.emailInput}
+                  variant="outlined"
+                  margin="normal"
+                  fullWidth
                   name="email"
                   inputRef={register(emailValidationObj)}
-                  label="Email"
-                  style={{ width: '100%' }}
+                  label="E-mail"
+                  onChange={(e) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      [e.target.name]: e.target.value.trim(),
+                    }))
+                  }
+                  error={!!errors.email}
+                  helperText={errors?.email?.message}
                 />
               </Grid>
               <Grid item xs={12}>
-                {showErrorMessage(errors, 'email')}
-              </Grid>
-              <Grid item xs={12}>
                 <TextField
+                  variant="outlined"
+                  margin="normal"
+                  fullWidth
                   name="password"
+                  label={t(langTokens.loginRegistration.password)}
                   type={showPassword ? 'text' : 'password'}
                   inputRef={register(passwordValidationObj)}
+                  error={!!errors.password}
+                  onChange={(e) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      [e.target.name]: e.target.value.trim(),
+                    }))
+                  }
+                  helperText={errors?.password?.message}
                   InputProps={{
                     // This is where the password toggle button is added.
                     endAdornment: (
                       <InputAdornment position="end">
                         <IconButton
                           aria-label="toggle password visibility"
+                          className={classes.visibilityIconButton}
                           onClick={() => setShowPassword(!showPassword)}
                         >
-                          {showPassword ? <VisibilityOff /> : <Visibility />}
+                          {showPassword ? (
+                            <VisibilityOff className={classes.visibilityIcon} />
+                          ) : (
+                            <Visibility className={classes.visibilityIcon} />
+                          )}
                         </IconButton>
                       </InputAdornment>
                     ),
                   }}
-                  label={t(langTokens.loginRegistration.password)}
-                  style={{ width: '100%' }}
                 />
               </Grid>
-              <Grid item xs={12}>
-                {showErrorMessage(errors, 'password')}
-              </Grid>
-              <Grid item xs={12}>
-                <div
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    marginBottom: '15px',
-                  }}
+              {error && (
+                <Typography
+                  variant="subtitle1"
+                  component="p"
+                  className={classes.error}
                 >
+                  {t(langTokens.loginRegistration.wrongEmailOrPassword)}
+                </Typography>
+              )}
+              <Grid item xs={12}>
+                <div className={classes.bottomContainer}>
                   <FormControlLabel
                     control={
                       <Checkbox
                         inputRef={register}
                         name="remember"
-                        color="primary"
+                        style={checked ? { color: '#73DDFF' } : undefined}
+                        onChange={(e) => setChecked(e.target.checked)}
                       />
                     }
                     label={t(langTokens.loginRegistration.rememberMe)}
                   />
-
+                  {checked && <DoneIcon className={classes.doneIcon} />}
                   <Button
+                    className={classes.submitButton}
                     type="submit"
-                    variant="outlined"
-                    style={{ marginRight: '0px', alignSelf: 'flex-end' }}
+                    variant="contained"
+                    disabled={
+                      !!errors.email ||
+                      !!errors.password ||
+                      !formData.email ||
+                      !formData.password ||
+                      !!error
+                    }
                   >
                     {t(langTokens.loginRegistration.logIn)}
                   </Button>
                 </div>
               </Grid>
-              <Grid item xs={12}>
-                <Typography style={{ marginBottom: '10px' }}>
-                  {`${t(langTokens.loginRegistration.dontHaveAccount)}?`}{' '}
-                  {/* eslint-disable-next-line */}
-                  <Link component="button" onClick={handleRegistrationOpen}>
-                    {`${t(langTokens.loginRegistration.registerNow)}!`}
-                  </Link>
-                </Typography>
-              </Grid>
-              <Grid item xs={12}>
-                <Typography style={{ marginBottom: '10px', textAlign: 'left' }}>
-                  {`${t(langTokens.loginRegistration.orLogInWith)}:`}
-                </Typography>
-              </Grid>
-              <Grid item xs={12} style={{ margin: '0px auto' }}>
-                <Grid container justify="center">
-                  <Grid item xs={6} style={{ textAlign: 'center' }}>
-                    <Button href={FB_AUTH_URL}>Facebook</Button>
-                  </Grid>
-                  <Grid item xs={6} style={{ textAlign: 'center' }}>
-                    <Button href={GOOGLE_AUTH_URL}>Google</Button>
-                  </Grid>
-                </Grid>
-              </Grid>
             </Grid>
           </form>
-          <RegistrationModal
-            registrationOpen={registrationOpen}
-            onRegistrationClose={handleRegistrationClose}
-            showErrorMessage={showErrorMessage}
-          />
         </DialogContent>
       </Dialog>
     </>

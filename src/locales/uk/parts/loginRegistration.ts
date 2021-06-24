@@ -1,6 +1,6 @@
 export const loginRegistration = {
   enterEmailAndPassword: 'Введіть Ваші email та пароль',
-  wrongEmailOrPassword: 'Неправильний email або пароль',
+  wrongEmailOrPassword: 'Ви ввели неправильний логін та/або пароль!',
   rememberMe: "Запам'ятати мене",
   dontHaveAccount: 'Не маєте облікового запису',
   registerNow: 'Зареєструйтеся зараз',
