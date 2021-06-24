@@ -34,6 +34,7 @@ export const LoginModal: React.FC = () => {
   const { setAuthorization } = useContext(AuthContext);
   const [checked, setChecked] = useState(false);
   const [error, setError] = useState(null);
+  const [disabled, setDisabled] = useState(false);
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -58,6 +59,7 @@ export const LoginModal: React.FC = () => {
     setLoginOpen(false);
     setChecked(false);
     setError(null);
+    setDisabled(false);
     setFormData({
       email: '',
       password: '',
@@ -66,13 +68,17 @@ export const LoginModal: React.FC = () => {
   };
 
   const onSubmit = (inputs: IAuthInputs) => {
+    setDisabled(true);
     login(inputs.email, inputs.password)
       .then((response) => {
         setAuthorization(response.data.accessToken);
         handleLoginClose();
       })
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      .catch((err) => setError(err.response.data.status));
+      .catch((err) => {
+        setError(err.response.data.status);
+        setDisabled(false);
+      });
   };
 
   return (
@@ -197,7 +203,8 @@ export const LoginModal: React.FC = () => {
                       !!errors.password ||
                       !formData.email ||
                       !formData.password ||
-                      !!error
+                      !!error ||
+                      disabled
                     }
                   >
                     {t(langTokens.loginRegistration.logIn)}
