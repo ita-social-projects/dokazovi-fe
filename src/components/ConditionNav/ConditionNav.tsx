@@ -10,8 +10,7 @@ export default function ConditionNav(): JSX.Element {
 
   useEffect(() => {
     const element: HTMLElement | null = document.getElementById(to);
-    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-    element && element.scrollIntoView({ block: 'start', behavior: 'smooth' });
+    element?.scrollIntoView({ block: 'start', behavior: 'smooth' });
   }, [to]);
 
   return (
