@@ -42,6 +42,9 @@ export const useStyles = makeStyles(
       '& a': {
         margin: theme.spacing(0, 3),
       },
+      '& a:hover': {
+        textDecoration: 'underline',
+      },
     },
     info: {
       display: 'flex',

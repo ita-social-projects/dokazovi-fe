@@ -1,15 +1,18 @@
 /* eslint-disable react/no-danger */
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { Card, Box, Typography } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
+import { useTranslation } from 'react-i18next';
 import { useStyles } from '../styles/PostView.styles';
 import { IPost } from '../../../lib/types';
 import { ConfirmationModalWithButton } from '../../../lib/components/Modals/ConfirmationModalWithButton';
 import PostInfo from '../../../../components/Posts/PostInfo/PostInfo';
 import TopSection from '../../../../components/Posts/TopSection/TopSection';
 import SecondTopSection from '../../../../components/Posts/SecondTopSection/SecondTopSection';
+import { langTokens } from '../../../../locales/localizationInit';
+import { AuthContext } from '../../../provider/AuthProvider/AuthContext';
 
 export interface IPostViewProps {
   post: IPost;
@@ -22,6 +25,9 @@ const PostView: React.FC<IPostViewProps> = ({
   modificationAllowed,
   onDelete,
 }) => {
+  const { t } = useTranslation();
+
+  const { authenticated } = useContext(AuthContext);
   const classes = useStyles();
 
   const postContent = post.content ?? 'There is no post content';
@@ -37,18 +43,20 @@ const PostView: React.FC<IPostViewProps> = ({
   return (
     <Card className={classes.cardContainer}>
       <Box className={classes.wrapper}>
-        {post.origins[0].name !== 'Переклад' && (
+        {post.origins[0].name !== t(langTokens.common.translation) && (
           <TopSection author={post.author} />
         )}
 
-        {modificationAllowed && (
+        {authenticated && (
           <Box className={classes.actionsBlock}>
             <Link to={`/edit-post?id=${post.id}`}>
               <EditIcon />
             </Link>
             {onDelete && (
               <ConfirmationModalWithButton
-                message={`Ви дійсно бажаєте безповоротно видалити матеріал '${post.title}'?`}
+                message={`${t(langTokens.materials.needToDeleteMaterial)} '${
+                  post.title
+                }'?`}
                 buttonIcon={<DeleteIcon />}
                 onConfirmButtonClick={onDelete}
               />
@@ -62,12 +70,12 @@ const PostView: React.FC<IPostViewProps> = ({
             </Typography>
           )}
 
-          {post.origins[0].name === 'Переклад' && (
+          {post.origins[0].name === t(langTokens.common.translation) && (
             <SecondTopSection author={post.author} />
           )}
 
           <PostInfo info={postInfo} />
-          {post.type.name === 'Відео' && (
+          {post.type.name === t(langTokens.common.video) && (
             <iframe
               className={classes.video}
               src={post.videoUrl}

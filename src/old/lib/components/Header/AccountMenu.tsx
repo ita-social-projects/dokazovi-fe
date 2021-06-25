@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { Button, Typography, Avatar } from '@material-ui/core';
+import { useTranslation } from 'react-i18next';
 import { useStyles } from './AccountMenu.styles';
 import { StyledMenu, StyledMenuItem } from '../Menu/StyledMenu';
 import { signOutAction, getUserAsyncAction } from '../../../../models/user';
@@ -9,9 +10,12 @@ import { useActions } from '../../../../shared/hooks';
 import { AuthContext } from '../../../provider/AuthProvider/AuthContext';
 import { selectCurrentUser } from '../../../../models/user/selectors';
 import { AccountIcon } from '../icons/AccountIcon';
+import { langTokens } from '../../../../locales/localizationInit';
 
 export const AccountMenu: React.FC = () => {
   const history = useHistory();
+  const { t } = useTranslation();
+
   const classes = useStyles();
   const user = useSelector(selectCurrentUser);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -81,7 +85,7 @@ export const AccountMenu: React.FC = () => {
       >
         <StyledMenuItem onClick={onLogoutHandler}>
           <Typography variant="button" color="inherit">
-            Вийти
+            {t(langTokens.common.exit)}
           </Typography>
         </StyledMenuItem>
         <StyledMenuItem onClick={openAdminPage}>

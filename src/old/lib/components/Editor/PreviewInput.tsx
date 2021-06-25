@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { TextField } from '@material-ui/core';
+import { useTranslation } from 'react-i18next';
 import { useEffectExceptOnMount } from '../../hooks/useEffectExceptOnMount';
 import { MAX_PREVIEW_LENGTH } from '../../constants/editors';
+import { langTokens } from '../../../../locales/localizationInit';
 
 const truncText = (str: string) => {
   return str.slice(0, MAX_PREVIEW_LENGTH);
@@ -22,6 +24,8 @@ const PreviewInput: React.FC<IPreviewInputProps> = ({
   onPreviewChange,
   onManuallyChanged,
 }) => {
+  const { t } = useTranslation();
+
   const [textFieldValue, setTextFieldValue] = useState<string>(initialPreview);
   const [isTextFieldManuallyChanged, setIsTextFieldManuallyChanged] = useState(
     initialWasManuallyChanged,
@@ -57,7 +61,7 @@ const PreviewInput: React.FC<IPreviewInputProps> = ({
       aria-label="minimum height"
       value={textFieldValue}
       multiline
-      label="Текст картки матеріалу"
+      label={t(langTokens.editor.materialCardText)}
       variant="outlined"
       onChange={(e) => {
         handleManualChange(e.target.value);
@@ -75,8 +79,10 @@ const PreviewInput: React.FC<IPreviewInputProps> = ({
       error={!isPreviewValid}
       helperText={
         (!isPreviewValid &&
-          `Максимальна довжина тексту: ${MAX_PREVIEW_LENGTH} символів!`) ||
-        `Довжина тексту: ${textFieldValue.length} символів`
+          `${t(langTokens.editor.maxTextlength, {
+            count: MAX_PREVIEW_LENGTH,
+          })}!`) ||
+        t(langTokens.editor.textLength, { count: textFieldValue.length })
       }
     />
   );

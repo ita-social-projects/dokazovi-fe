@@ -1,10 +1,13 @@
 import React, { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import NoteEditorToolbar from '../../../lib/components/Editor/Editors/NoteEditorToolbar';
 import { PostTypeEnum } from '../../../lib/types';
 import { TextPostCreation } from './TextPostCreation';
 import { setGALocation } from '../../../../utilities/setGALocation';
+import { langTokens } from '../../../../locales/localizationInit';
 
 const NoteCreation: React.FC = () => {
+  const { t } = useTranslation();
   useEffect(() => {
     setGALocation(window);
   }, []);
@@ -12,10 +15,13 @@ const NoteCreation: React.FC = () => {
   return (
     <TextPostCreation
       editorToolbar={NoteEditorToolbar}
-      pageTitle="Створення допису"
-      titleInputLabel="Заголовок допису:"
-      contentInputLabel="Текст допису:"
-      postType={{ type: PostTypeEnum.DOPYS, name: 'Допис' }}
+      pageTitle={t(langTokens.editor.postCreation)}
+      titleInputLabel={`${t(langTokens.editor.postTitle)}:`}
+      contentInputLabel={`${t(langTokens.editor.postText)}:`}
+      postType={{
+        type: PostTypeEnum.DOPYS,
+        name: t(langTokens.common.article),
+      }}
     />
   );
 };

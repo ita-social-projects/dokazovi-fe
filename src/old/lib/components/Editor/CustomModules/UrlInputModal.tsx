@@ -10,8 +10,10 @@ import CropOriginalIcon from '@material-ui/icons/CropOriginal';
 import { IconButton } from '@material-ui/core';
 import { useForm } from 'react-hook-form';
 import { Alert } from '@material-ui/lab';
+import { useTranslation } from 'react-i18next';
 import { insertFromUrl } from './ImageFromURLHandler';
 import { IUrlInputModalProps } from './types';
+import { langTokens } from '../../../../../locales/localizationInit';
 
 export const UrlInputModal: React.FC<IUrlInputModalProps> = ({
   editor,
@@ -19,6 +21,7 @@ export const UrlInputModal: React.FC<IUrlInputModalProps> = ({
 }) => {
   // eslint-disable-next-line @typescript-eslint/unbound-method
   const { register, handleSubmit, errors } = useForm();
+  const { t } = useTranslation();
 
   const [open, setOpen] = useState(false);
 
@@ -50,7 +53,11 @@ export const UrlInputModal: React.FC<IUrlInputModalProps> = ({
 
   return (
     <div>
-      <IconButton onClick={handleClickOpen} title="За посиланням" disableRipple>
+      <IconButton
+        onClick={handleClickOpen}
+        title={t(langTokens.editor.byUrl)}
+        disableRipple
+      >
         <CropOriginalIcon
           className="customSVGIcon"
           fontSize="small"
@@ -63,14 +70,18 @@ export const UrlInputModal: React.FC<IUrlInputModalProps> = ({
         onClose={handleClose}
         aria-labelledby="form-dialog-title"
       >
-        <DialogTitle id="form-dialog-title">За посиланням</DialogTitle>
+        <DialogTitle id="form-dialog-title">
+          {t(langTokens.editor.byUrl)}
+        </DialogTitle>
         <DialogContent>
           <form onSubmit={handleSubmit(onSubmitHandler)}>
             <DialogContentText>
-              Введіть посилання на зображення https://www...
+              {`${t(langTokens.editor.enterUrlForImage)} https://www...`}
             </DialogContentText>
             {errors.url && (
-              <Alert severity="error">Заповніть поле з посиланням!</Alert>
+              <Alert severity="error">
+                {`${t(langTokens.editor.fillFieldWithUrl)}!`}
+              </Alert>
             )}
             <TextField
               autoFocus
@@ -88,10 +99,10 @@ export const UrlInputModal: React.FC<IUrlInputModalProps> = ({
 
             <DialogActions>
               <Button onClick={handleClose} color="primary">
-                Скасувати
+                {t(langTokens.common.cancel)}
               </Button>
               <Button color="primary" type="submit">
-                Додати
+                {t(langTokens.common.add)}
               </Button>
             </DialogActions>
           </form>

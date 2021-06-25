@@ -4,23 +4,25 @@ import Button from '@material-ui/core/Button';
 import { Typography } from '@material-ui/core';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { StyledMenu, StyledMenuItem } from '../Menu/StyledMenu';
 import { combineClassNames } from '../../utilities/classNames';
+import i18n, { langTokens } from '../../../../locales/localizationInit';
 
 const menuItems = [
   {
     id: 'article',
-    label: 'статтю',
+    label: i18n.t(langTokens.common.articleAccusative).toLowerCase(),
     url: '/create-article',
   },
   {
     id: 'dopys',
-    label: 'допис',
+    label: i18n.t(langTokens.common.post).toLowerCase(),
     url: '/create-note',
   },
   {
     id: 'video',
-    label: 'відео',
+    label: i18n.t(langTokens.common.video).toLowerCase(),
     url: '/create-video',
   },
 ];
@@ -66,6 +68,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 export const PostCreationMenu: React.FC = () => {
+  const { t } = useTranslation();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const classes = useStyles();
 
@@ -92,7 +95,7 @@ export const PostCreationMenu: React.FC = () => {
         }}
       >
         <Typography variant="h5" color="inherit">
-          Створити...
+          {`${t(langTokens.common.create)}...`}
         </Typography>
         <ArrowDropDownIcon className={classes.icon} />
       </Button>
