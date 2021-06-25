@@ -9,6 +9,10 @@ export const emailValidationObj = {
     value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
     message: i18n.t(langTokens.loginRegistration.incorrectEmail),
   },
+  maxLength: {
+    value: 40,
+    message: i18n.t(langTokens.loginRegistration.maxLenForEmail),
+  },
 };
 
 export const passwordValidationObj = {

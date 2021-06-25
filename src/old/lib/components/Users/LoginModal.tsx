@@ -1,6 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import Swal from 'sweetalert2';
 import {
+  Box,
   Button,
   Checkbox,
   Dialog,
@@ -17,7 +19,6 @@ import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import { useTranslation } from 'react-i18next';
 import CloseIcon from '@material-ui/icons/Close';
-import DoneIcon from '@material-ui/icons/Done';
 import { AuthContext } from '../../../provider/AuthProvider/AuthContext';
 import { emailValidationObj, passwordValidationObj } from './validationRules';
 import { IAuthInputs } from '../../types';
@@ -29,12 +30,12 @@ import { langTokens } from '../../../../locales/localizationInit';
 export const LoginModal: React.FC = () => {
   const { t } = useTranslation();
   const classes = useStyles();
-  const [loginOpen, setLoginOpen] = React.useState(false);
+  const [loginOpen, setLoginOpen] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const { setAuthorization } = useContext(AuthContext);
-  const [checked, setChecked] = useState(false);
   const [error, setError] = useState(null);
   const [disabled, setDisabled] = useState(false);
+  const [showCongratulation, setShowCongratulation] = useState(false);
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -57,7 +58,6 @@ export const LoginModal: React.FC = () => {
 
   const handleLoginClose = () => {
     setLoginOpen(false);
-    setChecked(false);
     setError(null);
     setDisabled(false);
     setFormData({
@@ -67,12 +67,20 @@ export const LoginModal: React.FC = () => {
     reset();
   };
 
+  const swalWithCustomButton = Swal.mixin({
+    customClass: {
+      confirmButton: classes.congratulationButton,
+    },
+    buttonsStyling: false,
+  });
+
   const onSubmit = (inputs: IAuthInputs) => {
     setDisabled(true);
-    login(inputs.email, inputs.password)
+    login(inputs.email.toLowerCase(), inputs.password)
       .then((response) => {
         setAuthorization(response.data.accessToken);
         handleLoginClose();
+        swalWithCustomButton.fire('Вітаємо!', 'Ви увійшли', 'success');
       })
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       .catch((err) => {
@@ -80,6 +88,24 @@ export const LoginModal: React.FC = () => {
         setDisabled(false);
       });
   };
+
+  // const congratulationOpen = () => {
+  //       setShowCongratulation(true);
+  //   }
+
+  const congratulationClose = () => {
+    setShowCongratulation(false);
+  };
+
+  const handleKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      setShowCongratulation(false);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('keypress', handleKeyPress);
+  }, [showCongratulation]);
 
   return (
     <>
@@ -98,9 +124,13 @@ export const LoginModal: React.FC = () => {
         open={loginOpen}
         onClose={handleLoginClose}
         aria-labelledby="form-dialog-title"
+        className={classes.dialogContainer}
       >
-        <DialogTitle id="form-dialog-title" className={classes.dialogTitle}>
-          <div className={classes.titleContainer}>
+        <DialogTitle
+          id="form-dialog-title"
+          className={classes.dialogTitleContainer}
+        >
+          <div className={classes.dialogTitleBlock}>
             <Typography variant="subtitle1" className={classes.dialogTitleText}>
               {t(langTokens.loginRegistration.enterEmailAndPassword)}
             </Typography>
@@ -117,7 +147,7 @@ export const LoginModal: React.FC = () => {
             <Grid container justify="center">
               <Grid item xs={12}>
                 <TextField
-                  className={classes.emailInput}
+                  className={classes.textInput}
                   variant="outlined"
                   margin="normal"
                   fullWidth
@@ -136,6 +166,7 @@ export const LoginModal: React.FC = () => {
               </Grid>
               <Grid item xs={12}>
                 <TextField
+                  className={classes.textInput}
                   variant="outlined"
                   margin="normal"
                   fullWidth
@@ -187,13 +218,12 @@ export const LoginModal: React.FC = () => {
                       <Checkbox
                         inputRef={register}
                         name="remember"
-                        style={checked ? { color: '#73DDFF' } : undefined}
-                        onChange={(e) => setChecked(e.target.checked)}
+                        icon={<span className={classes.uncheckedIcon} />}
+                        checkedIcon={<span className={classes.checkedIcon} />}
                       />
                     }
                     label={t(langTokens.loginRegistration.rememberMe)}
                   />
-                  {checked && <DoneIcon className={classes.doneIcon} />}
                   <Button
                     className={classes.submitButton}
                     type="submit"
@@ -213,6 +243,29 @@ export const LoginModal: React.FC = () => {
               </Grid>
             </Grid>
           </form>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog
+        open={showCongratulation}
+        onClose={congratulationClose}
+        aria-labelledby="form-dialog-title"
+        className={classes.congratulationDialogContainer}
+      >
+        <DialogContent className={classes.congratulationDialogContent}>
+          <Typography className={classes.congratulationTitleText}>
+            Вітаємо!
+          </Typography>
+          <Typography className={classes.congratulationSubText}>
+            Ви увійшли
+          </Typography>
+          <Button
+            variant="contained"
+            onClick={congratulationClose}
+            className={classes.congratulationButton}
+          >
+            Ok
+          </Button>
         </DialogContent>
       </Dialog>
     </>
