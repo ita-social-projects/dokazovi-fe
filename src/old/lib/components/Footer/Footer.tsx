@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, NavLink } from 'react-router-dom';
 import { Box, Typography, Container } from '@material-ui/core';
 import Link from '@material-ui/core/Link';
 import { useTranslation } from 'react-i18next';
@@ -18,25 +18,25 @@ const navElements: IFooterNavProps[] = [
   {
     id: 1,
     label: i18n.t(langTokens.footer.aboutPlatform),
-    url: '/',
+    url: '/conditions/about',
   },
   {
     id: 2,
     label: i18n.t(langTokens.footer.termsOfUse),
-    url: '/',
+    url: '/conditions/rules',
   },
   {
     id: 3,
     label: i18n.t(langTokens.footer.contacts),
-    url: '/',
+    url: '/conditions/contacts',
   },
 ];
 
 const linksList = navElements.map((item) => {
   return (
-    <Link component={RouterLink} to={item.url} key={item.id}>
+    <NavLink to={item.url} key={item.id} exact>
       <Typography component="span">{item.label}</Typography>
-    </Link>
+    </NavLink>
   );
 });
 

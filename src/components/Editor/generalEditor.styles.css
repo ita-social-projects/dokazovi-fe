@@ -1,0 +1,112 @@
+.ql-font-arial,
+.ql-font span[data-value='arial']::before {
+  font-family: Arial, sans-serif;
+}
+
+.ql-size-medium,
+.ql-size span[data-value='medium']::before {
+  font-size: 18px !important;
+}
+
+u {
+  text-decoration: underline;
+}
+
+s {
+  text-decoration: line-through;
+}
+
+.ql-editor {
+  min-height: 560px;
+}
+
+.show {
+  display: block;
+}
+
+.hide {
+  display: none !important;
+}
+
+.customSVGIcon {
+  fill: #2c2c2c;
+}
+
+.customSVGIcon:hover {
+  fill: #06c;
+}
+
+.ImageHandlersContainer {
+  display: flex;
+  flex-direction: row;
+}
+
+figure > img {
+  display: block;
+  margin: 0 auto;
+}
+
+.imageTitle {
+  font-family: 'Literata', serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1;
+  color: #767676;
+  margin-top: 10px;
+}
+
+.ql-editor > h2,
+h3,
+h4 {
+  line-height: 2rem;
+}
+
+.ql-editor > h2 {
+  font-family: 'Raleway', sans-serif;
+  font-weight: 700;
+  font-size: 32px;
+  margin-bottom: 25px;
+}
+
+.ql-editor > h3 {
+  font-family: 'Raleway', sans-serif;
+  font-weight: 700;
+  font-size: 19px;
+  margin-bottom: 20px;
+}
+
+.ql-editor > h4 {
+  font-family: 'Raleway', sans-serif;
+  font-weight: 500;
+  font-size: 19px;
+  color: #767676;
+  margin-bottom: 70px;
+}
+
+.ql-editor > h5 {
+  font-family: 'Literata', serif;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+blockquote {
+  margin: 45px 0px;
+  padding: 45px 110px;
+  text-align: center;
+  font-family: 'Raleway', normal, sans-serif;
+  font-weight: 500;
+  font-size: 24px;
+  color: #ff5c00;
+  word-wrap: break-word;
+  border-top: #4fdfff solid 1px;
+  border-bottom: #4fdfff solid 1px;
+}
+
+.ql-editor > a {
+  font-family: 'Literata', serif;
+  font-weight: 400;
+  font-size: 17px;
+  text-decoration: underline;
+  color: #0000ff;
+}
