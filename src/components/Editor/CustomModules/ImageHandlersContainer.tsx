@@ -28,7 +28,7 @@ const ImageHandlersContainer: React.FC<IImageHandlersContainerProps> = ({
         >
           <CropOriginalIcon
             fontSize="small"
-            style={{ width: '18px', height: '18px' }}
+            style={{ width: '18px', height: '18px', color: '#000' }}
           />
         </IconButton>
 

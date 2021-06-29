@@ -13,6 +13,9 @@ export const useStyles = makeStyles(
       fontSize: '14px',
       lineHeight: '1.17',
       userSelect: 'none',
+      '& .MuiChip-deleteIcon': {
+        color: '#000',
+      },
     }),
   }),
   { name: 'PostDirectionChip' },

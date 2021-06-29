@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import Swal from 'sweetalert2';
 import {
   Button,
   Checkbox,
@@ -17,7 +18,6 @@ import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import { useTranslation } from 'react-i18next';
 import CloseIcon from '@material-ui/icons/Close';
-import DoneIcon from '@material-ui/icons/Done';
 import { AuthContext } from '../../../provider/AuthProvider/AuthContext';
 import { emailValidationObj, passwordValidationObj } from './validationRules';
 import { IAuthInputs } from '../../types';
@@ -29,11 +29,11 @@ import { langTokens } from '../../../../locales/localizationInit';
 export const LoginModal: React.FC = () => {
   const { t } = useTranslation();
   const classes = useStyles();
-  const [loginOpen, setLoginOpen] = React.useState(false);
+  const [loginOpen, setLoginOpen] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const { setAuthorization } = useContext(AuthContext);
-  const [checked, setChecked] = useState(false);
   const [error, setError] = useState(null);
+  const [disabled, setDisabled] = useState(false);
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -56,8 +56,8 @@ export const LoginModal: React.FC = () => {
 
   const handleLoginClose = () => {
     setLoginOpen(false);
-    setChecked(false);
     setError(null);
+    setDisabled(false);
     setFormData({
       email: '',
       password: '',
@@ -65,14 +65,33 @@ export const LoginModal: React.FC = () => {
     reset();
   };
 
+  const swalWithCustomButton = Swal.mixin({
+    customClass: {
+      container: classes.congratulationContainer,
+      title: classes.congratulationTitleText,
+      htmlContainer: classes.congratulationSubText,
+      confirmButton: classes.congratulationButton,
+    },
+    buttonsStyling: false,
+  });
+
   const onSubmit = (inputs: IAuthInputs) => {
-    login(inputs.email, inputs.password)
+    setDisabled(true);
+    login(inputs.email.toLowerCase(), inputs.password)
       .then((response) => {
         setAuthorization(response.data.accessToken);
         handleLoginClose();
+        swalWithCustomButton.fire(
+          t(langTokens.loginRegistration.congratulation),
+          t(langTokens.loginRegistration.youAreWelcome),
+          'success',
+        );
       })
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      .catch((err) => setError(err.response.data.status));
+      .catch((err) => {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+        setError(err.response.data.status);
+        setDisabled(false);
+      });
   };
 
   return (
@@ -92,9 +111,13 @@ export const LoginModal: React.FC = () => {
         open={loginOpen}
         onClose={handleLoginClose}
         aria-labelledby="form-dialog-title"
+        className={classes.dialogContainer}
       >
-        <DialogTitle id="form-dialog-title" className={classes.dialogTitle}>
-          <div className={classes.titleContainer}>
+        <DialogTitle
+          id="form-dialog-title"
+          className={classes.dialogTitleContainer}
+        >
+          <div className={classes.dialogTitleBlock}>
             <Typography variant="subtitle1" className={classes.dialogTitleText}>
               {t(langTokens.loginRegistration.enterEmailAndPassword)}
             </Typography>
@@ -111,7 +134,8 @@ export const LoginModal: React.FC = () => {
             <Grid container justify="center">
               <Grid item xs={12}>
                 <TextField
-                  className={classes.emailInput}
+                  // autoFocus
+                  className={classes.textInput}
                   variant="outlined"
                   margin="normal"
                   fullWidth
@@ -130,6 +154,7 @@ export const LoginModal: React.FC = () => {
               </Grid>
               <Grid item xs={12}>
                 <TextField
+                  className={classes.textInput}
                   variant="outlined"
                   margin="normal"
                   fullWidth
@@ -181,13 +206,12 @@ export const LoginModal: React.FC = () => {
                       <Checkbox
                         inputRef={register}
                         name="remember"
-                        style={checked ? { color: '#73DDFF' } : undefined}
-                        onChange={(e) => setChecked(e.target.checked)}
+                        icon={<span className={classes.uncheckedIcon} />}
+                        checkedIcon={<span className={classes.checkedIcon} />}
                       />
                     }
                     label={t(langTokens.loginRegistration.rememberMe)}
                   />
-                  {checked && <DoneIcon className={classes.doneIcon} />}
                   <Button
                     className={classes.submitButton}
                     type="submit"
@@ -197,7 +221,8 @@ export const LoginModal: React.FC = () => {
                       !!errors.password ||
                       !formData.email ||
                       !formData.password ||
-                      !!error
+                      !!error ||
+                      disabled
                     }
                   >
                     {t(langTokens.loginRegistration.logIn)}

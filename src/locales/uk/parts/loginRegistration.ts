@@ -1,5 +1,5 @@
 export const loginRegistration = {
-  enterEmailAndPassword: 'Введіть Ваші email та пароль',
+  enterEmailAndPassword: 'Введіть E-mail і пароль',
   wrongEmailOrPassword: 'Ви ввели неправильний логін та/або пароль!',
   rememberMe: "Запам'ятати мене",
   dontHaveAccount: 'Не маєте облікового запису',
@@ -16,5 +16,8 @@ export const loginRegistration = {
   incorrectEmail: 'Неправильний формат email',
   minLenForPassword: 'Пароль повинен містити щонайменше 4 символи',
   maxLenForPassword: 'Пароль повинен містити щонайбільше 16 символів',
+  maxLenForEmail: 'E-mail повинен містити щонайбільше 40 символів',
   enterInfoAboutYourself: 'Введіть інформацію про себе',
+  congratulation: 'Вітаємо!',
+  youAreWelcome: 'Ви увійшли',
 };
