@@ -135,6 +135,7 @@ export const VideoPostUpdation: React.FC<ITextPostUpdationProps> = ({
     },
     content: htmlContent,
     preview,
+    videoUrl,
     directions: selectedDirections,
     origins: selectedOrigins,
     title: title.value,
