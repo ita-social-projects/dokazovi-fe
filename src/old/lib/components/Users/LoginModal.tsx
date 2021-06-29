@@ -35,7 +35,6 @@ export const LoginModal: React.FC = () => {
   const { setAuthorization } = useContext(AuthContext);
   const [error, setError] = useState(null);
   const [disabled, setDisabled] = useState(false);
-  const [showCongratulation, setShowCongratulation] = useState(false);
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -69,6 +68,9 @@ export const LoginModal: React.FC = () => {
 
   const swalWithCustomButton = Swal.mixin({
     customClass: {
+      container: classes.congratulationContainer,
+      title: classes.congratulationTitleText,
+      htmlContainer: classes.congratulationSubText,
       confirmButton: classes.congratulationButton,
     },
     buttonsStyling: false,
@@ -80,7 +82,11 @@ export const LoginModal: React.FC = () => {
       .then((response) => {
         setAuthorization(response.data.accessToken);
         handleLoginClose();
-        swalWithCustomButton.fire('Вітаємо!', 'Ви увійшли', 'success');
+        swalWithCustomButton.fire(
+          t(langTokens.loginRegistration.congratulation),
+          t(langTokens.loginRegistration.youAreWelcome),
+          'success',
+        );
       })
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       .catch((err) => {
@@ -88,24 +94,6 @@ export const LoginModal: React.FC = () => {
         setDisabled(false);
       });
   };
-
-  // const congratulationOpen = () => {
-  //       setShowCongratulation(true);
-  //   }
-
-  const congratulationClose = () => {
-    setShowCongratulation(false);
-  };
-
-  const handleKeyPress = (event) => {
-    if (event.key === 'Enter') {
-      setShowCongratulation(false);
-    }
-  };
-
-  useEffect(() => {
-    window.addEventListener('keypress', handleKeyPress);
-  }, [showCongratulation]);
 
   return (
     <>
@@ -147,6 +135,7 @@ export const LoginModal: React.FC = () => {
             <Grid container justify="center">
               <Grid item xs={12}>
                 <TextField
+                  // autoFocus
                   className={classes.textInput}
                   variant="outlined"
                   margin="normal"
@@ -243,29 +232,6 @@ export const LoginModal: React.FC = () => {
               </Grid>
             </Grid>
           </form>
-        </DialogContent>
-      </Dialog>
-
-      <Dialog
-        open={showCongratulation}
-        onClose={congratulationClose}
-        aria-labelledby="form-dialog-title"
-        className={classes.congratulationDialogContainer}
-      >
-        <DialogContent className={classes.congratulationDialogContent}>
-          <Typography className={classes.congratulationTitleText}>
-            Вітаємо!
-          </Typography>
-          <Typography className={classes.congratulationSubText}>
-            Ви увійшли
-          </Typography>
-          <Button
-            variant="contained"
-            onClick={congratulationClose}
-            className={classes.congratulationButton}
-          >
-            Ok
-          </Button>
         </DialogContent>
       </Dialog>
     </>

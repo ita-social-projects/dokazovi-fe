@@ -18,4 +18,6 @@ export const loginRegistration = {
   maxLenForPassword: 'Пароль повинен містити щонайбільше 16 символів',
   maxLenForEmail: 'E-mail повинен містити щонайбільше 40 символів',
   enterInfoAboutYourself: 'Введіть інформацію про себе',
+  congratulation: 'Вітаємо!',
+  youAreWelcome: 'Ви увійшли',
 };
