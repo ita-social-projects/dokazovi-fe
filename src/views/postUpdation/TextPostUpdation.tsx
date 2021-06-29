@@ -21,6 +21,10 @@ import { IEditorToolbarProps } from '../../components/Editor/types';
 import { PostDirectionsSelector } from '../postCreation/PostDirectionsSelector';
 import { PostOriginsSelector } from '../postCreation/PostOriginsSelector';
 import { PostAuthorSelection } from '../postCreation/PostAuthorSelection/PostAuthorSelection';
+import { BorderBottom } from '../../old/lib/components/Border';
+import { getStringFromFile } from '../../old/lib/utilities/Imgur/getStringFromFile';
+import { uploadImageToImgur } from '../../old/lib/utilities/Imgur/uploadImageToImgur';
+import { BackgroundImageContainer } from '../../components/Editor/CustomModules/BackgroundImageContainer/BackgroundImageContainer';
 
 export interface ITextPostUpdationProps {
   pageTitle: string;
@@ -45,6 +49,9 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
     post.origins,
   );
   const [htmlContent, setHtmlContent] = useState(post.content);
+  const [previewImageUrl, setPreviewImageUrl] = useState<string>(
+    post.previewImageUrl as string,
+  );
   const [preview, setPreview] = useState(post.preview);
   const [title, setTitle] = useState({
     value: post.title,
@@ -105,11 +112,24 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
     setSearchValue(authorFullName);
   };
 
+  const fileSelectorHandler = (
+    e: React.ChangeEvent<HTMLInputElement>,
+  ): void => {
+    getStringFromFile(e.target.files)
+      .then((str) => uploadImageToImgur(str))
+      .then((res) => {
+        if (res.data.status === 200) {
+          setPreviewImageUrl(res.data.data.link);
+        }
+      });
+  };
+
   const updatedPost: UpdateTextPostRequestType = {
     id: post.id,
     content: htmlContent,
     directions: selectedDirections,
     origins: selectedOrigins,
+    previewImageUrl,
     preview,
     title: title.value,
     type: post.type,
@@ -173,6 +193,12 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
             authors={authors}
             searchValue={searchValue}
           />
+          <BackgroundImageContainer
+            dispatchImageUrl={setPreviewImageUrl}
+            fileSelectorHandler={fileSelectorHandler}
+            newPost={updatedPost}
+          />
+          <BorderBottom />
           <Box mt={2}>
             <Typography variant="h5">{contentInputLabel}</Typography>
             <TextPostEditor
