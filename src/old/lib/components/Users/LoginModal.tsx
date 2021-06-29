@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import Swal from 'sweetalert2';
 import {
-  Box,
   Button,
   Checkbox,
   Dialog,
@@ -88,8 +87,8 @@ export const LoginModal: React.FC = () => {
           'success',
         );
       })
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       .catch((err) => {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         setError(err.response.data.status);
         setDisabled(false);
       });
