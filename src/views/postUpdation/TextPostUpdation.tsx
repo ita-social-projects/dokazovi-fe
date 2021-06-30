@@ -49,8 +49,8 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
     post.origins,
   );
   const [htmlContent, setHtmlContent] = useState(post.content);
-  const [previewImageUrl, setPreviewImageUrl] = useState<string>(
-    post.previewImageUrl as string,
+  const [previewImageUrl, setPreviewImageUrl] = useState(
+    post.previewImageUrl ?? '',
   );
   const [preview, setPreview] = useState(post.preview);
   const [title, setTitle] = useState({
