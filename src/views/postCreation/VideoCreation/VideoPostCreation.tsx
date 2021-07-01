@@ -27,8 +27,8 @@ import {
 } from '../../../old/lib/types';
 import { sanitizeHtml } from '../../../old/lib/utilities/sanitizeHtml';
 import { parseVideoIdFromUrl } from '../../../old/lib/utilities/parseVideoIdFromUrl';
-import VideoUrlInputModal from '../../../old/lib/components/Editor/CustomModules/VideoUrlInputModal';
-import { PostCreationButtons } from '../../../old/modules/postCreation/components/PostCreationButtons';
+import VideoUrlInputModal from '../../../components/Editor/CustomModules/VideoUrlInputModal';
+import { PostCreationButtons } from '../PostCreationButtons';
 import {
   CreateVideoPostRequestType,
   ExpertResponseType,
@@ -40,12 +40,12 @@ import {
   PREVIEW_DEBOUNCE_TIMEOUT,
 } from '../../../old/lib/constants/editors';
 import PostView from '../../../old/modules/posts/components/PostView';
-import { TextPostEditor } from '../../../old/lib/components/Editor/Editors/TextPostEditor';
-import { IEditorToolbarProps } from '../../../old/lib/components/Editor/types';
-import { PostDirectionsSelector } from '../../../old/modules/postCreation/components/PostDirectionsSelector';
-import { PostOriginsSelector } from '../../../old/modules/postCreation/components/PostOriginsSelector';
+import { TextPostEditor } from '../../../components/Editor/Editors/TextPostEditor';
+import { IEditorToolbarProps } from '../../../components/Editor/types';
+import { PostDirectionsSelector } from '../PostDirectionsSelector';
+import { PostOriginsSelector } from '../PostOriginsSelector';
 import { BorderBottom } from '../../../old/lib/components/Border';
-import { PostAuthorSelection } from '../../../old/modules/postCreation/components/PostAuthorSelection/PostAuthorSelection';
+import { PostAuthorSelection } from '../PostAuthorSelection/PostAuthorSelection';
 
 import { selectCurrentUser } from '../../../models/user/selectors';
 import { useActions } from '../../../shared/hooks';
