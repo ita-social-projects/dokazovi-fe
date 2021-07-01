@@ -240,7 +240,6 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
   );
 
   const handlePublishClick = async () => {
-    // console.log(newPost);
     const response = await createPost(newPost);
     boundResetDraft(postType.type);
     history.push(`/posts/${response.data.id}`);
