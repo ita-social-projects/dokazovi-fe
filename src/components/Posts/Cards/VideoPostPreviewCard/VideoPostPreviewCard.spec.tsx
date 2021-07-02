@@ -47,19 +47,19 @@ const POST_MOCK: IPost = {
   ],
 };
 
-beforeEach(() =>
+beforeEach(() => {
   render(
     <MemoryRouter>
       <VideoPostPreviewCard post={POST_MOCK} />
     </MemoryRouter>,
-  ),
-);
+  );
+});
 
 describe('VideoPostPreviewCard', () => {
-  xit('renders video icon', () => {
-    expect(screen.getByTestId('video-icon')).toBeInTheDocument();
+  it('renders video icon', () => {
+    expect(screen.getByTestId('videoIcon')).toBeInTheDocument();
   });
-  xit('renders background image', () => {
+  it('renders background image', () => {
     expect(screen.getByTestId('bgImage')).toBeInTheDocument();
   });
   it('renders title', () => {
