@@ -90,7 +90,7 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
   const [typing, setTyping] = useState({ content: false, preview: false });
   const [previewing, setPreviewing] = useState(false);
   const [authors, setAuthors] = useState<ExpertResponseType[]>([]);
-  const [author, setAuthor] = useState<ExpertResponseType | null>(null);
+  const [, setAuthor] = useState<ExpertResponseType | null>(null);
   const [searchValue, setSearchValue] = useState('');
 
   const [
