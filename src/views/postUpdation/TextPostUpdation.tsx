@@ -225,7 +225,9 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
 
       <PostCreationButtons
         action="updating"
-        onCancelClick={() => history.goBack()}
+        onCancelClick={() => {
+          history.goBack();
+        }}
         onPublishClick={handlePublishClick}
         onPreviewClick={() => {
           setPreviewing(!previewing);
