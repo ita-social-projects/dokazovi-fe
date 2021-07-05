@@ -7,7 +7,10 @@ import {
   CssBaseline,
   ThemeProvider,
 } from '@material-ui/core';
-import { ROUTER_CONFIG } from './old/navigation/router-config';
+import {
+  ROUTER_CONFIG,
+  ADMIN_ROUTER_CONFIG,
+} from './old/navigation/router-config';
 import { RenderRoutes } from './old/navigation/Router';
 import { AuthProvider } from './old/provider/AuthProvider/AuthProvider';
 import { MAIN_THEME } from './old/lib/theme/theme';
@@ -75,7 +78,10 @@ export const App: React.FC = () => {
                   </div>
                 }
               >
-                <RenderRoutes routes={ROUTER_CONFIG} />
+                <RenderRoutes
+                  routes={ROUTER_CONFIG}
+                  adminRouterConfig={ADMIN_ROUTER_CONFIG}
+                />
               </Suspense>
               <Footer />
             </AuthProvider>

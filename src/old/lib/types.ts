@@ -162,6 +162,7 @@ export interface IDirection {
   name: string;
   label?: string;
   hasPosts?: boolean;
+  hasDoctors?: boolean;
 }
 
 export interface IFilter {
@@ -200,3 +201,28 @@ export interface IAuthInputs {
   email: string;
   password: string;
 }
+
+export interface IFooterStyleProps {
+  isAdminPage: boolean;
+}
+
+export type AdminMenuType = 'important';
+
+export interface IAdminMenuOption {
+  section: string;
+  label: string;
+  value: AdminMenuType;
+}
+
+export interface IFilterOption {
+  label: string;
+  value: number;
+  chipValue: string;
+}
+
+export type AdminPageFiltersType =
+  | QueryTypeEnum.ORIGINS
+  | QueryTypeEnum.DIRECTIONS
+  | QueryTypeEnum.POST_TYPES;
+
+export type ViewModsType = 'selected' | 'preview';

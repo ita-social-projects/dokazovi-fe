@@ -1,11 +1,12 @@
 import React from 'react';
-import { Link as RouterLink, NavLink } from 'react-router-dom';
+import { Link as RouterLink, useLocation, NavLink } from 'react-router-dom';
 import { Box, Typography, Container } from '@material-ui/core';
 import Link from '@material-ui/core/Link';
 import { useTranslation } from 'react-i18next';
 import { useStyles } from './Footer.styles';
 import softServeLogo from './icons/softServeLogo.svg';
 import unisefLogo from './icons/unisefLogo.svg';
+import { IFooterStyleProps } from '../../types';
 import i18n, { langTokens } from '../../../../locales/localizationInit';
 
 interface IFooterNavProps {
@@ -41,8 +42,12 @@ const linksList = navElements.map((item) => {
 });
 
 export const Footer: React.FC = () => {
+  const location = useLocation();
+  const styleProps: IFooterStyleProps = {
+    isAdminPage: location.pathname === '/admin',
+  };
+  const classes = useStyles(styleProps);
   const { t } = useTranslation();
-  const classes = useStyles();
 
   return (
     <div id="footer" className={classes.container}>
