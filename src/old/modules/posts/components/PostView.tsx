@@ -50,14 +50,14 @@ const PostView: React.FC<IPostViewProps> = ({
         {authenticated && (
           <Box className={classes.actionsBlock}>
             <Link to={`/edit-post?id=${post.id}`}>
-              <EditIcon />
+              <EditIcon className={classes.iconBlack} />
             </Link>
             {onDelete && (
               <ConfirmationModalWithButton
                 message={`${t(langTokens.materials.needToDeleteMaterial)} '${
                   post.title
                 }'?`}
-                buttonIcon={<DeleteIcon />}
+                buttonIcon={<DeleteIcon className={classes.iconBlack} />}
                 onConfirmButtonClick={onDelete}
               />
             )}

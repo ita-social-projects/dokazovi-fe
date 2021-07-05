@@ -43,6 +43,9 @@ export const useStyles = makeStyles(
       margin: '20px -225px 70px',
       borderBottom: '1px solid #767676',
     },
+    iconBlack: {
+      color: 'black',
+    },
     content: {
       ...theme.typography.body1,
       '& p': {

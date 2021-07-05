@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { langTokens } from '../../../locales/localizationInit';
-import { VideoEditorToolbar } from '../../../old/lib/components/Editor/Editors/VideoEditorToolbar';
+import { VideoEditorToolbar } from '../../../components/Editor/Editors/VideoEditorToolbar';
 import { IPost } from '../../../old/lib/types';
 import { VideoPostUpdation } from './VideoPostUpdation';
 

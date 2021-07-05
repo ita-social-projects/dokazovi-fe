@@ -6,7 +6,7 @@ import { sanitizeHtml } from '../../../old/lib/utilities/sanitizeHtml';
 import { PageTitle } from '../../../old/lib/components/Pages/PageTitle';
 import { updatePost, getAllExperts } from '../../../old/lib/utilities/API/api';
 import { IDirection, IPost, IOrigin } from '../../../old/lib/types';
-import { PostCreationButtons } from '../../../old/modules/postCreation/components/PostCreationButtons';
+import { PostCreationButtons } from '../../postCreation/PostCreationButtons';
 import {
   UpdateVideoPostRequestType,
   ExpertResponseType,
@@ -15,14 +15,14 @@ import {
   CONTENT_DEBOUNCE_TIMEOUT,
   PREVIEW_DEBOUNCE_TIMEOUT,
 } from '../../../old/lib/constants/editors';
-import VideoUrlInputModal from '../../../old/lib/components/Editor/CustomModules/VideoUrlInputModal';
+import VideoUrlInputModal from '../../../components/Editor/CustomModules/VideoUrlInputModal';
 import { parseVideoIdFromUrl } from '../../../old/lib/utilities/parseVideoIdFromUrl';
 import PostView from '../../../old/modules/posts/components/PostView';
-import { TextPostEditor } from '../../../old/lib/components/Editor/Editors/TextPostEditor';
-import { IEditorToolbarProps } from '../../../old/lib/components/Editor/types';
-import { PostDirectionsSelector } from '../../../old/modules/postCreation/components/PostDirectionsSelector';
-import { PostOriginsSelector } from '../../../old/modules/postCreation/components/PostOriginsSelector';
-import { PostAuthorSelection } from '../../../old/modules/postCreation/components/PostAuthorSelection/PostAuthorSelection';
+import { TextPostEditor } from '../../../components/Editor/Editors/TextPostEditor';
+import { IEditorToolbarProps } from '../../../components/Editor/types';
+import { PostDirectionsSelector } from '../../postCreation/PostDirectionsSelector';
+import { PostOriginsSelector } from '../../postCreation/PostOriginsSelector';
+import { PostAuthorSelection } from '../../postCreation/PostAuthorSelection/PostAuthorSelection';
 import { BorderBottom } from '../../../old/lib/components/Border';
 
 export interface ITextPostUpdationProps {
@@ -135,6 +135,7 @@ export const VideoPostUpdation: React.FC<ITextPostUpdationProps> = ({
     },
     content: htmlContent,
     preview,
+    videoUrl,
     directions: selectedDirections,
     origins: selectedOrigins,
     title: title.value,
@@ -219,7 +220,9 @@ export const VideoPostUpdation: React.FC<ITextPostUpdationProps> = ({
 
       <PostCreationButtons
         action="updating"
-        onCancelClick={() => history.goBack()}
+        onCancelClick={() => {
+          history.goBack();
+        }}
         onPublishClick={handlePublishClick}
         onPreviewClick={() => {
           setPreviewing(!previewing);
