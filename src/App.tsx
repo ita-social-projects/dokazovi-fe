@@ -23,6 +23,10 @@ import {
 import { useActions } from './shared/hooks';
 import { Header } from './old/lib/components/Header/Header';
 import { Footer } from './old/lib/components/Footer/Footer';
+import {
+  BreadcrumbsProvider,
+  breadcrumbsConfigs,
+} from './components/Breadcrumbs';
 
 ReactGA.initialize(process.env.REACT_APP_GOOGLE_ID as string, {
   testMode: process.env.NODE_ENV === 'test',
@@ -67,17 +71,19 @@ export const App: React.FC = () => {
         <BrowserRouter>
           <div className="content">
             <AuthProvider>
-              <Header />
-              <Suspense
-                fallback={
-                  <div className="mainLoading">
-                    <CircularProgress />
-                  </div>
-                }
-              >
-                <RenderRoutes routes={ROUTER_CONFIG} />
-              </Suspense>
-              <Footer />
+              <BreadcrumbsProvider configs={breadcrumbsConfigs}>
+                <Header />
+                <Suspense
+                  fallback={
+                    <div className="mainLoading">
+                      <CircularProgress />
+                    </div>
+                  }
+                >
+                  <RenderRoutes routes={ROUTER_CONFIG} />
+                </Suspense>
+                <Footer />
+              </BreadcrumbsProvider>
             </AuthProvider>
           </div>
         </BrowserRouter>

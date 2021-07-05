@@ -3,6 +3,7 @@ import { makeStyles, Theme } from '@material-ui/core';
 export const useStyles = makeStyles(
   (theme: Theme) => ({
     cardContainer: {
+      position: 'relative',
       minHeight: '550px',
       padding: '70px 225px 150px',
     },

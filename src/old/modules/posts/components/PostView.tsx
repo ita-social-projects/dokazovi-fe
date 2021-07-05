@@ -13,6 +13,7 @@ import TopSection from '../../../../components/Posts/TopSection/TopSection';
 import SecondTopSection from '../../../../components/Posts/SecondTopSection/SecondTopSection';
 import { langTokens } from '../../../../locales/localizationInit';
 import { AuthContext } from '../../../provider/AuthProvider/AuthContext';
+import { PostBreadcrumbs } from '../../../../components/Breadcrumbs/PostBreadcrumbs';
 
 export interface IPostViewProps {
   post: IPost;
@@ -42,6 +43,15 @@ const PostView: React.FC<IPostViewProps> = ({
 
   return (
     <Card className={classes.cardContainer}>
+      <PostBreadcrumbs
+        origin={post.origins[0]}
+        expert={{
+          id: post.author.id,
+          expertName: `${post.author.firstName} ${post.author.lastName}`,
+        }}
+        materialTitle={post.title}
+        type={post.type}
+      />
       <Box className={classes.wrapper}>
         {post.origins[0].name !== t(langTokens.common.translation) && (
           <TopSection author={post.author} />
