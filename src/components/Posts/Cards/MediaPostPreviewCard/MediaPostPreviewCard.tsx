@@ -3,15 +3,18 @@ import { Link } from 'react-router-dom';
 import Card from '@material-ui/core/Card';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
+import { useTranslation } from 'react-i18next';
 import { useStyles } from './MediaPostPreviewCard.styles';
 import { formatDate } from '../../../../utilities/formatDate';
 import background from '../mock_img_media_bg.png';
 import { IPostPreviewCardProps } from '../types';
+import { langTokens } from '../../../../locales/localizationInit';
 
 export const MediaPostPreviewCard: React.FC<IPostPreviewCardProps> = ({
   post,
   shouldNotUseLink,
 }) => {
+  const { t } = useTranslation();
   const bgImageURL = post.previewImageUrl ? post.previewImageUrl : background;
   const classes = useStyles({ backgroundImageUrl: `url(${bgImageURL})` });
   const postLink = `/posts/${post.id}`;
@@ -30,7 +33,7 @@ export const MediaPostPreviewCard: React.FC<IPostPreviewCardProps> = ({
           variant="overline"
           component="span"
         >
-          Медитека
+          {t(langTokens.common.media)}
         </Typography>
       </Box>
       <Box className={classes.body}>

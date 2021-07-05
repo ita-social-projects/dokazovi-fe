@@ -15,20 +15,21 @@ const PostViewWrapper = lazy(
   () => import('../modules/posts/components/PostViewWrapper'),
 );
 const ArticleCreation = lazy(
-  () => import('../modules/postCreation/components/ArticleCreation'),
+  () => import('../../views/postCreation/ArticleCreation'),
 );
 const NoteCreation = lazy(
-  () => import('../modules/postCreation/components/NoteCreation'),
+  () => import('../../views/postCreation/NoteCreation'),
 );
 const VideoCreation = lazy(
-  () => import('../../features/postCreation/VideoCreation/VideoCreation'),
+  () => import('../../views/postCreation/VideoCreation/VideoCreation'),
 );
 const PostUpdationWrapper = lazy(
-  () => import('../modules/postUpdation/components/PostUpdationWrapper'),
+  () => import('../../views/postUpdation/PostUpdationWrapper'),
 );
 const Oath2Redirect = lazy(
   () => import('../lib/components/Service/Oath2Redirect'),
 );
+const Conditions = lazy(() => import('../../views/Conditions/Conditions'));
 const Page404 = lazy(() => import('../lib/components/Errors/Page404'));
 
 export const ROUTER_CONFIG: IRouteConfig[] = [
@@ -88,6 +89,12 @@ export const ROUTER_CONFIG: IRouteConfig[] = [
     key: 'POST',
     exact: true,
     component: PostViewWrapper,
+  },
+  {
+    path: '/conditions/:to',
+    key: 'CONDITIONS',
+    exact: true,
+    component: Conditions,
   },
   {
     path: '/error_404',

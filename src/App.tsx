@@ -24,7 +24,7 @@ import { useActions } from './shared/hooks';
 import { Header } from './old/lib/components/Header/Header';
 import { Footer } from './old/lib/components/Footer/Footer';
 
-ReactGA.initialize('UA-197683102-1', {
+ReactGA.initialize(process.env.REACT_APP_GOOGLE_ID as string, {
   testMode: process.env.NODE_ENV === 'test',
 });
 
@@ -49,6 +49,7 @@ export const App: React.FC = () => {
       boundFetchRegions();
     };
     fetchProperties();
+    if (!localStorage.getItem('lang')) localStorage.setItem('lang', 'uk');
   }, []);
 
   return (

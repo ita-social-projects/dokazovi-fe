@@ -47,17 +47,17 @@ const POST_MOCK: IPost = {
   ],
 };
 
-beforeEach(() =>
+beforeEach(() => {
   render(
     <MemoryRouter>
       <VideoPostPreviewCard post={POST_MOCK} />
     </MemoryRouter>,
-  ),
-);
+  );
+});
 
 describe('VideoPostPreviewCard', () => {
   it('renders video icon', () => {
-    expect(screen.getByTestId('video-icon')).toBeInTheDocument();
+    expect(screen.getByTestId('videoIcon')).toBeInTheDocument();
   });
   it('renders background image', () => {
     expect(screen.getByTestId('bgImage')).toBeInTheDocument();

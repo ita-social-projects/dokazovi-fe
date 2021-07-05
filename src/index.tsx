@@ -6,6 +6,8 @@ import { App } from './App';
 import reportWebVitals from './reportWebVitals';
 import { store } from './models/store';
 
+import './locales/localizationInit';
+
 import './index.css';
 
 ReactDOM.render(

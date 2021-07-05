@@ -1,0 +1,59 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SkeletonPostPreviewCard renders the component 1`] = `
+<div
+  className="MuiPaper-root MuiCard-root MediaPostPreviewCard-root-1 MuiPaper-elevation1 MuiPaper-rounded"
+  data-testid="skeleton"
+>
+  <div
+    className="MuiBox-root MuiBox-root-8 MediaPostPreviewCard-header-2 MediaPostPreviewCard-header-7"
+  >
+    <span
+      className="MuiSkeleton-root MuiSkeleton-text MediaPostPreviewCard-postType-6 MuiSkeleton-pulse"
+      style={
+        Object {
+          "height": undefined,
+          "width": undefined,
+        }
+      }
+    />
+  </div>
+  <div
+    className="MuiBox-root MuiBox-root-9 MediaPostPreviewCard-body-3"
+  >
+    <h3
+      className="MuiSkeleton-root MuiSkeleton-text MediaPostPreviewCard-textHeader-4 MuiSkeleton-pulse"
+      style={
+        Object {
+          "height": undefined,
+          "width": undefined,
+        }
+      }
+    />
+    <p
+      className="MuiSkeleton-root MuiSkeleton-text MediaPostPreviewCard-textBody-5 MuiSkeleton-pulse"
+      color="textPrimary"
+      style={
+        Object {
+          "height": undefined,
+          "width": undefined,
+        }
+      }
+    />
+    <div
+      className="MuiBox-root MuiBox-root-10"
+    >
+      <span
+        className="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+        color="textSecondary"
+        style={
+          Object {
+            "height": undefined,
+            "width": "60%",
+          }
+        }
+      />
+    </div>
+  </div>
+</div>
+`;

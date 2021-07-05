@@ -8,7 +8,7 @@ export const SkeletonPostPreviewCard: React.FC = () => {
   const classes = useStyles();
 
   return (
-    <Card className={classes.root}>
+    <Card className={classes.root} data-testid="skeleton">
       <Box
         className={classes.header}
         flexDirection="column"
