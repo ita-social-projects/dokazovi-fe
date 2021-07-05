@@ -52,8 +52,6 @@ export const App: React.FC = () => {
     if (!localStorage.getItem('lang')) localStorage.setItem('lang', 'uk');
   }, []);
 
-  console.log(window.location.pathname);
-
   return (
     <div className="App">
       <ThemeProvider theme={MAIN_THEME}>
