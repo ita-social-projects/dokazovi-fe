@@ -12,7 +12,7 @@ import { store } from '../../../../models/store';
 import { useStyles } from './CheckboxLeftsideFilterForm.styles';
 import { FilterItemsList } from '../FilterItems/FilterItemsList';
 import { CheckboxFormStateType } from './CheckboxFilterForm';
-import { IDirection, IPostType } from '../../types';
+import { IDirection, IPostType, QueryTypeEnum } from '../../types';
 
 interface IFilter {
   id: string | number;
@@ -31,6 +31,7 @@ export interface ICheckboxLeftsideFilterFormProps {
   disabledDirections?: IDirection[] | undefined;
   disabledPostTypes?: IPostType[] | undefined;
   setTheOnlyAvailableFilter?: (name: string) => void;
+  filterType: QueryTypeEnum;
 }
 
 export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormProps> = ({
@@ -42,6 +43,7 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
   disabledDirections,
   disabledPostTypes,
   setTheOnlyAvailableFilter,
+  filterType,
 }) => {
   const [disabledCheckBoxesIds, setDisabledCheckBoxesIds] = useState<
     number[]
@@ -61,7 +63,6 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
   const [checked, setChecked] = useState<CheckboxFormStateType>(
     getCheckedStateFromFilters(),
   );
-  const [regionItem, setRegionItem] = useState(false);
 
   useEffect(() => {
     if (
@@ -138,11 +139,7 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
   const getUsersPresentProperty = (filterName: string | undefined) => {
     const allRegions = store.getState().properties.regions;
     let result: boolean | undefined = false;
-    if (allRegions.find((reg) => reg.name === filterName)) {
-      if (regionItem === false) {
-        setRegionItem(true);
-      }
-
+    if (filterType === QueryTypeEnum.REGIONS) {
       const region = allRegions.find((reg) => reg.name === filterName);
       result = region?.usersPresent;
     }
@@ -152,33 +149,27 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
 
   const checkWhetherDisabledDirection = (filterName: string | undefined) => {
     if (disabledDirections?.length) {
-      if (
+      return !(
         disabledDirections.find((el) => el.name === filterName) === undefined
-      ) {
-        return false;
-      }
-      return true;
+      );
     }
     return false;
   };
 
   const checkWhetherDisabledPostType = (id: number | undefined) => {
     if (disabledPostTypes?.length) {
-      if (disabledPostTypes.find((el) => el.id === id) === undefined) {
-        return false;
-      }
-      return true;
+      return !(disabledPostTypes.find((el) => el.id === id) === undefined);
     }
     return false;
   };
 
   const getHasMaterialsProperty = (filterName: string | undefined) => {
-    const allDirections = store.getState().properties.directions;
     let result: boolean | undefined = false;
 
-    if (allDirections.find((dir) => dir.name === filterName)) {
-      const region = allDirections.find((dir) => dir.name === filterName);
-      result = region?.hasPosts;
+    if (filterType === QueryTypeEnum.DIRECTIONS) {
+      const allDirections = store.getState().properties.directions;
+      const direction = allDirections.find((dir) => dir.name === filterName);
+      result = direction?.hasPosts;
     }
 
     return result;
@@ -188,7 +179,8 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
     const arrOfDisabled = [
       ...possibleFilters.filter(
         (filter) =>
-          (regionItem && !getUsersPresentProperty(filter.name)) ||
+          (filterType === QueryTypeEnum.REGIONS &&
+            !getUsersPresentProperty(filter.name)) ||
           checkWhetherDisabledDirection(filter.name) ||
           checkWhetherDisabledPostType(Number(filter.id)),
       ),
@@ -243,8 +235,10 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
     const filterName = filter.name;
 
     const disabledRegionItem =
-      !getUsersPresentProperty(filterName) && regionItem;
+      !getUsersPresentProperty(filterName) &&
+      filterType === QueryTypeEnum.REGIONS;
     let disabledDirectionItem = false;
+
     if (disabledDirections?.length) {
       disabledDirectionItem = checkWhetherDisabledDirection(filterName);
     }
@@ -254,10 +248,10 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
       disabledPostTypeItem = checkWhetherDisabledPostType(+id);
     }
 
-    const allDirections = store.getState().properties.directions;
-    const isDirection = allDirections.find((dir) => dir.name === filterName);
-
-    if (isDirection && !getHasMaterialsProperty(filterName)) {
+    if (
+      filterType === QueryTypeEnum.DIRECTIONS &&
+      !getHasMaterialsProperty(filterName)
+    ) {
       return null;
     }
 

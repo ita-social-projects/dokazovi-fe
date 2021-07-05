@@ -1,6 +1,7 @@
 import React from 'react';
 import { CircularProgress } from '@material-ui/core';
 import { LoadingStatusEnum } from '../../types';
+import i18n, { langTokens } from '../../../../locales/localizationInit';
 
 export interface ILoadingInfoProps {
   loading: LoadingStatusEnum;
@@ -9,7 +10,7 @@ export interface ILoadingInfoProps {
 
 export const LoadingInfo: React.FC<ILoadingInfoProps> = ({
   loading,
-  errorMsg = 'Не вдалося завантажити більше матеріалів',
+  errorMsg = i18n.t(langTokens.materials.materialsLoadingFail),
 }) => {
   const renderLoading = () =>
     loading === LoadingStatusEnum.pending ? <CircularProgress /> : null;

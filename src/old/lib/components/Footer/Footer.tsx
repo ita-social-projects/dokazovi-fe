@@ -1,10 +1,12 @@
 import React from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, NavLink } from 'react-router-dom';
 import { Box, Typography, Container } from '@material-ui/core';
 import Link from '@material-ui/core/Link';
+import { useTranslation } from 'react-i18next';
 import { useStyles } from './Footer.styles';
 import softServeLogo from './icons/softServeLogo.svg';
 import unisefLogo from './icons/unisefLogo.svg';
+import i18n, { langTokens } from '../../../../locales/localizationInit';
 
 interface IFooterNavProps {
   id: number;
@@ -15,30 +17,31 @@ interface IFooterNavProps {
 const navElements: IFooterNavProps[] = [
   {
     id: 1,
-    label: 'Про платформу',
-    url: '/',
+    label: i18n.t(langTokens.footer.aboutPlatform),
+    url: '/conditions/about',
   },
   {
     id: 2,
-    label: 'Правила використання',
-    url: '/',
+    label: i18n.t(langTokens.footer.termsOfUse),
+    url: '/conditions/rules',
   },
   {
     id: 3,
-    label: 'Контакти',
-    url: '/',
+    label: i18n.t(langTokens.footer.contacts),
+    url: '/conditions/contacts',
   },
 ];
 
 const linksList = navElements.map((item) => {
   return (
-    <Link component={RouterLink} to={item.url} key={item.id}>
+    <NavLink to={item.url} key={item.id} exact>
       <Typography component="span">{item.label}</Typography>
-    </Link>
+    </NavLink>
   );
 });
 
 export const Footer: React.FC = () => {
+  const { t } = useTranslation();
   const classes = useStyles();
 
   return (
@@ -49,21 +52,15 @@ export const Footer: React.FC = () => {
             <Box className={classes.navigationContainer}>
               <Box>
                 <Link component={RouterLink} to="/" variant="h3">
-                  <span>Доказові</span>
+                  <span>{t(langTokens.common.projectName)}</span>
                 </Link>
               </Box>
               <Box className={classes.navigationLinks}>{linksList}</Box>
             </Box>
             <Typography className={classes.info} variant="h6" component="div">
-              <span>
-                Використання матеріалів можливе за умови дотримання Правил
-                платформи «Доказові». Статті, блоги та переклади
-              </span>
-              <span>
-                порталу мають просвітницький характер і не можуть замінити або
-                скасувати консультацій із лікарем (-кою). Ресурс
-              </span>
-              <span>призначено для користувачів від 18 років і старших.</span>
+              <span>{t(langTokens.footer.shortPolicy1)}</span>
+              <span>{t(langTokens.footer.shortPolicy2)}</span>
+              <span>{t(langTokens.footer.shortPolicy3)}</span>
             </Typography>
           </Box>
           <Box className={classes.columnContainer}>
@@ -90,7 +87,9 @@ export const Footer: React.FC = () => {
               </ul>
             </Box>
             <Typography className={classes.info} variant="h6" component="div">
-              <span>© 2021 UNICEF Ukraine. Всі права захищені.</span>
+              <span>{`© 2021 UNICEF Ukraine. ${t(
+                langTokens.footer.termsOfUse,
+              )}.`}</span>
             </Typography>
           </Box>
         </Box>

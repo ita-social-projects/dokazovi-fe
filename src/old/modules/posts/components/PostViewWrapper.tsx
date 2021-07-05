@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { useHistory, useParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import {
   getPostById,
   getUniquePostViewsCounter,
@@ -15,8 +16,11 @@ import { sanitizeHtml } from '../../../lib/utilities/sanitizeHtml';
 import { PageTitle } from '../../../lib/components/Pages/PageTitle';
 import { setGALocation } from '../../../../utilities/setGALocation';
 import { ERROR_404 } from '../../../lib/constants/routes';
+import { langTokens } from '../../../../locales/localizationInit';
 
 const PostViewWrapper: React.FC = () => {
+  const { t } = useTranslation();
+
   const { postId } = useParams<{ postId: string }>();
   const history = useHistory();
   const [loadingStatus, setLoadingStatus] = useState<LoadingStatusType>(
@@ -32,12 +36,18 @@ const PostViewWrapper: React.FC = () => {
 
       if (response === 1) {
         toast.success(
-          `Видалення матеріалу "${loadedPost.title}" пройшло успішно!`,
+          `${t(langTokens.materials.materialDeletedSuccess, {
+            material: loadedPost.title,
+          })}!`,
         );
         history.go(-1);
       }
     } catch (e) {
-      toast.success(`Видалити матеріал "${loadedPost.title}" не вдалося.`);
+      toast.success(
+        `${t(langTokens.materials.materialDeletedFail, {
+          material: loadedPost.title,
+        })}.`,
+      );
     }
   };
 
@@ -53,7 +63,9 @@ const PostViewWrapper: React.FC = () => {
           ...postResponse.data,
           content: sanitizeHtml(content),
         };
-        setLoadedPost(sanitizedData);
+        setLoadedPost((post) => {
+          return { ...post, ...sanitizedData } as IPost;
+        });
         setLoadingStatus(LoadingStatusEnum.succeeded);
       })
       .catch(() => {

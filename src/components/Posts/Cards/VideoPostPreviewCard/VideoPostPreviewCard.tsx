@@ -25,8 +25,16 @@ export const VideoPostPreviewCard: React.FC<IPostPreviewCardProps> = ({
         flexWrap="no-wrap"
         justifyContent="space-between"
       >
-        {url === background && <Box className={classes.play} />}
-        <iframe src={url} width="100%" height="100%" title={post.title} />
+        {url === background && (
+          <Box className={classes.play} data-testid="videoIcon" />
+        )}
+        <iframe
+          src={url}
+          width="100%"
+          height="100%"
+          title={post.title}
+          data-testid="bgImage"
+        />
       </Box>
       <Box className={classes.body}>
         <Typography

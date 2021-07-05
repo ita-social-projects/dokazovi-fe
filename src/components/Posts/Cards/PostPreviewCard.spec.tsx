@@ -168,6 +168,47 @@ const VIDEO_POST_MOCK: IPost = {
     },
   ],
 };
+const DEFAULT_POST_MOCK: IPost = {
+  author: {
+    id: 1,
+    bio: 'Dolor sit amet consectetur adipiscing elit ut aliquam purus',
+    avatar: 'https://i.imgur.com/I80W1Q0.png',
+    firstName: 'Іван',
+    lastName: 'Іванов',
+    mainInstitution: {
+      city: {
+        id: 1,
+        name: 'Київ',
+      },
+      id: 1,
+      name: 'Адоніс',
+    },
+  },
+  publishedAt: '11.09.2020',
+  createdAt: '27.11.2020',
+  title: 'Ultrices eros in cursus',
+  directions: [
+    {
+      id: 1,
+      color: 'red',
+      name: 'Хірургія',
+    },
+  ],
+  type: {
+    id: 5,
+    name: 'lorem',
+  },
+  preview: 'Dolor sit amet consectetur adipiscing elit ut aliquam purus.',
+  content: 'Dolor sit amet consectetur adipiscing elit ut aliquam purus.',
+  id: 11,
+  origins: [
+    {
+      id: 4,
+      name: 'lorem',
+      parameter: null,
+    },
+  ],
+};
 
 describe('PostPreviewCard', () => {
   it('renders translation postType', () => {
@@ -184,7 +225,7 @@ describe('PostPreviewCard', () => {
         <PostPreviewCard post={VIDEO_POST_MOCK} />
       </MemoryRouter>,
     );
-    expect(screen.getByTestId('video-icon')).toBeInTheDocument();
+    expect(screen.getByTestId('videoIcon')).toBeInTheDocument();
   });
   it('renders expert opinion postType', () => {
     render(
@@ -201,5 +242,13 @@ describe('PostPreviewCard', () => {
       </MemoryRouter>,
     );
     expect(screen.getByText('Медитека')).toBeInTheDocument();
+  });
+  it('renders default post type', () => {
+    render(
+      <MemoryRouter>
+        <PostPreviewCard post={DEFAULT_POST_MOCK} />
+      </MemoryRouter>,
+    );
+    expect(screen.getByText('Думка експерта')).toBeInTheDocument();
   });
 });
