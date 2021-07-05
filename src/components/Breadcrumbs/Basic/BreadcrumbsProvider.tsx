@@ -164,7 +164,9 @@ function setMapToSessionStorage(
 ) {
   const obj = {};
   breadcrumbsMap?.forEach((v, k) => Object.assign(obj, { [k]: v }));
-  if (Object.keys(obj).length === 0) return;
+  if (Object.keys(obj).length === 0) {
+    return;
+  }
   sessionStorage.setItem(sessionKey, JSON.stringify(obj));
 }
 
@@ -172,7 +174,9 @@ function getMapFromSessionStorage(sessionKey: string) {
   let map: BreadcrumbsHistoryStoreType;
   try {
     const strMap = sessionStorage.getItem(sessionKey);
-    if (!strMap) throw new Error();
+    if (!strMap) {
+      throw new Error();
+    }
     map = new Map<string, BreadcrumbsStateType>(
       Object.entries(JSON.parse(strMap)),
     );
