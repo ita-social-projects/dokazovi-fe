@@ -8,9 +8,9 @@ import background from '../mock_img_slider_bg.png';
 export const ImportantPostPreviewCard: React.FC<IPostPreviewCardProps> = (
   props,
 ) => {
-  const { post } = props;
+  const { post, size = 'large' } = props;
   const bgImageURL = post.previewImageUrl ? post.previewImageUrl : background;
-  const classes = useStyles({ backgroundImageUrl: bgImageURL });
+  const classes = useStyles({ backgroundImageUrl: bgImageURL, size });
   const history = useHistory();
   const author = post.author.id || '';
 

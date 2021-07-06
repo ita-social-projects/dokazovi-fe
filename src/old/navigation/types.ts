@@ -1,7 +1,8 @@
 export interface IRouteConfig {
   component: React.ComponentType;
-  path: string;
+  path: string | string[];
   key: string;
   exact?: boolean;
   private?: boolean;
+  useRender?: boolean;
 }
