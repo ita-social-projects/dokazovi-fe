@@ -13,6 +13,7 @@ import {
   LoadingStatusEnum,
   LoadMoreButtonTextType,
   QueryTypeEnum,
+  filtersStateEnum,
 } from '../../../lib/types';
 import {
   fetchExperts,
@@ -57,6 +58,7 @@ const ExpertsView: React.FC = () => {
   const [checkedFiltersRegions, setCheckedFiltersRegions] = useState<
     CheckboxFormStateType
   >();
+
   const previous = usePrevious({ page });
   const query = useQuery();
   const history = useHistory();
@@ -87,6 +89,15 @@ const ExpertsView: React.FC = () => {
     boundFetchExperts(filters, appendExperts);
   };
 
+  useEffect(() => {
+    sessionStorage.setItem(`${FilterTypeEnum.REGIONS}`, 'not empty');
+    sessionStorage.setItem(`${FilterTypeEnum.DIRECTIONS}`, 'not empty');
+
+    return function cleanUp() {
+      sessionStorage.clear();
+    };
+  }, []);
+
   const setFilters = (
     checked: CheckboxFormStateType,
     filterType: FilterTypeEnum,
@@ -110,11 +121,26 @@ const ExpertsView: React.FC = () => {
       query.delete(queryType);
     }
 
+    console.log(checkedIds.length);
+
+    const value =
+      isQuerySame && uniq(Object.values(checked))[0] === false
+        ? filtersStateEnum.empty
+        : filtersStateEnum.notEmpty;
+    sessionStorage.setItem(`${filterType}`, value);
+
     setPage(0);
 
-    history.push({
-      search: query.toString(),
-    });
+    if (sessionStorage.getItem(`${filterType}`) === filtersStateEnum.empty) {
+      query.set(queryType, '0');
+      history.push({
+        search: query.toString(),
+      });
+    } else {
+      history.push({
+        search: query.toString(),
+      });
+    }
   };
 
   const loadMore = () => {
@@ -145,24 +171,47 @@ const ExpertsView: React.FC = () => {
     .get(QueryTypeEnum.DIRECTIONS)
     ?.split(',');
 
-  let selectedRegions: IRegion[] | undefined = regions?.filter(
+  let selectedRegions: IRegion[] | filtersStateEnum = regions?.filter(
     (region) =>
       selectedRegionsString?.includes(region.id.toString()) &&
       region.usersPresent,
   );
   let selectedDirections:
     | IDirection[]
-    | undefined = directions?.filter((direction) =>
+    | filtersStateEnum = directions?.filter((direction) =>
     selectedDirectionsString?.includes(direction.id.toString()),
   );
 
-  selectedRegions = !isEmpty(selectedRegions) ? selectedRegions : undefined;
-  selectedDirections = !isEmpty(selectedDirections)
-    ? selectedDirections
-    : undefined;
+  if (isEmpty(selectedRegions)) {
+    if (
+      sessionStorage.getItem(`${FilterTypeEnum.REGIONS}`) ===
+        filtersStateEnum.empty ||
+      (selectedRegionsString?.length === 1 &&
+        selectedRegionsString?.[0] === '0')
+    ) {
+      selectedRegions = filtersStateEnum.empty;
+    } else {
+      selectedRegions = filtersStateEnum.notEmpty;
+    }
+  }
+
+  if (isEmpty(selectedDirections)) {
+    if (
+      sessionStorage.getItem(`${FilterTypeEnum.DIRECTIONS}`) ===
+        filtersStateEnum.empty ||
+      (selectedDirectionsString?.length === 1 &&
+        selectedDirectionsString?.[0] === '0')
+    ) {
+      selectedDirections = filtersStateEnum.empty;
+    } else {
+      selectedDirections = filtersStateEnum.notEmpty;
+    }
+  }
+
+  console.log(selectedDirections);
 
   const getRegions = () => {
-    if (selectedRegions) {
+    if (typeof selectedRegions !== 'string') {
       const names = selectedRegions?.reduce((acc, filter) => {
         acc.push(filter.name);
         return acc;
@@ -181,7 +230,7 @@ const ExpertsView: React.FC = () => {
   };
 
   const getDirections = () => {
-    if (selectedDirections) {
+    if (typeof selectedDirections !== 'string') {
       const names = selectedDirections?.reduce((acc, filter) => {
         acc.push(filter.name);
         return acc;
@@ -190,6 +239,7 @@ const ExpertsView: React.FC = () => {
         return names.join(', ');
       }
     }
+
     return directions
       .reduce((acc, filter) => {
         acc.push(filter.name);
@@ -197,6 +247,8 @@ const ExpertsView: React.FC = () => {
       }, [] as string[])
       .join(', ');
   };
+
+  console.log(getDirections());
 
   const handleDeleteChip = (
     key: number | undefined,

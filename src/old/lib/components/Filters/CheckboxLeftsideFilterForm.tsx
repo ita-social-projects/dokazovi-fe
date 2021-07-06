@@ -12,7 +12,12 @@ import { store } from '../../../../models/store';
 import { useStyles } from './CheckboxLeftsideFilterForm.styles';
 import { FilterItemsList } from '../FilterItems/FilterItemsList';
 import { CheckboxFormStateType } from './CheckboxFilterForm';
-import { IDirection, IPostType, QueryTypeEnum } from '../../types';
+import {
+  IDirection,
+  IPostType,
+  QueryTypeEnum,
+  filtersStateEnum,
+} from '../../types';
 
 interface IFilter {
   id: string | number;
@@ -26,7 +31,7 @@ export interface ICheckboxLeftsideFilterFormProps {
     disabled?: CheckboxFormStateType,
   ) => void;
   possibleFilters: IFilter[];
-  selectedFilters?: IFilter[];
+  selectedFilters?: IFilter[] | filtersStateEnum;
   filterTitle: string;
   allTitle: string;
   handleDelete?: () => void;
@@ -51,15 +56,25 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
   const [disabledCheckBoxesIds, setDisabledCheckBoxesIds] = useState<
     number[]
   >();
-  const [toggleInitialState, setToggleInitialState] = useState(true);
-  const isInitialStateEmpty = isEmpty(selectedFilters) && toggleInitialState;
   const classes = useStyles();
   const [allChecked, setAllChecked] = useState(true);
   const getCheckedStateFromFilters = (): CheckboxFormStateType => {
+    if (typeof selectedFilters !== 'string') {
+      return possibleFilters.reduce((acc, next) => {
+        acc[next.id] = Boolean(
+          selectedFilters?.find((filter) => filter.id === next.id),
+        );
+        return acc;
+      }, {});
+    }
+    if (selectedFilters === filtersStateEnum.empty) {
+      return possibleFilters.reduce((acc, next) => {
+        acc[next.id] = false;
+        return acc;
+      }, {});
+    }
     return possibleFilters.reduce((acc, next) => {
-      acc[next.id] =
-        isInitialStateEmpty ||
-        Boolean(selectedFilters?.find((filter) => filter.id === next.id));
+      acc[next.id] = true;
       return acc;
     }, {});
   };
@@ -68,29 +83,25 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
   );
 
   useEffect(() => {
-    if (
-      isInitialStateEmpty ||
-      selectedFilters?.length === possibleFilters.length
+    if (selectedFilters === filtersStateEnum.empty) {
+      setAllChecked(false);
+    } else if (
+      selectedFilters === filtersStateEnum.notEmpty ||
+      (typeof selectedFilters !== 'string' &&
+        selectedFilters?.length === possibleFilters.length)
     ) {
       setAllChecked(true);
     } else if (
-      allChecked &&
       disabledCheckBoxesIds &&
       selectedFilters &&
+      typeof selectedFilters !== 'string' &&
       selectedFilters.length ===
         possibleFilters.length - disabledCheckBoxesIds.length - 1
     ) {
       setAllChecked(false);
     }
-    setChecked(getCheckedStateFromFilters());
-  }, [selectedFilters]);
 
-  useEffect(() => {
-    if (selectedFilters?.length === 1) {
-      setToggleInitialState(false);
-    } else if (selectedFilters?.length === possibleFilters.length - 1) {
-      setToggleInitialState(true);
-    }
+    setChecked(getCheckedStateFromFilters());
   }, [selectedFilters]);
 
   const getResultWithoutDisabled = () => {
@@ -120,10 +131,6 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
           possibleFilters.length - disabledCheckBoxesIds?.length
       ) {
         setAllChecked(true);
-
-        if (!toggleInitialState) {
-          setToggleInitialState(true);
-        }
         const checkedFilters = mapValues(checked, () => true);
 
         setChecked(checkedFilters);
@@ -142,13 +149,8 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
       disabled,
     );
   };
-  const onCheckboxAllChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (!toggleInitialState && event.target.checked) {
-      setToggleInitialState(true);
-    } else if (toggleInitialState && !event.target.checked) {
-      setToggleInitialState(false);
-    }
 
+  const onCheckboxAllChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const checkedFilters = event.target.checked
       ? mapValues(checked, () => true)
       : mapValues(checked, () => false);

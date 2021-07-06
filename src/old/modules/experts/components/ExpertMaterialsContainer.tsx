@@ -403,7 +403,7 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
                 }}
                 filterType={QueryTypeEnum.POST_TYPES}
               />
-              <CheckboxLeftsideFilterForm
+              {/* <CheckboxLeftsideFilterForm
                 disabledDirections={disabledDirections}
                 expertId={expertId}
                 onFormChange={(checked, disabled) =>
@@ -417,7 +417,7 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
                   handleChipsLogicTransform(name, FilterTypeEnum.DIRECTIONS);
                 }}
                 filterType={QueryTypeEnum.DIRECTIONS}
-              />
+              /> */}
             </>
           )}
         </Grid>
