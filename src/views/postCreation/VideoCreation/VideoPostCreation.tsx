@@ -91,7 +91,7 @@ export const VideoPostCreation: React.FC<IVideoPostCreationProps> = ({
   const [typing, setTyping] = useState({ content: false, preview: false });
   const [previewing, setPreviewing] = useState(false);
   const [authors, setAuthors] = useState<ExpertResponseType[]>([]);
-  const [author, setAuthor] = useState<ExpertResponseType | null>(null);
+  const [, setAuthor] = useState<ExpertResponseType | null>(null);
   const [searchValue, setSearchValue] = useState('');
 
   const videoUrl = useSelector(selectVideoUrl);
