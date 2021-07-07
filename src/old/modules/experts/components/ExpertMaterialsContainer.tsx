@@ -109,15 +109,6 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
     return false;
   });
 
-  useEffect(() => {
-    sessionStorage.setItem(`${FilterTypeEnum.POST_TYPES}`, 'not empty');
-    sessionStorage.setItem(`${FilterTypeEnum.DIRECTIONS}`, 'not empty');
-
-    return function cleanUp() {
-      sessionStorage.clear();
-    };
-  }, []);
-
   const postTypes = useSelector(selectPostTypes);
 
   const postTypesInPlural: IPostType[] = [];
@@ -223,15 +214,9 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
       query.delete(queryType);
     }
 
-    const value =
-      isQuerySame && uniq(Object.values(checked))[0] === false
-        ? filtersStateEnum.empty
-        : filtersStateEnum.notEmpty;
-    sessionStorage.setItem(`${filterType}`, value);
-
     setPage(0);
 
-    if (sessionStorage.getItem(`${filterType}`) === filtersStateEnum.empty) {
+    if (isQuerySame && uniq(Object.values(checked))[0] === false) {
       query.set(queryType, '0');
       history.push({
         search: query.toString(),
@@ -308,10 +293,8 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
 
   if (isEmpty(selectedPostTypes)) {
     if (
-      sessionStorage.getItem(`${FilterTypeEnum.REGIONS}`) ===
-        filtersStateEnum.empty ||
-      (selectedPostTypesString?.length === 1 &&
-        selectedPostTypesString?.[0] === '0')
+      selectedPostTypesString?.length === 1 &&
+      selectedPostTypesString?.[0] === '0'
     ) {
       selectedPostTypes = filtersStateEnum.empty;
     } else {
@@ -331,16 +314,68 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
 
   if (isEmpty(selectedDirections)) {
     if (
-      sessionStorage.getItem(`${FilterTypeEnum.REGIONS}`) ===
-        filtersStateEnum.empty ||
-      (selectedDirectionsString?.length === 1 &&
-        selectedDirectionsString?.[0] === '0')
+      selectedDirectionsString?.length === 1 &&
+      selectedDirectionsString?.[0] === '0'
     ) {
       selectedDirections = filtersStateEnum.empty;
     } else {
       selectedDirections = filtersStateEnum.notEmpty;
     }
   }
+
+  useEffect(() => {
+    const updatePostTypes = (): CheckboxFormStateType => {
+      if (typeof selectedPostTypes !== 'string') {
+        return postTypes.reduce((acc, next) => {
+          if (typeof selectedPostTypes !== 'string') {
+            acc[next.id] = Boolean(
+              selectedPostTypes.find((filter) => filter.id === next.id),
+            );
+          }
+          return acc;
+        }, {});
+      }
+      if (selectedPostTypes === filtersStateEnum.empty) {
+        return postTypes.reduce((acc, next) => {
+          acc[next.id] = false;
+          return acc;
+        }, {});
+      }
+      return postTypes.reduce((acc, next) => {
+        acc[next.id] = true;
+        return acc;
+      }, {});
+    };
+
+    setCheckedFiltersPostTypes(updatePostTypes());
+  }, [query.get(QueryTypeEnum.POST_TYPES)]);
+
+  useEffect(() => {
+    const updateDir = (): CheckboxFormStateType => {
+      if (typeof selectedDirections !== 'string') {
+        return directions.reduce((acc, next) => {
+          if (typeof selectedDirections !== 'string') {
+            acc[next.id] = Boolean(
+              selectedDirections.find((filter) => filter.id === next.id),
+            );
+          }
+          return acc;
+        }, {});
+      }
+      if (selectedDirections === filtersStateEnum.empty) {
+        return directions.reduce((acc, next) => {
+          acc[next.id] = false;
+          return acc;
+        }, {});
+      }
+      return directions.reduce((acc, next) => {
+        acc[next.id] = true;
+        return acc;
+      }, {});
+    };
+
+    setCheckedFiltersDirections(updateDir());
+  }, [query.get(QueryTypeEnum.DIRECTIONS)]);
 
   const handleDeleteChip = (
     key: number | undefined,

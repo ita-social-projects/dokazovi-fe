@@ -89,15 +89,6 @@ const ExpertsView: React.FC = () => {
     boundFetchExperts(filters, appendExperts);
   };
 
-  useEffect(() => {
-    sessionStorage.setItem(`${FilterTypeEnum.REGIONS}`, 'not empty');
-    sessionStorage.setItem(`${FilterTypeEnum.DIRECTIONS}`, 'not empty');
-
-    return function cleanUp() {
-      sessionStorage.clear();
-    };
-  }, []);
-
   const setFilters = (
     checked: CheckboxFormStateType,
     filterType: FilterTypeEnum,
@@ -121,15 +112,9 @@ const ExpertsView: React.FC = () => {
       query.delete(queryType);
     }
 
-    const value =
-      isQuerySame && uniq(Object.values(checked))[0] === false
-        ? filtersStateEnum.empty
-        : filtersStateEnum.notEmpty;
-    sessionStorage.setItem(`${filterType}`, value);
-
     setPage(0);
 
-    if (sessionStorage.getItem(`${filterType}`) === filtersStateEnum.empty) {
+    if (isQuerySame && uniq(Object.values(checked))[0] === false) {
       query.set(queryType, '0');
       history.push({
         search: query.toString(),
@@ -182,10 +167,8 @@ const ExpertsView: React.FC = () => {
 
   if (isEmpty(selectedRegions)) {
     if (
-      sessionStorage.getItem(`${FilterTypeEnum.REGIONS}`) ===
-        filtersStateEnum.empty ||
-      (selectedRegionsString?.length === 1 &&
-        selectedRegionsString?.[0] === '0')
+      selectedRegionsString?.length === 1 &&
+      selectedRegionsString?.[0] === '0'
     ) {
       selectedRegions = filtersStateEnum.empty;
     } else {
@@ -195,16 +178,68 @@ const ExpertsView: React.FC = () => {
 
   if (isEmpty(selectedDirections)) {
     if (
-      sessionStorage.getItem(`${FilterTypeEnum.DIRECTIONS}`) ===
-        filtersStateEnum.empty ||
-      (selectedDirectionsString?.length === 1 &&
-        selectedDirectionsString?.[0] === '0')
+      selectedDirectionsString?.length === 1 &&
+      selectedDirectionsString?.[0] === '0'
     ) {
       selectedDirections = filtersStateEnum.empty;
     } else {
       selectedDirections = filtersStateEnum.notEmpty;
     }
   }
+
+  useEffect(() => {
+    const updateDir = (): CheckboxFormStateType => {
+      if (typeof selectedDirections !== 'string') {
+        return directions.reduce((acc, next) => {
+          if (typeof selectedDirections !== 'string') {
+            acc[next.id] = Boolean(
+              selectedDirections.find((filter) => filter.id === next.id),
+            );
+          }
+          return acc;
+        }, {});
+      }
+      if (selectedDirections === filtersStateEnum.empty) {
+        return directions.reduce((acc, next) => {
+          acc[next.id] = false;
+          return acc;
+        }, {});
+      }
+      return directions.reduce((acc, next) => {
+        acc[next.id] = true;
+        return acc;
+      }, {});
+    };
+
+    setCheckedFiltersDirections(updateDir());
+  }, [query.get(QueryTypeEnum.DIRECTIONS)]);
+
+  useEffect(() => {
+    const updateReg = (): CheckboxFormStateType => {
+      if (typeof selectedRegions !== 'string') {
+        return regions.reduce((acc, next) => {
+          if (typeof selectedRegions !== 'string') {
+            acc[next.id] = Boolean(
+              selectedRegions.find((filter) => filter.id === next.id),
+            );
+          }
+          return acc;
+        }, {});
+      }
+      if (selectedRegions === filtersStateEnum.empty) {
+        return regions.reduce((acc, next) => {
+          acc[next.id] = false;
+          return acc;
+        }, {});
+      }
+      return regions.reduce((acc, next) => {
+        acc[next.id] = true;
+        return acc;
+      }, {});
+    };
+
+    setCheckedFiltersRegions(updateReg());
+  }, [query.get(QueryTypeEnum.REGIONS)]);
 
   const getRegions = () => {
     if (typeof selectedRegions !== 'string') {
