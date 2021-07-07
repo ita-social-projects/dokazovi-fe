@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { isEmpty, mapValues } from 'lodash';
+import { mapValues } from 'lodash';
 import {
   Box,
   Checkbox,
@@ -95,7 +95,7 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
       disabledCheckBoxesIds &&
       selectedFilters &&
       typeof selectedFilters !== 'string' &&
-      selectedFilters.length ===
+      selectedFilters.length <=
         possibleFilters.length - disabledCheckBoxesIds.length - 1
     ) {
       setAllChecked(false);
