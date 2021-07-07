@@ -1,13 +1,18 @@
 import Quill from 'quill';
-import { CreatePostRequestType } from '../../../old/lib/utilities/API/types';
+import { Dispatch, SetStateAction } from 'react';
 
 export interface IUrlInputModalProps {
   editor?: Quill;
   updateBackgroundImage?: (url: string) => void;
+  handleDelete?: Dispatch<SetStateAction<FileList | null>> | undefined;
 }
 
 export interface IBackgroundImageContainerProps {
   dispatchImageUrl: (backgroundImageUrl: string) => void;
   fileSelectorHandler: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  newPost?: CreatePostRequestType;
+  title?: string;
+  imgUrl?: string;
+  files?: FileList | null;
+  name?: string;
+  handleDelete?: Dispatch<SetStateAction<FileList | null>> | undefined;
 }

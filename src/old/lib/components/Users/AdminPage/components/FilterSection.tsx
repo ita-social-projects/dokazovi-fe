@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import MaterialFilter from './MaterialFilter';
 import { useStyles } from '../styles/FilterSection.styles';
 import { fetchMaterials } from '../../../../../../models/materials';
@@ -10,6 +10,7 @@ import {
   QueryTypeEnum,
 } from '../../../../types';
 import { usePrevious } from '../../../../hooks/usePrevious';
+import { useActions } from '../../../../../../shared/hooks';
 
 interface IFilterEntry {
   id: number;
@@ -35,7 +36,7 @@ const FilterSection: React.FC<IFilterSectionProps> = ({
   resetPage,
 }) => {
   const classes = useStyles();
-  const dispatch = useDispatch();
+  const [boundFetchMaterials] = useActions([fetchMaterials]);
   const previousPage = usePrevious(page);
   const [generalFilterState, setGeneralFilterState] = useState<
     IGeneralFilterState
@@ -58,7 +59,7 @@ const FilterSection: React.FC<IFilterSectionProps> = ({
     };
 
     if (isTouched) {
-      dispatch(fetchMaterials(fetchOptions));
+      boundFetchMaterials(fetchOptions);
     }
   }, [JSON.stringify(generalFilterState), page, isTouched]);
 

@@ -17,6 +17,7 @@ import {
   setPostPreviewManuallyChanged,
   resetDraft,
   setAuthorId,
+  setImportantImageUrl,
 } from '../../models/postCreation';
 import { IDirection, IPost, IOrigin, PostTypeEnum } from '../../old/lib/types';
 import { sanitizeHtml } from '../../old/lib/utilities/sanitizeHtml';
@@ -38,7 +39,10 @@ import { PostDirectionsSelector } from './PostDirectionsSelector';
 import { PostOriginsSelector } from './PostOriginsSelector';
 import { BorderBottom } from '../../old/lib/components/Border';
 import { getStringFromFile } from '../../old/lib/utilities/Imgur/getStringFromFile';
-import { uploadImageToImgur } from '../../old/lib/utilities/Imgur/uploadImageToImgur';
+import {
+  getImgurImageLimits,
+  uploadImageToImgur,
+} from '../../old/lib/utilities/Imgur/uploadImageToImgur';
 import { BackgroundImageContainer } from '../../components/Editor/CustomModules/BackgroundImageContainer/BackgroundImageContainer';
 import { PostAuthorSelection } from './PostAuthorSelection/PostAuthorSelection';
 
@@ -92,6 +96,8 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
   const [authors, setAuthors] = useState<ExpertResponseType[]>([]);
   const [author, setAuthor] = useState<ExpertResponseType | null>(null);
   const [searchValue, setSearchValue] = useState('');
+  const [previewFiles, setPreviewFiles] = useState<FileList | null>(null);
+  const [importantFiles, setImportantFiles] = useState<FileList | null>(null);
 
   const [
     boundSetPostDirections,
@@ -105,6 +111,7 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
     boundSetAuthorId,
     boundSetPostPreviewManuallyChanged,
     boundResetDraft,
+    boundSetImportantImageUrl,
   ] = useActions([
     setPostDirections,
     setPostOrigin,
@@ -117,6 +124,7 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
     setAuthorId,
     setPostPreviewManuallyChanged,
     resetDraft,
+    setImportantImageUrl,
   ]);
 
   const handleDirectionsChange = (value: IDirection[]) => {
@@ -143,6 +151,13 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
 
   const dispatchImageUrl = (previewImageUrl: string): void => {
     boundSetImageUrl({
+      postType: PostTypeEnum.ARTICLE,
+      value: previewImageUrl,
+    });
+  };
+
+  const dispatchImportantImageUrl = (previewImageUrl: string): void => {
+    boundSetImportantImageUrl({
       postType: PostTypeEnum.ARTICLE,
       value: previewImageUrl,
     });
@@ -197,12 +212,21 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
 
   const fileSelectorHandler = (
     e: React.ChangeEvent<HTMLInputElement>,
+    dispatchFunc: (arg: string) => void,
   ): void => {
+    switch (e.target.name) {
+      case 'previewImg':
+        setPreviewFiles(e.target.files);
+        break;
+      case 'importantImg':
+        setImportantFiles(e.target.files);
+        break;
+    }
     getStringFromFile(e.target.files)
       .then((str) => uploadImageToImgur(str))
       .then((res) => {
         if (res.data.status === 200) {
-          dispatchImageUrl(res.data.data.link);
+          dispatchFunc(res.data.data.link);
         }
       });
   };
@@ -214,6 +238,7 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
   const newPost: CreateTextPostRequestType = {
     authorId: savedPostDraft.authorId,
     previewImageUrl: savedPostDraft.previewImageUrl,
+    importantImageUrl: savedPostDraft.importantImageUrl,
     content: savedPostDraft.htmlContent,
     directions: savedPostDraft.directions,
     origins: savedPostDraft.origins,
@@ -330,8 +355,26 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
           />
           <BackgroundImageContainer
             dispatchImageUrl={dispatchImageUrl}
-            fileSelectorHandler={fileSelectorHandler}
-            newPost={newPost}
+            fileSelectorHandler={(e) =>
+              fileSelectorHandler(e, dispatchImageUrl)
+            }
+            title={t(langTokens.editor.backgroundImage)}
+            imgUrl={newPost?.previewImageUrl}
+            files={previewFiles}
+            name={'previewImg'}
+            handleDelete={setPreviewFiles}
+          />
+          <BorderBottom />
+          <BackgroundImageContainer
+            dispatchImageUrl={dispatchImportantImageUrl}
+            fileSelectorHandler={(e) =>
+              fileSelectorHandler(e, dispatchImportantImageUrl)
+            }
+            title={t(langTokens.editor.carouselImage)}
+            imgUrl={newPost?.importantImageUrl}
+            files={importantFiles}
+            name={'importantImg'}
+            handleDelete={setImportantFiles}
           />
           <BorderBottom />
           <Box mt={2}>

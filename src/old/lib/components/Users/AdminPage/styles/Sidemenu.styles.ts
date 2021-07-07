@@ -12,7 +12,7 @@ export const useStyles = makeStyles(
     sidemenuBody: {
       minWidth: '200px',
       top: theme.spacing(24),
-      height: '80%',
+      height: '100%',
       paddingTop: theme.spacing(2),
       backgroundColor: '#e5e5e5',
       position: 'absolute',

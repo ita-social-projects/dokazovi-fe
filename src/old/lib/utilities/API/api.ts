@@ -3,25 +3,25 @@ import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 import qs from 'qs';
 import { toast } from 'react-toastify';
 import {
-  RegionResponseType,
-  DirectionResponseType,
-  OriginResponseType,
-  PostTypeResponseType,
-  ExpertResponseType,
-  LoginResponseType,
-  PostResponseType,
-  TagResponseType,
-  VersionResponseType,
+  ActivePostType,
+  CreatePostRequestUnionType,
   CreateTagRequestType,
+  DirectionResponseType,
+  ExpertResponseType,
   ExpertsResponseType,
-  PostsResponseType,
-  GetTagsConfigType,
   GetExpertsConfigType,
   GetPostsConfigType,
-  CreatePostRequestUnionType,
-  UpdatePostRequestUnionType,
+  GetTagsConfigType,
+  LoginResponseType,
   NewestPostsResponseType,
-  ActivePostType,
+  OriginResponseType,
+  PostResponseType,
+  PostsResponseType,
+  PostTypeResponseType,
+  RegionResponseType,
+  TagResponseType,
+  UpdatePostRequestUnionType,
+  VersionResponseType,
 } from './types';
 import { BASE_URL } from '../../../apiURL';
 import { getToken } from '../../../provider/AuthProvider/getToken';
@@ -70,7 +70,8 @@ type GetPostsRequestType =
   | 'important'
   | 'latest-all'
   | 'latest-by-expert'
-  | 'all-posts';
+  | 'all-posts'
+  | 'set-important';
 
 export const getPosts = async (
   postsRequestType: GetPostsRequestType,

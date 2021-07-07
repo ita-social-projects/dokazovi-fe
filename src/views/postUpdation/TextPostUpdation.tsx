@@ -25,6 +25,8 @@ import { BorderBottom } from '../../old/lib/components/Border';
 import { getStringFromFile } from '../../old/lib/utilities/Imgur/getStringFromFile';
 import { uploadImageToImgur } from '../../old/lib/utilities/Imgur/uploadImageToImgur';
 import { BackgroundImageContainer } from '../../components/Editor/CustomModules/BackgroundImageContainer/BackgroundImageContainer';
+import { langTokens } from '../../locales/localizationInit';
+import { useTranslation } from 'react-i18next';
 
 export interface ITextPostUpdationProps {
   pageTitle: string;
@@ -52,6 +54,9 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
   const [previewImageUrl, setPreviewImageUrl] = useState(
     post.previewImageUrl ?? '',
   );
+  const [importantImageUrl, setImportantImageUrl] = useState(
+    post.importantImageUrl ?? '',
+  );
   const [preview, setPreview] = useState(post.preview);
   const [title, setTitle] = useState({
     value: post.title,
@@ -65,6 +70,8 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
 
   const [typing, setTyping] = useState({ content: false, preview: false });
   const [previewing, setPreviewing] = useState(false);
+
+  const { t } = useTranslation();
 
   const handleDirectionsChange = (value: IDirection[]) => {
     setSelectedDirections(value);
@@ -114,12 +121,13 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
 
   const fileSelectorHandler = (
     e: React.ChangeEvent<HTMLInputElement>,
+    dispatchFunc: (arg: string) => void,
   ): void => {
     getStringFromFile(e.target.files)
       .then((str) => uploadImageToImgur(str))
       .then((res) => {
         if (res.data.status === 200) {
-          setPreviewImageUrl(res.data.data.link);
+          dispatchFunc(res.data.data.link);
         }
       });
   };
@@ -149,6 +157,7 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
     content: htmlContent,
     preview,
     previewImageUrl,
+    importantImageUrl,
     directions: selectedDirections,
     origins: selectedOrigins,
     title: title.value,
@@ -196,8 +205,20 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
           />
           <BackgroundImageContainer
             dispatchImageUrl={setPreviewImageUrl}
-            fileSelectorHandler={fileSelectorHandler}
-            newPost={updatedPost}
+            fileSelectorHandler={(e) =>
+              fileSelectorHandler(e, setPreviewImageUrl)
+            }
+            title={t(langTokens.editor.backgroundImage)}
+            imgUrl={previewPost?.previewImageUrl}
+          />
+          <BorderBottom />
+          <BackgroundImageContainer
+            dispatchImageUrl={setImportantImageUrl}
+            fileSelectorHandler={(e) =>
+              fileSelectorHandler(e, setImportantImageUrl)
+            }
+            title={t(langTokens.editor.carouselImage)}
+            imgUrl={previewPost?.importantImageUrl}
           />
           <BorderBottom />
           <Box mt={2}>

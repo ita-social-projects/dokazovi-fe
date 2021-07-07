@@ -27,6 +27,7 @@ export const editor = {
   fillFieldWithUrl: 'Заповніть поле з посиланням',
   addImage: 'Додати зображення',
   backgroundImage: 'Фонове зображення',
+  carouselImage: 'Зображення для каруселі',
   byComputer: "З комп'ютера",
   byUrl: 'За посиланням',
   videoFile: 'Відеофайл',
