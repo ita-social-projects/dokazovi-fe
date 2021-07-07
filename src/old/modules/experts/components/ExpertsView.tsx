@@ -121,8 +121,6 @@ const ExpertsView: React.FC = () => {
       query.delete(queryType);
     }
 
-    console.log(checkedIds.length);
-
     const value =
       isQuerySame && uniq(Object.values(checked))[0] === false
         ? filtersStateEnum.empty
@@ -208,8 +206,6 @@ const ExpertsView: React.FC = () => {
     }
   }
 
-  console.log(selectedDirections);
-
   const getRegions = () => {
     if (typeof selectedRegions !== 'string') {
       const names = selectedRegions?.reduce((acc, filter) => {
@@ -248,8 +244,6 @@ const ExpertsView: React.FC = () => {
       .join(', ');
   };
 
-  console.log(getDirections());
-
   const handleDeleteChip = (
     key: number | undefined,
     chipsListType: ChipFilterType | undefined,
@@ -282,7 +276,7 @@ const ExpertsView: React.FC = () => {
         </Grid>
         <Grid item container direction="column" xs={9}>
           <Box className={classes.container}>
-            {selectedDirections === undefined ? (
+            {typeof selectedDirections === 'string' ? (
               <Typography
                 className={classes.selectedFilters}
                 component="div"
@@ -300,7 +294,7 @@ const ExpertsView: React.FC = () => {
             <Typography className={classes.divider} component="span">
               |
             </Typography>
-            {selectedRegions === undefined ? (
+            {typeof selectedRegions === 'string' ? (
               <Typography
                 className={classes.selectedFilters}
                 component="div"

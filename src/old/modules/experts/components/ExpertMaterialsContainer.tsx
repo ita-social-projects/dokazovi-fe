@@ -23,6 +23,7 @@ import {
   LoadingStatusEnum,
   LoadMoreButtonTextType,
   QueryTypeEnum,
+  filtersStateEnum,
 } from '../../../lib/types';
 import {
   ActivePostType,
@@ -108,6 +109,15 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
     return false;
   });
 
+  useEffect(() => {
+    sessionStorage.setItem(`${FilterTypeEnum.POST_TYPES}`, 'not empty');
+    sessionStorage.setItem(`${FilterTypeEnum.DIRECTIONS}`, 'not empty');
+
+    return function cleanUp() {
+      sessionStorage.clear();
+    };
+  }, []);
+
   const postTypes = useSelector(selectPostTypes);
 
   const postTypesInPlural: IPostType[] = [];
@@ -142,15 +152,18 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
   const directions = useSelector(selectDirections);
 
   const getDirections = () => {
-    if (selectedDirections) {
-      const names = selectedDirections?.reduce((acc, filter) => {
-        acc.push(filter.name);
-        return acc;
-      }, [] as string[]);
-      if (names) {
-        return names.join(', ');
+    if (typeof selectedDirections !== 'string') {
+      if (selectedDirections) {
+        const names = selectedDirections?.reduce((acc, filter) => {
+          acc.push(filter.name);
+          return acc;
+        }, [] as string[]);
+        if (names) {
+          return names.join(', ');
+        }
       }
     }
+
     return directions
       .reduce((acc, filter) => {
         acc.push(filter.name);
@@ -160,15 +173,18 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
   };
 
   const getPostTypes = () => {
-    if (selectedPostTypes) {
-      const names = selectedPostTypes?.reduce((acc, filter) => {
-        acc.push(filter.name);
-        return acc;
-      }, [] as string[]);
-      if (names) {
-        return names.join(', ');
+    if (typeof selectedPostTypes !== 'string') {
+      if (selectedPostTypes) {
+        const names = selectedPostTypes?.reduce((acc, filter) => {
+          acc.push(filter.name);
+          return acc;
+        }, [] as string[]);
+        if (names) {
+          return names.join(', ');
+        }
       }
     }
+
     return postTypesInPlural
       .reduce((acc, filter) => {
         acc.push(filter.name);
@@ -207,11 +223,24 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
       query.delete(queryType);
     }
 
+    const value =
+      isQuerySame && uniq(Object.values(checked))[0] === false
+        ? filtersStateEnum.empty
+        : filtersStateEnum.notEmpty;
+    sessionStorage.setItem(`${filterType}`, value);
+
     setPage(0);
 
-    history.push({
-      search: query.toString(),
-    });
+    if (sessionStorage.getItem(`${filterType}`) === filtersStateEnum.empty) {
+      query.set(queryType, '0');
+      history.push({
+        search: query.toString(),
+      });
+    } else {
+      history.push({
+        search: query.toString(),
+      });
+    }
   };
 
   const handleChipsLogicTransform = (
@@ -273,12 +302,22 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
     ?.split(',');
   let selectedPostTypes:
     | IPostType[]
-    | undefined = postTypesInPlural?.filter((post) =>
+    | filtersStateEnum = postTypesInPlural?.filter((post) =>
     selectedPostTypesString?.includes(post.id.toString()),
   );
-  selectedPostTypes = !isEmpty(selectedPostTypes)
-    ? selectedPostTypes
-    : undefined;
+
+  if (isEmpty(selectedPostTypes)) {
+    if (
+      sessionStorage.getItem(`${FilterTypeEnum.REGIONS}`) ===
+        filtersStateEnum.empty ||
+      (selectedPostTypesString?.length === 1 &&
+        selectedPostTypesString?.[0] === '0')
+    ) {
+      selectedPostTypes = filtersStateEnum.empty;
+    } else {
+      selectedPostTypes = filtersStateEnum.notEmpty;
+    }
+  }
 
   const selectedDirectionsString = query
     .get(QueryTypeEnum.DIRECTIONS)
@@ -286,12 +325,22 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
 
   let selectedDirections:
     | IDirection[]
-    | undefined = directions?.filter((post) =>
+    | filtersStateEnum = directions?.filter((post) =>
     selectedDirectionsString?.includes(post.id.toString()),
   );
-  selectedDirections = !isEmpty(selectedDirections)
-    ? selectedDirections
-    : undefined;
+
+  if (isEmpty(selectedDirections)) {
+    if (
+      sessionStorage.getItem(`${FilterTypeEnum.REGIONS}`) ===
+        filtersStateEnum.empty ||
+      (selectedDirectionsString?.length === 1 &&
+        selectedDirectionsString?.[0] === '0')
+    ) {
+      selectedDirections = filtersStateEnum.empty;
+    } else {
+      selectedDirections = filtersStateEnum.notEmpty;
+    }
+  }
 
   const handleDeleteChip = (
     key: number | undefined,
@@ -403,7 +452,7 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
                 }}
                 filterType={QueryTypeEnum.POST_TYPES}
               />
-              {/* <CheckboxLeftsideFilterForm
+              <CheckboxLeftsideFilterForm
                 disabledDirections={disabledDirections}
                 expertId={expertId}
                 onFormChange={(checked, disabled) =>
@@ -417,7 +466,7 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
                   handleChipsLogicTransform(name, FilterTypeEnum.DIRECTIONS);
                 }}
                 filterType={QueryTypeEnum.DIRECTIONS}
-              /> */}
+              />
             </>
           )}
         </Grid>
@@ -430,7 +479,8 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
             >
               {`${t(langTokens.experts.selectedExpertMaterials)}:`}
             </Typography>
-            {selectedPostTypes === undefined && !TheOnlyAvailablePostType ? (
+            {typeof selectedPostTypes === 'string' &&
+            !TheOnlyAvailablePostType ? (
               <Typography
                 className={classes.selectedFilters}
                 component="div"
@@ -450,7 +500,8 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
             <Typography className={classes.divider} component="span">
               |
             </Typography>
-            {selectedDirections === undefined && !TheOnlyAvailableDirection ? (
+            {typeof selectedDirections === 'string' &&
+            !TheOnlyAvailableDirection ? (
               <Typography
                 className={classes.selectedFilters}
                 component="div"
