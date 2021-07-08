@@ -40,6 +40,7 @@ import { ChipsList } from '../../../../components/Chips/ChipsList/ChipsList';
 import { useStyles } from '../styles/ExpertsView.styles';
 import { setGALocation } from '../../../../utilities/setGALocation';
 import { langTokens } from '../../../../locales/localizationInit';
+import { updateDir, updateReg } from '../../utilities/utilityFunctions';
 
 const ExpertsView: React.FC = () => {
   const { t } = useTranslation();
@@ -188,57 +189,11 @@ const ExpertsView: React.FC = () => {
   }
 
   useEffect(() => {
-    const updateDir = (): CheckboxFormStateType => {
-      if (typeof selectedDirections !== 'string') {
-        return directions.reduce((acc, next) => {
-          if (typeof selectedDirections !== 'string') {
-            acc[next.id] = Boolean(
-              selectedDirections.find((filter) => filter.id === next.id),
-            );
-          }
-          return acc;
-        }, {});
-      }
-      if (selectedDirections === filtersStateEnum.empty) {
-        return directions.reduce((acc, next) => {
-          acc[next.id] = false;
-          return acc;
-        }, {});
-      }
-      return directions.reduce((acc, next) => {
-        acc[next.id] = true;
-        return acc;
-      }, {});
-    };
-
-    setCheckedFiltersDirections(updateDir());
+    setCheckedFiltersDirections(updateDir(selectedDirections, directions));
   }, [query.get(QueryTypeEnum.DIRECTIONS)]);
 
   useEffect(() => {
-    const updateReg = (): CheckboxFormStateType => {
-      if (typeof selectedRegions !== 'string') {
-        return regions.reduce((acc, next) => {
-          if (typeof selectedRegions !== 'string') {
-            acc[next.id] = Boolean(
-              selectedRegions.find((filter) => filter.id === next.id),
-            );
-          }
-          return acc;
-        }, {});
-      }
-      if (selectedRegions === filtersStateEnum.empty) {
-        return regions.reduce((acc, next) => {
-          acc[next.id] = false;
-          return acc;
-        }, {});
-      }
-      return regions.reduce((acc, next) => {
-        acc[next.id] = true;
-        return acc;
-      }, {});
-    };
-
-    setCheckedFiltersRegions(updateReg());
+    setCheckedFiltersRegions(updateReg(selectedRegions, regions));
   }, [query.get(QueryTypeEnum.REGIONS)]);
 
   const getRegions = () => {
