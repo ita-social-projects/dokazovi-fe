@@ -55,6 +55,11 @@ export enum LoadingStatusEnum {
   failed = 'failed',
 }
 
+export enum filtersStateEnum {
+  empty = 'empty',
+  notEmpty = 'not empty',
+}
+
 export type LoadingStatusType =
   | LoadingStatusEnum.idle
   | LoadingStatusEnum.pending
