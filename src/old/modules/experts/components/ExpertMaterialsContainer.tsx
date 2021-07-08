@@ -52,6 +52,7 @@ import {
   selectExpertMaterialsLoading,
   selectExpertsData,
 } from '../../../../models/expertMaterials';
+import { updatePostTypes, updateDir } from '../../utilities/utilityFunctions';
 
 export interface IExpertMaterialsContainerProps {
   expertId: number;
@@ -324,57 +325,11 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
   }
 
   useEffect(() => {
-    const updatePostTypes = (): CheckboxFormStateType => {
-      if (typeof selectedPostTypes !== 'string') {
-        return postTypes.reduce((acc, next) => {
-          if (typeof selectedPostTypes !== 'string') {
-            acc[next.id] = Boolean(
-              selectedPostTypes.find((filter) => filter.id === next.id),
-            );
-          }
-          return acc;
-        }, {});
-      }
-      if (selectedPostTypes === filtersStateEnum.empty) {
-        return postTypes.reduce((acc, next) => {
-          acc[next.id] = false;
-          return acc;
-        }, {});
-      }
-      return postTypes.reduce((acc, next) => {
-        acc[next.id] = true;
-        return acc;
-      }, {});
-    };
-
-    setCheckedFiltersPostTypes(updatePostTypes());
+    setCheckedFiltersPostTypes(updatePostTypes(selectedPostTypes, postTypes));
   }, [query.get(QueryTypeEnum.POST_TYPES)]);
 
   useEffect(() => {
-    const updateDir = (): CheckboxFormStateType => {
-      if (typeof selectedDirections !== 'string') {
-        return directions.reduce((acc, next) => {
-          if (typeof selectedDirections !== 'string') {
-            acc[next.id] = Boolean(
-              selectedDirections.find((filter) => filter.id === next.id),
-            );
-          }
-          return acc;
-        }, {});
-      }
-      if (selectedDirections === filtersStateEnum.empty) {
-        return directions.reduce((acc, next) => {
-          acc[next.id] = false;
-          return acc;
-        }, {});
-      }
-      return directions.reduce((acc, next) => {
-        acc[next.id] = true;
-        return acc;
-      }, {});
-    };
-
-    setCheckedFiltersDirections(updateDir());
+    setCheckedFiltersDirections(updateDir(selectedDirections, directions));
   }, [query.get(QueryTypeEnum.DIRECTIONS)]);
 
   const handleDeleteChip = (
