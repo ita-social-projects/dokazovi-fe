@@ -3,7 +3,6 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { ChipsList } from './ChipsList';
 import { store } from '../../../models/store';
-import { ChipFilterType, IOrigin, IPostType } from '../../../old/lib/types';
 
 const ORIGINS_MOCK = 'Думки експертів, Медитека';
 const DIRECTION_MOCK = 'Хірургія';
