@@ -36,6 +36,7 @@ export const PostDirectionChip: React.FC<IPostDirectionChipProps> = (props) => {
           className={classes.directionChip}
           label={labelName}
           size="medium"
+          data-testid="chip"
         />
       ) : (
         <Chip
@@ -43,6 +44,7 @@ export const PostDirectionChip: React.FC<IPostDirectionChipProps> = (props) => {
           className={classes.directionChip}
           label={labelName}
           size="medium"
+          data-testid="chip"
           onClick={onClick}
           onDelete={() => onDeleteClick(labelName)}
         />
