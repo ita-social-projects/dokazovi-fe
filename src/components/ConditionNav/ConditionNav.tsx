@@ -1,46 +1,39 @@
-import React, { useEffect } from 'react';
-import { useParams, NavLink } from 'react-router-dom';
+import React from 'react';
+import { NavHashLink } from 'react-router-hash-link';
 import i18n, { langTokens } from '../../locales/localizationInit';
 import { useStyles } from './ConditionNav.styles';
 
 export default function ConditionNav(): JSX.Element {
   const classes = useStyles();
 
-  const { to } = useParams<{ to: string }>();
-
-  useEffect(() => {
-    const element: HTMLElement | null = document.getElementById(to);
-    element?.scrollIntoView({ block: 'start', behavior: 'smooth' });
-  }, [to]);
-
   return (
     <ul className={classes.root}>
       <li key="about">
-        <NavLink
+        <NavHashLink
           to="#about"
           className={classes.link}
           activeClassName={classes.linkSelected}
         >
           {i18n.t(langTokens.footer.aboutPlatform)}
-        </NavLink>
+        </NavHashLink>
       </li>
       <li key="rules">
-        <NavLink
+        <NavHashLink
           to="#rules"
           className={classes.link}
           activeClassName={classes.linkSelected}
         >
           {i18n.t(langTokens.footer.termsOfUse)}
-        </NavLink>
+        </NavHashLink>
       </li>
       <li key="contacts">
-        <NavLink
+        <NavHashLink
           to="#contacts"
           className={classes.link}
           activeClassName={classes.linkSelected}
         >
           {i18n.t(langTokens.footer.contacts)}
-        </NavLink>
+        </NavHashLink>
       </li>
     </ul>
   );

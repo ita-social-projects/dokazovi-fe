@@ -45,12 +45,14 @@ export default function ContentSection(prop: {
   }, [type]);
 
   const saveContent = () => {
-    dispatch(
-      updateInfo({
-        id: info.id,
-        text: content,
-      }),
-    );
+    if (content) {
+      dispatch(
+        updateInfo({
+          id: info.id,
+          text: content,
+        }),
+      );
+    }
     closeEditor();
   };
 
