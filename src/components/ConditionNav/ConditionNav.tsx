@@ -17,7 +17,7 @@ export default function ConditionNav(): JSX.Element {
     <ul className={classes.root}>
       <li key="about">
         <NavLink
-          to="/conditions/about"
+          to="#about"
           className={classes.link}
           activeClassName={classes.linkSelected}
         >
@@ -26,7 +26,7 @@ export default function ConditionNav(): JSX.Element {
       </li>
       <li key="rules">
         <NavLink
-          to="/conditions/rules"
+          to="#rules"
           className={classes.link}
           activeClassName={classes.linkSelected}
         >
@@ -35,7 +35,7 @@ export default function ConditionNav(): JSX.Element {
       </li>
       <li key="contacts">
         <NavLink
-          to="/conditions/contacts"
+          to="#contacts"
           className={classes.link}
           activeClassName={classes.linkSelected}
         >

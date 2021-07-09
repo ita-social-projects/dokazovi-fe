@@ -19,17 +19,17 @@ const navElements: IFooterNavProps[] = [
   {
     id: 1,
     label: i18n.t(langTokens.footer.aboutPlatform),
-    url: '/conditions/about',
+    url: '/info#about',
   },
   {
     id: 2,
     label: i18n.t(langTokens.footer.termsOfUse),
-    url: '/conditions/rules',
+    url: '/info#rules',
   },
   {
     id: 3,
     label: i18n.t(langTokens.footer.contacts),
-    url: '/conditions/contacts',
+    url: '/info#contacts',
   },
 ];
 

@@ -22,6 +22,8 @@ import {
   UpdatePostRequestUnionType,
   NewestPostsResponseType,
   ActivePostType,
+  PlatformInformationType,
+  UpdatePlatformInformationRequestType,
 } from './types';
 import { BASE_URL } from '../../../apiURL';
 import { getToken } from '../../../provider/AuthProvider/getToken';
@@ -192,4 +194,16 @@ export const getCurrentUser = async (): Promise<
   AxiosResponse<ExpertResponseType>
 > => {
   return instance.get('/user/me');
+};
+
+export const getPlatformInformation = async (
+  id: number,
+): Promise<AxiosResponse<PlatformInformationType>> => {
+  return instance.get(`/platform-information/${id}`);
+};
+
+export const updatePlatformInformation = async (
+  requestBody: UpdatePlatformInformationRequestType,
+): Promise<AxiosResponse<PlatformInformationType>> => {
+  return instance.put(`/platform-information/`, requestBody);
 };

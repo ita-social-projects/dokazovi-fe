@@ -6,6 +6,7 @@ import { signInReducer } from './user';
 import { materialsReducer } from './materials';
 import { mainReducer } from './main';
 import { expertMaterialsReducer } from './expertMaterials';
+import { infoReducer } from './info';
 
 const rootReducer = combineReducers({
   main: mainReducer,
@@ -15,6 +16,7 @@ const rootReducer = combineReducers({
   expertMaterials: expertMaterialsReducer,
   newPostDraft: postCreationReducer,
   currentUser: signInReducer,
+  info: infoReducer,
 });
 
 export type RootStateType = ReturnType<typeof rootReducer>;

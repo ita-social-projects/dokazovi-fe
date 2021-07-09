@@ -212,3 +212,15 @@ export type RequestParamsType = {
   origins?: number[];
   userName?: string;
 };
+
+export type PlatformInformationType = {
+  id: number;
+  title: string;
+  text: string;
+};
+
+export type UpdatePlatformInformationRequestType = {
+  id: number;
+  title?: string;
+  text?: string;
+};
