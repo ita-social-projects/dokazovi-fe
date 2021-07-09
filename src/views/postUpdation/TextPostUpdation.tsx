@@ -139,6 +139,7 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
     origins: selectedOrigins,
     preview,
     previewImageUrl,
+    importantImageUrl,
     title: title.value,
     type: post.type,
     authorId: authorId ?? post.author.id,
@@ -219,6 +220,7 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
             }
             title={t(langTokens.editor.carouselImage)}
             imgUrl={previewPost?.importantImageUrl}
+            // notCarousel={false}
           />
           <BorderBottom />
           <Box mt={2}>

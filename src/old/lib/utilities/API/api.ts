@@ -66,12 +66,13 @@ const defaultConfig = {
   },
 };
 
-type GetPostsRequestType =
+export type GetPostsRequestType =
   | 'important'
   | 'latest-all'
   | 'latest-by-expert'
   | 'all-posts'
-  | 'set-important';
+  | 'set-important'
+  | 'get-by-important-image';
 
 export const getPosts = async (
   postsRequestType: GetPostsRequestType,
@@ -193,4 +194,10 @@ export const getCurrentUser = async (): Promise<
   AxiosResponse<ExpertResponseType>
 > => {
   return instance.get('/user/me');
+};
+
+export const deletePostById = async (
+  id: number,
+): Promise<AxiosResponse<PostsResponseType>> => {
+  return instance.delete(`/post/${id}`);
 };

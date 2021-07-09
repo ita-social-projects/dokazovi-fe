@@ -7,13 +7,15 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import CropOriginalIcon from '@material-ui/icons/CropOriginal';
-import { IconButton, makeStyles, Theme } from '@material-ui/core';
+import { IconButton, makeStyles, Theme, Typography } from '@material-ui/core';
 import { useForm } from 'react-hook-form';
 import { Alert } from '@material-ui/lab';
 import { useTranslation } from 'react-i18next';
 import { insertFromUrl } from './ImageFromURLHandler';
 import { IUrlInputModalProps } from './types';
 import { langTokens } from '../../../locales/localizationInit';
+import CloudUpload from '@material-ui/icons/CloudUpload';
+import Paper from '@material-ui/core/Paper';
 
 const useStyles = makeStyles((theme: Theme) => ({
   iconButtonText: {
@@ -25,12 +27,39 @@ const useStyles = makeStyles((theme: Theme) => ({
       color: '#06c',
     },
   },
+  root: {
+    backgroundColor: '#eee',
+    textAlign: 'center',
+    cursor: 'pointer',
+    color: '#333',
+    padding: '10px',
+    marginTop: '20px',
+    width: '500px',
+    '&:hover': {
+      color: '#06c',
+    },
+    '&:hover .MuiSvgIcon-root': {
+      fill: '#06c',
+    },
+  },
+  icon: {
+    marginTop: '-15px',
+    marginBottom: '-5px',
+    color: theme.palette.common.black,
+    fontSize: '50px',
+  },
+  imgInputText: {
+    fontFamily: 'Raleway',
+    fontWeight: 700,
+    fontSize: '15px',
+    lineHeight: '22px',
+  },
 }));
 
 export const UrlInputModal: React.FC<IUrlInputModalProps> = ({
   editor,
   updateBackgroundImage,
-  handleDelete,
+  // handleDelete,
 }) => {
   const classes = useStyles();
 
@@ -55,9 +84,9 @@ export const UrlInputModal: React.FC<IUrlInputModalProps> = ({
     if (updateBackgroundImage) {
       updateBackgroundImage(url);
     }
-    if (handleDelete) {
-      handleDelete(null);
-    }
+    // if (handleDelete) {
+    //   handleDelete(null);
+    // }
     handleClose();
     insertFromUrl(url, editor);
     setUrl('');
@@ -71,19 +100,32 @@ export const UrlInputModal: React.FC<IUrlInputModalProps> = ({
 
   return (
     <div>
-      <IconButton
+      {/*<IconButton*/}
+      {/*  onClick={handleClickOpen}*/}
+      {/*  title={t(langTokens.editor.byUrl)}*/}
+      {/*  disableRipple*/}
+      {/*  className={classes.iconButtonText}*/}
+      {/*>*/}
+      {/*  <CloudUpload*/}
+      {/*    className="customSVGIcon"*/}
+      {/*    fontSize="small"*/}
+      {/*    style={{ fontSize: '50px' }}*/}
+      {/*  />*/}
+      {/*  <pre> Додати посилання на зображення із зовнішнього ресурсу</pre>*/}
+      {/*</IconButton>*/}
+
+      <Paper
+        variant={'outlined'}
+        className={classes.root}
         onClick={handleClickOpen}
-        title={t(langTokens.editor.byUrl)}
-        disableRipple
-        className={classes.iconButtonText}
       >
-        <CropOriginalIcon
-          className="customSVGIcon"
-          fontSize="small"
-          style={{ width: '28px', height: '28px' }}
-        />
-        <pre> Додати посилання на зображення із зовнішнього ресурсу</pre>
-      </IconButton>
+        <IconButton title={t(langTokens.editor.byUrl)} disableRipple>
+          <CloudUpload className={classes.icon} />
+        </IconButton>
+        <Typography variant="subtitle1" className={classes.imgInputText}>
+          Додати посилання на зображення із зовнішнього ресурсу
+        </Typography>
+      </Paper>
 
       <Dialog
         open={open}

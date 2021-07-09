@@ -23,7 +23,7 @@ const AddImportantMaterial: React.FC<IAddImportantMaterial> = ({
   updateRemovedPosts,
 }) => {
   const classes = useStyles();
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(0);
   const [isTouched, setTouchStatus] = useState(false);
 
   const { loading } = useSelector((state: RootStateType) => state.materials);

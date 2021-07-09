@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import _ from 'lodash';
 import { useSelector } from 'react-redux';
@@ -6,20 +6,20 @@ import { Box, TextField, Typography } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
 import { RootStateType } from '../../models/rootReducer';
 import {
-  setPostDirections,
-  setPostOrigin,
-  setPostTitle,
-  setAuthorsName,
-  setAuthorsDetails,
-  setPostBody,
-  setImageUrl,
-  setPostPreviewText,
-  setPostPreviewManuallyChanged,
   resetDraft,
   setAuthorId,
+  setAuthorsDetails,
+  setAuthorsName,
+  setImageUrl,
   setImportantImageUrl,
+  setPostBody,
+  setPostDirections,
+  setPostOrigin,
+  setPostPreviewManuallyChanged,
+  setPostPreviewText,
+  setPostTitle,
 } from '../../models/postCreation';
-import { IDirection, IPost, IOrigin, PostTypeEnum } from '../../old/lib/types';
+import { IDirection, IOrigin, IPost, PostTypeEnum } from '../../old/lib/types';
 import { sanitizeHtml } from '../../old/lib/utilities/sanitizeHtml';
 import { PostCreationButtons } from './PostCreationButtons';
 import {
@@ -39,10 +39,7 @@ import { PostDirectionsSelector } from './PostDirectionsSelector';
 import { PostOriginsSelector } from './PostOriginsSelector';
 import { BorderBottom } from '../../old/lib/components/Border';
 import { getStringFromFile } from '../../old/lib/utilities/Imgur/getStringFromFile';
-import {
-  getImgurImageLimits,
-  uploadImageToImgur,
-} from '../../old/lib/utilities/Imgur/uploadImageToImgur';
+import { uploadImageToImgur } from '../../old/lib/utilities/Imgur/uploadImageToImgur';
 import { BackgroundImageContainer } from '../../components/Editor/CustomModules/BackgroundImageContainer/BackgroundImageContainer';
 import { PostAuthorSelection } from './PostAuthorSelection/PostAuthorSelection';
 
@@ -96,8 +93,8 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
   const [authors, setAuthors] = useState<ExpertResponseType[]>([]);
   const [author, setAuthor] = useState<ExpertResponseType | null>(null);
   const [searchValue, setSearchValue] = useState('');
-  const [previewFiles, setPreviewFiles] = useState<FileList | null>(null);
-  const [importantFiles, setImportantFiles] = useState<FileList | null>(null);
+  // const [previewFiles, setPreviewFiles] = useState<FileList | null>(null);
+  // const [importantFiles, setImportantFiles] = useState<FileList | null>(null);
 
   const [
     boundSetPostDirections,
@@ -214,14 +211,14 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
     e: React.ChangeEvent<HTMLInputElement>,
     dispatchFunc: (arg: string) => void,
   ): void => {
-    switch (e.target.name) {
-      case 'previewImg':
-        setPreviewFiles(e.target.files);
-        break;
-      case 'importantImg':
-        setImportantFiles(e.target.files);
-        break;
-    }
+    // switch (e.target.name) {
+    //   case 'previewImg':
+    //     setPreviewFiles(e.target.files);
+    //     break;
+    //   case 'importantImg':
+    //     setImportantFiles(e.target.files);
+    //     break;
+    // }
     getStringFromFile(e.target.files)
       .then((str) => uploadImageToImgur(str))
       .then((res) => {
@@ -360,9 +357,9 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
             }
             title={t(langTokens.editor.backgroundImage)}
             imgUrl={newPost?.previewImageUrl}
-            files={previewFiles}
-            name={'previewImg'}
-            handleDelete={setPreviewFiles}
+            // files={previewFiles}
+            // name={'previewImg'}
+            // handleDelete={setPreviewFiles}
           />
           <BorderBottom />
           <BackgroundImageContainer
@@ -372,9 +369,11 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
             }
             title={t(langTokens.editor.carouselImage)}
             imgUrl={newPost?.importantImageUrl}
-            files={importantFiles}
-            name={'importantImg'}
-            handleDelete={setImportantFiles}
+            // notCarousel={false}
+
+            // files={importantFiles}
+            // name={'importantImg'}
+            // handleDelete={setImportantFiles}
           />
           <BorderBottom />
           <Box mt={2}>

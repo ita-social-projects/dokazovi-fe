@@ -12,7 +12,14 @@ export interface IBackgroundImageContainerProps {
   fileSelectorHandler: (e: React.ChangeEvent<HTMLInputElement>) => void;
   title?: string;
   imgUrl?: string;
+  notCarousel?: boolean;
+  // files?: FileList | null;
+  // name?: string;
+  // handleDelete?: Dispatch<SetStateAction<FileList | null>> | undefined;
+}
+
+export interface IFileInputProps {
   files?: FileList | null;
   name?: string;
-  handleDelete?: Dispatch<SetStateAction<FileList | null>> | undefined;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }

@@ -55,7 +55,8 @@ const FilterSection: React.FC<IFilterSectionProps> = ({
         postTypes: generalFilterState.types,
       },
       page,
-      appendPosts: page !== previousPage && page !== 1,
+      appendPosts: page !== previousPage && page !== 0,
+      url: 'get-by-important-image',
     };
 
     if (isTouched) {

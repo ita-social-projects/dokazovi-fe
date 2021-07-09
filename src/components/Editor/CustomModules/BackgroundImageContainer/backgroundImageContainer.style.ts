@@ -1,13 +1,13 @@
 import { makeStyles } from '@material-ui/core';
 
 export const useStyles = makeStyles((theme) => ({
-  imageFrame: {
-    width: '360px',
-    // height: '240px',
-  },
   imgContainer: {
     position: 'relative',
     display: 'inline-block',
+  },
+  imageFrame: {
+    maxWidth: '500px',
+    // height: '240px',
   },
   deleteButton: {
     position: 'absolute',
