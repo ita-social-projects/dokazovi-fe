@@ -25,7 +25,8 @@ export default function ContentSection(prop: {
   type: ConditionsContentSectionType;
 }): JSX.Element {
   const { type } = prop;
-  const { authenticated } = useContext(AuthContext);
+  const permissionName = 'UPDATE_PLATFORM_INFORMATION';
+  const { checkPermission } = useContext(AuthContext);
   const [content, setContent] = useState('');
   const [edit, setEdit] = useState(false);
   const dispatch = useDispatch();
@@ -71,7 +72,7 @@ export default function ContentSection(prop: {
             <Typography className={classes.title} variant="h2">
               {info.title}
             </Typography>
-            {authenticated && !edit && (
+            {checkPermission(permissionName) && !edit && (
               <CreateIcon onClick={openEditor} className={classes.icon} />
             )}
           </div>

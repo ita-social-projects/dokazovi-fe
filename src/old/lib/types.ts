@@ -63,6 +63,7 @@ export type LoadingStatusType =
 
 export enum LocalStorageKeys {
   ACCESS_TOKEN = 'ACCESS_TOKEN',
+  PERMISSIONS = 'PERMISSIONS',
 }
 
 export enum FilterTypeEnum {
