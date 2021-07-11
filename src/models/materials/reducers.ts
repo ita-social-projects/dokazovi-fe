@@ -4,6 +4,7 @@ import { LoadingStatusEnum } from '../../old/lib/types';
 import { IMaterialsState } from './types';
 import { fetchMaterials } from './asyncActions';
 import { getAsyncActionsReducer } from '../helpers/asyncActions';
+import { expertsSlice } from '../expertMaterials/reducers';
 
 const initialState: IMaterialsState = {
   data: {
@@ -21,13 +22,21 @@ const initialState: IMaterialsState = {
   error: null,
 };
 
-export const reducers = createSlice({
+export const materialsSlice = createSlice({
   name: 'materials',
   initialState,
-  reducers: {},
+  reducers: {
+    resetMaterials: (state) => {
+      state.data = initialState.data;
+      state.loading = initialState.loading;
+      state.error = initialState.error;
+    },
+  },
   extraReducers: {
     ...getAsyncActionsReducer(fetchMaterials as any),
   },
 });
 
-export const materialsReducer = reducers.reducer;
+export const { resetMaterials } = materialsSlice.actions;
+
+export const materialsReducer = materialsSlice.reducer;

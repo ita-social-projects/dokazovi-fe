@@ -5,27 +5,12 @@ import CropOriginalIcon from '@material-ui/icons/CropOriginal';
 import { Typography } from '@material-ui/core';
 import { useStyles } from './FileInput.style';
 import { IFileInputProps } from '../types';
+import { useTranslation } from 'react-i18next';
+import { langTokens } from '../../../../locales/localizationInit';
 
-export const FileInput: React.FC<IFileInputProps> = ({
-  onChange,
-  name,
-  files,
-}) => {
+export const FileInput: React.FC<IFileInputProps> = ({ onChange, name }) => {
   const classes = useStyles();
-
-  // let file = files ? files[0] : null;
-
-  // let reader = new FileReader();
-  // reader.onload = function (theFile) {
-  //   let image = new Image();
-  //   image.onload = function () {
-  //     // @ts-ignore
-  //     console.log(this.width + ' ' + this.height);
-  //   };
-  //   // @ts-ignore
-  //   image.src = theFile?.target?.result;
-  // };
-  // file && reader.readAsDataURL(file);
+  const { t } = useTranslation();
 
   return (
     <Dropzone>
@@ -38,7 +23,7 @@ export const FileInput: React.FC<IFileInputProps> = ({
           <CropOriginalIcon className={classes.icon} />
           <input {...getInputProps()} name={name} onChange={onChange} />
           <Typography variant="subtitle1" className={classes.imgInputText}>
-            Завантажити зображення із комп'ютера
+            {t(langTokens.editor.addImgFromPC)}
           </Typography>
         </Paper>
       )}

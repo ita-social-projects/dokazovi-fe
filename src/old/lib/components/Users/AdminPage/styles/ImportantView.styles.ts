@@ -58,8 +58,20 @@ export const useStyles = makeStyles(
     },
     swalContainer: {
       '& .swal2-popup': {
-        width: 480,
+        width: '480px',
+        paddingBottom: theme.spacing(11),
       },
+    },
+    congratulationTitleText: {
+      fontFamily: 'Raleway',
+      fontWeight: 500,
+      fontSize: '36px',
+    },
+    congratulationSubText: {
+      fontFamily: 'Raleway',
+      fontWeight: 500,
+      fontSize: '22px',
+      lineHeight: '28px',
     },
     swalButton: {
       padding: '14px 60px',

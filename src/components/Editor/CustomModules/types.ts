@@ -13,9 +13,6 @@ export interface IBackgroundImageContainerProps {
   title?: string;
   imgUrl?: string;
   notCarousel?: boolean;
-  // files?: FileList | null;
-  // name?: string;
-  // handleDelete?: Dispatch<SetStateAction<FileList | null>> | undefined;
 }
 
 export interface IFileInputProps {

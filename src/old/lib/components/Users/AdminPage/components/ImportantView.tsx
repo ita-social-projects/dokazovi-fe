@@ -69,7 +69,9 @@ const ImportantView: React.FC = () => {
   const swalWithCustom = Swal.mixin({
     customClass: {
       container: classes.swalContainer,
-      confirmButton: classes.swalButton,
+      title: classes.congratulationTitleText,
+      htmlContainer: classes.congratulationSubText,
+      // confirmButton: classes.swalButton,
     },
     buttonsStyling: false,
   });
@@ -80,6 +82,8 @@ const ImportantView: React.FC = () => {
       icon: 'success',
       title: 'Вітаємо,',
       html: 'Ви успішно оновили карусель!',
+      showConfirmButton: false,
+      timer: 1000,
     });
     boundClearSetImportant();
   };

@@ -93,8 +93,6 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
   const [authors, setAuthors] = useState<ExpertResponseType[]>([]);
   const [author, setAuthor] = useState<ExpertResponseType | null>(null);
   const [searchValue, setSearchValue] = useState('');
-  // const [previewFiles, setPreviewFiles] = useState<FileList | null>(null);
-  // const [importantFiles, setImportantFiles] = useState<FileList | null>(null);
 
   const [
     boundSetPostDirections,
@@ -211,14 +209,6 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
     e: React.ChangeEvent<HTMLInputElement>,
     dispatchFunc: (arg: string) => void,
   ): void => {
-    // switch (e.target.name) {
-    //   case 'previewImg':
-    //     setPreviewFiles(e.target.files);
-    //     break;
-    //   case 'importantImg':
-    //     setImportantFiles(e.target.files);
-    //     break;
-    // }
     getStringFromFile(e.target.files)
       .then((str) => uploadImageToImgur(str))
       .then((res) => {
@@ -357,9 +347,6 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
             }
             title={t(langTokens.editor.backgroundImage)}
             imgUrl={newPost?.previewImageUrl}
-            // files={previewFiles}
-            // name={'previewImg'}
-            // handleDelete={setPreviewFiles}
           />
           <BorderBottom />
           <BackgroundImageContainer
@@ -369,11 +356,7 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
             }
             title={t(langTokens.editor.carouselImage)}
             imgUrl={newPost?.importantImageUrl}
-            // notCarousel={false}
-
-            // files={importantFiles}
-            // name={'importantImg'}
-            // handleDelete={setImportantFiles}
+            notCarousel={false}
           />
           <BorderBottom />
           <Box mt={2}>

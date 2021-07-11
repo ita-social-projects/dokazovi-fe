@@ -113,16 +113,18 @@ const PostPreviewWrapper: React.FC<IPostPreviewWrapper> = ({
           </IconButton>
         </>
       )}
-      {viewMode === 'preview' && isHovered && (
+      {viewMode === 'preview' && (isHovered || !post.importantImageUrl) && (
         <div className={classes.cardHoverView}>
-          <Typography
-            className={classes.cardHoverButtons}
-            display="block"
-            variant="button"
-            onClick={() => addPostToImportant(post)}
-          >
-            Додати
-          </Typography>
+          {post.importantImageUrl && (
+            <Typography
+              className={classes.cardHoverButtons}
+              display="block"
+              variant="button"
+              onClick={() => addPostToImportant(post)}
+            >
+              Додати до каруселі
+            </Typography>
+          )}
           <Typography
             className={classes.cardHoverButtons}
             display="block"

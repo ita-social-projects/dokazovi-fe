@@ -2,7 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import MaterialFilter from './MaterialFilter';
 import { useStyles } from '../styles/FilterSection.styles';
-import { fetchMaterials } from '../../../../../../models/materials';
+import {
+  fetchMaterials,
+  resetMaterials,
+} from '../../../../../../models/materials';
 import { RootStateType } from '../../../../../../models/rootReducer';
 import {
   AdminPageFiltersType,
@@ -36,7 +39,10 @@ const FilterSection: React.FC<IFilterSectionProps> = ({
   resetPage,
 }) => {
   const classes = useStyles();
-  const [boundFetchMaterials] = useActions([fetchMaterials]);
+  const [boundFetchMaterials, boundResetMaterials] = useActions([
+    fetchMaterials,
+    resetMaterials,
+  ]);
   const previousPage = usePrevious(page);
   const [generalFilterState, setGeneralFilterState] = useState<
     IGeneralFilterState
@@ -63,6 +69,12 @@ const FilterSection: React.FC<IFilterSectionProps> = ({
       boundFetchMaterials(fetchOptions);
     }
   }, [JSON.stringify(generalFilterState), page, isTouched]);
+
+  useEffect(() => {
+    return () => {
+      boundResetMaterials();
+    };
+  }, []);
 
   const originOptions = useSelector(
     (state: RootStateType) => state.properties.origins,

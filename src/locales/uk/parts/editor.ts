@@ -41,4 +41,9 @@ export const editor = {
   textLength_0: 'Довжина тексту: {{count}} символ',
   textLength_1: 'Довжина тексту: {{count}} символи',
   textLength_2: 'Довжина тексту: {{count}} символів',
+  confirmImgRemoving: 'Ви впевнені, що хочете видалити цю картинку?',
+  removingSucceeded: 'Успішно видалено!',
+  addImgFromPC: 'Завантажити зображення із комп`ютера',
+  addImgFromExternalResource:
+    'Додати посилання на зображення із зовнішнього ресурсу',
 };

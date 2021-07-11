@@ -56,7 +56,7 @@ export const useStyles = makeStyles(
       paddingTop: '15%',
     },
     cardHoverButtons: {
-      width: '20%',
+      width: '30%',
       textAlign: 'center',
       margin: '0 auto 20px',
       color: '#1fbfa7',

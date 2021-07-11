@@ -220,7 +220,7 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
             }
             title={t(langTokens.editor.carouselImage)}
             imgUrl={previewPost?.importantImageUrl}
-            // notCarousel={false}
+            notCarousel={false}
           />
           <BorderBottom />
           <Box mt={2}>
