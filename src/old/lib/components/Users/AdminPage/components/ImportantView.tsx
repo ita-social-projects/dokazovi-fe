@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import Dialog from '@material-ui/core/Dialog';
@@ -89,7 +90,6 @@ const ImportantView: React.FC = () => {
   };
 
   useEffect(() => {
-    /* @typescript-eslint/no-unused-expressions */
     success && showSuccessModal();
   }, [success]);
 
