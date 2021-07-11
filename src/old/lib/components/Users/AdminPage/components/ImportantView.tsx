@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import Dialog from '@material-ui/core/Dialog';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import Swal from 'sweetalert2';
 import AddImportantMaterial from './AddImportantMaterial';
 import { useStyles } from '../styles/ImportantView.styles';
 import {
@@ -16,7 +17,6 @@ import { ImportantContainer } from '../../../../../modules/main/components/Impor
 import { IPost, ViewModsType } from '../../../../types';
 import { LoadingContainer } from '../../../Loading/LoadingContainer';
 import { useActions } from '../../../../../../shared/hooks';
-import Swal from 'sweetalert2';
 
 const ImportantView: React.FC = () => {
   const classes = useStyles();
@@ -89,6 +89,7 @@ const ImportantView: React.FC = () => {
   };
 
   useEffect(() => {
+    /* @typescript-eslint/no-unused-expressions */
     success && showSuccessModal();
   }, [success]);
 

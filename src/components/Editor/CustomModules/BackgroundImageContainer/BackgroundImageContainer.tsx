@@ -1,13 +1,14 @@
+/* eslint-disable */
 import React from 'react';
 import { Box, IconButton, Typography } from '@material-ui/core';
+import Swal from 'sweetalert2';
+import { useTranslation } from 'react-i18next';
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import { UrlInputModal } from '../UrlInputModal/UrlInputModal';
 import { IBackgroundImageContainerProps } from '../types';
 import { useStyles } from './backgroundImageContainer.style';
 import { FileInput } from '../FileInput/FileInput';
-import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
-import Swal from 'sweetalert2';
 import './backgroundImageContainer.css';
-import { useTranslation } from 'react-i18next';
 import { langTokens } from '../../../../locales/localizationInit';
 
 export const BackgroundImageContainer: React.FC<IBackgroundImageContainerProps> = ({
@@ -65,7 +66,7 @@ export const BackgroundImageContainer: React.FC<IBackgroundImageContainerProps> 
       </Box>
       {imgUrl && (
         <Box className={classes.imgContainer}>
-          <img src={imgUrl} alt={'preview'} className={classes.imageFrame} />
+          <img src={imgUrl} alt="preview" className={classes.imageFrame} />
           <IconButton className={classes.deleteButton} onClick={onDelete}>
             <DeleteForeverIcon className={classes.deleteIcon} />
           </IconButton>

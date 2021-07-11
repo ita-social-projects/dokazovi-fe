@@ -6,15 +6,14 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { IconButton, Typography } from '@material-ui/core';
+import { IconButton, Typography, Paper } from '@material-ui/core';
 import { useForm } from 'react-hook-form';
 import { Alert } from '@material-ui/lab';
 import { useTranslation } from 'react-i18next';
+import CloudUpload from '@material-ui/icons/CloudUpload';
 import { insertFromUrl } from '../ImageFromURLHandler';
 import { IUrlInputModalProps } from '../types';
 import { langTokens } from '../../../../locales/localizationInit';
-import CloudUpload from '@material-ui/icons/CloudUpload';
-import Paper from '@material-ui/core/Paper';
 import { useStyles } from './UrlInputModal.style';
 
 export const UrlInputModal: React.FC<IUrlInputModalProps> = ({
@@ -58,7 +57,7 @@ export const UrlInputModal: React.FC<IUrlInputModalProps> = ({
   return (
     <div>
       <Paper
-        variant={'outlined'}
+        variant="outlined"
         className={classes.root}
         onClick={handleClickOpen}
       >
