@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link as RouterLink, useLocation, NavLink } from 'react-router-dom';
+import { Link as RouterLink, NavLink, useLocation } from 'react-router-dom';
 import { Box, Typography, Container } from '@material-ui/core';
 import Link from '@material-ui/core/Link';
 import { useTranslation } from 'react-i18next';
@@ -19,17 +19,17 @@ const navElements: IFooterNavProps[] = [
   {
     id: 1,
     label: i18n.t(langTokens.footer.aboutPlatform),
-    url: '/conditions/about',
+    url: '/info#about',
   },
   {
     id: 2,
     label: i18n.t(langTokens.footer.termsOfUse),
-    url: '/conditions/rules',
+    url: '/info#rules',
   },
   {
     id: 3,
     label: i18n.t(langTokens.footer.contacts),
-    url: '/conditions/contacts',
+    url: '/info#contacts',
   },
 ];
 
