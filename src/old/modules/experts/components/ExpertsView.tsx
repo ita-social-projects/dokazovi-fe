@@ -326,8 +326,8 @@ const ExpertsView: React.FC = () => {
                 }
                 possibleFilters={directions}
                 selectedFilters={selectedDirections}
-                filterTitle={t(langTokens.common.byOrigin).toLowerCase()}
-                allTitle={t(langTokens.common.allOrigins)}
+                filterTitle={t(langTokens.common.byDirection).toLowerCase()}
+                allTitle={t(langTokens.common.allDirections)}
                 filterType={QueryTypeEnum.DIRECTIONS}
               />
               <CheckboxLeftsideFilterForm
