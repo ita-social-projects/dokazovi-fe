@@ -1,13 +1,15 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-this-alias */
+
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { GeneralEditor } from './GeneralEditor';
 import { VideoEditorToolbar } from './Editors/VideoEditorToolbar';
-import { JSDOM } from 'jsdom';
 
-const dom = new JSDOM();
-global.document = dom.window.document;
 global.document.execCommand = jest.fn((value) => value);
-global.window = dom.window;
 
 const mockHtmlContentCange = jest.fn((value) => value);
 const mockTextContantChange = jest.fn((value) => value);
@@ -15,7 +17,7 @@ jest.mock(
   'quill-image-uploader',
   () =>
     function (quill, options) {
-      var self = this;
+      const self = this;
       self.quill = quill;
       self.options = options;
       self.range = null;
@@ -36,7 +38,7 @@ test('component renders with all props setted', () => {
       onHtmlContentChange={mockHtmlContentCange}
       onTextContentChange={mockTextContantChange}
       toolbar={VideoEditorToolbar}
-      initialHtmlContent={`<p>test</p>`}
+      initialHtmlContent="<p>test</p>"
     />,
   );
   expect(screen.getByTestId('text-editor_test')).toBeInTheDocument();
@@ -49,7 +51,7 @@ test('component renders innitial HTML content', () => {
       onHtmlContentChange={mockHtmlContentCange}
       onTextContentChange={mockTextContantChange}
       toolbar={VideoEditorToolbar}
-      initialHtmlContent={`<p>test111</p>`}
+      initialHtmlContent="<p>test111</p>"
     />,
   );
   expect(screen.getByText('test111')).toBeInTheDocument();
