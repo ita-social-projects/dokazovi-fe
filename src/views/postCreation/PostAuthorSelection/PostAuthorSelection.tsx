@@ -62,6 +62,7 @@ export const PostAuthorSelection: React.FC<IPostAuthorSelectionProps> = ({
           <TableBody>{table}</TableBody>
         </Table>
       )}
+      <div style={{ marginBottom: '24px' }} />
     </>
   );
 };

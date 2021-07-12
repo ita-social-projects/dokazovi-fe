@@ -13,5 +13,6 @@ export {
   setVideoUrl,
   setImageUrl,
   setAuthorId,
+  setImportantImageUrl,
 } from './reducers';
 export { selectVideoUrl, selectVideoPostDraft } from './selectors';

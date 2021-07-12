@@ -3,7 +3,7 @@ import React from 'react';
 import Quill from 'quill';
 import CropOriginalIcon from '@material-ui/icons/CropOriginal';
 import { useTranslation } from 'react-i18next';
-import { UrlInputModal } from './UrlInputModal';
+import { UrlInputModal } from './UrlInputModal/UrlInputModal';
 import { langTokens } from '../../../locales/localizationInit';
 
 export interface IImageHandlersContainerProps {

@@ -234,5 +234,6 @@ export const LoginModal: React.FC = () => {
         </DialogContent>
       </Dialog>
     </>
+    // Functionality for authorization  with Facebook & Google implementation in file LoginModalOld.tsx
   );
 };

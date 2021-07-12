@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
 import Box from '@material-ui/core/Box';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/DeleteOutlineRounded';
@@ -15,6 +14,7 @@ import {
 } from '../../../../../../models/main/reducers';
 import { ImportantPostPreviewCard } from '../../../../../../components/Posts/Cards/ImportantPostPreviewCard/ImportantPostPreviewCard';
 import { IPost, ViewModsType } from '../../../../types';
+import { useActions } from '../../../../../../shared/hooks';
 
 interface IPostPreviewWrapper {
   post: IPost;
@@ -34,7 +34,11 @@ const PostPreviewWrapper: React.FC<IPostPreviewWrapper> = ({
   const [isHovered, switchHover] = useState(false);
   const [newPosition, changePosition] = useState<number | string>(position);
   const classes = useStyles({ refineInputPadding: newPosition > 9 });
-  const dispatch = useDispatch();
+  const [
+    boundAddToImportant,
+    boundRemoveFromImportant,
+    boundReplacePost,
+  ] = useActions([addToImportant, removeFromImportant, replacePost]);
   const history = useHistory();
 
   useEffect(() => {
@@ -47,11 +51,11 @@ const PostPreviewWrapper: React.FC<IPostPreviewWrapper> = ({
       return;
     }
 
-    dispatch(addToImportant(newPost));
+    boundAddToImportant(newPost);
     updateRemovedPosts(newPost, viewMode);
   };
   const removePostFromImportant = (newPost: IPost) => {
-    dispatch(removeFromImportant(newPost));
+    boundRemoveFromImportant(newPost);
     updateRemovedPosts(newPost, viewMode);
   };
 
@@ -62,12 +66,10 @@ const PostPreviewWrapper: React.FC<IPostPreviewWrapper> = ({
     }
     const numericPosition = newPosition as number;
 
-    dispatch(
-      replacePost({
-        previousPosition: position - 1,
-        newPosition: numericPosition - 1,
-      }),
-    );
+    boundReplacePost({
+      previousPosition: position - 1,
+      newPosition: numericPosition - 1,
+    });
   };
 
   const handlePositionChange = (changedPosition: number) => {
@@ -111,16 +113,18 @@ const PostPreviewWrapper: React.FC<IPostPreviewWrapper> = ({
           </IconButton>
         </>
       )}
-      {viewMode === 'preview' && isHovered && (
+      {viewMode === 'preview' && (isHovered || !post.importantImageUrl) && (
         <div className={classes.cardHoverView}>
-          <Typography
-            className={classes.cardHoverButtons}
-            display="block"
-            variant="button"
-            onClick={() => addPostToImportant(post)}
-          >
-            Додати
-          </Typography>
+          {post.importantImageUrl && (
+            <Typography
+              className={classes.cardHoverButtons}
+              display="block"
+              variant="button"
+              onClick={() => addPostToImportant(post)}
+            >
+              Додати до каруселі
+            </Typography>
+          )}
           <Typography
             className={classes.cardHoverButtons}
             display="block"

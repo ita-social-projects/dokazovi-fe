@@ -56,6 +56,37 @@ export const useStyles = makeStyles(
       margin: theme.spacing(3, 0, 0),
       minHeight: 'auto',
     },
+    swalContainer: {
+      '& .swal2-popup': {
+        width: '480px',
+        paddingBottom: theme.spacing(11),
+      },
+    },
+    congratulationTitleText: {
+      fontFamily: 'Raleway',
+      fontWeight: 500,
+      fontSize: '36px',
+    },
+    congratulationSubText: {
+      fontFamily: 'Raleway',
+      fontWeight: 500,
+      fontSize: '22px',
+      lineHeight: '28px',
+    },
+    swalButton: {
+      padding: '14px 60px',
+      borderRadius: 50,
+      backgroundColor: '#4FDFFF',
+      color: theme.palette.common.white,
+      fontWeight: 700,
+      fontSize: '18px',
+      fontFamily: 'Raleway',
+      margin: '10px 0 30px 0',
+      '&:hover': {
+        backgroundColor: '#106ba3',
+        cursor: 'pointer',
+      },
+    },
   }),
   { name: 'ImportantView' },
 );
