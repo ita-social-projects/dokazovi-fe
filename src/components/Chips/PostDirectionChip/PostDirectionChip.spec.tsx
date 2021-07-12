@@ -14,17 +14,14 @@ describe('PostDirectionChip', () => {
 describe('events', () => {
   it('should delete the chip', () => {
     const handleDeleteMock = jest.fn();
-    const { getByTestId, unmount, container } = render(
+    const { container } = render(
       <PostDirectionChip handleDelete={handleDeleteMock} />,
     );
-    const deleteIcon = container.querySelector('.MuiChip-deleteIcon');
-    const chip = getByTestId('chip');
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
+    const deleteIcon = container.querySelector(
+      '.MuiChip-deleteIcon',
+    ) as HTMLElement;
     fireEvent.click(deleteIcon);
     expect(handleDeleteMock).toHaveBeenCalledTimes(1);
-    unmount();
-    expect(chip).not.toBeInTheDocument();
   });
 
   it('should click on the chip', () => {

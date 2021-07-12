@@ -61,9 +61,9 @@ describe('events', () => {
         />
       </Provider>,
     );
-    const deleteIcon = container.querySelector('.MuiChip-deleteIcon');
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
+    const deleteIcon = container.querySelector(
+      '.MuiChip-deleteIcon',
+    ) as HTMLElement;
     fireEvent.click(deleteIcon);
     expect(handleDeleteMock).toHaveBeenCalledTimes(1);
   });
