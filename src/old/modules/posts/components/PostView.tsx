@@ -44,7 +44,7 @@ const PostView: React.FC<IPostViewProps> = ({
   return (
     <Card className={classes.cardContainer}>
       <PostBreadcrumbs
-        origin={post.origins[0]}
+        origins={post.origins}
         expert={{
           id: post.author.id,
           expertName: `${post.author.firstName} ${post.author.lastName}`,

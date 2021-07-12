@@ -11,14 +11,14 @@ import {
 } from './Basic/BasicBreadcrumbs';
 
 interface IProps {
-  origin: IOrigin;
+  origins: IOrigin[];
   type: IPostType;
   expert: { id: number; expertName: string };
   materialTitle: string;
 }
 
 export const PostBreadcrumbs: React.FC<IProps> = ({
-  origin,
+  origins,
   type,
   expert,
   materialTitle,
@@ -39,17 +39,22 @@ export const PostBreadcrumbs: React.FC<IProps> = ({
     to: `/experts/${expert.id}`,
     label: expert.expertName,
   };
-  const originLink = {
+  const originLinks = origins.map((origin) => ({
     to: `/materials?origins=${origin.id}`,
     label: origin.name,
-  };
+  }));
 
   const typeLink = { to: `/materials?types=${type.id}`, label: type.name };
-  const materialMap = [materialsLink, originLink, typeLink];
-  const materialExpertMap = [materialsLink, expertLink, originLink, typeLink];
+  const materialMap = [materialsLink, ...originLinks, typeLink];
+  const materialExpertMap = [
+    materialsLink,
+    expertLink,
+    ...originLinks,
+    typeLink,
+  ];
   const expertsMap = [expertsLink, expertLink, typeLink];
   const expertMap = [expertLink, typeLink];
-  const defaultMap = [originLink, typeLink];
+  const defaultMap = [...originLinks, typeLink];
 
   let breadcrumbsLinks: BreadcrumbsLinksType;
 
