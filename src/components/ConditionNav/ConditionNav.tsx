@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavHashLink } from 'react-router-hash-link';
+import { NavLink } from 'react-router-dom';
 import i18n, { langTokens } from '../../locales/localizationInit';
 import { useStyles } from './ConditionNav.styles';
 
@@ -9,31 +9,31 @@ export default function ConditionNav(): JSX.Element {
   return (
     <ul className={classes.root}>
       <li key="about">
-        <NavHashLink
+        <NavLink
           to="#about"
           className={classes.link}
           activeClassName={classes.linkSelected}
         >
           {i18n.t(langTokens.footer.aboutPlatform)}
-        </NavHashLink>
+        </NavLink>
       </li>
       <li key="rules">
-        <NavHashLink
+        <NavLink
           to="#rules"
           className={classes.link}
           activeClassName={classes.linkSelected}
         >
           {i18n.t(langTokens.footer.termsOfUse)}
-        </NavHashLink>
+        </NavLink>
       </li>
       <li key="contacts">
-        <NavHashLink
+        <NavLink
           to="#contacts"
           className={classes.link}
           activeClassName={classes.linkSelected}
         >
           {i18n.t(langTokens.footer.contacts)}
-        </NavHashLink>
+        </NavLink>
       </li>
     </ul>
   );

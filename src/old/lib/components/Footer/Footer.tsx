@@ -1,6 +1,5 @@
 import React from 'react';
-import { Link as RouterLink, useLocation } from 'react-router-dom';
-import { NavHashLink } from 'react-router-hash-link';
+import { Link as RouterLink, NavLink, useLocation } from 'react-router-dom';
 import { Box, Typography, Container } from '@material-ui/core';
 import Link from '@material-ui/core/Link';
 import { useTranslation } from 'react-i18next';
@@ -36,9 +35,9 @@ const navElements: IFooterNavProps[] = [
 
 const linksList = navElements.map((item) => {
   return (
-    <NavHashLink to={item.url} key={item.id} exact>
+    <NavLink to={item.url} key={item.id} exact>
       <Typography component="span">{item.label}</Typography>
-    </NavHashLink>
+    </NavLink>
   );
 });
 

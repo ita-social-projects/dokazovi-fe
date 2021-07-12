@@ -1,5 +1,5 @@
 /* eslint no-param-reassign: "error" */
-import { AsyncThunk, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
+import { AsyncThunk, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { LoadingStatusEnum } from '../../old/lib/types';
 import {
   getPlatformInformation,
@@ -52,6 +52,13 @@ export const getAsyncActionsInfoReducer = (
   ) => {
     state[action.payload.id].data = action.payload;
     state[action.payload.id].loading = LoadingStatusEnum.succeeded;
+    const flag = Object.keys(state).reduce((acc, el) => {
+      if (Number.isNaN(+el)) {
+        return acc;
+      }
+      return acc && state[+el].loading === LoadingStatusEnum.succeeded;
+    }, true);
+    state.isFetchedAll = flag;
   },
   [asyncAction.rejected.type]: (
     state: IInfoState,

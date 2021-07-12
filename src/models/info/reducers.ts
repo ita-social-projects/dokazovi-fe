@@ -22,6 +22,7 @@ const initialState: IInfoState = {
     loading: LoadingStatusEnum.idle,
     error: null,
   },
+  isFetchedAll: false,
 };
 
 export const InfoSlice = createSlice({

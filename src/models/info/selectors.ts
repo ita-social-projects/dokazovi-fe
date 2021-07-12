@@ -19,3 +19,7 @@ export const selectInfoErrorById = (type: number) => (
 ): string | null => {
   return state.info[type].error;
 };
+
+export const selectIsAllInfoFetched = (state: RootStateType): boolean => {
+  return state.info.isFetchedAll;
+};

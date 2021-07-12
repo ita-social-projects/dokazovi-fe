@@ -7,4 +7,5 @@ export interface IInfoState {
     loading: LoadingStatusEnum;
     error: null | string;
   };
+  isFetchedAll: boolean;
 }

@@ -1,6 +1,7 @@
 /* eslint-disable react/no-danger */
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 import { Typography } from '@material-ui/core';
 import CreateIcon from '@material-ui/icons/Create';
 import { AuthContext } from '../../old/provider/AuthProvider/AuthContext';
@@ -14,6 +15,7 @@ import {
   fetchInfoById,
   selectInfoById,
   selectInfoLoadingById,
+  selectIsAllInfoFetched,
   updateInfo,
 } from '../../models/info';
 import { LoadingContainer } from '../../old/lib/components/Loading/LoadingContainer';
@@ -31,7 +33,10 @@ export default function ContentSection(prop: {
   const [edit, setEdit] = useState(false);
   const dispatch = useDispatch();
   const info = useSelector(selectInfoById(type));
+  const isAllInfoFetched = useSelector(selectIsAllInfoFetched);
   const loading = useSelector(selectInfoLoadingById(type));
+  const location = useLocation();
+  const elRef = useRef<HTMLDivElement>(null);
 
   const openEditor = () => setEdit(true);
   const closeEditor = () => {
@@ -44,6 +49,19 @@ export default function ContentSection(prop: {
   useEffect(() => {
     dispatch(fetchInfoById({ id: type }));
   }, [type]);
+
+  useEffect(() => {
+    if (
+      elRef.current &&
+      location.hash.includes(ConditionsContentSectionEnum[type].toLowerCase())
+    ) {
+      elRef.current.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+        inline: 'center',
+      });
+    }
+  });
 
   const saveContent = () => {
     if (content) {
@@ -62,6 +80,7 @@ export default function ContentSection(prop: {
       id={ConditionsContentSectionEnum[type].toLowerCase()}
       key={type}
       className={classes.section}
+      ref={elRef}
     >
       {loading === LoadingStatusEnum.pending && (
         <LoadingContainer loading={loading} />

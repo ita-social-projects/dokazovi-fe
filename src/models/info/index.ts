@@ -6,4 +6,5 @@ export {
   selectInfoById,
   selectInfoLoadingById,
   selectInfoErrorById,
+  selectIsAllInfoFetched,
 } from './selectors';
