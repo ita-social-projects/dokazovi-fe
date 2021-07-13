@@ -40,6 +40,11 @@ export const AccountMenu: React.FC = () => {
     setAnchorEl(null);
   };
 
+  const openProfile = () => {
+    history.push('/profile');
+    handleClose();
+  };
+
   const openAdminPage = () => {
     history.push('/admin');
     handleClose();
@@ -86,6 +91,11 @@ export const AccountMenu: React.FC = () => {
         onClose={handleClose}
         className={classes.menu}
       >
+        <StyledMenuItem onClick={openProfile}>
+          <Typography variant="button" color="inherit">
+            Особистий кабінет
+          </Typography>
+        </StyledMenuItem>
         <StyledMenuItem onClick={onLogoutHandler}>
           <Typography variant="button" color="inherit">
             {t(langTokens.common.exit)}

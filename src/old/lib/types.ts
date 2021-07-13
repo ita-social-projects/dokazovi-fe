@@ -208,6 +208,13 @@ export interface IAuthInputs {
   password: string;
 }
 
+export type ProfileMenuType = 'info' | 'materials' | 'security';
+
+export interface IProfileMenuOption {
+  label: string;
+  value: ProfileMenuType;
+}
+
 export interface IFooterStyleProps {
   isAdminPage: boolean;
 }

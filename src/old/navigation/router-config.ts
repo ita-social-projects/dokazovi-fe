@@ -14,6 +14,7 @@ const ExpertProfileViewWrapper = lazy(
 const PostViewWrapper = lazy(
   () => import('../modules/posts/components/PostViewWrapper'),
 );
+const Profile = lazy(() => import('../../views/Profile/Profile'));
 const ArticleCreation = lazy(
   () => import('../../views/postCreation/ArticleCreation'),
 );
@@ -66,6 +67,13 @@ export const ROUTER_CONFIG: IRouteConfig[] = [
     path: '/experts/:expertId',
     key: 'EXPERT_PROFILE',
     component: ExpertProfileViewWrapper,
+    exact: true,
+  },
+  {
+    path: '/profile',
+    key: 'PROFILE',
+    component: Profile,
+    private: true,
     exact: true,
   },
   {
