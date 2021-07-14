@@ -23,6 +23,7 @@ import {
   LoadingStatusEnum,
   LoadMoreButtonTextType,
   QueryTypeEnum,
+  filtersStateEnum,
 } from '../../../lib/types';
 import {
   ActivePostType,
@@ -51,6 +52,7 @@ import {
   selectExpertMaterialsLoading,
   selectExpertsData,
 } from '../../../../models/expertMaterials';
+import { updatePostTypes, updateDir } from '../../utilities/utilityFunctions';
 
 export interface IExpertMaterialsContainerProps {
   expertId: number;
@@ -142,15 +144,18 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
   const directions = useSelector(selectDirections);
 
   const getDirections = () => {
-    if (selectedDirections) {
-      const names = selectedDirections?.reduce((acc, filter) => {
-        acc.push(filter.name);
-        return acc;
-      }, [] as string[]);
-      if (names) {
-        return names.join(', ');
+    if (typeof selectedDirections !== 'string') {
+      if (selectedDirections) {
+        const names = selectedDirections?.reduce((acc, filter) => {
+          acc.push(filter.name);
+          return acc;
+        }, [] as string[]);
+        if (names) {
+          return names.join(', ');
+        }
       }
     }
+
     return directions
       .reduce((acc, filter) => {
         acc.push(filter.name);
@@ -160,15 +165,18 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
   };
 
   const getPostTypes = () => {
-    if (selectedPostTypes) {
-      const names = selectedPostTypes?.reduce((acc, filter) => {
-        acc.push(filter.name);
-        return acc;
-      }, [] as string[]);
-      if (names) {
-        return names.join(', ');
+    if (typeof selectedPostTypes !== 'string') {
+      if (selectedPostTypes) {
+        const names = selectedPostTypes?.reduce((acc, filter) => {
+          acc.push(filter.name);
+          return acc;
+        }, [] as string[]);
+        if (names) {
+          return names.join(', ');
+        }
       }
     }
+
     return postTypesInPlural
       .reduce((acc, filter) => {
         acc.push(filter.name);
@@ -182,11 +190,20 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
   const setFilters = (
     checked: CheckboxFormStateType,
     filterType: FilterTypeEnum,
+    disabled?: CheckboxFormStateType,
   ) => {
     if (filterType === 1) {
-      setCheckedFiltersDirections(checked);
+      if (disabled) {
+        setCheckedFiltersDirections(disabled);
+      } else {
+        setCheckedFiltersDirections(checked);
+      }
     } else if (filterType === 0) {
-      setCheckedFiltersPostTypes(checked);
+      if (disabled) {
+        setCheckedFiltersPostTypes(disabled);
+      } else {
+        setCheckedFiltersPostTypes(checked);
+      }
     }
 
     const queryType = getQueryTypeByFilterType(filterType);
@@ -200,9 +217,16 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
 
     setPage(0);
 
-    history.push({
-      search: query.toString(),
-    });
+    if (isQuerySame && uniq(Object.values(checked))[0] === false) {
+      query.set(queryType, '0');
+      history.push({
+        search: query.toString(),
+      });
+    } else {
+      history.push({
+        search: query.toString(),
+      });
+    }
   };
 
   const handleChipsLogicTransform = (
@@ -264,12 +288,20 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
     ?.split(',');
   let selectedPostTypes:
     | IPostType[]
-    | undefined = postTypesInPlural?.filter((post) =>
+    | filtersStateEnum = postTypesInPlural?.filter((post) =>
     selectedPostTypesString?.includes(post.id.toString()),
   );
-  selectedPostTypes = !isEmpty(selectedPostTypes)
-    ? selectedPostTypes
-    : undefined;
+
+  if (isEmpty(selectedPostTypes)) {
+    if (
+      selectedPostTypesString?.length === 1 &&
+      selectedPostTypesString?.[0] === '0'
+    ) {
+      selectedPostTypes = filtersStateEnum.empty;
+    } else {
+      selectedPostTypes = filtersStateEnum.notEmpty;
+    }
+  }
 
   const selectedDirectionsString = query
     .get(QueryTypeEnum.DIRECTIONS)
@@ -277,12 +309,28 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
 
   let selectedDirections:
     | IDirection[]
-    | undefined = directions?.filter((post) =>
+    | filtersStateEnum = directions?.filter((post) =>
     selectedDirectionsString?.includes(post.id.toString()),
   );
-  selectedDirections = !isEmpty(selectedDirections)
-    ? selectedDirections
-    : undefined;
+
+  if (isEmpty(selectedDirections)) {
+    if (
+      selectedDirectionsString?.length === 1 &&
+      selectedDirectionsString?.[0] === '0'
+    ) {
+      selectedDirections = filtersStateEnum.empty;
+    } else {
+      selectedDirections = filtersStateEnum.notEmpty;
+    }
+  }
+
+  useEffect(() => {
+    setCheckedFiltersPostTypes(updatePostTypes(selectedPostTypes, postTypes));
+  }, [query.get(QueryTypeEnum.POST_TYPES)]);
+
+  useEffect(() => {
+    setCheckedFiltersDirections(updateDir(selectedDirections, directions));
+  }, [query.get(QueryTypeEnum.DIRECTIONS)]);
 
   const handleDeleteChip = (
     key: number | undefined,
@@ -382,8 +430,8 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
               <CheckboxLeftsideFilterForm
                 disabledPostTypes={disabledPostTypes}
                 expertId={expertId}
-                onFormChange={(checked) =>
-                  setFilters(checked, FilterTypeEnum.POST_TYPES)
+                onFormChange={(checked, disabled) =>
+                  setFilters(checked, FilterTypeEnum.POST_TYPES, disabled)
                 }
                 possibleFilters={postTypesInPlural}
                 selectedFilters={selectedPostTypes}
@@ -397,8 +445,8 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
               <CheckboxLeftsideFilterForm
                 disabledDirections={disabledDirections}
                 expertId={expertId}
-                onFormChange={(checked) =>
-                  setFilters(checked, FilterTypeEnum.DIRECTIONS)
+                onFormChange={(checked, disabled) =>
+                  setFilters(checked, FilterTypeEnum.DIRECTIONS, disabled)
                 }
                 possibleFilters={directions}
                 selectedFilters={selectedDirections}
@@ -421,7 +469,8 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
             >
               {`${t(langTokens.experts.selectedExpertMaterials)}:`}
             </Typography>
-            {selectedPostTypes === undefined && !TheOnlyAvailablePostType ? (
+            {typeof selectedPostTypes === 'string' &&
+            !TheOnlyAvailablePostType ? (
               <Typography
                 className={classes.selectedFilters}
                 component="div"
@@ -441,7 +490,8 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
             <Typography className={classes.divider} component="span">
               |
             </Typography>
-            {selectedDirections === undefined && !TheOnlyAvailableDirection ? (
+            {typeof selectedDirections === 'string' &&
+            !TheOnlyAvailableDirection ? (
               <Typography
                 className={classes.selectedFilters}
                 component="div"

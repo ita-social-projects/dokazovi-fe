@@ -82,7 +82,8 @@ const PostViewWrapper: React.FC = () => {
         });
       })
       .catch((err) => {
-        console.log(err);
+        // eslint-disable-next-line no-console
+        console.error(err);
       });
   }, []);
 

@@ -55,6 +55,11 @@ export enum LoadingStatusEnum {
   failed = 'failed',
 }
 
+export enum filtersStateEnum {
+  empty = 'empty',
+  notEmpty = 'not empty',
+}
+
 export type LoadingStatusType =
   | LoadingStatusEnum.idle
   | LoadingStatusEnum.pending
@@ -63,6 +68,7 @@ export type LoadingStatusType =
 
 export enum LocalStorageKeys {
   ACCESS_TOKEN = 'ACCESS_TOKEN',
+  PERMISSIONS = 'PERMISSIONS',
 }
 
 export enum FilterTypeEnum {
@@ -227,3 +233,14 @@ export type AdminPageFiltersType =
   | QueryTypeEnum.POST_TYPES;
 
 export type ViewModsType = 'selected' | 'preview';
+
+export enum ConditionsContentSectionEnum {
+  ABOUT = 1,
+  RULES = 2,
+  CONTACTS = 3,
+}
+
+export type ConditionsContentSectionType =
+  | ConditionsContentSectionEnum.ABOUT
+  | ConditionsContentSectionEnum.RULES
+  | ConditionsContentSectionEnum.CONTACTS;

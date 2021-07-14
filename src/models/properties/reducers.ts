@@ -27,6 +27,7 @@ const propertiesSlice = createSlice({
     ...getAsyncActionsReducer(fetchPostsTypes, 'postTypes'),
     ...getAsyncActionsReducer(fetchDirections, 'directions'),
     ...getAsyncActionsReducer(fetchOrigins, 'origins'),
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     ...getAsyncActionsReducer(fetchPostsTags as any, 'postTags'),
   },
 });

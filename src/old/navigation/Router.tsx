@@ -76,12 +76,9 @@ export const RenderRoutes: React.FC<{
       {routes.map((route: IRouteConfig) => {
         if (route.private) {
           return (
-            <PrivateRoute
-              key={route.key}
-              component={route.component}
-              path={route.path}
-              exact={route.exact}
-            />
+            <Route key={route.key} path={route.path} exact={route.exact}>
+              <Page component={route.component} />
+            </Route>
           );
         }
         return (

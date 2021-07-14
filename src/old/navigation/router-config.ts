@@ -103,8 +103,8 @@ export const ROUTER_CONFIG: IRouteConfig[] = [
     component: PostViewWrapper,
   },
   {
-    path: '/conditions/:to',
-    key: 'CONDITIONS',
+    path: '/info',
+    key: 'INFO',
     exact: true,
     component: Conditions,
   },

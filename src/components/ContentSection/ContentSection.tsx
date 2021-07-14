@@ -1,83 +1,122 @@
 /* eslint-disable react/no-danger */
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 import { Typography } from '@material-ui/core';
 import CreateIcon from '@material-ui/icons/Create';
 import { AuthContext } from '../../old/provider/AuthProvider/AuthContext';
+import { useStyles } from './ContentSection.styles';
+import {
+  ConditionsContentSectionEnum,
+  ConditionsContentSectionType,
+  LoadingStatusEnum,
+} from '../../old/lib/types';
+import {
+  fetchInfoById,
+  selectInfoById,
+  selectInfoLoadingById,
+  selectIsAllInfoFetched,
+  updateInfo,
+} from '../../models/info';
+import { LoadingContainer } from '../../old/lib/components/Loading/LoadingContainer';
 import { GeneralEditor } from '../Editor/GeneralEditor';
 import { VideoEditorToolbar } from '../Editor/Editors/VideoEditorToolbar';
 import { PostCreationButtons } from '../../views/postCreation/PostCreationButtons';
-import i18n, { langTokens } from '../../locales/localizationInit';
-import { useStyles } from './ContentSection.styles';
-import getDefContent from './defContent';
 
-export default function ContentSection(prop: { type: string }): JSX.Element {
-  const { authenticated } = useContext(AuthContext);
+export default function ContentSection(prop: {
+  type: ConditionsContentSectionType;
+}): JSX.Element {
+  const { type } = prop;
+  const permissionName = 'UPDATE_PLATFORM_INFORMATION';
+  const { checkPermission } = useContext(AuthContext);
   const [content, setContent] = useState('');
-  const [title, setTitle] = useState('');
   const [edit, setEdit] = useState(false);
+  const dispatch = useDispatch();
+  const info = useSelector(selectInfoById(type));
+  const isAllInfoFetched = useSelector(selectIsAllInfoFetched);
+  const loading = useSelector(selectInfoLoadingById(type));
+  const location = useLocation();
+  const elRef = useRef<HTMLDivElement>(null);
 
   const openEditor = () => setEdit(true);
-  const closeEditor = () => setEdit(false);
+  const closeEditor = () => {
+    setContent('');
+    setEdit(false);
+  };
 
   const classes = useStyles();
-  const { type } = prop;
 
   useEffect(() => {
-    switch (type) {
-      case 'about':
-        setContent(getDefContent(1));
-        setTitle(i18n.t(langTokens.footer.aboutPlatform));
-        break;
-      case 'rules':
-        setContent(getDefContent(2));
-        setTitle(i18n.t(langTokens.footer.termsOfUse));
-        break;
-      case 'contacts':
-        setContent(getDefContent(3));
-        setTitle(i18n.t(langTokens.footer.contacts));
-        break;
-      default:
-        break;
-    }
+    dispatch(fetchInfoById({ id: type }));
   }, [type]);
 
-  const saveContent = () => {
-    // todo sendContent
+  useEffect(() => {
+    if (
+      elRef.current &&
+      location.hash.includes(ConditionsContentSectionEnum[type].toLowerCase())
+    ) {
+      elRef.current.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+        inline: 'center',
+      });
+    }
+  });
 
-    // eslint-disable-next-line no-console
-    console.log(`type=${type}, content=${content}`);
+  const saveContent = () => {
+    if (content) {
+      dispatch(
+        updateInfo({
+          id: info.id,
+          text: content,
+        }),
+      );
+    }
+    closeEditor();
   };
 
   return (
-    <div id={type} key={type} className={classes.section}>
-      <div className={classes.wrap}>
-        <Typography className={classes.title} variant="h2">
-          {title}
-        </Typography>
-        {authenticated && !edit && (
-          <CreateIcon onClick={openEditor} className={classes.icon} />
-        )}
-      </div>
-
-      {edit ? (
+    <div
+      id={ConditionsContentSectionEnum[type].toLowerCase()}
+      key={type}
+      className={classes.section}
+      ref={elRef}
+    >
+      {loading === LoadingStatusEnum.pending && (
+        <LoadingContainer loading={loading} />
+      )}
+      {loading === LoadingStatusEnum.succeeded && (
         <>
-          <GeneralEditor
-            toolbar={VideoEditorToolbar}
-            initialHtmlContent={content}
-            onHtmlContentChange={(s) => setContent(s)}
-          />
-          <PostCreationButtons
-            action="updating"
-            onCancelClick={closeEditor}
-            onPublishClick={saveContent}
-            onPreviewClick={() => setEdit(!edit)}
-          />
+          <div className={classes.wrap}>
+            <Typography className={classes.title} variant="h2">
+              {info.title}
+            </Typography>
+            {checkPermission(permissionName) && !edit && (
+              <CreateIcon onClick={openEditor} className={classes.icon} />
+            )}
+          </div>
+
+          {edit ? (
+            <>
+              <GeneralEditor
+                toolbar={VideoEditorToolbar}
+                initialHtmlContent={content || info.text}
+                onHtmlContentChange={(s) => setContent(s)}
+              />
+              <PostCreationButtons
+                action="updating"
+                onCancelClick={closeEditor}
+                onPublishClick={saveContent}
+                onPreviewClick={() => setEdit(!edit)}
+              />
+            </>
+          ) : (
+            <div
+              className={classes.content}
+              dangerouslySetInnerHTML={{ __html: content || info.text }}
+            />
+          )}
         </>
-      ) : (
-        <div
-          className={classes.content}
-          dangerouslySetInnerHTML={{ __html: content }}
-        />
       )}
     </div>
   );

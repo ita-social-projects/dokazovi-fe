@@ -3,7 +3,6 @@ import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 import qs from 'qs';
 import { toast } from 'react-toastify';
 import {
-  ActivePostType,
   CreatePostRequestUnionType,
   CreateTagRequestType,
   DirectionResponseType,
@@ -22,6 +21,9 @@ import {
   TagResponseType,
   UpdatePostRequestUnionType,
   VersionResponseType,
+  ActivePostType,
+  PlatformInformationType,
+  UpdatePlatformInformationRequestType,
 } from './types';
 import { BASE_URL } from '../../../apiURL';
 import { getToken } from '../../../provider/AuthProvider/getToken';
@@ -200,4 +202,16 @@ export const deletePostById = async (
   id: number,
 ): Promise<AxiosResponse<PostsResponseType>> => {
   return instance.delete(`/post/${id}`);
+};
+
+export const getPlatformInformation = async (
+  id: number,
+): Promise<AxiosResponse<PlatformInformationType>> => {
+  return instance.get(`/platform-information/${id}`);
+};
+
+export const updatePlatformInformation = async (
+  requestBody: UpdatePlatformInformationRequestType,
+): Promise<AxiosResponse<PlatformInformationType>> => {
+  return instance.put(`/platform-information/`, requestBody);
 };
