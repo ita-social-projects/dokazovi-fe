@@ -4,6 +4,7 @@ import _ from 'lodash';
 import { useSelector } from 'react-redux';
 import { Box, TextField, Typography } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
+import { DropEvent, FileRejection } from 'react-dropzone';
 import { RootStateType } from '../../models/rootReducer';
 import {
   resetDraft,
@@ -42,12 +43,10 @@ import { getStringFromFile } from '../../old/lib/utilities/Imgur/getStringFromFi
 import { uploadImageToImgur } from '../../old/lib/utilities/Imgur/uploadImageToImgur';
 import { BackgroundImageContainer } from '../../components/Editor/CustomModules/BackgroundImageContainer/BackgroundImageContainer';
 import { PostAuthorSelection } from './PostAuthorSelection/PostAuthorSelection';
-
-import { selectCurrentUser } from '../../models/user/selectors';
+import { selectCurrentUser } from '../../models/user';
 import { selectTextPostDraft } from '../../models/postCreation/selectors';
 import { useActions } from '../../shared/hooks';
 import { langTokens } from '../../locales/localizationInit';
-import { DropEvent, FileRejection } from 'react-dropzone';
 
 interface IPostCreationProps {
   pageTitle?: string;

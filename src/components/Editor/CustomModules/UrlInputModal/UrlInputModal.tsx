@@ -11,11 +11,11 @@ import { useForm } from 'react-hook-form';
 import { Alert } from '@material-ui/lab';
 import { useTranslation } from 'react-i18next';
 import CloudUpload from '@material-ui/icons/CloudUpload';
+import CropOriginalIcon from '@material-ui/icons/CropOriginal';
 import { insertFromUrl } from '../ImageFromURLHandler';
 import { IUrlInputModalProps } from '../types';
 import { langTokens } from '../../../../locales/localizationInit';
 import { useStyles } from './UrlInputModal.style';
-import CropOriginalIcon from '@material-ui/icons/CropOriginal';
 
 export const UrlInputModal: React.FC<IUrlInputModalProps> = ({
   editor,

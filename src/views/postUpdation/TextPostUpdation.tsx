@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 import _ from 'lodash';
 import { Box, TextField, Typography } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
+import { DropEvent, FileRejection } from 'react-dropzone';
 import { sanitizeHtml } from '../../old/lib/utilities/sanitizeHtml';
 import { PageTitle } from '../../old/lib/components/Pages/PageTitle';
 import { updatePost, getAllExperts } from '../../old/lib/utilities/API/api';
@@ -27,7 +28,6 @@ import { getStringFromFile } from '../../old/lib/utilities/Imgur/getStringFromFi
 import { uploadImageToImgur } from '../../old/lib/utilities/Imgur/uploadImageToImgur';
 import { BackgroundImageContainer } from '../../components/Editor/CustomModules/BackgroundImageContainer/BackgroundImageContainer';
 import { langTokens } from '../../locales/localizationInit';
-import { DropEvent, FileRejection } from 'react-dropzone';
 
 export interface ITextPostUpdationProps {
   pageTitle: string;
