@@ -9,28 +9,10 @@ import { render, screen } from '@testing-library/react';
 import { GeneralEditor } from './GeneralEditor';
 import { VideoEditorToolbar } from './Editors/VideoEditorToolbar';
 
-global.document.execCommand = jest.fn((value) => value);
-
-const mockHtmlContentCange = jest.fn((value) => value);
-const mockTextContantChange = jest.fn((value) => value);
-jest.mock(
-  'quill-image-uploader',
-  () =>
-    function (quill, options) {
-      const self = this;
-      self.quill = quill;
-      self.options = options;
-      self.range = null;
-      self.selectLocalImage = jest.fn((value) => value);
-      self.handleDrop = jest.fn((value) => value);
-      self.handlePaste = jest.fn((value) => value);
-      self.readAndUploadFile = jest.fn((value) => value);
-      self.fileChanged = jest.fn((value) => value);
-      self.insertBase64Image = jest.fn((value) => value);
-      self.insertToEditor = jest.fn((value) => value);
-      self.removeBase64Image = jest.fn((value) => value);
-    },
-);
+global.document.execCommand = jest.fn();
+const mockHtmlContentCange = jest.fn();
+const mockTextContantChange = jest.fn();
+jest.mock('quill-image-uploader', () => () => {});
 
 test('component renders with all props setted', () => {
   render(
