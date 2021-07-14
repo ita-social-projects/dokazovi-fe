@@ -27,6 +27,7 @@ import { getStringFromFile } from '../../old/lib/utilities/Imgur/getStringFromFi
 import { uploadImageToImgur } from '../../old/lib/utilities/Imgur/uploadImageToImgur';
 import { BackgroundImageContainer } from '../../components/Editor/CustomModules/BackgroundImageContainer/BackgroundImageContainer';
 import { langTokens } from '../../locales/localizationInit';
+import { DropEvent, FileRejection } from 'react-dropzone';
 
 export interface ITextPostUpdationProps {
   pageTitle: string;
@@ -120,10 +121,13 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
   };
 
   const fileSelectorHandler = (
-    e: React.ChangeEvent<HTMLInputElement>,
     dispatchFunc: (arg: string) => void,
-  ): void => {
-    getStringFromFile(e.target.files)
+  ): (<T extends File>(
+    acceptedFiles: T[],
+    fileRejections: FileRejection[],
+    event: DropEvent,
+  ) => void) => (files) => {
+    getStringFromFile(files)
       .then((str) => uploadImageToImgur(str))
       .then((res) => {
         if (res.data.status === 200) {
@@ -206,18 +210,14 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
           />
           <BackgroundImageContainer
             dispatchImageUrl={setPreviewImageUrl}
-            fileSelectorHandler={(e) =>
-              fileSelectorHandler(e, setPreviewImageUrl)
-            }
+            fileSelectorHandler={fileSelectorHandler(setPreviewImageUrl)}
             title={t(langTokens.editor.backgroundImage)}
             imgUrl={previewPost?.previewImageUrl}
           />
           <BorderBottom />
           <BackgroundImageContainer
             dispatchImageUrl={setImportantImageUrl}
-            fileSelectorHandler={(e) =>
-              fileSelectorHandler(e, setImportantImageUrl)
-            }
+            fileSelectorHandler={fileSelectorHandler(setImportantImageUrl)}
             title={t(langTokens.editor.carouselImage)}
             imgUrl={previewPost?.importantImageUrl}
             notCarousel={false}

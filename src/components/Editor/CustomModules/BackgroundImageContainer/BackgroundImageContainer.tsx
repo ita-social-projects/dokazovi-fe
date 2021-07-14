@@ -59,10 +59,13 @@ export const BackgroundImageContainer: React.FC<IBackgroundImageContainerProps> 
       <Typography variant="h5">{`${title}:`}</Typography>
       <Box mb={2}>
         {notCarousel && (
-          <UrlInputModal updateBackgroundImage={dispatchImageUrl} />
+          <UrlInputModal
+            updateBackgroundImage={dispatchImageUrl}
+            forBackgroundImg={true}
+          />
         )}
 
-        <FileInput onChange={fileSelectorHandler} />
+        <FileInput onDrop={fileSelectorHandler} />
       </Box>
       {imgUrl && (
         <Box className={classes.imgContainer}>

@@ -1,4 +1,6 @@
-export const getStringFromFile = (files: FileList | null): Promise<string> => {
+export const getStringFromFile = <T extends File>(
+  files: T[],
+): Promise<string> => {
   return new Promise((resolve) => {
     if (!files || !files[0]) {
       return;

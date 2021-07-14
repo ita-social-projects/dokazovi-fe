@@ -1,22 +1,28 @@
 import Quill from 'quill';
-import { Dispatch, SetStateAction } from 'react';
+import { DropEvent, FileRejection } from 'react-dropzone';
 
 export interface IUrlInputModalProps {
   editor?: Quill;
   updateBackgroundImage?: (url: string) => void;
-  handleDelete?: Dispatch<SetStateAction<FileList | null>> | undefined;
+  forBackgroundImg?: boolean;
 }
 
 export interface IBackgroundImageContainerProps {
   dispatchImageUrl: (backgroundImageUrl: string) => void;
-  fileSelectorHandler: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  fileSelectorHandler: <T extends File>(
+    acceptedFiles: T[],
+    fileRejections: FileRejection[],
+    event: DropEvent,
+  ) => void;
   title?: string;
   imgUrl?: string;
   notCarousel?: boolean;
 }
 
 export interface IFileInputProps {
-  files?: FileList | null;
-  name?: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onDrop: <T extends File>(
+    acceptedFiles: T[],
+    fileRejections: FileRejection[],
+    event: DropEvent,
+  ) => void;
 }

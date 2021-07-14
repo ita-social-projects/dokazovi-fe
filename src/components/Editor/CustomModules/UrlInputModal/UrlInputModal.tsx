@@ -15,10 +15,12 @@ import { insertFromUrl } from '../ImageFromURLHandler';
 import { IUrlInputModalProps } from '../types';
 import { langTokens } from '../../../../locales/localizationInit';
 import { useStyles } from './UrlInputModal.style';
+import CropOriginalIcon from '@material-ui/icons/CropOriginal';
 
 export const UrlInputModal: React.FC<IUrlInputModalProps> = ({
   editor,
   updateBackgroundImage,
+  forBackgroundImg = false,
 }) => {
   const classes = useStyles();
 
@@ -56,18 +58,34 @@ export const UrlInputModal: React.FC<IUrlInputModalProps> = ({
 
   return (
     <div>
-      <Paper
-        variant="outlined"
-        className={classes.root}
-        onClick={handleClickOpen}
-      >
-        <IconButton title={t(langTokens.editor.byUrl)} disableRipple>
-          <CloudUpload className={classes.icon} />
+      {!forBackgroundImg && (
+        <IconButton
+          onClick={handleClickOpen}
+          title={t(langTokens.editor.byUrl)}
+          disableRipple
+        >
+          <CropOriginalIcon
+            className="customSVGIcon"
+            fontSize="small"
+            style={{ width: '18px', height: '18px' }}
+          />
         </IconButton>
-        <Typography variant="subtitle1" className={classes.imgInputText}>
-          {t(langTokens.editor.addImgFromExternalResource)}
-        </Typography>
-      </Paper>
+      )}
+
+      {forBackgroundImg && (
+        <Paper
+          variant="outlined"
+          className={classes.root}
+          onClick={handleClickOpen}
+        >
+          <IconButton title={t(langTokens.editor.byUrl)} disableRipple>
+            <CloudUpload className={classes.icon} />
+          </IconButton>
+          <Typography variant="subtitle1" className={classes.imgInputText}>
+            {t(langTokens.editor.addImgFromExternalResource)}
+          </Typography>
+        </Paper>
+      )}
 
       <Dialog
         open={open}

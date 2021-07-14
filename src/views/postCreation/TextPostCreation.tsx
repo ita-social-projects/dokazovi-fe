@@ -47,6 +47,7 @@ import { selectCurrentUser } from '../../models/user/selectors';
 import { selectTextPostDraft } from '../../models/postCreation/selectors';
 import { useActions } from '../../shared/hooks';
 import { langTokens } from '../../locales/localizationInit';
+import { DropEvent, FileRejection } from 'react-dropzone';
 
 interface IPostCreationProps {
   pageTitle?: string;
@@ -206,10 +207,13 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
   };
 
   const fileSelectorHandler = (
-    e: React.ChangeEvent<HTMLInputElement>,
     dispatchFunc: (arg: string) => void,
-  ): void => {
-    getStringFromFile(e.target.files)
+  ): (<T extends File>(
+    acceptedFiles: T[],
+    fileRejections: FileRejection[],
+    event: DropEvent,
+  ) => void) => (files) => {
+    getStringFromFile(files)
       .then((str) => uploadImageToImgur(str))
       .then((res) => {
         if (res.data.status === 200) {
@@ -342,18 +346,14 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
           />
           <BackgroundImageContainer
             dispatchImageUrl={dispatchImageUrl}
-            fileSelectorHandler={(e) =>
-              fileSelectorHandler(e, dispatchImageUrl)
-            }
+            fileSelectorHandler={fileSelectorHandler(dispatchImageUrl)}
             title={t(langTokens.editor.backgroundImage)}
             imgUrl={newPost?.previewImageUrl}
           />
           <BorderBottom />
           <BackgroundImageContainer
             dispatchImageUrl={dispatchImportantImageUrl}
-            fileSelectorHandler={(e) =>
-              fileSelectorHandler(e, dispatchImportantImageUrl)
-            }
+            fileSelectorHandler={fileSelectorHandler(dispatchImportantImageUrl)}
             title={t(langTokens.editor.carouselImage)}
             imgUrl={newPost?.importantImageUrl}
             notCarousel={false}
