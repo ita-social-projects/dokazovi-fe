@@ -208,7 +208,7 @@ export interface IAuthInputs {
   password: string;
 }
 
-export type ProfileMenuType = 'info' | 'materials' | 'security';
+export type ProfileMenuType = 'info' | 'materials' | 'passwordChange' | 'mail';
 
 export interface IProfileMenuOption {
   label: string;
@@ -217,6 +217,7 @@ export interface IProfileMenuOption {
 
 export interface IFooterStyleProps {
   isAdminPage: boolean;
+  isProfilePage: boolean;
 }
 
 export type AdminMenuType = 'important';

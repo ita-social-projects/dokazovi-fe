@@ -3,7 +3,8 @@ import React from 'react';
 import { Container, Typography } from '@material-ui/core';
 import InfoView from './InfoView';
 import MaterialsView from './MaterialsView';
-import SecurityView from './SecurityView';
+import PasswordChangeView from './PasswordChangeView';
+import MailView from './MailView';
 import { useStyles } from './styles/OperationView.styles';
 import { IProfileMenuOption } from '../../old/lib/types';
 
@@ -28,8 +29,12 @@ const OperationView: React.FC<IOperationViewProps> = (props) => {
         operationView = <MaterialsView />;
         break;
       }
-      case 'security': {
-        operationView = <SecurityView />;
+      case 'passwordChange': {
+        operationView = <PasswordChangeView />;
+        break;
+      }
+      case 'mail': {
+        operationView = <MailView />;
         break;
       }
 

@@ -45,6 +45,7 @@ export const Footer: React.FC = () => {
   const location = useLocation();
   const styleProps: IFooterStyleProps = {
     isAdminPage: location.pathname === '/admin',
+    isProfilePage: location.pathname === '/profile',
   };
   const classes = useStyles(styleProps);
   const { t } = useTranslation();

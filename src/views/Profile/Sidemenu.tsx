@@ -23,8 +23,12 @@ const profileMenuOptions: IProfileMenuOption[] = [
     value: 'materials',
   },
   {
-    label: 'Безпека',
-    value: 'security',
+    label: 'Зміна паролю',
+    value: 'passwordChange',
+  },
+  {
+    label: 'Mail',
+    value: 'mail',
   },
 ];
 
@@ -40,7 +44,7 @@ const Sidemenu: React.FC<ISidemenuProps> = (props) => {
         paper: classes.sidemenuBody,
       }}
     >
-      <List>
+      <List className={classes.sidemenuList}>
         {profileMenuOptions.map((option) => (
           <ListItem
             button
