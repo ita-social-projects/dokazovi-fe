@@ -3,8 +3,9 @@ import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import { useStyles } from './styles/Sidemenu.styles';
+import i18n, { langTokens } from '../../locales/localizationInit';
 import { IProfileMenuOption } from '../../old/lib/types';
+import { useStyles } from './styles/Sidemenu.styles';
 
 interface ISidemenuProps {
   selectedOption: IProfileMenuOption | Record<string, never>;
@@ -15,19 +16,19 @@ interface ISidemenuProps {
 
 const profileMenuOptions: IProfileMenuOption[] = [
   {
-    label: 'Моя інфо',
+    label: i18n.t(langTokens.common.myInfo),
     value: 'info',
   },
   {
-    label: 'Матеріли',
+    label: i18n.t(langTokens.common.materials),
     value: 'materials',
   },
   {
-    label: 'Зміна паролю',
+    label: i18n.t(langTokens.common.passwordChange),
     value: 'passwordChange',
   },
   {
-    label: 'Mail',
+    label: i18n.t(langTokens.common.mail),
     value: 'mail',
   },
 ];

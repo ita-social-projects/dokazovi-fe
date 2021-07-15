@@ -16,5 +16,5 @@ export const useStyles = makeStyles(
       },
     },
   }),
-  { name: 'InfoView' },
+  { name: 'MaterialsView' },
 );

@@ -1,5 +1,5 @@
 import React from 'react';
-import { useStyles } from './styles/InfoView.styles';
+import { useStyles } from './styles/MaterialsView.styles';
 
 const MaterialsView: React.FC = () => {
   const classes = useStyles();
