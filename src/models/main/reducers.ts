@@ -2,7 +2,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { IPost, LoadingStatusEnum } from '../../old/lib/types';
 import { IMainState } from './types';
-import { fetchImportantPosts, fetchNewestPosts } from './asyncActions';
+import {
+  fetchImportantPosts,
+  fetchNewestPosts,
+  setImportantPosts,
+} from './asyncActions';
 import { getAsyncActionsReducer } from '../helpers/asyncActions';
 
 const initialState: IMainState = {
@@ -13,6 +17,10 @@ const initialState: IMainState = {
   newest: {
     newestPostIds: [],
     newestPosts: {},
+  },
+  setImportant: {
+    message: '',
+    success: false,
   },
   loading: LoadingStatusEnum.idle,
   error: null,
@@ -44,10 +52,17 @@ export const mainSlice = createSlice({
       replacedPostIds[action.payload.newPosition] = postToMove;
       state.important.importantPostIds = replacedPostIds;
     },
+    clearSetImportant: (state) => {
+      state.setImportant = {
+        message: '',
+        success: false,
+      };
+    },
   },
   extraReducers: {
     ...getAsyncActionsReducer(fetchNewestPosts, 'newest'),
     ...getAsyncActionsReducer(fetchImportantPosts, 'important'),
+    ...getAsyncActionsReducer(setImportantPosts as any, 'setImportant'),
   },
 });
 
@@ -55,6 +70,7 @@ export const {
   addToImportant,
   removeFromImportant,
   replacePost,
+  clearSetImportant,
 } = mainSlice.actions;
 
 export const mainReducer = mainSlice.reducer;

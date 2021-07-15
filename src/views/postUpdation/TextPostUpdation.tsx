@@ -2,6 +2,8 @@ import React, { useCallback, useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import _ from 'lodash';
 import { Box, TextField, Typography } from '@material-ui/core';
+import { useTranslation } from 'react-i18next';
+import { DropEvent, FileRejection } from 'react-dropzone';
 import { sanitizeHtml } from '../../old/lib/utilities/sanitizeHtml';
 import { PageTitle } from '../../old/lib/components/Pages/PageTitle';
 import { updatePost, getAllExperts } from '../../old/lib/utilities/API/api';
@@ -25,6 +27,7 @@ import { BorderBottom } from '../../old/lib/components/Border';
 import { getStringFromFile } from '../../old/lib/utilities/Imgur/getStringFromFile';
 import { uploadImageToImgur } from '../../old/lib/utilities/Imgur/uploadImageToImgur';
 import { BackgroundImageContainer } from '../../components/Editor/CustomModules/BackgroundImageContainer/BackgroundImageContainer';
+import { langTokens } from '../../locales/localizationInit';
 
 export interface ITextPostUpdationProps {
   pageTitle: string;
@@ -52,6 +55,9 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
   const [previewImageUrl, setPreviewImageUrl] = useState(
     post.previewImageUrl ?? '',
   );
+  const [importantImageUrl, setImportantImageUrl] = useState(
+    post.importantImageUrl ?? '',
+  );
   const [preview, setPreview] = useState(post.preview);
   const [title, setTitle] = useState({
     value: post.title,
@@ -65,6 +71,8 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
 
   const [typing, setTyping] = useState({ content: false, preview: false });
   const [previewing, setPreviewing] = useState(false);
+
+  const { t } = useTranslation();
 
   const handleDirectionsChange = (value: IDirection[]) => {
     setSelectedDirections(value);
@@ -113,13 +121,17 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
   };
 
   const fileSelectorHandler = (
-    e: React.ChangeEvent<HTMLInputElement>,
-  ): void => {
-    getStringFromFile(e.target.files)
+    dispatchFunc: (arg: string) => void,
+  ): (<T extends File>(
+    acceptedFiles: T[],
+    fileRejections: FileRejection[],
+    event: DropEvent,
+  ) => void) => (files) => {
+    getStringFromFile(files)
       .then((str) => uploadImageToImgur(str))
       .then((res) => {
         if (res.data.status === 200) {
-          setPreviewImageUrl(res.data.data.link);
+          dispatchFunc(res.data.data.link);
         }
       });
   };
@@ -131,6 +143,7 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
     origins: selectedOrigins,
     preview,
     previewImageUrl,
+    importantImageUrl,
     title: title.value,
     type: post.type,
     authorId: authorId ?? post.author.id,
@@ -149,6 +162,7 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
     content: htmlContent,
     preview,
     previewImageUrl,
+    importantImageUrl,
     directions: selectedDirections,
     origins: selectedOrigins,
     title: title.value,
@@ -196,8 +210,17 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
           />
           <BackgroundImageContainer
             dispatchImageUrl={setPreviewImageUrl}
-            fileSelectorHandler={fileSelectorHandler}
-            newPost={updatedPost}
+            fileSelectorHandler={fileSelectorHandler(setPreviewImageUrl)}
+            title={t(langTokens.editor.backgroundImage)}
+            imgUrl={previewPost?.previewImageUrl}
+          />
+          <BorderBottom />
+          <BackgroundImageContainer
+            dispatchImageUrl={setImportantImageUrl}
+            fileSelectorHandler={fileSelectorHandler(setImportantImageUrl)}
+            title={t(langTokens.editor.carouselImage)}
+            imgUrl={previewPost?.importantImageUrl}
+            notCarousel={false}
           />
           <BorderBottom />
           <Box mt={2}>

@@ -35,7 +35,7 @@ const Editor: React.FC<IQuillEditorProps> = (props) => {
   }, []);
 
   return (
-    <div className="text-editor">
+    <div className="text-editor" data-testid="text-editor_test">
       <props.toolbar editor={editor} />
       <ReactQuill
         theme="snow"

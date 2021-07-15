@@ -1,30 +1,41 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import Dialog from '@material-ui/core/Dialog';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import Swal from 'sweetalert2';
 import AddImportantMaterial from './AddImportantMaterial';
 import { useStyles } from '../styles/ImportantView.styles';
-import { fetchImportantPosts } from '../../../../../../models/main';
-import { RootStateType } from '../../../../../../models/rootReducer';
+import {
+  clearSetImportant,
+  fetchImportantPosts,
+  selectMain,
+  setImportantPosts,
+} from '../../../../../../models/main';
 import PostPreviewWrapper from './PostPreviewWrapper';
 import { ImportantContainer } from '../../../../../modules/main/components/ImportantContainer';
 import { IPost, ViewModsType } from '../../../../types';
 import { LoadingContainer } from '../../../Loading/LoadingContainer';
+import { useActions } from '../../../../../../shared/hooks';
 
 const ImportantView: React.FC = () => {
   const classes = useStyles();
-  const dispatch = useDispatch();
+  const [
+    boundFetchImportantPosts,
+    boundSetImportantPosts,
+    boundClearSetImportant,
+  ] = useActions([fetchImportantPosts, setImportantPosts, clearSetImportant]);
 
   const {
     loading,
+    setImportant: { success },
     important: { importantPostIds, importantPosts },
-  } = useSelector((state: RootStateType) => state.main);
+  } = useSelector(selectMain);
 
   const mappedPosts = importantPostIds.map((id) => importantPosts[id]);
 
   useEffect(() => {
-    dispatch(fetchImportantPosts());
+    boundFetchImportantPosts();
   }, []);
 
   const [isPreviewOpen, setPreviewStatus] = useState(false);
@@ -36,6 +47,10 @@ const ImportantView: React.FC = () => {
   if (!initiallySelectedPosts && loading === 'succeeded') {
     setInitiallySelected(mappedPosts);
   }
+
+  const publishImportantPosts = () => {
+    boundSetImportantPosts({ posts: importantPostIds.join(',') });
+  };
 
   const updateRemovedPosts = (post: IPost, status: ViewModsType) => {
     if (status === 'preview' && removedPosts.includes(post)) {
@@ -50,6 +65,33 @@ const ImportantView: React.FC = () => {
       setRemovedPosts([...removedPosts, post]);
     }
   };
+
+  const swalWithCustom = Swal.mixin({
+    customClass: {
+      container: classes.swalContainer,
+      title: classes.congratulationTitleText,
+      htmlContainer: classes.congratulationSubText,
+      // confirmButton: classes.swalButton,
+    },
+    buttonsStyling: false,
+  });
+
+  const showSuccessModal = () => {
+    swalWithCustom.fire({
+      position: window.pageYOffset < 250 ? 'center' : 'top',
+      icon: 'success',
+      title: 'Вітаємо,',
+      html: 'Ви успішно оновили карусель!',
+      showConfirmButton: false,
+      timer: 1000,
+    });
+    boundClearSetImportant();
+  };
+
+  useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+    success && showSuccessModal();
+  }, [success]);
 
   return (
     <>
@@ -97,6 +139,7 @@ const ImportantView: React.FC = () => {
           variant="contained"
           size="large"
           disabled={mappedPosts.length < 2}
+          onClick={publishImportantPosts}
         >
           Публікувати
         </Button>
