@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Container, Box } from '@material-ui/core';
 import i18n, { langTokens } from '../../locales/localizationInit';
-import Sidemenu from './Sidemenu';
-import OperationView from './OperationView';
+import { Sidemenu } from './Sidemenu';
+import { OperationView } from './OperationView';
 import { IProfileMenuOption } from '../../old/lib/types';
 
 const Profile: React.FC = () => {

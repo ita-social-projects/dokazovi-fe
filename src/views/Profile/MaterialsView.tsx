@@ -1,7 +1,7 @@
 import React from 'react';
 import { useStyles } from './styles/MaterialsView.styles';
 
-const MaterialsView: React.FC = () => {
+export const MaterialsView: React.FC = () => {
   const classes = useStyles();
 
   return (
@@ -10,5 +10,3 @@ const MaterialsView: React.FC = () => {
     </>
   );
 };
-
-export default MaterialsView;

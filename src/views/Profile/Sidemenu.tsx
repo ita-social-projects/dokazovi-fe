@@ -33,7 +33,7 @@ const profileMenuOptions: IProfileMenuOption[] = [
   },
 ];
 
-const Sidemenu: React.FC<ISidemenuProps> = (props) => {
+export const Sidemenu: React.FC<ISidemenuProps> = (props) => {
   const { selectedOption, changeOption } = props;
   const classes = useStyles();
 
@@ -60,5 +60,3 @@ const Sidemenu: React.FC<ISidemenuProps> = (props) => {
     </Drawer>
   );
 };
-
-export default Sidemenu;
