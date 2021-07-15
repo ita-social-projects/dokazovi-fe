@@ -1,8 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import MaterialFilter from './MaterialFilter';
 import { useStyles } from '../styles/FilterSection.styles';
-import { fetchMaterials } from '../../../../../../models/materials';
+import {
+  fetchMaterials,
+  resetMaterials,
+} from '../../../../../../models/materials';
 import { RootStateType } from '../../../../../../models/rootReducer';
 import {
   AdminPageFiltersType,
@@ -10,6 +13,7 @@ import {
   QueryTypeEnum,
 } from '../../../../types';
 import { usePrevious } from '../../../../hooks/usePrevious';
+import { useActions } from '../../../../../../shared/hooks';
 
 interface IFilterEntry {
   id: number;
@@ -35,7 +39,10 @@ const FilterSection: React.FC<IFilterSectionProps> = ({
   resetPage,
 }) => {
   const classes = useStyles();
-  const dispatch = useDispatch();
+  const [boundFetchMaterials, boundResetMaterials] = useActions([
+    fetchMaterials,
+    resetMaterials,
+  ]);
   const previousPage = usePrevious(page);
   const [generalFilterState, setGeneralFilterState] = useState<
     IGeneralFilterState
@@ -54,13 +61,20 @@ const FilterSection: React.FC<IFilterSectionProps> = ({
         postTypes: generalFilterState.types,
       },
       page,
-      appendPosts: page !== previousPage && page !== 1,
+      appendPosts: page !== previousPage && page !== 0,
+      url: 'get-by-important-image',
     };
 
     if (isTouched) {
-      dispatch(fetchMaterials(fetchOptions));
+      boundFetchMaterials(fetchOptions);
     }
   }, [JSON.stringify(generalFilterState), page, isTouched]);
+
+  useEffect(() => {
+    return () => {
+      boundResetMaterials();
+    };
+  }, []);
 
   const originOptions = useSelector(
     (state: RootStateType) => state.properties.origins,

@@ -1,0 +1,38 @@
+.swal-container .swal2-popup {
+  width: 480px;
+  padding-bottom: 35px;
+}
+
+.swal-text {
+  font-family: 'Raleway', sans-serif;
+  font-weight: 500;
+  font-size: 22px;
+  line-height: 28px;
+}
+
+.btn {
+  padding: 12px 40px;
+  border-radius: 6px;
+  color: whitesmoke;
+}
+
+.btn:hover {
+  cursor: pointer;
+}
+
+.btn-confirm {
+  background-color: #13829a;
+}
+
+.btn-confirm:hover {
+  background-color: #106ba3;
+}
+
+.btn-cancel {
+  background-color: #e8522e;
+  margin-left: 45px;
+}
+
+.btn-cancel:hover {
+  background-color: #af391d;
+}

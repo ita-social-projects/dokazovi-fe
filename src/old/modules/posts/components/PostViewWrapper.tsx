@@ -3,6 +3,7 @@ import { toast } from 'react-toastify';
 import { useHistory, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import {
+  deletePostById,
   getPostById,
   getUniquePostViewsCounter,
 } from '../../../lib/utilities/API/api';
@@ -29,12 +30,11 @@ const PostViewWrapper: React.FC = () => {
   const [loadedPost, setLoadedPost] = useState<IPost>();
   const [statusCode, setStatusCode] = useState<number>();
 
-  const handlePostDeletion = () => {
+  const handlePostDeletion = async () => {
     if (!loadedPost) return;
     try {
-      const response = 1; // Mock by status 1 =  success
-
-      if (response === 1) {
+      const response = await deletePostById(Number(postId));
+      if (response.data.success) {
         toast.success(
           `${t(langTokens.materials.materialDeletedSuccess, {
             material: loadedPost.title,

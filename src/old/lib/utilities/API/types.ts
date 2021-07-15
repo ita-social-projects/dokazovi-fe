@@ -12,6 +12,7 @@ export type CreatePostRequestType = {
     id: number;
   };
   previewImageUrl?: string;
+  importantImageUrl?: string;
   videoUrl?: string;
   authorId?: number | null;
 };
@@ -158,6 +159,8 @@ type GetResponseType<T> = {
   };
   totalElements: number;
   totalPages: number;
+  message?: string;
+  success?: boolean;
 };
 
 export type ExpertsResponseType = GetResponseType<ExpertResponseType>;
@@ -211,6 +214,7 @@ export type RequestParamsType = {
   tag?: number[];
   origins?: number[];
   userName?: string;
+  posts?: string;
 };
 
 export type PlatformInformationType = {

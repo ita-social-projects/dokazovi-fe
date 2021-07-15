@@ -9,7 +9,9 @@ export const ImportantPostPreviewCard: React.FC<IPostPreviewCardProps> = (
   props,
 ) => {
   const { post, size = 'large' } = props;
-  const bgImageURL = post.previewImageUrl ? post.previewImageUrl : background;
+  const bgImageURL = post.importantImageUrl
+    ? post.importantImageUrl
+    : background;
   const classes = useStyles({ backgroundImageUrl: bgImageURL, size });
   const history = useHistory();
   const author = post.author.id || '';

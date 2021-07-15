@@ -18,6 +18,7 @@ const initialState: IPostCreationState = {
     htmlContent: '',
     preview: { value: '', isManuallyChanged: false },
     previewImageUrl: '',
+    importantImageUrl: '',
     authorsName: '',
     authorsDetails: '',
     authorId: null,
@@ -35,6 +36,7 @@ const initialState: IPostCreationState = {
     htmlContent: '',
     preview: { value: '', isManuallyChanged: false },
     previewImageUrl: '',
+    importantImageUrl: '',
     authorsName: '',
     authorsDetails: '',
     authorId: null,
@@ -151,6 +153,15 @@ export const postCreationSlice = createSlice({
     ) => {
       state[action.payload.postType].previewImageUrl = action.payload.value;
     },
+    setImportantImageUrl: (
+      state,
+      action: PayloadAction<{
+        postType: PostTypeEnum;
+        value: INewPostDraft['importantImageUrl'];
+      }>,
+    ) => {
+      state[action.payload.postType].importantImageUrl = action.payload.value;
+    },
     setAuthorId: (
       state,
       action: PayloadAction<{
@@ -176,6 +187,7 @@ export const {
   setVideoUrl,
   setImageUrl,
   setAuthorId,
+  setImportantImageUrl,
 } = postCreationSlice.actions;
 
 export const postCreationReducer = postCreationSlice.reducer;

@@ -130,6 +130,7 @@ export interface IPost {
   origins: IOrigin[];
   preview: string;
   previewImageUrl?: string;
+  importantImageUrl?: string;
   videoUrl?: string;
 }
 

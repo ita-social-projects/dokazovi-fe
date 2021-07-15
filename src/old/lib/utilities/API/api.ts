@@ -3,24 +3,24 @@ import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 import qs from 'qs';
 import { toast } from 'react-toastify';
 import {
-  RegionResponseType,
-  DirectionResponseType,
-  OriginResponseType,
-  PostTypeResponseType,
-  ExpertResponseType,
-  LoginResponseType,
-  PostResponseType,
-  TagResponseType,
-  VersionResponseType,
+  CreatePostRequestUnionType,
   CreateTagRequestType,
+  DirectionResponseType,
+  ExpertResponseType,
   ExpertsResponseType,
-  PostsResponseType,
-  GetTagsConfigType,
   GetExpertsConfigType,
   GetPostsConfigType,
-  CreatePostRequestUnionType,
-  UpdatePostRequestUnionType,
+  GetTagsConfigType,
+  LoginResponseType,
   NewestPostsResponseType,
+  OriginResponseType,
+  PostResponseType,
+  PostsResponseType,
+  PostTypeResponseType,
+  RegionResponseType,
+  TagResponseType,
+  UpdatePostRequestUnionType,
+  VersionResponseType,
   ActivePostType,
   PlatformInformationType,
   UpdatePlatformInformationRequestType,
@@ -68,11 +68,13 @@ const defaultConfig = {
   },
 };
 
-type GetPostsRequestType =
+export type GetPostsRequestType =
   | 'important'
   | 'latest-all'
   | 'latest-by-expert'
-  | 'all-posts';
+  | 'all-posts'
+  | 'set-important'
+  | 'get-by-important-image';
 
 export const getPosts = async (
   postsRequestType: GetPostsRequestType,
@@ -194,6 +196,12 @@ export const getCurrentUser = async (): Promise<
   AxiosResponse<ExpertResponseType>
 > => {
   return instance.get('/user/me');
+};
+
+export const deletePostById = async (
+  id: number,
+): Promise<AxiosResponse<PostsResponseType>> => {
+  return instance.delete(`/post/${id}`);
 };
 
 export const getPlatformInformation = async (

@@ -1,4 +1,5 @@
 import { IPost, LoadingStatusEnum, QueryTypeEnum } from '../../old/lib/types';
+import { GetPostsRequestType } from '../../old/lib/utilities/API/api';
 
 // export interface IInitialMaterialsState {
 //   data: IInitialMaterialsData;
@@ -50,6 +51,7 @@ export interface IFetchMaterialsOptions {
   };
   page: number;
   appendPosts: boolean;
+  url: GetPostsRequestType;
 }
 
 export interface IMaterialsMeta {
