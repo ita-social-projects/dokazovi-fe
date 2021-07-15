@@ -102,6 +102,9 @@
     "*.{json,ts,tsx,css,md}": "prettier --write"
   },
   "jest": {
+    "moduleNameMapper": {
+      "\\.(css|less|scss|sass)$": "identity-obj-proxy"
+    },
     "collectCoverageFrom": [
       "src/**/*.{ts,tsx}",
       "!<rootDir>/node_modules/"
