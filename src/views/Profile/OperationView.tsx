@@ -1,10 +1,6 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
 import React from 'react';
-import { Container, Typography } from '@material-ui/core';
-import InfoView from './InfoView';
+import { Container } from '@material-ui/core';
 import MaterialsView from './MaterialsView';
-import PasswordChangeView from './PasswordChangeView';
-import MailView from './MailView';
 import { useStyles } from './styles/OperationView.styles';
 import { IProfileMenuOption } from '../../old/lib/types';
 
@@ -22,7 +18,7 @@ const OperationView: React.FC<IOperationViewProps> = (props) => {
 
     switch (value) {
       case 'info': {
-        operationView = <InfoView />;
+        operationView = <div>Info</div>;
         break;
       }
       case 'materials': {
@@ -30,22 +26,16 @@ const OperationView: React.FC<IOperationViewProps> = (props) => {
         break;
       }
       case 'passwordChange': {
-        operationView = <PasswordChangeView />;
+        operationView = <div>Password Change</div>;
         break;
       }
       case 'mail': {
-        operationView = <MailView />;
+        operationView = <div>Mail</div>;
         break;
       }
 
       default: {
-        operationView = (
-          <div className="profileInitialView">
-            <Typography component="span" className="initialMessage">
-              Оберіть об&apos;єкт налаштування у меню
-            </Typography>
-          </div>
-        );
+        operationView = <div>Info</div>;
       }
     }
 

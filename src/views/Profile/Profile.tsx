@@ -7,7 +7,10 @@ import { IProfileMenuOption } from '../../old/lib/types';
 const Profile: React.FC = () => {
   const [selectedOption, changeOption] = useState<
     IProfileMenuOption | Record<string, never>
-  >({});
+  >({
+    label: 'Моя інфо',
+    value: 'info',
+  });
 
   return (
     <Container>
