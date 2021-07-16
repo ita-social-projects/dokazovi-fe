@@ -93,7 +93,7 @@ export const AccountMenu: React.FC = () => {
       >
         <StyledMenuItem onClick={openProfile}>
           <Typography variant="button" color="inherit">
-            Особистий кабінет
+            {t(langTokens.common.profile)}
           </Typography>
         </StyledMenuItem>
         <StyledMenuItem onClick={onLogoutHandler}>
@@ -103,7 +103,7 @@ export const AccountMenu: React.FC = () => {
         </StyledMenuItem>
         <StyledMenuItem onClick={openAdminPage}>
           <Typography variant="button" color="inherit">
-            Адміністрування
+            {t(langTokens.common.admin)}
           </Typography>
         </StyledMenuItem>
       </StyledMenu>

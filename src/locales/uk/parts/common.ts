@@ -5,6 +5,8 @@ export const common = {
   myInfo: 'Моя інфо',
   passwordChange: 'Зміна паролю',
   mail: 'Mail',
+  profile: 'Особистий кабінет',
+  admin: 'Адміністрування',
   experts: 'Автори',
   media: 'Медитека',
   translation: 'Переклад',
