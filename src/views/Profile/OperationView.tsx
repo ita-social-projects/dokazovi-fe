@@ -13,38 +13,16 @@ export const OperationView: React.FC<IOperationViewProps> = (props) => {
   const { value } = selectedOption;
   const classes = useStyles();
 
-  const renderOperationView = () => {
-    let operationView: JSX.Element;
-
-    switch (value) {
-      case 'info': {
-        operationView = <div>Info</div>;
-        break;
-      }
-      case 'materials': {
-        operationView = <MaterialsView />;
-        break;
-      }
-      case 'passwordChange': {
-        operationView = <div>Password Change</div>;
-        break;
-      }
-      case 'mail': {
-        operationView = <div>Mail</div>;
-        break;
-      }
-
-      default: {
-        operationView = <div>Info</div>;
-      }
-    }
-
-    return operationView;
+  const operationViews = {
+    info: <div>Info</div>,
+    materials: <MaterialsView />,
+    passwordChange: <div>Password Change</div>,
+    mail: <div>Mail</div>,
   };
 
   return (
     <Container className={classes.operationView}>
-      {renderOperationView()}
+      {operationViews[value] ?? <div>Info</div>}
     </Container>
   );
 };

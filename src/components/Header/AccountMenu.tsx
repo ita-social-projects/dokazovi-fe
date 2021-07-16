@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { Button, Typography, Avatar } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
@@ -16,7 +16,6 @@ import { AccountIcon } from '../../old/lib/components/icons/AccountIcon';
 import { langTokens } from '../../locales/localizationInit';
 
 export const AccountMenu: React.FC = () => {
-  const history = useHistory();
   const { t } = useTranslation();
 
   const classes = useStyles();
@@ -38,16 +37,6 @@ export const AccountMenu: React.FC = () => {
 
   const handleClose = () => {
     setAnchorEl(null);
-  };
-
-  const openProfile = () => {
-    history.push('/profile');
-    handleClose();
-  };
-
-  const openAdminPage = () => {
-    history.push('/admin');
-    handleClose();
   };
 
   useEffect(() => {
@@ -91,20 +80,24 @@ export const AccountMenu: React.FC = () => {
         onClose={handleClose}
         className={classes.menu}
       >
-        <StyledMenuItem onClick={openProfile}>
-          <Typography variant="button" color="inherit">
-            {t(langTokens.common.profile)}
-          </Typography>
+        <StyledMenuItem onClick={handleClose}>
+          <Link to="/profile">
+            <Typography variant="button" color="inherit">
+              {t(langTokens.common.profile)}
+            </Typography>
+          </Link>
         </StyledMenuItem>
         <StyledMenuItem onClick={onLogoutHandler}>
           <Typography variant="button" color="inherit">
             {t(langTokens.common.exit)}
           </Typography>
         </StyledMenuItem>
-        <StyledMenuItem onClick={openAdminPage}>
-          <Typography variant="button" color="inherit">
-            {t(langTokens.common.admin)}
-          </Typography>
+        <StyledMenuItem onClick={handleClose}>
+          <Link to="/admin">
+            <Typography variant="button" color="inherit">
+              {t(langTokens.common.admin)}
+            </Typography>
+          </Link>
         </StyledMenuItem>
       </StyledMenu>
     </>
