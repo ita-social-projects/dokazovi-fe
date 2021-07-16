@@ -5,9 +5,12 @@ import { Typography } from '@material-ui/core';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { StyledMenu, StyledMenuItem } from '../Menu/StyledMenu';
-import { combineClassNames } from '../../utilities/classNames';
-import i18n, { langTokens } from '../../../../locales/localizationInit';
+import {
+  StyledMenu,
+  StyledMenuItem,
+} from '../../old/lib/components/Menu/StyledMenu';
+import { combineClassNames } from '../../old/lib/utilities/classNames';
+import i18n, { langTokens } from '../../locales/localizationInit';
 
 const menuItems = [
   {

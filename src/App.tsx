@@ -24,7 +24,7 @@ import {
   fetchRegions,
 } from './models/properties';
 import { useActions } from './shared/hooks';
-import { Header } from './old/lib/components/Header/Header';
+import { Header } from './components/Header/Header';
 import { Footer } from './old/lib/components/Footer/Footer';
 import {
   BreadcrumbsProvider,

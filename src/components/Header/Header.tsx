@@ -4,10 +4,10 @@ import { Link, NavLink } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useStyles } from './Header.styles';
 import { PostCreationMenu } from './PostCreationMenu';
-import { LoginModal } from '../Users/LoginModal';
+import { LoginModal } from '../../old/lib/components/Users/LoginModal';
 import { AccountMenu } from './AccountMenu';
-import { AuthContext } from '../../../provider/AuthProvider/AuthContext';
-import i18n, { langTokens } from '../../../../locales/localizationInit';
+import { AuthContext } from '../../old/provider/AuthProvider/AuthContext';
+import i18n, { langTokens } from '../../locales/localizationInit';
 
 interface IHeaderProps {
   id: string;

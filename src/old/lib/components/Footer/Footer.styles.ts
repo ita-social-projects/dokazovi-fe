@@ -5,7 +5,8 @@ export const useStyles = makeStyles(
   (theme) => ({
     container: {
       backgroundColor: theme.palette.common.black,
-      zIndex: (props: IFooterStyleProps) => (props.isAdminPage ? 1201 : 'auto'),
+      zIndex: (props: IFooterStyleProps) =>
+        props.isAdminPage || props.isProfilePage ? 1201 : 'auto',
     },
     root: {
       display: 'flex',
