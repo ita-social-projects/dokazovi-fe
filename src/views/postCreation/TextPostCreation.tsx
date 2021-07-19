@@ -1,24 +1,26 @@
-import React, { useCallback, useState, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import _ from 'lodash';
 import { useSelector } from 'react-redux';
 import { Box, TextField, Typography } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
+import { DropEvent, FileRejection } from 'react-dropzone';
 import { RootStateType } from '../../models/rootReducer';
 import {
-  setPostDirections,
-  setPostOrigin,
-  setPostTitle,
-  setAuthorsName,
-  setAuthorsDetails,
-  setPostBody,
-  setImageUrl,
-  setPostPreviewText,
-  setPostPreviewManuallyChanged,
   resetDraft,
   setAuthorId,
+  setAuthorsDetails,
+  setAuthorsName,
+  setImageUrl,
+  setImportantImageUrl,
+  setPostBody,
+  setPostDirections,
+  setPostOrigin,
+  setPostPreviewManuallyChanged,
+  setPostPreviewText,
+  setPostTitle,
 } from '../../models/postCreation';
-import { IDirection, IPost, IOrigin, PostTypeEnum } from '../../old/lib/types';
+import { IDirection, IOrigin, IPost, PostTypeEnum } from '../../old/lib/types';
 import { sanitizeHtml } from '../../old/lib/utilities/sanitizeHtml';
 import { PostCreationButtons } from './PostCreationButtons';
 import {
@@ -41,8 +43,7 @@ import { getStringFromFile } from '../../old/lib/utilities/Imgur/getStringFromFi
 import { uploadImageToImgur } from '../../old/lib/utilities/Imgur/uploadImageToImgur';
 import { BackgroundImageContainer } from '../../components/Editor/CustomModules/BackgroundImageContainer/BackgroundImageContainer';
 import { PostAuthorSelection } from './PostAuthorSelection/PostAuthorSelection';
-
-import { selectCurrentUser } from '../../models/user/selectors';
+import { selectCurrentUser } from '../../models/user';
 import { selectTextPostDraft } from '../../models/postCreation/selectors';
 import { useActions } from '../../shared/hooks';
 import { langTokens } from '../../locales/localizationInit';
@@ -90,7 +91,7 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
   const [typing, setTyping] = useState({ content: false, preview: false });
   const [previewing, setPreviewing] = useState(false);
   const [authors, setAuthors] = useState<ExpertResponseType[]>([]);
-  const [author, setAuthor] = useState<ExpertResponseType | null>(null);
+  const [, setAuthor] = useState<ExpertResponseType | null>(null);
   const [searchValue, setSearchValue] = useState('');
 
   const [
@@ -105,6 +106,7 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
     boundSetAuthorId,
     boundSetPostPreviewManuallyChanged,
     boundResetDraft,
+    boundSetImportantImageUrl,
   ] = useActions([
     setPostDirections,
     setPostOrigin,
@@ -117,6 +119,7 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
     setAuthorId,
     setPostPreviewManuallyChanged,
     resetDraft,
+    setImportantImageUrl,
   ]);
 
   const handleDirectionsChange = (value: IDirection[]) => {
@@ -143,6 +146,13 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
 
   const dispatchImageUrl = (previewImageUrl: string): void => {
     boundSetImageUrl({
+      postType: PostTypeEnum.ARTICLE,
+      value: previewImageUrl,
+    });
+  };
+
+  const dispatchImportantImageUrl = (previewImageUrl: string): void => {
+    boundSetImportantImageUrl({
       postType: PostTypeEnum.ARTICLE,
       value: previewImageUrl,
     });
@@ -196,13 +206,17 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
   };
 
   const fileSelectorHandler = (
-    e: React.ChangeEvent<HTMLInputElement>,
-  ): void => {
-    getStringFromFile(e.target.files)
+    dispatchFunc: (arg: string) => void,
+  ): (<T extends File>(
+    acceptedFiles: T[],
+    fileRejections: FileRejection[],
+    event: DropEvent,
+  ) => void) => (files) => {
+    getStringFromFile(files)
       .then((str) => uploadImageToImgur(str))
       .then((res) => {
         if (res.data.status === 200) {
-          dispatchImageUrl(res.data.data.link);
+          dispatchFunc(res.data.data.link);
         }
       });
   };
@@ -214,6 +228,7 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
   const newPost: CreateTextPostRequestType = {
     authorId: savedPostDraft.authorId,
     previewImageUrl: savedPostDraft.previewImageUrl,
+    importantImageUrl: savedPostDraft.importantImageUrl,
     content: savedPostDraft.htmlContent,
     directions: savedPostDraft.directions,
     origins: savedPostDraft.origins,
@@ -330,8 +345,17 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
           />
           <BackgroundImageContainer
             dispatchImageUrl={dispatchImageUrl}
-            fileSelectorHandler={fileSelectorHandler}
-            newPost={newPost}
+            fileSelectorHandler={fileSelectorHandler(dispatchImageUrl)}
+            title={t(langTokens.editor.backgroundImage)}
+            imgUrl={newPost?.previewImageUrl}
+          />
+          <BorderBottom />
+          <BackgroundImageContainer
+            dispatchImageUrl={dispatchImportantImageUrl}
+            fileSelectorHandler={fileSelectorHandler(dispatchImportantImageUrl)}
+            title={t(langTokens.editor.carouselImage)}
+            imgUrl={newPost?.importantImageUrl}
+            notCarousel={false}
           />
           <BorderBottom />
           <Box mt={2}>

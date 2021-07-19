@@ -6,6 +6,8 @@ import {
   LOAD_POSTS_LIMIT,
 } from '../../old/lib/constants/posts';
 import { mapFetchedPosts } from '../materials';
+import { IFetchExpertsOptions } from '../experts/types';
+import { ISetImportantPostsOptions } from './types';
 
 export const fetchNewestPosts = createAsyncThunk(
   'main/loadNewestPosts',
@@ -64,6 +66,27 @@ export const fetchImportantPosts = createAsyncThunk(
       return {
         importantPostIds: ids,
         importantPosts,
+      };
+    } catch (err) {
+      return rejectWithValue(err.response?.data);
+    }
+  },
+);
+
+export const setImportantPosts = createAsyncThunk(
+  'main/setImportantPosts',
+  async (options: ISetImportantPostsOptions, { rejectWithValue }) => {
+    try {
+      const { posts } = options;
+      const response = await getPosts('set-important', {
+        params: {
+          posts,
+        },
+      });
+
+      return {
+        message: response.data.message,
+        success: response.data.success,
       };
     } catch (err) {
       return rejectWithValue(err.response?.data);

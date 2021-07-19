@@ -19,6 +19,7 @@ import {
   LoadingStatusEnum,
   LoadMoreButtonTextType,
   QueryTypeEnum,
+  filtersStateEnum,
 } from '../../../lib/types';
 import { selectPostsByIds } from '../../../../models/helpers/selectors';
 import {
@@ -44,6 +45,11 @@ import {
   defaultPlural,
   langTokens,
 } from '../../../../locales/localizationInit';
+import {
+  updatePostTypes,
+  updateOrig,
+  updateDir,
+} from '../../utilities/utilityFunctions';
 
 const MaterialsView: React.FC = () => {
   const { t } = useTranslation();
@@ -204,9 +210,16 @@ const MaterialsView: React.FC = () => {
 
     setPage(0);
 
-    history.push({
-      search: query.toString(),
-    });
+    if (isQuerySame && uniq(Object.values(checked))[0] === false) {
+      query.set(queryType, '0');
+      history.push({
+        search: query.toString(),
+      });
+    } else {
+      history.push({
+        search: query.toString(),
+      });
+    }
   };
 
   const loadMore = () => {
@@ -240,10 +253,19 @@ const MaterialsView: React.FC = () => {
 
   let selectedOrigins:
     | IOrigin[]
-    | undefined = originsInPlural?.filter((direction) =>
+    | filtersStateEnum = originsInPlural?.filter((direction) =>
     selectedOriginsString?.includes(direction.id.toString()),
   );
-  selectedOrigins = !isEmpty(selectedOrigins) ? selectedOrigins : undefined;
+  if (isEmpty(selectedOrigins)) {
+    if (
+      selectedOriginsString?.length === 1 &&
+      selectedOriginsString?.[0] === '0'
+    ) {
+      selectedOrigins = filtersStateEnum.empty;
+    } else {
+      selectedOrigins = filtersStateEnum.notEmpty;
+    }
+  }
 
   const selectedDirectionsString = query
     .get(QueryTypeEnum.DIRECTIONS)
@@ -251,13 +273,20 @@ const MaterialsView: React.FC = () => {
 
   let selectedDirections:
     | IDirection[]
-    | undefined = directions?.filter((direction) =>
+    | filtersStateEnum = directions?.filter((direction) =>
     selectedDirectionsString?.includes(direction.id.toString()),
   );
 
-  selectedDirections = !isEmpty(selectedDirections)
-    ? selectedDirections
-    : undefined;
+  if (isEmpty(selectedDirections)) {
+    if (
+      selectedDirectionsString?.length === 1 &&
+      selectedDirectionsString?.[0] === '0'
+    ) {
+      selectedDirections = filtersStateEnum.empty;
+    } else {
+      selectedDirections = filtersStateEnum.notEmpty;
+    }
+  }
 
   const selectedPostTypesString = query
     .get(QueryTypeEnum.POST_TYPES)
@@ -265,22 +294,43 @@ const MaterialsView: React.FC = () => {
 
   let selectedPostTypes:
     | IPostType[]
-    | undefined = postTypesInPlural?.filter((post) =>
+    | filtersStateEnum = postTypesInPlural?.filter((post) =>
     selectedPostTypesString?.includes(post.id.toString()),
   );
 
-  selectedPostTypes = !isEmpty(selectedPostTypes)
-    ? selectedPostTypes
-    : undefined;
+  if (isEmpty(selectedPostTypes)) {
+    if (
+      selectedPostTypesString?.length === 1 &&
+      selectedPostTypesString?.[0] === '0'
+    ) {
+      selectedPostTypes = filtersStateEnum.empty;
+    } else {
+      selectedPostTypes = filtersStateEnum.notEmpty;
+    }
+  }
+
+  useEffect(() => {
+    setCheckedFiltersOrigins(updateOrig(selectedOrigins, origins));
+  }, [query.get(QueryTypeEnum.ORIGINS)]);
+
+  useEffect(() => {
+    setCheckedFiltersPostTypes(updatePostTypes(selectedPostTypes, postTypes));
+  }, [query.get(QueryTypeEnum.POST_TYPES)]);
+
+  useEffect(() => {
+    setCheckedFiltersDirections(updateDir(selectedDirections, directions));
+  }, [query.get(QueryTypeEnum.DIRECTIONS)]);
 
   const getOrigins = () => {
-    if (selectedOrigins) {
-      const names = selectedOrigins?.reduce((acc, filter) => {
-        acc.push(filter.name);
-        return acc;
-      }, [] as string[]);
-      if (names) {
-        return names.join(', ');
+    if (typeof selectedOrigins !== 'string') {
+      if (selectedOrigins) {
+        const names = selectedOrigins?.reduce((acc, filter) => {
+          acc.push(filter.name);
+          return acc;
+        }, [] as string[]);
+        if (names) {
+          return names.join(', ');
+        }
       }
     }
 
@@ -293,15 +343,18 @@ const MaterialsView: React.FC = () => {
   };
 
   const getDirections = () => {
-    if (selectedDirections) {
-      const names = selectedDirections?.reduce((acc, filter) => {
-        acc.push(filter.name);
-        return acc;
-      }, [] as string[]);
-      if (names) {
-        return names.join(', ');
+    if (typeof selectedDirections !== 'string') {
+      if (selectedDirections) {
+        const names = selectedDirections?.reduce((acc, filter) => {
+          acc.push(filter.name);
+          return acc;
+        }, [] as string[]);
+        if (names) {
+          return names.join(', ');
+        }
       }
     }
+
     return directions
       .reduce((acc, filter) => {
         acc.push(filter.name);
@@ -311,15 +364,18 @@ const MaterialsView: React.FC = () => {
   };
 
   const getPostTypes = () => {
-    if (selectedPostTypes) {
-      const names = selectedPostTypes?.reduce((acc, filter) => {
-        acc.push(filter.name);
-        return acc;
-      }, [] as string[]);
-      if (names) {
-        return names.join(', ');
+    if (typeof selectedPostTypes !== 'string') {
+      if (selectedPostTypes) {
+        const names = selectedPostTypes?.reduce((acc, filter) => {
+          acc.push(filter.name);
+          return acc;
+        }, [] as string[]);
+        if (names) {
+          return names.join(', ');
+        }
       }
     }
+
     return postTypes
       .reduce((acc, filter) => {
         acc.push(filter.name);
@@ -364,7 +420,7 @@ const MaterialsView: React.FC = () => {
         </Grid>
         <Grid item container direction="column" xs={9}>
           <Box className={classes.container}>
-            {selectedOrigins === undefined ? (
+            {typeof selectedOrigins === 'string' ? (
               <Typography
                 className={classes.selectedFilters}
                 component="div"
@@ -383,7 +439,7 @@ const MaterialsView: React.FC = () => {
             <Typography className={classes.divider} component="span">
               |
             </Typography>
-            {selectedPostTypes === undefined ? (
+            {typeof selectedPostTypes === 'string' ? (
               <Typography
                 className={classes.selectedFilters}
                 component="div"
@@ -402,7 +458,7 @@ const MaterialsView: React.FC = () => {
             <Typography className={classes.divider} component="span">
               |
             </Typography>
-            {selectedDirections === undefined ? (
+            {typeof selectedDirections === 'string' ? (
               <Typography
                 className={classes.selectedFilters}
                 component="div"

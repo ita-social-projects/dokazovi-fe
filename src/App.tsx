@@ -7,7 +7,10 @@ import {
   CssBaseline,
   ThemeProvider,
 } from '@material-ui/core';
-import { ROUTER_CONFIG } from './old/navigation/router-config';
+import {
+  ROUTER_CONFIG,
+  ADMIN_ROUTER_CONFIG,
+} from './old/navigation/router-config';
 import { RenderRoutes } from './old/navigation/Router';
 import { AuthProvider } from './old/provider/AuthProvider/AuthProvider';
 import { MAIN_THEME } from './old/lib/theme/theme';
@@ -21,8 +24,12 @@ import {
   fetchRegions,
 } from './models/properties';
 import { useActions } from './shared/hooks';
-import { Header } from './old/lib/components/Header/Header';
+import { Header } from './components/Header/Header';
 import { Footer } from './old/lib/components/Footer/Footer';
+import {
+  BreadcrumbsProvider,
+  breadcrumbsConfigs,
+} from './components/Breadcrumbs';
 
 ReactGA.initialize(process.env.REACT_APP_GOOGLE_ID as string, {
   testMode: process.env.NODE_ENV === 'test',
@@ -67,17 +74,22 @@ export const App: React.FC = () => {
         <BrowserRouter>
           <div className="content">
             <AuthProvider>
-              <Header />
-              <Suspense
-                fallback={
-                  <div className="mainLoading">
-                    <CircularProgress />
-                  </div>
-                }
-              >
-                <RenderRoutes routes={ROUTER_CONFIG} />
-              </Suspense>
-              <Footer />
+              <BreadcrumbsProvider configs={breadcrumbsConfigs}>
+                <Header />
+                <Suspense
+                  fallback={
+                    <div className="mainLoading">
+                      <CircularProgress />
+                    </div>
+                  }
+                >
+                  <RenderRoutes
+                    routes={ROUTER_CONFIG}
+                    adminRouterConfig={ADMIN_ROUTER_CONFIG}
+                  />
+                </Suspense>
+                <Footer />
+              </BreadcrumbsProvider>
             </AuthProvider>
           </div>
         </BrowserRouter>

@@ -24,11 +24,12 @@ class InsertFromFile {
     this.range = null;
     this.fileHolder = document.createElement('input');
 
-    if (typeof this.options.upload !== 'function')
+    if (typeof this.options.upload !== 'function') {
+      // eslint-disable-next-line no-console
       console.warn(
         '[Missing config] upload function that returns a promise is required',
       );
-
+    }
     const toolbar = this.quill.getModule('toolbar');
     toolbar.addHandler('image', this.selectLocalImage.bind(this));
 
@@ -96,6 +97,7 @@ class InsertFromFile {
         insertFromUrl(imageUrl, this.quill);
       },
       (error) => {
+        // eslint-disable-next-line no-console
         console.warn(error);
       },
     );

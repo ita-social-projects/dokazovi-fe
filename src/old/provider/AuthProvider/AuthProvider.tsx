@@ -5,15 +5,19 @@ import { getToken } from './getToken';
 
 export const AuthProvider: React.FC = ({ children }) => {
   const token = getToken();
-  const [authenticated, setAuthorization, removeAuthorization] = useAuthHook(
-    !!token,
-  );
+  const [
+    authenticated,
+    setAuthorization,
+    removeAuthorization,
+    checkPermission,
+  ] = useAuthHook(!!token);
 
   const contextValue = useMemo(
     () => ({
       authenticated,
       setAuthorization,
       removeAuthorization,
+      checkPermission,
     }),
     [authenticated],
   );

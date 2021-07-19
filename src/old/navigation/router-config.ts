@@ -14,6 +14,7 @@ const ExpertProfileViewWrapper = lazy(
 const PostViewWrapper = lazy(
   () => import('../modules/posts/components/PostViewWrapper'),
 );
+const Profile = lazy(() => import('../../views/Profile/Profile'));
 const ArticleCreation = lazy(
   () => import('../../views/postCreation/ArticleCreation'),
 );
@@ -26,11 +27,23 @@ const VideoCreation = lazy(
 const PostUpdationWrapper = lazy(
   () => import('../../views/postUpdation/PostUpdationWrapper'),
 );
+const AdminPage = lazy(
+  () => import('../lib/components/Users/AdminPage/components/AdminPageWrapper'),
+);
 const Oath2Redirect = lazy(
   () => import('../lib/components/Service/Oath2Redirect'),
 );
 const Conditions = lazy(() => import('../../views/Conditions/Conditions'));
 const Page404 = lazy(() => import('../lib/components/Errors/Page404'));
+
+export const ADMIN_ROUTER_CONFIG: IRouteConfig = {
+  path: ['/admin', '/edit-post'],
+  key: 'ADMIN_PAGE',
+  component: AdminPage,
+  private: true,
+  exact: true,
+  useRender: true,
+};
 
 export const ROUTER_CONFIG: IRouteConfig[] = [
   {
@@ -54,6 +67,13 @@ export const ROUTER_CONFIG: IRouteConfig[] = [
     path: '/experts/:expertId',
     key: 'EXPERT_PROFILE',
     component: ExpertProfileViewWrapper,
+    exact: true,
+  },
+  {
+    path: '/profile',
+    key: 'PROFILE',
+    component: Profile,
+    private: true,
     exact: true,
   },
   {
@@ -91,8 +111,8 @@ export const ROUTER_CONFIG: IRouteConfig[] = [
     component: PostViewWrapper,
   },
   {
-    path: '/conditions/:to',
-    key: 'CONDITIONS',
+    path: '/info',
+    key: 'INFO',
     exact: true,
     component: Conditions,
   },
