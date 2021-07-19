@@ -2,9 +2,15 @@ import React, { useState } from 'react';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import { Box, CircularProgress, IconButton } from '@material-ui/core';
+import {
+  Box,
+  CircularProgress,
+  IconButton,
+  Typography,
+} from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
 import { langTokens } from '../../../../locales/localizationInit';
+import { useStyles } from './confirmationModalWithButton.style';
 
 export interface IConfirmationModalWithButtonProps {
   message: string | JSX.Element;
@@ -24,6 +30,7 @@ export const ConfirmationModalWithButton: React.FC<IConfirmationModalWithButtonP
   disabled,
 }) => {
   const { t } = useTranslation();
+  const classes = useStyles();
   const [open, setOpen] = useState(false);
 
   return (
@@ -51,18 +58,30 @@ export const ConfirmationModalWithButton: React.FC<IConfirmationModalWithButtonP
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle>{message}</DialogTitle>
-        <Box display="flex" justifyContent="center">
+        <DialogTitle className={classes.dialogTitleContainer}>
+          <Typography className={classes.modalText}>{message}</Typography>
+        </DialogTitle>
+        <Box
+          display="flex"
+          justifyContent="center"
+          className={classes.btnContainer}
+        >
           <Button
             onClick={() => {
               onConfirmButtonClick();
               setOpen(false);
             }}
             color="primary"
+            className={[classes.btnConfirm, classes.btn].join(' ')}
           >
             {t(langTokens.common.yes)}
           </Button>
-          <Button onClick={() => setOpen(false)} color="primary" autoFocus>
+          <Button
+            onClick={() => setOpen(false)}
+            color="primary"
+            autoFocus
+            className={[classes.btnCancel, classes.btn].join(' ')}
+          >
             {t(langTokens.common.no)}
           </Button>
         </Box>

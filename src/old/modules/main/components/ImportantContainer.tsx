@@ -10,17 +10,28 @@ import {
   selectLoadingMain,
 } from '../../../../models/main';
 import { useActions } from '../../../../shared/hooks';
+import { IPost } from '../../../lib/types';
 
-export const ImportantContainer: React.FC = () => {
+interface IImportantContainer {
+  customPosts?: IPost[];
+}
+
+export const ImportantContainer: React.FC<IImportantContainer> = ({
+  customPosts,
+}) => {
   const classes = useStyles();
-  const { importantPosts: posts } = useSelector(selectImportantPosts);
+  const { importantPosts: posts, importantPostIds: postIds } = useSelector(
+    selectImportantPosts,
+  );
   const loading = useSelector(selectLoadingMain);
-  const importantPosts = Object.values(posts);
+  const importantPosts = customPosts || postIds.map((id) => posts[id]);
 
   const [boundFetchImportantPosts] = useActions([fetchImportantPosts]);
 
   useEffect(() => {
-    boundFetchImportantPosts();
+    if (!customPosts) {
+      boundFetchImportantPosts();
+    }
   }, []);
 
   return (
@@ -31,7 +42,11 @@ export const ImportantContainer: React.FC = () => {
         <>
           <Carousel>
             {importantPosts.map((post) => (
-              <ImportantPostPreviewCard post={post} key={post.title} />
+              <ImportantPostPreviewCard
+                post={post}
+                key={post.title}
+                size="large"
+              />
             ))}
           </Carousel>
         </>
