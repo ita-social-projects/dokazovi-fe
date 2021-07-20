@@ -43,7 +43,10 @@ const PasswordUpdateView = () => {
 
   useEffect(() => {
     if (!token) return;
-    checkPasswordToken(token).then((response) => setDoesTokenValid(response));
+    const getTokenValid = async () => {
+      setDoesTokenValid(await checkPasswordToken(token));
+    };
+    getTokenValid();
   }, []);
 
   const onSubmit = async (inputs: INewPasswordInputs) => {
