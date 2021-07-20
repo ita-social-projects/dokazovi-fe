@@ -195,12 +195,12 @@ export const login = async (
 export const changePasswordRequest = async (
   email: string,
   password: string,
-) => {
+): Promise<void> => {
   // body {message: string}
   await instance.post('/user/change-password', { email, password });
 };
 
-export const resetPasswordRequest = async (email: string) => {
+export const resetPasswordRequest = async (email: string): Promise<void> => {
   await instance.post('/user/reset-password', { email });
 };
 
@@ -208,7 +208,7 @@ export const newPasswordRequest = async (
   token: string,
   newPassword: string,
   matchPassword: string,
-) => {
+): Promise<boolean> => {
   try {
     const response = await instance.post('/user/update-password', {
       token,
@@ -221,7 +221,7 @@ export const newPasswordRequest = async (
   }
 };
 
-export const checkPasswordToken = async (token: string) => {
+export const checkPasswordToken = async (token: string): Promise<boolean> => {
   try {
     const response = await instance.get(`/user/check-token?token=${token}`);
     return response.status === 200;

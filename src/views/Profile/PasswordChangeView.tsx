@@ -9,6 +9,7 @@ import { IAuthInputs } from '../../old/lib/types';
 import { changePasswordRequest } from '../../old/lib/utilities/API/api';
 import { BasicAcceptButton, BasicInput } from '../../components/Form';
 
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 export const PasswordChangeView = () => {
   const { t } = useTranslation();
   const classes = useStyles();
@@ -68,6 +69,8 @@ export const PasswordChangeView = () => {
       />
     </Container>
   );
-  if (submitted) return submittedView;
+  if (submitted) {
+    return submittedView;
+  }
   return passwordChangeView;
 };

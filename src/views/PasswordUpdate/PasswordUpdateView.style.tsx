@@ -5,7 +5,7 @@ export const useStyles = makeStyles(
     error: {
       fontFamily: 'Raleway',
       fontWeight: 600,
-      fontSize: 18,
+      fontSize: theme.spacing(3.6),
       lineHeight: '22px',
       color: '#FF0707',
       marginTop: 20,

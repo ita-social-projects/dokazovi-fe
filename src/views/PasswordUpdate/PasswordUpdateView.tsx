@@ -1,5 +1,5 @@
-import { Button, Container, Typography } from '@material-ui/core';
-import React, { useContext, useEffect, useMemo, useState } from 'react';
+import { Container, Typography } from '@material-ui/core';
+import React, { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { Redirect, useHistory } from 'react-router-dom';
@@ -21,6 +21,7 @@ interface INewPasswordInputs {
   matchPassword: string;
 }
 
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 const PasswordUpdateView = () => {
   const query = useQuery();
   const history = useHistory();
@@ -118,14 +119,13 @@ const PasswordUpdateView = () => {
       />
     </form>
   );
-
-  return !doesTokenValid ? (
-    <Redirect to="/" />
-  ) : success ? (
-    newPasswordUpdated
-  ) : (
-    newPasswordForm
-  );
+  if (doesTokenValid) {
+    if (success) {
+      return newPasswordUpdated;
+    }
+    return newPasswordForm;
+  }
+  return <Redirect to="/" />;
 };
 
 export default PasswordUpdateView;

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import Swal from 'sweetalert2';
 import {
@@ -16,7 +16,7 @@ import { useTranslation } from 'react-i18next';
 import CloseIcon from '@material-ui/icons/Close';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../../../provider/AuthProvider/AuthContext';
-import { emailValidationObj, passwordValidationObj } from './validationRules';
+import { emailValidationObj } from './validationRules';
 import { IAuthInputs } from '../../types';
 import { useStyles } from './LoginModal.styles';
 import { login } from '../../utilities/API/api';
@@ -139,17 +139,15 @@ export const LoginModal: React.FC = () => {
                   {t(langTokens.loginRegistration.wrongEmailOrPassword)}
                 </Typography>
               )}
-              {
-                <Link to="/reset-password" onClick={handleLoginClose}>
-                  <Typography
-                    variant="subtitle1"
-                    component="p"
-                    className={classes.forgotPasswordText}
-                  >
-                    {t(langTokens.loginRegistration.forgotPassword)}
-                  </Typography>
-                </Link>
-              }
+              <Link to="/reset-password" onClick={handleLoginClose}>
+                <Typography
+                  variant="subtitle1"
+                  component="p"
+                  className={classes.forgotPasswordText}
+                >
+                  {t(langTokens.loginRegistration.forgotPassword)}
+                </Typography>
+              </Link>
               <Grid item xs={12}>
                 <div className={classes.bottomContainer}>
                   <FormControlLabel

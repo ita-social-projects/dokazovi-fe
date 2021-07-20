@@ -8,6 +8,7 @@ import { emailValidationObj } from '../../old/lib/components/Users/validationRul
 import { resetPasswordRequest } from '../../old/lib/utilities/API/api';
 import { useStyles } from './PasswordResetView.style';
 
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 const PasswordResetView = () => {
   const { t } = useTranslation();
   const [submitted, setSubmitted] = useState(false);

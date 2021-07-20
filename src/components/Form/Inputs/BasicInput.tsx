@@ -7,6 +7,7 @@ import { useStyles } from './styles/BasicInput.style';
 interface IBasicInputProps {
   className?: string;
   name?: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   inputRef?: React.Ref<any>;
   label?: string;
   onChange?: React.ChangeEventHandler<HTMLInputElement>;
@@ -30,6 +31,7 @@ export const BasicInput: React.FC<IBasicInputProps> = ({
   return (
     <TextField
       className={clsx(classes.basicInput, className)}
+      // eslint-disable-next-line no-nested-ternary
       type={type === 'text' ? type : showPassword ? 'text' : 'password'}
       variant="outlined"
       margin="normal"
