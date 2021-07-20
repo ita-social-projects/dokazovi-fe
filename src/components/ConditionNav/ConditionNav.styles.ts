@@ -1,7 +1,7 @@
-import { makeStyles, Theme } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core';
 
 export const useStyles = makeStyles(
-  (theme: Theme) => ({
+  {
     root: {
       display: 'flex',
       marginBottom: '80px',
@@ -22,6 +22,6 @@ export const useStyles = makeStyles(
       fontWeight: 700,
       textDecoration: 'none',
     },
-  }),
+  },
   { name: 'ConditionsNav' },
 );

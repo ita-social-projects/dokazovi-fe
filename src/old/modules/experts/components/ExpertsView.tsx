@@ -13,6 +13,7 @@ import {
   LoadingStatusEnum,
   LoadMoreButtonTextType,
   QueryTypeEnum,
+  filtersStateEnum,
 } from '../../../lib/types';
 import {
   fetchExperts,
@@ -39,6 +40,7 @@ import { ChipsList } from '../../../../components/Chips/ChipsList/ChipsList';
 import { useStyles } from '../styles/ExpertsView.styles';
 import { setGALocation } from '../../../../utilities/setGALocation';
 import { langTokens } from '../../../../locales/localizationInit';
+import { updateDir, updateReg } from '../../utilities/utilityFunctions';
 
 const ExpertsView: React.FC = () => {
   const { t } = useTranslation();
@@ -54,9 +56,10 @@ const ExpertsView: React.FC = () => {
   const [checkedFiltersDirections, setCheckedFiltersDirections] = useState<
     CheckboxFormStateType
   >();
-  const [checkedFiltersOrigins, setCheckedFiltersOrigins] = useState<
+  const [checkedFiltersRegions, setCheckedFiltersRegions] = useState<
     CheckboxFormStateType
   >();
+
   const previous = usePrevious({ page });
   const query = useQuery();
   const history = useHistory();
@@ -90,12 +93,16 @@ const ExpertsView: React.FC = () => {
   const setFilters = (
     checked: CheckboxFormStateType,
     filterType: FilterTypeEnum,
+    disabled?: CheckboxFormStateType,
   ) => {
-    // console.log(checked);
     if (filterType === 1) {
       setCheckedFiltersDirections(checked);
     } else if (filterType === 2) {
-      setCheckedFiltersOrigins(checked);
+      if (disabled) {
+        setCheckedFiltersRegions(disabled);
+      } else {
+        setCheckedFiltersRegions(checked);
+      }
     }
     const queryType = getQueryTypeByFilterType(filterType);
     const checkedIds = Object.keys(checked).filter((key) => checked[key]);
@@ -108,9 +115,16 @@ const ExpertsView: React.FC = () => {
 
     setPage(0);
 
-    history.push({
-      search: query.toString(),
-    });
+    if (isQuerySame && uniq(Object.values(checked))[0] === false) {
+      query.set(queryType, '0');
+      history.push({
+        search: query.toString(),
+      });
+    } else {
+      history.push({
+        search: query.toString(),
+      });
+    }
   };
 
   const loadMore = () => {
@@ -141,24 +155,49 @@ const ExpertsView: React.FC = () => {
     .get(QueryTypeEnum.DIRECTIONS)
     ?.split(',');
 
-  let selectedRegions: IRegion[] | undefined = regions?.filter(
+  let selectedRegions: IRegion[] | filtersStateEnum = regions?.filter(
     (region) =>
       selectedRegionsString?.includes(region.id.toString()) &&
       region.usersPresent,
   );
   let selectedDirections:
     | IDirection[]
-    | undefined = directions?.filter((direction) =>
+    | filtersStateEnum = directions?.filter((direction) =>
     selectedDirectionsString?.includes(direction.id.toString()),
   );
 
-  selectedRegions = !isEmpty(selectedRegions) ? selectedRegions : undefined;
-  selectedDirections = !isEmpty(selectedDirections)
-    ? selectedDirections
-    : undefined;
+  if (isEmpty(selectedRegions)) {
+    if (
+      selectedRegionsString?.length === 1 &&
+      selectedRegionsString?.[0] === '0'
+    ) {
+      selectedRegions = filtersStateEnum.empty;
+    } else {
+      selectedRegions = filtersStateEnum.notEmpty;
+    }
+  }
+
+  if (isEmpty(selectedDirections)) {
+    if (
+      selectedDirectionsString?.length === 1 &&
+      selectedDirectionsString?.[0] === '0'
+    ) {
+      selectedDirections = filtersStateEnum.empty;
+    } else {
+      selectedDirections = filtersStateEnum.notEmpty;
+    }
+  }
+
+  useEffect(() => {
+    setCheckedFiltersDirections(updateDir(selectedDirections, directions));
+  }, [query.get(QueryTypeEnum.DIRECTIONS)]);
+
+  useEffect(() => {
+    setCheckedFiltersRegions(updateReg(selectedRegions, regions));
+  }, [query.get(QueryTypeEnum.REGIONS)]);
 
   const getRegions = () => {
-    if (selectedRegions) {
+    if (typeof selectedRegions !== 'string') {
       const names = selectedRegions?.reduce((acc, filter) => {
         acc.push(filter.name);
         return acc;
@@ -177,7 +216,7 @@ const ExpertsView: React.FC = () => {
   };
 
   const getDirections = () => {
-    if (selectedDirections) {
+    if (typeof selectedDirections !== 'string') {
       const names = selectedDirections?.reduce((acc, filter) => {
         acc.push(filter.name);
         return acc;
@@ -186,6 +225,7 @@ const ExpertsView: React.FC = () => {
         return names.join(', ');
       }
     }
+
     return directions
       .reduce((acc, filter) => {
         acc.push(filter.name);
@@ -203,7 +243,7 @@ const ExpertsView: React.FC = () => {
     if (chipsListType === 'DIRECTION') {
       filtersUpdatedByChips = { ...checkedFiltersDirections };
     } else if (chipsListType === 'REGION') {
-      filtersUpdatedByChips = { ...checkedFiltersOrigins };
+      filtersUpdatedByChips = { ...checkedFiltersRegions };
     }
     if (filtersUpdatedByChips && key) {
       filtersUpdatedByChips[key] = false;
@@ -226,7 +266,7 @@ const ExpertsView: React.FC = () => {
         </Grid>
         <Grid item container direction="column" xs={9}>
           <Box className={classes.container}>
-            {selectedDirections === undefined ? (
+            {typeof selectedDirections === 'string' ? (
               <Typography
                 className={classes.selectedFilters}
                 component="div"
@@ -244,7 +284,7 @@ const ExpertsView: React.FC = () => {
             <Typography className={classes.divider} component="span">
               |
             </Typography>
-            {selectedRegions === undefined ? (
+            {typeof selectedRegions === 'string' ? (
               <Typography
                 className={classes.selectedFilters}
                 component="div"
@@ -286,13 +326,13 @@ const ExpertsView: React.FC = () => {
                 }
                 possibleFilters={directions}
                 selectedFilters={selectedDirections}
-                filterTitle={t(langTokens.common.byOrigin).toLowerCase()}
-                allTitle={t(langTokens.common.allOrigins)}
+                filterTitle={t(langTokens.common.byDirection).toLowerCase()}
+                allTitle={t(langTokens.common.allDirections)}
                 filterType={QueryTypeEnum.DIRECTIONS}
               />
               <CheckboxLeftsideFilterForm
-                onFormChange={(checked) =>
-                  setFilters(checked, FilterTypeEnum.REGIONS)
+                onFormChange={(checked, disabled) =>
+                  setFilters(checked, FilterTypeEnum.REGIONS, disabled)
                 }
                 possibleFilters={regions}
                 selectedFilters={selectedRegions}

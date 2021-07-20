@@ -21,6 +21,7 @@ const Oath2Redirect: React.FC = () => {
     if (token) {
       setAuthorization(token);
     } else {
+      // eslint-disable-next-line no-console
       console.error('NO TOKEN');
     }
   }, [token]);

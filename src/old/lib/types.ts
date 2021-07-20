@@ -55,6 +55,11 @@ export enum LoadingStatusEnum {
   failed = 'failed',
 }
 
+export enum filtersStateEnum {
+  empty = 'empty',
+  notEmpty = 'not empty',
+}
+
 export type LoadingStatusType =
   | LoadingStatusEnum.idle
   | LoadingStatusEnum.pending
@@ -63,6 +68,7 @@ export type LoadingStatusType =
 
 export enum LocalStorageKeys {
   ACCESS_TOKEN = 'ACCESS_TOKEN',
+  PERMISSIONS = 'PERMISSIONS',
 }
 
 export enum FilterTypeEnum {
@@ -124,6 +130,7 @@ export interface IPost {
   origins: IOrigin[];
   preview: string;
   previewImageUrl?: string;
+  importantImageUrl?: string;
   videoUrl?: string;
 }
 
@@ -162,6 +169,7 @@ export interface IDirection {
   name: string;
   label?: string;
   hasPosts?: boolean;
+  hasDoctors?: boolean;
 }
 
 export interface IFilter {
@@ -200,3 +208,47 @@ export interface IAuthInputs {
   email: string;
   password: string;
 }
+
+export type ProfileMenuType = 'info' | 'materials' | 'passwordChange' | 'mail';
+
+export interface IProfileMenuOption {
+  label: string;
+  value: ProfileMenuType;
+}
+
+export interface IFooterStyleProps {
+  isAdminPage: boolean;
+  isProfilePage: boolean;
+}
+
+export type AdminMenuType = 'important';
+
+export interface IAdminMenuOption {
+  section: string;
+  label: string;
+  value: AdminMenuType;
+}
+
+export interface IFilterOption {
+  label: string;
+  value: number;
+  chipValue: string;
+}
+
+export type AdminPageFiltersType =
+  | QueryTypeEnum.ORIGINS
+  | QueryTypeEnum.DIRECTIONS
+  | QueryTypeEnum.POST_TYPES;
+
+export type ViewModsType = 'selected' | 'preview';
+
+export enum ConditionsContentSectionEnum {
+  ABOUT = 1,
+  RULES = 2,
+  CONTACTS = 3,
+}
+
+export type ConditionsContentSectionType =
+  | ConditionsContentSectionEnum.ABOUT
+  | ConditionsContentSectionEnum.RULES
+  | ConditionsContentSectionEnum.CONTACTS;

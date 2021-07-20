@@ -31,6 +31,14 @@ export interface IImportantPostsPayload {
 export interface IMainState {
   newest: INewestPostsPayload;
   important: IImportantPostsPayload;
+  setImportant: {
+    message?: string;
+    success?: boolean;
+  };
   loading: LoadingStatusEnum;
   error: null | string;
+}
+
+export interface ISetImportantPostsOptions {
+  posts: string;
 }

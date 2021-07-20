@@ -31,21 +31,24 @@ export const modules: StringMap = {
   },
   insertFromFile: {
     upload: (file: string | Blob): Promise<unknown> => {
-      return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file as Blob);
-        reader.onload = () => {
-          const image = reader.result as string;
-          const result = image.slice(image.search(/[^,]*$/));
-          resolve(result);
-          reject(new Error('Failed image onload'));
-        };
-      })
-        .then((str) => uploadImageToImgur(str as string))
-        .then((res) => {
-          return res.data.data.link;
+      return (
+        new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.readAsDataURL(file as Blob);
+          reader.onload = () => {
+            const image = reader.result as string;
+            const result = image.slice(image.search(/[^,]*$/));
+            resolve(result);
+            reject(new Error('Failed image onload'));
+          };
         })
-        .catch((err) => console.log(err));
+          .then((str) => uploadImageToImgur(str as string))
+          .then((res) => {
+            return res.data.data.link;
+          })
+          // eslint-disable-next-line no-console
+          .catch((err) => console.error(err))
+      );
     },
   },
   history: {

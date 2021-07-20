@@ -6,19 +6,24 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import CropOriginalIcon from '@material-ui/icons/CropOriginal';
-import { IconButton } from '@material-ui/core';
+import { IconButton, Typography, Paper } from '@material-ui/core';
 import { useForm } from 'react-hook-form';
 import { Alert } from '@material-ui/lab';
 import { useTranslation } from 'react-i18next';
-import { insertFromUrl } from './ImageFromURLHandler';
-import { IUrlInputModalProps } from './types';
-import { langTokens } from '../../../locales/localizationInit';
+import CloudUpload from '@material-ui/icons/CloudUpload';
+import CropOriginalIcon from '@material-ui/icons/CropOriginal';
+import { insertFromUrl } from '../ImageFromURLHandler';
+import { IUrlInputModalProps } from '../types';
+import { langTokens } from '../../../../locales/localizationInit';
+import { useStyles } from './UrlInputModal.style';
 
 export const UrlInputModal: React.FC<IUrlInputModalProps> = ({
   editor,
   updateBackgroundImage,
+  forBackgroundImg = false,
 }) => {
+  const classes = useStyles();
+
   // eslint-disable-next-line @typescript-eslint/unbound-method
   const { register, handleSubmit, errors } = useForm();
   const { t } = useTranslation();
@@ -53,17 +58,34 @@ export const UrlInputModal: React.FC<IUrlInputModalProps> = ({
 
   return (
     <div>
-      <IconButton
-        onClick={handleClickOpen}
-        title={t(langTokens.editor.byUrl)}
-        disableRipple
-      >
-        <CropOriginalIcon
-          className="customSVGIcon"
-          fontSize="small"
-          style={{ width: '18px', height: '18px' }}
-        />
-      </IconButton>
+      {!forBackgroundImg && (
+        <IconButton
+          onClick={handleClickOpen}
+          title={t(langTokens.editor.byUrl)}
+          disableRipple
+        >
+          <CropOriginalIcon
+            className="customSVGIcon"
+            fontSize="small"
+            style={{ width: '18px', height: '18px' }}
+          />
+        </IconButton>
+      )}
+
+      {forBackgroundImg && (
+        <Paper
+          variant="outlined"
+          className={classes.root}
+          onClick={handleClickOpen}
+        >
+          <IconButton title={t(langTokens.editor.byUrl)} disableRipple>
+            <CloudUpload className={classes.icon} />
+          </IconButton>
+          <Typography variant="subtitle1" className={classes.imgInputText}>
+            {t(langTokens.editor.addImgFromExternalResource)}
+          </Typography>
+        </Paper>
+      )}
 
       <Dialog
         open={open}
