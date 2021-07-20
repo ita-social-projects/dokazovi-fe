@@ -27,7 +27,7 @@ const PasswordUpdateView = () => {
   const history = useHistory();
   const classes = useStyles();
   const [token] = useState<string | null>(query.get('token'));
-  const [doesTokenValid, setDoesTokenValid] = useState(false);
+  const [doesTokenValid, setDoesTokenValid] = useState<boolean | null>(null);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
   const { t } = useTranslation();
@@ -128,7 +128,10 @@ const PasswordUpdateView = () => {
     }
     return newPasswordForm;
   }
-  return <Redirect to="/" />;
+  if (doesTokenValid === false) {
+    return <Redirect to="/" />;
+  }
+  return <></>;
 };
 
 export default PasswordUpdateView;
