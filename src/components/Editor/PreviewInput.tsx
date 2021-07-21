@@ -58,6 +58,7 @@ const PreviewInput: React.FC<IPreviewInputProps> = ({
 
   return (
     <TextField
+      data-testid="preview-input"
       aria-label="minimum height"
       value={textFieldValue}
       multiline
