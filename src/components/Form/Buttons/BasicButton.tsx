@@ -27,6 +27,8 @@ export const BasicButton: React.FC<IBasicButtonProps> = ({
     case 'sign':
       rootClass = classes.basicSignButton;
       break;
+    default:
+      rootClass = '';
   }
 
   return (
