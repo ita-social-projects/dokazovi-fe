@@ -1,11 +1,16 @@
-import { Container, Typography } from '@material-ui/core';
+import {
+  Box,
+  CircularProgress,
+  Container,
+  Typography,
+} from '@material-ui/core';
 import React, { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { Redirect, useHistory } from 'react-router-dom';
 import { AuthContext } from '../../old/provider/AuthProvider/AuthContext';
 import { signOutAction } from '../../models/user';
-import { BasicAcceptButton, BasicInput } from '../../components/Form';
+import { BasicButton, BasicInput } from '../../components/Form';
 import { langTokens } from '../../locales/localizationInit';
 import { passwordValidationObj } from '../../old/lib/components/Users/validationRules';
 import { useQuery } from '../../old/lib/hooks/useQuery';
@@ -15,6 +20,7 @@ import {
 } from '../../old/lib/utilities/API/api';
 import { useStyles } from './PasswordUpdateView.style';
 import { useActions } from '../../shared/hooks';
+import { LoadingStatusEnum, LoadingStatusType } from '../../old/lib/types';
 
 interface INewPasswordInputs {
   newPassword: string;
@@ -26,9 +32,9 @@ const PasswordUpdateView = () => {
   const query = useQuery();
   const history = useHistory();
   const classes = useStyles();
-  const [token] = useState<string | null>(query.get('token'));
-  const [doesTokenValid, setDoesTokenValid] = useState<boolean | null>(null);
-  const [success, setSuccess] = useState(false);
+  const [loadingStatus, setLoadingStatus] = useState<LoadingStatusType>(
+    LoadingStatusEnum.pending,
+  );
   const [error, setError] = useState(false);
   const { t } = useTranslation();
   const { removeAuthorization } = useContext(AuthContext);
@@ -42,37 +48,52 @@ const PasswordUpdateView = () => {
   });
 
   useEffect(() => {
+    const token = query.get('token');
     if (!token) return;
-    const getTokenValid = async () => {
-      setDoesTokenValid(await checkPasswordToken(token));
-    };
-    getTokenValid();
+
+    checkPasswordToken(token).then((response) =>
+      setLoadingStatus(
+        response ? LoadingStatusEnum.idle : LoadingStatusEnum.failed,
+      ),
+    );
   }, []);
 
   const onSubmit = async (inputs: INewPasswordInputs) => {
+    const token = query.get('token');
     if (!token) return;
+    setLoadingStatus(LoadingStatusEnum.pending);
     const doesSuccess = await newPasswordRequest(
       token,
       inputs.newPassword,
       inputs.matchPassword,
     );
     if (doesSuccess) {
-      setSuccess(true);
+      setLoadingStatus(LoadingStatusEnum.succeeded);
       boundSignOutAction();
       removeAuthorization();
+    } else {
+      setLoadingStatus(LoadingStatusEnum.idle);
+      setError(true);
     }
-    setError(true);
   };
-  const newPasswordUpdated = (
+
+  const newPasswordUpdatedView = (
     <Container>
       <Typography variant="h3" component="p" className={classes.successText}>
         {`${t(langTokens.passwordForms.newPasswordSuccess)}!`}
       </Typography>
-      <BasicAcceptButton
+      <BasicButton
+        type="accept"
         label={t(langTokens.passwordForms.goToHome)}
         onClick={() => history.push('/')}
       />
     </Container>
+  );
+
+  const loadingView = (
+    <Box className="mainLoading">
+      <CircularProgress />
+    </Box>
   );
 
   const newPasswordForm = (
@@ -112,7 +133,8 @@ const PasswordUpdateView = () => {
         </Typography>
       )}
 
-      <BasicAcceptButton
+      <BasicButton
+        type="accept"
         label={t(langTokens.common.acceptChanges)}
         disabled={
           !formState.isValid ||
@@ -122,16 +144,16 @@ const PasswordUpdateView = () => {
       />
     </form>
   );
-  if (doesTokenValid) {
-    if (success) {
-      return newPasswordUpdated;
-    }
+  if (loadingStatus === LoadingStatusEnum.pending) {
+    return loadingView;
+  }
+  if (loadingStatus === LoadingStatusEnum.succeeded) {
+    return newPasswordUpdatedView;
+  }
+  if (loadingStatus === LoadingStatusEnum.idle) {
     return newPasswordForm;
   }
-  if (doesTokenValid === false) {
-    return <Redirect to="/" />;
-  }
-  return <></>;
+  return <Redirect to="/" />;
 };
 
 export default PasswordUpdateView;

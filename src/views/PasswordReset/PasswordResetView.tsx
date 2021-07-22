@@ -2,7 +2,7 @@ import { Container, Typography } from '@material-ui/core';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-import { BasicAcceptButton, BasicInput } from '../../components/Form';
+import { BasicButton, BasicInput } from '../../components/Form';
 import { langTokens } from '../../locales/localizationInit';
 import { emailValidationObj } from '../../old/lib/components/Users/validationRules';
 import { resetPasswordRequest } from '../../old/lib/utilities/API/api';
@@ -43,7 +43,8 @@ const PasswordResetView = () => {
         helperText={errors?.email?.message}
       />
 
-      <BasicAcceptButton
+      <BasicButton
+        type="accept"
         label={t(langTokens.common.acceptChanges)}
         disabled={!formState.isValid || watch('email')?.length === 0}
       />
@@ -55,7 +56,8 @@ const PasswordResetView = () => {
       <Typography variant="h3" component="p" className={classes.centerText}>
         {`${t(langTokens.passwordForms.changePassowrdFromEmail)}!`}
       </Typography>
-      <BasicAcceptButton
+      <BasicButton
+        type="accept"
         label={t(langTokens.passwordForms.repeateAgain)}
         onClick={() => {
           setSubmitted(false);

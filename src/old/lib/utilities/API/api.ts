@@ -209,25 +209,21 @@ export const newPasswordRequest = async (
   newPassword: string,
   matchPassword: string,
 ): Promise<boolean> => {
-  try {
-    const response = await instance.post('/user/update-password', {
+  return instance
+    .post('/user/update-password', {
       token,
       newPassword,
       matchPassword,
-    });
-    return response.status === 200;
-  } catch {
-    return false;
-  }
+    })
+    .then(() => true)
+    .catch(() => false);
 };
 
-export const checkPasswordToken = async (token: string): Promise<boolean> => {
-  try {
-    const response = await instance.get(`/user/check-token?token=${token}`);
-    return response.status === 200;
-  } catch {
-    return false;
-  }
+export const checkPasswordToken = (token: string): Promise<boolean> => {
+  return instance
+    .get(`/user/check-token?token=${token}`)
+    .then(() => true)
+    .catch(() => false);
 };
 
 export const getCurrentUser = async (): Promise<

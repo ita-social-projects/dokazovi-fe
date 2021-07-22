@@ -22,7 +22,7 @@ import { useStyles } from './LoginModal.styles';
 import { login } from '../../utilities/API/api';
 import { AccountIcon } from '../icons/AccountIcon';
 import { langTokens } from '../../../../locales/localizationInit';
-import { BasicInput, BasicSignButton } from '../../../../components/Form';
+import { BasicButton, BasicInput } from '../../../../components/Form';
 
 export const LoginModal: React.FC = () => {
   const { t } = useTranslation();
@@ -161,7 +161,8 @@ export const LoginModal: React.FC = () => {
                     }
                     label={t(langTokens.loginRegistration.rememberMe)}
                   />
-                  <BasicSignButton
+                  <BasicButton
+                    type="sign"
                     disabled={
                       !formState.isValid ||
                       watch('email')?.length === 0 ||

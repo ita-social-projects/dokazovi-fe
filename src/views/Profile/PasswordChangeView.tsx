@@ -7,7 +7,7 @@ import { useStyles } from './styles/PasswordChangeView.styles';
 import { emailValidationObj } from '../../old/lib/components/Users/validationRules';
 import { IAuthInputs } from '../../old/lib/types';
 import { changePasswordRequest } from '../../old/lib/utilities/API/api';
-import { BasicAcceptButton, BasicInput } from '../../components/Form';
+import { BasicButton, BasicInput } from '../../components/Form';
 
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 export const PasswordChangeView = () => {
@@ -45,7 +45,8 @@ export const PasswordChangeView = () => {
         type="password"
         inputRef={register()}
       />
-      <BasicAcceptButton
+      <BasicButton
+        type="accept"
         label={t(langTokens.common.acceptChanges)}
         disabled={
           !formState.isValid ||
@@ -61,7 +62,8 @@ export const PasswordChangeView = () => {
       <Typography variant="h3" component="p" className={classes.centerText}>
         {`${t(langTokens.passwordForms.changePassowrdFromEmail)}!`}
       </Typography>
-      <BasicAcceptButton
+      <BasicButton
+        type="accept"
         label={t(langTokens.passwordForms.repeateAgain)}
         onClick={() => {
           setSubmitted(false);
