@@ -1,3 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable object-shorthand */
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { IFetchExpertsMaterialsPublishedOptions } from './types';
 import { getPosts } from '../../old/lib/utilities/API/api';
@@ -15,6 +20,7 @@ export const fetchExpertMaterialsPublished = createAsyncThunk(
       const response = await getPosts('latest-by-expert-and-status', {
         params: {
           size: LOAD_BY_STATUS_POSTS_LIMIT,
+          // eslint-disable-next-line object-shorthand
           page: page,
           expert: expertId,
           type: filters?.type,
