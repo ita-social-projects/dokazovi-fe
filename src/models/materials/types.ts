@@ -60,3 +60,12 @@ export interface IMaterialsMeta {
   totalPages: number;
   totalElements: number;
 }
+
+export interface IMaterialsDataByStatus extends IMaterialsData {
+  status: string;
+}
+export interface IMaterialsStateByStatus {
+  data: IMaterialsDataByStatus;
+  loading: LoadingStatusEnum;
+  error: null | string;
+}

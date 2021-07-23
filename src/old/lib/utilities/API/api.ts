@@ -72,6 +72,7 @@ export type GetPostsRequestType =
   | 'important'
   | 'latest-all'
   | 'latest-by-expert'
+  | 'latest-by-expert-and-status'
   | 'all-posts'
   | 'set-important'
   | 'get-by-important-image';
