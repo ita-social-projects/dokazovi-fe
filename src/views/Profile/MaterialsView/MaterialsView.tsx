@@ -1,6 +1,7 @@
 import React from 'react';
 import { IExpert } from '../../../old/lib/types';
-import MaterialsByStatus from './MaterialsByStatus';
+import MaterialsDraft from './MaterialsDraft';
+import MaterialsPublished from './MaterialsPublished';
 
 export interface IExpertProfileViewProps {
   expert: IExpert;
@@ -11,8 +12,8 @@ export const MaterialsView: React.FC<IExpertProfileViewProps> = ({
 }) => {
   return (
     <>
-      <MaterialsByStatus expertId={expert.id} expert={expert} />
-      <div>PublishedMaterials</div>
+      <MaterialsDraft onDelete expertId={expert.id} expert={expert} />
+      <MaterialsPublished onDelete expertId={expert.id} expert={expert} />
     </>
   );
 };

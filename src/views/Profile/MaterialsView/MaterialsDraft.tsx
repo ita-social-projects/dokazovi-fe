@@ -1,12 +1,14 @@
-import React, { useEffect, useRef, useState } from 'react';
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
   Grid,
 } from '@material-ui/core';
-import { ExpandMore } from '@material-ui/icons';
+import { ExpandMore, StoreMallDirectory } from '@material-ui/icons';
 import { isEmpty } from 'lodash';
 import { useTranslation } from 'react-i18next';
 import { LoadingContainer } from '../../../old/lib/components/Loading/LoadingContainer';
@@ -21,11 +23,9 @@ import {
   LoadingStatusEnum,
   LoadMoreButtonTextType,
   QueryTypeEnum,
+  IPost,
 } from '../../../old/lib/types';
-import {
-  ActivePostType,
-  RequestParamsType,
-} from '../../../old/lib/utilities/API/types';
+import { RequestParamsType } from '../../../old/lib/utilities/API/types';
 import { mapQueryIdsStringToArray } from '../../../old/lib/utilities/filters';
 import { useActions } from '../../../shared/hooks';
 import { selectPostTypes } from '../../../models/properties';
@@ -37,15 +37,18 @@ import {
   selectExpertMaterialsLoadingDraft,
   selectExpertsStatusDraft,
 } from '../../../models/expertMaterialsDraft';
+import { deletePostById } from '../../../old/lib/utilities/API/api';
 import { useStyles } from './styles/MaterialsByStatus.styles';
 
-export interface IPublishedMaterialsProps {
+export interface IDraftMaterialsProps {
   expertId: number;
   expert: IExpert;
+  onDelete;
 }
 
-const MaterialsByStatus: React.FC<IPublishedMaterialsProps> = ({
+const MaterialsDraft: React.FC<IDraftMaterialsProps> = ({
   expertId,
+  onDelete,
   expert,
 }) => {
   const [isTouched, setTouchStatus] = useState(false);
@@ -56,10 +59,17 @@ const MaterialsByStatus: React.FC<IPublishedMaterialsProps> = ({
     meta: { isLastPage, pageNumber, totalElements, totalPages },
   } = useSelector(selectExpertsDataDraft);
 
-  const status = useSelector(selectExpertsStatusDraft);
-  const { t } = useTranslation();
+  const allMaterials = Object.values(posts);
 
-  const [activePostTypes, setActivePostTypes] = useState<ActivePostType[]>();
+  const materials = [...allMaterials].filter((el) => {
+    if (postIds.find((elem) => elem === el.id)) {
+      return true;
+    }
+    return false;
+  });
+  const [materialsPostIds, setMaterialsPostIds] = useState(postIds);
+  // const status = useSelector(selectExpertsStatusDraft);
+  const { t } = useTranslation();
 
   const loading = useSelector(selectExpertMaterialsLoadingDraft);
   const classes = useStyles();
@@ -76,15 +86,6 @@ const MaterialsByStatus: React.FC<IPublishedMaterialsProps> = ({
       boundResetMaterialsPublished();
     };
   }, []);
-
-  const allMaterials = Object.values(posts);
-
-  const materials = [...allMaterials].filter((el) => {
-    if (postIds.find((elem) => elem === el.id)) {
-      return true;
-    }
-    return false;
-  });
 
   const postTypes = useSelector(selectPostTypes);
 
@@ -134,31 +135,70 @@ const MaterialsByStatus: React.FC<IPublishedMaterialsProps> = ({
       filters,
       page,
       appendPosts,
-      status: 'PUBLISHED',
+      status: 'DRAFT',
     });
   };
 
   useEffect(() => {
     const appendPosts = previous && previous.page < page;
     fetchData(appendPosts);
-  }, [page]);
+  }, [materialsPostIds.length, page]);
 
   const gridRef = useRef<HTMLDivElement>(null);
   useEffectExceptOnMount(() => {
     if (page > 0) {
       gridRef.current?.scrollIntoView({ behavior: 'smooth' });
     }
-  }, [postIds]);
+  }, [materialsPostIds.length]);
 
-  const disabledPostTypes = postTypes.filter((post) => {
-    if (activePostTypes?.length) {
-      if (activePostTypes?.find((el) => el.id === post.id)) {
-        return false;
+  // const handleDelete = useCallback(
+  //   async (postId: number, postTitle: string) => {
+  //     try {
+  //       const response = await deletePostById(Number(postId));
+  //       if (response.data.success) {
+  //         toast.success(
+  //           `${t(langTokens.materials.materialDeletedSuccess, {
+  //             material: postTitle,
+  //           })}!`,
+  //         );
+  //       }
+  //     } catch (e) {
+  //       toast.success(
+  //         `${t(langTokens.materials.materialDeletedFail, {
+  //           material: postTitle,
+  //         })}.`,
+  //       );
+  //     }
+  //   },
+  //   [materialsPost.length],
+  // );
+
+  const handleDelete = async (postId: number, postTitle: string) => {
+    try {
+      const response = await deletePostById(Number(postId));
+      if (response.data.success) {
+        toast.success(
+          `${t(langTokens.materials.materialDeletedSuccess, {
+            material: postTitle,
+          })}!`,
+        );
       }
-      return true;
+      const materialsPostIdsUpdated = materialsPostIds.filter(
+        (id) => id !== postId,
+      );
+      setMaterialsPostIds(materialsPostIdsUpdated);
+    } catch (e) {
+      toast.success(
+        `${t(langTokens.materials.materialDeletedFail, {
+          material: postTitle,
+        })}.`,
+      );
     }
-    return false;
-  });
+  };
+
+  console.log('postIds', postIds.length);
+  console.log('posts', posts.length);
+  console.log('materials', materials.length);
 
   return (
     <Accordion
@@ -196,7 +236,11 @@ const MaterialsByStatus: React.FC<IPublishedMaterialsProps> = ({
                       message={`${t(langTokens.common.noItemsFoundForReques)}`}
                     />
                   ) : (
-                    <PostsList status="DRAFT" postsList={materials} />
+                    <PostsList
+                      onDelete={handleDelete}
+                      status="DRAFT"
+                      postsList={materials}
+                    />
                   )}
                   {materials.length > 0 ? (
                     <Grid
@@ -226,4 +270,4 @@ const MaterialsByStatus: React.FC<IPublishedMaterialsProps> = ({
   );
 };
 
-export default MaterialsByStatus;
+export default MaterialsDraft;

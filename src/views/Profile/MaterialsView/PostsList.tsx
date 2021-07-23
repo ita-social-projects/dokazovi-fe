@@ -1,10 +1,12 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-return */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import React, {
   useContext,
   useRef,
   useState,
   useEffect,
-  useCallback,
+  // useCallback,
 } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -21,7 +23,7 @@ import {
 import { Delete, Edit } from '@material-ui/icons';
 import { ConfirmationModalWithButton } from '../../../old/lib/components/Modals/ConfirmationModalWithButton';
 import { AuthContext } from '../../../old/provider/AuthProvider/AuthContext';
-import { deletePostById } from '../../../old/lib/utilities/API/api';
+// import { deletePostById } from '../../../old/lib/utilities/API/api';
 import { langTokens } from '../../../locales/localizationInit';
 import { formatDate } from '../../../utilities/formatDate';
 import { IPost } from '../../../old/lib/types';
@@ -31,9 +33,14 @@ import { useStyles } from './styles/PostsList.styles';
 export interface IPostsListProps {
   postsList: IPost[];
   status?: string;
+  onDelete;
 }
 
-export const PostsList: React.FC<IPostsListProps> = ({ postsList, status }) => {
+export const PostsList: React.FC<IPostsListProps> = ({
+  postsList,
+  status,
+  onDelete,
+}) => {
   const classes = useStyles();
   const { t } = useTranslation();
   const { authenticated } = useContext(AuthContext);
@@ -63,24 +70,24 @@ export const PostsList: React.FC<IPostsListProps> = ({ postsList, status }) => {
   //   [postsList.length],
   // );
 
-  const onDelete = async (postId, postTitle) => {
-    try {
-      const response = await deletePostById(Number(postId));
-      if (response.data.success) {
-        toast.success(
-          `${t(langTokens.materials.materialDeletedSuccess, {
-            material: postTitle,
-          })}!`,
-        );
-      }
-    } catch (e) {
-      toast.success(
-        `${t(langTokens.materials.materialDeletedFail, {
-          material: postTitle,
-        })}.`,
-      );
-    }
-  };
+  // const onDelete = async (postId, postTitle) => {
+  //   try {
+  //     const response = await deletePostById(Number(postId));
+  //     if (response.data.success) {
+  //       toast.success(
+  //         `${t(langTokens.materials.materialDeletedSuccess, {
+  //           material: postTitle,
+  //         })}!`,
+  //       );
+  //     }
+  //   } catch (e) {
+  //     toast.success(
+  //       `${t(langTokens.materials.materialDeletedFail, {
+  //         material: postTitle,
+  //       })}.`,
+  //     );
+  //   }
+  // };
 
   useEffect(() => {
     if (!postForScrollRef.current) return;
