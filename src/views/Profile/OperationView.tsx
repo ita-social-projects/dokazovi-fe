@@ -1,6 +1,6 @@
 import React from 'react';
 import { Container } from '@material-ui/core';
-import { MaterialsView } from './MaterialsView';
+import { ExpertMaterialsViewWrapper } from './MaterialsView/ExpertMaterialsViewWrapper';
 import { useStyles } from './styles/OperationView.styles';
 import { IProfileMenuOption } from '../../old/lib/types';
 
@@ -15,7 +15,7 @@ export const OperationView: React.FC<IOperationViewProps> = (props) => {
 
   const operationViews = {
     info: <div>Info</div>,
-    materials: <MaterialsView />,
+    materials: <ExpertMaterialsViewWrapper />,
     passwordChange: <div>Password Change</div>,
     mail: <div>Mail</div>,
   };
