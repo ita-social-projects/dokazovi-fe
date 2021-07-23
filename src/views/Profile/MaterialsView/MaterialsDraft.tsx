@@ -1,5 +1,5 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import React, { useEffect, useRef, useState, useCallback } from 'react';
+/* eslint-disable no-restricted-globals */
+import React, { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import {
@@ -8,7 +8,7 @@ import {
   AccordionDetails,
   Grid,
 } from '@material-ui/core';
-import { ExpandMore, StoreMallDirectory } from '@material-ui/icons';
+import { ExpandMore } from '@material-ui/icons';
 import { isEmpty } from 'lodash';
 import { useTranslation } from 'react-i18next';
 import { LoadingContainer } from '../../../old/lib/components/Loading/LoadingContainer';
@@ -23,7 +23,6 @@ import {
   LoadingStatusEnum,
   LoadMoreButtonTextType,
   QueryTypeEnum,
-  IPost,
 } from '../../../old/lib/types';
 import { RequestParamsType } from '../../../old/lib/utilities/API/types';
 import { mapQueryIdsStringToArray } from '../../../old/lib/utilities/filters';
@@ -35,7 +34,8 @@ import {
   resetMaterialsDraft,
   selectExpertsDataDraft,
   selectExpertMaterialsLoadingDraft,
-  selectExpertsStatusDraft,
+  getAllMaterialsDraft,
+  removePostDraft,
 } from '../../../models/expertMaterialsDraft';
 import { deletePostById } from '../../../old/lib/utilities/API/api';
 import { useStyles } from './styles/MaterialsByStatus.styles';
@@ -43,12 +43,11 @@ import { useStyles } from './styles/MaterialsByStatus.styles';
 export interface IDraftMaterialsProps {
   expertId: number;
   expert: IExpert;
-  onDelete;
+  onDelete?: (arg0: number, arg1: string) => void;
 }
 
 const MaterialsDraft: React.FC<IDraftMaterialsProps> = ({
   expertId,
-  onDelete,
   expert,
 }) => {
   const [isTouched, setTouchStatus] = useState(false);
@@ -57,18 +56,9 @@ const MaterialsDraft: React.FC<IDraftMaterialsProps> = ({
     posts,
     postIds,
     meta: { isLastPage, pageNumber, totalElements, totalPages },
+    materialsDraft,
   } = useSelector(selectExpertsDataDraft);
 
-  const allMaterials = Object.values(posts);
-
-  const materials = [...allMaterials].filter((el) => {
-    if (postIds.find((elem) => elem === el.id)) {
-      return true;
-    }
-    return false;
-  });
-  const [materialsPostIds, setMaterialsPostIds] = useState(postIds);
-  // const status = useSelector(selectExpertsStatusDraft);
   const { t } = useTranslation();
 
   const loading = useSelector(selectExpertMaterialsLoadingDraft);
@@ -79,7 +69,14 @@ const MaterialsDraft: React.FC<IDraftMaterialsProps> = ({
   const [
     boundResetMaterialsPublished,
     boundFetchExpertMaterialsPublished,
-  ] = useActions([resetMaterialsDraft, fetchExpertMaterialsDraft]);
+    boundGetExpertMaterialsDraft,
+    boundRemovePostDraft,
+  ] = useActions([
+    resetMaterialsDraft,
+    fetchExpertMaterialsDraft,
+    getAllMaterialsDraft,
+    removePostDraft,
+  ]);
 
   useEffect(() => {
     return function reseting() {
@@ -136,42 +133,28 @@ const MaterialsDraft: React.FC<IDraftMaterialsProps> = ({
       page,
       appendPosts,
       status: 'DRAFT',
+      materialsDraft,
     });
   };
 
   useEffect(() => {
     const appendPosts = previous && previous.page < page;
     fetchData(appendPosts);
-  }, [materialsPostIds.length, page]);
+    boundGetExpertMaterialsDraft();
+  }, [page]);
+
+  useEffect(() => {
+    if (posts) {
+      boundGetExpertMaterialsDraft();
+    }
+  }, [posts]);
 
   const gridRef = useRef<HTMLDivElement>(null);
   useEffectExceptOnMount(() => {
     if (page > 0) {
       gridRef.current?.scrollIntoView({ behavior: 'smooth' });
     }
-  }, [materialsPostIds.length]);
-
-  // const handleDelete = useCallback(
-  //   async (postId: number, postTitle: string) => {
-  //     try {
-  //       const response = await deletePostById(Number(postId));
-  //       if (response.data.success) {
-  //         toast.success(
-  //           `${t(langTokens.materials.materialDeletedSuccess, {
-  //             material: postTitle,
-  //           })}!`,
-  //         );
-  //       }
-  //     } catch (e) {
-  //       toast.success(
-  //         `${t(langTokens.materials.materialDeletedFail, {
-  //           material: postTitle,
-  //         })}.`,
-  //       );
-  //     }
-  //   },
-  //   [materialsPost.length],
-  // );
+  }, [materialsDraft?.length]);
 
   const handleDelete = async (postId: number, postTitle: string) => {
     try {
@@ -183,10 +166,7 @@ const MaterialsDraft: React.FC<IDraftMaterialsProps> = ({
           })}!`,
         );
       }
-      const materialsPostIdsUpdated = materialsPostIds.filter(
-        (id) => id !== postId,
-      );
-      setMaterialsPostIds(materialsPostIdsUpdated);
+      boundRemovePostDraft(postId);
     } catch (e) {
       toast.success(
         `${t(langTokens.materials.materialDeletedFail, {
@@ -195,10 +175,6 @@ const MaterialsDraft: React.FC<IDraftMaterialsProps> = ({
       );
     }
   };
-
-  console.log('postIds', postIds.length);
-  console.log('posts', posts.length);
-  console.log('materials', materials.length);
 
   return (
     <Accordion
@@ -231,7 +207,7 @@ const MaterialsDraft: React.FC<IDraftMaterialsProps> = ({
               ) : (
                 <>
                   {loading === LoadingStatusEnum.succeeded &&
-                  materials.length === 0 ? (
+                  materialsDraft?.length === 0 ? (
                     <Notification
                       message={`${t(langTokens.common.noItemsFoundForReques)}`}
                     />
@@ -239,10 +215,10 @@ const MaterialsDraft: React.FC<IDraftMaterialsProps> = ({
                     <PostsList
                       onDelete={handleDelete}
                       status="DRAFT"
-                      postsList={materials}
+                      postsList={materialsDraft}
                     />
                   )}
-                  {materials.length > 0 ? (
+                  {materialsDraft?.length > 0 ? (
                     <Grid
                       container
                       direction="column"

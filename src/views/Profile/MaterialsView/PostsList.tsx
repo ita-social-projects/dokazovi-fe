@@ -1,16 +1,6 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-return */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import React, {
-  useContext,
-  useRef,
-  useState,
-  useEffect,
-  // useCallback,
-} from 'react';
+import React, { useContext, useRef, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { toast } from 'react-toastify';
 import {
   Table,
   TableBody,
@@ -23,7 +13,6 @@ import {
 import { Delete, Edit } from '@material-ui/icons';
 import { ConfirmationModalWithButton } from '../../../old/lib/components/Modals/ConfirmationModalWithButton';
 import { AuthContext } from '../../../old/provider/AuthProvider/AuthContext';
-// import { deletePostById } from '../../../old/lib/utilities/API/api';
 import { langTokens } from '../../../locales/localizationInit';
 import { formatDate } from '../../../utilities/formatDate';
 import { IPost } from '../../../old/lib/types';
@@ -33,7 +22,7 @@ import { useStyles } from './styles/PostsList.styles';
 export interface IPostsListProps {
   postsList: IPost[];
   status?: string;
-  onDelete;
+  onDelete?: (arg0: number, arg1: string) => void;
 }
 
 export const PostsList: React.FC<IPostsListProps> = ({
@@ -44,50 +33,9 @@ export const PostsList: React.FC<IPostsListProps> = ({
   const classes = useStyles();
   const { t } = useTranslation();
   const { authenticated } = useContext(AuthContext);
-  const postIdxForScroll = postsList.length - LOAD_BY_STATUS_POSTS_LIMIT;
+  const postIdxForScroll = postsList?.length - LOAD_BY_STATUS_POSTS_LIMIT;
   const postForScrollRef = useRef<HTMLDivElement>(null);
-  const [prevPostsCount, setPrevPostsLength] = useState(postsList.length);
-
-  // const onDelete = useCallback(
-  //   async (postId: number, postTitle: string) => {
-  //     try {
-  //       const response = await deletePostById(Number(postId));
-  //       if (response.data.success) {
-  //         toast.success(
-  //           `${t(langTokens.materials.materialDeletedSuccess, {
-  //             material: postTitle,
-  //           })}!`,
-  //         );
-  //       }
-  //     } catch (e) {
-  //       toast.success(
-  //         `${t(langTokens.materials.materialDeletedFail, {
-  //           material: postTitle,
-  //         })}.`,
-  //       );
-  //     }
-  //   },
-  //   [postsList.length],
-  // );
-
-  // const onDelete = async (postId, postTitle) => {
-  //   try {
-  //     const response = await deletePostById(Number(postId));
-  //     if (response.data.success) {
-  //       toast.success(
-  //         `${t(langTokens.materials.materialDeletedSuccess, {
-  //           material: postTitle,
-  //         })}!`,
-  //       );
-  //     }
-  //   } catch (e) {
-  //     toast.success(
-  //       `${t(langTokens.materials.materialDeletedFail, {
-  //         material: postTitle,
-  //       })}.`,
-  //     );
-  //   }
-  // };
+  const [prevPostsCount, setPrevPostsLength] = useState(postsList?.length);
 
   useEffect(() => {
     if (!postForScrollRef.current) return;
@@ -100,13 +48,13 @@ export const PostsList: React.FC<IPostsListProps> = ({
       });
     }
 
-    setPrevPostsLength(postsList.length);
-  }, [postsList.length]);
+    setPrevPostsLength(postsList?.length);
+  }, [postsList?.length]);
 
   return (
     <Table className={classes.container}>
       <TableBody>
-        {postsList.map((post, idx) => (
+        {postsList?.map((post, idx) => (
           <TableRow key={post.id}>
             <div
               className={classes.item}

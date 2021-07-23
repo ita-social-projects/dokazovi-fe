@@ -61,11 +61,23 @@ export interface IMaterialsMeta {
   totalElements: number;
 }
 
-export interface IMaterialsDataByStatus extends IMaterialsData {
+export interface IMaterialsDataDraft extends IMaterialsData {
   status: string;
+  materialsDraft: IPost[];
 }
-export interface IMaterialsStateByStatus {
-  data: IMaterialsDataByStatus;
+
+export interface IMaterialsDataPublished extends IMaterialsData {
+  status: string;
+  materialsPublished?: IPost[];
+}
+export interface IMaterialsStateDraft {
+  data: IMaterialsDataDraft;
+  loading: LoadingStatusEnum;
+  error: null | string;
+}
+
+export interface IMaterialsStatePublished {
+  data: IMaterialsDataPublished;
   loading: LoadingStatusEnum;
   error: null | string;
 }

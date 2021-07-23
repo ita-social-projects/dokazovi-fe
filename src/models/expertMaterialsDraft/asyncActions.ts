@@ -12,7 +12,14 @@ export const fetchExpertMaterialsDraft = createAsyncThunk(
     { getState, rejectWithValue },
   ) => {
     try {
-      const { expertId, filters, status, page, appendPosts } = options;
+      const {
+        expertId,
+        filters,
+        materialsDraft,
+        status,
+        page,
+        appendPosts,
+      } = options;
       const response = await getPosts('latest-by-expert-and-status', {
         params: {
           size: LOAD_BY_STATUS_POSTS_LIMIT,
@@ -38,14 +45,15 @@ export const fetchExpertMaterialsDraft = createAsyncThunk(
       return {
         postIds: appendPosts ? data.postIds.concat(ids) : ids,
         posts,
+        filters,
+        materialsDraft,
+        status,
         meta: {
           isLastPage: response.data.last,
           pageNumber: response.data.number,
           totalElements: response.data.totalElements,
           totalPages: response.data.totalPages,
         },
-        status,
-        filters,
       };
     } catch (err) {
       return rejectWithValue(err.response?.data);

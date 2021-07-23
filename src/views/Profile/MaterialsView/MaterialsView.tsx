@@ -12,8 +12,8 @@ export const MaterialsView: React.FC<IExpertProfileViewProps> = ({
 }) => {
   return (
     <>
-      <MaterialsDraft onDelete expertId={expert.id} expert={expert} />
-      <MaterialsPublished onDelete expertId={expert.id} expert={expert} />
+      <MaterialsDraft expertId={expert.id} expert={expert} />
+      <MaterialsPublished expertId={expert.id} expert={expert} />
     </>
   );
 };

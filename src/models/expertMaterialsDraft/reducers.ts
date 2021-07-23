@@ -1,14 +1,15 @@
 /* eslint-disable */
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { LoadingStatusEnum } from '../../old/lib/types';
-import { IMaterialsStateByStatus } from '../materials/types';
+import { IMaterialsStateDraft } from '../materials/types';
 import { fetchExpertMaterialsDraft } from './asyncActions';
 import { getAsyncActionsReducer } from '../helpers/asyncActions';
 
-const initialState: IMaterialsStateByStatus = {
+const initialState: IMaterialsStateDraft = {
   data: {
     postIds: [],
     posts: {},
+    materialsDraft: [],
     meta: {
       isLastPage: false,
       pageNumber: 0,
@@ -31,12 +32,31 @@ export const expertsSlice = createSlice({
       state.loading = initialState.loading;
       state.error = initialState.error;
     },
+    getAllMaterialsDraft: (state) => {
+      const allMaterials = Object.values(state.data.posts);
+      state.data.materialsDraft = [...allMaterials].filter((el) => {
+        if (state.data.postIds.find((elem) => elem === el.id)) {
+          return true;
+        }
+        return false;
+      });
+    },
+    removePostDraft: (state, action: PayloadAction<number>) => {
+      state.data.materialsDraft = state.data.materialsDraft?.filter(
+        (post) => post.id !== action.payload,
+      );
+    },
   },
+
   extraReducers: {
     ...getAsyncActionsReducer(fetchExpertMaterialsDraft as any),
   },
 });
 
-export const { resetMaterialsDraft } = expertsSlice.actions;
+export const {
+  resetMaterialsDraft,
+  getAllMaterialsDraft,
+  removePostDraft,
+} = expertsSlice.actions;
 
 export const expertMaterialsReducerDraft = expertsSlice.reducer;

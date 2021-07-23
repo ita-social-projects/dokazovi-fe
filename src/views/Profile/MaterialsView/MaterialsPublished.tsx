@@ -1,7 +1,6 @@
 /* eslint-disable no-restricted-globals */
 import React, { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { toast } from 'react-toastify';
 import {
   Accordion,
   AccordionSummary,
@@ -27,10 +26,7 @@ import {
   QueryTypeEnum,
   filtersStateEnum,
 } from '../../../old/lib/types';
-import {
-  deletePostById,
-  getActivePostTypes,
-} from '../../../old/lib/utilities/API/api';
+import { getActivePostTypes } from '../../../old/lib/utilities/API/api';
 import {
   ActivePostType,
   RequestParamsType,
@@ -45,7 +41,6 @@ import {
   resetMaterialsPublished,
   selectExpertsDataPublished,
   selectExpertMaterialsLoadingPublished,
-  selectExpertsStatusPublished,
 } from '../../../models/expertMaterialsPublished';
 import { updatePostTypes } from '../../../old/modules/utilities/utilityFunctions';
 import { useStyles } from './styles/MaterialsByStatus.styles';
@@ -53,13 +48,11 @@ import { useStyles } from './styles/MaterialsByStatus.styles';
 export interface IPublishedMaterialsProps {
   expertId: number;
   expert: IExpert;
-  onDelete;
 }
 
 const MaterialsPublished: React.FC<IPublishedMaterialsProps> = ({
   expertId,
   expert,
-  onDelete,
 }) => {
   const [isTouched, setTouchStatus] = useState(false);
 
@@ -69,7 +62,6 @@ const MaterialsPublished: React.FC<IPublishedMaterialsProps> = ({
     meta: { isLastPage, pageNumber, totalElements, totalPages },
   } = useSelector(selectExpertsDataPublished);
 
-  const status = useSelector(selectExpertsStatusPublished);
   const { t } = useTranslation();
 
   const [TheOnlyAvailablePostType, setTheOnlyAvailablePostType] = useState<
@@ -154,8 +146,6 @@ const MaterialsPublished: React.FC<IPublishedMaterialsProps> = ({
     }
 
     const checkedIds = Object.keys(checked).filter((key) => checked[key]);
-
-    console.log(checkedIds);
 
     setPage(0);
 
@@ -250,25 +240,6 @@ const MaterialsPublished: React.FC<IPublishedMaterialsProps> = ({
     return false;
   });
 
-  const handleDelete = async (postId: number, postTitle: string) => {
-    try {
-      const response = await deletePostById(Number(postId));
-      if (response.data.success) {
-        toast.success(
-          `${t(langTokens.materials.materialDeletedSuccess, {
-            material: postTitle,
-          })}!`,
-        );
-      }
-    } catch (e) {
-      toast.success(
-        `${t(langTokens.materials.materialDeletedFail, {
-          material: postTitle,
-        })}.`,
-      );
-    }
-  };
-
   return (
     <Accordion
       classes={{ root: classes.addMaterialsSection }}
@@ -320,11 +291,7 @@ const MaterialsPublished: React.FC<IPublishedMaterialsProps> = ({
                       message={`${t(langTokens.common.noItemsFoundForReques)}`}
                     />
                   ) : (
-                    <PostsList
-                      onDelete={handleDelete}
-                      status="PUBLISHED"
-                      postsList={materials}
-                    />
+                    <PostsList status="PUBLISHED" postsList={materials} />
                   )}
                   {materials.length > 0 ? (
                     <Grid

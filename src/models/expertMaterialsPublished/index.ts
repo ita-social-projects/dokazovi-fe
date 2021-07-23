@@ -8,5 +8,4 @@ export {
   selectExpertsDataPublished,
   selectExpertMaterialsLoadingPublished,
   selectExpertMaterialsErrorPublished,
-  selectExpertsStatusPublished,
 } from './selectors';
