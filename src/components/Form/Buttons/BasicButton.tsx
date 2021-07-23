@@ -3,8 +3,10 @@ import clsx from 'clsx';
 import React from 'react';
 import { useStyles } from './styles/BasicButton.style';
 
+type BasicButtonType = 'accept' | 'sign';
+
 interface IBasicButtonProps {
-  type: 'accept' | 'sign';
+  type: BasicButtonType;
   className?: string;
   disabled?: boolean;
   label?: string;
@@ -19,21 +21,20 @@ export const BasicButton: React.FC<IBasicButtonProps> = ({
   onClick,
 }) => {
   const classes = useStyles();
-  let rootClass: string;
-  switch (type) {
-    case 'accept':
-      rootClass = classes.basicAcceptButton;
-      break;
-    case 'sign':
-      rootClass = classes.basicSignButton;
-      break;
-    default:
-      rootClass = '';
-  }
+  const getRootClass = () => {
+    switch (type) {
+      case 'accept':
+        return classes.basicAcceptButton;
+      case 'sign':
+        return classes.basicSignButton;
+      default:
+        return '';
+    }
+  };
 
   return (
     <Button
-      className={clsx(rootClass, className)}
+      className={clsx(getRootClass(), className)}
       type="submit"
       variant="contained"
       fullWidth

@@ -21,12 +21,9 @@ const PasswordResetView = () => {
     mode: 'onTouched',
   });
 
-  const onSubmit = async (inputs: { email: string }) => {
-    try {
-      await resetPasswordRequest(inputs.email);
-    } finally {
-      setSubmitted(true);
-    }
+  const onSubmit = (inputs: { email: string }) => {
+    setSubmitted(true);
+    resetPasswordRequest(inputs.email);
   };
 
   const passwordResetView = (
@@ -66,8 +63,7 @@ const PasswordResetView = () => {
     </Container>
   );
 
-  if (submitted) return submittedView;
-  return passwordResetView;
+  return submitted ? submittedView : passwordResetView;
 };
 
 export default PasswordResetView;

@@ -22,12 +22,9 @@ export const PasswordChangeView = () => {
     mode: 'onTouched',
   });
 
-  const onSubmit = async (inputs: IAuthInputs) => {
-    try {
-      await changePasswordRequest(inputs.email, inputs.password);
-    } finally {
-      setSubmitted(true);
-    }
+  const onSubmit = (inputs: IAuthInputs) => {
+    setSubmitted(true);
+    changePasswordRequest(inputs.email, inputs.password);
   };
 
   const passwordChangeView = (
@@ -71,8 +68,6 @@ export const PasswordChangeView = () => {
       />
     </Container>
   );
-  if (submitted) {
-    return submittedView;
-  }
-  return passwordChangeView;
+
+  return submitted ? submittedView : passwordChangeView;
 };

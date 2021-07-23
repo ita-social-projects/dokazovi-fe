@@ -4,6 +4,8 @@ import clsx from 'clsx';
 import React, { useState } from 'react';
 import { useStyles } from './styles/BasicInput.style';
 
+type ButtonType = 'text' | 'password';
+
 interface IBasicInputProps {
   className?: string;
   name?: string;
@@ -13,7 +15,7 @@ interface IBasicInputProps {
   onChange?: React.ChangeEventHandler<HTMLInputElement>;
   error?: boolean;
   helperText?: React.ReactNode;
-  type?: 'text' | 'password';
+  type?: ButtonType;
 }
 
 export const BasicInput: React.FC<IBasicInputProps> = ({
@@ -28,11 +30,20 @@ export const BasicInput: React.FC<IBasicInputProps> = ({
 }) => {
   const classes = useStyles();
   const [showPassword, setShowPassword] = useState(false);
+  const computeType = (): ButtonType => {
+    switch (type) {
+      case 'password':
+        return showPassword ? 'text' : 'password';
+      default:
+        return 'text';
+    }
+  };
+
   return (
     <TextField
       className={clsx(classes.basicInput, className)}
       // eslint-disable-next-line no-nested-ternary
-      type={type === 'text' ? type : showPassword ? 'text' : 'password'}
+      type={computeType()}
       variant="outlined"
       margin="normal"
       fullWidth

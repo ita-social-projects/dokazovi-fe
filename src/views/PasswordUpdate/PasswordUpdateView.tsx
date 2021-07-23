@@ -49,8 +49,9 @@ const PasswordUpdateView = () => {
 
   useEffect(() => {
     const token = query.get('token');
-    if (!token) return;
-
+    if (!token) {
+      return;
+    }
     checkPasswordToken(token).then((response) =>
       setLoadingStatus(
         response ? LoadingStatusEnum.idle : LoadingStatusEnum.failed,
@@ -60,7 +61,9 @@ const PasswordUpdateView = () => {
 
   const onSubmit = async (inputs: INewPasswordInputs) => {
     const token = query.get('token');
-    if (!token) return;
+    if (!token) {
+      return;
+    }
     setLoadingStatus(LoadingStatusEnum.pending);
     const doesSuccess = await newPasswordRequest(
       token,
