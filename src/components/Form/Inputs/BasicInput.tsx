@@ -31,12 +31,8 @@ export const BasicInput: React.FC<IBasicInputProps> = ({
   const classes = useStyles();
   const [showPassword, setShowPassword] = useState(false);
   const computeType = (): ButtonType => {
-    switch (type) {
-      case 'password':
-        return showPassword ? 'text' : 'password';
-      default:
-        return 'text';
-    }
+    if (type === 'text') return type;
+    return showPassword ? 'text' : 'password';
   };
 
   return (
