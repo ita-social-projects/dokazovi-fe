@@ -67,9 +67,9 @@ const MaterialsDraft: React.FC<IDraftMaterialsProps> = ({
   const previous = usePrevious({ page });
 
   const [
-    boundResetMaterialsPublished,
-    boundFetchExpertMaterialsPublished,
-    boundGetExpertMaterialsDraft,
+    boundResetMaterialsDraft,
+    boundFetchExpertMaterialsDraft,
+    boundGetAllMaterialsDraft,
     boundRemovePostDraft,
   ] = useActions([
     resetMaterialsDraft,
@@ -80,7 +80,7 @@ const MaterialsDraft: React.FC<IDraftMaterialsProps> = ({
 
   useEffect(() => {
     return function reseting() {
-      boundResetMaterialsPublished();
+      boundResetMaterialsDraft();
     };
   }, []);
 
@@ -127,7 +127,7 @@ const MaterialsDraft: React.FC<IDraftMaterialsProps> = ({
       type: mapQueryIdsStringToArray(QueryTypeEnum.POST_TYPES),
     };
 
-    boundFetchExpertMaterialsPublished({
+    boundFetchExpertMaterialsDraft({
       expertId,
       filters,
       page,
@@ -140,12 +140,12 @@ const MaterialsDraft: React.FC<IDraftMaterialsProps> = ({
   useEffect(() => {
     const appendPosts = previous && previous.page < page;
     fetchData(appendPosts);
-    boundGetExpertMaterialsDraft();
+    boundGetAllMaterialsDraft();
   }, [page]);
 
   useEffect(() => {
     if (posts) {
-      boundGetExpertMaterialsDraft();
+      boundGetAllMaterialsDraft();
     }
   }, [posts]);
 
@@ -190,34 +190,34 @@ const MaterialsDraft: React.FC<IDraftMaterialsProps> = ({
       </AccordionSummary>
       <AccordionDetails className="sectionDetails">
         <>
-          <Grid container direction="row">
-            <Grid item container direction="column" xs={2}>
-              {propertiesLoaded && <div>Filter</div>}
-            </Grid>
-            <Grid
-              item
-              container
-              xs={9}
-              direction="column"
-              style={{ maxWidth: '100%' }}
-              alignItems="center"
-            >
+          {loading === LoadingStatusEnum.succeeded &&
+          materialsDraft?.length === 0 ? (
+            <Notification
+              message={`${t(langTokens.common.noItemsFoundForReques)}`}
+            />
+          ) : (
+            <Grid container direction="row">
+              <Grid item container direction="column" xs={2}>
+                {propertiesLoaded && <div>Filter</div>}
+              </Grid>
               {page === 0 && loading === LoadingStatusEnum.pending ? (
                 <LoadingContainer loading={LoadingStatusEnum.pending} expand />
               ) : (
                 <>
-                  {loading === LoadingStatusEnum.succeeded &&
-                  materialsDraft?.length === 0 ? (
-                    <Notification
-                      message={`${t(langTokens.common.noItemsFoundForReques)}`}
-                    />
-                  ) : (
+                  <Grid
+                    item
+                    container
+                    xs={9}
+                    direction="column"
+                    style={{ maxWidth: '100%' }}
+                    alignItems="center"
+                  >
                     <PostsList
-                      onDelete={handleDelete}
                       status="DRAFT"
                       postsList={materialsDraft}
+                      onDelete={handleDelete}
                     />
-                  )}
+                  </Grid>
                   {materialsDraft?.length > 0 ? (
                     <Grid
                       container
@@ -232,14 +232,14 @@ const MaterialsDraft: React.FC<IDraftMaterialsProps> = ({
                         totalPages={totalPages}
                         totalElements={totalElements}
                         pageNumber={pageNumber}
-                        textType={LoadMoreButtonTextType.POST}
+                        textType={LoadMoreButtonTextType.POST_BY_STATUS}
                       />
                     </Grid>
                   ) : null}
                 </>
               )}
             </Grid>
-          </Grid>
+          )}
         </>
       </AccordionDetails>
     </Accordion>

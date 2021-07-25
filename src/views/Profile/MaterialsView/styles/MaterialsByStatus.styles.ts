@@ -49,12 +49,13 @@ export const useStyles = makeStyles(
     },
     addMaterialsSection: {
       backgroundColor: '#e5e5e5',
+      marginBottom: theme.spacing(6),
       '&::before': {
         height: 0,
       },
       '& .sectionDetails': {
         flexDirection: 'column',
-        padding: theme.spacing(1, 0, 0),
+        padding: theme.spacing(0),
       },
     },
     addMaterialsHeader: {

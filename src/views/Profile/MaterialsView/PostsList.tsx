@@ -16,7 +16,7 @@ import { AuthContext } from '../../../old/provider/AuthProvider/AuthContext';
 import { langTokens } from '../../../locales/localizationInit';
 import { formatDate } from '../../../utilities/formatDate';
 import { IPost } from '../../../old/lib/types';
-import { LOAD_BY_STATUS_POSTS_LIMIT } from '../../../old/lib/constants/posts';
+import { LOAD_POSTS_BY_STATUS_LIMIT } from '../../../old/lib/constants/posts';
 import { useStyles } from './styles/PostsList.styles';
 
 export interface IPostsListProps {
@@ -33,14 +33,14 @@ export const PostsList: React.FC<IPostsListProps> = ({
   const classes = useStyles();
   const { t } = useTranslation();
   const { authenticated } = useContext(AuthContext);
-  const postIdxForScroll = postsList?.length - LOAD_BY_STATUS_POSTS_LIMIT;
+  const postIdxForScroll = postsList?.length - LOAD_POSTS_BY_STATUS_LIMIT;
   const postForScrollRef = useRef<HTMLDivElement>(null);
   const [prevPostsCount, setPrevPostsLength] = useState(postsList?.length);
 
   useEffect(() => {
     if (!postForScrollRef.current) return;
     if (
-      postsList.length > LOAD_BY_STATUS_POSTS_LIMIT &&
+      postsList.length > LOAD_POSTS_BY_STATUS_LIMIT &&
       postsList.length !== prevPostsCount
     ) {
       postForScrollRef.current.scrollIntoView({

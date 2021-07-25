@@ -1,15 +1,12 @@
 import React from 'react';
 import { Grid, Typography } from '@material-ui/core';
 import { SentimentVeryDissatisfied } from '@material-ui/icons';
-// import { useStyles } from './Notification.style';
 
 export interface INotificationProps {
   message: string | JSX.Element;
 }
 
 export const Notification: React.FC<INotificationProps> = ({ message }) => {
-  // const classes = useStyles();
-
   return (
     <Grid
       style={{
@@ -18,7 +15,7 @@ export const Notification: React.FC<INotificationProps> = ({ message }) => {
         fontSize: '24px',
         userSelect: 'none',
         width: '400px',
-        height: '200px',
+        height: '160px',
         margin: '0 auto',
       }}
       container

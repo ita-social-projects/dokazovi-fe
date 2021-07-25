@@ -3,7 +3,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { IFetchExpertsMaterialsDraftOptions } from './types';
 import { getPosts } from '../../old/lib/utilities/API/api';
 import { mapFetchedPosts } from '../materials/asyncActions';
-import { LOAD_BY_STATUS_POSTS_LIMIT } from '../../old/lib/constants/posts';
+import { LOAD_POSTS_BY_STATUS_LIMIT } from '../../old/lib/constants/posts';
 
 export const fetchExpertMaterialsDraft = createAsyncThunk(
   'experts/fetchExpertMaterialsDraft',
@@ -22,7 +22,7 @@ export const fetchExpertMaterialsDraft = createAsyncThunk(
       } = options;
       const response = await getPosts('latest-by-expert-and-status', {
         params: {
-          size: LOAD_BY_STATUS_POSTS_LIMIT,
+          size: LOAD_POSTS_BY_STATUS_LIMIT,
           page: page,
           expert: expertId,
           type: filters?.type,
