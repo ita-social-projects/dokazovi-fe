@@ -1,8 +1,10 @@
 /* eslint-disable import/no-cycle */
 export { fetchExpertMaterialsPublished } from './asyncActions';
 export {
-  resetMaterialsPublished,
   expertMaterialsReducerPublished,
+  resetMaterialsPublished,
+  getAllMaterialsPublished,
+  setPagePublished,
 } from './reducers';
 export {
   selectExpertsDataPublished,

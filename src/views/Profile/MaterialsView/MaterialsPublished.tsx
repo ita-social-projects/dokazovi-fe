@@ -1,5 +1,5 @@
 /* eslint-disable no-restricted-globals */
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState, useLayoutEffect } from 'react';
 import { useSelector } from 'react-redux';
 import {
   Accordion,
@@ -8,48 +8,37 @@ import {
   Grid,
 } from '@material-ui/core';
 import { ExpandMore } from '@material-ui/icons';
-import { isEmpty, uniq } from 'lodash';
 import { useTranslation } from 'react-i18next';
-import { CheckboxFormStateType } from '../../../old/lib/components/Filters/CheckboxFilterForm';
 import { LoadingContainer } from '../../../old/lib/components/Loading/LoadingContainer';
 import { PostsList } from './PostsList';
+import { FilterSection } from './FilterSection';
 import { Notification } from '../../../components/Notifications/Notification';
 import { LoadMoreButton } from '../../../old/lib/components/LoadMoreButton/LoadMoreButton';
-import { useEffectExceptOnMount } from '../../../old/lib/hooks/useEffectExceptOnMount';
-import { usePrevious } from '../../../old/lib/hooks/usePrevious';
 import {
-  FilterTypeEnum,
   IExpert,
-  IPostType,
   LoadingStatusEnum,
   LoadMoreButtonTextType,
-  QueryTypeEnum,
-  filtersStateEnum,
 } from '../../../old/lib/types';
 import { getActivePostTypes } from '../../../old/lib/utilities/API/api';
-import {
-  ActivePostType,
-  RequestParamsType,
-} from '../../../old/lib/utilities/API/types';
-import { mapQueryIdsStringToArray } from '../../../old/lib/utilities/filters';
 import { useActions } from '../../../shared/hooks';
-import { CheckboxLeftsideFilterForm } from './CheckboxLeftsideFilterForm';
-import { selectPostTypes } from '../../../models/properties';
-import { defaultPlural, langTokens } from '../../../locales/localizationInit';
+import { langTokens } from '../../../locales/localizationInit';
 import {
   fetchExpertMaterialsPublished,
   resetMaterialsPublished,
   selectExpertsDataPublished,
   selectExpertMaterialsLoadingPublished,
+  getAllMaterialsPublished,
+  setPagePublished,
 } from '../../../models/expertMaterialsPublished';
-import { updatePostTypes } from '../../../old/modules/utilities/utilityFunctions';
 import { useStyles } from './styles/MaterialsByStatus.styles';
-import { getAllMaterialsPublished } from '../../../models/expertMaterialsPublished/reducers';
 
 export interface IPublishedMaterialsProps {
   expertId: number;
   expert: IExpert;
+  onDelete?: (arg0: number, arg1: string) => void;
 }
+
+export type CheckboxFormStateType = Record<string, boolean>;
 
 const MaterialsPublished: React.FC<IPublishedMaterialsProps> = ({
   expertId,
@@ -60,193 +49,74 @@ const MaterialsPublished: React.FC<IPublishedMaterialsProps> = ({
   const {
     posts,
     postIds,
+    filters,
     materialsPublished,
     meta: { isLastPage, pageNumber, totalElements, totalPages },
   } = useSelector(selectExpertsDataPublished);
 
   const { t } = useTranslation();
 
-  const [checkedFiltersPostTypes, setCheckedFiltersPostTypes] = useState<
-    CheckboxFormStateType
-  >();
-
-  const [activePostTypes, setActivePostTypes] = useState<ActivePostType[]>();
-
   const loading = useSelector(selectExpertMaterialsLoadingPublished);
   const classes = useStyles();
-  const [page, setPage] = useState(pageNumber);
-  const previous = usePrevious({ page });
 
   const [
     boundResetMaterialsPublished,
     boundFetchExpertMaterialsPublished,
     boundGetAllMaterialsPublished,
+    boundSetPagePublished,
   ] = useActions([
     resetMaterialsPublished,
     fetchExpertMaterialsPublished,
     getAllMaterialsPublished,
+    setPagePublished,
   ]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     return function reseting() {
       boundResetMaterialsPublished();
     };
   }, []);
 
-  const postTypes = useSelector(selectPostTypes);
-
-  const postTypesInPlural: IPostType[] = [];
-
-  if (postTypes.length) {
-    const el1: IPostType = { ...postTypes[0] };
-    const el2: IPostType = { ...postTypes[1] };
-    const el3: IPostType = { ...postTypes[2] };
-
-    Object.defineProperty(el1, 'name', {
-      enumerable: false,
-      configurable: true,
-      writable: true,
-      value: `${t(langTokens.common.article, defaultPlural)}`,
-    });
-    Object.defineProperty(el2, 'name', {
-      enumerable: false,
-      configurable: true,
-      writable: true,
-      value: `${t(langTokens.common.video)}`,
-    });
-    Object.defineProperty(el3, 'name', {
-      enumerable: false,
-      configurable: true,
-      writable: true,
-      value: `${t(langTokens.common.post, defaultPlural)}`,
-    });
-
-    postTypesInPlural.push(el1, el2, el3);
-  }
-
-  const propertiesLoaded = !isEmpty(postTypesInPlural);
-
-  const setFilters = (
-    checked: CheckboxFormStateType,
-    filterType: FilterTypeEnum,
-    disabled?: CheckboxFormStateType,
-  ) => {
-    if (filterType === 0) {
-      if (disabled) {
-        setCheckedFiltersPostTypes(disabled);
-      } else {
-        setCheckedFiltersPostTypes(checked);
-      }
-    }
-
-    const checkedIds = Object.keys(checked).filter((key) => checked[key]);
-    const isQuerySame = uniq(Object.values(checked)).length === 1; // removing the query if user checks/unchecks the last box
-
-    setPage(0);
-
-    // if (isQuerySame && uniq(Object.values(checked))[0] === false) {
-    //   checkedIds = ['0'];
-    // }
-    console.log(checkedIds);
-    const fetchDataPost = (appendPosts = false) => {
-      const filters: RequestParamsType = {
-        page,
-        type: mapQueryIdsStringToArray(QueryTypeEnum.POST_TYPES),
-      };
-
-      boundFetchExpertMaterialsPublished({
-        expertId,
-        filters,
-        page,
-        appendPosts,
-        status: 'PUBLISHED',
-      });
-    };
-
-    // fetchDataPost();
-  };
-
   const loadMore = () => {
-    setPage(page + 1);
+    boundSetPagePublished(filters.page + 1);
+    boundGetAllMaterialsPublished(true);
   };
 
   const fetchData = (appendPosts = false) => {
-    const filters: RequestParamsType = {
-      page,
-      type: mapQueryIdsStringToArray(QueryTypeEnum.POST_TYPES),
-    };
-
     boundFetchExpertMaterialsPublished({
       expertId,
       filters,
-      page,
+      page: filters.page,
       appendPosts,
       status: 'PUBLISHED',
+      materialsPublished,
     });
   };
 
-  async function fetchActivePostTypes() {
-    const response = await getActivePostTypes(expertId);
-    const arr: ActivePostType[] = response.data;
-    setActivePostTypes(arr);
-  }
+  useLayoutEffect(() => {
+    fetchData(true);
+  }, [filters.page]);
 
-  useEffect(() => {
-    fetchActivePostTypes();
-  }, []);
-
-  useEffect(() => {
-    const appendPosts = previous && previous.page < page;
-    fetchData(appendPosts);
-    boundGetAllMaterialsPublished();
-  }, [page]);
-
-  useEffect(() => {
+  useLayoutEffect(() => {
+    const disableFilters = async () => {
+      const { data } = await getActivePostTypes(expertId);
+      const disabledFilters = filters.filterConfig
+        .filter(({ id }) => {
+          if (data.map((active) => active.id).includes(+id)) return false;
+          return true;
+        })
+        .map(({ id, name }) => ({ id, name, checked: null }));
+      disabledFilters.forEach((filter) =>
+        boundGetAllMaterialsPublished(filter),
+      );
+    };
     if (posts) {
-      boundGetAllMaterialsPublished();
+      boundGetAllMaterialsPublished(filters.isAllFiltersChecked);
+      disableFilters();
     }
   }, [posts]);
 
   const gridRef = useRef<HTMLDivElement>(null);
-  useEffectExceptOnMount(() => {
-    if (page > 0) {
-      gridRef.current?.scrollIntoView({ behavior: 'smooth' });
-    }
-  }, [materialsPublished?.length]);
-
-  const selectedPostTypesString = QueryTypeEnum.POST_TYPES;
-  let selectedPostTypes:
-    | IPostType[]
-    | filtersStateEnum = postTypesInPlural?.filter((post) =>
-    selectedPostTypesString?.includes(post.id.toString()),
-  );
-
-  if (isEmpty(selectedPostTypes)) {
-    if (
-      selectedPostTypesString?.length === 1 &&
-      selectedPostTypesString?.[0] === '0'
-    ) {
-      selectedPostTypes = filtersStateEnum.empty;
-    } else {
-      selectedPostTypes = filtersStateEnum.notEmpty;
-    }
-  }
-
-  useEffect(() => {
-    setCheckedFiltersPostTypes(updatePostTypes(selectedPostTypes, postTypes));
-  }, [posts]);
-
-  const disabledPostTypes = postTypes.filter((post) => {
-    if (activePostTypes?.length) {
-      if (activePostTypes?.find((el) => el.id === post.id)) {
-        return false;
-      }
-      return true;
-    }
-    return false;
-  });
-
-  console.log('checked', { ...checkedFiltersPostTypes });
 
   return (
     <Accordion
@@ -270,24 +140,18 @@ const MaterialsPublished: React.FC<IPublishedMaterialsProps> = ({
           ) : (
             <Grid container direction="row">
               <Grid item container direction="column" xs={2}>
-                {propertiesLoaded && (
+                {postIds.length > 0 && (
                   <>
-                    <CheckboxLeftsideFilterForm
-                      disabledPostTypes={disabledPostTypes}
-                      expertId={expertId}
-                      onFormChange={(checked, disabled) =>
-                        setFilters(checked, FilterTypeEnum.POST_TYPES, disabled)
-                      }
-                      possibleFilters={postTypesInPlural}
-                      selectedFilters={selectedPostTypes}
-                      filterTitle={t(langTokens.common.byType).toLowerCase()}
-                      allTitle={t(langTokens.common.allTypes)}
-                      filterType={QueryTypeEnum.POST_TYPES}
+                    <FilterSection
+                      onFormChange={boundGetAllMaterialsPublished}
+                      title={t(langTokens.common.allTypes)}
+                      isAllFiltersChecked={filters.isAllFiltersChecked}
+                      filters={filters.filterConfig}
                     />
                   </>
                 )}
               </Grid>
-              {page === 0 && loading === LoadingStatusEnum.pending ? (
+              {filters.page === 0 && loading === LoadingStatusEnum.pending ? (
                 <LoadingContainer loading={LoadingStatusEnum.pending} expand />
               ) : (
                 <>
@@ -318,7 +182,7 @@ const MaterialsPublished: React.FC<IPublishedMaterialsProps> = ({
                         totalPages={totalPages}
                         totalElements={totalElements}
                         pageNumber={pageNumber}
-                        textType={LoadMoreButtonTextType.POST}
+                        textType={LoadMoreButtonTextType.POST_BY_STATUS}
                       />
                     </Grid>
                   ) : null}

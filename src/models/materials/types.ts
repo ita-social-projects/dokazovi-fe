@@ -1,9 +1,4 @@
-import {
-  IPost,
-  LoadingStatusEnum,
-  QueryTypeEnum,
-  PostTypeEnum,
-} from '../../old/lib/types';
+import { IPost, LoadingStatusEnum, QueryTypeEnum } from '../../old/lib/types';
 import { GetPostsRequestType } from '../../old/lib/utilities/API/api';
 
 // export interface IInitialMaterialsState {
@@ -84,10 +79,13 @@ export interface IMaterialsDataDraft extends Omit<IMaterialsData, 'filters'> {
   filters: IFilter;
 }
 
-export interface IMaterialsDataPublished extends IMaterialsData {
+export interface IMaterialsDataPublished
+  extends Omit<IMaterialsData, 'filters'> {
   status: string;
   materialsPublished: IPost[];
+  filters: IFilter;
 }
+
 export interface IMaterialsStateDraft {
   data: IMaterialsDataDraft;
   loading: LoadingStatusEnum;

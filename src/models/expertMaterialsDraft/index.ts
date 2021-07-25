@@ -1,10 +1,10 @@
 /* eslint-disable import/no-cycle */
 export { fetchExpertMaterialsDraft } from './asyncActions';
 export {
+  expertMaterialsReducerDraft,
   resetMaterialsDraft,
   getAllMaterialsDraft,
   removePostDraft,
-  expertMaterialsReducerDraft,
   setPageDraft,
 } from './reducers';
 export {

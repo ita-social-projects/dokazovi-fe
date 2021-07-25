@@ -1,10 +1,9 @@
 /* eslint-disable */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { IPost, LoadingStatusEnum } from '../../old/lib/types';
+import { IPost, LoadingStatusEnum, PostTypeEnum } from '../../old/lib/types';
 import { IMaterialsStateDraft, FilterConfigType } from '../materials/types';
 import { fetchExpertMaterialsDraft } from './asyncActions';
 import { getAsyncActionsReducer } from '../helpers/asyncActions';
-import { PostTypeEnum } from '../../old/lib/types';
 import { LOAD_POSTS_BY_STATUS_LIMIT } from '../../old/lib/constants/posts';
 
 const allCheckedFilterConfig = [
