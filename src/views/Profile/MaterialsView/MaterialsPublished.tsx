@@ -44,6 +44,7 @@ import {
 } from '../../../models/expertMaterialsPublished';
 import { updatePostTypes } from '../../../old/modules/utilities/utilityFunctions';
 import { useStyles } from './styles/MaterialsByStatus.styles';
+import { getAllMaterialsPublished } from '../../../models/expertMaterialsPublished/reducers';
 
 export interface IPublishedMaterialsProps {
   expertId: number;
@@ -59,14 +60,11 @@ const MaterialsPublished: React.FC<IPublishedMaterialsProps> = ({
   const {
     posts,
     postIds,
+    materialsPublished,
     meta: { isLastPage, pageNumber, totalElements, totalPages },
   } = useSelector(selectExpertsDataPublished);
 
   const { t } = useTranslation();
-
-  const [TheOnlyAvailablePostType, setTheOnlyAvailablePostType] = useState<
-    string
-  >();
 
   const [checkedFiltersPostTypes, setCheckedFiltersPostTypes] = useState<
     CheckboxFormStateType
@@ -82,22 +80,18 @@ const MaterialsPublished: React.FC<IPublishedMaterialsProps> = ({
   const [
     boundResetMaterialsPublished,
     boundFetchExpertMaterialsPublished,
-  ] = useActions([resetMaterialsPublished, fetchExpertMaterialsPublished]);
+    boundGetAllMaterialsPublished,
+  ] = useActions([
+    resetMaterialsPublished,
+    fetchExpertMaterialsPublished,
+    getAllMaterialsPublished,
+  ]);
 
   useEffect(() => {
     return function reseting() {
       boundResetMaterialsPublished();
     };
   }, []);
-
-  const allMaterials = Object.values(posts);
-
-  const materials = [...allMaterials].filter((el) => {
-    if (postIds.find((elem) => elem === el.id)) {
-      return true;
-    }
-    return false;
-  });
 
   const postTypes = useSelector(selectPostTypes);
 
@@ -146,9 +140,14 @@ const MaterialsPublished: React.FC<IPublishedMaterialsProps> = ({
     }
 
     const checkedIds = Object.keys(checked).filter((key) => checked[key]);
+    const isQuerySame = uniq(Object.values(checked)).length === 1; // removing the query if user checks/unchecks the last box
 
     setPage(0);
 
+    // if (isQuerySame && uniq(Object.values(checked))[0] === false) {
+    //   checkedIds = ['0'];
+    // }
+    console.log(checkedIds);
     const fetchDataPost = (appendPosts = false) => {
       const filters: RequestParamsType = {
         page,
@@ -157,14 +156,14 @@ const MaterialsPublished: React.FC<IPublishedMaterialsProps> = ({
 
       boundFetchExpertMaterialsPublished({
         expertId,
-        filters: { page, type: checkedIds },
+        filters,
         page,
         appendPosts,
         status: 'PUBLISHED',
       });
     };
 
-    fetchDataPost();
+    // fetchDataPost();
   };
 
   const loadMore = () => {
@@ -199,16 +198,23 @@ const MaterialsPublished: React.FC<IPublishedMaterialsProps> = ({
   useEffect(() => {
     const appendPosts = previous && previous.page < page;
     fetchData(appendPosts);
+    boundGetAllMaterialsPublished();
   }, [page]);
+
+  useEffect(() => {
+    if (posts) {
+      boundGetAllMaterialsPublished();
+    }
+  }, [posts]);
 
   const gridRef = useRef<HTMLDivElement>(null);
   useEffectExceptOnMount(() => {
     if (page > 0) {
       gridRef.current?.scrollIntoView({ behavior: 'smooth' });
     }
-  }, [postIds]);
+  }, [materialsPublished?.length]);
 
-  const selectedPostTypesString = QueryTypeEnum.POST_TYPES?.split(',');
+  const selectedPostTypesString = QueryTypeEnum.POST_TYPES;
   let selectedPostTypes:
     | IPostType[]
     | filtersStateEnum = postTypesInPlural?.filter((post) =>
@@ -228,7 +234,7 @@ const MaterialsPublished: React.FC<IPublishedMaterialsProps> = ({
 
   useEffect(() => {
     setCheckedFiltersPostTypes(updatePostTypes(selectedPostTypes, postTypes));
-  }, [postTypesInPlural.length]);
+  }, [posts]);
 
   const disabledPostTypes = postTypes.filter((post) => {
     if (activePostTypes?.length) {
@@ -239,6 +245,8 @@ const MaterialsPublished: React.FC<IPublishedMaterialsProps> = ({
     }
     return false;
   });
+
+  console.log('checked', { ...checkedFiltersPostTypes });
 
   return (
     <Accordion
@@ -254,46 +262,49 @@ const MaterialsPublished: React.FC<IPublishedMaterialsProps> = ({
       </AccordionSummary>
       <AccordionDetails className="sectionDetails">
         <>
-          <Grid container direction="row">
-            <Grid item container direction="column" xs={2}>
-              {propertiesLoaded && (
-                <>
-                  <CheckboxLeftsideFilterForm
-                    disabledPostTypes={disabledPostTypes}
-                    expertId={expertId}
-                    onFormChange={(checked, disabled) =>
-                      setFilters(checked, FilterTypeEnum.POST_TYPES, disabled)
-                    }
-                    possibleFilters={postTypesInPlural}
-                    selectedFilters={selectedPostTypes}
-                    filterTitle={t(langTokens.common.byType).toLowerCase()}
-                    allTitle={t(langTokens.common.allTypes)}
-                    filterType={QueryTypeEnum.POST_TYPES}
-                  />
-                </>
-              )}
-            </Grid>
-            <Grid
-              item
-              container
-              xs={9}
-              direction="column"
-              style={{ maxWidth: '100%' }}
-              alignItems="center"
-            >
+          {loading === LoadingStatusEnum.succeeded &&
+          materialsPublished?.length === 0 ? (
+            <Notification
+              message={`${t(langTokens.common.noItemsFoundForReques)}`}
+            />
+          ) : (
+            <Grid container direction="row">
+              <Grid item container direction="column" xs={2}>
+                {propertiesLoaded && (
+                  <>
+                    <CheckboxLeftsideFilterForm
+                      disabledPostTypes={disabledPostTypes}
+                      expertId={expertId}
+                      onFormChange={(checked, disabled) =>
+                        setFilters(checked, FilterTypeEnum.POST_TYPES, disabled)
+                      }
+                      possibleFilters={postTypesInPlural}
+                      selectedFilters={selectedPostTypes}
+                      filterTitle={t(langTokens.common.byType).toLowerCase()}
+                      allTitle={t(langTokens.common.allTypes)}
+                      filterType={QueryTypeEnum.POST_TYPES}
+                    />
+                  </>
+                )}
+              </Grid>
               {page === 0 && loading === LoadingStatusEnum.pending ? (
                 <LoadingContainer loading={LoadingStatusEnum.pending} expand />
               ) : (
                 <>
-                  {loading === LoadingStatusEnum.succeeded &&
-                  materials.length === 0 ? (
-                    <Notification
-                      message={`${t(langTokens.common.noItemsFoundForReques)}`}
+                  <Grid
+                    item
+                    container
+                    xs={9}
+                    direction="column"
+                    style={{ maxWidth: '100%' }}
+                    alignItems="center"
+                  >
+                    <PostsList
+                      status="PUBLISHED"
+                      postsList={materialsPublished}
                     />
-                  ) : (
-                    <PostsList status="PUBLISHED" postsList={materials} />
-                  )}
-                  {materials.length > 0 ? (
+                  </Grid>
+                  {materialsPublished?.length > 0 ? (
                     <Grid
                       container
                       direction="column"
@@ -314,7 +325,7 @@ const MaterialsPublished: React.FC<IPublishedMaterialsProps> = ({
                 </>
               )}
             </Grid>
-          </Grid>
+          )}
         </>
       </AccordionDetails>
     </Accordion>

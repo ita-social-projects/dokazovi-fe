@@ -5,6 +5,7 @@ export {
   getAllMaterialsDraft,
   removePostDraft,
   expertMaterialsReducerDraft,
+  setPageDraft,
 } from './reducers';
 export {
   selectExpertsDataDraft,

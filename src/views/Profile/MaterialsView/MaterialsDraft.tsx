@@ -1,5 +1,5 @@
 /* eslint-disable no-restricted-globals */
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState, useLayoutEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import {
@@ -9,26 +9,23 @@ import {
   Grid,
 } from '@material-ui/core';
 import { ExpandMore } from '@material-ui/icons';
-import { isEmpty } from 'lodash';
 import { useTranslation } from 'react-i18next';
 import { LoadingContainer } from '../../../old/lib/components/Loading/LoadingContainer';
 import { PostsList } from './PostsList';
+import { FilterSection } from './FilterSection';
 import { Notification } from '../../../components/Notifications/Notification';
 import { LoadMoreButton } from '../../../old/lib/components/LoadMoreButton/LoadMoreButton';
-import { useEffectExceptOnMount } from '../../../old/lib/hooks/useEffectExceptOnMount';
-import { usePrevious } from '../../../old/lib/hooks/usePrevious';
 import {
   IExpert,
-  IPostType,
   LoadingStatusEnum,
   LoadMoreButtonTextType,
-  QueryTypeEnum,
 } from '../../../old/lib/types';
-import { RequestParamsType } from '../../../old/lib/utilities/API/types';
-import { mapQueryIdsStringToArray } from '../../../old/lib/utilities/filters';
+import {
+  deletePostById,
+  getActivePostTypes,
+} from '../../../old/lib/utilities/API/api';
 import { useActions } from '../../../shared/hooks';
-import { selectPostTypes } from '../../../models/properties';
-import { defaultPlural, langTokens } from '../../../locales/localizationInit';
+import { langTokens } from '../../../locales/localizationInit';
 import {
   fetchExpertMaterialsDraft,
   resetMaterialsDraft,
@@ -36,8 +33,8 @@ import {
   selectExpertMaterialsLoadingDraft,
   getAllMaterialsDraft,
   removePostDraft,
+  setPageDraft,
 } from '../../../models/expertMaterialsDraft';
-import { deletePostById } from '../../../old/lib/utilities/API/api';
 import { useStyles } from './styles/MaterialsByStatus.styles';
 
 export interface IDraftMaterialsProps {
@@ -45,6 +42,8 @@ export interface IDraftMaterialsProps {
   expert: IExpert;
   onDelete?: (arg0: number, arg1: string) => void;
 }
+
+export type CheckboxFormStateType = Record<string, boolean>;
 
 const MaterialsDraft: React.FC<IDraftMaterialsProps> = ({
   expertId,
@@ -55,106 +54,74 @@ const MaterialsDraft: React.FC<IDraftMaterialsProps> = ({
   const {
     posts,
     postIds,
-    meta: { isLastPage, pageNumber, totalElements, totalPages },
+    filters,
     materialsDraft,
+    meta: { isLastPage, pageNumber, totalElements, totalPages },
   } = useSelector(selectExpertsDataDraft);
 
   const { t } = useTranslation();
 
   const loading = useSelector(selectExpertMaterialsLoadingDraft);
   const classes = useStyles();
-  const [page, setPage] = useState(pageNumber);
-  const previous = usePrevious({ page });
 
   const [
     boundResetMaterialsDraft,
     boundFetchExpertMaterialsDraft,
     boundGetAllMaterialsDraft,
     boundRemovePostDraft,
+    boundSetPageDraft,
   ] = useActions([
     resetMaterialsDraft,
     fetchExpertMaterialsDraft,
     getAllMaterialsDraft,
     removePostDraft,
+    setPageDraft,
   ]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     return function reseting() {
       boundResetMaterialsDraft();
     };
   }, []);
 
-  const postTypes = useSelector(selectPostTypes);
-
-  const postTypesInPlural: IPostType[] = [];
-
-  if (postTypes.length) {
-    const el1: IPostType = { ...postTypes[0] };
-    const el2: IPostType = { ...postTypes[1] };
-    const el3: IPostType = { ...postTypes[2] };
-
-    Object.defineProperty(el1, 'name', {
-      enumerable: false,
-      configurable: true,
-      writable: true,
-      value: `${t(langTokens.common.article, defaultPlural)}`,
-    });
-    Object.defineProperty(el2, 'name', {
-      enumerable: false,
-      configurable: true,
-      writable: true,
-      value: `${t(langTokens.common.video)}`,
-    });
-    Object.defineProperty(el3, 'name', {
-      enumerable: false,
-      configurable: true,
-      writable: true,
-      value: `${t(langTokens.common.post, defaultPlural)}`,
-    });
-
-    postTypesInPlural.push(el1, el2, el3);
-  }
-
-  const propertiesLoaded = !isEmpty(postTypesInPlural);
-
   const loadMore = () => {
-    setPage(page + 1);
+    boundSetPageDraft(filters.page + 1);
+    boundGetAllMaterialsDraft(true);
   };
 
   const fetchData = (appendPosts = false) => {
-    const filters: RequestParamsType = {
-      page,
-      type: mapQueryIdsStringToArray(QueryTypeEnum.POST_TYPES),
-    };
-
     boundFetchExpertMaterialsDraft({
       expertId,
       filters,
-      page,
+      page: filters.page,
       appendPosts,
       status: 'DRAFT',
       materialsDraft,
     });
   };
 
-  useEffect(() => {
-    const appendPosts = previous && previous.page < page;
-    fetchData(appendPosts);
-    boundGetAllMaterialsDraft();
-  }, [page]);
+  useLayoutEffect(() => {
+    fetchData(true);
+  }, [filters.page]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
+    const disableFilters = async () => {
+      const { data } = await getActivePostTypes(expertId);
+      const disabledFilters = filters.filterConfig
+        .filter(({ id }) => {
+          if (data.map((active) => active.id).includes(+id)) return false;
+          return true;
+        })
+        .map(({ id, name }) => ({ id, name, checked: null }));
+      disabledFilters.forEach((filter) => boundGetAllMaterialsDraft(filter));
+    };
     if (posts) {
-      boundGetAllMaterialsDraft();
+      boundGetAllMaterialsDraft(filters.isAllFiltersChecked);
+      disableFilters();
     }
   }, [posts]);
 
   const gridRef = useRef<HTMLDivElement>(null);
-  useEffectExceptOnMount(() => {
-    if (page > 0) {
-      gridRef.current?.scrollIntoView({ behavior: 'smooth' });
-    }
-  }, [materialsDraft?.length]);
 
   const handleDelete = async (postId: number, postTitle: string) => {
     try {
@@ -198,9 +165,18 @@ const MaterialsDraft: React.FC<IDraftMaterialsProps> = ({
           ) : (
             <Grid container direction="row">
               <Grid item container direction="column" xs={2}>
-                {propertiesLoaded && <div>Filter</div>}
+                {postIds.length > 0 && (
+                  <>
+                    <FilterSection
+                      onFormChange={boundGetAllMaterialsDraft}
+                      title={t(langTokens.common.allTypes)}
+                      isAllFiltersChecked={filters.isAllFiltersChecked}
+                      filters={filters.filterConfig}
+                    />
+                  </>
+                )}
               </Grid>
-              {page === 0 && loading === LoadingStatusEnum.pending ? (
+              {filters.page === 0 && loading === LoadingStatusEnum.pending ? (
                 <LoadingContainer loading={LoadingStatusEnum.pending} expand />
               ) : (
                 <>

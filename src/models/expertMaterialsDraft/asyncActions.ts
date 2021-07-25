@@ -25,7 +25,7 @@ export const fetchExpertMaterialsDraft = createAsyncThunk(
           size: LOAD_POSTS_BY_STATUS_LIMIT,
           page: page,
           expert: expertId,
-          type: filters?.type,
+          type: [],
           status: status,
         },
       });
