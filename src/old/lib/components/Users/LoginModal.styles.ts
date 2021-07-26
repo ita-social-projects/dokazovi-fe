@@ -66,6 +66,10 @@ export const useStyles = makeStyles((theme: Theme) => ({
       paddingTop: 3,
     },
   },
+  forgotPasswordText: {
+    color: '#6577B3 ',
+    marginTop: theme.spacing(3),
+  },
   visibilityIconButton: {
     padding: 0,
   },

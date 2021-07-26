@@ -36,6 +36,14 @@ const Oath2Redirect = lazy(
 const Conditions = lazy(() => import('../../views/Conditions/Conditions'));
 const Page404 = lazy(() => import('../lib/components/Errors/Page404'));
 
+const PasswordResetView = lazy(
+  () => import('../../views/PasswordReset/PasswordResetView'),
+);
+
+const PasswordUpdateView = lazy(
+  () => import('../../views/PasswordUpdate/PasswordUpdateView'),
+);
+
 export const ADMIN_ROUTER_CONFIG: IRouteConfig = {
   path: ['/admin', '/edit-post'],
   key: 'ADMIN_PAGE',
@@ -51,6 +59,16 @@ export const ROUTER_CONFIG: IRouteConfig[] = [
     key: 'ROOT',
     exact: true,
     component: MainView,
+  },
+  {
+    path: '/reset-password',
+    key: 'PASSWORD_RESET',
+    component: PasswordResetView,
+  },
+  {
+    path: '/user/update-password',
+    key: 'UPDATE_PASSWORD',
+    component: PasswordUpdateView,
   },
   {
     path: '/materials',

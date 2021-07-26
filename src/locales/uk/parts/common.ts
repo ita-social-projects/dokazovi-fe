@@ -49,4 +49,5 @@ export const common = {
   noTagsFound: 'Тегів не знайдено',
   enterTagName: 'Введіть назву тега',
   showMore: 'Показати ще',
+  acceptChanges: 'Підтвердити зміни',
 };

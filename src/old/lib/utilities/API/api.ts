@@ -192,6 +192,40 @@ export const login = async (
   return instance.post('/auth/login', { email, password });
 };
 
+export const changePasswordRequest = async (
+  email: string,
+  password: string,
+): Promise<void> => {
+  // body {message: string}
+  await instance.post('/user/change-password', { email, password });
+};
+
+export const resetPasswordRequest = async (email: string): Promise<void> => {
+  await instance.post('/user/reset-password', { email });
+};
+
+export const newPasswordRequest = async (
+  token: string,
+  newPassword: string,
+  matchPassword: string,
+): Promise<boolean> => {
+  return instance
+    .post('/user/update-password', {
+      token,
+      newPassword,
+      matchPassword,
+    })
+    .then(() => true)
+    .catch(() => false);
+};
+
+export const checkPasswordToken = (token: string): Promise<boolean> => {
+  return instance
+    .get(`/user/check-token?token=${token}`)
+    .then(() => true)
+    .catch(() => false);
+};
+
 export const getCurrentUser = async (): Promise<
   AxiosResponse<ExpertResponseType>
 > => {
