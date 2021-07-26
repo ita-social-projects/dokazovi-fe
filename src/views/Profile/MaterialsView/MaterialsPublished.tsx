@@ -29,8 +29,10 @@ import {
   selectExpertMaterialsLoadingPublished,
   getAllMaterialsPublished,
   setPagePublished,
+  setFilters,
 } from '../../../models/expertMaterialsPublished';
 import { useStyles } from './styles/MaterialsByStatus.styles';
+import { FilterConfigType } from '../../../models/materials/types';
 
 export interface IPublishedMaterialsProps {
   expertId: number;
@@ -45,6 +47,7 @@ const MaterialsPublished: React.FC<IPublishedMaterialsProps> = ({
   expert,
 }) => {
   const [isTouched, setTouchStatus] = useState(false);
+  const [prevFilters, setPrevFilters] = useState<FilterConfigType[]>([]);
 
   const {
     posts,
@@ -64,11 +67,13 @@ const MaterialsPublished: React.FC<IPublishedMaterialsProps> = ({
     boundFetchExpertMaterialsPublished,
     boundGetAllMaterialsPublished,
     boundSetPagePublished,
+    boundSetFilters,
   ] = useActions([
     resetMaterialsPublished,
     fetchExpertMaterialsPublished,
     getAllMaterialsPublished,
     setPagePublished,
+    setFilters,
   ]);
 
   useLayoutEffect(() => {
@@ -79,7 +84,7 @@ const MaterialsPublished: React.FC<IPublishedMaterialsProps> = ({
 
   const loadMore = () => {
     boundSetPagePublished(filters.page + 1);
-    boundGetAllMaterialsPublished(true);
+    // boundGetAllMaterialsPublished(true);
   };
 
   const fetchData = (appendPosts = false) => {
@@ -94,12 +99,13 @@ const MaterialsPublished: React.FC<IPublishedMaterialsProps> = ({
   };
 
   useLayoutEffect(() => {
+    setPrevFilters(filters.filterConfig);
     fetchData(true);
   }, [filters.page]);
 
   useLayoutEffect(() => {
     const disableFilters = async () => {
-      const { data } = await getActivePostTypes(expertId);
+      const { data } = await getActivePostTypes(expertId, 'PUBLISHED');
       const disabledFilters = filters.filterConfig
         .filter(({ id }) => {
           if (data.map((active) => active.id).includes(+id)) return false;
@@ -113,6 +119,7 @@ const MaterialsPublished: React.FC<IPublishedMaterialsProps> = ({
     if (posts) {
       boundGetAllMaterialsPublished(filters.isAllFiltersChecked);
       disableFilters();
+      boundSetFilters(prevFilters);
     }
   }, [posts]);
 

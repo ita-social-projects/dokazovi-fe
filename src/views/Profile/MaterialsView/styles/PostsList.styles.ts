@@ -12,12 +12,11 @@ export const useStyles = makeStyles(
     },
     card: {
       position: 'relative',
-      border: 'none',
-      minWidth: '875px',
-      alignItems: 'center',
       display: 'flex',
+      minWidth: '835px',
+      alignItems: 'center',
+      border: 'none',
       '&:hover': {
-        // backgroundColor: '#ebf1f5',
         backgroundColor: '#4FDFFF',
         cursor: 'pointer',
       },
@@ -27,14 +26,14 @@ export const useStyles = makeStyles(
       padding: theme.spacing(0, 2, 0, 2),
     },
     title: {
-      wordWrap: 'break-word',
-      fontSize: '16px',
       margin: theme.spacing(0),
+      fontSize: '16px',
+      wordWrap: 'break-word',
       color: theme.palette.common.black,
     },
     iconBlack: {
-      color: 'black',
       margin: theme.spacing(0, 0, 0, 2),
+      color: 'black',
     },
   }),
   { name: 'PostsList' },

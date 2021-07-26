@@ -7,19 +7,19 @@ import {
   Grid,
   Typography,
 } from '@material-ui/core';
-import { useStyles } from './styles/CheckboxLeftsideFilterForm.styles';
+import { useStyles } from '../../../old/lib/components/Filters/CheckboxLeftsideFilterForm.styles';
 import { FilterConfigType } from '../../../models/materials/types';
 
 export type CheckboxFormStateType = Record<string, boolean>;
 
-export interface ICheckboxLeftsideFilterFormProps {
+export interface IFilterSectionProps {
   onFormChange: (...params: any[]) => void;
   title: string;
   isAllFiltersChecked: boolean;
   filters: FilterConfigType[];
 }
 
-export const FilterSection: React.FC<ICheckboxLeftsideFilterFormProps> = ({
+export const FilterSection: React.FC<IFilterSectionProps> = ({
   onFormChange,
   title,
   isAllFiltersChecked,
@@ -31,6 +31,7 @@ export const FilterSection: React.FC<ICheckboxLeftsideFilterFormProps> = ({
     return (
       <FormControlLabel
         key={id}
+        style={isAllFiltersChecked ? { fontWeight: 900 } : { fontWeight: 500 }}
         className={classes.formControlLabel}
         label={name}
         control={
@@ -54,11 +55,19 @@ export const FilterSection: React.FC<ICheckboxLeftsideFilterFormProps> = ({
   });
 
   return (
-    <Box mt={1} className={classes.filtersWrapper}>
+    <Box
+      mt={1}
+      style={{
+        width: '180px',
+        padding: '25px',
+        margin: '0px',
+      }}
+      className={classes.filtersWrapper}
+    >
       <Grid container>
         <FormGroup className={classes.formGroup}>
           <FormControlLabel
-            style={{ width: '100%' }}
+            style={{ width: '160px' }}
             className={classes.formControlLabel}
             control={
               <Checkbox
@@ -79,8 +88,8 @@ export const FilterSection: React.FC<ICheckboxLeftsideFilterFormProps> = ({
                 }
                 style={
                   isAllFiltersChecked
-                    ? { fontWeight: 500, color: '#767676' }
-                    : { fontWeight: 700 }
+                    ? { fontWeight: 700 }
+                    : { fontWeight: 500 }
                 }
               >
                 {title}

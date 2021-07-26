@@ -106,7 +106,7 @@ const MaterialsDraft: React.FC<IDraftMaterialsProps> = ({
 
   useLayoutEffect(() => {
     const disableFilters = async () => {
-      const { data } = await getActivePostTypes(expertId);
+      const { data } = await getActivePostTypes(expertId, 'DRAFT');
       const disabledFilters = filters.filterConfig
         .filter(({ id }) => {
           if (data.map((active) => active.id).includes(+id)) return false;

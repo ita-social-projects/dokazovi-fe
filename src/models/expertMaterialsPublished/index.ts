@@ -5,6 +5,7 @@ export {
   resetMaterialsPublished,
   getAllMaterialsPublished,
   setPagePublished,
+  setFilters,
 } from './reducers';
 export {
   selectExpertsDataPublished,

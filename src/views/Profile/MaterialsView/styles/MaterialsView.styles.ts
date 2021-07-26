@@ -29,7 +29,6 @@ export const useStyles = makeStyles(
     primaryButtonsRow: {
       display: 'flex',
       justifyContent: 'space-between',
-      // paddingRight: '5%',
       marginBottom: theme.spacing(4),
     },
     centeredElement: {

@@ -38,10 +38,12 @@ export const useStyles = makeStyles({
     },
   },
   formControlLabel: {
+    fontWeight: 700,
     height: '30px',
     width: '260px',
     margin: '0 0 0 -8px',
   },
+
   filtersWrapper: {
     width: '280px',
   },

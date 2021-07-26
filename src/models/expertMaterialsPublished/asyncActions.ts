@@ -20,12 +20,13 @@ export const fetchExpertMaterialsPublished = createAsyncThunk(
         page,
         appendPosts,
       } = options;
+
       const response = await getPosts('latest-by-expert-and-status', {
         params: {
           size: LOAD_POSTS_BY_STATUS_LIMIT,
-          page: page,
+          page,
           expert: expertId,
-          type: [],
+          types: filters.filterConfig.map(({ id }) => +id) ?? [],
           status: status,
         },
       });

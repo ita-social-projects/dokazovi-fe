@@ -12,11 +12,11 @@ import {
 } from '@material-ui/core';
 import { Delete, Edit } from '@material-ui/icons';
 import { ConfirmationModalWithButton } from '../../../old/lib/components/Modals/ConfirmationModalWithButton';
+import { LOAD_POSTS_BY_STATUS_LIMIT } from '../../../old/lib/constants/posts';
 import { AuthContext } from '../../../old/provider/AuthProvider/AuthContext';
 import { langTokens } from '../../../locales/localizationInit';
 import { formatDate } from '../../../utilities/formatDate';
 import { IPost } from '../../../old/lib/types';
-import { LOAD_POSTS_BY_STATUS_LIMIT } from '../../../old/lib/constants/posts';
 import { useStyles } from './styles/PostsList.styles';
 
 export interface IPostsListProps {
@@ -61,11 +61,11 @@ export const PostsList: React.FC<IPostsListProps> = ({
               ref={postIdxForScroll === idx ? postForScrollRef : null}
             >
               <Card className={classes.card}>
-                <Link to={`/posts/${post.id}`}>
-                  <TableCell
-                    className={classes.cell}
-                    style={{ minWidth: '480px' }}
-                  >
+                <TableCell
+                  className={classes.cell}
+                  style={{ minWidth: '480px' }}
+                >
+                  <Link to={`/posts/${post.id}`}>
                     <Typography
                       gutterBottom
                       variant="h4"
@@ -74,17 +74,19 @@ export const PostsList: React.FC<IPostsListProps> = ({
                     >
                       {post.title}
                     </Typography>
-                  </TableCell>
-                  <TableCell
-                    className={classes.cell}
-                    align="center"
-                    style={{ minWidth: '300px' }}
-                  >
-                    <Typography variant="caption" color="textSecondary">
-                      {post.modifiedAt && formatDate(post.modifiedAt)}
-                    </Typography>
-                  </TableCell>
-                </Link>
+                  </Link>
+                </TableCell>
+                <TableCell
+                  className={classes.cell}
+                  align="center"
+                  style={{ minWidth: '280px' }}
+                >
+                  <Typography variant="caption" color="textSecondary">
+                    {status === 'DRAFT'
+                      ? post.modifiedAt && formatDate(post.modifiedAt)
+                      : post.publishedAt && formatDate(post.publishedAt)}
+                  </Typography>
+                </TableCell>
                 {status === 'DRAFT' && (
                   <>
                     {authenticated && (
