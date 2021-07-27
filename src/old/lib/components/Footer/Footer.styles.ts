@@ -1,4 +1,5 @@
 import makeStyles from '@material-ui/core/styles/makeStyles';
+import { relative } from 'path';
 import { IFooterStyleProps } from '../../types';
 
 export const useStyles = makeStyles(
@@ -13,6 +14,7 @@ export const useStyles = makeStyles(
       justifyContent: 'space-between',
       height: '240px',
       margin: '0 auto',
+      position: 'relative',
       padding: theme.spacing(11, 0, 12),
       color: theme.palette.common.white,
     },
