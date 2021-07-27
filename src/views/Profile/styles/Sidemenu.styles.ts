@@ -1,4 +1,5 @@
 import { makeStyles, Theme } from '@material-ui/core';
+import { callbackify } from 'util';
 
 export const useStyles = makeStyles(
   (theme: Theme) => ({
@@ -8,6 +9,7 @@ export const useStyles = makeStyles(
       backgroundColor: '#dbdbdb',
       position: 'absolute',
       border: 'none',
+      height: `calc(100% - ${theme.spacing(24)}px)`,
     },
     sidemenuList: {
       paddingTop: '0px',
