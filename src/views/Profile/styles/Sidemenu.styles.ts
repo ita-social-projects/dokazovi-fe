@@ -8,6 +8,7 @@ export const useStyles = makeStyles(
       backgroundColor: '#dbdbdb',
       position: 'absolute',
       border: 'none',
+      height: `calc(100% - ${theme.spacing(24)}px)`,
     },
     sidemenuList: {
       paddingTop: '0px',
