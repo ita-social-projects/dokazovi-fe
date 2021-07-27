@@ -9,7 +9,7 @@ test('component renders properly with only required props', () => {
   render(
     <PreviewInput
       initialPreview="test"
-      initialWasManuallyChanged={true}
+      initialWasManuallyChanged
       onPreviewChange={mockOnPreviewChange}
     />,
   );
@@ -37,7 +37,7 @@ test('component renders initial preview text', () => {
   render(
     <PreviewInput
       initialPreview="test"
-      initialWasManuallyChanged={true}
+      initialWasManuallyChanged
       onPreviewChange={mockOnPreviewChange}
     />,
   );
