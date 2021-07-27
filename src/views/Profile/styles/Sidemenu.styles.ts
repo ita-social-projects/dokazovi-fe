@@ -1,5 +1,4 @@
 import { makeStyles, Theme } from '@material-ui/core';
-import { callbackify } from 'util';
 
 export const useStyles = makeStyles(
   (theme: Theme) => ({
