@@ -21,11 +21,11 @@ export const passwordValidationObj = {
     message: i18n.t(langTokens.loginRegistration.recuired),
   },
   minLength: {
-    value: 4,
+    value: 8,
     message: i18n.t(langTokens.loginRegistration.minLenForPassword),
   },
   maxLength: {
-    value: 16,
+    value: 24,
     message: i18n.t(langTokens.loginRegistration.maxLenForPassword),
   },
 };

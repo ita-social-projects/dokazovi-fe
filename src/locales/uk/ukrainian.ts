@@ -5,6 +5,7 @@ import { experts } from './parts/experts';
 import { materials } from './parts/materials';
 import { date } from './parts/date';
 import { loginRegistration } from './parts/loginRegistration';
+import { passwordForms } from './parts/passwordForms';
 
 export const ukrainian = {
   common,
@@ -14,4 +15,5 @@ export const ukrainian = {
   materials,
   date,
   loginRegistration,
+  passwordForms,
 };
