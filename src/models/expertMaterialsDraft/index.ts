@@ -2,8 +2,6 @@
 export { fetchExpertMaterialsDraft } from './asyncActions';
 export {
   expertMaterialsReducerDraft,
-  resetMaterialsDraft,
-  getAllMaterialsDraft,
   removePostDraft,
   setPageDraft,
 } from './reducers';

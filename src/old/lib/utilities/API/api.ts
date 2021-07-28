@@ -10,6 +10,7 @@ import {
   ExpertsResponseType,
   GetExpertsConfigType,
   GetPostsConfigType,
+  GetFilteredPostsType,
   GetTagsConfigType,
   LoginResponseType,
   NewestPostsResponseType,
@@ -156,6 +157,18 @@ export const getPostTypes = async (): Promise<
   AxiosResponse<PostTypeResponseType[]>
 > => {
   return instance.get('post/type');
+};
+
+export const getPostsByStatus = async (
+  postsRequestType: GetPostsRequestType,
+  config?: GetFilteredPostsType,
+): Promise<AxiosResponse<PostsResponseType>> => {
+  return instance.get(`/post/${postsRequestType}`, {
+    ...defaultConfig,
+    params: {
+      ...config,
+    },
+  });
 };
 
 export const getRegions = async (): Promise<

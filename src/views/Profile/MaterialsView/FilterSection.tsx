@@ -10,10 +10,8 @@ import {
 import { useStyles } from '../../../old/lib/components/Filters/CheckboxLeftsideFilterForm.styles';
 import { FilterConfigType } from '../../../models/materials/types';
 
-export type CheckboxFormStateType = Record<string, boolean>;
-
 export interface IFilterSectionProps {
-  onFormChange: (...params: any[]) => void;
+  onFormChange: (change: boolean | FilterConfigType) => void;
   title: string;
   isAllFiltersChecked: boolean;
   filters: FilterConfigType[];

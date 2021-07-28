@@ -188,7 +188,7 @@ export type GetTagsConfigType = {
   };
 };
 
-type GetConfigType = {
+export type GetConfigType = {
   params: RequestParamsType;
 };
 
@@ -208,7 +208,7 @@ export type RequestParamsType = {
   directions?: number[];
   direction?: number[];
   type?: number[];
-  types?: number[];
+  types?: number[] | string | null;
   expert?: number;
   regions?: number[];
   tag?: number[];
@@ -216,6 +216,14 @@ export type RequestParamsType = {
   userName?: string;
   posts?: string;
   status?: string;
+};
+
+export type GetFilteredPostsType = {
+  size: number;
+  page: number;
+  expert: number;
+  types?: string;
+  status: string;
 };
 
 export type PlatformInformationType = {

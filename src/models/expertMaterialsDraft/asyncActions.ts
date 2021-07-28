@@ -1,33 +1,38 @@
 /* eslint-disable */
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { IFetchExpertsMaterialsDraftOptions } from './types';
-import { getPosts } from '../../old/lib/utilities/API/api';
+import { IFetchExpertsMaterialsByStatusOptions } from '../expertMaterialsPublished/types';
+import { getPostsByStatus } from '../../old/lib/utilities/API/api';
 import { mapFetchedPosts } from '../materials/asyncActions';
 import { LOAD_POSTS_BY_STATUS_LIMIT } from '../../old/lib/constants/posts';
 
 export const fetchExpertMaterialsDraft = createAsyncThunk(
   'experts/fetchExpertMaterialsDraft',
   async (
-    options: IFetchExpertsMaterialsDraftOptions,
+    options: IFetchExpertsMaterialsByStatusOptions,
     { getState, rejectWithValue },
   ) => {
     try {
-      const {
-        expertId,
-        filters,
-        materialsDraft,
-        status,
-        page,
-        appendPosts,
-      } = options;
-      const response = await getPosts('latest-by-expert-and-status', {
-        params: {
-          size: LOAD_POSTS_BY_STATUS_LIMIT,
-          page: page,
-          expert: expertId,
-          type: [],
-          status: status,
-        },
+      const { expertId, filters, status, appendPosts } = options;
+
+      let types;
+      if (
+        filters.filterConfig.filter(({ checked }) => (checked ? true : false))
+          .length === 0
+      ) {
+        types = undefined;
+      } else {
+        types = filters.filterConfig
+          .filter(({ checked }) => (checked ? true : false))
+          .map(({ id }) => +id)
+          .join(',');
+      }
+
+      const response = await getPostsByStatus('latest-by-expert-and-status', {
+        size: LOAD_POSTS_BY_STATUS_LIMIT,
+        page: filters.page,
+        expert: expertId,
+        types,
+        status: status,
       });
 
       const {
@@ -44,9 +49,10 @@ export const fetchExpertMaterialsDraft = createAsyncThunk(
 
       return {
         postIds: appendPosts ? data.postIds.concat(ids) : ids,
-        posts,
-        filters,
-        materialsDraft,
+        posts: appendPosts ? [...data.posts, ...mappedPosts] : mappedPosts,
+        filters: {
+          ...filters,
+        },
         status,
         meta: {
           isLastPage: response.data.last,

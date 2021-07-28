@@ -16,7 +16,7 @@ import { LOAD_POSTS_BY_STATUS_LIMIT } from '../../../old/lib/constants/posts';
 import { AuthContext } from '../../../old/provider/AuthProvider/AuthContext';
 import { langTokens } from '../../../locales/localizationInit';
 import { formatDate } from '../../../utilities/formatDate';
-import { IPost } from '../../../old/lib/types';
+import { IPost, PostStatus } from '../../../old/lib/types';
 import { useStyles } from './styles/PostsList.styles';
 
 export interface IPostsListProps {
@@ -82,12 +82,12 @@ export const PostsList: React.FC<IPostsListProps> = ({
                   style={{ minWidth: '280px' }}
                 >
                   <Typography variant="caption" color="textSecondary">
-                    {status === 'DRAFT'
+                    {status === PostStatus.DRAFT
                       ? post.modifiedAt && formatDate(post.modifiedAt)
                       : post.publishedAt && formatDate(post.publishedAt)}
                   </Typography>
                 </TableCell>
-                {status === 'DRAFT' && (
+                {status === PostStatus.DRAFT && (
                   <>
                     {authenticated && (
                       <Box>

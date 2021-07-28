@@ -16,6 +16,7 @@ import { Notification } from '../../../components/Notifications/Notification';
 import { LoadMoreButton } from '../../../old/lib/components/LoadMoreButton/LoadMoreButton';
 import {
   IExpert,
+  PostStatus,
   LoadingStatusEnum,
   LoadMoreButtonTextType,
 } from '../../../old/lib/types';
@@ -24,36 +25,36 @@ import { useActions } from '../../../shared/hooks';
 import { langTokens } from '../../../locales/localizationInit';
 import {
   fetchExpertMaterialsPublished,
-  resetMaterialsPublished,
   selectExpertsDataPublished,
   selectExpertMaterialsLoadingPublished,
-  getAllMaterialsPublished,
   setPagePublished,
-  setFilters,
 } from '../../../models/expertMaterialsPublished';
+import {
+  FilterConfigType,
+  IFilterByStatus,
+} from '../../../models/materials/types';
+import {
+  allCheckedFilterConfig,
+  allUncheckedFilterConfig,
+} from '../../../models/utilities/filterConfigTypes';
 import { useStyles } from './styles/MaterialsByStatus.styles';
-import { FilterConfigType } from '../../../models/materials/types';
 
-export interface IPublishedMaterialsProps {
+export interface IMaterialsPublishedProps {
   expertId: number;
   expert: IExpert;
   onDelete?: (arg0: number, arg1: string) => void;
 }
 
-export type CheckboxFormStateType = Record<string, boolean>;
-
-const MaterialsPublished: React.FC<IPublishedMaterialsProps> = ({
+const MaterialsPublished: React.FC<IMaterialsPublishedProps> = ({
   expertId,
   expert,
 }) => {
   const [isTouched, setTouchStatus] = useState(false);
-  const [prevFilters, setPrevFilters] = useState<FilterConfigType[]>([]);
 
   const {
     posts,
     postIds,
     filters,
-    materialsPublished,
     meta: { isLastPage, pageNumber, totalElements, totalPages },
   } = useSelector(selectExpertsDataPublished);
 
@@ -63,67 +64,86 @@ const MaterialsPublished: React.FC<IPublishedMaterialsProps> = ({
   const classes = useStyles();
 
   const [
-    boundResetMaterialsPublished,
     boundFetchExpertMaterialsPublished,
-    boundGetAllMaterialsPublished,
     boundSetPagePublished,
-    boundSetFilters,
-  ] = useActions([
-    resetMaterialsPublished,
-    fetchExpertMaterialsPublished,
-    getAllMaterialsPublished,
-    setPagePublished,
-    setFilters,
-  ]);
+  ] = useActions([fetchExpertMaterialsPublished, setPagePublished]);
 
   useLayoutEffect(() => {
-    return function reseting() {
-      boundResetMaterialsPublished();
-    };
+    fetchData(false, {
+      page: 0,
+      isAllFiltersChecked: true,
+      filterConfig: allCheckedFilterConfig,
+    });
   }, []);
 
   const loadMore = () => {
-    boundSetPagePublished(filters.page + 1);
-    // boundGetAllMaterialsPublished(true);
+    fetchData(true, { ...filters, page: filters.page + 1 });
   };
 
-  const fetchData = (appendPosts = false) => {
-    boundFetchExpertMaterialsPublished({
-      expertId,
-      filters,
-      page: filters.page,
-      appendPosts,
-      status: 'PUBLISHED',
-      materialsPublished,
+  const fetchData = (appendPosts = false, newFilters: IFilterByStatus) => {
+    getActivePostTypes(expertId, PostStatus.PUBLISHED).then((response) => {
+      const { data } = response;
+      const filtersIncludingDisables = newFilters.filterConfig.map(
+        ({ id, name, checked }) => {
+          if (data.map((active) => active.id).includes(+id))
+            return { id, name, checked };
+          return { id, name, checked: null };
+        },
+      );
+      const filtersWithDisabled = {
+        ...newFilters,
+        filterConfig: filtersIncludingDisables,
+      };
+      boundFetchExpertMaterialsPublished({
+        expertId,
+        filters: filtersWithDisabled,
+        appendPosts,
+        status: PostStatus.PUBLISHED,
+      });
     });
   };
 
-  useLayoutEffect(() => {
-    setPrevFilters(filters.filterConfig);
-    fetchData(true);
-  }, [filters.page]);
-
-  useLayoutEffect(() => {
-    const disableFilters = async () => {
-      const { data } = await getActivePostTypes(expertId, 'PUBLISHED');
-      const disabledFilters = filters.filterConfig
-        .filter(({ id }) => {
-          if (data.map((active) => active.id).includes(+id)) return false;
-          return true;
-        })
-        .map(({ id, name }) => ({ id, name, checked: null }));
-      disabledFilters.forEach((filter) =>
-        boundGetAllMaterialsPublished(filter),
-      );
-    };
-    if (posts) {
-      boundGetAllMaterialsPublished(filters.isAllFiltersChecked);
-      disableFilters();
-      boundSetFilters(prevFilters);
-    }
-  }, [posts]);
-
   const gridRef = useRef<HTMLDivElement>(null);
+
+  const onChange = (change: boolean | FilterConfigType) => {
+    let newFilters = filters;
+    boundSetPagePublished(0);
+    if (typeof change === 'boolean') {
+      if (change) {
+        newFilters = {
+          ...newFilters,
+          filterConfig: allCheckedFilterConfig,
+        };
+      } else {
+        newFilters = {
+          ...newFilters,
+          filterConfig: allUncheckedFilterConfig,
+        };
+      }
+      newFilters = { ...newFilters, isAllFiltersChecked: change };
+      fetchData(false, {
+        ...newFilters,
+        page: 0,
+      });
+      return;
+    }
+    const filter: FilterConfigType = change;
+    newFilters = {
+      ...newFilters,
+      filterConfig: filters.filterConfig.map(({ id, name, checked }) =>
+        id === filter.id
+          ? { id, name, checked: filter.checked }
+          : { id, name, checked },
+      ),
+    };
+    fetchData(false, {
+      ...newFilters,
+      isAllFiltersChecked: newFilters.filterConfig
+        .filter(({ checked }) => checked !== null)
+        .every(({ checked }) => checked),
+      page: 0,
+    });
+  };
 
   return (
     <Accordion
@@ -139,8 +159,7 @@ const MaterialsPublished: React.FC<IPublishedMaterialsProps> = ({
       </AccordionSummary>
       <AccordionDetails className="sectionDetails">
         <>
-          {loading === LoadingStatusEnum.succeeded &&
-          materialsPublished?.length === 0 ? (
+          {loading === LoadingStatusEnum.succeeded && posts?.length === 0 ? (
             <Notification
               message={`${t(langTokens.common.noItemsFoundForReques)}`}
             />
@@ -150,7 +169,7 @@ const MaterialsPublished: React.FC<IPublishedMaterialsProps> = ({
                 {postIds.length > 0 && (
                   <>
                     <FilterSection
-                      onFormChange={boundGetAllMaterialsPublished}
+                      onFormChange={onChange}
                       title={t(langTokens.common.allTypes)}
                       isAllFiltersChecked={filters.isAllFiltersChecked}
                       filters={filters.filterConfig}
@@ -171,11 +190,16 @@ const MaterialsPublished: React.FC<IPublishedMaterialsProps> = ({
                     alignItems="center"
                   >
                     <PostsList
-                      status="PUBLISHED"
-                      postsList={materialsPublished}
+                      status={PostStatus.PUBLISHED}
+                      postsList={[...Object.values(posts)].filter((el) => {
+                        if (postIds.find((elem) => elem === el.id)) {
+                          return true;
+                        }
+                        return false;
+                      })}
                     />
                   </Grid>
-                  {materialsPublished?.length > 0 ? (
+                  {posts?.length > 0 ? (
                     <Grid
                       container
                       direction="column"

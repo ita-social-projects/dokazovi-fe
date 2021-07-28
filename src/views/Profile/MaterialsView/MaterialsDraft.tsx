@@ -19,33 +19,38 @@ import {
   IExpert,
   LoadingStatusEnum,
   LoadMoreButtonTextType,
+  PostStatus,
 } from '../../../old/lib/types';
 import {
-  deletePostById,
   getActivePostTypes,
+  deletePostById,
 } from '../../../old/lib/utilities/API/api';
 import { useActions } from '../../../shared/hooks';
 import { langTokens } from '../../../locales/localizationInit';
 import {
   fetchExpertMaterialsDraft,
-  resetMaterialsDraft,
   selectExpertsDataDraft,
   selectExpertMaterialsLoadingDraft,
-  getAllMaterialsDraft,
-  removePostDraft,
   setPageDraft,
+  removePostDraft,
 } from '../../../models/expertMaterialsDraft';
+import {
+  FilterConfigType,
+  IFilterByStatus,
+} from '../../../models/materials/types';
+import {
+  allCheckedFilterConfig,
+  allUncheckedFilterConfig,
+} from '../../../models/utilities/filterConfigTypes';
 import { useStyles } from './styles/MaterialsByStatus.styles';
 
-export interface IDraftMaterialsProps {
+export interface IMaterialsDraftProps {
   expertId: number;
   expert: IExpert;
   onDelete?: (arg0: number, arg1: string) => void;
 }
 
-export type CheckboxFormStateType = Record<string, boolean>;
-
-const MaterialsDraft: React.FC<IDraftMaterialsProps> = ({
+const MaterialsDraft: React.FC<IMaterialsDraftProps> = ({
   expertId,
   expert,
 }) => {
@@ -55,7 +60,6 @@ const MaterialsDraft: React.FC<IDraftMaterialsProps> = ({
     posts,
     postIds,
     filters,
-    materialsDraft,
     meta: { isLastPage, pageNumber, totalElements, totalPages },
   } = useSelector(selectExpertsDataDraft);
 
@@ -65,63 +69,87 @@ const MaterialsDraft: React.FC<IDraftMaterialsProps> = ({
   const classes = useStyles();
 
   const [
-    boundResetMaterialsDraft,
     boundFetchExpertMaterialsDraft,
-    boundGetAllMaterialsDraft,
-    boundRemovePostDraft,
     boundSetPageDraft,
-  ] = useActions([
-    resetMaterialsDraft,
-    fetchExpertMaterialsDraft,
-    getAllMaterialsDraft,
-    removePostDraft,
-    setPageDraft,
-  ]);
+    boundRemovePostDraft,
+  ] = useActions([fetchExpertMaterialsDraft, setPageDraft, removePostDraft]);
 
   useLayoutEffect(() => {
-    return function reseting() {
-      boundResetMaterialsDraft();
-    };
+    fetchData(false, {
+      page: 0,
+      isAllFiltersChecked: true,
+      filterConfig: allCheckedFilterConfig,
+    });
   }, []);
 
   const loadMore = () => {
-    boundSetPageDraft(filters.page + 1);
-    boundGetAllMaterialsDraft(true);
+    fetchData(true, { ...filters, page: filters.page + 1 });
   };
 
-  const fetchData = (appendPosts = false) => {
-    boundFetchExpertMaterialsDraft({
-      expertId,
-      filters,
-      page: filters.page,
-      appendPosts,
-      status: 'DRAFT',
-      materialsDraft,
+  const fetchData = (appendPosts = false, newFilters: IFilterByStatus) => {
+    getActivePostTypes(expertId, PostStatus.DRAFT).then((response) => {
+      const { data } = response;
+      const filtersIncludingDisables = newFilters.filterConfig.map(
+        ({ id, name, checked }) => {
+          if (data.map((active) => active.id).includes(+id))
+            return { id, name, checked };
+          return { id, name, checked: null };
+        },
+      );
+      const filtersWithDisabled = {
+        ...newFilters,
+        filterConfig: filtersIncludingDisables,
+      };
+      boundFetchExpertMaterialsDraft({
+        expertId,
+        filters: filtersWithDisabled,
+        appendPosts,
+        status: PostStatus.DRAFT,
+      });
     });
   };
 
-  useLayoutEffect(() => {
-    fetchData(true);
-  }, [filters.page]);
-
-  useLayoutEffect(() => {
-    const disableFilters = async () => {
-      const { data } = await getActivePostTypes(expertId, 'DRAFT');
-      const disabledFilters = filters.filterConfig
-        .filter(({ id }) => {
-          if (data.map((active) => active.id).includes(+id)) return false;
-          return true;
-        })
-        .map(({ id, name }) => ({ id, name, checked: null }));
-      disabledFilters.forEach((filter) => boundGetAllMaterialsDraft(filter));
-    };
-    if (posts) {
-      boundGetAllMaterialsDraft(filters.isAllFiltersChecked);
-      disableFilters();
-    }
-  }, [posts]);
-
   const gridRef = useRef<HTMLDivElement>(null);
+
+  const onChange = (change: boolean | FilterConfigType) => {
+    let newFilters = filters;
+    boundSetPageDraft(0);
+    if (typeof change === 'boolean') {
+      if (change) {
+        newFilters = {
+          ...newFilters,
+          filterConfig: allCheckedFilterConfig,
+        };
+      } else {
+        newFilters = {
+          ...newFilters,
+          filterConfig: allUncheckedFilterConfig,
+        };
+      }
+      newFilters = { ...newFilters, isAllFiltersChecked: change };
+      fetchData(false, {
+        ...newFilters,
+        page: 0,
+      });
+      return;
+    }
+    const filter: FilterConfigType = change;
+    newFilters = {
+      ...newFilters,
+      filterConfig: filters.filterConfig.map(({ id, name, checked }) =>
+        id === filter.id
+          ? { id, name, checked: filter.checked }
+          : { id, name, checked },
+      ),
+    };
+    fetchData(false, {
+      ...newFilters,
+      isAllFiltersChecked: newFilters.filterConfig
+        .filter(({ checked }) => checked !== null)
+        .every(({ checked }) => checked),
+      page: 0,
+    });
+  };
 
   const handleDelete = async (postId: number, postTitle: string) => {
     try {
@@ -157,8 +185,7 @@ const MaterialsDraft: React.FC<IDraftMaterialsProps> = ({
       </AccordionSummary>
       <AccordionDetails className="sectionDetails">
         <>
-          {loading === LoadingStatusEnum.succeeded &&
-          materialsDraft?.length === 0 ? (
+          {loading === LoadingStatusEnum.succeeded && posts?.length === 0 ? (
             <Notification
               message={`${t(langTokens.common.noItemsFoundForReques)}`}
             />
@@ -168,7 +195,7 @@ const MaterialsDraft: React.FC<IDraftMaterialsProps> = ({
                 {postIds.length > 0 && (
                   <>
                     <FilterSection
-                      onFormChange={boundGetAllMaterialsDraft}
+                      onFormChange={onChange}
                       title={t(langTokens.common.allTypes)}
                       isAllFiltersChecked={filters.isAllFiltersChecked}
                       filters={filters.filterConfig}
@@ -189,12 +216,17 @@ const MaterialsDraft: React.FC<IDraftMaterialsProps> = ({
                     alignItems="center"
                   >
                     <PostsList
-                      status="DRAFT"
-                      postsList={materialsDraft}
+                      status={PostStatus.DRAFT}
+                      postsList={[...Object.values(posts)].filter((el) => {
+                        if (postIds.find((elem) => elem === el.id)) {
+                          return true;
+                        }
+                        return false;
+                      })}
                       onDelete={handleDelete}
                     />
                   </Grid>
-                  {materialsDraft?.length > 0 ? (
+                  {posts?.length > 0 ? (
                     <Grid
                       container
                       direction="column"
