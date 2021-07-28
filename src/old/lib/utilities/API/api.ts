@@ -10,6 +10,7 @@ import {
   ExpertsResponseType,
   GetExpertsConfigType,
   GetPostsConfigType,
+  GetFilteredPostsType,
   GetTagsConfigType,
   LoginResponseType,
   NewestPostsResponseType,
@@ -72,6 +73,7 @@ export type GetPostsRequestType =
   | 'important'
   | 'latest-all'
   | 'latest-by-expert'
+  | 'latest-by-expert-and-status'
   | 'all-posts'
   | 'set-important'
   | 'get-by-important-image';
@@ -88,8 +90,10 @@ export const getPosts = async (
 
 export const getActivePostTypes = async (
   userId: number,
+  status?: string,
 ): Promise<AxiosResponse<ActivePostType[]>> => {
-  return instance.get(`/post-types/${userId}`);
+  // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+  return instance.get(`/post-types/${userId}?status=${status}`);
 };
 
 export const getNewestPosts = async (): Promise<
@@ -153,6 +157,18 @@ export const getPostTypes = async (): Promise<
   AxiosResponse<PostTypeResponseType[]>
 > => {
   return instance.get('post/type');
+};
+
+export const getPostsByStatus = async (
+  postsRequestType: GetPostsRequestType,
+  config?: GetFilteredPostsType,
+): Promise<AxiosResponse<PostsResponseType>> => {
+  return instance.get(`/post/${postsRequestType}`, {
+    ...defaultConfig,
+    params: {
+      ...config,
+    },
+  });
 };
 
 export const getRegions = async (): Promise<

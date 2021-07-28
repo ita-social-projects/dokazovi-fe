@@ -46,8 +46,12 @@ export const common = {
   allRegions: 'Всі регіони',
   noItemsFoundForReques:
     'На жаль, даних, що відповідають вашому запиту, не знайдено',
+  noMaterialsFoundRequest: 'Немає матеріалів',
   noTagsFound: 'Тегів не знайдено',
   enterTagName: 'Введіть назву тега',
   showMore: 'Показати ще',
   acceptChanges: 'Підтвердити зміни',
+  publishedMaterials: 'Опубліковані матеріали',
+  unPublishedMaterials: 'Неопубліковані матеріали',
+  preview: 'Перегляд',
 };
