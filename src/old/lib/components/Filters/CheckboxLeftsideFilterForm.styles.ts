@@ -38,10 +38,12 @@ export const useStyles = makeStyles({
     },
   },
   formControlLabel: {
+    fontWeight: 700,
     height: '30px',
     width: '260px',
     margin: '0 0 0 -8px',
   },
+
   filtersWrapper: {
     width: '280px',
   },
@@ -81,5 +83,25 @@ export const useStyles = makeStyles({
     lineHeight: '18px',
     fontWeight: 500,
     color: '#000000',
+  },
+
+  labelChecked: {
+    height: '30px',
+    width: '260px',
+    margin: '0 0 0 -8px',
+    '& .MuiTypography-body1': {
+      fontFamily: 'Raleway',
+      fontWeight: 700,
+    },
+  },
+
+  labelUnchecked: {
+    height: '30px',
+    width: '260px',
+    margin: '0 0 0 -8px',
+    '& .MuiTypography-body1': {
+      fontFamily: 'Raleway',
+      fontWeight: 500,
+    },
   },
 });

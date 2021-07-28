@@ -6,6 +6,8 @@ import { signInReducer } from './user';
 import { materialsReducer } from './materials';
 import { mainReducer } from './main';
 import { expertMaterialsReducer } from './expertMaterials';
+import { expertMaterialsReducerDraft } from './expertMaterialsDraft';
+import { expertMaterialsReducerPublished } from './expertMaterialsPublished';
 import { infoReducer } from './info';
 
 const rootReducer = combineReducers({
@@ -14,6 +16,8 @@ const rootReducer = combineReducers({
   properties: propertiesReducer,
   experts: expertsReducer,
   expertMaterials: expertMaterialsReducer,
+  expertMaterialsDraft: expertMaterialsReducerDraft,
+  expertMaterialsPublished: expertMaterialsReducerPublished,
   newPostDraft: postCreationReducer,
   currentUser: signInReducer,
   info: infoReducer,

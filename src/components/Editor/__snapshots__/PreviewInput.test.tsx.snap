@@ -1,0 +1,105 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`component renders properly with all props 1`] = `
+<div
+  aria-label="minimum height"
+  class="MuiFormControl-root MuiTextField-root"
+  data-testid="preview-input"
+  style="width: 100%;"
+>
+  <label
+    class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-filled"
+    data-shrink="true"
+  >
+    Текст картки матеріалу
+  </label>
+  <div
+    class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-formControl MuiInputBase-multiline MuiOutlinedInput-multiline"
+  >
+    <textarea
+      aria-invalid="false"
+      class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputMultiline MuiOutlinedInput-inputMultiline"
+      rows="1"
+      style="height: 165px; overflow: hidden;"
+    >
+      initial preview text
+    </textarea>
+    <textarea
+      aria-hidden="true"
+      class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputMultiline MuiOutlinedInput-inputMultiline"
+      readonly=""
+      style="visibility: hidden; position: absolute; overflow: hidden; height: 165px; top: 0px; left: 0px; transform: translateZ(0); width: 100%;"
+      tabindex="-1"
+    />
+    <fieldset
+      aria-hidden="true"
+      class="PrivateNotchedOutline-root-5 MuiOutlinedInput-notchedOutline"
+    >
+      <legend
+        class="PrivateNotchedOutline-legendLabelled-7 PrivateNotchedOutline-legendNotched-8"
+      >
+        <span>
+          Текст картки матеріалу
+        </span>
+      </legend>
+    </fieldset>
+  </div>
+  <p
+    class="MuiFormHelperText-root MuiFormHelperText-contained MuiFormHelperText-filled"
+  >
+    Довжина тексту: 20 символів
+  </p>
+</div>
+`;
+
+exports[`component renders properly with only required props 1`] = `
+<div
+  aria-label="minimum height"
+  class="MuiFormControl-root MuiTextField-root"
+  data-testid="preview-input"
+  style="width: 100%;"
+>
+  <label
+    class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-filled"
+    data-shrink="true"
+  >
+    Текст картки матеріалу
+  </label>
+  <div
+    class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-formControl MuiInputBase-multiline MuiOutlinedInput-multiline"
+  >
+    <textarea
+      aria-invalid="false"
+      class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputMultiline MuiOutlinedInput-inputMultiline"
+      rows="1"
+      style="height: 165px; overflow: hidden;"
+    >
+      test
+    </textarea>
+    <textarea
+      aria-hidden="true"
+      class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputMultiline MuiOutlinedInput-inputMultiline"
+      readonly=""
+      style="visibility: hidden; position: absolute; overflow: hidden; height: 165px; top: 0px; left: 0px; transform: translateZ(0); width: 100%;"
+      tabindex="-1"
+    />
+    <fieldset
+      aria-hidden="true"
+      class="PrivateNotchedOutline-root-1 MuiOutlinedInput-notchedOutline"
+    >
+      <legend
+        class="PrivateNotchedOutline-legendLabelled-3 PrivateNotchedOutline-legendNotched-4"
+      >
+        <span>
+          Текст картки матеріалу
+        </span>
+      </legend>
+    </fieldset>
+  </div>
+  <p
+    class="MuiFormHelperText-root MuiFormHelperText-contained MuiFormHelperText-filled"
+  >
+    Довжина тексту: 4 символи
+  </p>
+</div>
+`;

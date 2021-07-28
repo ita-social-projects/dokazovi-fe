@@ -10,6 +10,7 @@ import {
   ExpertsResponseType,
   GetExpertsConfigType,
   GetPostsConfigType,
+  GetFilteredPostsType,
   GetTagsConfigType,
   LoginResponseType,
   NewestPostsResponseType,
@@ -72,6 +73,7 @@ export type GetPostsRequestType =
   | 'important'
   | 'latest-all'
   | 'latest-by-expert'
+  | 'latest-by-expert-and-status'
   | 'all-posts'
   | 'set-important'
   | 'get-by-important-image';
@@ -88,8 +90,10 @@ export const getPosts = async (
 
 export const getActivePostTypes = async (
   userId: number,
+  status?: string,
 ): Promise<AxiosResponse<ActivePostType[]>> => {
-  return instance.get(`/post-types/${userId}`);
+  // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+  return instance.get(`/post-types/${userId}?status=${status}`);
 };
 
 export const getNewestPosts = async (): Promise<
@@ -155,6 +159,18 @@ export const getPostTypes = async (): Promise<
   return instance.get('post/type');
 };
 
+export const getPostsByStatus = async (
+  postsRequestType: GetPostsRequestType,
+  config?: GetFilteredPostsType,
+): Promise<AxiosResponse<PostsResponseType>> => {
+  return instance.get(`/post/${postsRequestType}`, {
+    ...defaultConfig,
+    params: {
+      ...config,
+    },
+  });
+};
+
 export const getRegions = async (): Promise<
   AxiosResponse<RegionResponseType[]>
 > => {
@@ -190,6 +206,40 @@ export const login = async (
   password: string,
 ): Promise<AxiosResponse<LoginResponseType>> => {
   return instance.post('/auth/login', { email, password });
+};
+
+export const changePasswordRequest = async (
+  email: string,
+  password: string,
+): Promise<void> => {
+  // body {message: string}
+  await instance.post('/user/change-password', { email, password });
+};
+
+export const resetPasswordRequest = async (email: string): Promise<void> => {
+  await instance.post('/user/reset-password', { email });
+};
+
+export const newPasswordRequest = async (
+  token: string,
+  newPassword: string,
+  matchPassword: string,
+): Promise<boolean> => {
+  return instance
+    .post('/user/update-password', {
+      token,
+      newPassword,
+      matchPassword,
+    })
+    .then(() => true)
+    .catch(() => false);
+};
+
+export const checkPasswordToken = (token: string): Promise<boolean> => {
+  return instance
+    .get(`/user/check-token?token=${token}`)
+    .then(() => true)
+    .catch(() => false);
 };
 
 export const getCurrentUser = async (): Promise<
