@@ -37,6 +37,7 @@ export const ConfirmationModalWithButton: React.FC<IConfirmationModalWithButtonP
     <div>
       {buttonIcon && (
         <IconButton
+          style={{ padding: '0px' }}
           onClick={() => setOpen(true)}
           disabled={disabled || loading}
         >
