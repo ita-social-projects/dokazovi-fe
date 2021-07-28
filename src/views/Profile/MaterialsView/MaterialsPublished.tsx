@@ -163,7 +163,7 @@ const MaterialsPublished: React.FC<IMaterialsPublishedProps> = ({
         <>
           {loading === LoadingStatusEnum.succeeded && posts?.length === 0 ? (
             <Notification
-              message={`${t(langTokens.common.noItemsFoundForReques)}`}
+              message={`${t(langTokens.common.noMaterialsFoundRequest)}`}
             />
           ) : (
             <Grid container direction="row">
