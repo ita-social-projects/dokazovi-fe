@@ -2,7 +2,10 @@ import React from 'react';
 import { Button, Box, CircularProgress } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
 import { LoadingStatusEnum, LoadMoreButtonTextType } from '../../types';
-import { LOAD_POSTS_LIMIT } from '../../constants/posts';
+import {
+  LOAD_POSTS_LIMIT,
+  LOAD_POSTS_BY_STATUS_LIMIT,
+} from '../../constants/posts';
 import { LOAD_EXPERTS_LIMIT } from '../../constants/experts';
 import { useStyles } from './LoadMoreButton.styles';
 import { langTokens } from '../../../../locales/localizationInit';
@@ -23,6 +26,8 @@ function getLimit(textTypeLimit: LoadMoreButtonTextType): number {
       return LOAD_EXPERTS_LIMIT;
     case LoadMoreButtonTextType.POST:
       return LOAD_POSTS_LIMIT;
+    case LoadMoreButtonTextType.POST_BY_STATUS:
+      return LOAD_POSTS_BY_STATUS_LIMIT;
     default:
       return LOAD_POSTS_LIMIT;
   }
@@ -48,7 +53,10 @@ export const LoadMoreButton: React.FC<ILoadMoreButtonProps> = ({
     if (textTypeLimit === LoadMoreButtonTextType.EXPERT) {
       return t(langTokens.experts.expertGenitiveCase, { count }).toLowerCase();
     }
-    if (textTypeLimit === LoadMoreButtonTextType.POST) {
+    if (
+      textTypeLimit === LoadMoreButtonTextType.POST ||
+      textTypeLimit === LoadMoreButtonTextType.POST_BY_STATUS
+    ) {
       return t(langTokens.materials.material, { count }).toLowerCase();
     }
     return '';

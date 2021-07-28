@@ -8,6 +8,7 @@ export const useStyles = makeStyles(
       minHeight: '455px',
       marginTop: theme.spacing(-8),
       paddingLeft: '210px',
+      paddingTop: '40px',
     },
   }),
   { name: 'OperationView' },

@@ -5,9 +5,10 @@ export const useStyles = makeStyles(
     sidemenuBody: {
       minWidth: '200px',
       top: theme.spacing(24),
-      backgroundColor: '#dbdbdb',
+      backgroundColor: '#e5e5e5',
       position: 'absolute',
       border: 'none',
+      height: `calc(100% - ${theme.spacing(24)}px)`,
     },
     sidemenuList: {
       paddingTop: '0px',
