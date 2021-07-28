@@ -29,8 +29,11 @@ export const FilterSection: React.FC<IFilterSectionProps> = ({
     return (
       <FormControlLabel
         key={id}
-        style={isAllFiltersChecked ? { fontWeight: 900 } : { fontWeight: 500 }}
-        className={classes.formControlLabel}
+        className={
+          isAllFiltersChecked && checked !== null
+            ? classes.labelChecked
+            : classes.labelUnchecked
+        }
         label={name}
         control={
           <Checkbox
@@ -78,18 +81,7 @@ export const FilterSection: React.FC<IFilterSectionProps> = ({
               />
             }
             label={
-              <Typography
-                className={
-                  isAllFiltersChecked
-                    ? classes.allCheckedTrue
-                    : classes.allCheckedFalse
-                }
-                style={
-                  isAllFiltersChecked
-                    ? { fontWeight: 700 }
-                    : { fontWeight: 500 }
-                }
-              >
+              <Typography className={classes.allCheckedTrue}>
                 {title}
               </Typography>
             }

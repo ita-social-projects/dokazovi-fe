@@ -50,4 +50,7 @@ export const common = {
   enterTagName: 'Введіть назву тега',
   showMore: 'Показати ще',
   acceptChanges: 'Підтвердити зміни',
+  publishedMaterials: 'Опубліковані матеріали',
+  unPublishedMaterials: 'Неопубліковані матеріали',
+  preview: 'Перегляд',
 };

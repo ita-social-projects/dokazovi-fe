@@ -54,25 +54,29 @@ const MaterialsDraft: React.FC<IMaterialsDraftProps> = ({
   expertId,
   expert,
 }) => {
+  const { t } = useTranslation();
+  const classes = useStyles();
   const [isTouched, setTouchStatus] = useState(false);
-
+  const gridRef = useRef<HTMLDivElement>(null);
+  const loading = useSelector(selectExpertMaterialsLoadingDraft);
   const {
     posts,
     postIds,
     filters,
     meta: { isLastPage, pageNumber, totalElements, totalPages },
   } = useSelector(selectExpertsDataDraft);
-
-  const { t } = useTranslation();
-
-  const loading = useSelector(selectExpertMaterialsLoadingDraft);
-  const classes = useStyles();
-
   const [
     boundFetchExpertMaterialsDraft,
     boundSetPageDraft,
     boundRemovePostDraft,
   ] = useActions([fetchExpertMaterialsDraft, setPageDraft, removePostDraft]);
+
+  const materials = [...Object.values(posts)].filter((el) => {
+    if (postIds.find((elem) => elem === el.id)) {
+      return true;
+    }
+    return false;
+  });
 
   useLayoutEffect(() => {
     fetchData(false, {
@@ -81,10 +85,6 @@ const MaterialsDraft: React.FC<IMaterialsDraftProps> = ({
       filterConfig: allCheckedFilterConfig,
     });
   }, []);
-
-  const loadMore = () => {
-    fetchData(true, { ...filters, page: filters.page + 1 });
-  };
 
   const fetchData = (appendPosts = false, newFilters: IFilterByStatus) => {
     getActivePostTypes(expertId, PostStatus.DRAFT).then((response) => {
@@ -108,8 +108,6 @@ const MaterialsDraft: React.FC<IMaterialsDraftProps> = ({
       });
     });
   };
-
-  const gridRef = useRef<HTMLDivElement>(null);
 
   const onChange = (change: boolean | FilterConfigType) => {
     let newFilters = filters;
@@ -171,6 +169,10 @@ const MaterialsDraft: React.FC<IMaterialsDraftProps> = ({
     }
   };
 
+  const loadMore = () => {
+    fetchData(true, { ...filters, page: filters.page + 1 });
+  };
+
   return (
     <Accordion
       classes={{ root: classes.addMaterialsSection }}
@@ -181,7 +183,7 @@ const MaterialsDraft: React.FC<IMaterialsDraftProps> = ({
         className={classes.addMaterialsHeader}
         expandIcon={<ExpandMore />}
       >
-        <h2>Неопубліковані матеріали</h2>
+        <h2>{t(langTokens.common.unPublishedMaterials)}</h2>
       </AccordionSummary>
       <AccordionDetails className="sectionDetails">
         <>
@@ -217,12 +219,7 @@ const MaterialsDraft: React.FC<IMaterialsDraftProps> = ({
                   >
                     <PostsList
                       status={PostStatus.DRAFT}
-                      postsList={[...Object.values(posts)].filter((el) => {
-                        if (postIds.find((elem) => elem === el.id)) {
-                          return true;
-                        }
-                        return false;
-                      })}
+                      postsList={materials}
                       onDelete={handleDelete}
                     />
                   </Grid>

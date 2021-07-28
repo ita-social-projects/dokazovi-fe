@@ -8,6 +8,7 @@ import {
   Typography,
   Card,
   Box,
+  Button,
   TableCell,
 } from '@material-ui/core';
 import { Delete, Edit } from '@material-ui/icons';
@@ -110,6 +111,13 @@ export const PostsList: React.FC<IPostsListProps> = ({
                       </Box>
                     )}
                   </>
+                )}
+                {status === PostStatus.PUBLISHED && (
+                  <Link to={`/posts/${post.id}`}>
+                    <Button className={classes.btn} variant="contained">
+                      {`${t(langTokens.common.preview)}`}
+                    </Button>
+                  </Link>
                 )}
               </Card>
             </div>

@@ -35,6 +35,12 @@ export const useStyles = makeStyles(
       margin: theme.spacing(0, 0, 0, 2),
       color: 'black',
     },
+    btn: {
+      background: 'black',
+      color: 'white',
+      fontWeight: 600,
+      width: '80px',
+    },
   }),
   { name: 'PostsList' },
 );

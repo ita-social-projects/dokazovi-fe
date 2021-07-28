@@ -204,7 +204,7 @@ export type GetPostsConfigType = GetConfigType;
 export type RequestParamsType = {
   page?: number;
   size?: number;
-  sort?: string[];
+  sort?: string[] | string;
   directions?: number[];
   direction?: number[];
   type?: number[];
@@ -224,6 +224,7 @@ export type GetFilteredPostsType = {
   expert: number;
   types?: string;
   status: string;
+  sort?: string[];
 };
 
 export type PlatformInformationType = {

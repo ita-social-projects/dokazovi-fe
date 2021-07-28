@@ -32,6 +32,24 @@ export const expertsSlice = createSlice({
   initialState,
   reducers: {
     removePostDraft: (state, action: PayloadAction<number>) => {
+      const typeId = state?.data?.posts?.find(
+        (post) => post.id === +action.payload,
+      )?.type?.id;
+      if (typeId) {
+        const filteredPosts = state.data.posts?.filter(
+          (post) => post.type.id === typeId,
+        );
+        if (filteredPosts.length === 1) {
+          state.data.filters.filterConfig = state.data.filters.filterConfig?.map(
+            ({ id, name, checked }) => ({
+              id,
+              name,
+              checked:
+                state.data.meta.isLastPage && typeId === +id ? null : checked,
+            }),
+          );
+        }
+      }
       state.data.posts = state.data.posts?.filter(
         (post) => post.id !== action.payload,
       );

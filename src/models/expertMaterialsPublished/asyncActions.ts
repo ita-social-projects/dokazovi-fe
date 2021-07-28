@@ -33,6 +33,7 @@ export const fetchExpertMaterialsPublished = createAsyncThunk(
         expert: expertId,
         types,
         status: status,
+        sort: ['publishedAt,desc'],
       });
 
       const {

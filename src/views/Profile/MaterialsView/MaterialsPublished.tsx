@@ -49,24 +49,28 @@ const MaterialsPublished: React.FC<IMaterialsPublishedProps> = ({
   expertId,
   expert,
 }) => {
+  const { t } = useTranslation();
+  const classes = useStyles();
   const [isTouched, setTouchStatus] = useState(false);
-
+  const gridRef = useRef<HTMLDivElement>(null);
+  const loading = useSelector(selectExpertMaterialsLoadingPublished);
   const {
     posts,
     postIds,
     filters,
     meta: { isLastPage, pageNumber, totalElements, totalPages },
   } = useSelector(selectExpertsDataPublished);
-
-  const { t } = useTranslation();
-
-  const loading = useSelector(selectExpertMaterialsLoadingPublished);
-  const classes = useStyles();
-
   const [
     boundFetchExpertMaterialsPublished,
     boundSetPagePublished,
   ] = useActions([fetchExpertMaterialsPublished, setPagePublished]);
+
+  const materials = [...Object.values(posts)].filter((el) => {
+    if (postIds.find((elem) => elem === el.id)) {
+      return true;
+    }
+    return false;
+  });
 
   useLayoutEffect(() => {
     fetchData(false, {
@@ -75,10 +79,6 @@ const MaterialsPublished: React.FC<IMaterialsPublishedProps> = ({
       filterConfig: allCheckedFilterConfig,
     });
   }, []);
-
-  const loadMore = () => {
-    fetchData(true, { ...filters, page: filters.page + 1 });
-  };
 
   const fetchData = (appendPosts = false, newFilters: IFilterByStatus) => {
     getActivePostTypes(expertId, PostStatus.PUBLISHED).then((response) => {
@@ -102,8 +102,6 @@ const MaterialsPublished: React.FC<IMaterialsPublishedProps> = ({
       });
     });
   };
-
-  const gridRef = useRef<HTMLDivElement>(null);
 
   const onChange = (change: boolean | FilterConfigType) => {
     let newFilters = filters;
@@ -145,6 +143,10 @@ const MaterialsPublished: React.FC<IMaterialsPublishedProps> = ({
     });
   };
 
+  const loadMore = () => {
+    fetchData(true, { ...filters, page: filters.page + 1 });
+  };
+
   return (
     <Accordion
       classes={{ root: classes.addMaterialsSection }}
@@ -155,7 +157,7 @@ const MaterialsPublished: React.FC<IMaterialsPublishedProps> = ({
         className={classes.addMaterialsHeader}
         expandIcon={<ExpandMore />}
       >
-        <h2>Опубліковані матеріали</h2>
+        <h2>{t(langTokens.common.publishedMaterials)}</h2>
       </AccordionSummary>
       <AccordionDetails className="sectionDetails">
         <>
@@ -191,12 +193,7 @@ const MaterialsPublished: React.FC<IMaterialsPublishedProps> = ({
                   >
                     <PostsList
                       status={PostStatus.PUBLISHED}
-                      postsList={[...Object.values(posts)].filter((el) => {
-                        if (postIds.find((elem) => elem === el.id)) {
-                          return true;
-                        }
-                        return false;
-                      })}
+                      postsList={materials}
                     />
                   </Grid>
                   {posts?.length > 0 ? (

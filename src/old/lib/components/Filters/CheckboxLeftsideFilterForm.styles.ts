@@ -84,4 +84,24 @@ export const useStyles = makeStyles({
     fontWeight: 500,
     color: '#000000',
   },
+
+  labelChecked: {
+    height: '30px',
+    width: '260px',
+    margin: '0 0 0 -8px',
+    '& .MuiTypography-body1': {
+      fontFamily: 'Raleway',
+      fontWeight: 700,
+    },
+  },
+
+  labelUnchecked: {
+    height: '30px',
+    width: '260px',
+    margin: '0 0 0 -8px',
+    '& .MuiTypography-body1': {
+      fontFamily: 'Raleway',
+      fontWeight: 500,
+    },
+  },
 });
