@@ -31,6 +31,7 @@ export enum PostTypeEnum {
 export enum LoadMoreButtonTextType {
   EXPERT,
   POST,
+  POST_BY_STATUS,
 }
 
 export enum PostsPreviewCardStylesEnum {

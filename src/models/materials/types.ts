@@ -1,23 +1,6 @@
 import { IPost, LoadingStatusEnum, QueryTypeEnum } from '../../old/lib/types';
 import { GetPostsRequestType } from '../../old/lib/utilities/API/api';
 
-// export interface IInitialMaterialsState {
-//   data: IInitialMaterialsData;
-// }
-
-// export interface IInitialMaterialsData {
-//   postIds: number[];
-//   meta: IMaterialsMeta;
-//   posts: {
-//     [id: string]: IPost;
-//   };
-//   loading: LoadingStatusEnum;
-//   error: null | string;
-//   filters?: {
-//     [key in QueryTypeEnum]?: number[];
-//   };
-// }
-
 export interface IMaterialsData {
   postIds: number[];
   meta: IMaterialsMeta;
@@ -28,13 +11,6 @@ export interface IMaterialsData {
     [key in QueryTypeEnum]?: number[];
   };
 }
-
-// export interface IMaterialsDataWithFilters {
-//   data: IMaterialsData;
-//   filters?: {
-//     [key in QueryTypeEnum]?: number[];
-//   };
-// }
 
 export interface IMaterialsState {
   data: IMaterialsData;
@@ -59,4 +35,16 @@ export interface IMaterialsMeta {
   pageNumber: number;
   totalPages: number;
   totalElements: number;
+}
+
+export type FilterConfigType = {
+  id: string;
+  name: string;
+  checked: boolean | null;
+};
+
+export interface IFilterByStatus {
+  page: number;
+  isAllFiltersChecked: boolean;
+  filterConfig: FilterConfigType[];
 }

@@ -1,5 +1,4 @@
 import makeStyles from '@material-ui/core/styles/makeStyles';
-import { relative } from 'path';
 import { IFooterStyleProps } from '../../types';
 
 export const useStyles = makeStyles(
