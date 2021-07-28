@@ -14,10 +14,11 @@ export const loginRegistration = {
   passwordsNotMatch: 'Паролі не збігаються',
   repeatPassword: 'Повторіть пароль',
   incorrectEmail: 'Неправильний формат email',
-  minLenForPassword: 'Пароль повинен містити щонайменше 4 символи',
-  maxLenForPassword: 'Пароль повинен містити щонайбільше 16 символів',
+  minLenForPassword: 'Пароль повинен містити щонайменше 8 символів',
+  maxLenForPassword: 'Пароль повинен містити щонайбільше 24 символи',
   maxLenForEmail: 'E-mail повинен містити щонайбільше 40 символів',
   enterInfoAboutYourself: 'Введіть інформацію про себе',
   congratulation: 'Вітаємо!',
   youAreWelcome: 'Ви увійшли',
+  forgotPassword: 'Забули пароль?',
 };
