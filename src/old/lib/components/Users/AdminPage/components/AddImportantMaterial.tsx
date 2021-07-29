@@ -26,9 +26,11 @@ const AddImportantMaterial: React.FC<IAddImportantMaterial> = ({
   const [page, setPage] = useState(0);
   const [isTouched, setTouchStatus] = useState(false);
 
-  const { loading } = useSelector((state: RootStateType) => state.materials);
+  const { loading } = useSelector(
+    (state: RootStateType) => state.materialsImportant,
+  );
   const { posts: fetchedPosts, postIds: filteredPosts, meta } = useSelector(
-    (state: RootStateType) => state.materials.data,
+    (state: RootStateType) => state.materialsImportant.data,
   );
 
   const posts = Object.values(fetchedPosts).filter((post) =>
