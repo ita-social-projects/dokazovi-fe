@@ -39,7 +39,7 @@ export const Header: React.FC = () => {
   const { authenticated } = useContext(AuthContext);
 
   return (
-    <div id="header" className={classes.header}>
+    <div id="header" data-testid="header" className={classes.header}>
       <Container className={classes.container}>
         <Toolbar className={classes.toolbar}>
           <Box display="flex">
