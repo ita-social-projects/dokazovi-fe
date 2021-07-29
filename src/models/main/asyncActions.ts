@@ -1,10 +1,7 @@
 /* eslint-disable */
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { getPosts } from '../../old/lib/utilities/API/api';
-import {
-  LOAD_IMPORTANT_POSTS_LIMIT,
-  LOAD_POSTS_LIMIT,
-} from '../../old/lib/constants/posts';
+import { LOAD_POSTS_LIMIT } from '../../old/lib/constants/posts';
 import { mapFetchedPosts } from '../materials';
 import { IFetchExpertsOptions } from '../experts/types';
 import { ISetImportantPostsOptions } from './types';
@@ -46,9 +43,7 @@ export const fetchImportantPosts = createAsyncThunk(
   async (_, { getState, rejectWithValue }) => {
     try {
       const response = await getPosts('important', {
-        params: {
-          size: LOAD_IMPORTANT_POSTS_LIMIT,
-        },
+        params: {},
       });
 
       const {
