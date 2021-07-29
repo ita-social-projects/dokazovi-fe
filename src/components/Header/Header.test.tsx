@@ -1,12 +1,14 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
 import React from 'react';
-import { fireEvent, render, screen } from '@testing-library/react';
-import { Header } from './Header';
+import { render, screen } from '@testing-library/react';
 import { Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
-import { AuthContext } from '../../old/provider/AuthProvider/AuthContext';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import configureMockStore from 'redux-mock-store';
+import { AuthContext } from '../../old/provider/AuthProvider/AuthContext';
+import { Header } from './Header';
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
