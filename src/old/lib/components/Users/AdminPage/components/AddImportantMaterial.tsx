@@ -40,8 +40,12 @@ const AddImportantMaterial: React.FC<IAddImportantMaterial> = ({
     (post) => !selectedPosts.includes(post.id),
   );
 
-  const loadMore = () => setPage(page + 1);
-  const resetPage = () => setPage(1);
+  const loadMore = () => {
+    setPage(page + 1);
+  };
+  const resetPage = () => {
+    setPage(0);
+  };
 
   const renderImportantMaterialsSelector = () => {
     let selector: JSX.Element | JSX.Element[] = <></>;
