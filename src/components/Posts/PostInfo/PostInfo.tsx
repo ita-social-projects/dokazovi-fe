@@ -3,6 +3,7 @@ import { Skeleton } from '@material-ui/lab';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import { IDirection, IOrigin, IPostType } from '../../../old/lib/types';
 import { useStyles } from './PostInfo.styles';
+import { useHistory } from 'react-router-dom';
 
 export interface IPostInfo {
   info: {
@@ -16,24 +17,53 @@ export interface IPostInfo {
 
 export default function PostInfo({ info }: IPostInfo): JSX.Element {
   const { directions, origins, type, publishedAt, uniqueViewsCounter } = info;
-
   const classes = useStyles();
+  const history = useHistory();
+  const redirectToMaterialsFilteredByType = (id: number) => {
+    history.push({ pathname: '/materials', search: `?types=${id}` });
+  };
+  const redirectToMaterialsFilteredByOrigin = (id: number) => {
+    history.push({ pathname: '/materials', search: `?origins=${id}` });
+  };
+  const redirectToMaterialsFilteredByDirection = (id: number) => {
+    history.push({ pathname: '/materials', search: `?directions=${id}` });
+  };
+  debugger;
   return (
     <div className={classes.root}>
       <ul className={classes.topics}>
-        {directions && directions.map((el) => <li key={el.id}>{el.label}</li>)}
+        {directions &&
+          directions.map((el) => (
+            <li
+              key={el.id}
+              onClick={() => redirectToMaterialsFilteredByDirection(el.id)}
+            >
+              {el.label}
+            </li>
+          ))}
       </ul>
       <ul className={classes.origins}>
         {origins &&
           origins.map(
             (el) =>
               el.name && (
-                <li className={classes.origin} key={el.id}>
+                <li
+                  className={classes.origin}
+                  onClick={() => redirectToMaterialsFilteredByOrigin(el.id)}
+                  key={el.id}
+                >
                   {el.name}
                 </li>
               ),
           )}
-        {type && <li className={classes.origin}>{type.name}</li>}
+        {type && (
+          <li
+            className={classes.origin}
+            onClick={() => redirectToMaterialsFilteredByType(type.id)}
+          >
+            {type.name}
+          </li>
+        )}
         <li className={classes.createdAt}>{publishedAt}</li>
         <li className={classes.icon}>
           <VisibilityIcon fontSize="small" />
