@@ -101,7 +101,7 @@ const MaterialsView: React.FC = () => {
       value: `${t(langTokens.common.translation, defaultPlural)}`,
     });
 
-    originsInPlural.push(el1, el2, el3);
+    originsInPlural.push(el1, el3, el2);
   }
 
   const postTypes = useSelector(selectPostTypes);
@@ -117,7 +117,7 @@ const MaterialsView: React.FC = () => {
       enumerable: false,
       configurable: true,
       writable: true,
-      value: `${t(langTokens.common.article, defaultPlural)}`,
+      value: `${t(langTokens.common.article_1, defaultPlural)}`,
     });
     Object.defineProperty(el2, 'name', {
       enumerable: false,
@@ -132,7 +132,7 @@ const MaterialsView: React.FC = () => {
       value: `${t(langTokens.common.post, defaultPlural)}`,
     });
 
-    postTypesInPlural.push(el1, el2, el3);
+    postTypesInPlural.push(el1, el3, el2);
   }
 
   const directions = useSelector(selectDirections);
