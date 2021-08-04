@@ -19,15 +19,11 @@ export default function PostInfo({ info }: IPostInfo): JSX.Element {
   const { directions, origins, type, publishedAt, uniqueViewsCounter } = info;
   const classes = useStyles();
   const history = useHistory();
-  const redirectToMaterialsFilteredByType = (id: number) => {
-    history.push({ pathname: '/materials', search: `?types=${id}` });
+
+  const redirectToMaterialsFiltered = (id: number, root: string) => {
+    history.push({ pathname: '/materials', search: `?${root}=${id}` });
   };
-  const redirectToMaterialsFilteredByOrigin = (id: number) => {
-    history.push({ pathname: '/materials', search: `?origins=${id}` });
-  };
-  const redirectToMaterialsFilteredByDirection = (id: number) => {
-    history.push({ pathname: '/materials', search: `?directions=${id}` });
-  };
+
   debugger;
   return (
     <div className={classes.root}>
@@ -36,7 +32,7 @@ export default function PostInfo({ info }: IPostInfo): JSX.Element {
           directions.map((el) => (
             <li
               key={el.id}
-              onClick={() => redirectToMaterialsFilteredByDirection(el.id)}
+              onClick={() => redirectToMaterialsFiltered(el.id, 'directions')}
             >
               {el.label}
             </li>
@@ -49,7 +45,7 @@ export default function PostInfo({ info }: IPostInfo): JSX.Element {
               el.name && (
                 <li
                   className={classes.origin}
-                  onClick={() => redirectToMaterialsFilteredByOrigin(el.id)}
+                  onClick={() => redirectToMaterialsFiltered(el.id, 'origins')}
                   key={el.id}
                 >
                   {el.name}
@@ -59,7 +55,7 @@ export default function PostInfo({ info }: IPostInfo): JSX.Element {
         {type && (
           <li
             className={classes.origin}
-            onClick={() => redirectToMaterialsFilteredByType(type.id)}
+            onClick={() => redirectToMaterialsFiltered(type.id, 'types')}
           >
             {type.name}
           </li>
