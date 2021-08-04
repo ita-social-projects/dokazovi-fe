@@ -30,6 +30,7 @@ import {
   BreadcrumbsProvider,
   breadcrumbsConfigs,
 } from './components/Breadcrumbs';
+import ScrollToTop from './components/ScrollToTop/ScrollToTop';
 
 ReactGA.initialize(process.env.REACT_APP_GOOGLE_ID as string, {
   testMode: process.env.NODE_ENV === 'test',
@@ -72,6 +73,7 @@ export const App: React.FC = () => {
         />
         <CssBaseline />
         <BrowserRouter>
+          <ScrollToTop />
           <div className="content">
             <AuthProvider>
               <BreadcrumbsProvider configs={breadcrumbsConfigs}>
