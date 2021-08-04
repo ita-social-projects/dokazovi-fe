@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { useStyles } from './ImportantPostPreviewCard.styles';
@@ -18,5 +20,5 @@ export const ImportantPostPreviewCard: React.FC<IPostPreviewCardProps> = (
     history.push(`/posts/${post.id}`);
   };
 
-  return <div className={classes.root} onClick={goPostPage}></div>;
+  return <div className={classes.root} onClick={goPostPage} />;
 };
