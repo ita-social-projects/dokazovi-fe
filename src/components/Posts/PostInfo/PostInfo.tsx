@@ -24,7 +24,6 @@ export default function PostInfo({ info }: IPostInfo): JSX.Element {
     history.push({ pathname: '/materials', search: `?${root}=${id}` });
   };
 
-  debugger;
   return (
     <div className={classes.root}>
       <ul className={classes.topics}>
