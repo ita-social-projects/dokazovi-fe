@@ -1,9 +1,9 @@
 import React from 'react';
 import { Skeleton } from '@material-ui/lab';
 import VisibilityIcon from '@material-ui/icons/Visibility';
+import { useHistory } from 'react-router-dom';
 import { IDirection, IOrigin, IPostType } from '../../../old/lib/types';
 import { useStyles } from './PostInfo.styles';
-import { useHistory } from 'react-router-dom';
 
 export interface IPostInfo {
   info: {
