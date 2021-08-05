@@ -58,53 +58,49 @@ const Accordion: React.FC<IAccordion> = ({ expert }) => {
           style={{ display: showDetails[0] }}
           className={classes.accordionDetails}
         >
-          {expert.email || expert.socialNetwork ? (
-            <>
-              {expert.email ? (
-                <div
-                  style={{ display: 'flex' }}
-                  className={classes.accordionDetailsItem}
+          {expert.email ? (
+            <div
+              style={{ display: 'flex' }}
+              className={classes.accordionDetailsItem}
+            >
+              <img
+                className={classes.contactIcons}
+                src={email}
+                alt="email"
+                height="16px"
+                width="16px"
+              />
+              <Typography variant="body1" className={classes.contacts}>
+                <a href={mailTo} className={classes.links}>
+                  {expert.email}
+                </a>
+              </Typography>
+            </div>
+          ) : null}
+          {expert.socialNetwork ? (
+            <div
+              style={{ display: 'flex' }}
+              className={classes.accordionDetailsItem}
+            >
+              <img
+                className={classes.contactIcons}
+                src={facebook}
+                alt="facebook"
+                height="16px"
+                width="16px"
+              />
+              <Typography variant="body1" className={classes.contacts}>
+                <NavLink
+                  to={{
+                    pathname: `${expert.socialNetwork}`,
+                  }}
+                  target="_blank"
+                  className={classes.links}
                 >
-                  <img
-                    className={classes.contactIcons}
-                    src={email}
-                    alt="email"
-                    height="16px"
-                    width="16px"
-                  />
-                  <Typography variant="body1" className={classes.contacts}>
-                    <a href={mailTo} className={classes.links}>
-                      {expert.email}
-                    </a>
-                  </Typography>
-                </div>
-              ) : null}
-              {expert.socialNetwork ? (
-                <div
-                  style={{ display: 'flex' }}
-                  className={classes.accordionDetailsItem}
-                >
-                  <img
-                    className={classes.contactIcons}
-                    src={facebook}
-                    alt="facebook"
-                    height="16px"
-                    width="16px"
-                  />
-                  <Typography variant="body1" className={classes.contacts}>
-                    <NavLink
-                      to={{
-                        pathname: `${expert.socialNetwork}`,
-                      }}
-                      target="_blank"
-                      className={classes.links}
-                    >
-                      {expert.socialNetwork}
-                    </NavLink>
-                  </Typography>
-                </div>
-              ) : null}
-            </>
+                  {expert.socialNetwork}
+                </NavLink>
+              </Typography>
+            </div>
           ) : null}
         </div>
       </div>

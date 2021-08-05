@@ -28,7 +28,9 @@ const ExpertInfo: React.FC<IExpertInfoProps> = ({ expert }) => {
           {expert.bio}
         </Typography>
         <Grid container item className={classes.accordionWrapper}>
-          <Accordion expert={expert} />
+          {expert.email || expert.socialNetwork ? (
+            <Accordion expert={expert} />
+          ) : null}
         </Grid>
       </Grid>
     </>
