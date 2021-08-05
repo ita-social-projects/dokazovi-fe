@@ -59,39 +59,9 @@ beforeEach(() => {
 });
 
 describe('ImportantPostPreviewCard', () => {
-  it('renders expert`s name', () => {
-    expect(
-      screen.getByText(
-        `${POST_MOCK.author.firstName} ${POST_MOCK.author.lastName}`,
-      ),
-    ).toBeInTheDocument();
-  });
-
-  it('renders expert`s main institution', () => {
-    expect(
-      screen.getByText(POST_MOCK.author.mainInstitution.name),
-    ).toBeInTheDocument();
-  });
-
-  it('renders post title', () => {
-    expect(screen.getByText(POST_MOCK.title)).toBeInTheDocument();
-  });
-
-  it('renders preview', () => {
-    expect(screen.getByText(POST_MOCK.preview)).toBeInTheDocument();
-  });
-
-  it('redirects on post page, if you click on post title', () => {
-    const link = screen.getByText(POST_MOCK.title);
+  it('redirects on post page, if you click on slider', () => {
+    const link = screen.getByTestId('post-slider');
     fireEvent.click(link);
     expect(history.location.pathname).toBe('/posts/10');
-  });
-
-  it('redirects on expert`s page, if you click on expert`s name', () => {
-    const link = screen.getByText(
-      `${POST_MOCK.author.firstName} ${POST_MOCK.author.lastName}`,
-    );
-    fireEvent.click(link);
-    expect(history.location.pathname).toBe('/experts/1');
   });
 });

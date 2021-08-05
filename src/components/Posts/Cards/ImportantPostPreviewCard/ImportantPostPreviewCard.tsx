@@ -20,5 +20,11 @@ export const ImportantPostPreviewCard: React.FC<IPostPreviewCardProps> = (
     history.push(`/posts/${post.id}`);
   };
 
-  return <div className={classes.root} onClick={goPostPage} />;
+  return (
+    <div
+      className={classes.root}
+      data-testid="post-slider"
+      onClick={goPostPage}
+    />
+  );
 };
