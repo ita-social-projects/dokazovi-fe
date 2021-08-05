@@ -241,7 +241,7 @@ const MaterialsView: React.FC = () => {
   }, [page]);
 
   useEffect(() => {
-    const appendPosts = previous && previous.page < page;
+    const appendPosts = (previous && previous.page < page) || page !== 0;
     fetchData(appendPosts);
   }, [
     query.get(QueryTypeEnum.ORIGINS),
