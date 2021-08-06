@@ -26,6 +26,7 @@ export const fetchMaterials = createAsyncThunk(
           types: filters.postTypes,
           directions: filters.directions,
           origins: filters.origins,
+          sort: ['published_at,desc'],
         },
       });
 
