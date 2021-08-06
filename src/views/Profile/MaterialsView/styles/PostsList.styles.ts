@@ -5,7 +5,7 @@ export const useStyles = makeStyles(
     container: {
       display: 'flex',
       width: '100%',
-      padding: theme.spacing(6, 0, 0, 0),
+      padding: theme.spacing(5, 0, 0, 0),
     },
     item: {
       marginBottom: theme.spacing(2),
@@ -28,6 +28,7 @@ export const useStyles = makeStyles(
     title: {
       margin: theme.spacing(0),
       fontSize: '16px',
+      lineHeight: '18px',
       wordWrap: 'break-word',
       color: theme.palette.common.black,
     },
