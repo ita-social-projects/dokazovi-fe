@@ -54,4 +54,5 @@ export const common = {
   publishedMaterials: 'Опубліковані матеріали',
   unPublishedMaterials: 'Неопубліковані матеріали',
   preview: 'Перегляд',
+  noInfo: 'На жаль, даних, що відповідають вашому запиту, не знайдено.',
 };
