@@ -20,7 +20,7 @@ const POST_MOCK: IPost = {
       name: 'Адоніс',
     },
   },
-  createdAt: '27.11.2020',
+  createdAt: '27.09.2020',
   title: 'Ultrices eros in cursus',
   directions: [
     {
@@ -29,7 +29,7 @@ const POST_MOCK: IPost = {
       name: 'Хірургія',
     },
   ],
-  publishedAt: '11.09.2020',
+  publishedAt: '27.11.2020',
   type: {
     id: 1,
     name: 'Стаття',
