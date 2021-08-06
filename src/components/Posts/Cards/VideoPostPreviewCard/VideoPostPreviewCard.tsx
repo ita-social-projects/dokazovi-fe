@@ -57,7 +57,7 @@ export const VideoPostPreviewCard: React.FC<IPostPreviewCardProps> = ({
         />
         <Box mb={6}>
           <Typography variant="caption" color="textSecondary">
-            {formatDate(post.createdAt)}
+            {formatDate(post.publishedAt)}
           </Typography>
         </Box>
       </Box>
