@@ -7,7 +7,7 @@ import {
   Grid,
   Typography,
 } from '@material-ui/core';
-import { useStyles } from '../../../old/lib/components/Filters/CheckboxLeftsideFilterForm.styles';
+import { useStyles } from './styles/FilterSection.styles';
 import { FilterConfigType } from '../../../models/materials/types';
 
 export interface IFilterSectionProps {

@@ -73,7 +73,9 @@ export const PostsList: React.FC<IPostsListProps> = ({
                       component="h3"
                       className={classes.title}
                     >
-                      {post.title}
+                      {post.title.length > 50
+                        ? `${post.title.slice(0, 50)} ...`
+                        : post.title}
                     </Typography>
                   </Link>
                 </TableCell>

@@ -181,7 +181,7 @@ const MaterialsDraft: React.FC<IMaterialsDraftProps> = ({
     >
       <AccordionSummary
         className={classes.addMaterialsHeader}
-        expandIcon={<ExpandMore />}
+        expandIcon={<ExpandMore color="secondary" />}
       >
         <h2>{t(langTokens.common.unPublishedMaterials)}</h2>
       </AccordionSummary>
