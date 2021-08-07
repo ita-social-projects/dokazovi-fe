@@ -210,16 +210,9 @@ const MaterialsView: React.FC = () => {
 
     setPage(0);
 
-    if (isQuerySame && uniq(Object.values(checked))[0] === false) {
-      query.set(queryType, '0');
-      history.push({
-        search: query.toString(),
-      });
-    } else {
-      history.push({
-        search: query.toString(),
-      });
-    }
+    history.push({
+      search: query.toString(),
+    });
   };
 
   const loadMore = () => {
