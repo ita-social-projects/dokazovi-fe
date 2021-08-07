@@ -76,11 +76,8 @@ const MaterialsView: React.FC = () => {
   const history = useHistory();
   const query = useQuery();
   const classes = useStyles();
-
   const materials = selectPostsByIds(postIds);
-
   const origins = useSelector(selectOrigins);
-
   const originsInPlural: IOrigin[] = [];
 
   if (origins.length) {
@@ -103,11 +100,8 @@ const MaterialsView: React.FC = () => {
 
     originsInPlural.push(el1, el3, el2);
   }
-
   const postTypes = useSelector(selectPostTypes);
-
   const postTypesInPlural: IPostType[] = [];
-
   if (postTypes.length) {
     const el1: IPostType = { ...postTypes[0] };
     const el2: IPostType = { ...postTypes[1] };
@@ -139,7 +133,6 @@ const MaterialsView: React.FC = () => {
 
   const propertiesLoaded =
     !isEmpty(postTypes) && !isEmpty(directions) && !isEmpty(origins);
-
   const [boundFetchMaterials] = useActions([fetchMaterials]);
 
   const stringOfOrigins = () => {
@@ -234,15 +227,20 @@ const MaterialsView: React.FC = () => {
     const appendPosts = previous && previous.page < page;
     if (
       !isLastPage &&
-      Math.ceil(materials.length / LOAD_POSTS_LIMIT) !== page + 1
+      Math.ceil(materials.length / LOAD_POSTS_LIMIT) !== page + 1 &&
+      directions.length &&
+      postTypes.length &&
+      origins.length
     ) {
       fetchData(appendPosts);
     }
-  }, [page]);
+  }, [page, directions, postTypes, origins]);
 
   useEffect(() => {
     const appendPosts = (previous && previous.page < page) || page !== 0;
-    fetchData(appendPosts);
+    if (directions.length && postTypes.length && origins.length) {
+      fetchData(appendPosts);
+    }
   }, [
     query.get(QueryTypeEnum.ORIGINS),
     query.get(QueryTypeEnum.POST_TYPES),
