@@ -4,6 +4,7 @@ export const useStyles = makeStyles(
   (theme: Theme) => ({
     container: {
       display: 'flex',
+      justifyContent: 'center',
       width: '100%',
       padding: theme.spacing(5, 0, 0, 0),
     },
@@ -13,7 +14,6 @@ export const useStyles = makeStyles(
     card: {
       position: 'relative',
       display: 'flex',
-      minWidth: '835px',
       alignItems: 'center',
       border: 'none',
       '&:hover': {
@@ -22,8 +22,12 @@ export const useStyles = makeStyles(
       },
     },
     cell: {
+      minWidth: '500px',
       border: 'none',
       padding: theme.spacing(0, 2, 0, 2),
+      [theme.breakpoints.down('md')]: {
+        minWidth: '360px',
+      },
     },
     title: {
       margin: theme.spacing(0),
