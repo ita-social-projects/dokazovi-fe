@@ -294,8 +294,9 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
 
   if (isEmpty(selectedPostTypes)) {
     if (
-      selectedPostTypesString?.length === 1 &&
-      selectedPostTypesString?.[0] === '0'
+      materials?.length === 0 ||
+      (selectedPostTypesString?.length === 1 &&
+        selectedPostTypesString?.[0] === '0')
     ) {
       selectedPostTypes = filtersStateEnum.empty;
     } else {
@@ -315,8 +316,9 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
 
   if (isEmpty(selectedDirections)) {
     if (
-      selectedDirectionsString?.length === 1 &&
-      selectedDirectionsString?.[0] === '0'
+      materials?.length === 0 ||
+      (selectedDirectionsString?.length === 1 &&
+        selectedDirectionsString?.[0] === '0')
     ) {
       selectedDirections = filtersStateEnum.empty;
     } else {
@@ -361,13 +363,10 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
   });
 
   const disabledPostTypes = postTypes.filter((post) => {
-    if (activePostTypes?.length) {
-      if (activePostTypes?.find((el) => el.id === post.id)) {
-        return false;
-      }
-      return true;
+    if (activePostTypes?.find((el) => el.id === post.id)) {
+      return false;
     }
-    return false;
+    return true;
   });
 
   let materialsData = <PostsList postsList={materials} />;

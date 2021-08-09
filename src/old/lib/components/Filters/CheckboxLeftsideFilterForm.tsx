@@ -219,7 +219,8 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
   let theOnlyAvailableFilter = false;
   if (
     disabledCheckBoxesIds &&
-    possibleFilters.length - disabledCheckBoxesIds.length === 1
+    (possibleFilters.length - disabledCheckBoxesIds.length === 1 ||
+      possibleFilters.length - disabledCheckBoxesIds.length === 0)
   ) {
     theOnlyAvailableFilter = true;
   }
