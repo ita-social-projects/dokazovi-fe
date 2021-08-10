@@ -216,14 +216,10 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
     setDisabledCheckBoxesIds(arrOfDisabledIds);
   }, [disabledPostTypes, disabledDirections]);
 
-  let theOnlyAvailableFilter = false;
-  if (
-    disabledCheckBoxesIds &&
-    (possibleFilters.length - disabledCheckBoxesIds.length === 1 ||
-      possibleFilters.length - disabledCheckBoxesIds.length === 0)
-  ) {
-    theOnlyAvailableFilter = true;
-  }
+  const theOnlyAvailableFilter =
+    !!disabledCheckBoxesIds &&
+    (possibleFilters.length - disabledCheckBoxesIds.length === 0 ||
+      possibleFilters.length - disabledCheckBoxesIds.length === 1);
 
   useEffect(() => {
     if (theOnlyAvailableFilter && setTheOnlyAvailableFilter) {
