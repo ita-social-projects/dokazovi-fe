@@ -18,7 +18,7 @@ const Profile: React.FC = () => {
 
   const user = useSelector(selectCurrentUser);
 
-  return user?.data ? (
+  return user.data ? (
     <Container>
       <Box>
         <Sidemenu selectedOption={selectedOption} changeOption={changeOption} />
