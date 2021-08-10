@@ -80,25 +80,28 @@ export const AccountMenu: React.FC = () => {
         onClose={handleClose}
         className={classes.menu}
       >
+        <Link to="/profile">
         <StyledMenuItem onClick={handleClose}>
-          <Link to="/profile">
             <Typography variant="button" color="inherit">
               {t(langTokens.common.profile)}
             </Typography>
-          </Link>
         </StyledMenuItem>
+        </Link>
+        <Link to='/'>
         <StyledMenuItem onClick={onLogoutHandler}>
           <Typography variant="button" color="inherit">
             {t(langTokens.common.exit)}
           </Typography>
         </StyledMenuItem>
-        <StyledMenuItem onClick={handleClose}>
-          <Link to="/admin">
+        </Link>
+        {user?.data?.id === 27 ? <Link to="/admin">
+          <StyledMenuItem onClick={handleClose}>
             <Typography variant="button" color="inherit">
               {t(langTokens.common.admin)}
             </Typography>
-          </Link>
-        </StyledMenuItem>
+          </StyledMenuItem>
+        </Link>
+          :null }
       </StyledMenu>
     </>
   );

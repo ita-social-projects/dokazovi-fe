@@ -13,12 +13,12 @@ const Page404: React.FC = () => {
   }, []);
 
   return (
-    <>
+    <div style={{ margin: 'auto' }}>
       <PageTitle title={t(langTokens.common.error404)} />
       <Typography align="center" variant="h1">
-        404 Page not found
+        {t(langTokens.common.error404Message)}
       </Typography>
-    </>
+    </div>
   );
 };
 
