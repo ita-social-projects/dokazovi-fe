@@ -1,8 +1,8 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { Route, Switch, Redirect, RouteComponentProps } from 'react-router-dom';
+import Page from 'components/Page/Page';
 import { IRouteConfig } from './types';
-import Page from '../lib/components/Pages/Page';
 import Page404 from '../lib/components/Errors/Page404';
 import { LoadingStatusEnum } from '../lib/types';
 import { LoadingContainer } from '../lib/components/Loading/LoadingContainer';

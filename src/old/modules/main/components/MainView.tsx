@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { PageTitle } from 'components/Page/PageTitle';
 import { ImportantContainer } from './ImportantContainer';
-import { PageTitle } from '../../../lib/components/Pages/PageTitle';
 import { NewestContainer } from '../../../../features/newest/NewestContainer';
 import { setGALocation } from '../../../../utilities/setGALocation';
 import { langTokens } from '../../../../locales/localizationInit';

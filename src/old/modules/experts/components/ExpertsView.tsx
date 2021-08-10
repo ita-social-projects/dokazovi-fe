@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { isEmpty, uniq } from 'lodash';
 import { Grid, Typography, Box } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
+import { PageTitle } from 'components/Page/PageTitle';
 import {
   ChipFilterEnum,
   ChipFilterType,
@@ -31,7 +32,6 @@ import {
 } from '../../../lib/utilities/filters';
 import { LoadingContainer } from '../../../lib/components/Loading/LoadingContainer';
 import { usePrevious } from '../../../lib/hooks/usePrevious';
-import { PageTitle } from '../../../lib/components/Pages/PageTitle';
 import { useQuery } from '../../../lib/hooks/useQuery';
 import { CheckboxLeftsideFilterForm } from '../../../lib/components/Filters/CheckboxLeftsideFilterForm';
 import { LOAD_EXPERTS_LIMIT } from '../../../lib/constants/experts';

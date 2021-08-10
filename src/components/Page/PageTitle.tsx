@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import appTitle from '../../constants/appTitle';
+import appTitle from 'old/lib/constants/appTitle';
 
 export interface IPageTitleProps {
   title?: string;
