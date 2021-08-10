@@ -49,7 +49,7 @@ instance.interceptors.request.use(
 
 instance.interceptors.response.use(undefined, (error: AxiosError) => {
   if (error.message === 'Network Error' && !error.response) {
-    toast.error('The server isn\'t responding...');
+    toast.error("The server isn't responding...");
   }
 
   if (!error.response) {
@@ -96,7 +96,9 @@ export const getActivePostTypes = async (
   return instance.get(`/post-types/${userId}?status=${status}`);
 };
 
-export const getNewestPosts = async (): Promise<AxiosResponse<NewestPostsResponseType>> => {
+export const getNewestPosts = async (): Promise<
+  AxiosResponse<NewestPostsResponseType>
+> => {
   return instance.get(`/post/latest`);
 };
 
@@ -145,11 +147,15 @@ export const getTagsByValue = async (
   return instance.get(`/tag/find-by-value`, { ...defaultConfig, ...config });
 };
 
-export const getVersion = async (): Promise<AxiosResponse<VersionResponseType>> => {
+export const getVersion = async (): Promise<
+  AxiosResponse<VersionResponseType>
+> => {
   return instance.get(`/version`);
 };
 
-export const getPostTypes = async (): Promise<AxiosResponse<PostTypeResponseType[]>> => {
+export const getPostTypes = async (): Promise<
+  AxiosResponse<PostTypeResponseType[]>
+> => {
   return instance.get('post/type');
 };
 
@@ -165,15 +171,21 @@ export const getPostsByStatus = async (
   });
 };
 
-export const getRegions = async (): Promise<AxiosResponse<RegionResponseType[]>> => {
+export const getRegions = async (): Promise<
+  AxiosResponse<RegionResponseType[]>
+> => {
   return instance.get(`/region`);
 };
 
-export const getDirections = async (): Promise<AxiosResponse<DirectionResponseType[]>> => {
+export const getDirections = async (): Promise<
+  AxiosResponse<DirectionResponseType[]>
+> => {
   return instance.get(`/direction`);
 };
 
-export const getOrigins = async (): Promise<AxiosResponse<OriginResponseType[]>> => {
+export const getOrigins = async (): Promise<
+  AxiosResponse<OriginResponseType[]>
+> => {
   return instance.get(`/origin`);
 };
 
@@ -230,7 +242,9 @@ export const checkPasswordToken = (token: string): Promise<boolean> => {
     .catch(() => false);
 };
 
-export const getCurrentUser = async (): Promise<AxiosResponse<ExpertResponseType>> => {
+export const getCurrentUser = async (): Promise<
+  AxiosResponse<ExpertResponseType>
+> => {
   return instance.get('/user/me');
 };
 
