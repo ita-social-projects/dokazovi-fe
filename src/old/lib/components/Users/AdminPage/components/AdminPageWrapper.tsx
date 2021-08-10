@@ -7,7 +7,8 @@ import { selectAuthorities } from '../../../../../../models/authorities';
 import { useSelector } from 'react-redux';
 
 const AdminPage: React.FC = () => {
-  const [selectedOption, changeOption] = useState<IAdminMenuOption | Record<string, never>>({});
+  const [selectedOption, changeOption] = useState<
+    IAdminMenuOption | Record<string, never>>({});
 
   const authorities = useSelector(selectAuthorities).data?.includes('SET_IMPORTANCE');
 
