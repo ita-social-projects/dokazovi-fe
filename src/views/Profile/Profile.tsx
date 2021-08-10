@@ -9,7 +9,9 @@ import { selectCurrentUser } from '../../models/user';
 import Page404 from '../../old/lib/components/Errors/Page404';
 
 const Profile: React.FC = () => {
-  const [selectedOption, changeOption] = useState<IProfileMenuOption | Record<string, never>>({
+  const [selectedOption, changeOption] = useState<
+    IProfileMenuOption | Record<string, never>
+  >({
     label: i18n.t(langTokens.common.myInfo),
     value: 'info',
   });
