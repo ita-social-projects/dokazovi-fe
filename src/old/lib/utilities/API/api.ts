@@ -248,6 +248,10 @@ export const getCurrentUser = async (): Promise<
   return instance.get('/user/me');
 };
 
+export const getAuthorities = async (): Promise<AxiosResponse> => {
+  return instance.get('/user/get-authorities');
+};
+
 export const deletePostById = async (
   id: number,
 ): Promise<AxiosResponse<PostsResponseType>> => {
@@ -264,8 +268,4 @@ export const updatePlatformInformation = async (
   requestBody: UpdatePlatformInformationRequestType,
 ): Promise<AxiosResponse<PlatformInformationType>> => {
   return instance.put(`/platform-information/`, requestBody);
-};
-
-export const getAdminInfo = async (): Promise<AxiosResponse> => {
-  return instance.get('/');
 };
