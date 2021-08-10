@@ -62,10 +62,7 @@ export const PostsList: React.FC<IPostsListProps> = ({
               ref={postIdxForScroll === idx ? postForScrollRef : null}
             >
               <Card className={classes.card}>
-                <TableCell
-                  className={classes.cell}
-                  style={{ minWidth: '480px' }}
-                >
+                <TableCell className={classes.cell} style={{ width: '360px' }}>
                   <Link to={`/posts/${post.id}`}>
                     <Typography
                       gutterBottom
@@ -82,7 +79,7 @@ export const PostsList: React.FC<IPostsListProps> = ({
                 <TableCell
                   className={classes.cell}
                   align="center"
-                  style={{ minWidth: '280px' }}
+                  style={{ minWidth: '180px' }}
                 >
                   <Typography variant="caption" color="textSecondary">
                     {status === PostStatus.DRAFT
