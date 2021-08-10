@@ -11,9 +11,11 @@ import {
 import { signOutAction, getUserAsyncAction } from '../../models/user';
 import { useActions } from '../../shared/hooks';
 import { AuthContext } from '../../old/provider/AuthProvider/AuthContext';
-import { selectCurrentUser } from '../../models/user/selectors';
+import { selectCurrentUser } from '../../models/user';
 import { AccountIcon } from '../../old/lib/components/icons/AccountIcon';
 import { langTokens } from '../../locales/localizationInit';
+import {  selectAuthorities } from '../../models/authorities';
+import { clearAuthoritiesAction } from '../../models/authorities/reducers';
 
 export const AccountMenu: React.FC = () => {
   const { t } = useTranslation();
@@ -25,10 +27,13 @@ export const AccountMenu: React.FC = () => {
   const { removeAuthorization } = useContext(AuthContext);
   const [boundSignOutAction] = useActions([signOutAction]);
   const [boundGetUserAsyncAction] = useActions([getUserAsyncAction]);
+  const [boundClearAuthorities] = useActions([clearAuthoritiesAction]);
+  const authorities = useSelector(selectAuthorities).data?.includes('SET_IMPORTANCE') ;
 
   const onLogoutHandler = () => {
     boundSignOutAction();
     removeAuthorization();
+    boundClearAuthorities();
   };
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -94,7 +99,7 @@ export const AccountMenu: React.FC = () => {
           </Typography>
         </StyledMenuItem>
         </Link>
-        {user?.data?.id === 27 ? <Link to="/admin">
+        {authorities ? <Link to="/admin">
           <StyledMenuItem onClick={handleClose}>
             <Typography variant="button" color="inherit">
               {t(langTokens.common.admin)}

@@ -23,6 +23,8 @@ import { login } from '../../utilities/API/api';
 import { AccountIcon } from '../icons/AccountIcon';
 import { langTokens } from '../../../../locales/localizationInit';
 import { BasicButton, BasicInput } from '../../../../components/Form';
+import { useActions } from '../../../../shared/hooks';
+import { getAuthoritiesAsyncAction } from '../../../../models/authorities';
 
 export const LoginModal: React.FC = () => {
   const { t } = useTranslation();
@@ -37,6 +39,8 @@ export const LoginModal: React.FC = () => {
   >({
     mode: 'onTouched',
   });
+
+  const [boundAuthorities] = useActions([getAuthoritiesAsyncAction]);
 
   const handleLoginOpen = () => {
     setLoginOpen(true);
@@ -68,7 +72,10 @@ export const LoginModal: React.FC = () => {
           t(langTokens.loginRegistration.youAreWelcome),
           'success',
         );
-      })
+      }).then(data => {
+      boundAuthorities();
+      return data
+    })
       .catch((err) => {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         setError(err.response.data.status);
