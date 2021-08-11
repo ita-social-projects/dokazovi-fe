@@ -518,7 +518,7 @@ const MaterialsView: React.FC = () => {
             </>
           )}
         </Grid>
-        <Grid item container xs={9} direction="column">
+        <Grid item container alignItems="center" xs={9} direction="column">
           {page === 0 && loading === LoadingStatusEnum.pending ? (
             <LoadingContainer loading={loading} expand />
           ) : (

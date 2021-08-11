@@ -1,11 +1,11 @@
 import { createStyles, makeStyles, Theme } from '@material-ui/core';
+import { SCREEN_BREAKPOINTS } from 'old/lib/theme/theme';
 
 export const useStyles = makeStyles(
   (theme: Theme) =>
     createStyles({
       masonryGrid: {
         display: 'flex',
-        width: '100%',
       },
       masonryColumn: {
         marginRight: theme.spacing(2),
@@ -22,6 +22,5 @@ export const useStyles = makeStyles(
 
 export const MASONRY_BREAKPOINTS = {
   default: 3,
-  '900': 3,
-  '700': 2,
+  [SCREEN_BREAKPOINTS.lg]: 2,
 };
