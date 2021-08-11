@@ -10,10 +10,8 @@ const Page: React.FC<IPageProps> = (props) => {
   const classes = useStyles();
 
   return (
-    <Container className={classes.container} disableGutters>
-      <div className={classes.page}>
-        <props.component />
-      </div>
+    <Container className={classes.page} disableGutters>
+      <props.component />
     </Container>
   );
 };
