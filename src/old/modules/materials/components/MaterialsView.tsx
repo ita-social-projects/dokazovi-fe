@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { PageTitle } from 'components/Page/PageTitle';
 import { CheckboxFormStateType } from '../../../lib/components/Filters/CheckboxFilterForm';
 import { PostsList } from '../../../lib/components/Posts/PostsList';
 import { LoadMoreButton } from '../../../lib/components/LoadMoreButton/LoadMoreButton';
@@ -27,7 +28,6 @@ import {
   mapQueryIdsStringToArray,
 } from '../../../lib/utilities/filters';
 import { LoadingContainer } from '../../../lib/components/Loading/LoadingContainer';
-import { PageTitle } from '../../../lib/components/Pages/PageTitle';
 import { useQuery } from '../../../lib/hooks/useQuery';
 import { fetchMaterials, selectMaterials } from '../../../../models/materials';
 import { useActions } from '../../../../shared/hooks';

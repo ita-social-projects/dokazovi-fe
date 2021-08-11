@@ -1,6 +1,6 @@
 import React from 'react';
 import { Container } from '@material-ui/core';
-import { useStyles } from '../../styles/Page.styles';
+import { useStyles } from './Page.styles';
 
 export interface IPageProps {
   component: React.ComponentType;
