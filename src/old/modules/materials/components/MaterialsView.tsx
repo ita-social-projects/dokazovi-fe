@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-shadow */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { Box, Grid, Typography } from '@material-ui/core';
 import { isEmpty, uniq } from 'lodash';
 import React, { useEffect, useState } from 'react';
@@ -50,6 +51,7 @@ import {
   updateOrig,
   updateDir,
 } from '../../utilities/utilityFunctions';
+import { sortByAlphabet } from '../../../lib/utilities/sorting';
 
 const MaterialsView: React.FC = () => {
   const { t } = useTranslation();
@@ -78,58 +80,42 @@ const MaterialsView: React.FC = () => {
   const classes = useStyles();
   const materials = selectPostsByIds(postIds);
   const origins = useSelector(selectOrigins);
-  const originsInPlural: IOrigin[] = [];
+  let originsInPlural: IOrigin[] = [];
 
   if (origins.length) {
-    const el1: IOrigin = { ...origins[0] };
-    const el2: IOrigin = { ...origins[1] };
-    const el3: IOrigin = { ...origins[2] };
-
-    Object.defineProperty(el1, 'name', {
-      enumerable: false,
-      configurable: true,
-      writable: true,
-      value: `${t(langTokens.experts.expertOpinion, defaultPlural)}`,
+    originsInPlural = origins.map((origin) => {
+      const translations = {
+        '1': `${t(langTokens.experts.expertOpinion, defaultPlural)}`,
+        '3': `${t(langTokens.common.translation, defaultPlural)}`,
+      };
+      const translatedOrigin = { ...origin };
+      translatedOrigin.name = translations[origin.id] || origin.name;
+      return translatedOrigin;
     });
-    Object.defineProperty(el3, 'name', {
-      enumerable: false,
-      configurable: true,
-      writable: true,
-      value: `${t(langTokens.common.translation, defaultPlural)}`,
-    });
-
-    originsInPlural.push(el1, el3, el2);
+    originsInPlural = sortByAlphabet(originsInPlural);
   }
   const postTypes = useSelector(selectPostTypes);
-  const postTypesInPlural: IPostType[] = [];
+  let postTypesInPlural: IPostType[] = [];
   if (postTypes.length) {
-    const el1: IPostType = { ...postTypes[0] };
-    const el2: IPostType = { ...postTypes[1] };
-    const el3: IPostType = { ...postTypes[2] };
-
-    Object.defineProperty(el1, 'name', {
-      enumerable: false,
-      configurable: true,
-      writable: true,
-      value: `${t(langTokens.common.article_1, defaultPlural)}`,
+    postTypesInPlural = postTypes.map((postType) => {
+      const translations = {
+        '1': `${t(langTokens.common.article_1, defaultPlural)}`,
+        '2': `${t(langTokens.common.video)}`,
+        '3': `${t(langTokens.common.post, defaultPlural)}`,
+      };
+      const translatedPostType = { ...postType };
+      translatedPostType.name = translations[postType.id] || postType.name;
+      return translatedPostType;
     });
-    Object.defineProperty(el2, 'name', {
-      enumerable: false,
-      configurable: true,
-      writable: true,
-      value: `${t(langTokens.common.video)}`,
-    });
-    Object.defineProperty(el3, 'name', {
-      enumerable: false,
-      configurable: true,
-      writable: true,
-      value: `${t(langTokens.common.post, defaultPlural)}`,
-    });
-
-    postTypesInPlural.push(el1, el3, el2);
+    postTypesInPlural = sortByAlphabet(postTypesInPlural);
   }
 
   const directions = useSelector(selectDirections);
+  let directionsInPlural: IDirection[] = [];
+  if (directions.length) {
+    directionsInPlural = directions.map((direction) => ({ ...direction }));
+    directionsInPlural = sortByAlphabet(directionsInPlural, 'label');
+  }
 
   const propertiesLoaded =
     !isEmpty(postTypes) && !isEmpty(directions) && !isEmpty(origins);
@@ -195,7 +181,6 @@ const MaterialsView: React.FC = () => {
     const queryType = getQueryTypeByFilterType(filterType);
     const checkedIds = Object.keys(checked).filter((key) => checked[key]);
     const isQuerySame = uniq(Object.values(checked)).length === 1; // removing the query if user checks/unchecks the last box
-
     query.set(queryType, checkedIds.join(','));
     if (!checkedIds.length || isQuerySame) {
       query.delete(queryType);
@@ -264,7 +249,7 @@ const MaterialsView: React.FC = () => {
 
   let selectedDirections:
     | IDirection[]
-    | filtersStateEnum = directions?.filter((direction) =>
+    | filtersStateEnum = directionsInPlural?.filter((direction) =>
     selectedDirectionsString?.includes(direction.id.toString()),
   );
 
@@ -380,7 +365,6 @@ const MaterialsView: React.FC = () => {
     chipsListType: ChipFilterType | undefined,
   ) => {
     let filtersUpdatedByChips: undefined | CheckboxFormStateType;
-
     if (chipsListType === 'ORIGIN') {
       filtersUpdatedByChips = { ...checkedFiltersOrigins };
     } else if (chipsListType === 'POST_TYPE') {
@@ -509,7 +493,7 @@ const MaterialsView: React.FC = () => {
                 onFormChange={(checked) =>
                   setFilters(checked, FilterTypeEnum.DIRECTIONS)
                 }
-                possibleFilters={directions}
+                possibleFilters={directionsInPlural}
                 selectedFilters={selectedDirections}
                 filterTitle={t(langTokens.common.byDirection).toLowerCase()}
                 allTitle={t(langTokens.common.allDirections)}
