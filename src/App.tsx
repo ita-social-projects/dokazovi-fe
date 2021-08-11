@@ -31,6 +31,7 @@ import {
   breadcrumbsConfigs,
 } from './components/Breadcrumbs';
 import ScrollToTop from './components/ScrollToTop/ScrollToTop';
+import { getAuthoritiesAsyncAction } from './models/authorities';
 
 ReactGA.initialize(process.env.REACT_APP_GOOGLE_ID as string, {
   testMode: process.env.NODE_ENV === 'test',
@@ -42,15 +43,18 @@ export const App: React.FC = () => {
     boundFetchOrigins,
     boundFetchPostsTypes,
     boundFetchRegions,
+    boundAuthorities,
   ] = useActions([
     fetchDirections,
     fetchOrigins,
     fetchPostsTypes,
     fetchRegions,
+    getAuthoritiesAsyncAction,
   ]);
 
   useEffect(() => {
     const fetchProperties = () => {
+      boundAuthorities()
       boundFetchDirections();
       boundFetchOrigins();
       boundFetchPostsTypes();
