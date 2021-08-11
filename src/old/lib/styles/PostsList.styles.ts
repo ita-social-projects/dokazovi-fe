@@ -1,5 +1,5 @@
 import { createStyles, makeStyles, Theme } from '@material-ui/core';
-import { SCREEN_BREAKPOINTS } from 'old/lib/theme/theme';
+import { SCREEN_BREAKPOINTS } from 'styles/theme';
 
 export const useStyles = makeStyles(
   (theme: Theme) =>
