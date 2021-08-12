@@ -50,7 +50,7 @@ export const TranslationPostPreviewCard: React.FC<IPostPreviewCardProps> = ({
   );
 
   const cardBody = (
-    <Box className={classes.body}>
+    <>
       <Box mb={1.2}>
         <Typography
           className={classes.authorFullName}
@@ -70,32 +70,38 @@ export const TranslationPostPreviewCard: React.FC<IPostPreviewCardProps> = ({
           {post.author.bio}
         </Typography>
       </Box>
-      <Typography
-        gutterBottom
-        variant="body2"
-        color="textPrimary"
-        component="p"
-        className={classes.textBody}
-      >
-        {post.preview}
-      </Typography>
-      <Box
-        display="flex"
-        justifyContent="space-between"
-        alignItems="center"
-        mb={6}
-      >
-        <Typography variant="caption" color="textSecondary">
-          {formatDate(post.publishedAt)}
-        </Typography>
-      </Box>
-    </Box>
+    </>
   );
+
+  const cardText = (<>
+    <Typography
+      gutterBottom
+      variant="body2"
+      color="textPrimary"
+      component="p"
+      className={classes.textBody}
+    >
+      {post.preview}
+    </Typography>
+    <Box
+      display="flex"
+      justifyContent="space-between"
+      alignItems="center"
+      mb={6}
+    >
+      <Typography variant="caption" color="textSecondary">
+        {formatDate(post.publishedAt)}
+      </Typography>
+    </Box>
+  </>)
 
   return (
     <Card className={classes.root}>
       {shouldNotUseLink ? cardHeader : <Link to={postLink}>{cardHeader}</Link>}
+      <Box className={classes.body}>
       {shouldNotUseLink ? cardBody : <Link to={materialsLink}>{cardBody}</Link>}
+      {shouldNotUseLink ? cardHeader : <Link to={postLink}>{cardText}</Link>}
+      </Box>
     </Card>
   );
 };
