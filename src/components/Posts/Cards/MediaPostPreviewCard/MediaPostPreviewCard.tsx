@@ -61,7 +61,7 @@ export const MediaPostPreviewCard: React.FC<IPostPreviewCardProps> = ({
           mb={6}
         >
           <Typography variant="caption" color="textSecondary">
-            {formatDate(post.createdAt)}
+            {formatDate(post.publishedAt)}
           </Typography>
         </Box>
       </Box>

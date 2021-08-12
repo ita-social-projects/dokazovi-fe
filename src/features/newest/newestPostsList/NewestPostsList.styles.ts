@@ -32,11 +32,13 @@ export const useStyles = makeStyles(
         },
       },
       grid: {
-        gap: '15px',
         minHeight: '315px',
         justifyContent: 'space-between',
-        [theme.breakpoints.down('sm')]: {
-          justifyContent: 'center',
+        flexWrap: 'nowrap',
+        overflow: 'auto',
+        [theme.breakpoints.down('md')]: {
+          justifyContent: 'flex-start',
+          gap: '15px',
         },
       },
     }),
