@@ -83,7 +83,7 @@ const MaterialsView: React.FC = () => {
   let originsInPlural: IOrigin[] = [];
 
   if (origins.length) {
-    originsInPlural = origins.map((origin) => {
+    const translatedOrigins = origins.map((origin) => {
       const translations = {
         '1': `${t(langTokens.experts.expertOpinion, defaultPlural)}`,
         '3': `${t(langTokens.common.translation, defaultPlural)}`,
@@ -92,12 +92,16 @@ const MaterialsView: React.FC = () => {
       translatedOrigin.name = translations[origin.id] || origin.name;
       return translatedOrigin;
     });
-    originsInPlural = sortByAlphabet(originsInPlural);
+    originsInPlural = [
+      translatedOrigins[0],
+      translatedOrigins[2],
+      translatedOrigins[1],
+    ];
   }
   const postTypes = useSelector(selectPostTypes);
   let postTypesInPlural: IPostType[] = [];
   if (postTypes.length) {
-    postTypesInPlural = postTypes.map((postType) => {
+    const translatedPostTypes = postTypes.map((postType) => {
       const translations = {
         '1': `${t(langTokens.common.article_1, defaultPlural)}`,
         '2': `${t(langTokens.common.video)}`,
@@ -107,7 +111,12 @@ const MaterialsView: React.FC = () => {
       translatedPostType.name = translations[postType.id] || postType.name;
       return translatedPostType;
     });
-    postTypesInPlural = sortByAlphabet(postTypesInPlural);
+
+    postTypesInPlural = [
+      translatedPostTypes[0],
+      translatedPostTypes[2],
+      translatedPostTypes[1],
+    ];
   }
 
   const directions = useSelector(selectDirections);

@@ -1,9 +1,9 @@
 import { IPostType, IOrigin, IDirection } from '../types';
 
 export const sortByAlphabet = (
-  array: IPostType[] | IOrigin[] | IDirection[],
+  array: IDirection[],
   sortBy: string | undefined = 'name',
-): any[] => {
+): IDirection[] => {
   return array?.sort((prev, current) => {
     if (prev[sortBy] > current[sortBy]) {
       return 1;
