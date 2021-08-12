@@ -14,7 +14,7 @@ import {
 } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
 import CloseIcon from '@material-ui/icons/Close';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { AuthContext } from '../../../provider/AuthProvider/AuthContext';
 import { emailValidationObj } from './validationRules';
 import { IAuthInputs } from '../../types';
@@ -62,6 +62,8 @@ export const LoginModal: React.FC = () => {
     buttonsStyling: false,
   });
 
+  const history = useHistory();
+
   const onSubmit = (inputs: IAuthInputs) => {
     login(inputs.email.toLowerCase(), inputs.password)
       .then((response) => {
@@ -72,7 +74,7 @@ export const LoginModal: React.FC = () => {
           t(langTokens.loginRegistration.congratulation),
           t(langTokens.loginRegistration.youAreWelcome),
           'success',
-        );
+        ).then(()=>history.push('/'));
       }).catch((err) => {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         setError(err.response.data.status);
