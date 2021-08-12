@@ -21,7 +21,8 @@
     "noUnusedParameters": false,
     "experimentalDecorators": true,
     "noImplicitAny": false,
-    "downlevelIteration": true
+    "downlevelIteration": true,
+    "baseUrl": "src"
   },
   "include": ["src"],
   "exclude": ["node_modules", "build"]
