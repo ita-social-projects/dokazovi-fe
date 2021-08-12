@@ -80,8 +80,8 @@ const MaterialsView: React.FC = () => {
   const classes = useStyles();
   const materials = selectPostsByIds(postIds);
   const origins = useSelector(selectOrigins);
-  let originsInPlural: IOrigin[] = [];
-
+  const originsInPlural: IOrigin[] = [];
+  // here we translate origins and put them in proper order
   if (origins.length) {
     const translatedOrigins = origins.map((origin) => {
       const translations = {
@@ -92,14 +92,15 @@ const MaterialsView: React.FC = () => {
       translatedOrigin.name = translations[origin.id] || origin.name;
       return translatedOrigin;
     });
-    originsInPlural = [
+    originsInPlural.push(
       translatedOrigins[0],
       translatedOrigins[2],
       translatedOrigins[1],
-    ];
+    );
   }
   const postTypes = useSelector(selectPostTypes);
-  let postTypesInPlural: IPostType[] = [];
+  const postTypesInPlural: IPostType[] = [];
+  // here we translate types and put them in proper order
   if (postTypes.length) {
     const translatedPostTypes = postTypes.map((postType) => {
       const translations = {
@@ -112,18 +113,20 @@ const MaterialsView: React.FC = () => {
       return translatedPostType;
     });
 
-    postTypesInPlural = [
+    postTypesInPlural.push(
       translatedPostTypes[0],
       translatedPostTypes[2],
       translatedPostTypes[1],
-    ];
+    );
   }
 
   const directions = useSelector(selectDirections);
-  let directionsInPlural: IDirection[] = [];
+  const directionsInPlural: IDirection[] = [];
+  // here we sorted directions in alphabet order
   if (directions.length) {
-    directionsInPlural = directions.map((direction) => ({ ...direction }));
-    directionsInPlural = sortByAlphabet(directionsInPlural, 'label');
+    const directionsToSort = directions.map((direction) => ({ ...direction }));
+    const sortedDirections = sortByAlphabet(directionsToSort, 'label');
+    directionsInPlural.push(...sortedDirections);
   }
 
   const propertiesLoaded =
