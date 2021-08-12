@@ -74,7 +74,7 @@ export const LoginModal: React.FC = () => {
         );
       }).then(data => {
       boundAuthorities();
-      return data
+      return data;
     })
       .catch((err) => {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
