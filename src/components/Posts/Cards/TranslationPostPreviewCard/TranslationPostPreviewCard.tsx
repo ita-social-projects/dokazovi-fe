@@ -100,7 +100,7 @@ export const TranslationPostPreviewCard: React.FC<IPostPreviewCardProps> = ({
       {shouldNotUseLink ? cardHeader : <Link to={postLink}>{cardHeader}</Link>}
       <Box className={classes.body}>
       {shouldNotUseLink ? cardBody : <Link to={materialsLink}>{cardBody}</Link>}
-      {shouldNotUseLink ? cardHeader : <Link to={postLink}>{cardText}</Link>}
+      {shouldNotUseLink ? cardText : <Link to={postLink}>{cardText}</Link>}
       </Box>
     </Card>
   );
