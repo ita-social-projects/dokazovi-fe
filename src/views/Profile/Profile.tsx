@@ -15,7 +15,7 @@ const Profile: React.FC = () => {
     value: 'info',
   });
 
-  const {authenticated} = useContext(AuthContext)
+  const { authenticated } = useContext(AuthContext);
 
   return authenticated ? (
     <Container>
@@ -24,7 +24,11 @@ const Profile: React.FC = () => {
         <OperationView selectedOption={selectedOption} />
       </Box>
     </Container>
-  ) : <><Page404 /></>;
+  ) : (
+    <>
+      <Page404 />
+    </>
+  );
 };
 
 export default Profile;

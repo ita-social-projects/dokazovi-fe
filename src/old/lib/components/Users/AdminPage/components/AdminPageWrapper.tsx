@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import OperationView from './OperationView';
 import Sidemenu from './Sidemenu';
 import { IAdminMenuOption } from '../../../../types';
 import Page404 from '../../../Errors/Page404';
 import { selectAuthorities } from '../../../../../../models/authorities';
-import { useSelector } from 'react-redux';
 
 const AdminPage: React.FC = () => {
   const [selectedOption, changeOption] = useState<
