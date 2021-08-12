@@ -1,6 +1,6 @@
+import { createSlice } from '@reduxjs/toolkit';
 import { getAsyncActionsReducer } from '../helpers/asyncActions';
 import { getAuthoritiesAsyncAction } from './asyncAction';
-import { createSlice } from '@reduxjs/toolkit';
 import { LoadingStatusEnum } from '../../old/lib/types';
 
 const initialState = {
@@ -14,7 +14,7 @@ const authoritiesSlice = createSlice({
   initialState,
   reducers: {
     clearAuthoritiesAction: (state) => {
-      state.data = []
+      state.data.splice(0);
     },
   },
   extraReducers: {

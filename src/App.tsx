@@ -54,7 +54,7 @@ export const App: React.FC = () => {
 
   useEffect(() => {
     const fetchProperties = () => {
-      boundAuthorities()
+      boundAuthorities();
       boundFetchDirections();
       boundFetchOrigins();
       boundFetchPostsTypes();

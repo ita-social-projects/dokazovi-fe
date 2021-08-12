@@ -8,13 +8,12 @@ import {
   StyledMenu,
   StyledMenuItem,
 } from '../../old/lib/components/Menu/StyledMenu';
-import { signOutAction, getUserAsyncAction } from '../../models/user';
+import { signOutAction, getUserAsyncAction , selectCurrentUser } from '../../models/user';
 import { useActions } from '../../shared/hooks';
 import { AuthContext } from '../../old/provider/AuthProvider/AuthContext';
-import { selectCurrentUser } from '../../models/user';
 import { AccountIcon } from '../../old/lib/components/icons/AccountIcon';
 import { langTokens } from '../../locales/localizationInit';
-import {  selectAuthorities } from '../../models/authorities';
+import { selectAuthorities } from '../../models/authorities';
 import { clearAuthoritiesAction } from '../../models/authorities/reducers';
 
 export const AccountMenu: React.FC = () => {
@@ -28,7 +27,9 @@ export const AccountMenu: React.FC = () => {
   const [boundSignOutAction] = useActions([signOutAction]);
   const [boundGetUserAsyncAction] = useActions([getUserAsyncAction]);
   const [boundClearAuthorities] = useActions([clearAuthoritiesAction]);
-  const authorities = useSelector(selectAuthorities).data?.includes('SET_IMPORTANCE') ;
+  const authorities = useSelector(selectAuthorities).data?.includes(
+    'SET_IMPORTANCE',
+  );
 
   const onLogoutHandler = () => {
     boundSignOutAction();
@@ -86,27 +87,28 @@ export const AccountMenu: React.FC = () => {
         className={classes.menu}
       >
         <Link to="/profile">
-        <StyledMenuItem onClick={handleClose}>
+          <StyledMenuItem onClick={handleClose}>
             <Typography variant="button" color="inherit">
               {t(langTokens.common.profile)}
             </Typography>
-        </StyledMenuItem>
+          </StyledMenuItem>
         </Link>
-        <Link to='/'>
-        <StyledMenuItem onClick={onLogoutHandler}>
-          <Typography variant="button" color="inherit">
-            {t(langTokens.common.exit)}
-          </Typography>
-        </StyledMenuItem>
-        </Link>
-        {authorities ? <Link to="/admin">
-          <StyledMenuItem onClick={handleClose}>
+        <Link to="/">
+          <StyledMenuItem onClick={onLogoutHandler}>
             <Typography variant="button" color="inherit">
-              {t(langTokens.common.admin)}
+              {t(langTokens.common.exit)}
             </Typography>
           </StyledMenuItem>
         </Link>
-          :null }
+        {authorities ? (
+          <Link to="/admin">
+            <StyledMenuItem onClick={handleClose}>
+              <Typography variant="button" color="inherit">
+                {t(langTokens.common.admin)}
+              </Typography>
+            </StyledMenuItem>
+          </Link>
+        ) : null}
       </StyledMenu>
     </>
   );

@@ -15,7 +15,7 @@ const ArticleCreation: React.FC = () => {
     setGALocation(window);
   }, []);
 
-  const {authenticated} = useContext(AuthContext)
+  const { authenticated } = useContext(AuthContext);
 
   return authenticated ? (
     <TextPostCreation
@@ -28,7 +28,9 @@ const ArticleCreation: React.FC = () => {
         name: t(langTokens.common.post),
       }}
     />
-  ) : <Page404/>;
+  ) : (
+    <Page404 />
+  );
 };
 
 export default ArticleCreation;

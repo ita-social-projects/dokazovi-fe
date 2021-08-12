@@ -14,7 +14,7 @@ const NoteCreation: React.FC = () => {
     setGALocation(window);
   }, []);
 
-  const {authenticated} = useContext(AuthContext)
+  const { authenticated } = useContext(AuthContext);
 
   return authenticated ? (
     <TextPostCreation
@@ -27,7 +27,9 @@ const NoteCreation: React.FC = () => {
         name: t(langTokens.common.article),
       }}
     />
-  ) : <Page404/>;
+  ) : (
+    <Page404 />
+  );
 };
 
 export default NoteCreation;

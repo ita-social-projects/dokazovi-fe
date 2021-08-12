@@ -1,5 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unsafe-return */
 import { RootStateType } from '../rootReducer';
-import { Authority } from './types';
+// eslint-disable-next-line import/named
+import { IAuthority } from './types';
 
-export const selectAuthorities = (state :RootStateType):Authority =>
-  state.authorities
+export const selectAuthorities = (state: RootStateType): IAuthority =>
+  state.authorities;

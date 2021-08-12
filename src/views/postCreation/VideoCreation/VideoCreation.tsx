@@ -14,7 +14,7 @@ const VideoCreation: React.FC = () => {
     setGALocation(window);
   }, []);
 
-  const {authenticated} = useContext(AuthContext)
+  const { authenticated } = useContext(AuthContext);
 
   return authenticated ? (
     <VideoPostCreation
@@ -23,7 +23,9 @@ const VideoCreation: React.FC = () => {
       titleInputLabel={`${t(langTokens.editor.videoTitle)}:`}
       contentInputLabel={`${t(langTokens.editor.videoDescription)}:`}
     />
-  ) : <Page404/>;
+  ) : (
+    <Page404 />
+  );
 };
 
 export default VideoCreation;
