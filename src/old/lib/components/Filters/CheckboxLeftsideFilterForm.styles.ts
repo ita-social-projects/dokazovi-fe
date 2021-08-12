@@ -46,6 +46,7 @@ export const useStyles = makeStyles({
 
   filtersWrapper: {
     width: '280px',
+    marginTop : '0',
   },
   filterTitle: {
     fontFamily: 'Raleway',
