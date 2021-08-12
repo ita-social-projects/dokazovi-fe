@@ -93,7 +93,7 @@ export const TranslationPostPreviewCard: React.FC<IPostPreviewCardProps> = ({
         {formatDate(post.publishedAt)}
       </Typography>
     </Box>
-  </>)
+  </>);
 
   return (
     <Card className={classes.root}>
