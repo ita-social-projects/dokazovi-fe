@@ -1,6 +1,6 @@
 import i18n, { langTokens } from '../locales/localizationInit';
 
-export const formatDate = (dateString: string): string => {
+export const formatDate = (dateString = ''): string => {
   const monthNames: { [index: string]: string } = {
     '1': i18n.t(langTokens.date.januaryGenitiveCase),
     '2': i18n.t(langTokens.date.februaryGenitiveCase),
