@@ -14,7 +14,7 @@ export const Notification: React.FC<INotificationProps> = ({ message }) => {
         userSelect: 'none',
         width: '400px',
         height: '200px',
-        margin: '100px auto 0 auto',
+        margin: '100px auto 0',
       }}
       container
       direction="column"
