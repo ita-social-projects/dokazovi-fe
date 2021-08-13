@@ -93,7 +93,9 @@ export const getActivePostTypes = async (
   status?: string,
 ): Promise<AxiosResponse<ActivePostType[]>> => {
   // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-  return instance.get(`/post-types/${userId}?status=${status}`);
+  return instance.get(
+    `/post-types/${userId}${status ? `?status=${status}` : ''}`,
+  );
 };
 
 export const getNewestPosts = async (): Promise<

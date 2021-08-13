@@ -291,11 +291,13 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
     | filtersStateEnum = postTypesInPlural?.filter((post) =>
     selectedPostTypesString?.includes(post.id.toString()),
   );
+  const isMaterialsEmpty = isEmpty(materials);
 
   if (isEmpty(selectedPostTypes)) {
     if (
-      selectedPostTypesString?.length === 1 &&
-      selectedPostTypesString?.[0] === '0'
+      isMaterialsEmpty ||
+      (selectedPostTypesString?.length === 1 &&
+        selectedPostTypesString?.[0] === '0')
     ) {
       selectedPostTypes = filtersStateEnum.empty;
     } else {
@@ -315,8 +317,9 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
 
   if (isEmpty(selectedDirections)) {
     if (
-      selectedDirectionsString?.length === 1 &&
-      selectedDirectionsString?.[0] === '0'
+      isMaterialsEmpty ||
+      (selectedDirectionsString?.length === 1 &&
+        selectedDirectionsString?.[0] === '0')
     ) {
       selectedDirections = filtersStateEnum.empty;
     } else {
@@ -353,22 +356,13 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
     }
   };
 
-  const disabledDirections = directions.filter((dir) => {
-    if (expert.directions?.find((el) => el.id === dir.id)) {
-      return false;
-    }
-    return true;
-  });
+  const disabledDirections = directions.filter(
+    (dir) => !expert.directions?.some((el) => el.id === dir.id),
+  );
 
-  const disabledPostTypes = postTypes.filter((post) => {
-    if (activePostTypes?.length) {
-      if (activePostTypes?.find((el) => el.id === post.id)) {
-        return false;
-      }
-      return true;
-    }
-    return false;
-  });
+  const disabledPostTypes = postTypes.filter(
+    (post) => !activePostTypes?.some((el) => el.id === post.id),
+  );
 
   let materialsData = <PostsList postsList={materials} />;
   if (loading === LoadingStatusEnum.succeeded && materials.length === 0) {

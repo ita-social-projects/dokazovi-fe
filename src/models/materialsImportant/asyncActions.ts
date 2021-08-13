@@ -2,9 +2,9 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { getPosts } from '../../old/lib/utilities/API/api';
 import { LOAD_POSTS_LIMIT } from '../../old/lib/constants/posts';
-import { IPost, LoadingStatusEnum } from '../../old/lib/types';
+import { IPost } from '../../old/lib/types';
 import { PostResponseType } from '../../old/lib/utilities/API/types';
-import { IFetchMaterialsOptions } from './types';
+import { IFetchMaterialsOptions } from '../materials/types';
 
 export const mapFetchedPosts = (
   posts: PostResponseType[],
@@ -14,11 +14,16 @@ export const mapFetchedPosts = (
   return { mappedPosts: posts, ids };
 };
 
-export const fetchMaterials = createAsyncThunk(
-  'materials/fetchMaterials',
+export const fetchMaterialsImportant = createAsyncThunk(
+  'materialsImportant/fetchMaterialsImportant',
   async (options: IFetchMaterialsOptions, { getState, rejectWithValue }) => {
     try {
-      const { filters, page, appendPosts, url = 'all-posts' } = options;
+      const {
+        filters,
+        page,
+        appendPosts,
+        url = 'get-by-important-image',
+      } = options;
       const response = await getPosts(url, {
         params: {
           page: page,
@@ -26,12 +31,11 @@ export const fetchMaterials = createAsyncThunk(
           types: filters.postTypes,
           directions: filters.directions,
           origins: filters.origins,
-          sort: ['published_at,desc'],
         },
       });
 
       const {
-        materials: { data },
+        materialsImportant: { data },
       } = getState() as any;
       const { mappedPosts, ids } = mapFetchedPosts(response.data.content);
 
@@ -44,7 +48,7 @@ export const fetchMaterials = createAsyncThunk(
 
       return {
         postIds: appendPosts ? data.postIds.concat(ids) : ids,
-        posts,
+        posts: appendPosts ? [...data.posts, ...mappedPosts] : mappedPosts,
         meta: {
           isLastPage: response.data.last,
           pageNumber: response.data.number,

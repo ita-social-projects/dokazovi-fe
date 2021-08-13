@@ -26,9 +26,11 @@ const AddImportantMaterial: React.FC<IAddImportantMaterial> = ({
   const [page, setPage] = useState(0);
   const [isTouched, setTouchStatus] = useState(false);
 
-  const { loading } = useSelector((state: RootStateType) => state.materials);
+  const { loading } = useSelector(
+    (state: RootStateType) => state.materialsImportant,
+  );
   const { posts: fetchedPosts, postIds: filteredPosts, meta } = useSelector(
-    (state: RootStateType) => state.materials.data,
+    (state: RootStateType) => state.materialsImportant.data,
   );
 
   const posts = Object.values(fetchedPosts).filter((post) =>
@@ -38,8 +40,12 @@ const AddImportantMaterial: React.FC<IAddImportantMaterial> = ({
     (post) => !selectedPosts.includes(post.id),
   );
 
-  const loadMore = () => setPage(page + 1);
-  const resetPage = () => setPage(1);
+  const loadMore = () => {
+    setPage(page + 1);
+  };
+  const resetPage = () => {
+    setPage(0);
+  };
 
   const renderImportantMaterialsSelector = () => {
     let selector: JSX.Element | JSX.Element[] = <></>;

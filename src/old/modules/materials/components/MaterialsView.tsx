@@ -1,10 +1,12 @@
 /* eslint-disable @typescript-eslint/no-shadow */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { Box, Grid, Typography } from '@material-ui/core';
 import { isEmpty, uniq } from 'lodash';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { PageTitle } from 'components/Page/PageTitle';
 import { CheckboxFormStateType } from '../../../lib/components/Filters/CheckboxFilterForm';
 import { PostsList } from '../../../lib/components/Posts/PostsList';
 import { LoadMoreButton } from '../../../lib/components/LoadMoreButton/LoadMoreButton';
@@ -27,7 +29,6 @@ import {
   mapQueryIdsStringToArray,
 } from '../../../lib/utilities/filters';
 import { LoadingContainer } from '../../../lib/components/Loading/LoadingContainer';
-import { PageTitle } from '../../../lib/components/Pages/PageTitle';
 import { useQuery } from '../../../lib/hooks/useQuery';
 import { fetchMaterials, selectMaterials } from '../../../../models/materials';
 import { useActions } from '../../../../shared/hooks';
@@ -50,6 +51,7 @@ import {
   updateOrig,
   updateDir,
 } from '../../utilities/utilityFunctions';
+import { sortByAlphabet } from '../../../lib/utilities/sorting';
 
 const MaterialsView: React.FC = () => {
   const { t } = useTranslation();
@@ -76,70 +78,59 @@ const MaterialsView: React.FC = () => {
   const history = useHistory();
   const query = useQuery();
   const classes = useStyles();
-
   const materials = selectPostsByIds(postIds);
-
   const origins = useSelector(selectOrigins);
-
   const originsInPlural: IOrigin[] = [];
-
+  // here we translate origins and put them in proper order
   if (origins.length) {
-    const el1: IOrigin = { ...origins[0] };
-    const el2: IOrigin = { ...origins[1] };
-    const el3: IOrigin = { ...origins[2] };
-
-    Object.defineProperty(el1, 'name', {
-      enumerable: false,
-      configurable: true,
-      writable: true,
-      value: `${t(langTokens.experts.expertOpinion, defaultPlural)}`,
+    const translatedOrigins = origins.map((origin) => {
+      const translations = {
+        '1': `${t(langTokens.experts.expertOpinion, defaultPlural)}`,
+        '3': `${t(langTokens.common.translation, defaultPlural)}`,
+      };
+      const translatedOrigin = { ...origin };
+      translatedOrigin.name = translations[origin.id] || origin.name;
+      return translatedOrigin;
     });
-    Object.defineProperty(el3, 'name', {
-      enumerable: false,
-      configurable: true,
-      writable: true,
-      value: `${t(langTokens.common.translation, defaultPlural)}`,
-    });
-
-    originsInPlural.push(el1, el2, el3);
+    originsInPlural.push(
+      translatedOrigins[0],
+      translatedOrigins[2],
+      translatedOrigins[1],
+    );
   }
-
   const postTypes = useSelector(selectPostTypes);
-
   const postTypesInPlural: IPostType[] = [];
-
+  // here we translate types and put them in proper order
   if (postTypes.length) {
-    const el1: IPostType = { ...postTypes[0] };
-    const el2: IPostType = { ...postTypes[1] };
-    const el3: IPostType = { ...postTypes[2] };
-
-    Object.defineProperty(el1, 'name', {
-      enumerable: false,
-      configurable: true,
-      writable: true,
-      value: `${t(langTokens.common.article, defaultPlural)}`,
-    });
-    Object.defineProperty(el2, 'name', {
-      enumerable: false,
-      configurable: true,
-      writable: true,
-      value: `${t(langTokens.common.video)}`,
-    });
-    Object.defineProperty(el3, 'name', {
-      enumerable: false,
-      configurable: true,
-      writable: true,
-      value: `${t(langTokens.common.post, defaultPlural)}`,
+    const translatedPostTypes = postTypes.map((postType) => {
+      const translations = {
+        '1': `${t(langTokens.common.article_1, defaultPlural)}`,
+        '2': `${t(langTokens.common.video)}`,
+        '3': `${t(langTokens.common.post, defaultPlural)}`,
+      };
+      const translatedPostType = { ...postType };
+      translatedPostType.name = translations[postType.id] || postType.name;
+      return translatedPostType;
     });
 
-    postTypesInPlural.push(el1, el2, el3);
+    postTypesInPlural.push(
+      translatedPostTypes[0],
+      translatedPostTypes[2],
+      translatedPostTypes[1],
+    );
   }
 
   const directions = useSelector(selectDirections);
+  const directionsInPlural: IDirection[] = [];
+  // here we sorted directions in alphabet order
+  if (directions.length) {
+    const directionsToSort = directions.map((direction) => ({ ...direction }));
+    const sortedDirections = sortByAlphabet(directionsToSort, 'label');
+    directionsInPlural.push(...sortedDirections);
+  }
 
   const propertiesLoaded =
     !isEmpty(postTypes) && !isEmpty(directions) && !isEmpty(origins);
-
   const [boundFetchMaterials] = useActions([fetchMaterials]);
 
   const stringOfOrigins = () => {
@@ -202,7 +193,6 @@ const MaterialsView: React.FC = () => {
     const queryType = getQueryTypeByFilterType(filterType);
     const checkedIds = Object.keys(checked).filter((key) => checked[key]);
     const isQuerySame = uniq(Object.values(checked)).length === 1; // removing the query if user checks/unchecks the last box
-
     query.set(queryType, checkedIds.join(','));
     if (!checkedIds.length || isQuerySame) {
       query.delete(queryType);
@@ -210,16 +200,9 @@ const MaterialsView: React.FC = () => {
 
     setPage(0);
 
-    if (isQuerySame && uniq(Object.values(checked))[0] === false) {
-      query.set(queryType, '0');
-      history.push({
-        search: query.toString(),
-      });
-    } else {
-      history.push({
-        search: query.toString(),
-      });
-    }
+    history.push({
+      search: query.toString(),
+    });
   };
 
   const loadMore = () => {
@@ -234,15 +217,20 @@ const MaterialsView: React.FC = () => {
     const appendPosts = previous && previous.page < page;
     if (
       !isLastPage &&
-      Math.ceil(materials.length / LOAD_POSTS_LIMIT) !== page + 1
+      Math.ceil(materials.length / LOAD_POSTS_LIMIT) !== page + 1 &&
+      directions.length &&
+      postTypes.length &&
+      origins.length
     ) {
       fetchData(appendPosts);
     }
-  }, [page]);
+  }, [page, directions, postTypes, origins]);
 
   useEffect(() => {
-    const appendPosts = previous && previous.page < page;
-    fetchData(appendPosts);
+    const appendPosts = (previous && previous.page < page) || page !== 0;
+    if (directions.length && postTypes.length && origins.length) {
+      fetchData(appendPosts);
+    }
   }, [
     query.get(QueryTypeEnum.ORIGINS),
     query.get(QueryTypeEnum.POST_TYPES),
@@ -273,7 +261,7 @@ const MaterialsView: React.FC = () => {
 
   let selectedDirections:
     | IDirection[]
-    | filtersStateEnum = directions?.filter((direction) =>
+    | filtersStateEnum = directionsInPlural?.filter((direction) =>
     selectedDirectionsString?.includes(direction.id.toString()),
   );
 
@@ -389,7 +377,6 @@ const MaterialsView: React.FC = () => {
     chipsListType: ChipFilterType | undefined,
   ) => {
     let filtersUpdatedByChips: undefined | CheckboxFormStateType;
-
     if (chipsListType === 'ORIGIN') {
       filtersUpdatedByChips = { ...checkedFiltersOrigins };
     } else if (chipsListType === 'POST_TYPE') {
@@ -518,7 +505,7 @@ const MaterialsView: React.FC = () => {
                 onFormChange={(checked) =>
                   setFilters(checked, FilterTypeEnum.DIRECTIONS)
                 }
-                possibleFilters={directions}
+                possibleFilters={directionsInPlural}
                 selectedFilters={selectedDirections}
                 filterTitle={t(langTokens.common.byDirection).toLowerCase()}
                 allTitle={t(langTokens.common.allDirections)}
@@ -527,7 +514,7 @@ const MaterialsView: React.FC = () => {
             </>
           )}
         </Grid>
-        <Grid item container xs={9} direction="column">
+        <Grid item container alignItems="center" xs={9} direction="column">
           {page === 0 && loading === LoadingStatusEnum.pending ? (
             <LoadingContainer loading={loading} expand />
           ) : (

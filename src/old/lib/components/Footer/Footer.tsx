@@ -94,7 +94,7 @@ export const Footer: React.FC = () => {
             </Box>
             <Typography className={classes.info} variant="h6" component="div">
               <span>{`© 2021 UNICEF Ukraine. ${t(
-                langTokens.footer.termsOfUse,
+                langTokens.footer.allRightsReserved,
               )}.`}</span>
             </Typography>
           </Box>

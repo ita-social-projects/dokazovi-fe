@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import { Box, TextField, Typography } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
 import { DropEvent, FileRejection } from 'react-dropzone';
+import { PageTitle } from 'components/Page/PageTitle';
 import { RootStateType } from '../../models/rootReducer';
 import {
   resetDraft,
@@ -27,7 +28,6 @@ import {
   CreateTextPostRequestType,
   ExpertResponseType,
 } from '../../old/lib/utilities/API/types';
-import { PageTitle } from '../../old/lib/components/Pages/PageTitle';
 import { createPost, getAllExperts } from '../../old/lib/utilities/API/api';
 import {
   CONTENT_DEBOUNCE_TIMEOUT,
@@ -246,6 +246,7 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
         content: savedPostDraft.htmlContent,
         preview: savedPostDraft.preview.value,
         createdAt: new Date().toLocaleDateString('en-GB').split('/').join('.'),
+        publishedAt: '',
         directions: savedPostDraft.directions,
         origins: savedPostDraft.origins,
         title: savedPostDraft.title,
