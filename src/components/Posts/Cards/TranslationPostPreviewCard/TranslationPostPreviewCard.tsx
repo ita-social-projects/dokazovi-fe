@@ -1,6 +1,6 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
+
 import Card from '@material-ui/core/Card';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
@@ -100,8 +100,10 @@ export const TranslationPostPreviewCard: React.FC<IPostPreviewCardProps> = ({
     </>
   );
 
-  const showTranslations = () => {
-    resetPage && resetPage();
+  const filterByTranslations = () => {
+    if (resetPage) {
+      resetPage();
+    }
     history.push(materialsLink);
   };
 
@@ -112,7 +114,13 @@ export const TranslationPostPreviewCard: React.FC<IPostPreviewCardProps> = ({
         {shouldNotUseLink ? (
           cardBody
         ) : (
-          <div onClick={showTranslations}>{cardBody}</div>
+          <Typography
+            variant="subtitle2"
+            className={classes.filterLink}
+            onClick={filterByTranslations}
+          >
+            {cardBody}
+          </Typography>
         )}
         {shouldNotUseLink ? cardText : <Link to={postLink}>{cardText}</Link>}
       </Box>
