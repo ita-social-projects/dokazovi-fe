@@ -22,6 +22,7 @@ export const common = {
   post: 'Допис',
   yes: 'Так',
   no: 'Ні',
+  close:'Закрити',
   post_1: 'Дописи',
   post_2: 'Дописи',
   cancel: 'Скасувати',

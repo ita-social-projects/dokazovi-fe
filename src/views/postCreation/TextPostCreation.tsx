@@ -47,6 +47,7 @@ import { selectCurrentUser } from '../../models/user';
 import { selectTextPostDraft } from '../../models/postCreation/selectors';
 import { useActions } from '../../shared/hooks';
 import { langTokens } from '../../locales/localizationInit';
+import { useStyle } from './RequiredFieldsStyle';
 
 interface IPostCreationProps {
   pageTitle?: string;
@@ -67,6 +68,7 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
 }) => {
   const { t } = useTranslation();
   const history = useHistory();
+  const classes = useStyle();
 
   const savedPostDraft = useSelector((state: RootStateType) =>
     selectTextPostDraft(state, postType.type),
@@ -239,6 +241,9 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
     type: { id: postType.type },
   };
 
+  const isEmpty =
+    !newPost.title || !newPost.directions.length || newPost.content.length < 15;
+
   const previewPost = React.useMemo(
     () =>
       ({
@@ -324,7 +329,9 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
           />
           {extraFieldsForTranslation}
           <Box mt={2}>
-            <Typography variant="h5">{titleInputLabel}</Typography>
+            <Typography className={classes.requiredField} variant="h5">
+              {titleInputLabel}
+            </Typography>
             <TextField
               error={Boolean(title.error)}
               helperText={title.error}
@@ -360,7 +367,9 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
           />
           <BorderBottom />
           <Box mt={2}>
-            <Typography variant="h5">{contentInputLabel}</Typography>
+            <Typography className={classes.requiredField} variant="h5">
+              {contentInputLabel}
+            </Typography>
             <TextPostEditor
               toolbar={editorToolbar}
               initialHtmlContent={savedPostDraft.htmlContent}
@@ -387,6 +396,7 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
 
       <PostCreationButtons
         action="creating"
+        isEmpty={isEmpty}
         onPublishClick={handlePublishClick}
         onPreviewClick={() => {
           setPreviewing(!previewing);

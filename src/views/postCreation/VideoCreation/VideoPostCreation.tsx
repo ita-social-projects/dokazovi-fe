@@ -50,6 +50,7 @@ import { PostAuthorSelection } from '../PostAuthorSelection/PostAuthorSelection'
 import { selectCurrentUser } from '../../../models/user/selectors';
 import { useActions } from '../../../shared/hooks';
 import { langTokens } from '../../../locales/localizationInit';
+import { useStyle } from '../RequiredFieldsStyle';
 
 interface IVideoPostCreationProps {
   pageTitle?: string;
@@ -68,6 +69,7 @@ export const VideoPostCreation: React.FC<IVideoPostCreationProps> = ({
 }) => {
   const { t } = useTranslation();
   const history = useHistory();
+  const classes = useStyle();
 
   const savedPostDraft = useSelector(selectVideoPostDraft);
 
@@ -215,6 +217,12 @@ export const VideoPostCreation: React.FC<IVideoPostCreationProps> = ({
     type: { id: PostTypeEnum.VIDEO },
   };
 
+  const isEmpty =
+    !newPost.title ||
+    !newPost.directions.length ||
+    newPost.content.length < 15 ||
+    !newPost.videoUrl;
+
   const previewPost = React.useMemo(
     () =>
       ({
@@ -300,7 +308,9 @@ export const VideoPostCreation: React.FC<IVideoPostCreationProps> = ({
           />
           {extraFieldsForTranslation}
           <Box mt={2}>
-            <Typography variant="h5">{titleInputLabel}</Typography>
+            <Typography className={classes.requiredField} variant="h5">
+              {titleInputLabel}
+            </Typography>
             <TextField
               error={Boolean(title.error)}
               helperText={title.error}
@@ -335,7 +345,9 @@ export const VideoPostCreation: React.FC<IVideoPostCreationProps> = ({
           </Box>
           <BorderBottom />
           <Box mt={2}>
-            <Typography variant="h5">{contentInputLabel}</Typography>
+            <Typography className={classes.requiredField} variant="h5">
+              {contentInputLabel}
+            </Typography>
             <TextPostEditor
               toolbar={editorToolbar}
               initialHtmlContent={savedPostDraft.htmlContent}
@@ -362,6 +374,7 @@ export const VideoPostCreation: React.FC<IVideoPostCreationProps> = ({
 
       <PostCreationButtons
         action="creating"
+        isEmpty={isEmpty}
         onPublishClick={handlePublishClick}
         onPreviewClick={() => {
           setPreviewing(!previewing);

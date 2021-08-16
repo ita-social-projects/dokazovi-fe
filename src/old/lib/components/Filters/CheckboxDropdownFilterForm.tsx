@@ -16,6 +16,7 @@ import { useTranslation } from 'react-i18next';
 import ChipsList from '../Chips/ChipsList';
 import { CheckboxFormStateType } from './CheckboxFilterForm';
 import { langTokens } from '../../../../locales/localizationInit';
+import { useStyle } from '../../../../views/postCreation/RequiredFieldsStyle';
 
 interface IFilter {
   id: string | number;
@@ -29,6 +30,7 @@ export interface ICheckboxDropdownFilterFormProps {
   filterTitle: string;
   noAll?: boolean;
   maximumReached?: boolean;
+  isRequired?: boolean;
 }
 
 export const CheckboxDropdownFilterForm: React.FC<ICheckboxDropdownFilterFormProps> = ({
@@ -38,9 +40,11 @@ export const CheckboxDropdownFilterForm: React.FC<ICheckboxDropdownFilterFormPro
   filterTitle,
   noAll,
   maximumReached,
+  isRequired,
 }) => {
   const { t } = useTranslation();
   const isInitialStateEmpty = isEmpty(selectedFilters) && !noAll;
+  const classes = useStyle();
 
   const getCheckedStateFromFilters = (): CheckboxFormStateType => {
     return possibleFilters.reduce((acc, next) => {
@@ -149,7 +153,9 @@ export const CheckboxDropdownFilterForm: React.FC<ICheckboxDropdownFilterFormPro
         >
           <Grid container>
             <Grid item xs={2} style={{ marginRight: '-30px' }}>
-              <Typography variant="h5">{filterTitle}</Typography>
+              <Typography className={isRequired ? classes.requiredField : undefined} variant="h5">
+                {filterTitle}
+              </Typography>
             </Grid>
             <Grid item xs={10}>
               <ChipsList checkedNames={getNames()} />
