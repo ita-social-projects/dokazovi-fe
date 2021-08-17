@@ -18,7 +18,7 @@ export const TranslationPostPreviewCard: React.FC<IPostPreviewCardProps> = ({
   const bgImageURL = post.previewImageUrl ? post.previewImageUrl : background;
   const classes = useStyles({ backgroundImageUrl: bgImageURL });
   const postLink = `/posts/${post.id}`;
-  const materialsLink = `/materials?origins=3`;
+  const authorLink = `/experts/${post.author.id}`;
   const authorFullName = `${post.author.firstName} ${post.author.lastName}`;
 
   const cardHeader = (
@@ -73,34 +73,36 @@ export const TranslationPostPreviewCard: React.FC<IPostPreviewCardProps> = ({
     </>
   );
 
-  const cardText = (<>
-    <Typography
-      gutterBottom
-      variant="body2"
-      color="textPrimary"
-      component="p"
-      className={classes.textBody}
-    >
-      {post.preview}
-    </Typography>
-    <Box
-      display="flex"
-      justifyContent="space-between"
-      alignItems="center"
-      mb={6}
-    >
-      <Typography variant="caption" color="textSecondary">
-        {formatDate(post.publishedAt)}
+  const cardText = (
+    <>
+      <Typography
+        gutterBottom
+        variant="body2"
+        color="textPrimary"
+        component="p"
+        className={classes.textBody}
+      >
+        {post.preview}
       </Typography>
-    </Box>
-  </>);
+      <Box
+        display="flex"
+        justifyContent="space-between"
+        alignItems="center"
+        mb={6}
+      >
+        <Typography variant="caption" color="textSecondary">
+          {formatDate(post.publishedAt)}
+        </Typography>
+      </Box>
+    </>
+  );
 
   return (
     <Card className={classes.root}>
       {shouldNotUseLink ? cardHeader : <Link to={postLink}>{cardHeader}</Link>}
       <Box className={classes.body}>
-      {shouldNotUseLink ? cardBody : <Link to={materialsLink}>{cardBody}</Link>}
-      {shouldNotUseLink ? cardText : <Link to={postLink}>{cardText}</Link>}
+        {shouldNotUseLink ? cardBody : <Link to={authorLink}>{cardBody}</Link>}
+        {shouldNotUseLink ? cardText : <Link to={postLink}>{cardText}</Link>}
       </Box>
     </Card>
   );
