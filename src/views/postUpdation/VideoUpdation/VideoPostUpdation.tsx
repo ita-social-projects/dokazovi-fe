@@ -160,21 +160,21 @@ export const VideoPostUpdation: React.FC<ITextPostUpdationProps> = ({
     history.push(`/posts/${response.data.id}`);
   };
 
-  const postOriginSelector = isAdmin ? (
+  const postOriginSelector = isAdmin && (
     <PostOriginsSelector
       selectedOrigins={selectedOrigins}
       onSelectedOriginsChange={handleOriginsChange}
     />
-  ) : null;
+  );
 
-  const postAuthorSelection = isAdmin ? (
+  const postAuthorSelection = isAdmin && (
     <PostAuthorSelection
       onAuthorTableClick={onAuthorTableClick}
       handleOnChange={handleOnChange}
       authors={authors}
       searchValue={searchValue}
     />
-  ) : null;
+  );
 
   return (
     <>
