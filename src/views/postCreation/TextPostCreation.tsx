@@ -48,6 +48,7 @@ import { selectTextPostDraft } from '../../models/postCreation/selectors';
 import { useActions } from '../../shared/hooks';
 import { langTokens } from '../../locales/localizationInit';
 import { useStyle } from './RequiredFieldsStyle';
+import { selectAuthorities } from '../../models/authorities';
 
 interface IPostCreationProps {
   pageTitle?: string;
@@ -69,6 +70,8 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
   const { t } = useTranslation();
   const history = useHistory();
   const classes = useStyle();
+  const authorities = useSelector(selectAuthorities);
+  const isAdmin = authorities.data?.includes('SET_IMPORTANCE');
 
   const savedPostDraft = useSelector((state: RootStateType) =>
     selectTextPostDraft(state, postType.type),
@@ -228,7 +231,7 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
   };
 
   const newPost: CreateTextPostRequestType = {
-    authorId: savedPostDraft.authorId,
+    authorId: isAdmin ? savedPostDraft.authorId : user.data?.id,
     previewImageUrl: savedPostDraft.previewImageUrl,
     importantImageUrl: savedPostDraft.importantImageUrl,
     content: savedPostDraft.htmlContent,
@@ -236,7 +239,7 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
     origins: savedPostDraft.origins,
     preview: savedPostDraft.preview.value,
     title: savedPostDraft.title,
-    authorsName: savedPostDraft.authorsName,
+    authorsName: isAdmin ? savedPostDraft.authorsName : user.data?.firstName,
     authorsDetails: savedPostDraft.authorsDetails,
     type: { id: postType.type },
   };
@@ -314,6 +317,22 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
     }
   }
 
+  const postOriginSelector = isAdmin ? (
+    <PostOriginsSelector
+      selectedOrigins={savedPostDraft.origins}
+      onSelectedOriginsChange={handleOriginsChange}
+    />
+  ) : null;
+
+  const postAuthorSelection = isAdmin ? (
+    <PostAuthorSelection
+      onAuthorTableClick={onAuthorTableClick}
+      handleOnChange={handleOnChange}
+      authors={authors}
+      searchValue={searchValue}
+    />
+  ) : null;
+
   return (
     <>
       <PageTitle title={pageTitle} />
@@ -323,10 +342,7 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
             selectedDirections={savedPostDraft.directions}
             onSelectedDirectionsChange={handleDirectionsChange}
           />
-          <PostOriginsSelector
-            selectedOrigins={savedPostDraft.origins}
-            onSelectedOriginsChange={handleOriginsChange}
-          />
+          {postOriginSelector}
           {extraFieldsForTranslation}
           <Box mt={2}>
             <Typography className={classes.requiredField} variant="h5">
@@ -345,12 +361,7 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
               }}
             />
           </Box>
-          <PostAuthorSelection
-            onAuthorTableClick={onAuthorTableClick}
-            handleOnChange={handleOnChange}
-            authors={authors}
-            searchValue={searchValue}
-          />
+          {postAuthorSelection}
           <BackgroundImageContainer
             dispatchImageUrl={dispatchImageUrl}
             fileSelectorHandler={fileSelectorHandler(dispatchImageUrl)}
