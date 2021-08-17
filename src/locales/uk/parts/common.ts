@@ -29,6 +29,7 @@ export const common = {
   create: 'Створити',
   add: 'Додати',
   error404: 'Помилка 404',
+  error404Message:'На жаль, таку сторінку не знайдено.',
   byType: 'За типом',
   byOrigin: 'За джерелом',
   allOrigins: 'Всі джерела',
