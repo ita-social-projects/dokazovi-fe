@@ -10,13 +10,11 @@ export const Notification: React.FC<INotificationProps> = ({ message }) => {
   return (
     <Grid
       style={{
-        position: 'sticky',
-        top: '45vh',
         fontSize: '24px',
         userSelect: 'none',
         width: '400px',
-        height: '160px',
-        margin: '30px auto',
+        height: '200px',
+        margin: '100px auto 0',
       }}
       container
       direction="column"

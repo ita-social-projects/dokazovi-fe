@@ -369,13 +369,11 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
     materialsData = (
       <Grid
         style={{
-          position: 'sticky',
-          top: '45vh',
           fontSize: '24px',
           userSelect: 'none',
           width: '400px',
           height: '200px',
-          margin: '0 auto',
+          margin: '100px auto 0',
         }}
         container
         direction="column"
