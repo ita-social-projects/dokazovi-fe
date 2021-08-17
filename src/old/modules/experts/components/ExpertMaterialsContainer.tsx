@@ -27,13 +27,17 @@ import {
 } from '../../../lib/types';
 import {
   ActivePostType,
+  ActiveDirectionType,
   RequestParamsType,
 } from '../../../lib/utilities/API/types';
 import {
   getQueryTypeByFilterType,
   mapQueryIdsStringToArray,
 } from '../../../lib/utilities/filters';
-import { getActivePostTypes } from '../../../lib/utilities/API/api';
+import {
+  getActivePostTypes,
+  getActiveDirections,
+} from '../../../lib/utilities/API/api';
 import { useActions } from '../../../../shared/hooks';
 import { CheckboxLeftsideFilterForm } from '../../../lib/components/Filters/CheckboxLeftsideFilterForm';
 import { ChipsList } from '../../../../components/Chips/ChipsList/ChipsList';
@@ -89,6 +93,9 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
   const history = useHistory();
   const [page, setPage] = useState(pageNumber);
   const [activePostTypes, setActivePostTypes] = useState<ActivePostType[]>();
+  const [activeDirections, setActiveDirections] = useState<
+    ActiveDirectionType[]
+  >();
   const previous = usePrevious({ page });
 
   const [boundResetMaterials, boundFetchExpertMaterials] = useActions([
@@ -263,8 +270,18 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
     setActivePostTypes(arr);
   }
 
+  async function fetchActiveDirections() {
+    const response = await getActiveDirections(expertId);
+    const arr: ActiveDirectionType[] = response.data;
+    setActiveDirections(arr);
+  }
+
   useEffect(() => {
     fetchActivePostTypes();
+  }, []);
+
+  useEffect(() => {
+    fetchActiveDirections();
   }, []);
 
   useEffect(() => {
@@ -357,7 +374,7 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
   };
 
   const disabledDirections = directions.filter(
-    (dir) => !expert.directions?.some((el) => el.id === dir.id),
+    (dir) => !activeDirections?.some((el) => el.id === dir.id),
   );
 
   const disabledPostTypes = postTypes.filter(
