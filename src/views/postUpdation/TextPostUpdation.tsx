@@ -28,6 +28,7 @@ import { getStringFromFile } from '../../old/lib/utilities/Imgur/getStringFromFi
 import { uploadImageToImgur } from '../../old/lib/utilities/Imgur/uploadImageToImgur';
 import { BackgroundImageContainer } from '../../components/Editor/CustomModules/BackgroundImageContainer/BackgroundImageContainer';
 import { langTokens } from '../../locales/localizationInit';
+import { useStyle } from '../postCreation/RequiredFieldsStyle';
 
 export interface ITextPostUpdationProps {
   pageTitle: string;
@@ -45,6 +46,8 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
   post,
 }) => {
   const history = useHistory();
+  const classes = useStyle();
+
   const [selectedDirections, setSelectedDirections] = useState<IDirection[]>(
     post.directions,
   );
@@ -149,6 +152,11 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
     authorId: authorId ?? post.author.id,
   };
 
+  const isEmpty =
+    !updatedPost.title ||
+    updatedPost.content.length < 15 ||
+    !updatedPost.directions.length;
+
   const previewPost: IPost = {
     ...post,
     author: {
@@ -189,7 +197,9 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
             onSelectedOriginsChange={handleOriginsChange}
           />
           <Box mt={2}>
-            <Typography variant="h5">{titleInputLabel}</Typography>
+            <Typography className={classes.requiredField} variant="h5">
+              {titleInputLabel}
+            </Typography>
             <TextField
               error={Boolean(title.error)}
               helperText={title.error}
@@ -224,7 +234,9 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
           />
           <BorderBottom />
           <Box mt={2}>
-            <Typography variant="h5">{contentInputLabel}</Typography>
+            <Typography className={classes.requiredField} variant="h5">
+              {contentInputLabel}
+            </Typography>
             <TextPostEditor
               toolbar={editorToolbar}
               initialHtmlContent={htmlContent}
@@ -248,6 +260,7 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
 
       <PostCreationButtons
         action="updating"
+        isEmpty={isEmpty}
         onCancelClick={() => {
           history.goBack();
         }}

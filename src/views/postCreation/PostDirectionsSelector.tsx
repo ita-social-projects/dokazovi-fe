@@ -45,6 +45,7 @@ export const PostDirectionsSelector: React.FC<IPostDirectionsSelector> = ({
           noAll
           maximumReached={selectedDirections.length === MAX_POST_DIRECTIONS}
           filterTitle={`${t(langTokens.common.direction, defaultPlural)}: `}
+          isRequired
         />
       ) : (
         <CircularProgress />
