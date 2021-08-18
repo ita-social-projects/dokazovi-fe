@@ -10,9 +10,13 @@ import { langTokens } from '../../../../locales/localizationInit';
 
 export interface IPostsListProps {
   postsList: IPost[];
+  resetPage?: () => void;
 }
 
-export const PostsList: React.FC<IPostsListProps> = ({ postsList }) => {
+export const PostsList: React.FC<IPostsListProps> = ({
+  postsList,
+  resetPage,
+}) => {
   const classes = useStyles();
   const postIdxForScroll = postsList.length - LOAD_POSTS_LIMIT;
   const postForScrollRef = useRef<HTMLDivElement>(null);
@@ -35,7 +39,9 @@ export const PostsList: React.FC<IPostsListProps> = ({ postsList }) => {
     setPrevPostsLength(postsList.length);
   }, [postsList.length]);
 
-  return postsList.length === 0 ? (<Notification message={t(langTokens.common.noInfo)} />) : (
+  return postsList.length === 0 ? (
+    <Notification message={t(langTokens.common.noInfo)} />
+  ) : (
     <Masonry
       breakpointCols={MASONRY_BREAKPOINTS}
       className={classes.masonryGrid}
@@ -47,7 +53,7 @@ export const PostsList: React.FC<IPostsListProps> = ({ postsList }) => {
           className={classes.masonryItem}
           ref={postIdxForScroll === idx ? postForScrollRef : null}
         >
-          <PostPreviewCard post={post} />
+          <PostPreviewCard post={post} resetPage={resetPage} />
         </div>
       ))}
     </Masonry>

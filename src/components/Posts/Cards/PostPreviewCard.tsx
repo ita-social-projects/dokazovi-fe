@@ -8,6 +8,7 @@ import { VideoPostPreviewCard } from './VideoPostPreviewCard/VideoPostPreviewCar
 export const PostPreviewCard: React.FC<IPostPreviewCardProps> = ({
   post,
   shouldNotUseLink,
+  resetPage,
 }) => {
   switch (true) {
     case post.type && post.type.id === 2:
@@ -23,6 +24,7 @@ export const PostPreviewCard: React.FC<IPostPreviewCardProps> = ({
         <TranslationPostPreviewCard
           post={post}
           shouldNotUseLink={shouldNotUseLink}
+          resetPage={resetPage}
         />
       );
     case post.origins && post.origins[0] && post.origins[0].id === 1:
