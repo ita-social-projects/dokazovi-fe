@@ -57,6 +57,7 @@ export const common = {
   unPublishedMaterials: 'Неопубліковані матеріали',
   preview: 'Перегляд',
   noInfo: 'На жаль, даних, що відповідають вашому запиту, не знайдено.',
+  goBackToMain: 'Повернутися на головну',
   permissionError:'На жаль, Ви не можете редагувати цей пост',
   noFoundAuthors:'Такого автора не знайдено',
 };
