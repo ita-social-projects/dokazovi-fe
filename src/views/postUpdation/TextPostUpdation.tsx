@@ -158,8 +158,11 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
 
   const isEmpty =
     !updatedPost.title ||
-    updatedPost.content.length < 15 ||
+    !updatedPost.content ||
     !updatedPost.directions.length;
+
+  const isEnoughLength =
+    updatedPost.content.length < 15 || updatedPost.title.length < 10;
 
   const previewPost: IPost = {
     ...post,
@@ -272,7 +275,7 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
 
       <PostCreationButtons
         action="updating"
-        isEmpty={isEmpty}
+        isModal={{ isEmpty, isEnoughLength }}
         onCancelClick={() => {
           history.goBack();
         }}

@@ -221,10 +221,12 @@ export const VideoPostCreation: React.FC<IVideoPostCreationProps> = ({
   };
 
   const isEmpty =
-    !newPost.title ||
-    !newPost.directions.length ||
-    newPost.content.length < 15 ||
-    !newPost.videoUrl;
+    !newPost.title || !newPost.directions.length || !newPost.content;
+
+  const isEnoughLength =
+    newPost.content.length < 15 || newPost.title.length < 10;
+
+  const isVideoEmpty = !newPost.videoUrl;
 
   const previewPost = React.useMemo(
     () =>
@@ -385,7 +387,7 @@ export const VideoPostCreation: React.FC<IVideoPostCreationProps> = ({
 
       <PostCreationButtons
         action="creating"
-        isEmpty={isEmpty}
+        isModal={{ isEmpty,isEnoughLength,isVideoEmpty }}
         onPublishClick={handlePublishClick}
         onPreviewClick={() => {
           setPreviewing(!previewing);

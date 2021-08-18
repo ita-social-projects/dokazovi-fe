@@ -5,6 +5,12 @@ import { ConfirmationModalWithButton } from '../../old/lib/components/Modals/Con
 import { langTokens } from '../../locales/localizationInit';
 import { InformationModal } from '../../old/lib/components/Modals/InformationModal';
 
+interface IIsModal {
+  isEmpty: boolean;
+  isEnoughLength: boolean;
+  isVideoEmpty?:boolean;
+}
+
 export interface IPostCreationButtonsProps {
   action: 'creating' | 'updating';
   onCancelClick?: () => void;
@@ -13,7 +19,7 @@ export interface IPostCreationButtonsProps {
   previewing?: boolean;
   disabled?: boolean;
   loading?: boolean;
-  isEmpty?: boolean;
+  isModal?: IIsModal;
 }
 
 export const PostCreationButtons: React.FC<IPostCreationButtonsProps> = ({
@@ -24,7 +30,7 @@ export const PostCreationButtons: React.FC<IPostCreationButtonsProps> = ({
   previewing,
   disabled,
   loading,
-  isEmpty,
+  isModal,
 }) => {
   const { t } = useTranslation();
 
@@ -39,6 +45,40 @@ export const PostCreationButtons: React.FC<IPostCreationButtonsProps> = ({
     action === 'creating'
       ? t(langTokens.editor.publish)
       : t(langTokens.editor.save);
+
+  const modalMaker = (message: string) => {
+    return (
+      <InformationModal
+        message={message}
+        buttonIcon={
+          <Button variant="contained" disabled={disabled || loading}>
+            {publishButtonText}
+          </Button>
+        }
+      />
+    );
+  };
+
+  const switchModalText = () => {
+    switch (true) {
+      case isModal?.isEmpty:
+        return modalMaker(t(langTokens.editor.requiredField));
+      case isModal?.isEnoughLength:
+        return modalMaker(t(langTokens.editor.notEnoughLength));
+      case isModal?.isVideoEmpty:
+        return modalMaker(t(langTokens.editor.noVideo));
+      default:
+        return (
+          <Button
+            variant="contained"
+            disabled={disabled || loading}
+            onClick={onPublishClick}
+          >
+            {publishButtonText}
+          </Button>
+        );
+    }
+  };
 
   return (
     <Box display="flex" flexDirection="row" marginTop="40px">
@@ -66,27 +106,7 @@ export const PostCreationButtons: React.FC<IPostCreationButtonsProps> = ({
           {previewButtonText}
         </Button>
 
-        {isEmpty ?
-          <InformationModal
-            message={t(langTokens.editor.requiredField)}
-            buttonIcon={
-              <Button
-                variant="contained"
-                disabled={disabled || loading}
-              >
-                {publishButtonText}
-              </Button>
-            }
-          />
-          :
-          <Button
-            variant="contained"
-            disabled={disabled || loading}
-            onClick={onPublishClick}
-          >
-            {publishButtonText}
-          </Button>
-        }
+        {switchModalText()}
       </Box>
     </Box>
   );

@@ -241,7 +241,10 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
   };
 
   const isEmpty =
-    !newPost.title || !newPost.directions.length || newPost.content.length < 15;
+    !newPost.title || !newPost.directions.length || !newPost.content;
+
+  const isEnoughLength =
+    newPost.content.length < 15 || newPost.title.length < 10;
 
   const previewPost = React.useMemo(
     () =>
@@ -403,7 +406,7 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
 
       <PostCreationButtons
         action="creating"
-        isEmpty={isEmpty}
+        isModal={{ isEmpty, isEnoughLength }}
         onPublishClick={handlePublishClick}
         onPreviewClick={() => {
           setPreviewing(!previewing);

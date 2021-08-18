@@ -133,8 +133,12 @@ export const VideoPostUpdation: React.FC<ITextPostUpdationProps> = ({
   const isEmpty =
     !updatedPost.title ||
     !updatedPost.directions.length ||
-    updatedPost.content.length < 15 ||
-    !updatedPost.videoUrl;
+    !updatedPost.content;
+
+  const isEnoughLength =
+    updatedPost.content.length < 15 || updatedPost.title.length < 10;
+
+  const isVideoEmpty = !updatedPost.videoUrl;
 
   const previewPost: IPost = {
     ...post,
@@ -245,7 +249,7 @@ export const VideoPostUpdation: React.FC<ITextPostUpdationProps> = ({
 
       <PostCreationButtons
         action="updating"
-        isEmpty={isEmpty}
+        isModal={{ isEmpty,isEnoughLength,isVideoEmpty }}
         onCancelClick={() => {
           history.goBack();
         }}
