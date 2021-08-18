@@ -3,6 +3,7 @@ import { Box, Button } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
 import { ConfirmationModalWithButton } from '../../old/lib/components/Modals/ConfirmationModalWithButton';
 import { langTokens } from '../../locales/localizationInit';
+import { InformationModal } from '../../old/lib/components/Modals/InformationModal';
 
 export interface IPostCreationButtonsProps {
   action: 'creating' | 'updating';
@@ -12,6 +13,7 @@ export interface IPostCreationButtonsProps {
   previewing?: boolean;
   disabled?: boolean;
   loading?: boolean;
+  isEmpty?: boolean;
 }
 
 export const PostCreationButtons: React.FC<IPostCreationButtonsProps> = ({
@@ -22,6 +24,7 @@ export const PostCreationButtons: React.FC<IPostCreationButtonsProps> = ({
   previewing,
   disabled,
   loading,
+  isEmpty,
 }) => {
   const { t } = useTranslation();
 
@@ -63,13 +66,27 @@ export const PostCreationButtons: React.FC<IPostCreationButtonsProps> = ({
           {previewButtonText}
         </Button>
 
-        <Button
-          variant="contained"
-          disabled={disabled || loading}
-          onClick={onPublishClick}
-        >
-          {publishButtonText}
-        </Button>
+        {isEmpty ?
+          <InformationModal
+            message={t(langTokens.editor.requiredField)}
+            buttonIcon={
+              <Button
+                variant="contained"
+                disabled={disabled || loading}
+              >
+                {publishButtonText}
+              </Button>
+            }
+          />
+          :
+          <Button
+            variant="contained"
+            disabled={disabled || loading}
+            onClick={onPublishClick}
+          >
+            {publishButtonText}
+          </Button>
+        }
       </Box>
     </Box>
   );

@@ -14,7 +14,7 @@ import {
 } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
 import CloseIcon from '@material-ui/icons/Close';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { AuthContext } from '../../../provider/AuthProvider/AuthContext';
 import { emailValidationObj } from './validationRules';
 import { IAuthInputs } from '../../types';
@@ -23,6 +23,8 @@ import { login } from '../../utilities/API/api';
 import { AccountIcon } from '../icons/AccountIcon';
 import { langTokens } from '../../../../locales/localizationInit';
 import { BasicButton, BasicInput } from '../../../../components/Form';
+import { useActions } from '../../../../shared/hooks';
+import { getAuthoritiesAsyncAction } from '../../../../models/authorities';
 
 export const LoginModal: React.FC = () => {
   const { t } = useTranslation();
@@ -37,6 +39,8 @@ export const LoginModal: React.FC = () => {
   >({
     mode: 'onTouched',
   });
+
+  const [boundAuthorities] = useActions([getAuthoritiesAsyncAction]);
 
   const handleLoginOpen = () => {
     setLoginOpen(true);
@@ -58,18 +62,20 @@ export const LoginModal: React.FC = () => {
     buttonsStyling: false,
   });
 
+  const history = useHistory();
+
   const onSubmit = (inputs: IAuthInputs) => {
     login(inputs.email.toLowerCase(), inputs.password)
       .then((response) => {
         setAuthorization(response.data.accessToken);
+        boundAuthorities();
         handleLoginClose();
         swalWithCustomButton.fire(
           t(langTokens.loginRegistration.congratulation),
           t(langTokens.loginRegistration.youAreWelcome),
           'success',
-        );
-      })
-      .catch((err) => {
+        ).then(()=>history.push('/'));
+      }).catch((err) => {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         setError(err.response.data.status);
       });

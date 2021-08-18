@@ -45,6 +45,7 @@ const Editor: React.FC<IQuillEditorProps> = (props) => {
         modules={modules}
         formats={formats}
         ref={editorRef}
+        scrollingContainer="html"
       />
     </div>
   );

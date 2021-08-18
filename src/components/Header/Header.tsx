@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { Box, Container, Toolbar, Typography } from '@material-ui/core';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, Route } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useStyles } from './Header.styles';
 import { PostCreationMenu } from './PostCreationMenu';
@@ -66,7 +66,7 @@ export const Header: React.FC = () => {
           </Box>
           <Box className={classes.actionsContainer}>
             {authenticated && <PostCreationMenu />}
-            {authenticated ? <AccountMenu /> : <LoginModal />}
+            {authenticated ? <AccountMenu /> : <Route path='/opendoctorgate' ><LoginModal/></Route>}
           </Box>
         </Toolbar>
       </Container>

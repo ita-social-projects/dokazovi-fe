@@ -21,7 +21,7 @@ export const TranslationPostPreviewCard: React.FC<IPostPreviewCardProps> = ({
   const bgImageURL = post.previewImageUrl ? post.previewImageUrl : background;
   const classes = useStyles({ backgroundImageUrl: bgImageURL });
   const postLink = `/posts/${post.id}`;
-  const materialsLink = `/materials?origins=3`;
+  const authorLink = `/experts/${post.author.id}`;
   const authorFullName = `${post.author.firstName} ${post.author.lastName}`;
 
   const cardHeader = (

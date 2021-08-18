@@ -146,4 +146,10 @@ export const ROUTER_CONFIG: IRouteConfig[] = [
     exact: true,
     component: Oath2Redirect,
   },
+  {
+    path: '/opendoctorgate',
+    key: 'ROOT',
+    exact: true,
+    component: MainView,
+  },
 ];

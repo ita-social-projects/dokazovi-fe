@@ -24,6 +24,7 @@ import { PostDirectionsSelector } from '../../postCreation/PostDirectionsSelecto
 import { PostOriginsSelector } from '../../postCreation/PostOriginsSelector';
 import { PostAuthorSelection } from '../../postCreation/PostAuthorSelection/PostAuthorSelection';
 import { BorderBottom } from '../../../old/lib/components/Border';
+import { useStyle } from '../../postCreation/RequiredFieldsStyle';
 
 export interface ITextPostUpdationProps {
   pageTitle: string;
@@ -41,6 +42,7 @@ export const VideoPostUpdation: React.FC<ITextPostUpdationProps> = ({
   post,
 }) => {
   const history = useHistory();
+  const classes = useStyle();
   const [selectedDirections, setSelectedDirections] = useState<IDirection[]>(
     post.directions,
   );
@@ -123,6 +125,12 @@ export const VideoPostUpdation: React.FC<ITextPostUpdationProps> = ({
     authorId: authorId ?? post.author.id,
   };
 
+  const isEmpty =
+    !updatedPost.title ||
+    !updatedPost.directions.length ||
+    updatedPost.content.length < 15 ||
+    !updatedPost.videoUrl;
+
   const previewPost: IPost = {
     ...post,
     author: {
@@ -162,7 +170,9 @@ export const VideoPostUpdation: React.FC<ITextPostUpdationProps> = ({
             onSelectedOriginsChange={handleOriginsChange}
           />
           <Box mt={2}>
-            <Typography variant="h5">{titleInputLabel}</Typography>
+            <Typography className={classes.requiredField} variant="h5">
+              {titleInputLabel}
+            </Typography>
             <TextField
               error={Boolean(title.error)}
               helperText={title.error}
@@ -196,7 +206,9 @@ export const VideoPostUpdation: React.FC<ITextPostUpdationProps> = ({
           </Box>
           <BorderBottom />
           <Box mt={2}>
-            <Typography variant="h5">{contentInputLabel}</Typography>
+            <Typography className={classes.requiredField} variant="h5">
+              {contentInputLabel}
+            </Typography>
             <TextPostEditor
               toolbar={editorToolbar}
               initialHtmlContent={htmlContent}
@@ -220,6 +232,7 @@ export const VideoPostUpdation: React.FC<ITextPostUpdationProps> = ({
 
       <PostCreationButtons
         action="updating"
+        isEmpty={isEmpty}
         onCancelClick={() => {
           history.goBack();
         }}
