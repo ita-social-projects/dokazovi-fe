@@ -52,6 +52,9 @@ export const useStyles = makeStyles<Theme, IStyleProps>(
     postType: {
       color: theme.palette.common.white,
     },
+    filterLink: {
+      cursor: 'pointer',
+    },
   }),
   {
     name: 'TranslationPostPreviewCard',
