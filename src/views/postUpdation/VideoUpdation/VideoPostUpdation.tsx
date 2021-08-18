@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 import _ from 'lodash';
 import { Box, TextField, Typography } from '@material-ui/core';
 import { PageTitle } from 'components/Page/PageTitle';
+import { useSelector } from 'react-redux';
 import { sanitizeHtml } from '../../../old/lib/utilities/sanitizeHtml';
 import { updatePost, getAllExperts } from '../../../old/lib/utilities/API/api';
 import { IDirection, IPost, IOrigin } from '../../../old/lib/types';
@@ -25,6 +26,7 @@ import { PostOriginsSelector } from '../../postCreation/PostOriginsSelector';
 import { PostAuthorSelection } from '../../postCreation/PostAuthorSelection/PostAuthorSelection';
 import { BorderBottom } from '../../../old/lib/components/Border';
 import { useStyle } from '../../postCreation/RequiredFieldsStyle';
+import { selectAuthorities } from '../../../models/authorities';
 
 export interface ITextPostUpdationProps {
   pageTitle: string;
@@ -43,6 +45,9 @@ export const VideoPostUpdation: React.FC<ITextPostUpdationProps> = ({
 }) => {
   const history = useHistory();
   const classes = useStyle();
+  const authorities = useSelector(selectAuthorities);
+  const isAdmin = authorities.data?.includes('SET_IMPORTANCE');
+
   const [selectedDirections, setSelectedDirections] = useState<IDirection[]>(
     post.directions,
   );
@@ -125,11 +130,21 @@ export const VideoPostUpdation: React.FC<ITextPostUpdationProps> = ({
     authorId: authorId ?? post.author.id,
   };
 
+  const regExp = /^[а-яєїіґ]*\d*\s*\W*$/i;
+
   const isEmpty =
     !updatedPost.title ||
     !updatedPost.directions.length ||
-    updatedPost.content.length < 15 ||
-    !updatedPost.videoUrl;
+    !updatedPost.content;
+
+  const isEnoughLength =
+    updatedPost.content.length < 15 || updatedPost.title.length < 10;
+
+  const isHasUASymbols = !regExp.test(
+    updatedPost.title
+  );
+
+  const isVideoEmpty = !updatedPost.videoUrl;
 
   const previewPost: IPost = {
     ...post,
@@ -155,6 +170,22 @@ export const VideoPostUpdation: React.FC<ITextPostUpdationProps> = ({
     history.push(`/posts/${response.data.id}`);
   };
 
+  const postOriginSelector = isAdmin && (
+    <PostOriginsSelector
+      selectedOrigins={selectedOrigins}
+      onSelectedOriginsChange={handleOriginsChange}
+    />
+  );
+
+  const postAuthorSelection = isAdmin && (
+    <PostAuthorSelection
+      onAuthorTableClick={onAuthorTableClick}
+      handleOnChange={handleOnChange}
+      authors={authors}
+      searchValue={searchValue}
+    />
+  );
+
   return (
     <>
       <PageTitle title={pageTitle} />
@@ -165,10 +196,7 @@ export const VideoPostUpdation: React.FC<ITextPostUpdationProps> = ({
             selectedDirections={selectedDirections}
             onSelectedDirectionsChange={handleDirectionsChange}
           />
-          <PostOriginsSelector
-            selectedOrigins={selectedOrigins}
-            onSelectedOriginsChange={handleOriginsChange}
-          />
+          {postOriginSelector}
           <Box mt={2}>
             <Typography className={classes.requiredField} variant="h5">
               {titleInputLabel}
@@ -185,12 +213,7 @@ export const VideoPostUpdation: React.FC<ITextPostUpdationProps> = ({
               }}
             />
           </Box>
-          <PostAuthorSelection
-            onAuthorTableClick={onAuthorTableClick}
-            handleOnChange={handleOnChange}
-            authors={authors}
-            searchValue={searchValue}
-          />
+          {postAuthorSelection}
           <Box mt={2}>
             <VideoUrlInputModal dispatchVideoUrl={setVideoUrl} />
             {videoId && (
@@ -232,7 +255,7 @@ export const VideoPostUpdation: React.FC<ITextPostUpdationProps> = ({
 
       <PostCreationButtons
         action="updating"
-        isEmpty={isEmpty}
+        isModal={{ isEmpty,isEnoughLength,isVideoEmpty,isHasUASymbols }}
         onCancelClick={() => {
           history.goBack();
         }}

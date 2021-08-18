@@ -6,7 +6,15 @@ export const useStyle = makeStyles(() => ({
       content: '"*"',
       color: 'red',
       display: 'inline',
-      fontSize: '25px',
+      fontSize: '27px',
+    },
+  },
+  requiredAuthorField:{
+    '&::before': {
+      content: '"*"',
+      color: 'red',
+      display: 'inline',
+      fontSize: '15px',
     },
   },
 }));
