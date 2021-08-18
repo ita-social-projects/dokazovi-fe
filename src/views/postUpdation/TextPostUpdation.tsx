@@ -156,6 +156,8 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
     authorId: authorId ?? post.author.id,
   };
 
+  const regExp = /^[а-яєїіґ]*\d*\s*\W*$/i;
+
   const isEmpty =
     !updatedPost.title ||
     !updatedPost.content ||
@@ -163,6 +165,10 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
 
   const isEnoughLength =
     updatedPost.content.length < 15 || updatedPost.title.length < 10;
+
+  const isHasUASymbols = !regExp.test(
+    updatedPost.title
+  );
 
   const previewPost: IPost = {
     ...post,
@@ -275,7 +281,7 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
 
       <PostCreationButtons
         action="updating"
-        isModal={{ isEmpty, isEnoughLength }}
+        isModal={{ isEmpty, isEnoughLength, isHasUASymbols }}
         onCancelClick={() => {
           history.goBack();
         }}

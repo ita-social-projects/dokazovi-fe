@@ -130,6 +130,8 @@ export const VideoPostUpdation: React.FC<ITextPostUpdationProps> = ({
     authorId: authorId ?? post.author.id,
   };
 
+  const regExp = /^[а-яєїіґ]*\d*\s*\W*$/i;
+
   const isEmpty =
     !updatedPost.title ||
     !updatedPost.directions.length ||
@@ -137,6 +139,10 @@ export const VideoPostUpdation: React.FC<ITextPostUpdationProps> = ({
 
   const isEnoughLength =
     updatedPost.content.length < 15 || updatedPost.title.length < 10;
+
+  const isHasUASymbols = !regExp.test(
+    updatedPost.title
+  );
 
   const isVideoEmpty = !updatedPost.videoUrl;
 
@@ -249,7 +255,7 @@ export const VideoPostUpdation: React.FC<ITextPostUpdationProps> = ({
 
       <PostCreationButtons
         action="updating"
-        isModal={{ isEmpty,isEnoughLength,isVideoEmpty }}
+        isModal={{ isEmpty,isEnoughLength,isVideoEmpty,isHasUASymbols }}
         onCancelClick={() => {
           history.goBack();
         }}

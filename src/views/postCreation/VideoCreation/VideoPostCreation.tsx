@@ -220,11 +220,17 @@ export const VideoPostCreation: React.FC<IVideoPostCreationProps> = ({
     type: { id: PostTypeEnum.VIDEO },
   };
 
+  const regExp = /^[а-яєїіґ]*\d*\s*\W*$/i;
+
   const isEmpty =
     !newPost.title || !newPost.directions.length || !newPost.content;
 
   const isEnoughLength =
     newPost.content.length < 15 || newPost.title.length < 10;
+
+  const isHasUASymbols = !regExp.test(
+    newPost.title
+  );
 
   const isVideoEmpty = !newPost.videoUrl;
 
@@ -387,7 +393,7 @@ export const VideoPostCreation: React.FC<IVideoPostCreationProps> = ({
 
       <PostCreationButtons
         action="creating"
-        isModal={{ isEmpty,isEnoughLength,isVideoEmpty }}
+        isModal={{ isEmpty,isEnoughLength,isVideoEmpty, isHasUASymbols }}
         onPublishClick={handlePublishClick}
         onPreviewClick={() => {
           setPreviewing(!previewing);
