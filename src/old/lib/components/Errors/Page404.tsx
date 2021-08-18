@@ -5,11 +5,7 @@ import { PageTitle } from 'components/Page/PageTitle';
 import { setGALocation } from '../../../../utilities/setGALocation';
 import { langTokens } from '../../../../locales/localizationInit';
 
-export interface IPage404Props {
-  message?: string;
-}
-
-const Page404: React.FC<IPage404Props> = ({ message }) => {
+const Page404: React.FC = () => {
   const { t } = useTranslation();
 
   useEffect(() => {
@@ -20,7 +16,7 @@ const Page404: React.FC<IPage404Props> = ({ message }) => {
     <div style={{ margin: 'auto' }}>
       <PageTitle title={t(langTokens.common.error404)} />
       <Typography align="center" variant="h1">
-        {message || t(langTokens.common.error404Message)}
+        {t(langTokens.common.error404Message)}
       </Typography>
     </div>
   );

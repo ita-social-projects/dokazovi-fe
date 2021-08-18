@@ -13,8 +13,8 @@ import { useQuery } from '../../old/lib/hooks/useQuery';
 import { setGALocation } from '../../utilities/setGALocation';
 import { ERROR_404 } from '../../old/lib/constants/routes';
 import { selectCurrentUser } from '../../models/user';
-import Page404 from '../../old/lib/components/Errors/Page404';
 import { selectAuthorities } from '../../models/authorities';
+import { Notification } from '../../components/Notifications/Notification';
 
 const PostUpdationWrapper: React.FC = () => {
   const query = useQuery();
@@ -76,7 +76,7 @@ const PostUpdationWrapper: React.FC = () => {
             )}
           </>
         ) : (
-          <Page404 message={t(langTokens.common.permissionError)}/>
+          <Notification message={t(langTokens.common.permissionError)}/>
         ))}
     </>
   );
