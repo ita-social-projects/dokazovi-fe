@@ -31,6 +31,7 @@ export const common = {
   error404: 'Помилка 404',
   error404Message:'На жаль, таку сторінку не знайдено.',
   permissionError:'На жаль, Ви не можете редагувати цей пост',
+  noFoundAuthors:'Такого автора не знайдено',
   byType: 'За типом',
   byOrigin: 'За джерелом',
   allOrigins: 'Всі джерела',

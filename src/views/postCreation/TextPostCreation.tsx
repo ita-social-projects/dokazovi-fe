@@ -24,15 +24,9 @@ import {
 import { IDirection, IOrigin, IPost, PostTypeEnum } from '../../old/lib/types';
 import { sanitizeHtml } from '../../old/lib/utilities/sanitizeHtml';
 import { PostCreationButtons } from './PostCreationButtons';
-import {
-  CreateTextPostRequestType,
-  ExpertResponseType,
-} from '../../old/lib/utilities/API/types';
+import { CreateTextPostRequestType, ExpertResponseType } from '../../old/lib/utilities/API/types';
 import { createPost, getAllExperts } from '../../old/lib/utilities/API/api';
-import {
-  CONTENT_DEBOUNCE_TIMEOUT,
-  PREVIEW_DEBOUNCE_TIMEOUT,
-} from '../../old/lib/constants/editors';
+import { CONTENT_DEBOUNCE_TIMEOUT, PREVIEW_DEBOUNCE_TIMEOUT } from '../../old/lib/constants/editors';
 import PostView from '../../old/modules/posts/components/PostView';
 import { TextPostEditor } from '../../components/Editor/Editors/TextPostEditor';
 import { IEditorToolbarProps } from '../../components/Editor/types';
@@ -196,6 +190,8 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
     }
     getAllExperts({ params: { userName: searchValue.trim() } }).then((res) => {
       setAuthors(res.data.content);
+    }).catch((e) => {
+      console.error(e);
     });
   }, [searchValue]);
 
