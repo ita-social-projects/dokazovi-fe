@@ -1,5 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { langTokens } from 'locales/localizationInit';
+import { useTranslation } from 'react-i18next';
 import { getPostById } from '../../old/lib/utilities/API/api';
 import { IPost } from '../../old/lib/types';
 import { sanitizeHtml } from '../../old/lib/utilities/sanitizeHtml';
@@ -9,10 +12,19 @@ import { VideoUpdation } from './VideoUpdation/VideoUpdation';
 import { useQuery } from '../../old/lib/hooks/useQuery';
 import { setGALocation } from '../../utilities/setGALocation';
 import { ERROR_404 } from '../../old/lib/constants/routes';
+import { selectCurrentUser } from '../../models/user';
+import { selectAuthorities } from '../../models/authorities';
+import { Notification } from '../../components/Notifications/Notification';
 
 const PostUpdationWrapper: React.FC = () => {
   const query = useQuery();
   const history = useHistory();
+  const user = useSelector(selectCurrentUser);
+  const authorities = useSelector(selectAuthorities);
+  const isAdmin = authorities.data?.includes('SET_IMPORTANCE');
+
+  const { t } = useTranslation();
+  
   const [loadedPost, setLoadedPost] = useState<IPost>();
   const [statusCode, setStatusCode] = useState<number>();
 
@@ -50,15 +62,22 @@ const PostUpdationWrapper: React.FC = () => {
 
   return (
     <>
-      {loadedPost && loadedPost.type.id === 1 && (
-        <ArticleUpdation post={loadedPost} />
-      )}
-      {loadedPost && loadedPost.type.id === 3 && (
-        <NoteUpdation post={loadedPost} />
-      )}
-      {loadedPost && loadedPost.type.id === 2 && (
-        <VideoUpdation post={loadedPost} />
-      )}
+      {loadedPost &&
+        (user.data?.id === loadedPost?.author.id || isAdmin ? (
+          <>
+            {loadedPost.type.id === 1 && (
+              <ArticleUpdation post={loadedPost} />
+            )}
+            {loadedPost.type.id === 3 && (
+              <NoteUpdation post={loadedPost} />
+            )}
+            {loadedPost.type.id === 2 && (
+              <VideoUpdation post={loadedPost} />
+            )}
+          </>
+        ) : (
+          <Notification message={t(langTokens.common.permissionError)}/>
+        ))}
     </>
   );
 };
