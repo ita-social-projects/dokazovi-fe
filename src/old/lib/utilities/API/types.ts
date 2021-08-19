@@ -103,6 +103,15 @@ export type ActivePostType = {
   name: string;
 };
 
+export type ActiveDirectionType = {
+  id: number;
+  name: string;
+  label?: string;
+  color?: string;
+  hasPosts?: boolean;
+  hasDoctors?: boolean;
+};
+
 export type CreateTagRequestType = {
   tag: string;
 };

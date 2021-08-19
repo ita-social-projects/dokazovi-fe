@@ -23,6 +23,7 @@ import {
   UpdatePostRequestUnionType,
   VersionResponseType,
   ActivePostType,
+  ActiveDirectionType,
   PlatformInformationType,
   UpdatePlatformInformationRequestType,
 } from './types';
@@ -96,6 +97,12 @@ export const getActivePostTypes = async (
   return instance.get(
     `/post-types/${userId}${status ? `?status=${status}` : ''}`,
   );
+};
+
+export const getActiveDirections = async (
+  userId: number,
+): Promise<AxiosResponse<ActiveDirectionType[]>> => {
+  return instance.get(`/user/experts/${userId}/post-directions`);
 };
 
 export const getNewestPosts = async (): Promise<

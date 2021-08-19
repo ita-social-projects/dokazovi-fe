@@ -189,18 +189,6 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
     return false;
   };
 
-  const getHasMaterialsProperty = (filterName: string | undefined) => {
-    let result: boolean | undefined = false;
-
-    if (filterType === QueryTypeEnum.DIRECTIONS) {
-      const allDirections = store.getState().properties.directions;
-      const direction = allDirections.find((dir) => dir.name === filterName);
-      result = direction?.hasPosts;
-    }
-
-    return result;
-  };
-
   useEffect(() => {
     const arrOfDisabled = [
       ...possibleFilters.filter(
@@ -269,13 +257,6 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
     let disabledPostTypeItem = false;
     if (disabledPostTypes?.length) {
       disabledPostTypeItem = checkWhetherDisabledPostType(+id);
-    }
-
-    if (
-      filterType === QueryTypeEnum.DIRECTIONS &&
-      !getHasMaterialsProperty(filterName)
-    ) {
-      return null;
     }
 
     const disabledFilter =
