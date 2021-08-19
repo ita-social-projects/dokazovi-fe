@@ -1,10 +1,11 @@
 /* eslint-disable react/no-danger */
-import React, { useContext } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { Card, Box, Typography } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
 import { useStyles } from '../styles/PostView.styles';
 import { IPost } from '../../../lib/types';
 import { ConfirmationModalWithButton } from '../../../lib/components/Modals/ConfirmationModalWithButton';
@@ -12,8 +13,9 @@ import PostInfo from '../../../../components/Posts/PostInfo/PostInfo';
 import TopSection from '../../../../components/Posts/TopSection/TopSection';
 import SecondTopSection from '../../../../components/Posts/SecondTopSection/SecondTopSection';
 import { langTokens } from '../../../../locales/localizationInit';
-import { AuthContext } from '../../../provider/AuthProvider/AuthContext';
 import { PostBreadcrumbs } from '../../../../components/Breadcrumbs/PostBreadcrumbs';
+import { selectCurrentUser } from '../../../../models/user';
+import { selectAuthorities } from '../../../../models/authorities';
 
 export interface IPostViewProps {
   post: IPost;
@@ -28,7 +30,11 @@ const PostView: React.FC<IPostViewProps> = ({
 }) => {
   const { t } = useTranslation();
 
-  const { authenticated } = useContext(AuthContext);
+  const user = useSelector(selectCurrentUser);
+  const authorities = useSelector(selectAuthorities);
+  const isAdmin = authorities.data?.includes('SET_IMPORTANCE');
+  const permission = user?.data?.id === post?.author?.id || isAdmin;
+
   const classes = useStyles();
 
   const postContent = post.content ?? 'There is no post content';
@@ -57,7 +63,7 @@ const PostView: React.FC<IPostViewProps> = ({
           <TopSection author={post.author} />
         )}
 
-        {authenticated && (
+        {permission && (
           <Box className={classes.actionsBlock}>
             <Link to={`/edit-post?id=${post.id}`}>
               <EditIcon className={classes.iconBlack} />

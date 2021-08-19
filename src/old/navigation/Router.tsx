@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useSelector } from 'react-redux';
 import { Route, Switch, Redirect, RouteComponentProps } from 'react-router-dom';
 import Page from 'components/Page/Page';
@@ -6,15 +6,14 @@ import { IRouteConfig } from './types';
 import Page404 from '../lib/components/Errors/Page404';
 import { LoadingStatusEnum } from '../lib/types';
 import { LoadingContainer } from '../lib/components/Loading/LoadingContainer';
-import { selectCurrentUser } from '../../models/user/selectors';
+import { selectCurrentUser } from '../../models/user';
+import { AuthContext } from '../provider/AuthProvider/AuthContext';
 
 const PrivateRoute: React.FC<IRouteConfig> = ({ path, exact, component }) => {
   const user = useSelector(selectCurrentUser);
+  const { authenticated } = useContext(AuthContext);
 
-  if (
-    user.loading === LoadingStatusEnum.idle ||
-    user.loading === LoadingStatusEnum.pending
-  ) {
+  if (user.loading === LoadingStatusEnum.pending) {
     return (
       <Page
         component={() => <LoadingContainer loading={user.loading} expand />}
@@ -22,15 +21,15 @@ const PrivateRoute: React.FC<IRouteConfig> = ({ path, exact, component }) => {
     );
   }
 
-  if (!user.data) {
-    return <Redirect to="/" />;
+  if (authenticated) {
+    return (
+      <Route path={path} exact={exact}>
+        <Page component={component} />
+      </Route>
+    );
   }
 
-  return (
-    <Route path={path} exact={exact}>
-      <Page component={component} />
-    </Route>
-  );
+  return <Redirect to="/error_404" />;
 };
 
 const AdminRoute: React.FC<IRouteConfig> = ({ path, exact, component }) => {
@@ -76,9 +75,12 @@ export const RenderRoutes: React.FC<{
       {routes.map((route: IRouteConfig) => {
         if (route.private) {
           return (
-            <Route key={route.key} path={route.path} exact={route.exact}>
-              <Page component={route.component} />
-            </Route>
+            <PrivateRoute
+              key={route.key}
+              path={route.path}
+              exact={route.exact}
+              component={route.component}
+            />
           );
         }
         return (

@@ -47,6 +47,8 @@ import { selectCurrentUser } from '../../models/user';
 import { selectTextPostDraft } from '../../models/postCreation/selectors';
 import { useActions } from '../../shared/hooks';
 import { langTokens } from '../../locales/localizationInit';
+import { useStyle } from './RequiredFieldsStyle';
+import { selectAuthorities } from '../../models/authorities';
 
 interface IPostCreationProps {
   pageTitle?: string;
@@ -67,6 +69,9 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
 }) => {
   const { t } = useTranslation();
   const history = useHistory();
+  const classes = useStyle();
+  const authorities = useSelector(selectAuthorities);
+  const isAdmin = authorities.data?.includes('SET_IMPORTANCE');
 
   const savedPostDraft = useSelector((state: RootStateType) =>
     selectTextPostDraft(state, postType.type),
@@ -189,9 +194,13 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
       setAuthors([]);
       return;
     }
-    getAllExperts({ params: { userName: searchValue.trim() } }).then((res) => {
-      setAuthors(res.data.content);
-    });
+    getAllExperts({ params: { userName: searchValue.trim() } })
+      .then((res) => {
+        setAuthors(res.data.content);
+      })
+      .catch((e) => {
+        console.error(e);
+      });
   }, [searchValue]);
 
   const onAuthorTableClick = (value: number, item: ExpertResponseType) => {
@@ -226,7 +235,7 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
   };
 
   const newPost: CreateTextPostRequestType = {
-    authorId: savedPostDraft.authorId,
+    authorId: isAdmin ? savedPostDraft.authorId : user.data?.id,
     previewImageUrl: savedPostDraft.previewImageUrl,
     importantImageUrl: savedPostDraft.importantImageUrl,
     content: savedPostDraft.htmlContent,
@@ -234,10 +243,20 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
     origins: savedPostDraft.origins,
     preview: savedPostDraft.preview.value,
     title: savedPostDraft.title,
-    authorsName: savedPostDraft.authorsName,
+    authorsName: isAdmin ? savedPostDraft.authorsName : user.data?.firstName,
     authorsDetails: savedPostDraft.authorsDetails,
     type: { id: postType.type },
   };
+
+  const regExp = /^[а-яєїіґ]*\d*\s*\W*$/i;
+
+  const isEmpty =
+    !newPost.title || !newPost.directions.length || !newPost.content;
+
+  const isEnoughLength =
+    newPost.content.length < 15 || newPost.title.length < 10;
+
+  const isHasUASymbols = !regExp.test(newPost.title);
 
   const previewPost = React.useMemo(
     () =>
@@ -309,6 +328,22 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
     }
   }
 
+  const postOriginSelector = isAdmin && (
+    <PostOriginsSelector
+      selectedOrigins={savedPostDraft.origins}
+      onSelectedOriginsChange={handleOriginsChange}
+    />
+  );
+
+  const postAuthorSelection = isAdmin && (
+    <PostAuthorSelection
+      onAuthorTableClick={onAuthorTableClick}
+      handleOnChange={handleOnChange}
+      authors={authors}
+      searchValue={searchValue}
+    />
+  );
+
   return (
     <>
       <PageTitle title={pageTitle} />
@@ -318,13 +353,12 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
             selectedDirections={savedPostDraft.directions}
             onSelectedDirectionsChange={handleDirectionsChange}
           />
-          <PostOriginsSelector
-            selectedOrigins={savedPostDraft.origins}
-            onSelectedOriginsChange={handleOriginsChange}
-          />
+          {postOriginSelector}
           {extraFieldsForTranslation}
           <Box mt={2}>
-            <Typography variant="h5">{titleInputLabel}</Typography>
+            <Typography className={classes.requiredField} variant="h5">
+              {titleInputLabel}
+            </Typography>
             <TextField
               error={Boolean(title.error)}
               helperText={title.error}
@@ -338,12 +372,7 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
               }}
             />
           </Box>
-          <PostAuthorSelection
-            onAuthorTableClick={onAuthorTableClick}
-            handleOnChange={handleOnChange}
-            authors={authors}
-            searchValue={searchValue}
-          />
+          {postAuthorSelection}
           <BackgroundImageContainer
             dispatchImageUrl={dispatchImageUrl}
             fileSelectorHandler={fileSelectorHandler(dispatchImageUrl)}
@@ -360,7 +389,9 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
           />
           <BorderBottom />
           <Box mt={2}>
-            <Typography variant="h5">{contentInputLabel}</Typography>
+            <Typography className={classes.requiredField} variant="h5">
+              {contentInputLabel}
+            </Typography>
             <TextPostEditor
               toolbar={editorToolbar}
               initialHtmlContent={savedPostDraft.htmlContent}
@@ -387,6 +418,7 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
 
       <PostCreationButtons
         action="creating"
+        isModal={{ isEmpty, isEnoughLength, isHasUASymbols }}
         onPublishClick={handlePublishClick}
         onPreviewClick={() => {
           setPreviewing(!previewing);

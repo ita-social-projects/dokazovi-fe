@@ -128,7 +128,7 @@ const MaterialsView: React.FC = () => {
     const sortedDirections = sortByAlphabet(directionsToSort, 'label');
     directionsInPlural.push(...sortedDirections);
   }
-
+  const resetPage = () => setPage(0);
   const propertiesLoaded =
     !isEmpty(postTypes) && !isEmpty(directions) && !isEmpty(origins);
   const [boundFetchMaterials] = useActions([fetchMaterials]);
@@ -211,6 +211,10 @@ const MaterialsView: React.FC = () => {
 
   useEffect(() => {
     setGALocation(window);
+
+    return function cleanup() {
+      fetchData(false);
+    };
   }, []);
 
   useEffect(() => {
@@ -519,7 +523,7 @@ const MaterialsView: React.FC = () => {
             <LoadingContainer loading={loading} expand />
           ) : (
             <>
-              <PostsList postsList={materials} />
+              <PostsList postsList={materials} resetPage={resetPage} />
               <Grid container justify="center">
                 <LoadMoreButton
                   clicked={loadMore}

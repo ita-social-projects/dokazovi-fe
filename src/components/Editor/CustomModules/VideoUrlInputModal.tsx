@@ -13,6 +13,7 @@ import { Alert } from '@material-ui/lab';
 import { useTranslation } from 'react-i18next';
 import { parseVideoIdFromUrl } from '../../../old/lib/utilities/parseVideoIdFromUrl';
 import { langTokens } from '../../../locales/localizationInit';
+import { useStyle } from '../../../views/postCreation/RequiredFieldsStyle';
 
 interface IVideoUrlInputModalProps {
   dispatchVideoUrl: (videoUrl: string) => void;
@@ -28,6 +29,7 @@ const VideoUrlInputModal: React.FC<IVideoUrlInputModalProps> = ({
   // eslint-disable-next-line @typescript-eslint/unbound-method
   const { register, handleSubmit, errors } = useForm<IFormData>();
   const { t } = useTranslation();
+  const classes = useStyle();
 
   const [open, setOpen] = useState(false);
   const [videoUrl, setVideoUrl] = useState<string>('');
@@ -59,7 +61,9 @@ const VideoUrlInputModal: React.FC<IVideoUrlInputModalProps> = ({
   return (
     <Box mt={2}>
       <Typography variant="h5">
-        <span>{`${t(langTokens.editor.videoFile)}:`}</span>
+        <span className={classes.requiredField}>{`${t(
+          langTokens.editor.videoFile,
+        )}:`}</span>
         <IconButton
           color="primary"
           aria-label="upload picture"
