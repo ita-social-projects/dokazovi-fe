@@ -25,6 +25,7 @@ import { langTokens } from '../../../../locales/localizationInit';
 import { BasicButton, BasicInput } from '../../../../components/Form';
 import { useActions } from '../../../../shared/hooks';
 import { getAuthoritiesAsyncAction } from '../../../../models/authorities';
+import './LoginModal.css';
 
 export const LoginModal: React.FC = () => {
   const { t } = useTranslation();
@@ -54,10 +55,10 @@ export const LoginModal: React.FC = () => {
 
   const swalWithCustomButton = Swal.mixin({
     customClass: {
-      container: classes.congratulationContainer,
-      title: classes.congratulationTitleText,
-      htmlContainer: classes.congratulationSubText,
-      confirmButton: classes.congratulationButton,
+      container: 'congratulation-container',
+      title: 'congratulation-title-text',
+      htmlContainer: 'congratulation-sub-text',
+      confirmButton: 'congratulation-button',
     },
     buttonsStyling: false,
   });
@@ -70,12 +71,15 @@ export const LoginModal: React.FC = () => {
         setAuthorization(response.data.accessToken);
         boundAuthorities();
         handleLoginClose();
-        swalWithCustomButton.fire(
-          t(langTokens.loginRegistration.congratulation),
-          t(langTokens.loginRegistration.youAreWelcome),
-          'success',
-        ).then(()=>history.push('/'));
-      }).catch((err) => {
+        swalWithCustomButton
+          .fire(
+            t(langTokens.loginRegistration.congratulation),
+            t(langTokens.loginRegistration.youAreWelcome),
+            'success',
+          )
+          .then(() => history.push('/'));
+      })
+      .catch((err) => {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         setError(err.response.data.status);
       });
