@@ -201,7 +201,7 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
       selectedOrigins={selectedOrigins}
       onSelectedOriginsChange={handleOriginsChange}
     />
-  )|| !regExp.test(contentText);
+  );
 
   const postAuthorSelection = isAdmin && (
     <PostAuthorSelection
