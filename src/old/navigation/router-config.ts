@@ -86,7 +86,6 @@ export const ROUTER_CONFIG: IRouteConfig[] = [
     key: 'EXPERT_PROFILE',
     component: ExpertProfileViewWrapper,
     exact: true,
-    private:true,
   },
   {
     path: '/profile',
