@@ -36,7 +36,9 @@ import {
 } from '../../../old/lib/utilities/API/types';
 import { createPost, getAllExperts } from '../../../old/lib/utilities/API/api';
 import {
-  CONTENT_DEBOUNCE_TIMEOUT,
+  CHECK_REG_EXP,
+  CLEAR_HTML_REG_EXP,
+  CONTENT_DEBOUNCE_TIMEOUT, MIN_CONTENT_LENGTH, MIN_TITLE_LENGTH,
   PREVIEW_DEBOUNCE_TIMEOUT,
 } from '../../../old/lib/constants/editors';
 import PostView from '../../../old/modules/posts/components/PostView';
@@ -220,18 +222,16 @@ export const VideoPostCreation: React.FC<IVideoPostCreationProps> = ({
     type: { id: PostTypeEnum.VIDEO },
   };
 
-  const regExp = /^[а-яєїіґ\d\s\W]+$/i;
-
-  const contentText = newPost.content.replaceAll(/<\/?[^>]+(>|$)/g, ' ');
+  const contentText = newPost.content.replaceAll(CLEAR_HTML_REG_EXP, '');
 
   const isEmpty =
     !newPost.title || !newPost.directions.length || !newPost.content;
 
   const isEnoughLength =
-    contentText.length < 17 || newPost.title.length < 10;
+    contentText.length < MIN_CONTENT_LENGTH || newPost.title.length < MIN_TITLE_LENGTH;
 
-  const isHasUASymbols = !regExp.test(newPost.title)||
-    !regExp.test(contentText);
+  const isHasUASymbols = !CHECK_REG_EXP.test(newPost.title)||
+    !CHECK_REG_EXP.test(contentText);
 
   const isVideoEmpty = !newPost.videoUrl;
 

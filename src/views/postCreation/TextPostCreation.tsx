@@ -30,7 +30,10 @@ import {
 } from '../../old/lib/utilities/API/types';
 import { createPost, getAllExperts } from '../../old/lib/utilities/API/api';
 import {
+  CHECK_REG_EXP, CLEAR_HTML_REG_EXP,
   CONTENT_DEBOUNCE_TIMEOUT,
+  MIN_CONTENT_LENGTH,
+  MIN_TITLE_LENGTH,
   PREVIEW_DEBOUNCE_TIMEOUT,
 } from '../../old/lib/constants/editors';
 import PostView from '../../old/modules/posts/components/PostView';
@@ -194,10 +197,9 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
       setAuthors([]);
       return;
     }
-    getAllExperts({ params: { userName: searchValue.trim() } })
-      .then((res) => {
-        setAuthors(res.data.content);
-      });
+    getAllExperts({ params: { userName: searchValue.trim() } }).then((res) => {
+      setAuthors(res.data.content);
+    });
   }, [searchValue]);
 
   const onAuthorTableClick = (value: number, item: ExpertResponseType) => {
@@ -245,18 +247,17 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
     type: { id: postType.type },
   };
 
-  const regExp = /^[а-яєїіґ\d\s\W]+$/i;
-
-  const contentText = newPost.content.replaceAll(/<\/?[^>]+(>|$)/g, ' ');
+  const contentText = newPost.content.replaceAll(CLEAR_HTML_REG_EXP, '');
 
   const isEmpty =
     !newPost.title || !newPost.directions.length || !newPost.content;
 
   const isEnoughLength =
-    contentText.length < 17 || newPost.title.length < 10;
+    contentText.length < MIN_CONTENT_LENGTH ||
+    newPost.title.length < MIN_TITLE_LENGTH;
 
-  const isHasUASymbols = !regExp.test(newPost.title) ||
-    !regExp.test(contentText);
+  const isHasUASymbols =
+    !CHECK_REG_EXP.test(newPost.title) || !CHECK_REG_EXP.test(contentText);
 
   const previewPost = React.useMemo(
     () =>

@@ -13,7 +13,9 @@ import {
   ExpertResponseType,
 } from '../../../old/lib/utilities/API/types';
 import {
-  CONTENT_DEBOUNCE_TIMEOUT,
+  CHECK_REG_EXP,
+  CLEAR_HTML_REG_EXP,
+  CONTENT_DEBOUNCE_TIMEOUT, MIN_CONTENT_LENGTH, MIN_TITLE_LENGTH,
   PREVIEW_DEBOUNCE_TIMEOUT,
 } from '../../../old/lib/constants/editors';
 import VideoUrlInputModal from '../../../components/Editor/CustomModules/VideoUrlInputModal';
@@ -130,9 +132,7 @@ export const VideoPostUpdation: React.FC<ITextPostUpdationProps> = ({
     authorId: authorId ?? post.author.id,
   };
 
-  const regExp = /^[а-яєїіґ\d\s\W]+$/i;
-
-  const contentText = updatedPost.content.replaceAll(/<\/?[^>]+(>|$)/g, ' ');
+  const contentText = updatedPost.content.replaceAll(CLEAR_HTML_REG_EXP, '');
 
   const isEmpty =
     !updatedPost.title ||
@@ -140,10 +140,10 @@ export const VideoPostUpdation: React.FC<ITextPostUpdationProps> = ({
     !updatedPost.content;
 
   const isEnoughLength =
-    contentText.length < 17 || updatedPost.title.length < 10;
+    contentText.length < MIN_CONTENT_LENGTH || updatedPost.title.length < MIN_TITLE_LENGTH;
 
-  const isHasUASymbols = !regExp.test(updatedPost.title)||
-    !regExp.test(contentText);
+  const isHasUASymbols = !CHECK_REG_EXP.test(updatedPost.title)||
+    !CHECK_REG_EXP.test(contentText);
 
   const isVideoEmpty = !updatedPost.videoUrl;
 
