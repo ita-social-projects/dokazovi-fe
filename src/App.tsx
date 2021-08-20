@@ -7,13 +7,13 @@ import {
   CssBaseline,
   ThemeProvider,
 } from '@material-ui/core';
+import { MAIN_THEME } from 'styles/theme';
 import {
   ROUTER_CONFIG,
   ADMIN_ROUTER_CONFIG,
 } from './old/navigation/router-config';
 import { RenderRoutes } from './old/navigation/Router';
 import { AuthProvider } from './old/provider/AuthProvider/AuthProvider';
-import { MAIN_THEME } from './old/lib/theme/theme';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import 'react-toastify/dist/ReactToastify.min.css';
@@ -30,6 +30,7 @@ import {
   BreadcrumbsProvider,
   breadcrumbsConfigs,
 } from './components/Breadcrumbs';
+import ScrollToTop from './components/ScrollToTop/ScrollToTop';
 
 ReactGA.initialize(process.env.REACT_APP_GOOGLE_ID as string, {
   testMode: process.env.NODE_ENV === 'test',
@@ -72,6 +73,7 @@ export const App: React.FC = () => {
         />
         <CssBaseline />
         <BrowserRouter>
+          <ScrollToTop />
           <div className="content">
             <AuthProvider>
               <BreadcrumbsProvider configs={breadcrumbsConfigs}>

@@ -1,8 +1,11 @@
 import { Grid } from '@material-ui/core';
 import React, { useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { LOAD_EXPERTS_LIMIT } from '../../constants/experts';
 import { IExpert } from '../../types';
 import ExpertPhotoDataCard from './ExpertPhotoDataCard';
+import { Notification } from '../../../../components/Notifications/Notification';
+import { langTokens } from '../../../../locales/localizationInit';
 
 export interface IExpertsListProps {
   experts: IExpert[];
@@ -13,6 +16,8 @@ export const ExpertsList: React.FC<IExpertsListProps> = ({ experts }) => {
   const expertForScrollRef = useRef<HTMLDivElement>(null);
 
   const [prevExpertsCount, setPrevExpertsLength] = useState(experts.length);
+
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (!expertForScrollRef.current) return;
@@ -27,7 +32,7 @@ export const ExpertsList: React.FC<IExpertsListProps> = ({ experts }) => {
     setPrevExpertsLength(experts.length);
   }, [experts.length]);
 
-  return (
+  return experts.length === 0 ? (<Notification message={t(langTokens.common.noInfo)} />) : (
     <Grid container spacing={3}>
       {experts.map((expert, idx) => (
         <Grid

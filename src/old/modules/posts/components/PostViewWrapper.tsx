@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { useHistory, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { PageTitle } from 'components/Page/PageTitle';
 import {
   deletePostById,
   getPostById,
@@ -14,7 +15,6 @@ import {
 } from '../../../lib/types';
 import PostView from './PostView';
 import { sanitizeHtml } from '../../../lib/utilities/sanitizeHtml';
-import { PageTitle } from '../../../lib/components/Pages/PageTitle';
 import { setGALocation } from '../../../../utilities/setGALocation';
 import { ERROR_404 } from '../../../lib/constants/routes';
 import { langTokens } from '../../../../locales/localizationInit';

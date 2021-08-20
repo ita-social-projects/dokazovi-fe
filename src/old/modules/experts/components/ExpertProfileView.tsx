@@ -1,7 +1,7 @@
 import React from 'react';
+import { PageTitle } from 'components/Page/PageTitle';
 import ExpertMaterialsContainer from './ExpertMaterialsContainer';
 import { IExpert } from '../../../lib/types';
-import { PageTitle } from '../../../lib/components/Pages/PageTitle';
 
 export interface IExpertProfileViewProps {
   expert: IExpert;

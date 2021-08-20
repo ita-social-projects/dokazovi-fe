@@ -1,6 +1,6 @@
 import React from 'react';
 import { Container } from '@material-ui/core';
-import { useStyles } from '../../styles/Page.styles';
+import { useStyles } from './Page.styles';
 
 export interface IPageProps {
   component: React.ComponentType;
@@ -10,10 +10,8 @@ const Page: React.FC<IPageProps> = (props) => {
   const classes = useStyles();
 
   return (
-    <Container className={classes.container} disableGutters>
-      <div className={classes.page}>
-        <props.component />
-      </div>
+    <Container className={classes.page} disableGutters>
+      <props.component />
     </Container>
   );
 };

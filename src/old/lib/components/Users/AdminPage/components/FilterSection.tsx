@@ -3,9 +3,9 @@ import { useSelector } from 'react-redux';
 import MaterialFilter from './MaterialFilter';
 import { useStyles } from '../styles/FilterSection.styles';
 import {
-  fetchMaterials,
-  resetMaterials,
-} from '../../../../../../models/materials';
+  fetchMaterialsImportant,
+  resetMaterialsImportant,
+} from '../../../../../../models/materialsImportant';
 import { RootStateType } from '../../../../../../models/rootReducer';
 import {
   AdminPageFiltersType,
@@ -39,10 +39,10 @@ const FilterSection: React.FC<IFilterSectionProps> = ({
   resetPage,
 }) => {
   const classes = useStyles();
-  const [boundFetchMaterials, boundResetMaterials] = useActions([
-    fetchMaterials,
-    resetMaterials,
-  ]);
+  const [
+    boundFetchMaterialsImportant,
+    boundResetMaterialsImportant,
+  ] = useActions([fetchMaterialsImportant, resetMaterialsImportant]);
   const previousPage = usePrevious(page);
   const [generalFilterState, setGeneralFilterState] = useState<
     IGeneralFilterState
@@ -62,17 +62,16 @@ const FilterSection: React.FC<IFilterSectionProps> = ({
       },
       page,
       appendPosts: page !== previousPage && page !== 0,
-      url: 'get-by-important-image',
     };
 
     if (isTouched) {
-      boundFetchMaterials(fetchOptions);
+      boundFetchMaterialsImportant(fetchOptions);
     }
   }, [JSON.stringify(generalFilterState), page, isTouched]);
 
   useEffect(() => {
     return () => {
-      boundResetMaterials();
+      boundResetMaterialsImportant();
     };
   }, []);
 

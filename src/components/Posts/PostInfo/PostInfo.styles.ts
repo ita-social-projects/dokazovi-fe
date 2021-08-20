@@ -18,6 +18,7 @@ export const useStyles = makeStyles(
         padding: '5px 12px',
         color: '#ffffff',
         backgroundColor: '#73DDFF',
+        cursor: 'pointer',
       },
     },
 
@@ -32,6 +33,7 @@ export const useStyles = makeStyles(
       },
       '& > li': {
         padding: '5px 12px',
+        cursor: 'pointer',
       },
       '& > *:first-child': {
         borderRightColor: '#FF5C00',

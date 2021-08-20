@@ -27,14 +27,11 @@ export const NewestPostsList: React.FC<INewestPostsListProps> = ({
   const classes = useStyles();
 
   const displayPostPreviewCards = () => {
-    return (
-      postsList &&
-      postsList.map((post) => (
-        <div key={post.id}>
-          <PostPreviewCard key={post.id} post={post} />
-        </div>
-      ))
-    );
+    return postsList?.map((post) => (
+      <div key={post.id}>
+        <PostPreviewCard key={post.id} post={post} />
+      </div>
+    ));
   };
 
   const displaySkeletons = () =>
