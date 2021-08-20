@@ -3,7 +3,7 @@
 }
 
 .congratulation-title-text {
-  font-family: 'Raleway';
+  font-family: 'Raleway', sans-serif;
   font-weight: 500;
   font-size: 64px;
   line-height: 66px;
@@ -11,7 +11,7 @@
 }
 
 .congratulation-sub-text {
-  font-family: 'Raleway';
+  font-family: 'Raleway', sans-serif;
   font-weight: 500;
   font-size: 24px;
   line-height: 38px;
@@ -25,7 +25,7 @@
   color: whitesmoke;
   font-weight: 700;
   font-size: 18px;
-  font-family: 'Raleway';
+  font-family: 'Raleway', sans-serif;
   margin: 10px 0 60px 0; /* '10px 0 40px or 60px 0' bottom, without '18px 0 71px 0' */
 }
 
