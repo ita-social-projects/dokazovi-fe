@@ -20,7 +20,6 @@ export const ExpertOpinionPostPreviewCard: React.FC<IPostPreviewCardProps> = ({
   const expertLink = `/experts/${post.author?.id}`;
   const postLink = `/posts/${post.id}`;
   const authorFullName = `${post.author?.firstName} ${post.author?.lastName}`;
-
   const expertOrigin = (
     <Typography
       className={classes.postType}
