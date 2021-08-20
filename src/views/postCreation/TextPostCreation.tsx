@@ -256,9 +256,7 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
   const isEnoughLength =
     newPost.content.length < 15 || newPost.title.length < 10;
 
-  const isHasUASymbols = !regExp.test(
-    newPost.title
-  );
+  const isHasUASymbols = !regExp.test(newPost.title);
 
   const previewPost = React.useMemo(
     () =>

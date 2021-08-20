@@ -166,9 +166,7 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
   const isEnoughLength =
     updatedPost.content.length < 15 || updatedPost.title.length < 10;
 
-  const isHasUASymbols = !regExp.test(
-    updatedPost.title
-  );
+  const isHasUASymbols = !regExp.test(updatedPost.title);
 
   const previewPost: IPost = {
     ...post,

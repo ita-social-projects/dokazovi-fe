@@ -9,7 +9,7 @@ export const useStyle = makeStyles(() => ({
       fontSize: '27px',
     },
   },
-  requiredAuthorField:{
+  requiredAuthorField: {
     '&::before': {
       content: '"*"',
       color: 'red',

@@ -5,4 +5,3 @@ export interface IAuthority {
   loading: LoadingStatusEnum;
   error: string | null;
 }
-

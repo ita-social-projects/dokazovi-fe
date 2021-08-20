@@ -9,16 +9,22 @@ import { selectAuthorities } from '../../../../../../models/authorities';
 const AdminPage: React.FC = () => {
   const [selectedOption, changeOption] = useState<
     IAdminMenuOption | Record<string, never>
-    >({});
+  >({});
 
-  const authorities = useSelector(selectAuthorities).data?.includes('SET_IMPORTANCE');
+  const authorities = useSelector(selectAuthorities).data?.includes(
+    'SET_IMPORTANCE',
+  );
 
   return authorities ? (
     <>
       <Sidemenu selectedOption={selectedOption} changeOption={changeOption} />
       <OperationView selectedOption={selectedOption} />
     </>
-  ) : <><Page404 /></>;
+  ) : (
+    <>
+      <Page404 />
+    </>
+  );
 };
 
 export default AdminPage;

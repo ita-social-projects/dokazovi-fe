@@ -24,7 +24,7 @@ const PostUpdationWrapper: React.FC = () => {
   const isAdmin = authorities.data?.includes('SET_IMPORTANCE');
 
   const { t } = useTranslation();
-  
+
   const [loadedPost, setLoadedPost] = useState<IPost>();
   const [statusCode, setStatusCode] = useState<number>();
 
@@ -65,18 +65,12 @@ const PostUpdationWrapper: React.FC = () => {
       {loadedPost &&
         (user.data?.id === loadedPost?.author.id || isAdmin ? (
           <>
-            {loadedPost.type.id === 1 && (
-              <ArticleUpdation post={loadedPost} />
-            )}
-            {loadedPost.type.id === 3 && (
-              <NoteUpdation post={loadedPost} />
-            )}
-            {loadedPost.type.id === 2 && (
-              <VideoUpdation post={loadedPost} />
-            )}
+            {loadedPost.type.id === 1 && <ArticleUpdation post={loadedPost} />}
+            {loadedPost.type.id === 3 && <NoteUpdation post={loadedPost} />}
+            {loadedPost.type.id === 2 && <VideoUpdation post={loadedPost} />}
           </>
         ) : (
-          <Notification message={t(langTokens.common.permissionError)}/>
+          <Notification message={t(langTokens.common.permissionError)} />
         ))}
     </>
   );

@@ -8,8 +8,8 @@ import { InformationModal } from '../../old/lib/components/Modals/InformationMod
 interface IIsModal {
   isEmpty: boolean;
   isEnoughLength: boolean;
-  isVideoEmpty?:boolean;
-  isHasUASymbols?:boolean;
+  isVideoEmpty?: boolean;
+  isHasUASymbols?: boolean;
 }
 
 export interface IPostCreationButtonsProps {

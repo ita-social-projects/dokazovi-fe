@@ -1,4 +1,4 @@
-import React, {  useState } from 'react';
+import React, { useState } from 'react';
 import { Container, Box } from '@material-ui/core';
 import i18n, { langTokens } from '../../locales/localizationInit';
 import { Sidemenu } from './Sidemenu';

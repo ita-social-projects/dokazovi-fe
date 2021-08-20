@@ -13,9 +13,7 @@ const PrivateRoute: React.FC<IRouteConfig> = ({ path, exact, component }) => {
   const user = useSelector(selectCurrentUser);
   const { authenticated } = useContext(AuthContext);
 
-  if (
-    user.loading === LoadingStatusEnum.pending
-  ) {
+  if (user.loading === LoadingStatusEnum.pending) {
     return (
       <Page
         component={() => <LoadingContainer loading={user.loading} expand />}
@@ -31,7 +29,7 @@ const PrivateRoute: React.FC<IRouteConfig> = ({ path, exact, component }) => {
     );
   }
 
-  return <Redirect to='/error_404' />;
+  return <Redirect to="/error_404" />;
 };
 
 const AdminRoute: React.FC<IRouteConfig> = ({ path, exact, component }) => {

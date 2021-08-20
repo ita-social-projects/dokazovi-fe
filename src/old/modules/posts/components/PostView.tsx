@@ -33,7 +33,7 @@ const PostView: React.FC<IPostViewProps> = ({
   const user = useSelector(selectCurrentUser);
   const authorities = useSelector(selectAuthorities);
   const isAdmin = authorities.data?.includes('SET_IMPORTANCE');
-  const permission = user?.data?.id===post?.author?.id || isAdmin;
+  const permission = user?.data?.id === post?.author?.id || isAdmin;
 
   const classes = useStyles();
 

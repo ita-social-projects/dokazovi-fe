@@ -140,9 +140,7 @@ export const VideoPostUpdation: React.FC<ITextPostUpdationProps> = ({
   const isEnoughLength =
     updatedPost.content.length < 15 || updatedPost.title.length < 10;
 
-  const isHasUASymbols = !regExp.test(
-    updatedPost.title
-  );
+  const isHasUASymbols = !regExp.test(updatedPost.title);
 
   const isVideoEmpty = !updatedPost.videoUrl;
 
@@ -255,7 +253,7 @@ export const VideoPostUpdation: React.FC<ITextPostUpdationProps> = ({
 
       <PostCreationButtons
         action="updating"
-        isModal={{ isEmpty,isEnoughLength,isVideoEmpty,isHasUASymbols }}
+        isModal={{ isEmpty, isEnoughLength, isVideoEmpty, isHasUASymbols }}
         onCancelClick={() => {
           history.goBack();
         }}

@@ -228,9 +228,7 @@ export const VideoPostCreation: React.FC<IVideoPostCreationProps> = ({
   const isEnoughLength =
     newPost.content.length < 15 || newPost.title.length < 10;
 
-  const isHasUASymbols = !regExp.test(
-    newPost.title
-  );
+  const isHasUASymbols = !regExp.test(newPost.title);
 
   const isVideoEmpty = !newPost.videoUrl;
 
@@ -393,7 +391,7 @@ export const VideoPostCreation: React.FC<IVideoPostCreationProps> = ({
 
       <PostCreationButtons
         action="creating"
-        isModal={{ isEmpty,isEnoughLength,isVideoEmpty, isHasUASymbols }}
+        isModal={{ isEmpty, isEnoughLength, isVideoEmpty, isHasUASymbols }}
         onPublishClick={handlePublishClick}
         onPreviewClick={() => {
           setPreviewing(!previewing);

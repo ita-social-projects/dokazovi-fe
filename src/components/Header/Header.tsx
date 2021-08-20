@@ -66,7 +66,13 @@ export const Header: React.FC = () => {
           </Box>
           <Box className={classes.actionsContainer}>
             {authenticated && <PostCreationMenu />}
-            {authenticated ? <AccountMenu /> : <Route path='/opendoctorgate' ><LoginModal/></Route>}
+            {authenticated ? (
+              <AccountMenu />
+            ) : (
+              <Route path="/opendoctorgate">
+                <LoginModal />
+              </Route>
+            )}
           </Box>
         </Toolbar>
       </Container>

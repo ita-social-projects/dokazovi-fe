@@ -153,7 +153,10 @@ export const CheckboxDropdownFilterForm: React.FC<ICheckboxDropdownFilterFormPro
         >
           <Grid container>
             <Grid item xs={2} style={{ marginRight: '-30px' }}>
-              <Typography className={isRequired ? classes.requiredField : undefined} variant="h5">
+              <Typography
+                className={isRequired ? classes.requiredField : undefined}
+                variant="h5"
+              >
                 {filterTitle}
               </Typography>
             </Grid>

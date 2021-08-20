@@ -8,7 +8,11 @@ import {
   StyledMenu,
   StyledMenuItem,
 } from '../../old/lib/components/Menu/StyledMenu';
-import { signOutAction, getUserAsyncAction , selectCurrentUser } from '../../models/user';
+import {
+  signOutAction,
+  getUserAsyncAction,
+  selectCurrentUser,
+} from '../../models/user';
 import { useActions } from '../../shared/hooks';
 import { AuthContext } from '../../old/provider/AuthProvider/AuthContext';
 import { AccountIcon } from '../../old/lib/components/icons/AccountIcon';
