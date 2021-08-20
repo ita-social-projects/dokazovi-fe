@@ -56,6 +56,8 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
   const authorities = useSelector(selectAuthorities);
   const isAdmin = authorities.data?.includes('SET_IMPORTANCE');
 
+  const [autoChanges, setAutoChanges] = useState(true);
+
   const [selectedDirections, setSelectedDirections] = useState<IDirection[]>(
     post.directions,
   );
@@ -269,8 +271,12 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
               onHtmlContentChange={(value) => {
                 setTyping({ ...typing, content: true });
                 handleHtmlContentChange(value);
+                if (!htmlContent.replaceAll(CLEAR_HTML_REG_EXP, '').length) {
+                  setAutoChanges(false);
+                }
               }}
-              initialWasPreviewManuallyChanged
+              initialWasPreviewManuallyChanged={autoChanges}
+              disableAutoChanges={() => setAutoChanges(true)}
               onPreviewChange={(value) => {
                 setTyping({ ...typing, preview: true });
                 handlePreviewChange(value);
