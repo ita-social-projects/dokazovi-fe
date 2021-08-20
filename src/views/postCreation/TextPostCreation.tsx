@@ -250,13 +250,16 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
 
   const regExp = /^[а-яєїіґ]*\d*\s*\W*$/i;
 
+  const contentText = newPost.content.replaceAll(/<\/?[^>]+(>|$)/g, ' ');
+
   const isEmpty =
     !newPost.title || !newPost.directions.length || !newPost.content;
 
   const isEnoughLength =
-    newPost.content.length < 15 || newPost.title.length < 10;
+    contentText.length < 17 || newPost.title.length < 10;
 
-  const isHasUASymbols = !regExp.test(newPost.title);
+  const isHasUASymbols = !regExp.test(newPost.title) ||
+    !regExp.test(contentText);
 
   const previewPost = React.useMemo(
     () =>

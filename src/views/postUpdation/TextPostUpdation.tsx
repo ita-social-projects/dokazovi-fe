@@ -158,15 +158,18 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
 
   const regExp = /^[а-яєїіґ]*\d*\s*\W*$/i;
 
+  const contentText = updatedPost.content.replaceAll(/<\/?[^>]+(>|$)/g, ' ');
+
   const isEmpty =
     !updatedPost.title ||
     !updatedPost.content ||
     !updatedPost.directions.length;
 
   const isEnoughLength =
-    updatedPost.content.length < 15 || updatedPost.title.length < 10;
+    contentText.length < 17 || updatedPost.title.length < 10;
 
-  const isHasUASymbols = !regExp.test(updatedPost.title);
+  const isHasUASymbols = !regExp.test(updatedPost.title)||
+    !regExp.test(contentText);
 
   const previewPost: IPost = {
     ...post,
@@ -198,7 +201,7 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
       selectedOrigins={selectedOrigins}
       onSelectedOriginsChange={handleOriginsChange}
     />
-  );
+  )|| !regExp.test(contentText);
 
   const postAuthorSelection = isAdmin && (
     <PostAuthorSelection

@@ -132,15 +132,18 @@ export const VideoPostUpdation: React.FC<ITextPostUpdationProps> = ({
 
   const regExp = /^[а-яєїіґ]*\d*\s*\W*$/i;
 
+  const contentText = updatedPost.content.replaceAll(/<\/?[^>]+(>|$)/g, ' ');
+
   const isEmpty =
     !updatedPost.title ||
     !updatedPost.directions.length ||
     !updatedPost.content;
 
   const isEnoughLength =
-    updatedPost.content.length < 15 || updatedPost.title.length < 10;
+    contentText.length < 17 || updatedPost.title.length < 10;
 
-  const isHasUASymbols = !regExp.test(updatedPost.title);
+  const isHasUASymbols = !regExp.test(updatedPost.title)||
+    !regExp.test(contentText);
 
   const isVideoEmpty = !updatedPost.videoUrl;
 
