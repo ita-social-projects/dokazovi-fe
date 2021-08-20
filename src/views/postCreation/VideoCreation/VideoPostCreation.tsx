@@ -220,7 +220,7 @@ export const VideoPostCreation: React.FC<IVideoPostCreationProps> = ({
     type: { id: PostTypeEnum.VIDEO },
   };
 
-  const regExp = /^[а-яєїіґ]*\d*\s*\W*$/i;
+  const regExp = /^[а-яєїіґ\d\s\W]+$/i;
 
   const contentText = newPost.content.replaceAll(/<\/?[^>]+(>|$)/g, ' ');
 

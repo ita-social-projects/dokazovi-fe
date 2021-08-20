@@ -197,9 +197,6 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
     getAllExperts({ params: { userName: searchValue.trim() } })
       .then((res) => {
         setAuthors(res.data.content);
-      })
-      .catch((e) => {
-        console.error(e);
       });
   }, [searchValue]);
 
@@ -248,7 +245,7 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
     type: { id: postType.type },
   };
 
-  const regExp = /^[а-яєїіґ]*\d*\s*\W*$/i;
+  const regExp = /^[а-яєїіґ\d\s\W]+$/i;
 
   const contentText = newPost.content.replaceAll(/<\/?[^>]+(>|$)/g, ' ');
 

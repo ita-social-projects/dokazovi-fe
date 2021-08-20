@@ -156,7 +156,7 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
     authorId: authorId ?? post.author.id,
   };
 
-  const regExp = /^[а-яєїіґ]*\d*\s*\W*$/i;
+  const regExp = /^[а-яєїіґ\d\s\W]+$/i;
 
   const contentText = updatedPost.content.replaceAll(/<\/?[^>]+(>|$)/g, ' ');
 
