@@ -110,3 +110,7 @@ blockquote {
   text-decoration: underline;
   color: #0000ff;
 }
+
+.ql-clipboard {
+  position: fixed !important;
+}

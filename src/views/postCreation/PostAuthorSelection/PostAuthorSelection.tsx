@@ -7,7 +7,10 @@ import TableRow from '@material-ui/core/TableRow';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Input from '@material-ui/core/Input';
+import { useTranslation } from 'react-i18next';
 import { ExpertResponseType } from '../../../old/lib/utilities/API/types';
+import { langTokens } from '../../../locales/localizationInit';
+import { useStyle } from '../RequiredFieldsStyle';
 
 interface IPostAuthorSelectionProps {
   handleOnChange: (value: string) => void;
@@ -22,6 +25,9 @@ export const PostAuthorSelection: React.FC<IPostAuthorSelectionProps> = ({
   searchValue,
   authors,
 }) => {
+  const { t } = useTranslation();
+  const classes = useStyle();
+
   const table = authors?.map((item, idx) => {
     const { id, firstName, lastName } = item;
     return (
@@ -32,10 +38,16 @@ export const PostAuthorSelection: React.FC<IPostAuthorSelectionProps> = ({
       </TableRow>
     );
   });
+
   return (
     <>
       <FormControl>
-        <InputLabel htmlFor="author-input">Find post author</InputLabel>
+        <InputLabel
+          className={classes.requiredAuthorField}
+          htmlFor="author-input"
+        >
+          Find post author
+        </InputLabel>
         <Input
           inputComponent="input"
           placeholder="Choose some author"
@@ -50,7 +62,7 @@ export const PostAuthorSelection: React.FC<IPostAuthorSelectionProps> = ({
         />
       </FormControl>
 
-      {authors?.length !== 0 && (
+      {authors?.length !== 0 ? (
         <Table>
           <TableHead>
             <TableRow>
@@ -61,7 +73,14 @@ export const PostAuthorSelection: React.FC<IPostAuthorSelectionProps> = ({
           </TableHead>
           <TableBody>{table}</TableBody>
         </Table>
+      ) : (
+        searchValue?.length !== 0 && (
+          <div style={{ color: 'red' }}>
+            {t(langTokens.common.noFoundAuthors)}
+          </div>
+        )
       )}
+
       <div style={{ marginBottom: '24px' }} />
     </>
   );

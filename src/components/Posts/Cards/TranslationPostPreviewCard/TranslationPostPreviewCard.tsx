@@ -1,5 +1,6 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
+
 import Card from '@material-ui/core/Card';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
@@ -13,8 +14,10 @@ import { langTokens } from '../../../../locales/localizationInit';
 export const TranslationPostPreviewCard: React.FC<IPostPreviewCardProps> = ({
   post,
   shouldNotUseLink,
+  resetPage,
 }) => {
   const { t } = useTranslation();
+  const history = useHistory();
   const bgImageURL = post.previewImageUrl ? post.previewImageUrl : background;
   const classes = useStyles({ backgroundImageUrl: bgImageURL });
   const postLink = `/posts/${post.id}`;
@@ -73,34 +76,53 @@ export const TranslationPostPreviewCard: React.FC<IPostPreviewCardProps> = ({
     </>
   );
 
-  const cardText = (<>
-    <Typography
-      gutterBottom
-      variant="body2"
-      color="textPrimary"
-      component="p"
-      className={classes.textBody}
-    >
-      {post.preview}
-    </Typography>
-    <Box
-      display="flex"
-      justifyContent="space-between"
-      alignItems="center"
-      mb={6}
-    >
-      <Typography variant="caption" color="textSecondary">
-        {formatDate(post.publishedAt)}
+  const cardText = (
+    <>
+      <Typography
+        gutterBottom
+        variant="body2"
+        color="textPrimary"
+        component="p"
+        className={classes.textBody}
+      >
+        {post.preview}
       </Typography>
-    </Box>
-  </>);
+      <Box
+        display="flex"
+        justifyContent="space-between"
+        alignItems="center"
+        mb={6}
+      >
+        <Typography variant="caption" color="textSecondary">
+          {formatDate(post.publishedAt)}
+        </Typography>
+      </Box>
+    </>
+  );
+
+  const filterByTranslations = () => {
+    if (resetPage) {
+      resetPage();
+    }
+    history.push(materialsLink);
+  };
 
   return (
     <Card className={classes.root}>
       {shouldNotUseLink ? cardHeader : <Link to={postLink}>{cardHeader}</Link>}
       <Box className={classes.body}>
-      {shouldNotUseLink ? cardBody : <Link to={materialsLink}>{cardBody}</Link>}
-      {shouldNotUseLink ? cardText : <Link to={postLink}>{cardText}</Link>}
+        {shouldNotUseLink ? (
+          cardBody
+        ) : (
+          <Typography
+            variant="subtitle2"
+            className={classes.filterLink}
+            onClick={filterByTranslations}
+          >
+            {cardBody}
+          </Typography>
+        )}
+        {shouldNotUseLink ? cardText : <Link to={postLink}>{cardText}</Link>}
       </Box>
     </Card>
   );

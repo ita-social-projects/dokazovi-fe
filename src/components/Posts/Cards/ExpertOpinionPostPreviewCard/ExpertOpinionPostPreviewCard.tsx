@@ -21,6 +21,16 @@ export const ExpertOpinionPostPreviewCard: React.FC<IPostPreviewCardProps> = ({
   const postLink = `/posts/${post.id}`;
   const authorFullName = `${post.author?.firstName} ${post.author?.lastName}`;
 
+  const expertOrigin = (
+    <Typography
+      className={classes.postType}
+      variant="overline"
+      component="span"
+    >
+      {t(langTokens.experts.expertOpinion)}
+    </Typography>
+  );
+
   const expertBody = (
     <Box
       className={classes.header}
@@ -43,13 +53,11 @@ export const ExpertOpinionPostPreviewCard: React.FC<IPostPreviewCardProps> = ({
           justifyContent="space-between"
           pt={4}
         >
-          <Typography
-            className={classes.postType}
-            variant="overline"
-            component="span"
-          >
-            {t(langTokens.experts.expertOpinion)}
-          </Typography>
+          {shouldNotUseLink ? (
+            expertOrigin
+          ) : (
+            <Link to={postLink}>{expertOrigin}</Link>
+          )}
           <Typography
             className={classes.authorFullName}
             variant="h5"

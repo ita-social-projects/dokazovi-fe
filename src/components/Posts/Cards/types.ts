@@ -4,4 +4,5 @@ export interface IPostPreviewCardProps {
   post: IPost;
   size?: 'small' | 'large';
   shouldNotUseLink?: boolean;
+  resetPage?: () => void;
 }
