@@ -140,38 +140,4 @@ export const useStyles = makeStyles((theme: Theme) => ({
       backgroundColor: '#ffaa00',
     },
   },
-  congratulationContainer: {
-    '& .swal2-popup': {
-      width: 480,
-    },
-  },
-  congratulationTitleText: {
-    fontFamily: 'Raleway',
-    fontWeight: 500,
-    fontSize: '64px',
-    lineHeight: '66px',
-    marginTop: '-25px', // -15px and -35px, without 90px
-  },
-  congratulationSubText: {
-    fontFamily: 'Raleway',
-    fontWeight: 500,
-    fontSize: '24px',
-    lineHeight: '38px',
-    padding: '0 -20px',
-    marginTop: '-22px',
-  },
-  congratulationButton: {
-    padding: '14px 60px',
-    borderRadius: 50,
-    backgroundColor: '#4FDFFF',
-    color: theme.palette.common.white,
-    fontWeight: 700,
-    fontSize: '18px',
-    fontFamily: 'Raleway',
-    margin: '10px 0 60px 0', // '10px 0 40px or 60px 0' bottom, without '18px 0 71px 0'
-    '&:hover': {
-      backgroundColor: '#106ba3',
-      cursor: 'pointer',
-    },
-  },
 }));

@@ -1,0 +1,35 @@
+.congratulation-container .swal2-popup {
+  width: 480px;
+}
+
+.congratulation-title-text {
+  font-family: 'Raleway', sans-serif;
+  font-weight: 500;
+  font-size: 64px;
+  line-height: 66px;
+  margin-top: -25px; /* -15px and -35px, without 90px */
+}
+
+.congratulation-sub-text {
+  font-family: 'Raleway', sans-serif;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 38px;
+  margin-top: -22px;
+}
+
+.congratulation-button {
+  padding: 14px 60px;
+  border-radius: 50px;
+  background-color: #4fdfff;
+  color: whitesmoke;
+  font-weight: 700;
+  font-size: 18px;
+  font-family: 'Raleway', sans-serif;
+  margin: 10px 0 60px 0; /* '10px 0 40px or 60px 0' bottom, without '18px 0 71px 0' */
+}
+
+.congratulation-button:hover {
+  background-color: #106ba3;
+  cursor: pointer;
+}
