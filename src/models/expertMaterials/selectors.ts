@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 import { RootStateType } from '../rootReducer';
+import { IMaterialsData } from '../materials/types';
 import { LoadingStatusEnum } from '../../old/lib/types';
 
-export const selectExpertsData = (state: RootStateType) =>
+export const selectExpertsData = (state: RootStateType): IMaterialsData =>
   state.expertMaterials.data;
 
 export const selectExpertMaterialsLoading = (
