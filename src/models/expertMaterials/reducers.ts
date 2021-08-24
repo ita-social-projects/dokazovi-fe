@@ -1,14 +1,13 @@
 /* eslint-disable */
 import { createSlice } from '@reduxjs/toolkit';
 import { LoadingStatusEnum } from '../../old/lib/types';
-import { IMaterialsState } from '../materials/types';
 import { fetchExpertMaterials } from './asyncActions';
 import { getAsyncActionsReducer } from '../helpers/asyncActions';
 
-const initialState: IMaterialsState = {
+const initialState = {
   data: {
     postIds: [],
-    posts: {},
+    posts: [],
     meta: {
       isLastPage: false,
       pageNumber: 0,

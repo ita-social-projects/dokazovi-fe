@@ -109,14 +109,6 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
     };
   }, []);
 
-  const allMaterials = Object.values(posts);
-  const materials = [...allMaterials].filter((el) => {
-    if (postIds.find((elem) => elem === el.id)) {
-      return true;
-    }
-    return false;
-  });
-
   const postTypes = useSelector(selectPostTypes);
 
   const postTypesInPlural: IPostType[] = [];
@@ -308,7 +300,7 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
     | filtersStateEnum = postTypesInPlural?.filter((post) =>
     selectedPostTypesString?.includes(post.id.toString()),
   );
-  const isMaterialsEmpty = isEmpty(materials);
+  const isMaterialsEmpty = isEmpty(posts);
 
   if (isEmpty(selectedPostTypes)) {
     if (
@@ -381,8 +373,8 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
     (post) => !activePostTypes?.some((el) => el.id === post.id),
   );
 
-  let materialsData = <PostsList postsList={materials} />;
-  if (loading === LoadingStatusEnum.succeeded && materials.length === 0) {
+  let materialsData = <PostsList postsList={posts} />;
+  if (loading === LoadingStatusEnum.succeeded && posts.length === 0) {
     materialsData = (
       <Grid
         style={{
@@ -536,7 +528,7 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
           ) : (
             <>
               {materialsData}
-              {materials.length > 0 ? (
+              {posts.length > 0 ? (
                 <Grid
                   container
                   direction="column"

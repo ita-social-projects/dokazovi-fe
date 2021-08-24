@@ -37,7 +37,7 @@ export const fetchExpertMaterials = createAsyncThunk(
 
       return {
         postIds: appendPosts ? data.postIds.concat(ids) : ids,
-        posts,
+        posts: [...data.posts,...response.data.content],
         meta: {
           isLastPage: response.data.last,
           pageNumber: response.data.number,
