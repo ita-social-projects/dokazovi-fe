@@ -259,7 +259,7 @@ export const VideoPostUpdation: React.FC<ITextPostUpdationProps> = ({
           </Box>
         </>
       ) : (
-        <PostView post={previewPost} />
+        <PostView isPreview post={previewPost} />
       )}
 
       <PostCreationButtons

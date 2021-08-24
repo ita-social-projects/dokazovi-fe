@@ -414,7 +414,7 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
           </Box>
         </>
       ) : (
-        <PostView post={previewPost} />
+        <PostView isPreview post={previewPost} />
       )}
 
       <PostCreationButtons

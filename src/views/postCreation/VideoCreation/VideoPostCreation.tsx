@@ -389,7 +389,7 @@ export const VideoPostCreation: React.FC<IVideoPostCreationProps> = ({
           </Box>
         </>
       ) : (
-        <PostView post={previewPost} />
+        <PostView isPreview post={previewPost} />
       )}
 
       <PostCreationButtons
