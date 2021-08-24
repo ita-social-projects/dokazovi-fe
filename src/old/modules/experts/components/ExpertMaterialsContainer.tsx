@@ -57,6 +57,7 @@ import {
   selectExpertsData,
 } from '../../../../models/expertMaterials';
 import { updatePostTypes, updateDir } from '../../utilities/utilityFunctions';
+import { selectExpertPostsByIds } from '../../../../models/helpers/selectors';
 
 export interface IExpertMaterialsContainerProps {
   expertId: number;
@@ -68,7 +69,6 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
   expert,
 }) => {
   const {
-    posts,
     postIds,
     meta: { isLastPage, pageNumber, totalElements, totalPages },
   } = useSelector(selectExpertsData);
@@ -109,13 +109,7 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
     };
   }, []);
 
-  const allMaterials = Object.values(posts);
-  const materials = [...allMaterials].filter((el) => {
-    if (postIds.find((elem) => elem === el.id)) {
-      return true;
-    }
-    return false;
-  });
+  const materials = selectExpertPostsByIds(postIds);
 
   const postTypes = useSelector(selectPostTypes);
 
