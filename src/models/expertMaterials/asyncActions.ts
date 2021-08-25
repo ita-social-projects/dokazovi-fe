@@ -18,8 +18,8 @@ export const fetchExpertMaterials = createAsyncThunk(
           size: LOAD_POSTS_LIMIT,
           page: page,
           expert: expertId,
-          type: filters?.type,
-          direction: filters?.directions,
+          type: filters?.type.includes(0) ? [] : filters.type,
+          direction: filters?.directions.includes(0) ? [] : filters.directions,
         },
       });
 
