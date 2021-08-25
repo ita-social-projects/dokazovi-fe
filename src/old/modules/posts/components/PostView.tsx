@@ -21,9 +21,11 @@ export interface IPostViewProps {
   post: IPost;
   modificationAllowed?: boolean;
   onDelete?: () => void;
+  isPreview?:boolean;
 }
 
 const PostView: React.FC<IPostViewProps> = ({
+  isPreview,
   post,
   modificationAllowed,
   onDelete,
@@ -63,7 +65,7 @@ const PostView: React.FC<IPostViewProps> = ({
           <TopSection author={post.author} />
         )}
 
-        {permission && (
+        {!isPreview && permission && (
           <Box className={classes.actionsBlock}>
             <Link to={`/edit-post?id=${post.id}`}>
               <EditIcon className={classes.iconBlack} />

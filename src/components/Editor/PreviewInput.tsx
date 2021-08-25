@@ -15,6 +15,7 @@ export interface IPreviewInputProps {
   initialWasManuallyChanged: boolean;
   onPreviewChange: (value: string) => void;
   onManuallyChanged?: () => void;
+  disableAutoChanges?: () => void;
 }
 
 const PreviewInput: React.FC<IPreviewInputProps> = ({
@@ -23,6 +24,7 @@ const PreviewInput: React.FC<IPreviewInputProps> = ({
   initialWasManuallyChanged,
   onPreviewChange,
   onManuallyChanged,
+  disableAutoChanges,
 }) => {
   const { t } = useTranslation();
 
@@ -52,6 +54,9 @@ const PreviewInput: React.FC<IPreviewInputProps> = ({
     if (!isTextFieldManuallyChanged) {
       setIsTextFieldManuallyChanged(true);
       if (onManuallyChanged) onManuallyChanged();
+    }
+    if (disableAutoChanges) {
+      disableAutoChanges();
     }
     setTextFieldValue(value);
   };

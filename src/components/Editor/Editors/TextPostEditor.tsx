@@ -16,6 +16,7 @@ interface ITextPostEditorProps {
   onPreviewManuallyChanged?: () => void;
   onPreviewChange: (value: string) => void;
   previewPost: IPost;
+  disableAutoChanges?: () => void;
 }
 
 const PostEditor: React.FC<ITextPostEditorProps> = ({
@@ -27,6 +28,7 @@ const PostEditor: React.FC<ITextPostEditorProps> = ({
   onPreviewManuallyChanged,
   onPreviewChange,
   previewPost,
+  disableAutoChanges,
 }) => {
   const [textContent, setTextContent] = useState<string>('');
 
@@ -50,6 +52,7 @@ const PostEditor: React.FC<ITextPostEditorProps> = ({
           alignItems="stretch"
         >
           <PreviewInput
+            disableAutoChanges={disableAutoChanges}
             initialPreview={initialPreview}
             editorTextContent={
               !initialWasPreviewManuallyChanged ? textContent : undefined // optimizing rerenders when we don't need editor content
