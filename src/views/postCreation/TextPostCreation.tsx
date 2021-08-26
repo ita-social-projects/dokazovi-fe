@@ -30,8 +30,8 @@ import {
 } from '../../old/lib/utilities/API/types';
 import { createPost, getAllExperts } from '../../old/lib/utilities/API/api';
 import {
-  CHECK_REG_EXP, CLEAR_HTML_REG_EXP,
-  CONTENT_DEBOUNCE_TIMEOUT,
+  CLEAR_HTML_REG_EXP,
+  CONTENT_DEBOUNCE_TIMEOUT, MAX_TITLE_LENGTH,
   MIN_CONTENT_LENGTH,
   MIN_TITLE_LENGTH,
   PREVIEW_DEBOUNCE_TIMEOUT,
@@ -250,14 +250,13 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
   const contentText = newPost.content.replaceAll(CLEAR_HTML_REG_EXP, '');
 
   const isEmpty =
-    !newPost.title || !newPost.directions.length || !newPost.content;
+    !newPost.title || !newPost.directions.length || !newPost.content || !newPost.authorId;
 
   const isEnoughLength =
     contentText.length < MIN_CONTENT_LENGTH ||
     newPost.title.length < MIN_TITLE_LENGTH;
 
-  const isHasUASymbols =
-    !CHECK_REG_EXP.test(newPost.title) || !CHECK_REG_EXP.test(contentText);
+  const isToMuchLength = newPost.title.length > MAX_TITLE_LENGTH;
 
   const previewPost = React.useMemo(
     () =>
@@ -372,6 +371,8 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
                 handleTitleChange(e.target.value);
               }}
             />
+            {title.value.length > MAX_TITLE_LENGTH && <div style={{ color:'red' }}>
+              {t(langTokens.editor.toMuchTitleLength)}</div>}
           </Box>
           {postAuthorSelection}
           <BackgroundImageContainer
@@ -419,7 +420,7 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
 
       <PostCreationButtons
         action="creating"
-        isModal={{ isEmpty, isEnoughLength, isHasUASymbols }}
+        isModal={{ isEmpty, isEnoughLength, isToMuchLength }}
         onPublishClick={handlePublishClick}
         onPreviewClick={() => {
           setPreviewing(!previewing);

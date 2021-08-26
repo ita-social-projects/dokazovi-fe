@@ -50,4 +50,5 @@ export const editor = {
   notEnoughLength: 'Ви ввели недостатньо символів',
   notUASymbols: 'Введіть текст українською мовою',
   noVideo: 'Додайте, будь ласка, відео',
+  toMuchTitleLength:'Ви ввели забагато символів'
 };

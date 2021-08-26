@@ -4,6 +4,7 @@ import _ from 'lodash';
 import { Box, TextField, Typography } from '@material-ui/core';
 import { PageTitle } from 'components/Page/PageTitle';
 import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import { sanitizeHtml } from '../../../old/lib/utilities/sanitizeHtml';
 import { updatePost, getAllExperts } from '../../../old/lib/utilities/API/api';
 import { IDirection, IPost, IOrigin } from '../../../old/lib/types';
@@ -13,9 +14,8 @@ import {
   ExpertResponseType,
 } from '../../../old/lib/utilities/API/types';
 import {
-  CHECK_REG_EXP,
   CLEAR_HTML_REG_EXP,
-  CONTENT_DEBOUNCE_TIMEOUT,
+  CONTENT_DEBOUNCE_TIMEOUT, MAX_TITLE_LENGTH,
   MIN_CONTENT_LENGTH,
   MIN_TITLE_LENGTH,
   PREVIEW_DEBOUNCE_TIMEOUT,
@@ -31,6 +31,7 @@ import { PostAuthorSelection } from '../../postCreation/PostAuthorSelection/Post
 import { BorderBottom } from '../../../old/lib/components/Border';
 import { useStyle } from '../../postCreation/RequiredFieldsStyle';
 import { selectAuthorities } from '../../../models/authorities';
+import { langTokens } from '../../../locales/localizationInit';
 
 export interface ITextPostUpdationProps {
   pageTitle: string;
@@ -74,6 +75,8 @@ export const VideoPostUpdation: React.FC<ITextPostUpdationProps> = ({
 
   const [typing, setTyping] = useState({ content: false, preview: false });
   const [previewing, setPreviewing] = useState(false);
+
+  const { t } = useTranslation();
 
   const handleDirectionsChange = (value: IDirection[]) => {
     setSelectedDirections(value);
@@ -140,14 +143,14 @@ export const VideoPostUpdation: React.FC<ITextPostUpdationProps> = ({
   const isEmpty =
     !updatedPost.title ||
     !updatedPost.directions.length ||
-    !updatedPost.content;
+    !updatedPost.content ||
+    !updatedPost.authorId;
 
   const isEnoughLength =
     contentText.length < MIN_CONTENT_LENGTH ||
     updatedPost.title.length < MIN_TITLE_LENGTH;
 
-  const isHasUASymbols =
-    !CHECK_REG_EXP.test(updatedPost.title) || !CHECK_REG_EXP.test(contentText);
+  const isToMuchLength = updatedPost.title.length > MAX_TITLE_LENGTH;
 
   const isVideoEmpty = !updatedPost.videoUrl;
 
@@ -217,6 +220,8 @@ export const VideoPostUpdation: React.FC<ITextPostUpdationProps> = ({
                 setTitle({ ...title, value: e.target.value });
               }}
             />
+            {title.value.length > MAX_TITLE_LENGTH && <div style={{ color:'red' }}>
+              {t(langTokens.editor.toMuchTitleLength)}</div>}
           </Box>
           {postAuthorSelection}
           <Box mt={2}>
@@ -264,7 +269,7 @@ export const VideoPostUpdation: React.FC<ITextPostUpdationProps> = ({
 
       <PostCreationButtons
         action="updating"
-        isModal={{ isEmpty, isEnoughLength, isVideoEmpty, isHasUASymbols }}
+        isModal={{ isEmpty, isEnoughLength, isVideoEmpty, isToMuchLength }}
         onCancelClick={() => {
           history.goBack();
         }}

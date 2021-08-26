@@ -36,9 +36,8 @@ import {
 } from '../../../old/lib/utilities/API/types';
 import { createPost, getAllExperts } from '../../../old/lib/utilities/API/api';
 import {
-  CHECK_REG_EXP,
   CLEAR_HTML_REG_EXP,
-  CONTENT_DEBOUNCE_TIMEOUT, MIN_CONTENT_LENGTH, MIN_TITLE_LENGTH,
+  CONTENT_DEBOUNCE_TIMEOUT, MAX_TITLE_LENGTH, MIN_CONTENT_LENGTH, MIN_TITLE_LENGTH,
   PREVIEW_DEBOUNCE_TIMEOUT,
 } from '../../../old/lib/constants/editors';
 import PostView from '../../../old/modules/posts/components/PostView';
@@ -225,15 +224,14 @@ export const VideoPostCreation: React.FC<IVideoPostCreationProps> = ({
   const contentText = newPost.content.replaceAll(CLEAR_HTML_REG_EXP, '');
 
   const isEmpty =
-    !newPost.title || !newPost.directions.length || !newPost.content;
+    !newPost.title || !newPost.directions.length || !newPost.content || !newPost.authorId;
 
   const isEnoughLength =
     contentText.length < MIN_CONTENT_LENGTH || newPost.title.length < MIN_TITLE_LENGTH;
 
-  const isHasUASymbols = !CHECK_REG_EXP.test(newPost.title)||
-    !CHECK_REG_EXP.test(contentText);
-
   const isVideoEmpty = !newPost.videoUrl;
+
+  const isToMuchLength = newPost.title.length > MAX_TITLE_LENGTH;
 
   const previewPost = React.useMemo(
     () =>
@@ -348,6 +346,8 @@ export const VideoPostCreation: React.FC<IVideoPostCreationProps> = ({
                 handleTitleChange(e.target.value);
               }}
             />
+            {title.value.length > MAX_TITLE_LENGTH && <div style={{ color:'red' }}>
+              {t(langTokens.editor.toMuchTitleLength)}</div>}
           </Box>
           {postAuthorSelection}
           <Box mt={2}>
@@ -394,7 +394,7 @@ export const VideoPostCreation: React.FC<IVideoPostCreationProps> = ({
 
       <PostCreationButtons
         action="creating"
-        isModal={{ isEmpty, isEnoughLength, isVideoEmpty, isHasUASymbols }}
+        isModal={{ isEmpty, isEnoughLength, isVideoEmpty, isToMuchLength }}
         onPublishClick={handlePublishClick}
         onPreviewClick={() => {
           setPreviewing(!previewing);

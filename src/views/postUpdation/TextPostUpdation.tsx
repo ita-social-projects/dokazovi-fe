@@ -15,9 +15,8 @@ import {
   ExpertResponseType,
 } from '../../old/lib/utilities/API/types';
 import {
-  CHECK_REG_EXP,
   CLEAR_HTML_REG_EXP,
-  CONTENT_DEBOUNCE_TIMEOUT,
+  CONTENT_DEBOUNCE_TIMEOUT, MAX_TITLE_LENGTH,
   MIN_CONTENT_LENGTH,
   MIN_TITLE_LENGTH,
   PREVIEW_DEBOUNCE_TIMEOUT,
@@ -167,14 +166,14 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
   const isEmpty =
     !updatedPost.title ||
     !updatedPost.content ||
-    !updatedPost.directions.length;
+    !updatedPost.directions.length ||
+    !updatedPost.authorId;
 
   const isEnoughLength =
     contentText.length < MIN_CONTENT_LENGTH ||
     updatedPost.title.length < MIN_TITLE_LENGTH;
 
-  const isHasUASymbols =
-    !CHECK_REG_EXP.test(updatedPost.title) || !CHECK_REG_EXP.test(contentText);
+  const isToMuchLength = updatedPost.title.length > MAX_TITLE_LENGTH;
 
   const previewPost: IPost = {
     ...post,
@@ -243,6 +242,8 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
                 setTitle({ ...title, value: e.target.value });
               }}
             />
+            {title.value.length > MAX_TITLE_LENGTH && <div style={{ color:'red' }}>
+              {t(langTokens.editor.toMuchTitleLength)}</div>}
           </Box>
           {postAuthorSelection}
           <BackgroundImageContainer
@@ -291,7 +292,7 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
 
       <PostCreationButtons
         action="updating"
-        isModal={{ isEmpty, isEnoughLength, isHasUASymbols }}
+        isModal={{ isEmpty, isEnoughLength, isToMuchLength }}
         onCancelClick={() => {
           history.goBack();
         }}
