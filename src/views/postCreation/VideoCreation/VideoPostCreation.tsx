@@ -228,7 +228,7 @@ export const VideoPostCreation: React.FC<IVideoPostCreationProps> = ({
     origins: savedPostDraft.origins,
     preview: savedPostDraft.preview.value,
     title: savedPostDraft.title,
-    authorsName: isAdmin ? savedPostDraft.authorsName : user.data?.firstName,
+    authorsName: savedPostDraft.authorsName,
     authorsDetails: savedPostDraft.authorsDetails,
     videoUrl: savedPostDraft.videoUrl,
     type: { id: PostTypeEnum.VIDEO },
