@@ -16,6 +16,7 @@ export const useStyles = makeStyles(() => ({
   bio: {
     width: '280px',
     marginBottom: '80px',
+    textAlign: 'left',
   },
   accordionWrapper: {
     width: '280px',
