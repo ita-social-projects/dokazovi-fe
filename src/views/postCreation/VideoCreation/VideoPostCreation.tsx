@@ -37,7 +37,11 @@ import {
 import { createPost, getAllExperts } from '../../../old/lib/utilities/API/api';
 import {
   CLEAR_HTML_REG_EXP,
-  CONTENT_DEBOUNCE_TIMEOUT, MAX_TITLE_LENGTH, MIN_CONTENT_LENGTH, MIN_TITLE_LENGTH,
+  CONTENT_DEBOUNCE_TIMEOUT,
+  FIND_AUTHORS_DEBOUNCE_TIMEOUT,
+  MAX_TITLE_LENGTH,
+  MIN_CONTENT_LENGTH,
+  MIN_TITLE_LENGTH,
   PREVIEW_DEBOUNCE_TIMEOUT,
 } from '../../../old/lib/constants/editors';
 import PostView from '../../../old/modules/posts/components/PostView';
@@ -99,6 +103,7 @@ export const VideoPostCreation: React.FC<IVideoPostCreationProps> = ({
   const [authors, setAuthors] = useState<ExpertResponseType[]>([]);
   const [, setAuthor] = useState<ExpertResponseType | null>(null);
   const [searchValue, setSearchValue] = useState('');
+  const [authorLength, setAuthorLength] = useState<number | null>(null);
 
   const videoUrl = useSelector(selectVideoUrl);
 
@@ -182,14 +187,22 @@ export const VideoPostCreation: React.FC<IVideoPostCreationProps> = ({
     setSearchValue(value);
   };
 
+  const debouncedGetAllExperts = useCallback(
+    _.debounce((val: string) => {
+      if (!val) {
+        setAuthors([]);
+        return;
+      }
+      getAllExperts({ params: { userName: val.trim() } }).then((res) => {
+        setAuthors(res.data.content);
+        setAuthorLength(res.data.totalElements);
+      });
+    }, FIND_AUTHORS_DEBOUNCE_TIMEOUT),
+    [],
+  );
+
   useEffect(() => {
-    if (!searchValue) {
-      setAuthors([]);
-      return;
-    }
-    getAllExperts({ params: { userName: searchValue.trim() } }).then((res) => {
-      setAuthors(res.data.content);
-    });
+    debouncedGetAllExperts(searchValue);
   }, [searchValue]);
 
   const onAuthorTableClick = (value: number, item: ExpertResponseType) => {
@@ -224,10 +237,14 @@ export const VideoPostCreation: React.FC<IVideoPostCreationProps> = ({
   const contentText = newPost.content.replaceAll(CLEAR_HTML_REG_EXP, '');
 
   const isEmpty =
-    !newPost.title || !newPost.directions.length || !newPost.content || !newPost.authorId;
+    !newPost.title ||
+    !newPost.directions.length ||
+    !newPost.content ||
+    !newPost.authorId;
 
   const isEnoughLength =
-    contentText.length < MIN_CONTENT_LENGTH || newPost.title.length < MIN_TITLE_LENGTH;
+    contentText.length < MIN_CONTENT_LENGTH ||
+    newPost.title.length < MIN_TITLE_LENGTH;
 
   const isVideoEmpty = !newPost.videoUrl;
 
@@ -316,6 +333,7 @@ export const VideoPostCreation: React.FC<IVideoPostCreationProps> = ({
       handleOnChange={handleOnChange}
       authors={authors}
       searchValue={searchValue}
+      authorsLength={authorLength}
     />
   );
 
@@ -346,8 +364,11 @@ export const VideoPostCreation: React.FC<IVideoPostCreationProps> = ({
                 handleTitleChange(e.target.value);
               }}
             />
-            {title.value.length > MAX_TITLE_LENGTH && <div style={{ color:'red' }}>
-              {t(langTokens.editor.toMuchTitleLength)}</div>}
+            {title.value.length > MAX_TITLE_LENGTH && (
+              <div style={{ color: 'red' }}>
+                {t(langTokens.editor.toMuchTitleLength)}
+              </div>
+            )}
           </Box>
           {postAuthorSelection}
           <Box mt={2}>

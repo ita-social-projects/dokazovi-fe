@@ -17,6 +17,7 @@ interface IPostAuthorSelectionProps {
   onAuthorTableClick: (value: number, item: ExpertResponseType) => void;
   authors?: ExpertResponseType[];
   searchValue?: string;
+  authorsLength?: number|null;
 }
 
 export const PostAuthorSelection: React.FC<IPostAuthorSelectionProps> = ({
@@ -24,6 +25,7 @@ export const PostAuthorSelection: React.FC<IPostAuthorSelectionProps> = ({
   onAuthorTableClick,
   searchValue,
   authors,
+  authorsLength
 }) => {
   const { t } = useTranslation();
   const classes = useStyle();
@@ -74,7 +76,7 @@ export const PostAuthorSelection: React.FC<IPostAuthorSelectionProps> = ({
           <TableBody>{table}</TableBody>
         </Table>
       ) : (
-        searchValue?.length !== 0 && (
+        authorsLength === 0 && searchValue?.length !== 0 && (
           <div style={{ color: 'red' }}>
             {t(langTokens.common.noFoundAuthors)}
           </div>

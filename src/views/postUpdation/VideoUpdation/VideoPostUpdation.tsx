@@ -15,7 +15,9 @@ import {
 } from '../../../old/lib/utilities/API/types';
 import {
   CLEAR_HTML_REG_EXP,
-  CONTENT_DEBOUNCE_TIMEOUT, MAX_TITLE_LENGTH,
+  CONTENT_DEBOUNCE_TIMEOUT,
+  FIND_AUTHORS_DEBOUNCE_TIMEOUT,
+  MAX_TITLE_LENGTH,
   MIN_CONTENT_LENGTH,
   MIN_TITLE_LENGTH,
   PREVIEW_DEBOUNCE_TIMEOUT,
@@ -72,7 +74,7 @@ export const VideoPostUpdation: React.FC<ITextPostUpdationProps> = ({
   const [authorId, setAuthorId] = useState<number | null>(null);
   const [author, setAuthor] = useState<ExpertResponseType>();
   const [searchValue, setSearchValue] = useState('');
-
+  const [authorLength, setAuthorLength] = useState<number | null>(null);
   const [typing, setTyping] = useState({ content: false, preview: false });
   const [previewing, setPreviewing] = useState(false);
 
@@ -106,14 +108,22 @@ export const VideoPostUpdation: React.FC<ITextPostUpdationProps> = ({
     setSearchValue(value);
   };
 
+  const debouncedGetAllExperts = useCallback(
+    _.debounce((val: string) => {
+      if (!val) {
+        setAuthors([]);
+        return;
+      }
+      getAllExperts({ params: { userName: val.trim() } }).then((res) => {
+        setAuthors(res.data.content);
+        setAuthorLength(res.data.totalElements);
+      });
+    }, FIND_AUTHORS_DEBOUNCE_TIMEOUT),
+    [],
+  );
+
   useEffect(() => {
-    if (!searchValue) {
-      setAuthors([]);
-      return;
-    }
-    getAllExperts({ params: { userName: searchValue.trim() } }).then((res) => {
-      setAuthors(res.data.content);
-    });
+    debouncedGetAllExperts(searchValue);
   }, [searchValue]);
 
   const onAuthorTableClick = (value: number, item: ExpertResponseType) => {
@@ -191,6 +201,7 @@ export const VideoPostUpdation: React.FC<ITextPostUpdationProps> = ({
       handleOnChange={handleOnChange}
       authors={authors}
       searchValue={searchValue}
+      authorsLength={authorLength}
     />
   );
 
@@ -220,8 +231,11 @@ export const VideoPostUpdation: React.FC<ITextPostUpdationProps> = ({
                 setTitle({ ...title, value: e.target.value });
               }}
             />
-            {title.value.length > MAX_TITLE_LENGTH && <div style={{ color:'red' }}>
-              {t(langTokens.editor.toMuchTitleLength)}</div>}
+            {title.value.length > MAX_TITLE_LENGTH && (
+              <div style={{ color: 'red' }}>
+                {t(langTokens.editor.toMuchTitleLength)}
+              </div>
+            )}
           </Box>
           {postAuthorSelection}
           <Box mt={2}>
