@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { isEmpty, uniq } from 'lodash';
@@ -195,6 +195,12 @@ const ExpertsView: React.FC = () => {
   useEffect(() => {
     setCheckedFiltersRegions(updateReg(selectedRegions, regions));
   }, [query.get(QueryTypeEnum.REGIONS)]);
+
+  const pageTop = useMemo(() => visualViewport.pageTop, [experts]);
+
+  useEffect(() => {
+    window.scrollTo(0, pageTop);
+  }, [experts]);
 
   const getRegions = () => {
     if (typeof selectedRegions !== 'string') {
