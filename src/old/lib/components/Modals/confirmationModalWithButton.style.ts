@@ -4,6 +4,7 @@ export const useStyles = makeStyles((theme) => ({
   dialogTitleContainer: {
     paddingBottom: theme.spacing(7),
     width: '480px',
+    wordBreak:'break-word',
   },
   modalText: {
     textAlign: 'center',
