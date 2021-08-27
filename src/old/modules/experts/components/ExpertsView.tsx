@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { isEmpty, uniq } from 'lodash';
@@ -52,6 +52,7 @@ const ExpertsView: React.FC = () => {
   } = useSelector(selectExperts);
   const loading = useSelector(selectExpertsLoading);
 
+  const [viewPort, setViePort] = useState(0);
   const [page, setPage] = useState(pageNumber);
   const [checkedFiltersDirections, setCheckedFiltersDirections] = useState<
     CheckboxFormStateType
@@ -128,6 +129,7 @@ const ExpertsView: React.FC = () => {
   };
 
   const loadMore = () => {
+    setViePort(visualViewport.pageTop);
     setPage(page + 1);
   };
 
@@ -196,10 +198,8 @@ const ExpertsView: React.FC = () => {
     setCheckedFiltersRegions(updateReg(selectedRegions, regions));
   }, [query.get(QueryTypeEnum.REGIONS)]);
 
-  const pageTop = useMemo(() => visualViewport.pageTop, [experts]);
-
   useEffect(() => {
-    window.scrollTo(0, pageTop);
+    window.scrollTo(0, viewPort);
   }, [experts]);
 
   const getRegions = () => {
