@@ -52,7 +52,7 @@ const ExpertsView: React.FC = () => {
   } = useSelector(selectExperts);
   const loading = useSelector(selectExpertsLoading);
 
-  const [viewPort, setViePort] = useState(0);
+  const [viewPort, setViewPort] = useState(0);
   const [page, setPage] = useState(pageNumber);
   const [checkedFiltersDirections, setCheckedFiltersDirections] = useState<
     CheckboxFormStateType
@@ -129,7 +129,7 @@ const ExpertsView: React.FC = () => {
   };
 
   const loadMore = () => {
-    setViePort(visualViewport.pageTop);
+    setViewPort(visualViewport.pageTop);
     setPage(page + 1);
   };
 
