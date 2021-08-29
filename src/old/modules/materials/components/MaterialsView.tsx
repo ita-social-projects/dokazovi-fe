@@ -158,15 +158,21 @@ const MaterialsView: React.FC = () => {
   };
 
   const fetchData = (appendPosts = false) => {
-    const originsQuery = query.get(QueryTypeEnum.ORIGINS)
-      ? query.get(QueryTypeEnum.ORIGINS)
-      : stringOfOrigins();
-    const postTypesQuery = query.get(QueryTypeEnum.POST_TYPES)
-      ? query.get(QueryTypeEnum.POST_TYPES)
-      : stringOfPostTypes();
-    const directionsQuery = query.get(QueryTypeEnum.DIRECTIONS)
-      ? query.get(QueryTypeEnum.DIRECTIONS)
-      : stringOfDirections();
+    const originsQuery =
+      query.get(QueryTypeEnum.ORIGINS) &&
+      query.get(QueryTypeEnum.ORIGINS) !== '0'
+        ? query.get(QueryTypeEnum.ORIGINS)
+        : stringOfOrigins();
+    const postTypesQuery =
+      query.get(QueryTypeEnum.POST_TYPES) &&
+      query.get(QueryTypeEnum.POST_TYPES) !== '0'
+        ? query.get(QueryTypeEnum.POST_TYPES)
+        : stringOfPostTypes();
+    const directionsQuery =
+      query.get(QueryTypeEnum.DIRECTIONS) &&
+      query.get(QueryTypeEnum.DIRECTIONS) !== '0'
+        ? query.get(QueryTypeEnum.DIRECTIONS)
+        : stringOfDirections();
 
     const filters = {
       page,
@@ -189,13 +195,12 @@ const MaterialsView: React.FC = () => {
     } else if (filterType === 4) {
       setCheckedFiltersOrigins(checked);
     }
-
     const queryType = getQueryTypeByFilterType(filterType);
     const checkedIds = Object.keys(checked).filter((key) => checked[key]);
     const isQuerySame = uniq(Object.values(checked)).length === 1; // removing the query if user checks/unchecks the last box
     query.set(queryType, checkedIds.join(','));
     if (!checkedIds.length || isQuerySame) {
-      query.delete(queryType);
+      query.set(queryType, '0');
     }
 
     setPage(0);
