@@ -52,6 +52,7 @@ const ExpertsView: React.FC = () => {
   } = useSelector(selectExperts);
   const loading = useSelector(selectExpertsLoading);
 
+  const [viewPort, setViewPort] = useState(0);
   const [page, setPage] = useState(pageNumber);
   const [checkedFiltersDirections, setCheckedFiltersDirections] = useState<
     CheckboxFormStateType
@@ -128,6 +129,7 @@ const ExpertsView: React.FC = () => {
   };
 
   const loadMore = () => {
+    setViewPort(visualViewport.pageTop);
     setPage(page + 1);
   };
 
@@ -195,6 +197,10 @@ const ExpertsView: React.FC = () => {
   useEffect(() => {
     setCheckedFiltersRegions(updateReg(selectedRegions, regions));
   }, [query.get(QueryTypeEnum.REGIONS)]);
+
+  useEffect(() => {
+    window.scrollTo(0, viewPort);
+  }, [experts]);
 
   const getRegions = () => {
     if (typeof selectedRegions !== 'string') {
