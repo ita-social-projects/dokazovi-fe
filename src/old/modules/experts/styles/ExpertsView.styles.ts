@@ -4,7 +4,7 @@ export const useStyles = makeStyles(
   () => ({
     container: {
       display: 'flex',
-      flexWrap: 'wrap',
+      flexWrap: 'nowrap',
       margin: '7px 0px 15px 0px',
       justifyContent: 'flex-start',
       alignItems: 'center',

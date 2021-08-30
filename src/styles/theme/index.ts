@@ -4,7 +4,7 @@ import { TYPOGRAPHY as typography } from './typography';
 
 export const SCREEN_BREAKPOINTS = {
   xs: 0,
-  sm: 600,
+  sm: 650,
   md: 960,
   lg: 1355,
   xl: 1920,
