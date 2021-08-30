@@ -160,7 +160,7 @@ export const VideoPostUpdation: React.FC<ITextPostUpdationProps> = ({
     contentText.length < MIN_CONTENT_LENGTH ||
     updatedPost.title.length < MIN_TITLE_LENGTH;
 
-  const isToMuchLength = updatedPost.title.length > MAX_TITLE_LENGTH;
+  const isTooLong = updatedPost.title.length > MAX_TITLE_LENGTH;
 
   const isVideoEmpty = !updatedPost.videoUrl;
 
@@ -283,7 +283,7 @@ export const VideoPostUpdation: React.FC<ITextPostUpdationProps> = ({
 
       <PostCreationButtons
         action="updating"
-        isModal={{ isEmpty, isEnoughLength, isVideoEmpty, isToMuchLength }}
+        isModal={{ isEmpty, isEnoughLength, isVideoEmpty, isTooLong }}
         onCancelClick={() => {
           history.goBack();
         }}

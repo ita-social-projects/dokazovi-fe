@@ -183,7 +183,7 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
     contentText.length < MIN_CONTENT_LENGTH ||
     updatedPost.title.length < MIN_TITLE_LENGTH;
 
-  const isToMuchLength = updatedPost.title.length > MAX_TITLE_LENGTH;
+  const isTooLong = updatedPost.title.length > MAX_TITLE_LENGTH;
 
   const previewPost: IPost = {
     ...post,
@@ -306,7 +306,7 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
 
       <PostCreationButtons
         action="updating"
-        isModal={{ isEmpty, isEnoughLength, isToMuchLength }}
+        isModal={{ isEmpty, isEnoughLength, isTooLong }}
         onCancelClick={() => {
           history.goBack();
         }}

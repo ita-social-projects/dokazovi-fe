@@ -9,7 +9,7 @@ interface IIsModal {
   isEmpty: boolean;
   isEnoughLength: boolean;
   isVideoEmpty?: boolean;
-  isToMuchLength?:boolean,
+  isTooLong?:boolean,
 }
 
 export interface IPostCreationButtonsProps {
@@ -62,7 +62,7 @@ export const PostCreationButtons: React.FC<IPostCreationButtonsProps> = ({
 
   const switchModalText = () => {
     switch (true) {
-      case isModal?.isToMuchLength:
+      case isModal?.isTooLong:
         return modalMaker(t(langTokens.editor.toMuchTitleLength));
       case isModal?.isEmpty:
         return modalMaker(t(langTokens.editor.requiredField));

@@ -270,7 +270,7 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
     contentText.length < MIN_CONTENT_LENGTH ||
     newPost.title.length < MIN_TITLE_LENGTH;
 
-  const isToMuchLength = newPost.title.length > MAX_TITLE_LENGTH;
+  const isTooLong = newPost.title.length > MAX_TITLE_LENGTH;
 
   const previewPost = React.useMemo(
     () =>
@@ -438,7 +438,7 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
 
       <PostCreationButtons
         action="creating"
-        isModal={{ isEmpty, isEnoughLength, isToMuchLength }}
+        isModal={{ isEmpty, isEnoughLength, isTooLong }}
         onPublishClick={handlePublishClick}
         onPreviewClick={() => {
           setPreviewing(!previewing);
