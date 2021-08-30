@@ -40,6 +40,7 @@ export interface ICheckboxLeftsideFilterFormProps {
   disabledPostTypes?: IPostType[] | undefined;
   setTheOnlyAvailableFilter?: (name: string) => void;
   filterType: QueryTypeEnum;
+  parentComponent?: string;
 }
 
 export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormProps> = ({
@@ -52,6 +53,7 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
   disabledPostTypes,
   setTheOnlyAvailableFilter,
   filterType,
+  parentComponent,
 }) => {
   // console.log(filterType, selectedFilters);
   const [disabledCheckBoxesIds, setDisabledCheckBoxesIds] = useState<
@@ -294,7 +296,11 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
           <Typography variant="h5" className={classes.filterTitle}>
             {filterTitle}
           </Typography>
-          <div className={classes.divider} />
+          <div
+            className={`${classes.divider} ${
+              parentComponent === 'MaterialsView' ? classes.dividerMV : ''
+            }`}
+          />
         </Grid>
       </Grid>
       <Grid container>
