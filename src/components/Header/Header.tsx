@@ -17,9 +17,9 @@ import { LoginModal } from '../../old/lib/components/Users/LoginModal';
 import { AccountMenu } from './AccountMenu';
 import { AuthContext } from '../../old/provider/AuthProvider/AuthContext';
 import i18n, { langTokens } from '../../locales/localizationInit';
-import BurgerMenu from '../BurgerMenu/BurgerMenu';
 import { IHeaderProps } from './types';
 import { ScreenContext } from '../../old/provider/MobileProvider/ScreenContext';
+import { BurgerMenu } from '../BurgerMenu/BurgerMenu';
 
 export const navElems: IHeaderProps[] = [
   {

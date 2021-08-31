@@ -20,7 +20,7 @@ export interface IBurgerMenuProps {
   setMobileMenuOpen: (b: boolean) => void;
 }
 
-const BurgerMenu: React.FC<IBurgerMenuProps> = ({
+export const BurgerMenu: React.FC<IBurgerMenuProps> = ({
   navigation,
   setMobileMenuOpen,
   mobileMenuOpen,
@@ -90,5 +90,3 @@ const BurgerMenu: React.FC<IBurgerMenuProps> = ({
     </div>
   );
 };
-
-export default BurgerMenu;
