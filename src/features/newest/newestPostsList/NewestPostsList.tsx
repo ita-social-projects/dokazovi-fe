@@ -28,9 +28,17 @@ export const NewestPostsList: React.FC<INewestPostsListProps> = ({
 
   const displayPostPreviewCards = () => {
     return postsList?.map((post) => (
-      <div key={post.id}>
+      <Grid
+        className={classes.post}
+        item
+        key={post.id}
+        xs={12}
+        sm={6}
+        md={4}
+        lg={3}
+      >
         <PostPreviewCard key={post.id} post={post} />
-      </div>
+      </Grid>
     ));
   };
 
@@ -61,7 +69,7 @@ export const NewestPostsList: React.FC<INewestPostsListProps> = ({
           </div>
         </div>
       </Link>
-      <Grid container className={classes.grid}>
+      <Grid className={classes.grid} item container spacing={3}>
         {loadingStatus === LoadingStatusEnum.pending
           ? displaySkeletons()
           : displayPostPreviewCards()}
