@@ -59,7 +59,7 @@ export const Header: React.FC = () => {
             setMobileMenuOpen={(b)=>setMobileMenuOpen(b)}
           />}
           <Box display="flex">
-            {!mobileMenuOpen && <Link to='/'>
+            {!mobileMenuOpen && !searchInput && <Link to='/'>
               <Typography className={mobile ? classes.logoMobile : classes.logo} variant='h1'>
                 {t(langTokens.common.projectName)}
               </Typography>
@@ -95,15 +95,16 @@ export const Header: React.FC = () => {
               <SearchIcon className={classes.searchIcon} />
             </Button>
             <Menu
+              classes={{ list:classes.label }}
               id="simple-menu"
               anchorEl={searchInput}
               keepMounted
               open={Boolean(searchInput)}
               onClose={()=>setSearchInput(null)}
             >
-              <MenuItem>
+              <MenuItem className={classes.searchInputWrapper}>
                 <input className={classes.searchInput}/>
-                <SearchIcon/>
+                <SearchIcon className={classes.searchInputIcon} />
               </MenuItem>
             </Menu>
           </div>}

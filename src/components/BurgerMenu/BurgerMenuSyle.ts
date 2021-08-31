@@ -39,4 +39,7 @@ export const useStyles = makeStyles((theme) => ({
     fontSize: 16,
     lineHeight: '18px',
   },
+  root:{
+    backgroundColor:theme.palette.common.black,
+  },
 }));

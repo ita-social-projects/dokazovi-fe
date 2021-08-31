@@ -44,6 +44,7 @@ export const BurgerMenu: React.FC<IBurgerMenuProps> = ({
       </IconButton>
       <Hidden>
         <Drawer
+          classes={{ paper: classes.root }}
           variant="temporary"
           anchor="left"
           open={mobileMenuOpen}
