@@ -8,6 +8,10 @@ export const useStyles = makeStyles(
     },
     container: {
       height: '100%',
+      padding: theme.spacing(0, 10),
+      [theme.breakpoints.down('xs')]: {
+        padding: theme.spacing(0, 5),
+      },
     },
     toolbar: {
       height: '100%',
