@@ -43,6 +43,17 @@ export const useStyles = makeStyles(
       color: 'inherit',
       fontWeight: 'inherit',
     },
+    logoMobile: {
+      fontSize: 38,
+      color: theme.palette.common.white,
+    },
+    searchIcon: {
+      color: theme.palette.common.white,
+      fontSize: 48,
+    },
+    searchInput: {
+      width: 320,
+    },
   }),
   { name: 'Header' },
 );
