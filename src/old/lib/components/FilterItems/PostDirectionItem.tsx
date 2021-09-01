@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
 import { Typography } from '@material-ui/core';
-import { ScreenContext } from 'old/provider/MobileProvider/ScreenContext';
-
+import { ScreenContext } from '../../../provider/MobileProvider/ScreenContext';
 export interface IPostDirectionItemProps {
   labelName?: string;
   handleClick?: () => void;
