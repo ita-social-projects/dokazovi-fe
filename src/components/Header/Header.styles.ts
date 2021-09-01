@@ -47,6 +47,31 @@ export const useStyles = makeStyles(
       color: 'inherit',
       fontWeight: 'inherit',
     },
+    logoMobile: {
+      fontSize: 38,
+      color: theme.palette.common.white,
+    },
+    searchIcon: {
+      color: theme.palette.common.white,
+      fontSize: 48,
+    },
+    searchInputWrapper: {
+      padding: 0,
+    },
+    searchInput: {
+      width: 270,
+      height: 39,
+      fontSize: 22,
+      paddingLeft:theme.spacing(2),
+    },
+    searchInputIcon: {
+      backgroundColor: theme.palette.common.white,
+      marginRight: theme.spacing(2),
+      fontSize: 32,
+    },
+    label:{
+      padding:0,
+    }
   }),
   { name: 'Header' },
 );
