@@ -59,7 +59,7 @@ export const useStyles = makeStyles(
       padding: 0,
     },
     searchInput: {
-      width: 290,
+      width: 270,
       height: 39,
       fontSize: 22,
       paddingLeft:theme.spacing(2),
