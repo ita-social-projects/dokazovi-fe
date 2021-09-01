@@ -14,7 +14,10 @@ export const useStyles = makeStyles(
       height: '240px',
       margin: '0 auto',
       position: 'relative',
-      padding: theme.spacing(11, 0, 12),
+      padding: theme.spacing(11, 10, 12),
+      [theme.breakpoints.down('xs')]: {
+        padding: theme.spacing(11, 5, 12),
+      },
       color: theme.palette.common.white,
     },
     columnContainer: {
