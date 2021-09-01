@@ -28,9 +28,9 @@ export const BurgerMenu: React.FC<IBurgerMenuProps> = ({
   const classes = useStyles();
   const { t } = useTranslation();
 
-  function handleDrawerToggle() {
+  const handleDrawerToggle = () => {
     setMobileMenuOpen(!mobileMenuOpen);
-  }
+  };
 
   return (
     <div>
