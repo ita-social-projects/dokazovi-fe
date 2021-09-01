@@ -32,6 +32,7 @@ import {
 } from './components/Breadcrumbs';
 import ScrollToTop from './components/ScrollToTop/ScrollToTop';
 import { getAuthoritiesAsyncAction } from './models/authorities';
+import { ScreenProvider } from './old/provider/MobileProvider/ScreenProvider';
 
 ReactGA.initialize(process.env.REACT_APP_GOOGLE_ID as string, {
   testMode: process.env.NODE_ENV === 'test',
@@ -80,6 +81,7 @@ export const App: React.FC = () => {
           <ScrollToTop />
           <div className="content">
             <AuthProvider>
+              <ScreenProvider>
               <BreadcrumbsProvider configs={breadcrumbsConfigs}>
                 <Header />
                 <Suspense
@@ -96,6 +98,7 @@ export const App: React.FC = () => {
                 </Suspense>
                 <Footer />
               </BreadcrumbsProvider>
+              </ScreenProvider>
             </AuthProvider>
           </div>
         </BrowserRouter>

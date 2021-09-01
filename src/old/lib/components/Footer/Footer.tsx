@@ -15,7 +15,7 @@ interface IFooterNavProps {
   url: string;
 }
 
-const navElements: IFooterNavProps[] = [
+export const navElements: IFooterNavProps[] = [
   {
     id: 1,
     label: i18n.t(langTokens.footer.aboutPlatform),
