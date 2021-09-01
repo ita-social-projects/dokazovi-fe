@@ -9,6 +9,7 @@ export const useStyles = makeStyles(
         padding: theme.spacing(0, 5),
       },
     },
+    pageMobile:{},
   }),
   { name: 'Page' },
 );
