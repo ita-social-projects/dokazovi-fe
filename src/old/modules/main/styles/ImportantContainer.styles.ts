@@ -8,6 +8,12 @@ export const useStyles = makeStyles(
       flexDirection: 'column',
       justifyContent: 'center',
     },
+    containerMobile:{
+      minHeight: 585,
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+    }
   },
   { name: 'ImportantContainer' },
 );

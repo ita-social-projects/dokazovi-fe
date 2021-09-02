@@ -2,10 +2,16 @@ import { makeStyles, Theme } from '@material-ui/core';
 
 interface IStyleProps {
   backgroundImageUrl: string;
-  size: 'small' | 'large';
+  size: 'small' | 'mobile' | 'large';
 }
 
 const sizeModes = {
+  mobile: {
+    root: {
+      height: 585,
+      padding: [0],
+    },
+  },
   small: {
     root: {
       height: 200,

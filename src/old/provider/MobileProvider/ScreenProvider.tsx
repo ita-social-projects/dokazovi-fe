@@ -4,8 +4,8 @@ import { ScreenContext } from './ScreenContext';
 
 export const ScreenProvider: React.FC = ({ children }) => {
   const theme = useTheme();
-  const mobile = useMediaQuery(theme.breakpoints.down('sm'));
-  const tablet = useMediaQuery(theme.breakpoints.down('md'));
+  const mobile = !useMediaQuery(theme.breakpoints.up('sm'));
+  const tablet = !useMediaQuery(theme.breakpoints.up('md'));
   return (
     <ScreenContext.Provider value={{ mobile, tablet }}>
       {children}
