@@ -2,6 +2,7 @@ import React, { FC } from 'react';
 import { Container, Grid, Box, Typography } from '@material-ui/core';
 import { LoadingContainer } from 'old/lib/components/Loading/LoadingContainer';
 import { PostsList } from 'old/lib/components/Posts/PostsList';
+import FiltersButton from 'old/lib/components/FiltersButton/FiltersButton';
 import { useTranslation } from 'react-i18next';
 import { IPost, LoadingStatusType, LoadingStatusEnum } from 'old/lib/types';
 import { useStyles } from '../styles/MaterialsViewMobile.styles';
@@ -41,6 +42,7 @@ const MaterialsViewMobile: FC<IProps> = ({
           </>
         )}
       </Grid>
+      <FiltersButton />
     </Container>
   );
 };
