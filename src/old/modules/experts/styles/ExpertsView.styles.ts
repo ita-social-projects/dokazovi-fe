@@ -1,7 +1,7 @@
-import { makeStyles } from '@material-ui/core';
+import { makeStyles, Theme } from '@material-ui/core';
 
 export const useStyles = makeStyles(
-  () => ({
+  (theme: Theme) => ({
     container: {
       display: 'flex',
       flexWrap: 'nowrap',
@@ -47,8 +47,10 @@ export const useStyles = makeStyles(
       fontWeight: 700,
       fontSize: '16px',
     },
-    expertsContainer: {
-      paddingLeft: '25px',
+    gridContainer: {
+      [theme.breakpoints.only('sm')]: {
+        paddingLeft: '40px',
+      },
     },
   }),
   {

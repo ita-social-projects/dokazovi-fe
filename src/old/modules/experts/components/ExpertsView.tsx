@@ -270,7 +270,16 @@ const ExpertsView: React.FC = () => {
             {`${t(langTokens.experts.selectedExperts)}:`}
           </Typography>
         </Grid>
-        <Grid item container direction="column" xs={6} sm={7} md={8} lg={9}>
+        <Grid
+          className={classes.gridContainer}
+          item
+          container
+          direction="column"
+          xs={6}
+          sm={7}
+          md={8}
+          lg={9}
+        >
           <Box className={classes.container}>
             {typeof selectedDirections === 'string' ? (
               <Typography
@@ -351,7 +360,7 @@ const ExpertsView: React.FC = () => {
         </Grid>
 
         <Grid
-          className={classes.expertsContainer}
+          className={classes.gridContainer}
           item
           container
           direction="column"
