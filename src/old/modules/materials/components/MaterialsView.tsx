@@ -2,11 +2,12 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { Box, Grid, Typography } from '@material-ui/core';
 import { isEmpty, uniq } from 'lodash';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { PageTitle } from 'components/Page/PageTitle';
+import { ScreenContext } from 'old/provider/MobileProvider/ScreenContext';
 import { CheckboxFormStateType } from '../../../lib/components/Filters/CheckboxFilterForm';
 import { PostsList } from '../../../lib/components/Posts/PostsList';
 import { LoadMoreButton } from '../../../lib/components/LoadMoreButton/LoadMoreButton';
@@ -52,6 +53,7 @@ import {
   updateDir,
 } from '../../utilities/utilityFunctions';
 import { sortByAlphabet } from '../../../lib/utilities/sorting';
+import MaterialsViewMobile from './MaterialsViewMobile';
 
 const MaterialsView: React.FC = () => {
   const { t } = useTranslation();
@@ -64,6 +66,8 @@ const MaterialsView: React.FC = () => {
   } = useSelector(selectMaterials);
 
   const [page, setPage] = useState(pageNumber);
+
+  const { mobile } = useContext(ScreenContext);
 
   const [checkedFiltersOrigins, setCheckedFiltersOrigins] = useState<
     CheckboxFormStateType
@@ -399,6 +403,17 @@ const MaterialsView: React.FC = () => {
       }
     }
   };
+
+  if (mobile) {
+    return (
+      <MaterialsViewMobile
+        page={page}
+        loading={loading}
+        materials={materials}
+        resetPage={resetPage}
+      />
+    );
+  }
 
   return (
     <>
