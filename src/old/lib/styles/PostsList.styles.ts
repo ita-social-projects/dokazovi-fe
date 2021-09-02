@@ -22,5 +22,6 @@ export const useStyles = makeStyles(
 
 export const MASONRY_BREAKPOINTS = {
   default: 3,
-  [SCREEN_BREAKPOINTS.lg]: 2,
+  [SCREEN_BREAKPOINTS.md]: 2,
+  [SCREEN_BREAKPOINTS.sm]: 1,
 };
