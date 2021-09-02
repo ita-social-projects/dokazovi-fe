@@ -6,7 +6,8 @@ export const useStyles = makeStyles(
       margin: theme.spacing(10, 'auto'),
       padding: theme.spacing(0, 10),
       [theme.breakpoints.down('xs')]: {
-        padding: theme.spacing(0, 5),
+        padding: theme.spacing(0, 2),
+        margin: 0,
       },
     },
   }),
