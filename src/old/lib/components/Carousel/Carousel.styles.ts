@@ -20,6 +20,7 @@ export const useStyles = makeStyles((theme) => ({
     },
   },
   dotsMobile:{
+    width:'auto',
     bottom: 30,
     textAlign: 'left',
     left: 30,
