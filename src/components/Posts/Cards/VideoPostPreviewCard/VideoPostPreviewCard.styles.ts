@@ -45,6 +45,11 @@ export const useStyles = makeStyles(
       wordWrap: 'break-word',
       marginBottom: theme.spacing(5),
     },
+    [theme.breakpoints.down('xs')]: {
+      root: {
+        width: '94vw',
+      },
+    },
   }),
   {
     name: 'VideoPostPreviewCard',

@@ -55,6 +55,11 @@ export const useStyles = makeStyles<Theme, IStyleProps>(
     filterLink: {
       cursor: 'pointer',
     },
+    [theme.breakpoints.down('xs')]: {
+      root: {
+        width: '94vw',
+      },
+    },
   }),
   {
     name: 'TranslationPostPreviewCard',

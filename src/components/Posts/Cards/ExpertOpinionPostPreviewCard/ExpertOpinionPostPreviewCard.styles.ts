@@ -57,6 +57,11 @@ export const useStyles = makeStyles(
     content: {
       padding: 0,
     },
+    [theme.breakpoints.down('xs')]: {
+      root: {
+        width: '94vw',
+      },
+    },
   }),
   {
     name: 'ExpertOpinionPostPreviewCard',
