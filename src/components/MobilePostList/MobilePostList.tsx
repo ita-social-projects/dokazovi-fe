@@ -4,6 +4,7 @@ import { PostsList } from '../../old/lib/components/Posts/PostsList';
 import { useActions } from '../../shared/hooks';
 import {
   fetchNewestMobile,
+  resetMobileMaterials,
   selectMobileMaterials,
 } from '../../models/newestPostsMobile';
 
@@ -13,6 +14,7 @@ interface IMobilePostListProps {
 
 export const MobilePostList: React.FC<IMobilePostListProps> = ({ type }) => {
   const [boundFetchMobileMaterials] = useActions([fetchNewestMobile]);
+  const [boundClearMaterials] = useActions([resetMobileMaterials]);
 
   const content = useSelector(selectMobileMaterials);
 
@@ -63,6 +65,12 @@ export const MobilePostList: React.FC<IMobilePostListProps> = ({ type }) => {
       boundFetchMobileMaterials({ page, type });
     }
   }, [page]);
+
+  useEffect(() => {
+    return () => {
+      boundClearMaterials();
+    };
+  }, []);
 
   return (
     <>

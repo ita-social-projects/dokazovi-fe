@@ -88,6 +88,8 @@ export const fetchNewestMobile = createAsyncThunk(
               data: [...mobileMaterials.data.video.data, ...video.data.content],
             },
           };
+        default:
+          return { ...mobileMaterials.data };
       }
     } catch (err) {
       return rejectWithValue(err.response.data);
