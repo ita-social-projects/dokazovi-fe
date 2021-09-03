@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { getPosts } from '../../old/lib/utilities/API/api';
 import { IFetchMaterialsOptions } from '../materials/types';

@@ -13,8 +13,10 @@ interface IMobilePostListProps {
 }
 
 export const MobilePostList: React.FC<IMobilePostListProps> = ({ type }) => {
-  const [boundFetchMobileMaterials] = useActions([fetchNewestMobile]);
-  const [boundClearMaterials] = useActions([resetMobileMaterials]);
+  const [boundFetchMobileMaterials, boundClearMaterials] = useActions([
+    fetchNewestMobile,
+    resetMobileMaterials,
+  ]);
 
   const content = useSelector(selectMobileMaterials);
 
@@ -75,7 +77,7 @@ export const MobilePostList: React.FC<IMobilePostListProps> = ({ type }) => {
   return (
     <>
       <PostsList postsList={materials} />
-      <div ref={lastElement} style={{ height: 1 }}></div>
+      <div ref={lastElement} style={{ height: 1 }}/>
     </>
   );
 };
