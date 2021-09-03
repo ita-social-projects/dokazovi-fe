@@ -28,6 +28,7 @@ export interface IFetchMaterialsOptions {
   page: number;
   appendPosts: boolean;
   url: GetPostsRequestType;
+  type?:string;
 }
 
 export interface IMaterialsMeta {
