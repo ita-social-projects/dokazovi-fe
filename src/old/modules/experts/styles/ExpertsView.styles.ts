@@ -1,10 +1,10 @@
-import { makeStyles } from '@material-ui/core';
+import { makeStyles, Theme } from '@material-ui/core';
 
 export const useStyles = makeStyles(
-  () => ({
+  (theme: Theme) => ({
     container: {
       display: 'flex',
-      flexWrap: 'wrap',
+      flexWrap: 'nowrap',
       margin: '7px 0px 15px 0px',
       justifyContent: 'flex-start',
       alignItems: 'center',
@@ -46,6 +46,11 @@ export const useStyles = makeStyles(
       fontStyle: 'normal',
       fontWeight: 700,
       fontSize: '16px',
+    },
+    gridContainer: {
+      [theme.breakpoints.only('sm')]: {
+        paddingLeft: '40px',
+      },
     },
   }),
   {

@@ -10,6 +10,7 @@ export const useStyles = makeStyles(
         margin: 0,
       },
     },
+    pageMobile:{},
   }),
   { name: 'Page' },
 );

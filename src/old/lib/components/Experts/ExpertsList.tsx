@@ -32,13 +32,16 @@ export const ExpertsList: React.FC<IExpertsListProps> = ({ experts }) => {
     setPrevExpertsLength(experts.length);
   }, [experts.length]);
 
-  return experts.length === 0 ? (<Notification message={t(langTokens.common.noInfo)} />) : (
+  return experts.length === 0 ? (
+    <Notification message={t(langTokens.common.noInfo)} />
+  ) : (
     <Grid container spacing={3}>
       {experts.map((expert, idx) => (
         <Grid
           item
+          xs={12}
+          sm={6}
           md={4}
-          lg={4}
           key={expert.id}
           ref={expertIdxForScroll === idx ? expertForScrollRef : null}
         >
