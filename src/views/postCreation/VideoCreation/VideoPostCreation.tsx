@@ -329,6 +329,7 @@ export const VideoPostCreation: React.FC<IVideoPostCreationProps> = ({
 
   const postAuthorSelection = isAdmin && (
     <PostAuthorSelection
+      isDisplayTable
       onAuthorTableClick={onAuthorTableClick}
       handleOnChange={handleOnChange}
       authors={authors}

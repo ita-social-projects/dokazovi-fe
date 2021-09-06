@@ -351,6 +351,7 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
 
   const postAuthorSelection = isAdmin && (
     <PostAuthorSelection
+      isDisplayTable
       onAuthorTableClick={onAuthorTableClick}
       handleOnChange={handleOnChange}
       authors={authors}
