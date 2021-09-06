@@ -6,7 +6,7 @@ export const useStyles = makeStyles(
       position: 'relative',
       minHeight: '550px',
       padding: '70px 225px 150px',
-      wordBreak:'break-word',
+      wordBreak: 'break-word',
     },
     wrapper: {
       display: 'flex',
@@ -34,6 +34,7 @@ export const useStyles = makeStyles(
       flexDirection: 'column',
       '& h1': {
         marginTop: theme.spacing(14),
+        marginBottom: theme.spacing(10),
       },
     },
     createdAt: {
