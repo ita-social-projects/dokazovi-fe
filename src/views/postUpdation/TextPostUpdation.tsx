@@ -85,6 +85,7 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
   const [authorLength, setAuthorLength] = useState<number | null>(null);
   const [typing, setTyping] = useState({ content: false, preview: false });
   const [previewing, setPreviewing] = useState(false);
+  const [isDisplayTable, setIsDisplayTable] = useState(false);
 
   const { t } = useTranslation();
 
@@ -113,6 +114,7 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
   );
 
   const handleOnChange = (value: string) => {
+    setIsDisplayTable(true);
     setSearchValue(value);
   };
 
@@ -219,6 +221,7 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
 
   const postAuthorSelection = isAdmin && (
     <PostAuthorSelection
+      isDisplayTable={isDisplayTable}
       onAuthorTableClick={onAuthorTableClick}
       handleOnChange={handleOnChange}
       authors={authors}
