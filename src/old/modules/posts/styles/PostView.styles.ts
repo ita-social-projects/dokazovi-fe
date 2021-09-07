@@ -22,7 +22,6 @@ export const useStyles = makeStyles(
       width: 130,
       marginRight: theme.spacing(4),
       borderRadius: '50%',
-      filter: 'grayscale(100%)',
     },
     actionsBlock: {
       display: 'flex',

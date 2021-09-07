@@ -13,7 +13,6 @@ export const useStyles = makeStyles(
       height: 150,
       width: 150,
       borderRadius: '50%',
-      filter: 'grayscale(100%)',
       marginRight: theme.spacing(4),
     },
     authorName: {
