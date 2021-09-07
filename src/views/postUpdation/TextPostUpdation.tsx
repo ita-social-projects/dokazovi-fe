@@ -81,10 +81,11 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
   const [authors, setAuthors] = useState<ExpertResponseType[]>([]);
   const [authorId, setAuthorId] = useState<number | null>(null);
   const [author, setAuthor] = useState<ExpertResponseType>();
-  const [searchValue, setSearchValue] = useState('');
+  const [searchValue, setSearchValue] = useState(`${post.author.firstName} ${post.author.lastName}`);
   const [authorLength, setAuthorLength] = useState<number | null>(null);
   const [typing, setTyping] = useState({ content: false, preview: false });
   const [previewing, setPreviewing] = useState(false);
+  const [isDisplayTable, setIsDisplayTable] = useState(false);
 
   const { t } = useTranslation();
 
@@ -113,6 +114,7 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
   );
 
   const handleOnChange = (value: string) => {
+    setIsDisplayTable(true);
     setSearchValue(value);
   };
 
@@ -219,6 +221,7 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
 
   const postAuthorSelection = isAdmin && (
     <PostAuthorSelection
+      isDisplayTable={isDisplayTable}
       onAuthorTableClick={onAuthorTableClick}
       handleOnChange={handleOnChange}
       authors={authors}

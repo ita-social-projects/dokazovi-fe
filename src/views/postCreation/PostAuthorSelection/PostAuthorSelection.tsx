@@ -17,7 +17,8 @@ interface IPostAuthorSelectionProps {
   onAuthorTableClick: (value: number, item: ExpertResponseType) => void;
   authors?: ExpertResponseType[];
   searchValue?: string;
-  authorsLength?: number|null;
+  authorsLength?: number | null;
+  isDisplayTable?: boolean;
 }
 
 export const PostAuthorSelection: React.FC<IPostAuthorSelectionProps> = ({
@@ -25,7 +26,8 @@ export const PostAuthorSelection: React.FC<IPostAuthorSelectionProps> = ({
   onAuthorTableClick,
   searchValue,
   authors,
-  authorsLength
+  authorsLength,
+  isDisplayTable,
 }) => {
   const { t } = useTranslation();
   const classes = useStyle();
@@ -64,24 +66,25 @@ export const PostAuthorSelection: React.FC<IPostAuthorSelectionProps> = ({
         />
       </FormControl>
 
-      {authors?.length !== 0 ? (
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>#</TableCell>
-              <TableCell>First Name</TableCell>
-              <TableCell>Second Name</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>{table}</TableBody>
-        </Table>
-      ) : (
-        authorsLength === 0 && searchValue?.length !== 0 && (
-          <div style={{ color: 'red' }}>
-            {t(langTokens.common.noFoundAuthors)}
-          </div>
-        )
-      )}
+      {authors?.length !== 0
+        ? isDisplayTable && (
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>#</TableCell>
+                  <TableCell>First Name</TableCell>
+                  <TableCell>Second Name</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>{table}</TableBody>
+            </Table>
+          )
+        : authorsLength === 0 &&
+          searchValue?.length !== 0 && (
+            <div style={{ color: 'red' }}>
+              {t(langTokens.common.noFoundAuthors)}
+            </div>
+          )}
 
       <div style={{ marginBottom: '24px' }} />
     </>
