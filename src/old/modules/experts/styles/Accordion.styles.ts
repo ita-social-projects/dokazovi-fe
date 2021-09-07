@@ -2,27 +2,25 @@ import { makeStyles } from '@material-ui/core';
 
 export const useStyles = makeStyles(() => ({
   fullName: {
-    width: '280px',
     marginBottom: '20px',
   },
   contacts: {
-    width: '260px',
+    width: '91%',
     fontSize: '14px',
     lineHeight: '14px',
+    wordWrap: 'break-word',
   },
   links: {
     color: '#2051FF',
   },
   accordionWrapper: {
-    width: '280px',
     marginBottom: '50px',
   },
   accordion: {
-    width: '280px',
+    width: '100%',
     backgroundColor: '#E5E5E5',
   },
   accordionSummary: {
-    width: '280px',
     padding: 0,
     userSelect: 'none',
     '&:hover': {
@@ -43,7 +41,7 @@ export const useStyles = makeStyles(() => ({
     lineHeight: '18px',
     fontWeight: 700,
     fontFamily: 'Raleway',
-    width: '260px',
+    width: '91%',
   },
   expandIcon: {
     width: '20px',
@@ -58,7 +56,6 @@ export const useStyles = makeStyles(() => ({
     marginRight: '7px',
   },
   headingsDivider: {
-    width: '280px',
     height: '4px',
     background: '#000000',
     margin: '2px 0 0 0',
