@@ -57,5 +57,7 @@ module.exports = {
     'import/prefer-default-export': 'off',
     '@typescript-eslint/no-use-before-define': 'off',
     '@typescript-eslint/no-floating-promises': ['off'],
+    'react/require-default-props': 'off',
+    'react/prop-types': 'off'
   },
 };
