@@ -87,11 +87,7 @@ export const useStyles = makeStyles(
         marginTop: theme.spacing(8),
       },
       '& a': {
-        fontFamily: 'Literata',
         fontStyle: 'italic',
-        fontWeight: 400,
-        fontSize: '14px',
-        lineHeight: 1.86,
         textDecoration: 'underline',
         color: '#0000ff',
       },
