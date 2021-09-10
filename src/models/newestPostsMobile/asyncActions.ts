@@ -6,7 +6,8 @@ export const fetchNewestMobile = createAsyncThunk(
   async () => {
     try {
       const res = await getNewestPostsForMobile();
-      return res.data.content;
+      const [expertOpinion, media, translation, video] = res.data.content;
+      return [expertOpinion, translation, media, video];
     } catch (err) {}
   },
 );

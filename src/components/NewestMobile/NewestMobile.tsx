@@ -85,42 +85,18 @@ export const NewestMobile: React.FC = () => {
             onChangeIndex={handleChangeIndex}
             className={classes.content}
           >
-            <div
-              role="tabpanel"
-              id="full-width-tabpanel-0"
-              aria-labelledby="full-width-tab-0"
-            >
-              <AutoPaginationPostList
-                posts={content[0]?.postDTOS && content[0].postDTOS}
-              />
-            </div>
-            <div
-              role="tabpanel"
-              id="full-width-tabpanel-1"
-              aria-labelledby="full-width-tab-1"
-            >
-              <AutoPaginationPostList
-                posts={content[1]?.postDTOS && content[1].postDTOS}
-              />
-            </div>
-            <div
-              role="tabpanel"
-              id="full-width-tabpanel-2"
-              aria-labelledby="full-width-tab-2"
-            >
-              <AutoPaginationPostList
-                posts={content[2]?.postDTOS && content[2].postDTOS}
-              />
-            </div>
-            <div
-              role="tabpanel"
-              id="full-width-tabpanel-3"
-              aria-labelledby="full-width-tab-3"
-            >
-              <AutoPaginationPostList
-                posts={content[3]?.postDTOS && content[3].postDTOS}
-              />
-            </div>
+            {content.map((posts, index) => {
+              return (
+                <div
+                  key={posts.fieldName}
+                  role="tabpanel"
+                  id={`full-width-tabpanel-${index}`}
+                  aria-labelledby={`full-width-tab-${index}`}
+                >
+                  <AutoPaginationPostList posts={posts.postDTOS} />
+                </div>
+              );
+            })}
           </SwipeableViews>
         ) : (
           <div className={classes.loader}>
