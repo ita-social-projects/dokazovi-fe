@@ -111,6 +111,12 @@ export const getNewestPosts = async (): Promise<
   return instance.get(`/post/latest`);
 };
 
+export const getNewestPostsForMobile = async (
+  config?: GetExpertsConfigType,
+): Promise<AxiosResponse<NewestPostsResponseType>> => {
+  return instance.get(`/post/latestMobile`, { ...defaultConfig, ...config });
+};
+
 export const getRandomExperts = async (
   config?: GetExpertsConfigType,
 ): Promise<AxiosResponse<ExpertsResponseType>> => {

@@ -1,26 +1,26 @@
 import { makeStyles } from '@material-ui/core';
+import { Theme } from '@material-ui/core/styles';
 
-export const useStyles = makeStyles((theme) => ({
+export const useStyles = makeStyles((theme: Theme) => ({
   root: {
-    marginTop: 65,
+    paddingTop: theme.spacing(2),
+    backgroundColor: theme.palette.background.default,
   },
-  label: {},
-  dots: {
-    top: -40,
-    height: 20,
-    '& li ': {
-      lineHeight: '18px',
-      fontSize: 16,
-      fontWeight: 500,
-      height: 'auto',
-      width: 'auto',
-      color: theme.palette.text.secondary,
-    },
-    '& li.slick-active': {
-      fontWeight: 700,
-      color: theme.palette.text.primary,
-      paddingBottom: theme.spacing(1),
-      borderBottom: 'solid 2px',
-    },
+  selected: {
+    color: 'black !important',
+    fontWeight: 700,
+  },
+  textColorPrimary: {
+    color: theme.palette.text.secondary,
+  },
+  loader: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
+    height: 80,
+  },
+  content: {
+    marginTop: theme.spacing(5),
   },
 }));

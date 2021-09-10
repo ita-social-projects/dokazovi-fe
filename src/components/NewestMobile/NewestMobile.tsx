@@ -1,72 +1,167 @@
-import React, { useEffect, useState } from 'react';
-import Slider, { Settings } from 'react-slick';
+/* eslint-disable @typescript-eslint/no-unsafe-assignment,
+@typescript-eslint/no-unsafe-member-access,
+@typescript-eslint/no-unsafe-call */
+import React, { useEffect, useRef, useState } from 'react';
+import SwipeableViews from 'react-swipeable-views';
+import AppBar from '@material-ui/core/AppBar';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
 import { useTranslation } from 'react-i18next';
-import { useStyles } from './NewestMobileStyle';
+import { useSelector } from 'react-redux';
+import { CircularProgress } from '@material-ui/core';
 import { langTokens } from '../../locales/localizationInit';
-import { MobilePostList } from '../MobilePostList/MobilePostList';
-import { getNewestPosts } from '../../old/lib/utilities/API/api';
-import { LoadingStatusEnum } from '../../old/lib/types';
+import { useStyles } from './NewestMobileStyle';
 import { PostsList } from '../../old/lib/components/Posts/PostsList';
-import { NewestPostResponseType } from '../../old/lib/utilities/API/types';
+import { useActions } from '../../shared/hooks';
+import {
+  fetchNewestMobile,
+  selectMobileMaterials,
+} from '../../models/newestPostsMobile';
 
-export const NewestMobile: React.FC = () => {
-  const classes = useStyles();
+const a11yProps = (index: number) => {
+  return {
+    id: `full-width-tab-${index}`,
+    'aria-controls': `full-width-tabpanel-${index}`,
+  };
+};
 
-  const [posts, setPosts] = useState<NewestPostResponseType[]>([]);
-
+export const NewestMobile = () => {
   const { t } = useTranslation();
 
-  const createCustomPaging = (index: number): JSX.Element => {
-    if (index === 0) {
-      return <p>{t(langTokens.experts.expertOpinion)}</p>;
-    }
-    if (index === 1) {
-      return <p>{t(langTokens.common.translation)}</p>;
-    }
-    if (index === 2) {
-      return <p>{t(langTokens.common.media)}</p>;
-    }
-    return <p>{t(langTokens.common.video)}</p>;
-  };
+  const classes = useStyles();
 
-  const settings: Settings = {
-    customPaging: createCustomPaging,
-    arrows: false,
-    accessibility: true,
-    dots: true,
-    infinite: true,
-    speed: 1000,
-    draggable: false,
-    autoplay: false,
-    slidesToShow: 1,
-    lazyLoad: 'progressive',
-    swipeToSlide: true,
-    dotsClass: `slick-dots slick-thumb ${classes.dots}`,
-    className: classes.root,
-  };
+  const lastElement = useRef<HTMLDivElement>(null);
+  const observer = useRef<IntersectionObserver>();
+
+  const [value, setValue] = useState(0);
+  const [page, setPage] = useState(4);
+
+  const [boundFetchMobileMaterials] = useActions([fetchNewestMobile]);
+  const content = useSelector(selectMobileMaterials);
+
   useEffect(() => {
-    getNewestPosts().then((res): void => {
-      setPosts(res.data.content);
-    });
+    boundFetchMobileMaterials();
   }, []);
 
-  console.log(posts);
+  useEffect(() => {
+    if (observer.current) observer.current.disconnect();
+    if (lastElement.current) {
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) {
+          setPage((p) => p + 1);
+        }
+      });
+      observer.current.observe(lastElement.current);
+    }
+  }, []);
 
+  const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
+    setValue(newValue);
+  };
+
+  const handleChangeIndex = (index: number) => {
+    setValue(index);
+  };
+
+  if (content.length) {
+    console.log(content[0].postDTOS.slice(0, page));
+  }
   return (
     <>
-      <Slider {...settings}>
-        {posts[0] && <PostsList postsList={posts[0].postDTOS} />}
-        {posts[1] && <PostsList postsList={posts[2].postDTOS} />}
-        {posts[2] && <PostsList postsList={posts[1].postDTOS} />}
-        {posts[3] && <PostsList postsList={posts[3].postDTOS} />}
-
-        {/*
-        <MobilePostList type="expertOpinion" />
-        <MobilePostList type="translation" />
-        <MobilePostList type="media" />
-        <MobilePostList type='video' />
-        */}
-      </Slider>
+      <div>
+        <AppBar position="static" color="default">
+          <Tabs
+            value={value}
+            onChange={handleChange}
+            indicatorColor="primary"
+            textColor="primary"
+            variant="fullWidth"
+            aria-label="full width tabs example"
+          >
+            <Tab
+              classes={classes}
+              label={t(langTokens.experts.expertOpinion_1)}
+              {...a11yProps(0)}
+            />
+            <Tab
+              classes={classes}
+              label={t(langTokens.common.translation)}
+              {...a11yProps(1)}
+            />
+            <Tab
+              classes={classes}
+              label={t(langTokens.common.media)}
+              {...a11yProps(2)}
+            />
+            <Tab
+              classes={classes}
+              label={t(langTokens.common.video)}
+              {...a11yProps(3)}
+            />
+          </Tabs>
+        </AppBar>
+        {content.length ? (
+          <SwipeableViews
+            axis="x"
+            index={value}
+            onChangeIndex={handleChangeIndex}
+            className={classes.content}
+          >
+            <div
+              role="tabpanel"
+              id="full-width-tabpanel-0"
+              aria-labelledby="full-width-tab-0"
+            >
+              <PostsList
+                postsList={
+                  content[0]?.postDTOS && content[0].postDTOS.slice(0, page)
+                }
+              />
+              <div ref={lastElement} style={{ height: 1 }} />
+            </div>
+            <div
+              role="tabpanel"
+              id="full-width-tabpanel-1"
+              aria-labelledby="full-width-tab-1"
+            >
+              <PostsList
+                postsList={
+                  content[1]?.postDTOS && content[1].postDTOS.slice(0, page)
+                }
+              />
+              <div ref={lastElement} style={{ height: 1 }} />
+            </div>
+            <div
+              role="tabpanel"
+              id="full-width-tabpanel-2"
+              aria-labelledby="full-width-tab-2"
+            >
+              <PostsList
+                postsList={
+                  content[2]?.postDTOS && content[2].postDTOS.slice(0, page)
+                }
+              />
+              <div ref={lastElement} style={{ height: 1 }} />
+            </div>
+            <div
+              role="tabpanel"
+              id="full-width-tabpanel-3"
+              aria-labelledby="full-width-tab-3"
+            >
+              <PostsList
+                postsList={
+                  content[3]?.postDTOS && content[3].postDTOS.slice(0, page)
+                }
+              />
+              <div ref={lastElement} style={{ height: 1 }} />
+            </div>
+          </SwipeableViews>
+        ) : (
+          <div className={classes.loader}>
+            <CircularProgress />
+          </div>
+        )}
+      </div>
     </>
   );
 };

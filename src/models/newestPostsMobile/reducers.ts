@@ -1,26 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { getAsyncActionsReducer } from '../helpers/asyncActions';
 import { fetchNewestMobile } from './asyncActions';
+import { IMobileMaterials } from './types';
 
-const initialState = {
-  data: {
-    expertOpinion: {
-      isLastPage: false,
-      data: [],
-    },
-    translation: {
-      isLastPage: false,
-      data: [],
-    },
-    media: {
-      isLastPage: false,
-      data: [],
-    },
-    video: {
-      isLastPage: false,
-      data: [],
-    },
-  },
+const initialState:IMobileMaterials = {
+  data: [],
 };
 
 export const mobileMaterialsSlice = createSlice({
@@ -28,7 +12,7 @@ export const mobileMaterialsSlice = createSlice({
   initialState,
   reducers: {
     resetMobileMaterials: (state) => {
-      state.data = initialState.data;
+      state.data.splice(0);
     },
   },
   extraReducers: {
