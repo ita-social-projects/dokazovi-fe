@@ -415,13 +415,13 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
   return (
     <>
       <Grid container direction="row">
-        <Grid item container direction="column" xs={3}>
+        <Grid item container direction="column" xs={6} sm={4} md={3}>
           <ExpertInfo expert={expert} />
           <Typography
             style={{
               fontWeight: 700,
               fontFamily: 'Raleway',
-              width: '280px',
+              width: '100%',
               fontSize: '24px',
               margin: '0 0 30px 0',
             }}
@@ -463,7 +463,15 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
             </>
           )}
         </Grid>
-        <Grid item container xs={9} direction="column">
+        <Grid
+          className={classes.materialsContainer}
+          item
+          container
+          xs={6}
+          sm={8}
+          md={9}
+          direction="column"
+        >
           <Box className={classes.container}>
             <Typography
               className={classes.chipsHeading}

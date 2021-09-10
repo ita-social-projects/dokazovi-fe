@@ -30,8 +30,10 @@ import {
 } from '../../old/lib/utilities/API/types';
 import { createPost, getAllExperts } from '../../old/lib/utilities/API/api';
 import {
-  CHECK_REG_EXP, CLEAR_HTML_REG_EXP,
+  CLEAR_HTML_REG_EXP,
   CONTENT_DEBOUNCE_TIMEOUT,
+  FIND_AUTHORS_DEBOUNCE_TIMEOUT,
+  MAX_TITLE_LENGTH,
   MIN_CONTENT_LENGTH,
   MIN_TITLE_LENGTH,
   PREVIEW_DEBOUNCE_TIMEOUT,
@@ -101,6 +103,7 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
   const [authors, setAuthors] = useState<ExpertResponseType[]>([]);
   const [, setAuthor] = useState<ExpertResponseType | null>(null);
   const [searchValue, setSearchValue] = useState('');
+  const [authorLength, setAuthorLength] = useState<number | null>(null);
 
   const [
     boundSetPostDirections,
@@ -192,14 +195,22 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
     setSearchValue(value);
   };
 
+  const debouncedGetAllExperts = useCallback(
+    _.debounce((val: string) => {
+      if (!val) {
+        setAuthors([]);
+        return;
+      }
+      getAllExperts({ params: { userName: val.trim() } }).then((res) => {
+        setAuthors(res.data.content);
+        setAuthorLength(res.data.totalElements);
+      });
+    }, FIND_AUTHORS_DEBOUNCE_TIMEOUT),
+    [],
+  );
+
   useEffect(() => {
-    if (!searchValue) {
-      setAuthors([]);
-      return;
-    }
-    getAllExperts({ params: { userName: searchValue.trim() } }).then((res) => {
-      setAuthors(res.data.content);
-    });
+    debouncedGetAllExperts(searchValue);
   }, [searchValue]);
 
   const onAuthorTableClick = (value: number, item: ExpertResponseType) => {
@@ -242,7 +253,7 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
     origins: savedPostDraft.origins,
     preview: savedPostDraft.preview.value,
     title: savedPostDraft.title,
-    authorsName: isAdmin ? savedPostDraft.authorsName : user.data?.firstName,
+    authorsName: savedPostDraft.authorsName,
     authorsDetails: savedPostDraft.authorsDetails,
     type: { id: postType.type },
   };
@@ -250,14 +261,16 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
   const contentText = newPost.content.replaceAll(CLEAR_HTML_REG_EXP, '');
 
   const isEmpty =
-    !newPost.title || !newPost.directions.length || !newPost.content;
+    !newPost.title ||
+    !newPost.directions.length ||
+    !newPost.content ||
+    !newPost.authorId;
 
   const isEnoughLength =
     contentText.length < MIN_CONTENT_LENGTH ||
     newPost.title.length < MIN_TITLE_LENGTH;
 
-  const isHasUASymbols =
-    !CHECK_REG_EXP.test(newPost.title) || !CHECK_REG_EXP.test(contentText);
+  const isTooLong = newPost.title.length > MAX_TITLE_LENGTH;
 
   const previewPost = React.useMemo(
     () =>
@@ -338,10 +351,12 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
 
   const postAuthorSelection = isAdmin && (
     <PostAuthorSelection
+      isDisplayTable
       onAuthorTableClick={onAuthorTableClick}
       handleOnChange={handleOnChange}
       authors={authors}
       searchValue={searchValue}
+      authorsLength={authorLength}
     />
   );
 
@@ -372,6 +387,11 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
                 handleTitleChange(e.target.value);
               }}
             />
+            {title.value.length > MAX_TITLE_LENGTH && (
+              <div style={{ color: 'red' }}>
+                {t(langTokens.editor.toMuchTitleLength)}
+              </div>
+            )}
           </Box>
           {postAuthorSelection}
           <BackgroundImageContainer
@@ -419,7 +439,7 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
 
       <PostCreationButtons
         action="creating"
-        isModal={{ isEmpty, isEnoughLength, isHasUASymbols }}
+        isModal={{ isEmpty, isEnoughLength, isTooLong }}
         onPublishClick={handlePublishClick}
         onPreviewClick={() => {
           setPreviewing(!previewing);

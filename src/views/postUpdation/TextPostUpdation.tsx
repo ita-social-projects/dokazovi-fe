@@ -15,9 +15,10 @@ import {
   ExpertResponseType,
 } from '../../old/lib/utilities/API/types';
 import {
-  CHECK_REG_EXP,
   CLEAR_HTML_REG_EXP,
   CONTENT_DEBOUNCE_TIMEOUT,
+  FIND_AUTHORS_DEBOUNCE_TIMEOUT,
+  MAX_TITLE_LENGTH,
   MIN_CONTENT_LENGTH,
   MIN_TITLE_LENGTH,
   PREVIEW_DEBOUNCE_TIMEOUT,
@@ -80,10 +81,11 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
   const [authors, setAuthors] = useState<ExpertResponseType[]>([]);
   const [authorId, setAuthorId] = useState<number | null>(null);
   const [author, setAuthor] = useState<ExpertResponseType>();
-  const [searchValue, setSearchValue] = useState('');
-
+  const [searchValue, setSearchValue] = useState(`${post.author.firstName} ${post.author.lastName}`);
+  const [authorLength, setAuthorLength] = useState<number | null>(null);
   const [typing, setTyping] = useState({ content: false, preview: false });
   const [previewing, setPreviewing] = useState(false);
+  const [isDisplayTable, setIsDisplayTable] = useState(false);
 
   const { t } = useTranslation();
 
@@ -112,17 +114,26 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
   );
 
   const handleOnChange = (value: string) => {
+    setIsDisplayTable(true);
     setSearchValue(value);
   };
 
+  const debouncedGetAllExperts = useCallback(
+    _.debounce((val: string) => {
+      if (!val) {
+        setAuthors([]);
+        return;
+      }
+      getAllExperts({ params: { userName: val.trim() } }).then((res) => {
+        setAuthors(res.data.content);
+        setAuthorLength(res.data.totalElements);
+      });
+    }, FIND_AUTHORS_DEBOUNCE_TIMEOUT),
+    [],
+  );
+
   useEffect(() => {
-    if (!searchValue) {
-      setAuthors([]);
-      return;
-    }
-    getAllExperts({ params: { userName: searchValue.trim() } }).then((res) => {
-      setAuthors(res.data.content);
-    });
+    debouncedGetAllExperts(searchValue);
   }, [searchValue]);
 
   const onAuthorTableClick = (value: number, item: ExpertResponseType) => {
@@ -167,14 +178,14 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
   const isEmpty =
     !updatedPost.title ||
     !updatedPost.content ||
-    !updatedPost.directions.length;
+    !updatedPost.directions.length ||
+    !updatedPost.authorId;
 
   const isEnoughLength =
     contentText.length < MIN_CONTENT_LENGTH ||
     updatedPost.title.length < MIN_TITLE_LENGTH;
 
-  const isHasUASymbols =
-    !CHECK_REG_EXP.test(updatedPost.title) || !CHECK_REG_EXP.test(contentText);
+  const isTooLong = updatedPost.title.length > MAX_TITLE_LENGTH;
 
   const previewPost: IPost = {
     ...post,
@@ -210,10 +221,12 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
 
   const postAuthorSelection = isAdmin && (
     <PostAuthorSelection
+      isDisplayTable={isDisplayTable}
       onAuthorTableClick={onAuthorTableClick}
       handleOnChange={handleOnChange}
       authors={authors}
       searchValue={searchValue}
+      authorsLength={authorLength}
     />
   );
 
@@ -243,6 +256,11 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
                 setTitle({ ...title, value: e.target.value });
               }}
             />
+            {title.value.length > MAX_TITLE_LENGTH && (
+              <div style={{ color: 'red' }}>
+                {t(langTokens.editor.toMuchTitleLength)}
+              </div>
+            )}
           </Box>
           {postAuthorSelection}
           <BackgroundImageContainer
@@ -291,7 +309,7 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
 
       <PostCreationButtons
         action="updating"
-        isModal={{ isEmpty, isEnoughLength, isHasUASymbols }}
+        isModal={{ isEmpty, isEnoughLength, isTooLong }}
         onCancelClick={() => {
           history.goBack();
         }}

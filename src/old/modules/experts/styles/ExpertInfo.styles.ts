@@ -6,20 +6,17 @@ export const useStyles = makeStyles(() => ({
   },
   avatar: {
     margin: '0 0 40px 0',
-    width: '280px',
+    width: '100%	',
     height: '280px',
   },
   fullName: {
-    width: '280px',
     marginBottom: '20px',
   },
   bio: {
-    width: '280px',
     marginBottom: '80px',
     textAlign: 'left',
   },
   accordionWrapper: {
-    width: '280px',
     marginBottom: '50px',
   },
 }));

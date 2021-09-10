@@ -59,6 +59,7 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
   >();
   const classes = useStyles();
   const [allChecked, setAllChecked] = useState(true);
+
   const getCheckedStateFromFilters = (): CheckboxFormStateType => {
     if (typeof selectedFilters !== 'string') {
       // console.log(selectedFilters);
@@ -290,7 +291,7 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
   return (
     <Box mt={2} className={classes.filtersWrapper}>
       <Grid container>
-        <Grid item>
+        <Grid item className={classes.titleWrapper}>
           <Typography variant="h5" className={classes.filterTitle}>
             {filterTitle}
           </Typography>

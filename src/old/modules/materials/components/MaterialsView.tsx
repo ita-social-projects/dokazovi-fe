@@ -158,15 +158,21 @@ const MaterialsView: React.FC = () => {
   };
 
   const fetchData = (appendPosts = false) => {
-    const originsQuery = query.get(QueryTypeEnum.ORIGINS)
-      ? query.get(QueryTypeEnum.ORIGINS)
-      : stringOfOrigins();
-    const postTypesQuery = query.get(QueryTypeEnum.POST_TYPES)
-      ? query.get(QueryTypeEnum.POST_TYPES)
-      : stringOfPostTypes();
-    const directionsQuery = query.get(QueryTypeEnum.DIRECTIONS)
-      ? query.get(QueryTypeEnum.DIRECTIONS)
-      : stringOfDirections();
+    const originsQuery =
+      query.get(QueryTypeEnum.ORIGINS) &&
+      query.get(QueryTypeEnum.ORIGINS) !== '0'
+        ? query.get(QueryTypeEnum.ORIGINS)
+        : stringOfOrigins();
+    const postTypesQuery =
+      query.get(QueryTypeEnum.POST_TYPES) &&
+      query.get(QueryTypeEnum.POST_TYPES) !== '0'
+        ? query.get(QueryTypeEnum.POST_TYPES)
+        : stringOfPostTypes();
+    const directionsQuery =
+      query.get(QueryTypeEnum.DIRECTIONS) &&
+      query.get(QueryTypeEnum.DIRECTIONS) !== '0'
+        ? query.get(QueryTypeEnum.DIRECTIONS)
+        : stringOfDirections();
 
     const filters = {
       page,
@@ -195,7 +201,7 @@ const MaterialsView: React.FC = () => {
     const isQuerySame = uniq(Object.values(checked)).length === 1; // removing the query if user checks/unchecks the last box
     query.set(queryType, checkedIds.join(','));
     if (!checkedIds.length || isQuerySame) {
-      query.delete(queryType);
+      query.set(queryType, '0');
     }
 
     setPage(0);
@@ -404,12 +410,21 @@ const MaterialsView: React.FC = () => {
     <>
       <PageTitle title={t(langTokens.common.materials)} />
       <Grid container direction="row">
-        <Grid item container direction="column" xs={3}>
+        <Grid item container direction="column" xs={5} sm={4} md={3} lg={2}>
           <Typography className={classes.title} variant="h1">
             {`${t(langTokens.materials.selectedMaterials)}:`}
           </Typography>
         </Grid>
-        <Grid item container direction="column" xs={9}>
+        <Grid
+          className={classes.gridSpacing}
+          item
+          container
+          direction="column"
+          xs={7}
+          sm={8}
+          md={9}
+          lg={10}
+        >
           <Box className={classes.container}>
             {typeof selectedOrigins === 'string' ? (
               <Typography
@@ -482,7 +497,7 @@ const MaterialsView: React.FC = () => {
         </Grid>
       </Grid>
       <Grid container direction="row">
-        <Grid item container direction="column" xs={3}>
+        <Grid item container direction="column" xs={5} sm={4} md={3} lg={2}>
           {propertiesLoaded && (
             <>
               <CheckboxLeftsideFilterForm
@@ -518,7 +533,17 @@ const MaterialsView: React.FC = () => {
             </>
           )}
         </Grid>
-        <Grid item container alignItems="center" xs={9} direction="column">
+        <Grid
+          className={classes.gridSpacing}
+          item
+          container
+          alignItems="center"
+          xs={7}
+          sm={8}
+          md={9}
+          lg={10}
+          direction="column"
+        >
           {page === 0 && loading === LoadingStatusEnum.pending ? (
             <LoadingContainer loading={loading} expand />
           ) : (

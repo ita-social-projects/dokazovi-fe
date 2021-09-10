@@ -33,12 +33,15 @@ export const useStyles = makeStyles(
       },
       grid: {
         minHeight: '315px',
-        justifyContent: 'space-between',
-        flexWrap: 'nowrap',
-        overflow: 'auto',
-        [theme.breakpoints.down('md')]: {
-          justifyContent: 'flex-start',
-          gap: '15px',
+      },
+      post: {
+        '&:last-child': {
+          [theme.breakpoints.down('md')]: {
+            display: 'none',
+          },
+          [theme.breakpoints.down('sm')]: {
+            display: 'block !important',
+          },
         },
       },
     }),
