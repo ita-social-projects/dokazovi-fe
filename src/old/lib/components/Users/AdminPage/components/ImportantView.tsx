@@ -128,7 +128,7 @@ const ImportantView: React.FC = () => {
           color="primary"
           variant="contained"
           size="large"
-          disabled={mappedPosts.length < 2}
+          disabled={mappedPosts.length < 1}
           onClick={() => setPreviewStatus(true)}
         >
           Переглянути
@@ -138,7 +138,7 @@ const ImportantView: React.FC = () => {
           color="primary"
           variant="contained"
           size="large"
-          disabled={mappedPosts.length < 2}
+          disabled={mappedPosts.length < 1}
           onClick={publishImportantPosts}
         >
           Публікувати

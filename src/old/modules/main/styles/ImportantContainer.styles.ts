@@ -4,16 +4,14 @@ export const useStyles = makeStyles(
   {
     container: {
       minHeight: 455,
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'center',
+      width: 1200,
     },
-    containerMobile:{
+    containerMobile: {
       minHeight: 585,
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'center',
-    }
+    },
   },
   { name: 'ImportantContainer' },
 );
