@@ -35,9 +35,6 @@ export const useStyles = makeStyles(
         minHeight: '315px',
       },
       post: {
-        '& > div': {
-          width: '100%',
-        },
         '&:last-child': {
           [theme.breakpoints.down('md')]: {
             display: 'none',

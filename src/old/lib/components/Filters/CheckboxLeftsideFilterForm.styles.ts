@@ -41,39 +41,31 @@ export const useStyles = makeStyles(
     formControlLabel: {
       fontWeight: 700,
       height: '30px',
-      width: '260px',
       margin: '0 0 0 -8px',
     },
 
     filtersWrapper: {
-      width: '280px',
       marginTop: '0',
+    },
+    titleWrapper: {
+      width: '100%',
     },
     filterTitle: {
       fontFamily: 'Raleway',
       fontStyle: 'normal',
-      width: '265px',
       fontSize: '18px',
       lineHeight: '18px',
       fontWeight: 'bold',
     },
     divider: {
-      width: '250px',
+      width: '100%',
       height: '4px',
       background: '#000000',
       margin: '2px 0 20px 0',
-      [theme.breakpoints.down('sm')]: {
-        width: '225px',
-      },
-    },
-    dividerMV: {
-      width: '165px',
-      [theme.breakpoints.down('sm')]: {
-        width: '145px',
-      },
     },
     formGroup: {
       margin: '0 0 55px 0',
+      width: '100%',
       height: 'auto',
       display: 'flex',
       flexDirection: 'column',
@@ -106,7 +98,6 @@ export const useStyles = makeStyles(
 
     labelChecked: {
       height: '30px',
-      width: '260px',
       margin: '0 0 0 -8px',
       '& .MuiTypography-body1': {
         fontFamily: 'Raleway',
@@ -115,7 +106,6 @@ export const useStyles = makeStyles(
     },
     labelUnchecked: {
       height: '30px',
-      width: '260px',
       margin: '0 0 0 -8px',
       '& .MuiTypography-body1': {
         fontFamily: 'Raleway',

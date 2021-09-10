@@ -48,8 +48,12 @@ export const useStyles = makeStyles(
       fontSize: '16px',
     },
     gridContainer: {
-      [theme.breakpoints.only('sm')]: {
-        paddingLeft: '40px',
+      paddingLeft: '40px',
+    },
+    materialsContainer: {
+      paddingLeft: '50px',
+      [theme.breakpoints.down('sm')]: {
+        paddingLeft: '30px',
       },
     },
   }),

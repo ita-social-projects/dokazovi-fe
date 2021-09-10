@@ -6,7 +6,6 @@ export const useStyles = makeStyles(
     root: {
       position: 'relative',
       borderRadius: 0,
-      width: '315px',
     },
     header: {
       display: 'flex',
