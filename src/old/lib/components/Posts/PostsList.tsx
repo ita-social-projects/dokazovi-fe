@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import Masonry from 'react-masonry-css';
 import { useTranslation } from 'react-i18next';
 import { useStyles, MASONRY_BREAKPOINTS } from '../../styles/PostsList.styles';
@@ -21,23 +21,7 @@ export const PostsList: React.FC<IPostsListProps> = ({
   const postIdxForScroll = postsList.length - LOAD_POSTS_LIMIT;
   const postForScrollRef = useRef<HTMLDivElement>(null);
 
-  const [prevPostsCount, setPrevPostsLength] = useState(postsList.length);
-
   const { t } = useTranslation();
-
-  useEffect(() => {
-    if (!postForScrollRef.current) return;
-    if (
-      postsList.length > LOAD_POSTS_LIMIT &&
-      postsList.length !== prevPostsCount
-    ) {
-      postForScrollRef.current.scrollIntoView({
-        behavior: 'smooth',
-      });
-    }
-
-    setPrevPostsLength(postsList.length);
-  }, [postsList.length]);
 
   return postsList.length === 0 ? (
     <Notification message={t(langTokens.common.noInfo)} />

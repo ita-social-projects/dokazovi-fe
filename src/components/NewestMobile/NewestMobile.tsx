@@ -1,7 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment,
-@typescript-eslint/no-unsafe-member-access,
-@typescript-eslint/no-unsafe-call */
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import SwipeableViews from 'react-swipeable-views';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
@@ -11,12 +8,12 @@ import { useSelector } from 'react-redux';
 import { CircularProgress } from '@material-ui/core';
 import { langTokens } from '../../locales/localizationInit';
 import { useStyles } from './NewestMobileStyle';
-import { PostsList } from '../../old/lib/components/Posts/PostsList';
 import { useActions } from '../../shared/hooks';
 import {
   fetchNewestMobile,
   selectMobileMaterials,
 } from '../../models/newestPostsMobile';
+import { AutoPaginationPostList } from '../AutoPaginationPostList/AutoPaginationPostList';
 
 const a11yProps = (index: number) => {
   return {
@@ -25,34 +22,18 @@ const a11yProps = (index: number) => {
   };
 };
 
-export const NewestMobile = () => {
+export const NewestMobile: React.FC = () => {
   const { t } = useTranslation();
 
   const classes = useStyles();
 
-  const lastElement = useRef<HTMLDivElement>(null);
-  const observer = useRef<IntersectionObserver>();
-
   const [value, setValue] = useState(0);
-  const [page, setPage] = useState(4);
 
   const [boundFetchMobileMaterials] = useActions([fetchNewestMobile]);
   const content = useSelector(selectMobileMaterials);
 
   useEffect(() => {
     boundFetchMobileMaterials();
-  }, []);
-
-  useEffect(() => {
-    if (observer.current) observer.current.disconnect();
-    if (lastElement.current) {
-      observer.current = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting) {
-          setPage((p) => p + 1);
-        }
-      });
-      observer.current.observe(lastElement.current);
-    }
   }, []);
 
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
@@ -63,9 +44,6 @@ export const NewestMobile = () => {
     setValue(index);
   };
 
-  if (content.length) {
-    console.log(content[0].postDTOS.slice(0, page));
-  }
   return (
     <>
       <div>
@@ -112,48 +90,36 @@ export const NewestMobile = () => {
               id="full-width-tabpanel-0"
               aria-labelledby="full-width-tab-0"
             >
-              <PostsList
-                postsList={
-                  content[0]?.postDTOS && content[0].postDTOS.slice(0, page)
-                }
+              <AutoPaginationPostList
+                posts={content[0]?.postDTOS && content[0].postDTOS}
               />
-              <div ref={lastElement} style={{ height: 1 }} />
             </div>
             <div
               role="tabpanel"
               id="full-width-tabpanel-1"
               aria-labelledby="full-width-tab-1"
             >
-              <PostsList
-                postsList={
-                  content[1]?.postDTOS && content[1].postDTOS.slice(0, page)
-                }
+              <AutoPaginationPostList
+                posts={content[1]?.postDTOS && content[1].postDTOS}
               />
-              <div ref={lastElement} style={{ height: 1 }} />
             </div>
             <div
               role="tabpanel"
               id="full-width-tabpanel-2"
               aria-labelledby="full-width-tab-2"
             >
-              <PostsList
-                postsList={
-                  content[2]?.postDTOS && content[2].postDTOS.slice(0, page)
-                }
+              <AutoPaginationPostList
+                posts={content[2]?.postDTOS && content[2].postDTOS}
               />
-              <div ref={lastElement} style={{ height: 1 }} />
             </div>
             <div
               role="tabpanel"
               id="full-width-tabpanel-3"
               aria-labelledby="full-width-tab-3"
             >
-              <PostsList
-                postsList={
-                  content[3]?.postDTOS && content[3].postDTOS.slice(0, page)
-                }
+              <AutoPaginationPostList
+                posts={content[3]?.postDTOS && content[3].postDTOS}
               />
-              <div ref={lastElement} style={{ height: 1 }} />
             </div>
           </SwipeableViews>
         ) : (
