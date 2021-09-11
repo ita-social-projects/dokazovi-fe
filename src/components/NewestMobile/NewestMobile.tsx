@@ -47,11 +47,19 @@ export const NewestMobile: React.FC = () => {
   return (
     <>
       <div>
-        <AppBar position="static" color="default">
+        <AppBar
+          classes={{ root: classes.appBarRoot }}
+          position="static"
+          color="default"
+        >
           <Tabs
+            classes={{
+              root: classes.buttonsRoot,
+              indicator: classes.indicator,
+              flexContainer: classes.container,
+            }}
             value={value}
             onChange={handleChange}
-            indicatorColor="primary"
             textColor="primary"
             variant="fullWidth"
             aria-label="full width tabs example"

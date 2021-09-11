@@ -5,6 +5,23 @@ export const useStyles = makeStyles((theme: Theme) => ({
   root: {
     paddingTop: theme.spacing(2),
     backgroundColor: theme.palette.background.default,
+    paddingBottom: 0,
+  },
+  indicator: {
+    backgroundColor: theme.palette.common.black,
+  },
+  appBarRoot: {
+    backgroundColor: theme.palette.background.default,
+  },
+  buttonsRoot: {
+    margin: '0 auto',
+    '& span': {
+      fontSize: '14px !important',
+    },
+  },
+  container: {
+    display: 'block',
+    backgroundColor: theme.palette.background.default,
   },
   selected: {
     color: 'black !important',
@@ -21,6 +38,6 @@ export const useStyles = makeStyles((theme: Theme) => ({
     height: 80,
   },
   content: {
-    marginTop: theme.spacing(5),
+    marginTop: theme.spacing(3),
   },
 }));
