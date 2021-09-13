@@ -44,7 +44,6 @@ export const useStyles = makeStyles((theme: Theme) => ({
     position: 'sticky',
     top: 0,
     left: 0,
-    animation: 'init 5s cubic-bezier(0.83,-0.09, 0.35, 0.99)',
   },
   '@keyframes init': {
     '0%': {
