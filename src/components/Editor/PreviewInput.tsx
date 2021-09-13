@@ -57,7 +57,6 @@ const PreviewInput: React.FC<IPreviewInputProps> = ({
 
   return (
     <TextField
-      classes={{ root: 'color:Red' }}
       data-testid="preview-input"
       aria-label="minimum height"
       value={textFieldValue}
