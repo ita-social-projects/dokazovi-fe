@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading, @typescript-eslint/ban-types */
 import React, { useEffect, useState } from 'react';
 import SwipeableViews from 'react-swipeable-views';
 import AppBar from '@material-ui/core/AppBar';
@@ -84,7 +85,7 @@ export const NewestMobile: React.FC = () => {
     <>
       <div>
         <AppBar
-          className={`${visible ? classes.sticky : null}`}
+          className={`${visible ? classes.sticky : ''}`}
           classes={{ root: classes.appBarRoot }}
           position="static"
           color="default"

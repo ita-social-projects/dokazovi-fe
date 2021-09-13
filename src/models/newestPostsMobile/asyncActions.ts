@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access, consistent-return */
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { getNewestPostsForMobile } from '../../old/lib/utilities/API/api';
 
