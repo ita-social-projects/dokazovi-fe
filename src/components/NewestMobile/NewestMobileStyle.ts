@@ -45,12 +45,4 @@ export const useStyles = makeStyles((theme: Theme) => ({
     top: 0,
     left: 0,
   },
-  '@keyframes init': {
-    '0%': {
-      opacity: '100%',
-    },
-    '100%': {
-      opacity: '0%',
-    },
-  },
 }));
