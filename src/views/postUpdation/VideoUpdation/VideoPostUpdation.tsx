@@ -162,9 +162,9 @@ export const VideoPostUpdation: React.FC<ITextPostUpdationProps> = ({
     !updatedPost.authorId;
 
   const isEnoughLength =
-    contentText.length < MIN_CONTENT_LENGTH ||
-    updatedPost.title.length < MIN_TITLE_LENGTH ||
-    updatedPost.preview.length < MIN_PREVIEW_LENGTH;
+    contentText.length <= MIN_CONTENT_LENGTH ||
+    updatedPost.title.length <= MIN_TITLE_LENGTH ||
+    updatedPost.preview.length <= MIN_PREVIEW_LENGTH;
 
   const isTooLong = updatedPost.title.length > MAX_TITLE_LENGTH;
 

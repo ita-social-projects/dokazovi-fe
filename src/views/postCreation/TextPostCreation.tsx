@@ -268,9 +268,9 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
     !newPost.authorId;
 
   const isEnoughLength =
-    contentText.length < MIN_CONTENT_LENGTH ||
-    newPost.title.length < MIN_TITLE_LENGTH ||
-    newPost.preview.length < MIN_PREVIEW_LENGTH;
+    contentText.length <= MIN_CONTENT_LENGTH ||
+    newPost.title.length <= MIN_TITLE_LENGTH ||
+    newPost.preview.length <= MIN_PREVIEW_LENGTH;
 
   const isTooLong = newPost.title.length > MAX_TITLE_LENGTH;
 

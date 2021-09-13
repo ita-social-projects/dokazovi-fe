@@ -244,9 +244,9 @@ export const VideoPostCreation: React.FC<IVideoPostCreationProps> = ({
     !newPost.authorId;
 
   const isEnoughLength =
-    contentText.length < MIN_CONTENT_LENGTH ||
-    newPost.title.length < MIN_TITLE_LENGTH ||
-    newPost.preview.length < MIN_PREVIEW_LENGTH;
+    contentText.length <= MIN_CONTENT_LENGTH ||
+    newPost.title.length <= MIN_TITLE_LENGTH ||
+    newPost.preview.length <= MIN_PREVIEW_LENGTH;
 
   const isVideoEmpty = !newPost.videoUrl;
 
