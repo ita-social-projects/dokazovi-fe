@@ -27,7 +27,17 @@ export const NewestMobile: React.FC = () => {
 
   const classes = useStyles();
 
-  const [value, setValue] = useState(0);
+  const [value, setValue] = useState<number>(0);
+  const [visible, setVisible] = useState<boolean>(false);
+  const [oldPageOffsetY, setOldPageOffsetY] = useState<number>(0);
+  const [lastIndex, setLastIndex] = useState(0);
+  const [type, setType] = useState('');
+  const [pageTop, setPageTop] = useState({
+    '0': 0,
+    '1': 0,
+    '2': 0,
+    '3': 0,
+  });
 
   const [boundFetchMobileMaterials] = useActions([fetchNewestMobile]);
   const content = useSelector(selectMobileMaterials);
@@ -36,56 +46,101 @@ export const NewestMobile: React.FC = () => {
     boundFetchMobileMaterials();
   }, []);
 
+  window.onscroll = () => {
+    setOldPageOffsetY(visualViewport.pageTop);
+    if (visualViewport.pageTop < oldPageOffsetY) {
+      setVisible(true);
+    } else setVisible(false);
+  };
+
+  const saveViewPort = () => {
+    setPageTop((p) => {
+      const temp = { ...p };
+      temp[lastIndex] = visualViewport.pageTop;
+      return temp;
+    });
+  };
+
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
+    saveViewPort();
+    setLastIndex(newValue);
     setValue(newValue);
+    setType('click');
   };
 
   const handleChangeIndex = (index: number) => {
+    saveViewPort();
+    setLastIndex(index);
     setValue(index);
+    setType('swipe');
   };
+
+  useEffect(() => {
+    if (type === 'swipe') window.scrollTo(0, pageTop[value]);
+    if (type === 'click') window.scrollTo(0, 0);
+  }, [value]);
 
   return (
     <>
       <div>
-        <AppBar
-          classes={{ root: classes.appBarRoot }}
-          position="static"
-          color="default"
-        >
-          <Tabs
-            classes={{
-              root: classes.buttonsRoot,
-              indicator: classes.indicator,
-              flexContainer: classes.container,
-            }}
-            value={value}
-            onChange={handleChange}
-            textColor="primary"
-            variant="fullWidth"
-            aria-label="full width tabs example"
+        {/*<Collapse in={visible}>*/}
+          <AppBar
+             className={`${visible ? classes.sticky : null}`}
+            classes={{ root: classes.appBarRoot }}
+            position="static"
+            color="default"
           >
-            <Tab
-              classes={classes}
-              label={t(langTokens.experts.expertOpinion_1)}
-              {...a11yProps(0)}
-            />
-            <Tab
-              classes={classes}
-              label={t(langTokens.common.translation)}
-              {...a11yProps(1)}
-            />
-            <Tab
-              classes={classes}
-              label={t(langTokens.common.media)}
-              {...a11yProps(2)}
-            />
-            <Tab
-              classes={classes}
-              label={t(langTokens.common.video)}
-              {...a11yProps(3)}
-            />
-          </Tabs>
-        </AppBar>
+            <Tabs
+              classes={{
+                root: classes.buttonsRoot,
+                indicator: classes.indicator,
+                /* flexContainer: classes.container, */
+              }}
+              value={value}
+              onChange={handleChange}
+              textColor="primary"
+              variant="fullWidth"
+              aria-label="full width tabs example"
+            >
+              <Tab
+                classes={{
+                  root: classes.tabRoot,
+                  wrapper: classes.wrapper,
+                  selected: classes.selected,
+                }}
+                label={t(langTokens.experts.expertOpinion_1)}
+                {...a11yProps(0)}
+              />
+              <Tab
+                classes={{
+                  root: classes.tabRoot,
+                  wrapper: classes.wrapper,
+                  selected: classes.selected,
+                }}
+                label={t(langTokens.common.translation)}
+                {...a11yProps(1)}
+              />
+              <Tab
+                classes={{
+                  root: classes.tabRoot,
+                  wrapper: classes.wrapper,
+                  selected: classes.selected,
+                }}
+                label={t(langTokens.common.media)}
+                {...a11yProps(2)}
+              />
+              <Tab
+                classes={{
+                  root: classes.tabRoot,
+                  wrapper: classes.wrapper,
+                  selected: classes.selected,
+                }}
+                label={t(langTokens.common.video)}
+                {...a11yProps(3)}
+              />
+            </Tabs>
+          </AppBar>
+        {/*</Collapse>*/}
         {content.length ? (
           <SwipeableViews
             axis="x"

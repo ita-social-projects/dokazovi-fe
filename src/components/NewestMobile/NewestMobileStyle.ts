@@ -14,17 +14,15 @@ export const useStyles = makeStyles((theme: Theme) => ({
     backgroundColor: theme.palette.background.default,
   },
   buttonsRoot: {
-    margin: '0 auto',
-    '& span': {
-      fontSize: '14px !important',
-    },
+    margin: 0,
+    width: '100%',
   },
   container: {
     display: 'block',
     backgroundColor: theme.palette.background.default,
   },
   selected: {
-    color: 'black !important',
+    color: `${theme.palette.common.black} !important`,
     fontWeight: 700,
   },
   textColorPrimary: {
@@ -39,5 +37,25 @@ export const useStyles = makeStyles((theme: Theme) => ({
   },
   content: {
     marginTop: theme.spacing(3),
+  },
+  tabRoot: {
+    padding: 0,
+  },
+  wrapper: {
+    fontSize: 16,
+  },
+  sticky: {
+    position: 'sticky',
+    top: 0,
+    left: 0,
+    animation: 'init 5s cubic-bezier(0.83,-0.09, 0.35, 0.99)',
+  },
+  '@keyframes init': {
+    '0%': {
+      opacity: '100%',
+    },
+    '100%': {
+      opacity: '0%',
+    },
   },
 }));
