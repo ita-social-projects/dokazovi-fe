@@ -83,64 +83,61 @@ export const NewestMobile: React.FC = () => {
   return (
     <>
       <div>
-        {/*<Collapse in={visible}>*/}
-          <AppBar
-             className={`${visible ? classes.sticky : null}`}
-            classes={{ root: classes.appBarRoot }}
-            position="static"
-            color="default"
+        <AppBar
+          className={`${visible ? classes.sticky : null}`}
+          classes={{ root: classes.appBarRoot }}
+          position="static"
+          color="default"
+        >
+          <Tabs
+            classes={{
+              root: classes.buttonsRoot,
+              indicator: classes.indicator,
+            }}
+            value={value}
+            onChange={handleChange}
+            textColor="primary"
+            variant="fullWidth"
+            aria-label="full width tabs example"
           >
-            <Tabs
+            <Tab
               classes={{
-                root: classes.buttonsRoot,
-                indicator: classes.indicator,
-                /* flexContainer: classes.container, */
+                root: classes.tabRoot,
+                wrapper: classes.wrapper,
+                selected: classes.selected,
               }}
-              value={value}
-              onChange={handleChange}
-              textColor="primary"
-              variant="fullWidth"
-              aria-label="full width tabs example"
-            >
-              <Tab
-                classes={{
-                  root: classes.tabRoot,
-                  wrapper: classes.wrapper,
-                  selected: classes.selected,
-                }}
-                label={t(langTokens.experts.expertOpinion_1)}
-                {...a11yProps(0)}
-              />
-              <Tab
-                classes={{
-                  root: classes.tabRoot,
-                  wrapper: classes.wrapper,
-                  selected: classes.selected,
-                }}
-                label={t(langTokens.common.translation)}
-                {...a11yProps(1)}
-              />
-              <Tab
-                classes={{
-                  root: classes.tabRoot,
-                  wrapper: classes.wrapper,
-                  selected: classes.selected,
-                }}
-                label={t(langTokens.common.media)}
-                {...a11yProps(2)}
-              />
-              <Tab
-                classes={{
-                  root: classes.tabRoot,
-                  wrapper: classes.wrapper,
-                  selected: classes.selected,
-                }}
-                label={t(langTokens.common.video)}
-                {...a11yProps(3)}
-              />
-            </Tabs>
-          </AppBar>
-        {/*</Collapse>*/}
+              label={t(langTokens.experts.expertOpinion_1)}
+              {...a11yProps(0)}
+            />
+            <Tab
+              classes={{
+                root: classes.tabRoot,
+                wrapper: classes.wrapper,
+                selected: classes.selected,
+              }}
+              label={t(langTokens.common.translation)}
+              {...a11yProps(1)}
+            />
+            <Tab
+              classes={{
+                root: classes.tabRoot,
+                wrapper: classes.wrapper,
+                selected: classes.selected,
+              }}
+              label={t(langTokens.common.media)}
+              {...a11yProps(2)}
+            />
+            <Tab
+              classes={{
+                root: classes.tabRoot,
+                wrapper: classes.wrapper,
+                selected: classes.selected,
+              }}
+              label={t(langTokens.common.video)}
+              {...a11yProps(3)}
+            />
+          </Tabs>
+        </AppBar>
         {content.length ? (
           <SwipeableViews
             axis="x"

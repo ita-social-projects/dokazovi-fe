@@ -17,10 +17,6 @@ export const useStyles = makeStyles((theme: Theme) => ({
     margin: 0,
     width: '100%',
   },
-  container: {
-    display: 'block',
-    backgroundColor: theme.palette.background.default,
-  },
   selected: {
     color: `${theme.palette.common.black} !important`,
     fontWeight: 700,
