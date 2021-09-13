@@ -31,8 +31,7 @@ export const NewestMobile: React.FC = () => {
   const [value, setValue] = useState<number>(0);
   const [visible, setVisible] = useState<boolean>(false);
   const [oldPageOffsetY, setOldPageOffsetY] = useState<number>(0);
-  const [lastIndex, setLastIndex] = useState(0);
-  const [type, setType] = useState('');
+  const [type, setType] = useState<'click' | 'swipe' | ''>('');
   const [pageTop, setPageTop] = useState({
     '0': 0,
     '1': 0,
@@ -57,21 +56,19 @@ export const NewestMobile: React.FC = () => {
   const saveViewPort = () => {
     setPageTop((p) => {
       const temp = { ...p };
-      temp[lastIndex] = visualViewport.pageTop;
+      temp[value] = visualViewport.pageTop;
       return temp;
     });
   };
 
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     saveViewPort();
-    setLastIndex(newValue);
     setValue(newValue);
     setType('click');
   };
 
   const handleChangeIndex = (index: number) => {
     saveViewPort();
-    setLastIndex(index);
     setValue(index);
     setType('swipe');
   };
