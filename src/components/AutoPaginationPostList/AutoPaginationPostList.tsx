@@ -9,19 +9,19 @@ interface IAutoPaginationPostListProps {
 export const AutoPaginationPostList: React.FC<IAutoPaginationPostListProps> = ({
   posts,
 }) => {
-  const [page, setPage] = useState(3);
+  const [postsCount, setPostsCount] = useState(5);
 
   const lastElement = useRef<HTMLDivElement>(null);
   const observer = useRef<IntersectionObserver>();
 
-  const lastTwoPosts = posts.slice(page, page + 2);
+  const lastFivePosts = posts.slice(postsCount, postsCount + 5);
 
   useEffect(() => {
     if (observer.current) observer.current.disconnect();
     if (lastElement.current) {
       observer.current = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting) {
-          setPage((p) => p + 4);
+          setPostsCount((p) => p + 5);
         }
       });
       observer.current.observe(lastElement.current);
@@ -30,10 +30,10 @@ export const AutoPaginationPostList: React.FC<IAutoPaginationPostListProps> = ({
 
   return (
     <div>
-      <PostsList postsList={posts.slice(0, page)} />
-      {Boolean(lastTwoPosts.length) && (
+      <PostsList postsList={posts.slice(0, postsCount)} />
+      {Boolean(lastFivePosts.length) && (
         <div ref={lastElement}>
-          <PostsList postsList={lastTwoPosts} />
+          <PostsList postsList={lastFivePosts} />
         </div>
       )}
     </div>
