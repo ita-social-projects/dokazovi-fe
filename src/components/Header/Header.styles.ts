@@ -6,6 +6,10 @@ export const useStyles = makeStyles(
       height: 120,
       backgroundColor: theme.palette.common.black,
     },
+    headerMobile: {
+      height: 85,
+      backgroundColor: theme.palette.common.black,
+    },
     container: {
       height: '100%',
       padding: theme.spacing(0, 10),

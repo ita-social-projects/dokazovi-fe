@@ -50,7 +50,7 @@ export const Header: React.FC = () => {
   const { mobile } = useContext(ScreenContext);
 
   return (
-    <div id="header" className={classes.header}>
+    <div id="header" className={mobile ? classes.headerMobile : classes.header}>
       <Container className={classes.container}>
         <Toolbar className={classes.toolbar}>
           {mobile && <BurgerMenu
