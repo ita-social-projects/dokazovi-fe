@@ -38,6 +38,9 @@ export const useStyles = makeStyles(
     importantPreviewModal: {
       padding: '50px',
       justifyContent: 'center',
+      [theme.breakpoints.down('md')]: {
+        width: '100%',
+      },
     },
     addMaterialsSection: {
       backgroundColor: '#e5e5e5',

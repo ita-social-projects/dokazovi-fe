@@ -37,7 +37,6 @@ const sizeModes = {
   large: {
     root: {
       height: 455,
-      width: 1200,
       padding: [14, 5, 11, 11],
     },
     title: {
