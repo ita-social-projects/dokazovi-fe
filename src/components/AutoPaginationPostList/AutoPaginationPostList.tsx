@@ -17,7 +17,9 @@ export const AutoPaginationPostList: React.FC<IAutoPaginationPostListProps> = ({
   const lastFivePosts = posts.slice(postsCount, postsCount + 5);
 
   useEffect(() => {
-    if (observer.current) observer.current.disconnect();
+    if (observer.current) {
+      observer.current.disconnect();
+    }
     if (lastElement.current) {
       observer.current = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting) {

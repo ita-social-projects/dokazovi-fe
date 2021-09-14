@@ -10,7 +10,7 @@ export const fetchNewestMobile = createAsyncThunk(
       const [expertOpinion, media, translation, video] = res.data.content;
       return [expertOpinion, translation, media, video];
     } catch (err) {
-      rejectWithValue(err.response?.data);
+      return rejectWithValue(err.response?.data);
     }
   },
 );

@@ -1,4 +1,4 @@
-/* eslint-disable react/jsx-props-no-spreading, @typescript-eslint/ban-types */
+/* eslint-disable react/jsx-props-no-spreading, @typescript-eslint/ban-types, @typescript-eslint/no-unsafe-assignment */
 import React, { useEffect, useState } from 'react';
 import SwipeableViews from 'react-swipeable-views';
 import AppBar from '@material-ui/core/AppBar';
@@ -23,6 +23,13 @@ const a11yProps = (index: number) => {
   };
 };
 
+interface IPageTopParameters {
+  '0': number;
+  '1': number;
+  '2': number;
+  '3': number;
+}
+
 export const NewestMobile: React.FC = () => {
   const { t } = useTranslation();
 
@@ -32,7 +39,7 @@ export const NewestMobile: React.FC = () => {
   const [visible, setVisible] = useState<boolean>(false);
   const [oldPageOffsetY, setOldPageOffsetY] = useState<number>(0);
   const [type, setType] = useState<'click' | 'swipe' | ''>('');
-  const [pageTop, setPageTop] = useState({
+  const [pageTop, setPageTop] = useState<IPageTopParameters>({
     '0': 0,
     '1': 0,
     '2': 0,
@@ -50,7 +57,9 @@ export const NewestMobile: React.FC = () => {
     setOldPageOffsetY(visualViewport.pageTop);
     if (visualViewport.pageTop < oldPageOffsetY) {
       setVisible(true);
-    } else setVisible(false);
+    } else {
+      setVisible(false);
+    }
   };
 
   const saveViewPort = () => {
@@ -74,8 +83,18 @@ export const NewestMobile: React.FC = () => {
   };
 
   useEffect(() => {
-    if (type === 'swipe') window.scrollTo(0, pageTop[value]);
-    if (type === 'click') window.scrollTo(0, 0);
+    if (type === 'swipe') {
+      window.scrollTo({
+        top: pageTop[value],
+        behavior: 'smooth',
+      });
+    }
+    if (type === 'click') {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth',
+      });
+    }
   }, [value]);
 
   return (
