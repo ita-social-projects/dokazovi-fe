@@ -1,5 +1,6 @@
 import React from 'react';
-import { Button, Box, CircularProgress } from '@material-ui/core';
+import { Button, Box } from '@material-ui/core';
+import RefreshIcon from '@material-ui/icons/Refresh';
 import { useTranslation } from 'react-i18next';
 import { LoadingStatusEnum, LoadMoreButtonTextType } from '../../types';
 import {
@@ -79,16 +80,11 @@ export const LoadMoreButton: React.FC<ILoadMoreButtonProps> = ({
             clicked();
           }}
         >
-          <CircularProgress
-            variant={
-              loading === LoadingStatusEnum.pending
-                ? 'indeterminate'
-                : 'determinate'
+          <RefreshIcon
+            fontSize="large"
+            className={
+              loading === LoadingStatusEnum.pending ? classes.spinning : ''
             }
-            color="primary"
-            value={80}
-            size={25}
-            thickness={5}
           />
           {t(langTokens.common.showMore)} {elementsInNextPage} {buttonText}
         </Button>

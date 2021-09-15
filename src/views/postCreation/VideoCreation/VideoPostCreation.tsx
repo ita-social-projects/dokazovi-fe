@@ -41,6 +41,7 @@ import {
   FIND_AUTHORS_DEBOUNCE_TIMEOUT,
   MAX_TITLE_LENGTH,
   MIN_CONTENT_LENGTH,
+  MIN_PREVIEW_LENGTH,
   MIN_TITLE_LENGTH,
   PREVIEW_DEBOUNCE_TIMEOUT,
 } from '../../../old/lib/constants/editors';
@@ -243,8 +244,9 @@ export const VideoPostCreation: React.FC<IVideoPostCreationProps> = ({
     !newPost.authorId;
 
   const isEnoughLength =
-    contentText.length < MIN_CONTENT_LENGTH ||
-    newPost.title.length < MIN_TITLE_LENGTH;
+    contentText.length <= MIN_CONTENT_LENGTH ||
+    newPost.title.length <= MIN_TITLE_LENGTH ||
+    newPost.preview.length <= MIN_PREVIEW_LENGTH;
 
   const isVideoEmpty = !newPost.videoUrl;
 

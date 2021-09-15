@@ -30,11 +30,10 @@ export const useStyles = makeStyles(
           fontWeight: 500,
           fontSize: '16px',
         },
-        '& .MuiCircularProgress-circle': {
+        '& .MuiSvgIcon-root': {
           color: '#73DDFF',
-        },
-        '& .MuiCircularProgress-root': {
           marginRight: theme.spacing(2),
+          transform: 'rotate(43deg)',
         },
         '&:active': {
           boxShadow: 'none',
@@ -43,6 +42,17 @@ export const useStyles = makeStyles(
         '&:hover': {
           boxShadow: 'none',
           backgroundColor: theme.palette.common.black,
+        },
+      },
+      spinning: {
+        animation: `2s $spinEffect infinite`,
+      },
+      '@keyframes spinEffect': {
+        '0%': {
+          transform: 'rotate(43deg)',
+        },
+        '100%': {
+          transform: 'rotate(403deg)',
         },
       },
     }),

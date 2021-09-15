@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useEffectExceptOnMount } from '../../old/lib/hooks/useEffectExceptOnMount';
 import { MAX_PREVIEW_LENGTH } from '../../old/lib/constants/editors';
 import { langTokens } from '../../locales/localizationInit';
+import { useStyle } from '../../views/postCreation/RequiredFieldsStyle';
 
 const truncText = (str: string) => {
   return str.slice(0, MAX_PREVIEW_LENGTH);
@@ -37,15 +38,6 @@ const PreviewInput: React.FC<IPreviewInputProps> = ({
   );
 
   useEffectExceptOnMount(() => {
-    const setPreviewFromEditor = () => {
-      if (!initialWasManuallyChanged && editorTextContent) {
-        setTextFieldValue(truncText(editorTextContent));
-      }
-    };
-    setPreviewFromEditor();
-  }, [editorTextContent]);
-
-  useEffectExceptOnMount(() => {
     setIsPreviewValid(textFieldValue.length <= MAX_PREVIEW_LENGTH);
     onPreviewChange(truncText(textFieldValue));
   }, [textFieldValue]);
@@ -61,6 +53,8 @@ const PreviewInput: React.FC<IPreviewInputProps> = ({
     setTextFieldValue(value);
   };
 
+  const classes = useStyle();
+
   return (
     <TextField
       data-testid="preview-input"
@@ -71,6 +65,9 @@ const PreviewInput: React.FC<IPreviewInputProps> = ({
       variant="outlined"
       onChange={(e) => {
         handleManualChange(e.target.value);
+      }}
+      InputLabelProps={{
+        classes: { formControl: classes.requiredAuthorField },
       }}
       InputProps={{
         inputProps: {
