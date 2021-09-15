@@ -95,7 +95,7 @@ export const Header: React.FC = () => {
               <SearchIcon className={classes.searchIcon} />
             </Button>
             <Menu
-              classes={{ list:classes.label }}
+              classes={{ list:classes.label, paper:classes.paper }}
               id="simple-menu"
               anchorEl={searchInput}
               keepMounted
