@@ -63,19 +63,22 @@ export const useStyles = makeStyles(
       padding: 0,
     },
     searchInput: {
-      width: 270,
+      width: '85%',
       height: 39,
       fontSize: 22,
-      paddingLeft:theme.spacing(2),
+      paddingLeft: theme.spacing(2),
     },
     searchInputIcon: {
       backgroundColor: theme.palette.common.white,
       marginRight: theme.spacing(2),
       fontSize: 32,
     },
-    label:{
-      padding:0,
-    }
+    paper: {
+      width: '70%',
+    },
+    label: {
+      padding: 0,
+    },
   }),
   { name: 'Header' },
 );
