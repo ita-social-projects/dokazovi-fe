@@ -50,7 +50,7 @@ export const NewestPostsList: React.FC<INewestPostsListProps> = ({
     ));
 
   return (
-    <>
+    <div className={classes.container}>
       <Link to={postsListPath}>
         <div className={classes.header}>
           <Typography
@@ -74,6 +74,6 @@ export const NewestPostsList: React.FC<INewestPostsListProps> = ({
           ? displaySkeletons()
           : displayPostPreviewCards()}
       </Grid>
-    </>
+    </div>
   );
 };
