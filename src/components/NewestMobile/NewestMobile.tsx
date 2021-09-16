@@ -6,7 +6,7 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import { CircularProgress } from '@material-ui/core';
+import { CircularProgress, Slide } from '@material-ui/core';
 import { langTokens } from '../../locales/localizationInit';
 import { useStyles } from './NewestMobileStyle';
 import { useActions } from '../../shared/hooks';
@@ -34,16 +34,16 @@ export const NewestMobile: React.FC = () => {
   const { t } = useTranslation();
 
   const classes = useStyles();
-
+  const headerAndCarouselHeight = 722;
   const [value, setValue] = useState<number>(0);
-  const [visible, setVisible] = useState<boolean>(false);
+  const [visible, setVisible] = useState<boolean>(true);
   const [oldPageOffsetY, setOldPageOffsetY] = useState<number>(0);
-  const [type, setType] = useState<'click' | 'swipe' | ''>('');
+  /* const [type, setType] = useState<'click' | 'swipe' | ''>(''); */
   const [pageTop, setPageTop] = useState<IPageTopParameters>({
-    '0': 0,
-    '1': 0,
-    '2': 0,
-    '3': 0,
+    '0': headerAndCarouselHeight,
+    '1': headerAndCarouselHeight,
+    '2': headerAndCarouselHeight,
+    '3': headerAndCarouselHeight,
   });
 
   const [boundFetchMobileMaterials] = useActions([fetchNewestMobile]);
@@ -55,10 +55,13 @@ export const NewestMobile: React.FC = () => {
 
   window.onscroll = () => {
     setOldPageOffsetY(visualViewport.pageTop);
-    if (visualViewport.pageTop < oldPageOffsetY) {
-      setVisible(true);
-    } else {
+    if (
+      visualViewport.pageTop > oldPageOffsetY &&
+      visualViewport.pageTop > headerAndCarouselHeight
+    ) {
       setVisible(false);
+    } else {
+      setVisible(true);
     }
   };
 
@@ -71,90 +74,102 @@ export const NewestMobile: React.FC = () => {
   };
 
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
-    saveViewPort();
+    if (visualViewport.pageTop > headerAndCarouselHeight) {
+      saveViewPort();
+    }
     setValue(newValue);
-    setType('click');
+    /* setType('click'); */
   };
 
   const handleChangeIndex = (index: number) => {
-    saveViewPort();
+    if (visualViewport.pageTop > headerAndCarouselHeight) {
+      saveViewPort();
+    }
     setValue(index);
-    setType('swipe');
+   /* setType('swipe'); */
   };
 
   useEffect(() => {
-    if (type === 'swipe') {
+    if (headerAndCarouselHeight <= visualViewport.pageTop) {
+      window.scrollTo({ top: pageTop[value] });
+    }
+    /* if (type === 'swipe' && visualViewport.pageTop > headerAndCarouselHeight) {
       window.scrollTo({
         top: pageTop[value],
-        behavior: 'smooth',
       });
     }
-    if (type === 'click') {
+    if (type === 'click' && visualViewport.pageTop > headerAndCarouselHeight) {
       window.scrollTo({
-        top: 0,
-        behavior: 'smooth',
+        top: headerAndCarouselHeight,
       });
-    }
+    } */
   }, [value]);
+
+  const transitionDuration = {
+    enter: 200,
+    exit: 200,
+  };
 
   return (
     <>
       <div>
-        <AppBar
-          className={`${visible ? classes.sticky : ''}`}
-          classes={{ root: classes.appBarRoot }}
-          position="static"
-          color="default"
-        >
-          <Tabs
-            classes={{
-              root: classes.buttonsRoot,
-              indicator: classes.indicator,
-            }}
-            value={value}
-            onChange={handleChange}
-            textColor="primary"
-            variant="fullWidth"
-            aria-label="full width tabs example"
+        <Slide in={visible} timeout={transitionDuration}>
+          <AppBar
+            className={classes.sticky}
+            classes={{ root: classes.appBarRoot }}
+            position="static"
+            color="default"
           >
-            <Tab
+            <Tabs
               classes={{
-                root: classes.tabRoot,
-                wrapper: classes.wrapper,
-                selected: classes.selected,
+                root: classes.buttonsRoot,
+                indicator: classes.indicator,
               }}
-              label={t(langTokens.experts.expertOpinion_1)}
-              {...a11yProps(0)}
-            />
-            <Tab
-              classes={{
-                root: classes.tabRoot,
-                wrapper: classes.wrapper,
-                selected: classes.selected,
-              }}
-              label={t(langTokens.common.translation)}
-              {...a11yProps(1)}
-            />
-            <Tab
-              classes={{
-                root: classes.tabRoot,
-                wrapper: classes.wrapper,
-                selected: classes.selected,
-              }}
-              label={t(langTokens.common.media)}
-              {...a11yProps(2)}
-            />
-            <Tab
-              classes={{
-                root: classes.tabRoot,
-                wrapper: classes.wrapper,
-                selected: classes.selected,
-              }}
-              label={t(langTokens.common.video)}
-              {...a11yProps(3)}
-            />
-          </Tabs>
-        </AppBar>
+              value={value}
+              onChange={handleChange}
+              textColor="primary"
+              variant="fullWidth"
+              aria-label="full width tabs example"
+            >
+              <Tab
+                classes={{
+                  root: classes.tabRoot,
+                  wrapper: classes.wrapper,
+                  selected: classes.selected,
+                }}
+                label={t(langTokens.experts.expertOpinion_1)}
+                {...a11yProps(0)}
+              />
+              <Tab
+                classes={{
+                  root: classes.tabRoot,
+                  wrapper: classes.wrapper,
+                  selected: classes.selected,
+                }}
+                label={t(langTokens.common.translation)}
+                {...a11yProps(1)}
+              />
+              <Tab
+                classes={{
+                  root: classes.tabRoot,
+                  wrapper: classes.wrapper,
+                  selected: classes.selected,
+                }}
+                label={t(langTokens.common.media)}
+                {...a11yProps(2)}
+              />
+              <Tab
+                classes={{
+                  root: classes.tabRoot,
+                  wrapper: classes.wrapper,
+                  selected: classes.selected,
+                }}
+                label={t(langTokens.common.video)}
+                {...a11yProps(3)}
+              />
+            </Tabs>
+          </AppBar>
+        </Slide>
         {content.length ? (
           <SwipeableViews
             axis="x"
