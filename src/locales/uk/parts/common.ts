@@ -10,6 +10,7 @@ export const common = {
   experts: 'Автори',
   media: 'Медитека',
   filters: 'Фільтри',
+  selected: 'Вибрано',
   translation: 'Переклад',
   translation_1: 'Переклади',
   translation_2: 'Переклади',
