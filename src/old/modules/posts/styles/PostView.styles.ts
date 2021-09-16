@@ -40,8 +40,8 @@ export const useStyles = makeStyles(
       color: theme.palette.info.light,
     },
     video: {
-      width: '1305px',
-      height: '734px',
+      width: '72vw',
+      height: '100vh',
       margin: '20px -225px 70px',
       borderBottom: '1px solid #767676',
     },
