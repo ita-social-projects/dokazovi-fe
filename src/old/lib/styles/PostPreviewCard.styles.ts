@@ -11,7 +11,6 @@ export const useStyles = makeStyles(
       width: 91,
       padding: theme.spacing(3),
       paddingLeft: theme.spacing(3),
-      filter: 'grayscale(100%)',
     },
     header: {
       display: 'flex',

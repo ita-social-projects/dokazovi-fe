@@ -83,6 +83,7 @@ describe('PostAuthorSeclection', () => {
     const { getAllByTestId } = render(
       <PostAuthorSelection
         authors={authors}
+        isDisplayTable
         onAuthorTableClick={onAuthorTableClick}
         handleOnChange={() => {}}
       />,
@@ -97,6 +98,7 @@ describe('PostAuthorSeclection', () => {
     render(
       <PostAuthorSelection
         authors={authors}
+        isDisplayTable
         searchValue="Ivan"
         onAuthorTableClick={onAuthorTableClick}
         handleOnChange={handleOnChangeMock}
@@ -113,6 +115,7 @@ describe('PostAuthorSeclection', () => {
       const { getByPlaceholderText } = render(
         <PostAuthorSelection
           authors={authors}
+          isDisplayTable
           searchValue="Ivan"
           onAuthorTableClick={onAuthorTableClick}
           handleOnChange={handleOnChangeMock}
@@ -131,6 +134,7 @@ describe('PostAuthorSeclection', () => {
       const { getByPlaceholderText } = render(
         <PostAuthorSelection
           authors={authors}
+          isDisplayTable
           searchValue="Ivan"
           onAuthorTableClick={onAuthorTableClick}
           handleOnChange={handleOnChangeMock}
@@ -149,6 +153,7 @@ describe('PostAuthorSeclection', () => {
       const { getByRole, rerender } = render(
         <PostAuthorSelection
           authors={[]}
+          isDisplayTable
           searchValue=""
           onAuthorTableClick={onAuthorTableClick}
           handleOnChange={handleOnChangeMock}
@@ -161,6 +166,7 @@ describe('PostAuthorSeclection', () => {
       rerender(
         <PostAuthorSelection
           authors={newAuthors}
+          isDisplayTable
           searchValue="I"
           onAuthorTableClick={onAuthorTableClick}
           handleOnChange={handleOnChangeMock}

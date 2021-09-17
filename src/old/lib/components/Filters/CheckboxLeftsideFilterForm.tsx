@@ -41,7 +41,6 @@ export interface ICheckboxLeftsideFilterFormProps {
   disabledPostTypes?: IPostType[] | undefined;
   setTheOnlyAvailableFilter?: (name: string) => void;
   filterType: QueryTypeEnum;
-  parentComponent?: string;
 }
 
 export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormProps> = ({
@@ -54,7 +53,6 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
   disabledPostTypes,
   setTheOnlyAvailableFilter,
   filterType,
-  parentComponent,
 }) => {
   // console.log(filterType, selectedFilters);
   const [disabledCheckBoxesIds, setDisabledCheckBoxesIds] = useState<
@@ -63,8 +61,7 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
   const { mobile } = useContext(ScreenContext);
   const classes = useStyles();
   const [allChecked, setAllChecked] = useState(true);
-  const dividerParent =
-    parentComponent === 'MaterialsView' ? classes.dividerMV : '';
+
   const getCheckedStateFromFilters = (): CheckboxFormStateType => {
     if (typeof selectedFilters !== 'string') {
       // console.log(selectedFilters);
@@ -299,11 +296,11 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
   return (
     <Box mt={2} className={classes.filtersWrapper}>
       <Grid container>
-        <Grid item>
+        <Grid item className={classes.titleWrapper}>
           <Typography variant="h5" className={classes.filterTitle}>
             {filterTitle}
           </Typography>
-          <div className={`${classes.divider} ${dividerParent}`} />
+          <div className={classes.divider} />
         </Grid>
       </Grid>
       <Grid container>

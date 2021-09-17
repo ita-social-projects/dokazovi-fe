@@ -19,6 +19,7 @@ import {
   FIND_AUTHORS_DEBOUNCE_TIMEOUT,
   MAX_TITLE_LENGTH,
   MIN_CONTENT_LENGTH,
+  MIN_PREVIEW_LENGTH,
   MIN_TITLE_LENGTH,
   PREVIEW_DEBOUNCE_TIMEOUT,
 } from '../../../old/lib/constants/editors';
@@ -73,10 +74,13 @@ export const VideoPostUpdation: React.FC<ITextPostUpdationProps> = ({
   const [authors, setAuthors] = useState<ExpertResponseType[]>([]);
   const [authorId, setAuthorId] = useState<number | null>(null);
   const [author, setAuthor] = useState<ExpertResponseType>();
-  const [searchValue, setSearchValue] = useState('');
+  const [searchValue, setSearchValue] = useState(
+    `${post.author.firstName} ${post.author.lastName}`,
+  );
   const [authorLength, setAuthorLength] = useState<number | null>(null);
   const [typing, setTyping] = useState({ content: false, preview: false });
   const [previewing, setPreviewing] = useState(false);
+  const [isDisplayTable, setIsDisplayTable] = useState(false);
 
   const { t } = useTranslation();
 
@@ -105,6 +109,7 @@ export const VideoPostUpdation: React.FC<ITextPostUpdationProps> = ({
   );
 
   const handleOnChange = (value: string) => {
+    setIsDisplayTable(true);
     setSearchValue(value);
   };
 
@@ -157,8 +162,9 @@ export const VideoPostUpdation: React.FC<ITextPostUpdationProps> = ({
     !updatedPost.authorId;
 
   const isEnoughLength =
-    contentText.length < MIN_CONTENT_LENGTH ||
-    updatedPost.title.length < MIN_TITLE_LENGTH;
+    contentText.length <= MIN_CONTENT_LENGTH ||
+    updatedPost.title.length <= MIN_TITLE_LENGTH ||
+    updatedPost.preview.length <= MIN_PREVIEW_LENGTH;
 
   const isTooLong = updatedPost.title.length > MAX_TITLE_LENGTH;
 
@@ -197,6 +203,7 @@ export const VideoPostUpdation: React.FC<ITextPostUpdationProps> = ({
 
   const postAuthorSelection = isAdmin && (
     <PostAuthorSelection
+      isDisplayTable={isDisplayTable}
       onAuthorTableClick={onAuthorTableClick}
       handleOnChange={handleOnChange}
       authors={authors}

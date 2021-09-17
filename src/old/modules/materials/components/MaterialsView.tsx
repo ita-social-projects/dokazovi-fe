@@ -199,6 +199,7 @@ const MaterialsView: React.FC = () => {
     } else if (filterType === 4) {
       setCheckedFiltersOrigins(checked);
     }
+
     const queryType = getQueryTypeByFilterType(filterType);
     const checkedIds = Object.keys(checked).filter((key) => checked[key]);
     const isQuerySame = uniq(Object.values(checked)).length === 1; // removing the query if user checks/unchecks the last box
@@ -424,12 +425,21 @@ const MaterialsView: React.FC = () => {
     <>
       <PageTitle title={t(langTokens.common.materials)} />
       <Grid container direction="row">
-        <Grid item container direction="column" xs={3}>
+        <Grid item container direction="column" xs={5} sm={4} md={3} lg={2}>
           <Typography className={classes.title} variant="h1">
             {`${t(langTokens.materials.selectedMaterials)}:`}
           </Typography>
         </Grid>
-        <Grid item container direction="column" xs={9}>
+        <Grid
+          className={classes.gridSpacing}
+          item
+          container
+          direction="column"
+          xs={7}
+          sm={8}
+          md={9}
+          lg={10}
+        >
           <Box className={classes.container}>
             {typeof selectedOrigins === 'string' ? (
               <Typography
@@ -502,7 +512,7 @@ const MaterialsView: React.FC = () => {
         </Grid>
       </Grid>
       <Grid container direction="row">
-        <Grid item container direction="column" xs={3}>
+        <Grid item container direction="column" xs={5} sm={4} md={3} lg={2}>
           {propertiesLoaded && (
             <>
               <CheckboxLeftsideFilterForm
@@ -514,7 +524,6 @@ const MaterialsView: React.FC = () => {
                 filterTitle={t(langTokens.common.byOrigin).toLowerCase()}
                 allTitle={t(langTokens.common.allOrigins)}
                 filterType={QueryTypeEnum.ORIGINS}
-                parentComponent="MaterialsView"
               />
               <CheckboxLeftsideFilterForm
                 onFormChange={(checked) =>
@@ -525,7 +534,6 @@ const MaterialsView: React.FC = () => {
                 filterTitle={t(langTokens.common.byType).toLowerCase()}
                 allTitle={t(langTokens.common.allTypes)}
                 filterType={QueryTypeEnum.POST_TYPES}
-                parentComponent="MaterialsView"
               />
               <CheckboxLeftsideFilterForm
                 onFormChange={(checked) =>
@@ -536,12 +544,21 @@ const MaterialsView: React.FC = () => {
                 filterTitle={t(langTokens.common.byDirection).toLowerCase()}
                 allTitle={t(langTokens.common.allDirections)}
                 filterType={QueryTypeEnum.DIRECTIONS}
-                parentComponent="MaterialsView"
               />
             </>
           )}
         </Grid>
-        <Grid item container alignItems="center" xs={9} direction="column">
+        <Grid
+          className={classes.gridSpacing}
+          item
+          container
+          alignItems="center"
+          xs={7}
+          sm={8}
+          md={9}
+          lg={10}
+          direction="column"
+        >
           {page === 0 && loading === LoadingStatusEnum.pending ? (
             <LoadingContainer loading={loading} expand />
           ) : (

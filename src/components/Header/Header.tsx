@@ -50,64 +50,80 @@ export const Header: React.FC = () => {
   const { mobile } = useContext(ScreenContext);
 
   return (
-    <div id="header" className={classes.header}>
+    <div id="header" className={mobile ? classes.headerMobile : classes.header}>
       <Container className={classes.container}>
         <Toolbar className={classes.toolbar}>
-          {mobile && <BurgerMenu
-            navigation={navElems}
-            mobileMenuOpen={mobileMenuOpen}
-            setMobileMenuOpen={(b)=>setMobileMenuOpen(b)}
-          />}
+          {mobile && (
+            <BurgerMenu
+              navigation={navElems}
+              mobileMenuOpen={mobileMenuOpen}
+              setMobileMenuOpen={(b) => setMobileMenuOpen(b)}
+            />
+          )}
           <Box display="flex">
-            {!mobileMenuOpen && !searchInput && <Link to='/'>
-              <Typography className={mobile ? classes.logoMobile : classes.logo} variant='h1'>
-                {t(langTokens.common.projectName)}
-              </Typography>
-            </Link>}
-            {!mobile && <Box className={classes.tabs}>
-              {navElems.map((item) => (
-                <NavLink
-                  to={item.url}
-                  key={item.id}
-                  className={classes.tab}
-                  exact
+            {!mobileMenuOpen && !searchInput && (
+              <Link to="/">
+                <Typography
+                  className={mobile ? classes.logoMobile : classes.logo}
+                  variant="h1"
                 >
-                  <Typography variant='h5' className={classes.tabLabel}>
-                    {item.label}
-                  </Typography>
-                </NavLink>
-              ))}
-            </Box>}
-          </Box>
-          {!mobile && <Box className={classes.actionsContainer}>
-            {authenticated && <PostCreationMenu />}
-            {authenticated ? (
-              <AccountMenu />
-            ) : (
-              <Route path='/opendoctorgate'>
-                <LoginModal />
-              </Route>
+                  {t(langTokens.common.projectName)}
+                </Typography>
+              </Link>
             )}
-          </Box>}
-          {mobile && <div>
-            <Button aria-controls="simple-menu" aria-haspopup="true"
-                    onClick={(e)=>setSearchInput(e.currentTarget)}>
-              <SearchIcon className={classes.searchIcon} />
-            </Button>
-            <Menu
-              classes={{ list:classes.label }}
-              id="simple-menu"
-              anchorEl={searchInput}
-              keepMounted
-              open={Boolean(searchInput)}
-              onClose={()=>setSearchInput(null)}
-            >
-              <MenuItem className={classes.searchInputWrapper}>
-                <input className={classes.searchInput}/>
-                <SearchIcon className={classes.searchInputIcon} />
-              </MenuItem>
-            </Menu>
-          </div>}
+            {!mobile && (
+              <Box className={classes.tabs}>
+                {navElems.map((item) => (
+                  <NavLink
+                    to={item.url}
+                    key={item.id}
+                    className={classes.tab}
+                    exact
+                  >
+                    <Typography variant="h5" className={classes.tabLabel}>
+                      {item.label}
+                    </Typography>
+                  </NavLink>
+                ))}
+              </Box>
+            )}
+          </Box>
+          {!mobile && (
+            <Box className={classes.actionsContainer}>
+              {authenticated && <PostCreationMenu />}
+              {authenticated ? (
+                <AccountMenu />
+              ) : (
+                <Route path="/opendoctorgate">
+                  <LoginModal />
+                </Route>
+              )}
+            </Box>
+          )}
+          {mobile && (
+            <div>
+              <Button
+                aria-controls="simple-menu"
+                aria-haspopup="true"
+                onClick={(e) => setSearchInput(e.currentTarget)}
+              >
+                <SearchIcon className={classes.searchIcon} />
+              </Button>
+              <Menu
+                classes={{ list: classes.label, paper: classes.paper }}
+                id="simple-menu"
+                anchorEl={searchInput}
+                keepMounted
+                open={Boolean(searchInput)}
+                onClose={() => setSearchInput(null)}
+              >
+                <MenuItem className={classes.searchInputWrapper}>
+                  <input className={classes.searchInput} />
+                  <SearchIcon className={classes.searchInputIcon} />
+                </MenuItem>
+              </Menu>
+            </div>
+          )}
         </Toolbar>
       </Container>
     </div>

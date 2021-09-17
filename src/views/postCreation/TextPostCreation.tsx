@@ -35,6 +35,7 @@ import {
   FIND_AUTHORS_DEBOUNCE_TIMEOUT,
   MAX_TITLE_LENGTH,
   MIN_CONTENT_LENGTH,
+  MIN_PREVIEW_LENGTH,
   MIN_TITLE_LENGTH,
   PREVIEW_DEBOUNCE_TIMEOUT,
 } from '../../old/lib/constants/editors';
@@ -267,8 +268,9 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
     !newPost.authorId;
 
   const isEnoughLength =
-    contentText.length < MIN_CONTENT_LENGTH ||
-    newPost.title.length < MIN_TITLE_LENGTH;
+    contentText.length <= MIN_CONTENT_LENGTH ||
+    newPost.title.length <= MIN_TITLE_LENGTH ||
+    newPost.preview.length <= MIN_PREVIEW_LENGTH;
 
   const isTooLong = newPost.title.length > MAX_TITLE_LENGTH;
 
@@ -351,6 +353,7 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
 
   const postAuthorSelection = isAdmin && (
     <PostAuthorSelection
+      isDisplayTable
       onAuthorTableClick={onAuthorTableClick}
       handleOnChange={handleOnChange}
       authors={authors}
