@@ -14,6 +14,10 @@ export const useStyles = makeStyles(
         fontFamily: 'Raleway',
         fontWeight: 700,
         fontSize: '21px',
+        zIndex: 1400,
+        '&.MuiButton-root:hover': {
+          background: '#FF5C00',
+        },
       },
     }),
   { name: 'LoadMoreButton' },
