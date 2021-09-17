@@ -63,4 +63,5 @@ export const common = {
   goBackToMain: 'Повернутися на головну',
   permissionError: 'На жаль, Ви не можете редагувати цей пост',
   noFoundAuthors: 'Такого автора не знайдено',
+  inputSearchPlaceholder: 'Пошукове слово',
 };
