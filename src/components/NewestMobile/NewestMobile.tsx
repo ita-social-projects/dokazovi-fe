@@ -14,7 +14,7 @@ import {
   fetchNewestMobile,
   selectMobileMaterials,
 } from '../../models/newestPostsMobile';
-import { AutoPaginationPostList } from '../AutoPaginationPostList/AutoPaginationPostList';
+import { PostsList } from '../../old/lib/components/Posts/PostsList';
 
 const a11yProps = (index: number) => {
   return {
@@ -38,7 +38,7 @@ export const NewestMobile: React.FC = () => {
   const [value, setValue] = useState<number>(0);
   const [visible, setVisible] = useState<boolean>(true);
   const [oldPageOffsetY, setOldPageOffsetY] = useState<number>(0);
-  /* const [type, setType] = useState<'click' | 'swipe' | ''>(''); */
+  const [type, setType] = useState<'click' | 'swipe' | ''>('');
   const [pageTop, setPageTop] = useState<IPageTopParameters>({
     '0': headerAndCarouselHeight,
     '1': headerAndCarouselHeight,
@@ -78,7 +78,7 @@ export const NewestMobile: React.FC = () => {
       saveViewPort();
     }
     setValue(newValue);
-    /* setType('click'); */
+    setType('click');
   };
 
   const handleChangeIndex = (index: number) => {
@@ -86,23 +86,20 @@ export const NewestMobile: React.FC = () => {
       saveViewPort();
     }
     setValue(index);
-   /* setType('swipe'); */
+    setType('swipe');
   };
 
   useEffect(() => {
-    if (headerAndCarouselHeight <= visualViewport.pageTop) {
-      window.scrollTo({ top: pageTop[value] });
-    }
-    /* if (type === 'swipe' && visualViewport.pageTop > headerAndCarouselHeight) {
+    if (type === 'swipe' && visualViewport.pageTop >= headerAndCarouselHeight) {
       window.scrollTo({
         top: pageTop[value],
       });
     }
-    if (type === 'click' && visualViewport.pageTop > headerAndCarouselHeight) {
+    if (type === 'click' && visualViewport.pageTop >= headerAndCarouselHeight) {
       window.scrollTo({
         top: headerAndCarouselHeight,
       });
-    } */
+    }
   }, [value]);
 
   const transitionDuration = {
@@ -185,7 +182,7 @@ export const NewestMobile: React.FC = () => {
                   id={`full-width-tabpanel-${index}`}
                   aria-labelledby={`full-width-tab-${index}`}
                 >
-                  <AutoPaginationPostList posts={posts.postDTOS} />
+                  <PostsList postsList={posts.postDTOS} />
                 </div>
               );
             })}
