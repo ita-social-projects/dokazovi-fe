@@ -13,7 +13,7 @@ export const common = {
   translation: 'Переклад',
   translation_1: 'Переклади',
   translation_2: 'Переклади',
-  transition_3: 'перекладів',
+  transition_3: 'переклади',
   showContacts: 'Показати контакти',
   hideContacts: 'Сховати контакти',
   video: 'Відео',

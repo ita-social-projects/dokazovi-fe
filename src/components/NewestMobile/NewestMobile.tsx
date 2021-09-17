@@ -225,7 +225,7 @@ export const NewestMobile: React.FC = () => {
                       variant="outlined"
                       onClick={() => redirect(posts.fieldName)}
                     >
-                      {t(langTokens.materials.goTo, {
+                      {t(langTokens.materials.goToAll, {
                         material: selectType(posts.fieldName),
                       })}
                     </Button>
