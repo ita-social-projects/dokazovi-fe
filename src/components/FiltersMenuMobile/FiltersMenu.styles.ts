@@ -20,12 +20,8 @@ export const useStyles = makeStyles(
       fontWeight: 400,
       fontStyleL: 'italic',
     },
-    subHeaderContainer: {
-      display: 'flex',
-      flexWrap: 'wrap',
-      margin: '26px 0px',
-      justifyContent: 'flex-start',
-      alignItems: 'center',
+    selectedTypes: {
+      margin: '26px 0 0',
     },
     selectedFilters: {
       margin: '0px 15px 15px 0px',
