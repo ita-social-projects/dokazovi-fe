@@ -20,7 +20,7 @@ export const AutoPaginationPostList: React.FC<IAutoPaginationPostListProps> = ({
     }
     if (lastElement.current) {
       observer.current = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting && setPage) {
+        if (entries[0].isIntersecting) {
           setPage((p: number) => p + 1);
         }
       });
