@@ -6,14 +6,14 @@ export const useStyles = makeStyles(
       padding: 0,
     },
     headerContainer: {
-      width: '100%',
+      boxSizing: 'border-box',
       display: 'flex',
       justifyContent: 'space-between',
       alignItems: 'center',
-      margin: '30px 0 20px',
+      margin: '30px 10px 20px',
     },
     divider: {
-      width: '100%',
+      width: '40%',
       height: '1px',
       background: 'black',
     },
