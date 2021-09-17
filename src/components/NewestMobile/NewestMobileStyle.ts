@@ -45,4 +45,22 @@ export const useStyles = makeStyles((theme: Theme) => ({
     top: 0,
     left: 0,
   },
+  buttonContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    height: 100,
+    alignItems: 'center',
+  },
+  button: {
+    alignItems: 'center',
+    backgroundColor: theme.palette.common.black,
+    height: '44px',
+    borderRadius: '300px',
+    marginBottom: theme.spacing(2),
+    '& .MuiButton-label': {
+      color: theme.palette.common.white,
+      fontWeight: 500,
+      fontSize: '16px',
+    },
+  },
 }));

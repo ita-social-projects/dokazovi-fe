@@ -6,7 +6,8 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import { CircularProgress, Slide } from '@material-ui/core';
+import { Button, CircularProgress, Slide } from '@material-ui/core';
+import { useHistory } from 'react-router-dom';
 import { langTokens } from '../../locales/localizationInit';
 import { useStyles } from './NewestMobileStyle';
 import { useActions } from '../../shared/hooks';
@@ -46,6 +47,7 @@ export const NewestMobile: React.FC = () => {
     '3': headerAndCarouselHeight,
   });
 
+  const history = useHistory();
   const [boundFetchMobileMaterials] = useActions([fetchNewestMobile]);
   const content = useSelector(selectMobileMaterials);
 
@@ -87,6 +89,40 @@ export const NewestMobile: React.FC = () => {
     }
     setValue(index);
     setType('swipe');
+  };
+
+  const selectType = (fieldName) => {
+    switch (fieldName) {
+      case 'expertOpinion':
+        return t(langTokens.experts.expertOpinion_3);
+      case 'translation':
+        return t(langTokens.common.transition_3);
+      case 'media':
+        return t(langTokens.common.media_1);
+      case 'video':
+        return t(langTokens.common.video_1);
+      default:
+        return '';
+    }
+  };
+
+  const redirect = (fieldName) => {
+    switch (fieldName) {
+      case 'expertOpinion':
+        history.push('/materials?origins=1');
+        break;
+      case 'translation':
+        history.push('/materials?origins=3');
+        break;
+      case 'media':
+        history.push('/materials?origins=2');
+        break;
+      case 'video':
+        history.push('/materials?origins=0&types=2');
+        break;
+      default:
+        break;
+    }
   };
 
   useEffect(() => {
@@ -183,6 +219,17 @@ export const NewestMobile: React.FC = () => {
                   aria-labelledby={`full-width-tab-${index}`}
                 >
                   <PostsList postsList={posts.postDTOS} />
+                  <div className={classes.buttonContainer}>
+                    <Button
+                      className={classes.button}
+                      variant="outlined"
+                      onClick={() => redirect(posts.fieldName)}
+                    >
+                      {t(langTokens.materials.goTo, {
+                        material: selectType(posts.fieldName),
+                      })}
+                    </Button>
+                  </div>
                 </div>
               );
             })}
