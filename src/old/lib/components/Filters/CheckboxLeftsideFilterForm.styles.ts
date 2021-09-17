@@ -15,6 +15,9 @@ export const useStyles = makeStyles(
       'input:hover ~ &': {
         backgroundColor: '#ebf1f5',
       },
+      [theme.breakpoints.down('xs')]: {
+        border: '1px solid #4FDFFF',
+      },
     },
     checkedIcon: {
       backgroundColor: '#4FDFFF',
@@ -24,6 +27,9 @@ export const useStyles = makeStyles(
       height: '15px',
       'input:hover ~ &': {
         backgroundColor: '#106ba3',
+        [theme.breakpoints.down('xs')]: {
+          backgroundColor: '#4FDFFF',
+        },
       },
       '&:before': {
         width: '14.38px',
@@ -43,6 +49,11 @@ export const useStyles = makeStyles(
       height: '30px',
       width: '260px',
       margin: '0 0 0 -8px',
+      [theme.breakpoints.down('xs')]: {
+        fontSize: '16px',
+        lineHeight: '21px',
+        margin: '8px 0',
+      },
     },
 
     filtersWrapper: {
@@ -56,6 +67,10 @@ export const useStyles = makeStyles(
       fontSize: '18px',
       lineHeight: '18px',
       fontWeight: 'bold',
+      [theme.breakpoints.down('xs')]: {
+        fontSize: '21px',
+        marginBottom: 5,
+      },
     },
     divider: {
       width: '250px',
@@ -71,6 +86,15 @@ export const useStyles = makeStyles(
       [theme.breakpoints.down('sm')]: {
         width: '145px',
       },
+      [theme.breakpoints.down('xs')]: {
+        width: '85%',
+        marginBottom: 5,
+      },
+    },
+    checkboxMobileDivider: {
+      height: '1px',
+      background: '#C4C4C4',
+      width: '85%',
     },
     formGroup: {
       margin: '0 0 55px 0',
