@@ -65,7 +65,7 @@ export const useStyles = makeStyles(
     searchInput: {
       width: '85%',
       height: 39,
-      fontSize: '1.1em',
+      fontSize: 13,
       paddingLeft: theme.spacing(2),
     },
     searchInputIcon: {
