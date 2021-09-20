@@ -13,6 +13,7 @@ export const experts = {
   expertOpinion: 'Думка експерта',
   expertOpinion_1: 'Думки експертів',
   expertOpinion_2: 'Думки експертів',
+  expertOpinion_3: 'думки експертів',
   selectExpertMaterials: 'Вибрати матеріали автора',
   selectedExpertMaterials: 'Вибрано матеріали автора',
   selectedExperts: 'Вибрані автори',

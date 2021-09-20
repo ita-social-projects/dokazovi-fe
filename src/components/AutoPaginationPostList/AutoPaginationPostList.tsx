@@ -1,20 +1,18 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { PostsList } from '../../old/lib/components/Posts/PostsList';
 import { IPost } from '../../old/lib/types';
 
 interface IAutoPaginationPostListProps {
   posts: IPost[];
+  setPage: (prevState) => void;
 }
 
 export const AutoPaginationPostList: React.FC<IAutoPaginationPostListProps> = ({
   posts,
+  setPage,
 }) => {
-  const [postsCount, setPostsCount] = useState(5);
-
   const lastElement = useRef<HTMLDivElement>(null);
   const observer = useRef<IntersectionObserver>();
-
-  const lastFivePosts = posts.slice(postsCount, postsCount + 5);
 
   useEffect(() => {
     if (observer.current) {
@@ -23,7 +21,7 @@ export const AutoPaginationPostList: React.FC<IAutoPaginationPostListProps> = ({
     if (lastElement.current) {
       observer.current = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting) {
-          setPostsCount((p) => p + 5);
+          setPage((p: number) => p + 1);
         }
       });
       observer.current.observe(lastElement.current);
@@ -32,12 +30,10 @@ export const AutoPaginationPostList: React.FC<IAutoPaginationPostListProps> = ({
 
   return (
     <div>
-      <PostsList postsList={posts.slice(0, postsCount)} />
-      {Boolean(lastFivePosts.length) && (
-        <div ref={lastElement}>
-          <PostsList postsList={lastFivePosts} />
-        </div>
-      )}
+      <PostsList postsList={posts.slice(0, posts.length - 5)} />
+      <div ref={lastElement}>
+        <PostsList postsList={posts.slice(-5)} />
+      </div>
     </div>
   );
 };
