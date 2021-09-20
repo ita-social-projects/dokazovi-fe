@@ -11,10 +11,7 @@ import { useHistory } from 'react-router-dom';
 import { langTokens } from '../../locales/localizationInit';
 import { useStyles } from './NewestMobileStyle';
 import { useActions } from '../../shared/hooks';
-import {
-  fetchNewestMobile,
-  selectMobileMaterials,
-} from '../../models/newestPostsMobile';
+import { fetchNewestMobile, selectMobileMaterials } from '../../models/newestPostsMobile';
 import { PostsList } from '../../old/lib/components/Posts/PostsList';
 
 const a11yProps = (index: number) => {
@@ -76,7 +73,7 @@ export const NewestMobile: React.FC = () => {
   };
 
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
-    if (visualViewport.pageTop > headerAndCarouselHeight) {
+    if (visualViewport.pageTop >= headerAndCarouselHeight) {
       saveViewPort();
     }
     setValue(newValue);
@@ -84,7 +81,7 @@ export const NewestMobile: React.FC = () => {
   };
 
   const handleChangeIndex = (index: number) => {
-    if (visualViewport.pageTop > headerAndCarouselHeight) {
+    if (visualViewport.pageTop >= headerAndCarouselHeight) {
       saveViewPort();
     }
     setValue(index);
