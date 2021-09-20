@@ -43,6 +43,7 @@ export const useStyles = makeStyles(
       [theme.breakpoints.down('xs')]: {
         whiteSpace: 'nowrap',
         lineHeight: '1.4',
+        marginBottom: '18px',
       },
     },
     divider: {

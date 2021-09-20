@@ -53,8 +53,10 @@ export const useStyles = makeStyles(
         lineHeight: '21px',
         margin: '8px 0',
       },
+      '& .MuiCheckbox-root': {
+        paddingLeft: 0,
+      },
     },
-
     filtersWrapper: {
       marginTop: '0',
     },
@@ -79,6 +81,7 @@ export const useStyles = makeStyles(
       margin: '2px 0 20px 0',
       [theme.breakpoints.down('sm')]: {
         width: '225px',
+        margin: '2px 0 2px 0',
       },
     },
     dividerMV: {
@@ -94,7 +97,7 @@ export const useStyles = makeStyles(
     checkboxMobileDivider: {
       height: '1px',
       background: '#C4C4C4',
-      width: '85%',
+      width: '100%',
     },
     formGroup: {
       margin: '0 0 55px 0',
@@ -126,6 +129,9 @@ export const useStyles = makeStyles(
       [theme.breakpoints.down('sm')]: {
         fontSize: '14px',
         lineHeight: '16px',
+      },
+      [theme.breakpoints.down('xs')]: {
+        fontWeight: 500,
       },
     },
 

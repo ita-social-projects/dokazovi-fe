@@ -325,9 +325,9 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
                   allChecked ? classes.allCheckedTrue : classes.allCheckedFalse
                 }
                 style={
-                  theOnlyAvailableFilter
-                    ? { fontWeight: 500, color: '#767676' }
-                    : { fontWeight: 700 }
+                  !theOnlyAvailableFilter && !mobile
+                    ? { fontWeight: 700 }
+                    : { fontWeight: 500 }
                 }
               >
                 {allTitle}

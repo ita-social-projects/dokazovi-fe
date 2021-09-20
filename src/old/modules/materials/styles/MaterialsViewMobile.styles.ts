@@ -10,7 +10,7 @@ export const useStyles = makeStyles(
       display: 'flex',
       justifyContent: 'space-between',
       alignItems: 'center',
-      margin: '30px 10px 20px',
+      margin: '25px 10px 20px',
     },
     divider: {
       width: '40%',
