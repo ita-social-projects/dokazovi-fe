@@ -24,6 +24,9 @@ export const useStyles = makeStyles(
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'space-between',
+      '&:first-child': {
+        width: '60%',
+      },
     },
     navigationContainer: {
       display: 'flex',
