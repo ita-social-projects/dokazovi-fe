@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
 import { Button } from '@material-ui/core';
+import CloseIcon from '@material-ui/icons/Close';
 import { langTokens } from 'locales/localizationInit';
 import { useTranslation } from 'react-i18next';
 import { useStyles } from './FiltersButton.styles';
@@ -21,8 +22,18 @@ const FiltersButton: FC<IFiltersButtonProps> = ({
   };
 
   return (
-    <Button className={classes.button} onClick={handleFiltersMenuToggle}>
-      {filtersMenuOpen ? 'X' : t(langTokens.common.filters)}
+    <Button
+      className={`
+        ${classes.button} 
+        ${filtersMenuOpen ? classes.close.toString() : classes.open.toString()}
+      `}
+      onClick={handleFiltersMenuToggle}
+    >
+      {filtersMenuOpen ? (
+        <CloseIcon className={classes.closeIcon} />
+      ) : (
+        t(langTokens.common.filters)
+      )}
     </Button>
   );
 };
