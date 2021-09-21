@@ -66,6 +66,9 @@ const MaterialsView: React.FC = () => {
   } = useSelector(selectMaterials);
 
   const [page, setPage] = useState(pageNumber);
+  const [header, setHeader] = useState(
+    t(langTokens.common.materials).toString(),
+  );
 
   const { mobile } = useContext(ScreenContext);
 
@@ -410,7 +413,19 @@ const MaterialsView: React.FC = () => {
     }
   };
 
-  const selectedTypes = (
+  useEffect(() => {
+    setHeader(() => {
+      if (Array.isArray(selectedOrigins) && selectedOrigins.length === 1) {
+        return t(selectedOrigins[0].name).toString();
+      }
+      if (Array.isArray(selectedOrigins) && selectedOrigins.length > 1) {
+        return t(langTokens.common.selectedMaterials).toString();
+      }
+      return t(langTokens.common.materials).toString();
+    });
+  }, [selectedOrigins]);
+
+  const SelectedTypes = (
     <Box className={classes.container}>
       {typeof selectedOrigins === 'string' ? (
         <Typography
@@ -482,7 +497,7 @@ const MaterialsView: React.FC = () => {
     </Box>
   );
 
-  const filterCheckboxes = propertiesLoaded && (
+  const FilterCheckboxes = propertiesLoaded && (
     <>
       <CheckboxLeftsideFilterForm
         onFormChange={(checked) => setFilters(checked, FilterTypeEnum.ORIGINS)}
@@ -515,16 +530,30 @@ const MaterialsView: React.FC = () => {
     </>
   );
 
+  const LoadMoreButtonEl = (
+    <LoadMoreButton
+      clicked={loadMore}
+      isLastPage={isLastPage}
+      loading={loading}
+      totalPages={totalPages}
+      totalElements={totalElements}
+      pageNumber={pageNumber}
+      textType={LoadMoreButtonTextType.POST}
+    />
+  );
+
   if (mobile) {
     return (
       <MaterialsViewMobile
         page={page}
+        header={header}
         loading={loading}
         materials={materials}
         totalElements={totalElements}
         resetPage={resetPage}
-        selectedTypes={selectedTypes}
-        filterCheckboxes={filterCheckboxes}
+        SelectedTypes={SelectedTypes}
+        FilterCheckboxes={FilterCheckboxes}
+        LoadMoreButton={LoadMoreButtonEl}
       />
     );
   }
@@ -548,12 +577,12 @@ const MaterialsView: React.FC = () => {
           md={9}
           lg={10}
         >
-          {selectedTypes}
+          {SelectedTypes}
         </Grid>
       </Grid>
       <Grid container direction="row">
         <Grid item container direction="column" xs={5} sm={4} md={3} lg={2}>
-          {filterCheckboxes}
+          {FilterCheckboxes}
         </Grid>
         <Grid
           className={classes.gridSpacing}
@@ -572,15 +601,7 @@ const MaterialsView: React.FC = () => {
             <>
               <PostsList postsList={materials} resetPage={resetPage} />
               <Grid container justify="center">
-                <LoadMoreButton
-                  clicked={loadMore}
-                  isLastPage={isLastPage}
-                  loading={loading}
-                  totalPages={totalPages}
-                  totalElements={totalElements}
-                  pageNumber={pageNumber}
-                  textType={LoadMoreButtonTextType.POST}
-                />
+                {LoadMoreButtonEl}
               </Grid>
             </>
           )}

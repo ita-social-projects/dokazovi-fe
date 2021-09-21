@@ -4,32 +4,33 @@ import { LoadingContainer } from 'old/lib/components/Loading/LoadingContainer';
 import { PostsList } from 'old/lib/components/Posts/PostsList';
 import FiltersMenu from 'components/FiltersMenuMobile/FiltersMenu';
 import FiltersButton from 'old/lib/components/FiltersButton/FiltersButton';
-import { useTranslation } from 'react-i18next';
 import { IPost, LoadingStatusType, LoadingStatusEnum } from 'old/lib/types';
 import { useStyles } from '../styles/MaterialsViewMobile.styles';
-import { langTokens } from '../../../../locales/localizationInit';
 
 interface IMaterialsViewMobileProps {
   page: number;
+  header: string;
   loading: LoadingStatusType;
   materials: IPost[];
   totalElements: number;
   resetPage: () => void;
-  selectedTypes: JSX.Element;
-  filterCheckboxes: JSX.Element | false;
+  SelectedTypes: JSX.Element;
+  FilterCheckboxes: JSX.Element | false;
+  LoadMoreButton: JSX.Element;
 }
 
 const MaterialsViewMobile: FC<IMaterialsViewMobileProps> = ({
   page,
+  header,
   loading,
   materials,
   totalElements,
   resetPage,
-  selectedTypes,
-  filterCheckboxes,
+  SelectedTypes,
+  FilterCheckboxes,
+  LoadMoreButton,
 }) => {
   const classes = useStyles();
-  const { t } = useTranslation();
 
   const [filtersMenuOpen, setFiltersMenuOpen] = useState(false);
 
@@ -38,7 +39,7 @@ const MaterialsViewMobile: FC<IMaterialsViewMobileProps> = ({
       <Box className={classes.headerContainer}>
         <Typography component="span" className={classes.divider} />
         <Typography component="p" className={classes.header}>
-          {t(langTokens.common.materials)}
+          {header}
         </Typography>
         <Typography component="span" className={classes.divider} />
       </Box>
@@ -48,6 +49,9 @@ const MaterialsViewMobile: FC<IMaterialsViewMobileProps> = ({
         ) : (
           <>
             <PostsList postsList={materials} resetPage={resetPage} mobile />
+            <Grid container justify="center">
+              {LoadMoreButton}
+            </Grid>
           </>
         )}
       </Grid>
@@ -59,8 +63,8 @@ const MaterialsViewMobile: FC<IMaterialsViewMobileProps> = ({
         filtersMenuOpen={filtersMenuOpen}
         setFiltersMenuOpen={setFiltersMenuOpen}
         totalElements={totalElements}
-        selectedTypes={selectedTypes}
-        filterCheckboxes={filterCheckboxes}
+        SelectedTypes={SelectedTypes}
+        FilterCheckboxes={FilterCheckboxes}
       />
     </Container>
   );

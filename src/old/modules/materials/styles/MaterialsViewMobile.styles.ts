@@ -23,6 +23,7 @@ export const useStyles = makeStyles(
       fontFamily: 'Raleway',
       fontWeight: 700,
       paddingInline: '15px',
+      whiteSpace: 'nowrap',
     },
   }),
   {

@@ -8,16 +8,16 @@ interface IFiltersMenuProps {
   filtersMenuOpen: boolean;
   setFiltersMenuOpen: (value: boolean) => void;
   totalElements: number;
-  selectedTypes: JSX.Element;
-  filterCheckboxes: JSX.Element | false;
+  SelectedTypes: JSX.Element;
+  FilterCheckboxes: JSX.Element | false;
 }
 
 const FiltersMenu: FC<IFiltersMenuProps> = ({
   filtersMenuOpen,
   setFiltersMenuOpen,
   totalElements,
-  selectedTypes,
-  filterCheckboxes,
+  SelectedTypes,
+  FilterCheckboxes,
 }) => {
   const classes = useStyles();
   const { t } = useTranslation();
@@ -50,10 +50,10 @@ const FiltersMenu: FC<IFiltersMenuProps> = ({
           </Typography>
         </Grid>
         <Grid container direction="row">
-          <Box className={classes.selectedTypes}>{selectedTypes}</Box>
+          <Box className={classes.selectedTypes}>{SelectedTypes}</Box>
         </Grid>
 
-        {filterCheckboxes}
+        {FilterCheckboxes}
       </Grid>
     </Drawer>
   );
