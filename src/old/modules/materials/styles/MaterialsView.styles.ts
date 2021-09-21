@@ -11,7 +11,7 @@ export const useStyles = makeStyles(
       [theme.breakpoints.down('xs')]: {
         flexWrap: 'nowrap',
         overflow: 'scroll',
-        width: '280px',
+        width: '228px',
         height: '48px',
       },
     },
