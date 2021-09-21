@@ -6,12 +6,17 @@ export const useStyles = makeStyles(
     createStyles({
       masonryGrid: {
         display: 'flex',
-        alignItems: 'center',
+        width: '100%',
       },
       masonryColumn: {
         marginRight: theme.spacing(2),
         '&:last-of-type': {
           margin: 0,
+        },
+        [theme.breakpoints.down('xs')]: {
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
         },
       },
       masonryItem: {
@@ -23,6 +28,6 @@ export const useStyles = makeStyles(
 
 export const MASONRY_BREAKPOINTS = {
   default: 3,
-  [SCREEN_BREAKPOINTS.md]: 2,
+  [SCREEN_BREAKPOINTS.lg]: 2,
   [SCREEN_BREAKPOINTS.sm]: 1,
 };
