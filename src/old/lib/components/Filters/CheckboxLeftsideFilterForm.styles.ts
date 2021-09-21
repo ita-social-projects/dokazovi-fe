@@ -52,9 +52,9 @@ export const useStyles = makeStyles(
         fontSize: '16px',
         lineHeight: '21px',
         margin: '8px 0',
-      },
-      '& .MuiCheckbox-root': {
-        paddingLeft: 0,
+        '& .MuiCheckbox-root': {
+          paddingLeft: 0,
+        },
       },
     },
     filtersWrapper: {
