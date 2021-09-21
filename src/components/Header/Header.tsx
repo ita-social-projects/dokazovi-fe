@@ -3,6 +3,7 @@ import {
   Box,
   Button,
   Container,
+  Input,
   Menu,
   MenuItem,
   Toolbar,
@@ -118,7 +119,11 @@ export const Header: React.FC = () => {
                 onClose={() => setSearchInput(null)}
               >
                 <MenuItem className={classes.searchInputWrapper}>
-                  <input className={classes.searchInput} />
+                  <Input
+                    disableUnderline
+                    className={classes.searchInput}
+                    placeholder={t(langTokens.common.inputSearchPlaceholder)}
+                  />
                   <SearchIcon className={classes.searchInputIcon} />
                 </MenuItem>
               </Menu>
