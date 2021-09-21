@@ -2,6 +2,7 @@ import React, { FC } from 'react';
 import { Drawer, Grid, Box, Typography } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
 import { langTokens } from '../../locales/localizationInit';
+import ArrowForward from '../../assets/svg/ArrowForward.svg';
 import { useStyles } from './FiltersMenu.styles';
 
 interface IFiltersMenuProps {
@@ -38,7 +39,7 @@ const FiltersMenu: FC<IFiltersMenuProps> = ({
       }}
     >
       <Grid container>
-        <Grid container direction="row" justifyContent="space-between">
+        <Grid container direction="row" className={classes.container}>
           <Typography className={classes.headerSelected}>
             {t(langTokens.common.selected)}:
           </Typography>
@@ -49,10 +50,14 @@ const FiltersMenu: FC<IFiltersMenuProps> = ({
             }).toLowerCase()}
           </Typography>
         </Grid>
-        <Grid container direction="row">
+        <Grid
+          container
+          direction="row"
+          className={classes.selectedTypesContainer}
+        >
           <Box className={classes.selectedTypes}>{SelectedTypes}</Box>
+          <img src={ArrowForward} alt="Arrow forward" />
         </Grid>
-
         {FilterCheckboxes}
       </Grid>
     </Drawer>
