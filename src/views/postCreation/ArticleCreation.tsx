@@ -21,7 +21,7 @@ const ArticleCreation: React.FC = () => {
       contentInputLabel={`${t(langTokens.editor.articleText)}:`}
       postType={{
         type: PostTypeEnum.ARTICLE,
-        name: t(langTokens.common.post),
+        name: t(langTokens.common.article),
       }}
     />
   );
