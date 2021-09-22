@@ -17,6 +17,7 @@ export interface IBackgroundImageContainerProps {
   title?: string;
   imgUrl?: string;
   notCarousel?: boolean;
+  reminder?: boolean;
 }
 
 export interface IFileInputProps {
