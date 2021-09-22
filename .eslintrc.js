@@ -58,6 +58,5 @@ module.exports = {
     '@typescript-eslint/no-use-before-define': 'off',
     '@typescript-eslint/no-floating-promises': ['off'],
     'react/require-default-props': 'off',
-    'react/prop-types': 'off'
   },
 };
