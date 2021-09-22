@@ -27,6 +27,7 @@ export const editor = {
   fillFieldWithUrl: 'Заповніть поле з посиланням',
   addImage: 'Додати зображення',
   backgroundImage: 'Фонове зображення',
+  warn: '(тільки для перекладу або медитеки)',
   carouselImage: 'Зображення для каруселі',
   byComputer: "З комп'ютера",
   byUrl: 'За посиланням',
@@ -50,5 +51,5 @@ export const editor = {
   notEnoughLength: 'Ви ввели недостатньо символів',
   notUASymbols: 'Введіть текст українською мовою',
   noVideo: 'Додайте, будь ласка, відео',
-  toMuchTitleLength:'Ви ввели забагато символів'
+  toMuchTitleLength: 'Ви ввели забагато символів',
 };
