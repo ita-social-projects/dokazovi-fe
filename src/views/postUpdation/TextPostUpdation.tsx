@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import _ from 'lodash';
 import { Box, TextField, Typography } from '@material-ui/core';
@@ -7,19 +7,17 @@ import { DropEvent, FileRejection } from 'react-dropzone';
 import { PageTitle } from 'components/Page/PageTitle';
 import { useSelector } from 'react-redux';
 import { sanitizeHtml } from '../../old/lib/utilities/sanitizeHtml';
-import { updatePost, getAllExperts } from '../../old/lib/utilities/API/api';
-import { IDirection, IPost, IOrigin } from '../../old/lib/types';
+import { getAllExperts, updatePost } from '../../old/lib/utilities/API/api';
+import { IDirection, IOrigin, IPost } from '../../old/lib/types';
 import { PostCreationButtons } from '../postCreation/PostCreationButtons';
-import {
-  UpdateTextPostRequestType,
-  ExpertResponseType,
-} from '../../old/lib/utilities/API/types';
+import { ExpertResponseType, UpdateTextPostRequestType } from '../../old/lib/utilities/API/types';
 import {
   CLEAR_HTML_REG_EXP,
   CONTENT_DEBOUNCE_TIMEOUT,
   FIND_AUTHORS_DEBOUNCE_TIMEOUT,
   MAX_TITLE_LENGTH,
-  MIN_CONTENT_LENGTH, MIN_PREVIEW_LENGTH,
+  MIN_CONTENT_LENGTH,
+  MIN_PREVIEW_LENGTH,
   MIN_TITLE_LENGTH,
   PREVIEW_DEBOUNCE_TIMEOUT,
 } from '../../old/lib/constants/editors';
@@ -81,7 +79,9 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
   const [authors, setAuthors] = useState<ExpertResponseType[]>([]);
   const [authorId, setAuthorId] = useState<number | null>(null);
   const [author, setAuthor] = useState<ExpertResponseType>();
-  const [searchValue, setSearchValue] = useState(`${post.author.firstName} ${post.author.lastName}`);
+  const [searchValue, setSearchValue] = useState(
+    `${post.author.firstName} ${post.author.lastName}`,
+  );
   const [authorLength, setAuthorLength] = useState<number | null>(null);
   const [typing, setTyping] = useState({ content: false, preview: false });
   const [previewing, setPreviewing] = useState(false);
@@ -264,21 +264,26 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
             )}
           </Box>
           {postAuthorSelection}
-          <BackgroundImageContainer
-            dispatchImageUrl={setPreviewImageUrl}
-            fileSelectorHandler={fileSelectorHandler(setPreviewImageUrl)}
-            title={t(langTokens.editor.backgroundImage)}
-            imgUrl={previewPost?.previewImageUrl}
-          />
-          <BorderBottom />
-          <BackgroundImageContainer
-            dispatchImageUrl={setImportantImageUrl}
-            fileSelectorHandler={fileSelectorHandler(setImportantImageUrl)}
-            title={t(langTokens.editor.carouselImage)}
-            imgUrl={previewPost?.importantImageUrl}
-            notCarousel={false}
-          />
-          <BorderBottom />
+          {isAdmin && (
+            <>
+              <BackgroundImageContainer
+                dispatchImageUrl={setPreviewImageUrl}
+                fileSelectorHandler={fileSelectorHandler(setPreviewImageUrl)}
+                title={t(langTokens.editor.backgroundImage)}
+                imgUrl={previewPost?.previewImageUrl}
+                reminder
+              />
+              <BorderBottom />
+              <BackgroundImageContainer
+                dispatchImageUrl={setImportantImageUrl}
+                fileSelectorHandler={fileSelectorHandler(setImportantImageUrl)}
+                title={t(langTokens.editor.carouselImage)}
+                imgUrl={previewPost?.importantImageUrl}
+                notCarousel={false}
+              />
+              <BorderBottom />
+            </>
+          )}
           <Box mt={2}>
             <Typography className={classes.requiredField} variant="h5">
               {contentInputLabel}

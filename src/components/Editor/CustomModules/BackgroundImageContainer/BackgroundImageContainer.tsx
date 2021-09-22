@@ -17,6 +17,7 @@ export const BackgroundImageContainer: React.FC<IBackgroundImageContainerProps> 
   imgUrl,
   title,
   notCarousel = true,
+  reminder,
 }) => {
   const classes = useStyles();
   const { t } = useTranslation();
@@ -57,6 +58,9 @@ export const BackgroundImageContainer: React.FC<IBackgroundImageContainerProps> 
   return (
     <Box mt={2} display="flex" flexDirection="column" alignItems="start">
       <Typography variant="h5">{`${title}:`}</Typography>
+      {reminder && (
+        <Typography variant="h6">{t(langTokens.editor.warn)}</Typography>
+      )}
       <Box mb={2}>
         {notCarousel && (
           <UrlInputModal
