@@ -278,6 +278,7 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
         content: savedPostDraft.htmlContent,
         preview: savedPostDraft.preview.value,
         createdAt: new Date().toLocaleDateString('en-GB').split('/').join('.'),
+        previewImageUrl: savedPostDraft.previewImageUrl,
         publishedAt: '',
         directions: savedPostDraft.directions,
         origins: savedPostDraft.origins,
