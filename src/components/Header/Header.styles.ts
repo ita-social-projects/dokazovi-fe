@@ -32,15 +32,20 @@ export const useStyles = makeStyles(
     },
     tabs: {
       height: 55,
-      padding: theme.spacing(0, 16),
+      marginLeft: '6vw',
       display: 'flex',
       alignItems: 'center',
       backgroundColor: theme.palette.common.black,
+      [theme.breakpoints.down('md')]: {
+        margin: '0 3vw 0 4vw',
+      },
     },
     tab: {
-      marginRight: theme.spacing(5),
       color: theme.palette.primary.main,
       fontWeight: 600,
+      '&:not(:last-child)': {
+        marginRight: theme.spacing(5),
+      },
       '&.active': {
         color: theme.palette.common.white,
         fontWeight: 700,
