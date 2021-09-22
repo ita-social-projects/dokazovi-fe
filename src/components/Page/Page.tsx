@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Container } from '@material-ui/core';
 import { useStyles } from './Page.styles';
+import { ScreenContext } from '../../old/provider/MobileProvider/ScreenContext';
 
 export interface IPageProps {
   component: React.ComponentType;
@@ -9,8 +10,12 @@ export interface IPageProps {
 const Page: React.FC<IPageProps> = (props) => {
   const classes = useStyles();
 
+  const { mobile } = useContext(ScreenContext);
+
   return (
-    <Container className={classes.page} disableGutters>
+    <Container
+      className={mobile ? classes.pageMobile : classes.page} disableGutters
+    >
       <props.component />
     </Container>
   );

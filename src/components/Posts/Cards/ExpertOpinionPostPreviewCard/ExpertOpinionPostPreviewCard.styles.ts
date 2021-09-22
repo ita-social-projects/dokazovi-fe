@@ -5,7 +5,6 @@ export const useStyles = makeStyles(
     root: {
       position: 'relative',
       borderRadius: 0,
-      width: '315px',
     },
     avatar: {
       height: 95,
@@ -56,6 +55,11 @@ export const useStyles = makeStyles(
     },
     content: {
       padding: 0,
+    },
+    [theme.breakpoints.down('xs')]: {
+      root: {
+        width: '94vw',
+      },
     },
   }),
   {

@@ -6,7 +6,7 @@ export const useStyles = makeStyles(
       position: 'relative',
       minHeight: '550px',
       padding: '70px 225px 150px',
-      wordBreak:'break-word',
+      wordBreak: 'break-word',
     },
     wrapper: {
       display: 'flex',
@@ -22,7 +22,6 @@ export const useStyles = makeStyles(
       width: 130,
       marginRight: theme.spacing(4),
       borderRadius: '50%',
-      filter: 'grayscale(100%)',
     },
     actionsBlock: {
       display: 'flex',
@@ -34,14 +33,15 @@ export const useStyles = makeStyles(
       flexDirection: 'column',
       '& h1': {
         marginTop: theme.spacing(14),
+        marginBottom: theme.spacing(10),
       },
     },
     createdAt: {
       color: theme.palette.info.light,
     },
     video: {
-      width: '1305px',
-      height: '734px',
+      width: '72vw',
+      height: '100vh',
       margin: '20px -225px 70px',
       borderBottom: '1px solid #767676',
     },
@@ -87,11 +87,7 @@ export const useStyles = makeStyles(
         marginTop: theme.spacing(8),
       },
       '& a': {
-        fontFamily: 'Literata',
         fontStyle: 'italic',
-        fontWeight: 400,
-        fontSize: '14px',
-        lineHeight: 1.86,
         textDecoration: 'underline',
         color: '#0000ff',
       },

@@ -20,7 +20,7 @@ const NoteCreation: React.FC = () => {
       contentInputLabel={`${t(langTokens.editor.postText)}:`}
       postType={{
         type: PostTypeEnum.DOPYS,
-        name: t(langTokens.common.article),
+        name: t(langTokens.common.post),
       }}
     />
   );

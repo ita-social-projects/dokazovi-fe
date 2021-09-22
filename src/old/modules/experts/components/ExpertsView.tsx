@@ -52,6 +52,7 @@ const ExpertsView: React.FC = () => {
   } = useSelector(selectExperts);
   const loading = useSelector(selectExpertsLoading);
 
+  const [viewPort, setViewPort] = useState(0);
   const [page, setPage] = useState(pageNumber);
   const [checkedFiltersDirections, setCheckedFiltersDirections] = useState<
     CheckboxFormStateType
@@ -128,6 +129,7 @@ const ExpertsView: React.FC = () => {
   };
 
   const loadMore = () => {
+    setViewPort(visualViewport.pageTop);
     setPage(page + 1);
   };
 
@@ -196,6 +198,10 @@ const ExpertsView: React.FC = () => {
     setCheckedFiltersRegions(updateReg(selectedRegions, regions));
   }, [query.get(QueryTypeEnum.REGIONS)]);
 
+  useEffect(() => {
+    window.scrollTo(0, viewPort);
+  }, [experts]);
+
   const getRegions = () => {
     if (typeof selectedRegions !== 'string') {
       const names = selectedRegions?.reduce((acc, filter) => {
@@ -259,12 +265,21 @@ const ExpertsView: React.FC = () => {
     <>
       <PageTitle title={t(langTokens.common.experts)} />
       <Grid container direction="row">
-        <Grid item container direction="column" xs={3}>
+        <Grid item container direction="column" xs={6} sm={5} md={4} lg={3}>
           <Typography className={classes.title} variant="h1">
             {`${t(langTokens.experts.selectedExperts)}:`}
           </Typography>
         </Grid>
-        <Grid item container direction="column" xs={9}>
+        <Grid
+          className={classes.gridContainer}
+          item
+          container
+          direction="column"
+          xs={6}
+          sm={7}
+          md={8}
+          lg={9}
+        >
           <Box className={classes.container}>
             {typeof selectedDirections === 'string' ? (
               <Typography
@@ -317,7 +332,7 @@ const ExpertsView: React.FC = () => {
         </Grid>
       </Grid>
       <Grid container direction="row">
-        <Grid item container direction="column" xs={3}>
+        <Grid item container direction="column" xs={6} sm={5} md={4} lg={3}>
           {propertiesLoaded && (
             <>
               <CheckboxLeftsideFilterForm
@@ -344,7 +359,16 @@ const ExpertsView: React.FC = () => {
           )}
         </Grid>
 
-        <Grid item container xs={9} direction="column">
+        <Grid
+          className={classes.gridContainer}
+          item
+          container
+          direction="column"
+          xs={6}
+          sm={7}
+          md={8}
+          lg={9}
+        >
           {page === 0 && loading === LoadingStatusEnum.pending ? (
             <LoadingContainer loading={loading} expand />
           ) : (

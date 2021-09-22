@@ -2,7 +2,7 @@
   width: 480px;
 }
 
-.congratulation-title-text {
+.congratulation-container .congratulation-title-text {
   font-family: 'Raleway', sans-serif;
   font-weight: 500;
   font-size: 64px;
@@ -10,7 +10,7 @@
   margin-top: -25px; /* -15px and -35px, without 90px */
 }
 
-.congratulation-sub-text {
+.congratulation-container .congratulation-sub-text {
   font-family: 'Raleway', sans-serif;
   font-weight: 500;
   font-size: 24px;
@@ -18,7 +18,7 @@
   margin-top: -22px;
 }
 
-.congratulation-button {
+.congratulation-container .congratulation-button {
   padding: 14px 60px;
   border-radius: 50px;
   background-color: #4fdfff;
@@ -29,7 +29,7 @@
   margin: 10px 0 60px 0; /* '10px 0 40px or 60px 0' bottom, without '18px 0 71px 0' */
 }
 
-.congratulation-button:hover {
+.congratulation-container .congratulation-button:hover {
   background-color: #106ba3;
   cursor: pointer;
 }

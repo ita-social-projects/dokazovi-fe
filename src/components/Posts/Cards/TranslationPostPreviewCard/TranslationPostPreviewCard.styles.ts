@@ -9,7 +9,6 @@ export const useStyles = makeStyles<Theme, IStyleProps>(
     root: {
       position: 'relative',
       borderRadius: 0,
-      width: '315px',
     },
     authorFullName: {
       fontFamily: 'Raleway',
@@ -54,6 +53,11 @@ export const useStyles = makeStyles<Theme, IStyleProps>(
     },
     filterLink: {
       cursor: 'pointer',
+    },
+    [theme.breakpoints.down('xs')]: {
+      root: {
+        width: '94vw',
+      },
     },
   }),
   {

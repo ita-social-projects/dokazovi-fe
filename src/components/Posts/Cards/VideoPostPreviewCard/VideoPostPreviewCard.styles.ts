@@ -6,7 +6,6 @@ export const useStyles = makeStyles(
     root: {
       position: 'relative',
       borderRadius: 0,
-      width: '315px',
     },
     header: {
       display: 'flex',
@@ -44,6 +43,11 @@ export const useStyles = makeStyles(
     textBody: {
       wordWrap: 'break-word',
       marginBottom: theme.spacing(5),
+    },
+    [theme.breakpoints.down('xs')]: {
+      root: {
+        width: '94vw',
+      },
     },
   }),
   {

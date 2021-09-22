@@ -31,6 +31,7 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
     "react-slick": "^0.27.13",
+    "react-swipeable-views": "^0.14.0",
     "react-toastify": "^7.0.3",
     "redux": "^4.1.0",
     "redux-thunk": "^2.3.0",
@@ -48,7 +49,7 @@
     "lint:fix": "eslint --ext .tsx,.ts src/ --quiet --fix",
     "prettier-format": "prettier --write",
     "prettier-format:all": "prettier --write 'src/**/*.{js,jsx,json,ts,tsx,css,md}'",
-    "assemble": "yarn install --immutable && npm run lint && npm run build --if-present && npm test",
+    "assemble": "yarn install --immutable && npm run lint && npm run build --if-present && npm run coverage",
     "coverage": "npm test -- --coverage --watchAll=false"
   },
   "browserslist": {

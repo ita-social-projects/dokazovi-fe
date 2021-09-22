@@ -69,11 +69,19 @@ test('component displays text length properly', () => {
       onManuallyChanged={mockOnManuallyChanged}
     />,
   );
-  expect(screen.getByText('Довжина тексту: 12 символів')).toBeInTheDocument();
+  expect(
+    screen.getByText(
+      'Мінімальна довжина 50 символів. Довжина тексту: 12 символів',
+    ),
+  ).toBeInTheDocument();
   fireEvent.change(screen.getByText('initial text'), {
     target: { value: 'test' },
   });
-  expect(screen.getByText('Довжина тексту: 4 символи')).toBeInTheDocument();
+  expect(
+    screen.getByText(
+      'Мінімальна довжина 50 символів. Довжина тексту: 4 символи',
+    ),
+  ).toBeInTheDocument();
 });
 
 test('component calls callback after user input', () => {

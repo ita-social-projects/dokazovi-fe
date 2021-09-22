@@ -31,6 +31,11 @@ export const useStyles = makeStyles<Theme>(
     postType: {
       color: theme.palette.common.white,
     },
+    [theme.breakpoints.down('xs')]: {
+      root: {
+        width: '94vw',
+      },
+    },
   }),
   {
     name: 'MediaPostPreviewCard',

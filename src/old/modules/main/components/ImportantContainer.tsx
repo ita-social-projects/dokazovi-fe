@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import Carousel from '../../../lib/components/Carousel/Carousel';
 import { useStyles } from '../styles/ImportantContainer.styles';
@@ -11,6 +11,7 @@ import {
 } from '../../../../models/main';
 import { useActions } from '../../../../shared/hooks';
 import { IPost } from '../../../lib/types';
+import { ScreenContext } from '../../../provider/MobileProvider/ScreenContext';
 
 interface IImportantContainer {
   customPosts?: IPost[];
@@ -28,6 +29,8 @@ export const ImportantContainer: React.FC<IImportantContainer> = ({
 
   const [boundFetchImportantPosts] = useActions([fetchImportantPosts]);
 
+  const { mobile } = useContext(ScreenContext);
+
   useEffect(() => {
     if (!customPosts) {
       boundFetchImportantPosts();
@@ -35,7 +38,7 @@ export const ImportantContainer: React.FC<IImportantContainer> = ({
   }, []);
 
   return (
-    <div className={classes.container}>
+    <div className={mobile ? classes.containerMobile : classes.container}>
       {loading === 'pending' ? (
         <LoadingContainer loading={loading} />
       ) : (
@@ -45,7 +48,7 @@ export const ImportantContainer: React.FC<IImportantContainer> = ({
               <ImportantPostPreviewCard
                 post={post}
                 key={post.title}
-                size="large"
+                size={mobile ? 'mobile' : 'large'}
               />
             ))}
           </Carousel>

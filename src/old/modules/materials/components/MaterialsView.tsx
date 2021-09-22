@@ -2,11 +2,12 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { Box, Grid, Typography } from '@material-ui/core';
 import { isEmpty, uniq } from 'lodash';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { PageTitle } from 'components/Page/PageTitle';
+import { ScreenContext } from 'old/provider/MobileProvider/ScreenContext';
 import { CheckboxFormStateType } from '../../../lib/components/Filters/CheckboxFilterForm';
 import { PostsList } from '../../../lib/components/Posts/PostsList';
 import { LoadMoreButton } from '../../../lib/components/LoadMoreButton/LoadMoreButton';
@@ -52,6 +53,7 @@ import {
   updateDir,
 } from '../../utilities/utilityFunctions';
 import { sortByAlphabet } from '../../../lib/utilities/sorting';
+import MaterialsViewMobile from './MaterialsViewMobile';
 
 const MaterialsView: React.FC = () => {
   const { t } = useTranslation();
@@ -64,6 +66,11 @@ const MaterialsView: React.FC = () => {
   } = useSelector(selectMaterials);
 
   const [page, setPage] = useState(pageNumber);
+  const [header, setHeader] = useState(
+    t(langTokens.common.materials).toString(),
+  );
+
+  const { mobile } = useContext(ScreenContext);
 
   const [checkedFiltersOrigins, setCheckedFiltersOrigins] = useState<
     CheckboxFormStateType
@@ -158,15 +165,21 @@ const MaterialsView: React.FC = () => {
   };
 
   const fetchData = (appendPosts = false) => {
-    const originsQuery = query.get(QueryTypeEnum.ORIGINS)
-      ? query.get(QueryTypeEnum.ORIGINS)
-      : stringOfOrigins();
-    const postTypesQuery = query.get(QueryTypeEnum.POST_TYPES)
-      ? query.get(QueryTypeEnum.POST_TYPES)
-      : stringOfPostTypes();
-    const directionsQuery = query.get(QueryTypeEnum.DIRECTIONS)
-      ? query.get(QueryTypeEnum.DIRECTIONS)
-      : stringOfDirections();
+    const originsQuery =
+      query.get(QueryTypeEnum.ORIGINS) &&
+      query.get(QueryTypeEnum.ORIGINS) !== '0'
+        ? query.get(QueryTypeEnum.ORIGINS)
+        : stringOfOrigins();
+    const postTypesQuery =
+      query.get(QueryTypeEnum.POST_TYPES) &&
+      query.get(QueryTypeEnum.POST_TYPES) !== '0'
+        ? query.get(QueryTypeEnum.POST_TYPES)
+        : stringOfPostTypes();
+    const directionsQuery =
+      query.get(QueryTypeEnum.DIRECTIONS) &&
+      query.get(QueryTypeEnum.DIRECTIONS) !== '0'
+        ? query.get(QueryTypeEnum.DIRECTIONS)
+        : stringOfDirections();
 
     const filters = {
       page,
@@ -195,7 +208,7 @@ const MaterialsView: React.FC = () => {
     const isQuerySame = uniq(Object.values(checked)).length === 1; // removing the query if user checks/unchecks the last box
     query.set(queryType, checkedIds.join(','));
     if (!checkedIds.length || isQuerySame) {
-      query.delete(queryType);
+      query.set(queryType, '0');
     }
 
     setPage(0);
@@ -400,140 +413,195 @@ const MaterialsView: React.FC = () => {
     }
   };
 
+  useEffect(() => {
+    setHeader(() => {
+      if (Array.isArray(selectedOrigins) && selectedOrigins.length === 1) {
+        return t(selectedOrigins[0].name).toString();
+      }
+      if (Array.isArray(selectedOrigins) && selectedOrigins.length > 1) {
+        return t(langTokens.common.selectedMaterials).toString();
+      }
+      return t(langTokens.common.materials).toString();
+    });
+  }, [selectedOrigins]);
+
+  const SelectedTypes = (
+    <Box className={classes.container}>
+      {typeof selectedOrigins === 'string' ? (
+        <Typography
+          className={classes.selectedFilters}
+          component="div"
+          variant="subtitle2"
+        >
+          {t(langTokens.common.allOrigins)}
+        </Typography>
+      ) : (
+        <ChipsList
+          filtersPlural={originsInPlural}
+          checkedNames={getOrigins()}
+          handleDelete={handleDeleteChip}
+          chipsListType={ChipFilterEnum.ORIGIN}
+        />
+      )}
+      <Typography className={classes.divider} component="span">
+        |
+      </Typography>
+      {typeof selectedPostTypes === 'string' ? (
+        <Typography
+          className={classes.selectedFilters}
+          component="div"
+          variant="subtitle2"
+        >
+          {t(langTokens.common.allTypes)}
+        </Typography>
+      ) : (
+        <ChipsList
+          filtersPlural={postTypesInPlural}
+          checkedNames={getPostTypes()}
+          handleDelete={handleDeleteChip}
+          chipsListType={ChipFilterEnum.POST_TYPE}
+        />
+      )}
+      <Typography className={classes.divider} component="span">
+        |
+      </Typography>
+      {typeof selectedDirections === 'string' ? (
+        <Typography
+          className={classes.selectedFilters}
+          component="div"
+          variant="subtitle2"
+        >
+          {t(langTokens.common.allDirections)}
+        </Typography>
+      ) : (
+        <ChipsList
+          checkedNames={getDirections()}
+          handleDelete={handleDeleteChip}
+          chipsListType={ChipFilterEnum.DIRECTION}
+        />
+      )}
+      <Typography className={classes.divider} component="span">
+        |
+      </Typography>
+      <Typography
+        className={classes.totalFilters}
+        component="div"
+        variant="subtitle2"
+        color="textSecondary"
+      >
+        {totalElements}{' '}
+        {t(langTokens.materials.material, {
+          count: totalElements,
+        }).toLowerCase()}
+      </Typography>
+    </Box>
+  );
+
+  const FilterCheckboxes = propertiesLoaded && (
+    <>
+      <CheckboxLeftsideFilterForm
+        onFormChange={(checked) => setFilters(checked, FilterTypeEnum.ORIGINS)}
+        possibleFilters={originsInPlural}
+        selectedFilters={selectedOrigins}
+        filterTitle={t(langTokens.common.byOrigin).toLowerCase()}
+        allTitle={t(langTokens.common.allOrigins)}
+        filterType={QueryTypeEnum.ORIGINS}
+      />
+      <CheckboxLeftsideFilterForm
+        onFormChange={(checked) =>
+          setFilters(checked, FilterTypeEnum.POST_TYPES)
+        }
+        possibleFilters={postTypesInPlural}
+        selectedFilters={selectedPostTypes}
+        filterTitle={t(langTokens.common.byType).toLowerCase()}
+        allTitle={t(langTokens.common.allTypes)}
+        filterType={QueryTypeEnum.POST_TYPES}
+      />
+      <CheckboxLeftsideFilterForm
+        onFormChange={(checked) =>
+          setFilters(checked, FilterTypeEnum.DIRECTIONS)
+        }
+        possibleFilters={directionsInPlural}
+        selectedFilters={selectedDirections}
+        filterTitle={t(langTokens.common.byDirection).toLowerCase()}
+        allTitle={t(langTokens.common.allDirections)}
+        filterType={QueryTypeEnum.DIRECTIONS}
+      />
+    </>
+  );
+
+  const LoadMoreButtonEl = (
+    <LoadMoreButton
+      clicked={loadMore}
+      isLastPage={isLastPage}
+      loading={loading}
+      totalPages={totalPages}
+      totalElements={totalElements}
+      pageNumber={pageNumber}
+      textType={LoadMoreButtonTextType.POST}
+    />
+  );
+
+  if (mobile) {
+    return (
+      <MaterialsViewMobile
+        page={page}
+        header={header}
+        loading={loading}
+        materials={materials}
+        totalElements={totalElements}
+        resetPage={resetPage}
+        SelectedTypes={SelectedTypes}
+        FilterCheckboxes={FilterCheckboxes}
+        LoadMoreButton={LoadMoreButtonEl}
+      />
+    );
+  }
+
   return (
     <>
       <PageTitle title={t(langTokens.common.materials)} />
       <Grid container direction="row">
-        <Grid item container direction="column" xs={3}>
+        <Grid item container direction="column" xs={5} sm={4} md={3} lg={2}>
           <Typography className={classes.title} variant="h1">
             {`${t(langTokens.materials.selectedMaterials)}:`}
           </Typography>
         </Grid>
-        <Grid item container direction="column" xs={9}>
-          <Box className={classes.container}>
-            {typeof selectedOrigins === 'string' ? (
-              <Typography
-                className={classes.selectedFilters}
-                component="div"
-                variant="subtitle2"
-              >
-                {t(langTokens.common.allOrigins)}
-              </Typography>
-            ) : (
-              <ChipsList
-                filtersPlural={originsInPlural}
-                checkedNames={getOrigins()}
-                handleDelete={handleDeleteChip}
-                chipsListType={ChipFilterEnum.ORIGIN}
-              />
-            )}
-            <Typography className={classes.divider} component="span">
-              |
-            </Typography>
-            {typeof selectedPostTypes === 'string' ? (
-              <Typography
-                className={classes.selectedFilters}
-                component="div"
-                variant="subtitle2"
-              >
-                {t(langTokens.common.allTypes)}
-              </Typography>
-            ) : (
-              <ChipsList
-                filtersPlural={postTypesInPlural}
-                checkedNames={getPostTypes()}
-                handleDelete={handleDeleteChip}
-                chipsListType={ChipFilterEnum.POST_TYPE}
-              />
-            )}
-            <Typography className={classes.divider} component="span">
-              |
-            </Typography>
-            {typeof selectedDirections === 'string' ? (
-              <Typography
-                className={classes.selectedFilters}
-                component="div"
-                variant="subtitle2"
-              >
-                {t(langTokens.common.allDirections)}
-              </Typography>
-            ) : (
-              <ChipsList
-                checkedNames={getDirections()}
-                handleDelete={handleDeleteChip}
-                chipsListType={ChipFilterEnum.DIRECTION}
-              />
-            )}
-            <Typography className={classes.divider} component="span">
-              |
-            </Typography>
-            <Typography
-              className={classes.totalFilters}
-              component="div"
-              variant="subtitle2"
-              color="textSecondary"
-            >
-              {totalElements}{' '}
-              {t(langTokens.materials.material, {
-                count: totalElements,
-              }).toLowerCase()}
-            </Typography>
-          </Box>
+        <Grid
+          className={classes.gridSpacing}
+          item
+          container
+          direction="column"
+          xs={7}
+          sm={8}
+          md={9}
+          lg={10}
+        >
+          {SelectedTypes}
         </Grid>
       </Grid>
       <Grid container direction="row">
-        <Grid item container direction="column" xs={3}>
-          {propertiesLoaded && (
-            <>
-              <CheckboxLeftsideFilterForm
-                onFormChange={(checked) =>
-                  setFilters(checked, FilterTypeEnum.ORIGINS)
-                }
-                possibleFilters={originsInPlural}
-                selectedFilters={selectedOrigins}
-                filterTitle={t(langTokens.common.byOrigin).toLowerCase()}
-                allTitle={t(langTokens.common.allOrigins)}
-                filterType={QueryTypeEnum.ORIGINS}
-              />
-              <CheckboxLeftsideFilterForm
-                onFormChange={(checked) =>
-                  setFilters(checked, FilterTypeEnum.POST_TYPES)
-                }
-                possibleFilters={postTypesInPlural}
-                selectedFilters={selectedPostTypes}
-                filterTitle={t(langTokens.common.byType).toLowerCase()}
-                allTitle={t(langTokens.common.allTypes)}
-                filterType={QueryTypeEnum.POST_TYPES}
-              />
-              <CheckboxLeftsideFilterForm
-                onFormChange={(checked) =>
-                  setFilters(checked, FilterTypeEnum.DIRECTIONS)
-                }
-                possibleFilters={directionsInPlural}
-                selectedFilters={selectedDirections}
-                filterTitle={t(langTokens.common.byDirection).toLowerCase()}
-                allTitle={t(langTokens.common.allDirections)}
-                filterType={QueryTypeEnum.DIRECTIONS}
-              />
-            </>
-          )}
+        <Grid item container direction="column" xs={5} sm={4} md={3} lg={2}>
+          {FilterCheckboxes}
         </Grid>
-        <Grid item container alignItems="center" xs={9} direction="column">
+        <Grid
+          className={classes.gridSpacing}
+          item
+          container
+          alignItems="center"
+          xs={7}
+          sm={8}
+          md={9}
+          lg={10}
+          direction="column"
+        >
           {page === 0 && loading === LoadingStatusEnum.pending ? (
             <LoadingContainer loading={loading} expand />
           ) : (
             <>
               <PostsList postsList={materials} resetPage={resetPage} />
               <Grid container justify="center">
-                <LoadMoreButton
-                  clicked={loadMore}
-                  isLastPage={isLastPage}
-                  loading={loading}
-                  totalPages={totalPages}
-                  totalElements={totalElements}
-                  pageNumber={pageNumber}
-                  textType={LoadMoreButtonTextType.POST}
-                />
+                {LoadMoreButtonEl}
               </Grid>
             </>
           )}

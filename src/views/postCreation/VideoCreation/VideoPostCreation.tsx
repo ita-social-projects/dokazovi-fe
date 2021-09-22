@@ -36,9 +36,13 @@ import {
 } from '../../../old/lib/utilities/API/types';
 import { createPost, getAllExperts } from '../../../old/lib/utilities/API/api';
 import {
-  CHECK_REG_EXP,
   CLEAR_HTML_REG_EXP,
-  CONTENT_DEBOUNCE_TIMEOUT, MIN_CONTENT_LENGTH, MIN_TITLE_LENGTH,
+  CONTENT_DEBOUNCE_TIMEOUT,
+  FIND_AUTHORS_DEBOUNCE_TIMEOUT,
+  MAX_TITLE_LENGTH,
+  MIN_CONTENT_LENGTH,
+  MIN_PREVIEW_LENGTH,
+  MIN_TITLE_LENGTH,
   PREVIEW_DEBOUNCE_TIMEOUT,
 } from '../../../old/lib/constants/editors';
 import PostView from '../../../old/modules/posts/components/PostView';
@@ -100,6 +104,7 @@ export const VideoPostCreation: React.FC<IVideoPostCreationProps> = ({
   const [authors, setAuthors] = useState<ExpertResponseType[]>([]);
   const [, setAuthor] = useState<ExpertResponseType | null>(null);
   const [searchValue, setSearchValue] = useState('');
+  const [authorLength, setAuthorLength] = useState<number | null>(null);
 
   const videoUrl = useSelector(selectVideoUrl);
 
@@ -183,14 +188,22 @@ export const VideoPostCreation: React.FC<IVideoPostCreationProps> = ({
     setSearchValue(value);
   };
 
+  const debouncedGetAllExperts = useCallback(
+    _.debounce((val: string) => {
+      if (!val) {
+        setAuthors([]);
+        return;
+      }
+      getAllExperts({ params: { userName: val.trim() } }).then((res) => {
+        setAuthors(res.data.content);
+        setAuthorLength(res.data.totalElements);
+      });
+    }, FIND_AUTHORS_DEBOUNCE_TIMEOUT),
+    [],
+  );
+
   useEffect(() => {
-    if (!searchValue) {
-      setAuthors([]);
-      return;
-    }
-    getAllExperts({ params: { userName: searchValue.trim() } }).then((res) => {
-      setAuthors(res.data.content);
-    });
+    debouncedGetAllExperts(searchValue);
   }, [searchValue]);
 
   const onAuthorTableClick = (value: number, item: ExpertResponseType) => {
@@ -216,7 +229,7 @@ export const VideoPostCreation: React.FC<IVideoPostCreationProps> = ({
     origins: savedPostDraft.origins,
     preview: savedPostDraft.preview.value,
     title: savedPostDraft.title,
-    authorsName: isAdmin ? savedPostDraft.authorsName : user.data?.firstName,
+    authorsName: savedPostDraft.authorsName,
     authorsDetails: savedPostDraft.authorsDetails,
     videoUrl: savedPostDraft.videoUrl,
     type: { id: PostTypeEnum.VIDEO },
@@ -225,15 +238,19 @@ export const VideoPostCreation: React.FC<IVideoPostCreationProps> = ({
   const contentText = newPost.content.replaceAll(CLEAR_HTML_REG_EXP, '');
 
   const isEmpty =
-    !newPost.title || !newPost.directions.length || !newPost.content;
+    !newPost.title ||
+    !newPost.directions.length ||
+    !newPost.content ||
+    !newPost.authorId;
 
   const isEnoughLength =
-    contentText.length < MIN_CONTENT_LENGTH || newPost.title.length < MIN_TITLE_LENGTH;
-
-  const isHasUASymbols = !CHECK_REG_EXP.test(newPost.title)||
-    !CHECK_REG_EXP.test(contentText);
+    contentText.length <= MIN_CONTENT_LENGTH ||
+    newPost.title.length <= MIN_TITLE_LENGTH ||
+    newPost.preview.length <= MIN_PREVIEW_LENGTH;
 
   const isVideoEmpty = !newPost.videoUrl;
+
+  const isTooLong = newPost.title.length > MAX_TITLE_LENGTH;
 
   const previewPost = React.useMemo(
     () =>
@@ -314,10 +331,12 @@ export const VideoPostCreation: React.FC<IVideoPostCreationProps> = ({
 
   const postAuthorSelection = isAdmin && (
     <PostAuthorSelection
+      isDisplayTable
       onAuthorTableClick={onAuthorTableClick}
       handleOnChange={handleOnChange}
       authors={authors}
       searchValue={searchValue}
+      authorsLength={authorLength}
     />
   );
 
@@ -348,6 +367,11 @@ export const VideoPostCreation: React.FC<IVideoPostCreationProps> = ({
                 handleTitleChange(e.target.value);
               }}
             />
+            {title.value.length > MAX_TITLE_LENGTH && (
+              <div style={{ color: 'red' }}>
+                {t(langTokens.editor.toMuchTitleLength)}
+              </div>
+            )}
           </Box>
           {postAuthorSelection}
           <Box mt={2}>
@@ -394,7 +418,7 @@ export const VideoPostCreation: React.FC<IVideoPostCreationProps> = ({
 
       <PostCreationButtons
         action="creating"
-        isModal={{ isEmpty, isEnoughLength, isVideoEmpty, isHasUASymbols }}
+        isModal={{ isEmpty, isEnoughLength, isVideoEmpty, isTooLong }}
         onPublishClick={handlePublishClick}
         onPreviewClick={() => {
           setPreviewing(!previewing);

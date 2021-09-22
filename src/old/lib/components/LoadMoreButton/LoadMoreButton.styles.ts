@@ -18,6 +18,9 @@ export const useStyles = makeStyles(
           margin: 'auto',
           backgroundColor: theme.palette.common.black,
         },
+        [theme.breakpoints.down('xs')]: {
+          margin: theme.spacing(0, 3, 14),
+        },
       },
       button: {
         alignItems: 'center',
@@ -25,16 +28,18 @@ export const useStyles = makeStyles(
         backgroundColor: theme.palette.common.black,
         height: '44px',
         borderRadius: '300px',
+        [theme.breakpoints.down('xs')]: {
+          margin: theme.spacing(5, 2),
+        },
         '& .MuiButton-label': {
           color: theme.palette.common.white,
           fontWeight: 500,
           fontSize: '16px',
         },
-        '& .MuiCircularProgress-circle': {
+        '& .MuiSvgIcon-root': {
           color: '#73DDFF',
-        },
-        '& .MuiCircularProgress-root': {
           marginRight: theme.spacing(2),
+          transform: 'rotate(43deg)',
         },
         '&:active': {
           boxShadow: 'none',
@@ -43,6 +48,17 @@ export const useStyles = makeStyles(
         '&:hover': {
           boxShadow: 'none',
           backgroundColor: theme.palette.common.black,
+        },
+      },
+      spinning: {
+        animation: `2s $spinEffect infinite`,
+      },
+      '@keyframes spinEffect': {
+        '0%': {
+          transform: 'rotate(43deg)',
+        },
+        '100%': {
+          transform: 'rotate(403deg)',
         },
       },
     }),

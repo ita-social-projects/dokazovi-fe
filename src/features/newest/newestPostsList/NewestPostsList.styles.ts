@@ -3,11 +3,14 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core';
 export const useStyles = makeStyles(
   (theme: Theme) =>
     createStyles({
+      container: {
+        marginTop: theme.spacing(10),
+      },
       header: {
         display: 'flex',
         justifyContent: 'space-between',
         gap: '15px',
-        margin: theme.spacing(10, 0, 4, 0),
+        marginBottom: theme.spacing(4),
         cursor: 'pointer',
       },
       postsType: {
@@ -33,12 +36,15 @@ export const useStyles = makeStyles(
       },
       grid: {
         minHeight: '315px',
-        justifyContent: 'space-between',
-        flexWrap: 'nowrap',
-        overflow: 'auto',
-        [theme.breakpoints.down('md')]: {
-          justifyContent: 'flex-start',
-          gap: '15px',
+      },
+      post: {
+        '&:last-child': {
+          [theme.breakpoints.down('md')]: {
+            display: 'none',
+          },
+          [theme.breakpoints.down('sm')]: {
+            display: 'block !important',
+          },
         },
       },
     }),
