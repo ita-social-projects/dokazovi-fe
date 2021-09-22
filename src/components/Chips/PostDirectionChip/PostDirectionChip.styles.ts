@@ -1,7 +1,7 @@
 import { makeStyles } from '@material-ui/core';
 
 export const useStyles = makeStyles(
-  () => ({
+  (theme) => ({
     directionChip: () => ({
       height: '29px',
       margin: '0px 15px 15px 0px',
@@ -15,6 +15,9 @@ export const useStyles = makeStyles(
       userSelect: 'none',
       '& .MuiChip-deleteIcon': {
         color: '#000',
+      },
+      [theme.breakpoints.down('xs')]: {
+        backgroundColor: '#EFEFEF',
       },
     }),
   }),

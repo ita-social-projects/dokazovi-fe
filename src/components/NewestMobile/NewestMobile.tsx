@@ -11,7 +11,10 @@ import { useHistory } from 'react-router-dom';
 import { langTokens } from '../../locales/localizationInit';
 import { useStyles } from './NewestMobileStyle';
 import { useActions } from '../../shared/hooks';
-import { fetchNewestMobile, selectMobileMaterials } from '../../models/newestPostsMobile';
+import {
+  fetchNewestMobile,
+  selectMobileMaterials,
+} from '../../models/newestPostsMobile';
 import { PostsList } from '../../old/lib/components/Posts/PostsList';
 
 const a11yProps = (index: number) => {

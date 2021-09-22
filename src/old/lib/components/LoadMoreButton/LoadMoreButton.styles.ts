@@ -18,6 +18,9 @@ export const useStyles = makeStyles(
           margin: 'auto',
           backgroundColor: theme.palette.common.black,
         },
+        [theme.breakpoints.down('xs')]: {
+          margin: theme.spacing(0, 3, 14),
+        },
       },
       button: {
         alignItems: 'center',
@@ -25,6 +28,9 @@ export const useStyles = makeStyles(
         backgroundColor: theme.palette.common.black,
         height: '44px',
         borderRadius: '300px',
+        [theme.breakpoints.down('xs')]: {
+          margin: theme.spacing(5, 2),
+        },
         '& .MuiButton-label': {
           color: theme.palette.common.white,
           fontWeight: 500,

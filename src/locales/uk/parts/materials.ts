@@ -8,5 +8,5 @@ export const materials = {
   needToDeleteMaterial: 'Ви дійсно бажаєте безповоротно видалити матеріал',
   materialDeletedSuccess: 'Видалення матеріалу {{material}} пройшло успішно',
   materialDeletedFail: 'Видалити матеріал {{material}} не вдалося',
-  goToAll:'Всі {{material}}'
+  goToAll: 'Всі {{material}}',
 };

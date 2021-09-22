@@ -3,7 +3,7 @@ import { getAsyncActionsReducer } from '../helpers/asyncActions';
 import { fetchNewestMobile } from './asyncActions';
 import { IMobileMaterials } from './types';
 
-const initialState:IMobileMaterials = {
+const initialState: IMobileMaterials = {
   data: [],
 };
 

@@ -11,11 +11,13 @@ import { langTokens } from '../../../../locales/localizationInit';
 export interface IPostsListProps {
   postsList: IPost[];
   resetPage?: () => void;
+  mobile?: boolean;
 }
 
 export const PostsList: React.FC<IPostsListProps> = ({
   postsList,
   resetPage,
+  mobile,
 }) => {
   const classes = useStyles();
   const postIdxForScroll = postsList.length - LOAD_POSTS_LIMIT;
@@ -27,7 +29,7 @@ export const PostsList: React.FC<IPostsListProps> = ({
     <Notification message={t(langTokens.common.noInfo)} />
   ) : (
     <Masonry
-      breakpointCols={MASONRY_BREAKPOINTS}
+      breakpointCols={mobile ? 1 : MASONRY_BREAKPOINTS}
       className={classes.masonryGrid}
       columnClassName={classes.masonryColumn}
     >

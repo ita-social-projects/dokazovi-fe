@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { mapValues } from 'lodash';
 import {
   Box,
@@ -8,6 +8,7 @@ import {
   Grid,
   Typography,
 } from '@material-ui/core';
+import { ScreenContext } from 'old/provider/MobileProvider/ScreenContext';
 import { store } from '../../../../models/store';
 import { useStyles } from './CheckboxLeftsideFilterForm.styles';
 import { FilterItemsList } from '../FilterItems/FilterItemsList';
@@ -57,6 +58,7 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
   const [disabledCheckBoxesIds, setDisabledCheckBoxesIds] = useState<
     number[]
   >();
+  const { mobile } = useContext(ScreenContext);
   const classes = useStyles();
   const [allChecked, setAllChecked] = useState(true);
 
@@ -264,27 +266,30 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
       disabledRegionItem || disabledDirectionItem || disabledPostTypeItem;
 
     return (
-      <FormControlLabel
-        key={id}
-        className={classes.formControlLabel}
-        label={
-          <FilterItemsList
-            checkedNames={filter.name}
-            isDisabledFilter={disabledFilter || theOnlyAvailableFilter}
-            checked={disabledFilter ? false : checked[id]}
-          />
-        }
-        control={
-          <Checkbox
-            checked={disabledFilter ? false : checked[id]}
-            onChange={(event) => onCheckboxCheck(event)}
-            name={id}
-            disabled={disabledFilter || theOnlyAvailableFilter}
-            icon={<span className={classes.icon} />}
-            checkedIcon={<span className={classes.checkedIcon} />}
-          />
-        }
-      />
+      <>
+        <FormControlLabel
+          key={id}
+          className={classes.formControlLabel}
+          label={
+            <FilterItemsList
+              checkedNames={filter.name}
+              isDisabledFilter={disabledFilter || theOnlyAvailableFilter}
+              checked={disabledFilter ? false : checked[id]}
+            />
+          }
+          control={
+            <Checkbox
+              checked={disabledFilter ? false : checked[id]}
+              onChange={(event) => onCheckboxCheck(event)}
+              name={id}
+              disabled={disabledFilter || theOnlyAvailableFilter}
+              icon={<span className={classes.icon} />}
+              checkedIcon={<span className={classes.checkedIcon} />}
+            />
+          }
+        />
+        {mobile && <div className={classes.checkboxMobileDivider} />}
+      </>
     );
   });
 
@@ -319,17 +324,13 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
                 className={
                   allChecked ? classes.allCheckedTrue : classes.allCheckedFalse
                 }
-                style={
-                  theOnlyAvailableFilter
-                    ? { fontWeight: 500, color: '#767676' }
-                    : { fontWeight: 700 }
-                }
               >
                 {allTitle}
               </Typography>
             }
             key="All"
           />
+          {mobile && <div className={classes.checkboxMobileDivider} />}
           {checkBoxes}
         </FormGroup>
       </Grid>

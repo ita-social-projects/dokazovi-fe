@@ -9,6 +9,9 @@ export const useStyles = makeStyles<Theme, IStyleProps>(
     root: {
       position: 'relative',
       borderRadius: 0,
+      [theme.breakpoints.down('xs')]: {
+        width: '94vw',
+      },
     },
     header: (props) => ({
       display: 'flex',

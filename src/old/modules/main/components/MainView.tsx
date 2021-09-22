@@ -19,7 +19,7 @@ const MainView: React.FC = () => {
     <>
       <PageTitle title={t(langTokens.common.main)} />
       <ImportantContainer />
-      {mobile ? <NewestMobile/> : <NewestContainer />}
+      {mobile ? <NewestMobile /> : <NewestContainer />}
     </>
   );
 };
