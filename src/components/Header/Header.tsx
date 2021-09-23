@@ -12,6 +12,8 @@ import i18n, { langTokens } from '../../locales/localizationInit';
 import { IHeaderProps } from './types';
 import { ScreenContext } from '../../old/provider/MobileProvider/ScreenContext';
 import { BurgerMenu } from '../BurgerMenu/BurgerMenu';
+import { useActions } from '../../shared/hooks';
+import { makeHeaderUnVisible, makeHeaderVisible } from '../../models/headerVisibility';
 
 export const navElems: IHeaderProps[] = [
   {
@@ -43,6 +45,11 @@ export const Header: React.FC = () => {
 
   const { mobile } = useContext(ScreenContext);
 
+  const [boundMakeHeaderVisible, boundMakeHeaderUnVisible] = useActions([
+    makeHeaderVisible,
+    makeHeaderUnVisible,
+  ]);
+
   const transitionDuration = {
     enter: 200,
     exit: 200,
@@ -50,12 +57,12 @@ export const Header: React.FC = () => {
 
   window.onscroll = () => {
     setOldPageOffsetY(visualViewport.pageTop);
-    if (
-      visualViewport.pageTop >= oldPageOffsetY
-    ) {
+    if (visualViewport.pageTop >= oldPageOffsetY) {
       setVisible(false);
+      boundMakeHeaderUnVisible();
     } else {
       setVisible(true);
+      boundMakeHeaderVisible();
     }
   };
 

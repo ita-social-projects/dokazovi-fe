@@ -13,6 +13,7 @@ import { useStyles } from './NewestMobileStyle';
 import { useActions } from '../../shared/hooks';
 import { fetchNewestMobile, selectMobileMaterials } from '../../models/newestPostsMobile';
 import { PostsList } from '../../old/lib/components/Posts/PostsList';
+import { selectHeaderVisibility } from '../../models/headerVisibility';
 
 const a11yProps = (index: number) => {
   return {
@@ -41,7 +42,7 @@ export const NewestMobile: React.FC = () => {
     '2': carouselHeight,
     '3': carouselHeight,
   });
-
+  const isHeaderVisible = useSelector(selectHeaderVisibility);
   const history = useHistory();
   const [boundFetchMobileMaterials] = useActions([fetchNewestMobile]);
   const content = useSelector(selectMobileMaterials);
@@ -125,8 +126,10 @@ export const NewestMobile: React.FC = () => {
     <>
       <div>
         <AppBar
+          className={
+            isHeaderVisible.visibility ? classes.sticky : classes.stickyTop
+          }
           classes={{ root: classes.appBarRoot }}
-          position="sticky"
           color="default"
         >
           <Tabs
