@@ -9,6 +9,10 @@ export const useStyles = makeStyles(
     headerMobile: {
       height: 85,
       backgroundColor: theme.palette.common.black,
+      position: 'sticky',
+      top: 0,
+      left: 0,
+      zIndex:1500,
     },
     container: {
       height: '100%',
