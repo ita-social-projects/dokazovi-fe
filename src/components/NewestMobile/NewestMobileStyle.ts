@@ -40,11 +40,6 @@ export const useStyles = makeStyles((theme: Theme) => ({
   wrapper: {
     fontSize: 16,
   },
-  sticky: {
-    position: 'sticky',
-    top: 0,
-    left: 0,
-  },
   buttonContainer: {
     display: 'flex',
     justifyContent: 'center',
