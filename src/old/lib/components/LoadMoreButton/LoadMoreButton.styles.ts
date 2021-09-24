@@ -17,6 +17,9 @@ export const useStyles = makeStyles(
           height: '1px',
           margin: 'auto',
           backgroundColor: theme.palette.common.black,
+          [theme.breakpoints.down('xs')]: {
+            display: 'none',
+          },
         },
         [theme.breakpoints.down('xs')]: {
           margin: theme.spacing(0, 3, 14),
