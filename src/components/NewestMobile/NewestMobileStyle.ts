@@ -53,12 +53,13 @@ export const useStyles = makeStyles((theme: Theme) => ({
   },
   button: {
     alignItems: 'center',
-    backgroundColor: theme.palette.common.black,
+    backgroundColor: '#4FDFFF',
+    border: 'none',
     height: '44px',
     borderRadius: '300px',
     marginBottom: theme.spacing(2),
     '& .MuiButton-label': {
-      color: theme.palette.common.white,
+      color: theme.palette.common.black,
       fontWeight: 500,
       fontSize: '16px',
     },
