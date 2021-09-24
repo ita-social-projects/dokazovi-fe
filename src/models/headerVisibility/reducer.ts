@@ -13,11 +13,11 @@ export const visibilitySlice = createSlice({
     makeHeaderVisible: (state) => {
       state.visibility = true;
     },
-    makeHeaderUnVisible: (state) => {
+    makeHeaderInvisible: (state) => {
       state.visibility = false;
     },
   },
 });
 
-export const { makeHeaderUnVisible, makeHeaderVisible } = visibilitySlice.actions;
+export const { makeHeaderInvisible, makeHeaderVisible } = visibilitySlice.actions;
 export const headerVisibilityReducer = visibilitySlice.reducer;

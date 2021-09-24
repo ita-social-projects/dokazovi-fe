@@ -13,7 +13,7 @@ import { IHeaderProps } from './types';
 import { ScreenContext } from '../../old/provider/MobileProvider/ScreenContext';
 import { BurgerMenu } from '../BurgerMenu/BurgerMenu';
 import { useActions } from '../../shared/hooks';
-import { makeHeaderUnVisible, makeHeaderVisible } from '../../models/headerVisibility';
+import { makeHeaderInvisible, makeHeaderVisible } from '../../models/headerVisibility';
 
 export const navElems: IHeaderProps[] = [
   {
@@ -45,9 +45,9 @@ export const Header: React.FC = () => {
 
   const { mobile } = useContext(ScreenContext);
 
-  const [boundMakeHeaderVisible, boundMakeHeaderUnVisible] = useActions([
+  const [boundMakeHeaderVisible, boundMakeHeaderInvisible] = useActions([
     makeHeaderVisible,
-    makeHeaderUnVisible,
+    makeHeaderInvisible,
   ]);
 
   const transitionDuration = {
@@ -59,7 +59,7 @@ export const Header: React.FC = () => {
     setOldPageOffsetY(visualViewport.pageTop);
     if (visualViewport.pageTop >= oldPageOffsetY) {
       setVisible(false);
-      boundMakeHeaderUnVisible();
+      boundMakeHeaderInvisible();
     } else {
       setVisible(true);
       boundMakeHeaderVisible();

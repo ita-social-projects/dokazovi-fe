@@ -1,2 +1,2 @@
-export { makeHeaderVisible, makeHeaderUnVisible } from './reducer';
-export { selectHeaderVisibility } from './selecor';
+export { makeHeaderVisible,makeHeaderInvisible } from './reducer';
+export { selectHeaderVisibility } from './selector';
