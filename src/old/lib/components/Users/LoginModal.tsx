@@ -54,6 +54,7 @@ export const LoginModal: React.FC = () => {
   };
 
   const swalWithCustomButton = Swal.mixin({
+    showCloseButton: true,
     customClass: {
       container: 'congratulation-container',
       title: 'congratulation-title-text',
