@@ -15,4 +15,8 @@ export const useStyles = makeStyles((theme) => ({
   menu: {
     marginTop: theme.spacing(2),
   },
+  icon: {
+    width: theme.spacing(8),
+    height: theme.spacing(8),
+  },
 }));

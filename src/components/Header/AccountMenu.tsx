@@ -80,7 +80,7 @@ export const AccountMenu: React.FC = () => {
         ) : (
           <AccountIcon className={classes.avatar} />
         )}
-        {user.data && <ArrowDropDownIcon />}
+        {user.data && <ArrowDropDownIcon className={classes.icon} />}
       </Button>
 
       <StyledMenu
