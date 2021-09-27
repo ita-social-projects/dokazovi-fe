@@ -188,6 +188,11 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
 
   const isTooLong = updatedPost.title.length > MAX_TITLE_LENGTH;
 
+  const hasBackGroundImg =
+    !!updatedPost?.origins?.length &&
+    updatedPost?.origins[0]?.id !== 1 &&
+    !updatedPost.previewImageUrl;
+
   const previewPost: IPost = {
     ...post,
     author: {
@@ -315,7 +320,7 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
 
       <PostCreationButtons
         action="updating"
-        isModal={{ isEmpty, isEnoughLength, isTooLong }}
+        isModal={{ isEmpty, isEnoughLength, isTooLong ,hasBackGroundImg }}
         onCancelClick={() => {
           history.goBack();
         }}
