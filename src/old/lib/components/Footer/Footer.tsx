@@ -54,54 +54,54 @@ export const Footer: React.FC = () => {
 
   return (
     <>
-      {!mobile && (
-        <div id="footer" className={classes.container}>
-          <Container className={classes.root}>
-            <Box className={classes.columnContainer}>
-              <Box className={classes.navigationContainer}>
-                <Box>
-                  <Link component={RouterLink} to="/" variant="h3">
-                    <span>{t(langTokens.common.projectName)}</span>
-                  </Link>
-                </Box>
+      <div id="footer" className={classes.container}>
+        <Container className={classes.root}>
+          <Box className={classes.rowContainer}>
+            <Box className={classes.navigationContainer}>
+              <Box>
+                <Link component={RouterLink} to="/" variant="h3">
+                  <span>{t(langTokens.common.projectName)}</span>
+                </Link>
+              </Box>
+              {!mobile && (
                 <Box className={classes.navigationLinks}>{linksList}</Box>
-              </Box>
-              <Typography className={classes.info} variant="h6" component="div">
-                <span>{t(langTokens.footer.shortPolicy)}</span>
-              </Typography>
+              )}
             </Box>
-            <Box className={classes.columnContainer}>
-              <Box className={classes.companyLabel}>
-                <ul>
-                  <li>
-                    <a
-                      href="https://www.unicef.org/ukraine/"
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      <img src={unisefLogo} alt="UNISEF " />
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      href="https://www.softserveinc.com/"
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      <img src={softServeLogo} alt="SoftServe" />
-                    </a>
-                  </li>
-                </ul>
-              </Box>
-              <Typography className={classes.info} variant="h6" component="div">
-                <span>{`© 2021 UNICEF Ukraine. ${t(
-                  langTokens.footer.allRightsReserved,
-                )}.`}</span>
-              </Typography>
+            <Box className={classes.companyLabel}>
+              <ul>
+                <li>
+                  <a
+                    href="https://www.unicef.org/ukraine/"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <img src={unisefLogo} alt="UNISEF " />
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="https://www.softserveinc.com/"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <img src={softServeLogo} alt="SoftServe" />
+                  </a>
+                </li>
+              </ul>
             </Box>
-          </Container>
-        </div>
-      )}
+          </Box>
+          <Box className={classes.rowContainer}>
+            <Typography className={classes.info} variant="h6" component="div">
+              <span>{t(langTokens.footer.shortPolicy)}</span>
+            </Typography>
+            <Typography className={classes.info} variant="h6" component="div">
+              <span>{`© 2021 UNICEF Ukraine. ${t(
+                langTokens.footer.allRightsReserved,
+              )}.`}</span>
+            </Typography>
+          </Box>
+        </Container>
+      </div>
     </>
   );
 };
