@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { Button, Typography, Avatar } from '@material-ui/core';
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import { useTranslation } from 'react-i18next';
 import { useStyles } from './AccountMenu.styles';
 import {
@@ -19,7 +20,6 @@ import { AccountIcon } from '../../old/lib/components/icons/AccountIcon';
 import { langTokens } from '../../locales/localizationInit';
 import { selectAuthorities } from '../../models/authorities';
 import { clearAuthoritiesAction } from '../../models/authorities/reducers';
-import { ScreenContext } from '../../old/provider/MobileProvider/ScreenContext';
 
 export const AccountMenu: React.FC = () => {
   const { t } = useTranslation();
@@ -35,7 +35,6 @@ export const AccountMenu: React.FC = () => {
   const authorities = useSelector(selectAuthorities).data?.includes(
     'SET_IMPORTANCE',
   );
-  const { tablet } = useContext(ScreenContext);
 
   const onLogoutHandler = () => {
     boundSignOutAction();
@@ -79,13 +78,7 @@ export const AccountMenu: React.FC = () => {
         ) : (
           <AccountIcon className={classes.avatar} />
         )}
-        {!tablet ? (
-          <Typography className={classes.name} variant="h5">
-            {user.data && user.data.firstName}
-          </Typography>
-        ) : (
-          ''
-        )}
+        {user.data && <ArrowDropDownIcon className={classes.icon} />}
       </Button>
 
       <StyledMenu
