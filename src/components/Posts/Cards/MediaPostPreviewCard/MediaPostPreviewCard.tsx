@@ -6,7 +6,6 @@ import Typography from '@material-ui/core/Typography';
 import { useTranslation } from 'react-i18next';
 import { useStyles } from './MediaPostPreviewCard.styles';
 import { formatDate } from '../../../../utilities/formatDate';
-import background from '../mock_img_media_bg.png';
 import { IPostPreviewCardProps } from '../types';
 import { langTokens } from '../../../../locales/localizationInit';
 
@@ -15,8 +14,8 @@ export const MediaPostPreviewCard: React.FC<IPostPreviewCardProps> = ({
   shouldNotUseLink,
 }) => {
   const { t } = useTranslation();
-  const bgImageURL = post.previewImageUrl ? post.previewImageUrl : background;
-  const classes = useStyles({ backgroundImageUrl: `url(${bgImageURL})` });
+  const bgImageURL = post.previewImageUrl || '';
+  const classes = useStyles({ backgroundImageUrl: bgImageURL });
   const postLink = `/posts/${post.id}`;
 
   const card = (
