@@ -24,7 +24,6 @@ export default function SecondTopSection({
     <Box className={classes.root}>
       {origin !== 3 ? (
         <>
-          {' '}
           <Link to={`/experts/${id}`}>
             <Typography variant="h4" className={classes.authorName}>
               {authorFullName}
