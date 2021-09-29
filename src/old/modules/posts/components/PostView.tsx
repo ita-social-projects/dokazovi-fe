@@ -1,7 +1,7 @@
 /* eslint-disable react/no-danger */
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Card, Box, Typography } from '@material-ui/core';
+import { Box, Card, Typography } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import { useTranslation } from 'react-i18next';
@@ -21,7 +21,7 @@ export interface IPostViewProps {
   post: IPost;
   modificationAllowed?: boolean;
   onDelete?: () => void;
-  isPreview?:boolean;
+  isPreview?: boolean;
 }
 
 const PostView: React.FC<IPostViewProps> = ({
@@ -31,12 +31,11 @@ const PostView: React.FC<IPostViewProps> = ({
   onDelete,
 }) => {
   const { t } = useTranslation();
-
   const user = useSelector(selectCurrentUser);
   const authorities = useSelector(selectAuthorities);
   const isAdmin = authorities.data?.includes('SET_IMPORTANCE');
   const permission = user?.data?.id === post?.author?.id || isAdmin;
-
+  const [origin] = post.origins;
   const classes = useStyles();
 
   const postContent = post.content ?? 'There is no post content';
@@ -89,7 +88,7 @@ const PostView: React.FC<IPostViewProps> = ({
           )}
 
           {post.origins[0].name === t(langTokens.common.translation) && (
-            <SecondTopSection author={post.author} />
+            <SecondTopSection author={post.author} origin={origin.id} />
           )}
 
           <PostInfo info={postInfo} />
