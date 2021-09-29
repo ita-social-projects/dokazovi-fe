@@ -20,6 +20,7 @@ import { AccountIcon } from '../../old/lib/components/icons/AccountIcon';
 import { langTokens } from '../../locales/localizationInit';
 import { selectAuthorities } from '../../models/authorities';
 import { clearAuthoritiesAction } from '../../models/authorities/reducers';
+import { ScreenContext } from '../../old/provider/MobileProvider/ScreenContext';
 
 export const AccountMenu: React.FC = () => {
   const { t } = useTranslation();
@@ -35,6 +36,7 @@ export const AccountMenu: React.FC = () => {
   const authorities = useSelector(selectAuthorities).data?.includes(
     'SET_IMPORTANCE',
   );
+  const { tablet } = useContext(ScreenContext);
 
   const onLogoutHandler = () => {
     boundSignOutAction();
@@ -79,6 +81,7 @@ export const AccountMenu: React.FC = () => {
           <AccountIcon className={classes.avatar} />
         )}
         {user.data && <ArrowDropDownIcon className={classes.icon} />}
+
       </Button>
 
       <StyledMenu

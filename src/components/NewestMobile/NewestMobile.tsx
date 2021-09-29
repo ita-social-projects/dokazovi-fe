@@ -51,6 +51,8 @@ export const NewestMobile: React.FC = () => {
     boundFetchMobileMaterials();
   }, []);
 
+
+
   const saveViewPort = () => {
     setPageTop((p) => {
       const temp = { ...p };
@@ -60,6 +62,7 @@ export const NewestMobile: React.FC = () => {
   };
 
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
+
     if (visualViewport.pageTop >= carouselHeight) {
       saveViewPort();
     }
@@ -122,6 +125,11 @@ export const NewestMobile: React.FC = () => {
     }
   }, [value]);
 
+  const transitionDuration = {
+    enter: 200,
+    exit: 200,
+  };
+
   return (
     <>
       <div>
@@ -143,44 +151,56 @@ export const NewestMobile: React.FC = () => {
             variant="fullWidth"
             aria-label="full width tabs example"
           >
-            <Tab
+            <Tabs
               classes={{
-                root: classes.tabRoot,
-                wrapper: classes.wrapper,
-                selected: classes.selected,
+                root: classes.buttonsRoot,
+                indicator: classes.indicator,
               }}
-              label={t(langTokens.experts.expertOpinion_1)}
-              {...a11yProps(0)}
-            />
-            <Tab
-              classes={{
-                root: classes.tabRoot,
-                wrapper: classes.wrapper,
-                selected: classes.selected,
-              }}
-              label={t(langTokens.common.translation)}
-              {...a11yProps(1)}
-            />
-            <Tab
-              classes={{
-                root: classes.tabRoot,
-                wrapper: classes.wrapper,
-                selected: classes.selected,
-              }}
-              label={t(langTokens.common.media)}
-              {...a11yProps(2)}
-            />
-            <Tab
-              classes={{
-                root: classes.tabRoot,
-                wrapper: classes.wrapper,
-                selected: classes.selected,
-              }}
-              label={t(langTokens.common.video)}
-              {...a11yProps(3)}
-            />
-          </Tabs>
-        </AppBar>
+              value={value}
+              onChange={handleChange}
+              textColor="primary"
+              variant="fullWidth"
+              aria-label="full width tabs example"
+            >
+              <Tab
+                classes={{
+                  root: classes.tabRoot,
+                  wrapper: classes.wrapper,
+                  selected: classes.selected,
+                }}
+                label={t(langTokens.experts.expertOpinion_1)}
+                {...a11yProps(0)}
+              />
+              <Tab
+                classes={{
+                  root: classes.tabRoot,
+                  wrapper: classes.wrapper,
+                  selected: classes.selected,
+                }}
+                label={t(langTokens.common.translation)}
+                {...a11yProps(1)}
+              />
+              <Tab
+                classes={{
+                  root: classes.tabRoot,
+                  wrapper: classes.wrapper,
+                  selected: classes.selected,
+                }}
+                label={t(langTokens.common.media)}
+                {...a11yProps(2)}
+              />
+              <Tab
+                classes={{
+                  root: classes.tabRoot,
+                  wrapper: classes.wrapper,
+                  selected: classes.selected,
+                }}
+                label={t(langTokens.common.video)}
+                {...a11yProps(3)}
+              />
+            </Tabs>
+          </AppBar>
+        </Slide>
         {content.length ? (
           <SwipeableViews
             axis="x"
