@@ -272,9 +272,10 @@ const MaterialsView: React.FC = () => {
     }
   }
 
-  const selectedDirectionsString = query
-    .get(QueryTypeEnum.DIRECTIONS)
-    ?.split(',');
+  const selectedDirectionsString =
+    query.get(QueryTypeEnum.DIRECTIONS) === '0'
+      ? stringOfPostTypes().split(' ')
+      : query.get(QueryTypeEnum.DIRECTIONS)?.split(',');
 
   let selectedDirections:
     | IDirection[]
