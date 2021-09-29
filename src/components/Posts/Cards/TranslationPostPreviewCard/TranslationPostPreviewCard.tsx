@@ -7,7 +7,6 @@ import Typography from '@material-ui/core/Typography';
 import { useTranslation } from 'react-i18next';
 import { useStyles } from './TranslationPostPreviewCard.styles';
 import { formatDate } from '../../../../utilities/formatDate';
-import background from '../mock_img_translation_bg.png';
 import { IPostPreviewCardProps } from '../types';
 import { langTokens } from '../../../../locales/localizationInit';
 
@@ -18,7 +17,7 @@ export const TranslationPostPreviewCard: React.FC<IPostPreviewCardProps> = ({
 }) => {
   const { t } = useTranslation();
   const history = useHistory();
-  const bgImageURL = post.previewImageUrl ? post.previewImageUrl : background;
+  const bgImageURL = post.previewImageUrl || '';
   const classes = useStyles({ backgroundImageUrl: bgImageURL });
   const postLink = `/posts/${post.id}`;
   const materialsLink = `/materials?origins=3`;

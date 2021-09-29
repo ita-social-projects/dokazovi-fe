@@ -40,25 +40,31 @@ export const useStyles = makeStyles((theme: Theme) => ({
   wrapper: {
     fontSize: 16,
   },
-  sticky: {
-    position: 'sticky',
-    top: 0,
-    left: 0,
-  },
   buttonContainer: {
     display: 'flex',
     justifyContent: 'center',
     height: 100,
     alignItems: 'center',
   },
+  stickyTop: {
+    position: 'sticky',
+    top: 0,
+    left: 0,
+  },
+  sticky: {
+    position: 'sticky',
+    top: 85,
+    left: 0,
+  },
   button: {
     alignItems: 'center',
-    backgroundColor: theme.palette.common.black,
+    backgroundColor: '#4FDFFF',
+    border: 'none',
     height: '44px',
     borderRadius: '300px',
     marginBottom: theme.spacing(2),
     '& .MuiButton-label': {
-      color: theme.palette.common.white,
+      color: theme.palette.common.black,
       fontWeight: 500,
       fontSize: '16px',
     },

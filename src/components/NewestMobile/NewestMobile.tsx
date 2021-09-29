@@ -6,16 +6,14 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import { Button, CircularProgress, Slide } from '@material-ui/core';
+import { Button, CircularProgress } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
 import { langTokens } from '../../locales/localizationInit';
 import { useStyles } from './NewestMobileStyle';
 import { useActions } from '../../shared/hooks';
-import {
-  fetchNewestMobile,
-  selectMobileMaterials,
-} from '../../models/newestPostsMobile';
+import { fetchNewestMobile, selectMobileMaterials } from '../../models/newestPostsMobile';
 import { PostsList } from '../../old/lib/components/Posts/PostsList';
+import { selectHeaderVisibility } from '../../models/headerVisibility';
 
 const a11yProps = (index: number) => {
   return {
@@ -35,18 +33,16 @@ export const NewestMobile: React.FC = () => {
   const { t } = useTranslation();
 
   const classes = useStyles();
-  const headerAndCarouselHeight = 722;
+  const carouselHeight = 585;
   const [value, setValue] = useState<number>(0);
-  const [visible, setVisible] = useState<boolean>(true);
-  const [oldPageOffsetY, setOldPageOffsetY] = useState<number>(0);
   const [type, setType] = useState<'click' | 'swipe' | ''>('');
   const [pageTop, setPageTop] = useState<IPageTopParameters>({
-    '0': headerAndCarouselHeight,
-    '1': headerAndCarouselHeight,
-    '2': headerAndCarouselHeight,
-    '3': headerAndCarouselHeight,
+    '0': carouselHeight,
+    '1': carouselHeight,
+    '2': carouselHeight,
+    '3': carouselHeight,
   });
-
+  const isHeaderVisible = useSelector(selectHeaderVisibility);
   const history = useHistory();
   const [boundFetchMobileMaterials] = useActions([fetchNewestMobile]);
   const content = useSelector(selectMobileMaterials);
@@ -55,17 +51,7 @@ export const NewestMobile: React.FC = () => {
     boundFetchMobileMaterials();
   }, []);
 
-  window.onscroll = () => {
-    setOldPageOffsetY(visualViewport.pageTop);
-    if (
-      visualViewport.pageTop > oldPageOffsetY &&
-      visualViewport.pageTop > headerAndCarouselHeight
-    ) {
-      setVisible(false);
-    } else {
-      setVisible(true);
-    }
-  };
+
 
   const saveViewPort = () => {
     setPageTop((p) => {
@@ -76,7 +62,8 @@ export const NewestMobile: React.FC = () => {
   };
 
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
-    if (visualViewport.pageTop >= headerAndCarouselHeight) {
+
+    if (visualViewport.pageTop >= carouselHeight) {
       saveViewPort();
     }
     setValue(newValue);
@@ -84,7 +71,7 @@ export const NewestMobile: React.FC = () => {
   };
 
   const handleChangeIndex = (index: number) => {
-    if (visualViewport.pageTop >= headerAndCarouselHeight) {
+    if (visualViewport.pageTop >= carouselHeight) {
       saveViewPort();
     }
     setValue(index);
@@ -126,14 +113,14 @@ export const NewestMobile: React.FC = () => {
   };
 
   useEffect(() => {
-    if (type === 'swipe' && visualViewport.pageTop >= headerAndCarouselHeight) {
+    if (type === 'swipe' && visualViewport.pageTop >= carouselHeight) {
       window.scrollTo({
         top: pageTop[value],
       });
     }
-    if (type === 'click' && visualViewport.pageTop >= headerAndCarouselHeight) {
+    if (type === 'click' && visualViewport.pageTop >= carouselHeight) {
       window.scrollTo({
-        top: headerAndCarouselHeight,
+        top: carouselHeight,
       });
     }
   }, [value]);
@@ -146,12 +133,23 @@ export const NewestMobile: React.FC = () => {
   return (
     <>
       <div>
-        <Slide in={visible} timeout={transitionDuration}>
-          <AppBar
-            className={classes.sticky}
-            classes={{ root: classes.appBarRoot }}
-            position="static"
-            color="default"
+        <AppBar
+          className={
+            isHeaderVisible.visibility ? classes.sticky : classes.stickyTop
+          }
+          classes={{ root: classes.appBarRoot }}
+          color="default"
+        >
+          <Tabs
+            classes={{
+              root: classes.buttonsRoot,
+              indicator: classes.indicator,
+            }}
+            value={value}
+            onChange={handleChange}
+            textColor="primary"
+            variant="fullWidth"
+            aria-label="full width tabs example"
           >
             <Tabs
               classes={{

@@ -10,22 +10,32 @@ export const useStyles = makeStyles(
     },
     root: {
       display: 'flex',
+      flexDirection: 'column',
       justifyContent: 'space-between',
       height: '240px',
       margin: '0 auto',
       position: 'relative',
       padding: theme.spacing(11, 10, 12),
       [theme.breakpoints.down('xs')]: {
-        padding: theme.spacing(11, 5, 12),
+        padding: theme.spacing(6, 5, 6, 7),
+        minHeight: '274px',
+      },
+      [theme.breakpoints.down(376)]: {
+        padding: theme.spacing(6, 5, 6, 7),
+        minHeight: '248px',
       },
       color: theme.palette.common.white,
     },
-    columnContainer: {
+    rowContainer: {
+      width: '100%',
       display: 'flex',
-      flexDirection: 'column',
       justifyContent: 'space-between',
-      '&:first-child': {
-        width: '60%',
+      [theme.breakpoints.down('xs')]: {
+        '&:last-child': {
+          height: '100%',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
+        },
       },
     },
     navigationContainer: {
@@ -34,6 +44,11 @@ export const useStyles = makeStyles(
       '& span': {
         lineHeight: '26px',
         color: theme.palette.common.white,
+      },
+      [theme.breakpoints.down('xs')]: {
+        '& span': {
+          fontSize: '22px',
+        },
       },
     },
     navigationLinks: {
@@ -62,6 +77,26 @@ export const useStyles = makeStyles(
         color: theme.palette.common.white,
         fontSize: '13px',
       },
+      '&:first-child': {
+        width: '60%',
+      },
+      [theme.breakpoints.down('xs')]: {
+        minHeight: '0',
+        '& span': {
+          fontSize: '14px',
+          lineHeight: '18px',
+        },
+        '&:first-child': {
+          marginTop: theme.spacing(4),
+          width: '100%',
+        },
+      },
+      [theme.breakpoints.down(376)]: {
+        '& span': {
+          fontSize: '12px',
+          lineHeight: '16px',
+        },
+      },
     },
     companyLabel: {
       '& ul': {
@@ -78,6 +113,21 @@ export const useStyles = makeStyles(
       },
       '& ul li img': {
         verticalAlign: 'middle',
+      },
+      [theme.breakpoints.down('xs')]: {
+        '& ul li:not(:last-child)': {
+          marginRight: theme.spacing(3),
+        },
+        '& ul li': {
+          lineHeight: '24px',
+        },
+        '& ul li:first-child img': {
+          height: '4vw',
+        },
+        '& ul li:last-child img': {
+          marginRight: theme.spacing(2),
+          height: '3.5vw',
+        },
       },
     },
   }),

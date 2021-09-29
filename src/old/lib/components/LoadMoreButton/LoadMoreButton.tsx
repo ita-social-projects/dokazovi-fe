@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Button, Box } from '@material-ui/core';
 import RefreshIcon from '@material-ui/icons/Refresh';
 import { useTranslation } from 'react-i18next';
+import { ScreenContext } from 'old/provider/MobileProvider/ScreenContext';
 import { LoadingStatusEnum, LoadMoreButtonTextType } from '../../types';
 import {
   LOAD_POSTS_LIMIT,
@@ -46,6 +47,7 @@ export const LoadMoreButton: React.FC<ILoadMoreButtonProps> = ({
   const classes = useStyles();
 
   const { t } = useTranslation();
+  const { mobile } = useContext(ScreenContext);
 
   const getButtonText = (
     count: number,
@@ -86,7 +88,8 @@ export const LoadMoreButton: React.FC<ILoadMoreButtonProps> = ({
               loading === LoadingStatusEnum.pending ? classes.spinning : ''
             }
           />
-          {t(langTokens.common.showMore)} {elementsInNextPage} {buttonText}
+          {t(langTokens.common.showMore)} {elementsInNextPage}{' '}
+          {!mobile && buttonText}
         </Button>
       </Box>
     );

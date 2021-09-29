@@ -30,9 +30,9 @@ export const AutoPaginationPostList: React.FC<IAutoPaginationPostListProps> = ({
 
   return (
     <div>
-      <PostsList postsList={posts.slice(0, posts.length - 5)} />
+      <PostsList postsList={posts.slice(0, posts.length - 1)} />
       <div ref={lastElement}>
-        <PostsList postsList={posts.slice(-5)} />
+        <PostsList postsList={posts.slice(-1)} />
       </div>
     </div>
   );
