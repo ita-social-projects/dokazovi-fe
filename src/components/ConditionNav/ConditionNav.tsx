@@ -1,18 +1,29 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { NavLink, useLocation } from 'react-router-dom';
 import i18n, { langTokens } from '../../locales/localizationInit';
+import { selectHeaderVisibility } from '../../models/headerVisibility';
 import { useStyles } from './ConditionNav.styles';
 
 export default function ConditionNav(): JSX.Element {
   const classes = useStyles();
+  const location = useLocation();
+  const isHeaderVisible = useSelector(selectHeaderVisibility);
+
+  const isActive = (hash: string) => location.hash === hash;
 
   return (
-    <ul className={classes.root}>
+    <ul
+      className={`
+      ${classes.root} 
+      ${String(isHeaderVisible.visibility ? classes.moveRoot : '')}
+    `}
+    >
       <li key="about">
         <NavLink
           to="#about"
           className={classes.link}
-          activeClassName={classes.linkSelected}
+          activeClassName={isActive('#about') ? classes.linkSelected : ''}
         >
           {i18n.t(langTokens.footer.aboutPlatform)}
         </NavLink>
@@ -21,7 +32,7 @@ export default function ConditionNav(): JSX.Element {
         <NavLink
           to="#rules"
           className={classes.link}
-          activeClassName={classes.linkSelected}
+          activeClassName={isActive('#rules') ? classes.linkSelected : ''}
         >
           {i18n.t(langTokens.footer.termsOfUse)}
         </NavLink>
@@ -30,7 +41,7 @@ export default function ConditionNav(): JSX.Element {
         <NavLink
           to="#contacts"
           className={classes.link}
-          activeClassName={classes.linkSelected}
+          activeClassName={isActive('#contacts') ? classes.linkSelected : ''}
         >
           {i18n.t(langTokens.footer.contacts)}
         </NavLink>
