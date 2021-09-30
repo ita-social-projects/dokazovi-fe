@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { ReactNode } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Popper from '@material-ui/core/Popper';
@@ -14,6 +15,7 @@ const useStyles = makeStyles((theme) => ({
 export const ExpertPopover: React.FC<{
   children?: ReactNode;
   anchorEl: HTMLDivElement | null;
+  handlePopoverClose: () => void;
 }> = (props) => {
   const { children, anchorEl } = props;
   const classes = useStyles();
