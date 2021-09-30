@@ -14,7 +14,6 @@ const useStyles = makeStyles((theme) => ({
 export const ExpertPopover: React.FC<{
   children?: ReactNode;
   anchorEl: HTMLDivElement | null;
-  handlePopoverClose: () => void;
 }> = (props) => {
   const { children, anchorEl } = props;
   const classes = useStyles();
