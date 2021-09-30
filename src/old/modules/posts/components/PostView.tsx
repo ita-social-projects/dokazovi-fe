@@ -1,11 +1,12 @@
 /* eslint-disable react/no-danger */
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { Card, Box, Typography } from '@material-ui/core';
+import { Card, Box, Typography, Container } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
+import { ScreenContext } from 'old/provider/MobileProvider/ScreenContext';
 import { useStyles } from '../styles/PostView.styles';
 import { IPost } from '../../../lib/types';
 import { ConfirmationModalWithButton } from '../../../lib/components/Modals/ConfirmationModalWithButton';
@@ -21,7 +22,7 @@ export interface IPostViewProps {
   post: IPost;
   modificationAllowed?: boolean;
   onDelete?: () => void;
-  isPreview?:boolean;
+  isPreview?: boolean;
 }
 
 const PostView: React.FC<IPostViewProps> = ({
@@ -38,6 +39,7 @@ const PostView: React.FC<IPostViewProps> = ({
   const permission = user?.data?.id === post?.author?.id || isAdmin;
 
   const classes = useStyles();
+  const { mobile } = useContext(ScreenContext);
 
   const postContent = post.content ?? 'There is no post content';
   const postInfo = {
@@ -60,12 +62,12 @@ const PostView: React.FC<IPostViewProps> = ({
         materialTitle={post.title}
         type={post.type}
       />
-      <Box className={classes.wrapper}>
+      <Box>
         {post.origins[0].name !== t(langTokens.common.translation) && (
           <TopSection author={post.author} />
         )}
 
-        {!isPreview && permission && (
+        {!mobile && !isPreview && permission && (
           <Box className={classes.actionsBlock}>
             <Link to={`/edit-post?id=${post.id}`}>
               <EditIcon className={classes.iconBlack} />

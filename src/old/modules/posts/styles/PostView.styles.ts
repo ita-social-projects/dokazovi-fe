@@ -7,22 +7,11 @@ export const useStyles = makeStyles(
       minHeight: '550px',
       padding: '70px 225px 150px',
       wordBreak: 'break-word',
+      [theme.breakpoints.down('xs')]: {
+        padding: 0,
+      },
     },
-    wrapper: {
-      display: 'flex',
-      flexDirection: 'column',
-    },
-    authorBlock: {
-      minHeight: '100px',
-      display: 'flex',
-      alignItems: 'center',
-    },
-    avatar: {
-      height: 130,
-      width: 130,
-      marginRight: theme.spacing(4),
-      borderRadius: '50%',
-    },
+
     actionsBlock: {
       display: 'flex',
       marginLeft: 'auto',
@@ -34,6 +23,12 @@ export const useStyles = makeStyles(
       '& h1': {
         marginTop: theme.spacing(14),
         marginBottom: theme.spacing(10),
+        [theme.breakpoints.down('xs')]: {
+          marginTop: theme.spacing(6),
+          marginBottom: theme.spacing(6),
+          marginLeft: theme.spacing(2),
+          marginRight: theme.spacing(3),
+        },
       },
     },
     createdAt: {
