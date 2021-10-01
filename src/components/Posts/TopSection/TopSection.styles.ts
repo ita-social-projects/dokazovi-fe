@@ -8,7 +8,7 @@ export const useStyles = makeStyles(
       alignItems: 'center',
       marginBottom: theme.spacing(5),
       [theme.breakpoints.down('xs')]: {
-        marginTop: '90px',
+        marginTop: theme.spacing(16),
         padding: '15px 20px 0',
         marginBottom: 0,
       },

@@ -36,7 +36,7 @@ export const useStyles = makeStyles<Theme, IStyleProps>(
         [theme.breakpoints.down('xs')]: {
           marginTop: props.isTopSectionShown
             ? theme.spacing(6)
-            : theme.spacing(20),
+            : theme.spacing(16),
           marginBottom: theme.spacing(6),
           marginLeft: theme.spacing(3),
           marginRight: theme.spacing(3),
