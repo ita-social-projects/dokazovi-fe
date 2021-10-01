@@ -1,6 +1,10 @@
 import { makeStyles, Theme } from '@material-ui/core';
 
-export const useStyles = makeStyles(
+interface IStyleProps {
+  isTopSectionShown: boolean;
+}
+
+export const useStyles = makeStyles<Theme, IStyleProps>(
   (theme: Theme) => ({
     cardContainer: {
       position: 'relative',
@@ -12,25 +16,36 @@ export const useStyles = makeStyles(
       },
     },
 
+    wrapper: {
+      display: 'flex',
+      flexDirection: 'column',
+    },
+
     actionsBlock: {
       display: 'flex',
       marginLeft: 'auto',
       alignItems: 'center',
     },
-    contentRoot: {
+    contentRoot: (props) => ({
       minHeight: '550px',
       flexDirection: 'column',
+
       '& h1': {
         marginTop: theme.spacing(14),
         marginBottom: theme.spacing(10),
         [theme.breakpoints.down('xs')]: {
-          marginTop: theme.spacing(6),
+          marginTop: props.isTopSectionShown
+            ? theme.spacing(6)
+            : theme.spacing(20),
           marginBottom: theme.spacing(6),
-          marginLeft: theme.spacing(2),
+          marginLeft: theme.spacing(3),
           marginRight: theme.spacing(3),
+          fontSize: '32px',
+          lineHeight: '1,19',
         },
       },
-    },
+    }),
+
     createdAt: {
       color: theme.palette.info.light,
     },

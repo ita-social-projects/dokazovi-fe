@@ -9,7 +9,14 @@ export const useStyles = makeStyles(
       marginBottom: theme.spacing(5),
       [theme.breakpoints.down('xs')]: {
         marginTop: '90px',
-        padding: '15px',
+        padding: '15px 20px 0',
+        marginBottom: 0,
+      },
+    },
+
+    avatarSection: {
+      [theme.breakpoints.down('xs')]: {
+        alignSelf: 'flex-start',
       },
     },
 
@@ -21,6 +28,7 @@ export const useStyles = makeStyles(
       [theme.breakpoints.down('xs')]: {
         width: 87,
         height: 87,
+        marginRight: '20px',
       },
     },
     authorName: {

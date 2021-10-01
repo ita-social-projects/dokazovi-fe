@@ -19,14 +19,16 @@ export default function TopSection({ author }: ITopSection): JSX.Element {
   const authorFullName = `${firstName} ${lastName}`;
   return (
     <Box className={classes.root}>
-      <Link to={`/experts/${id}`}>
-        <CardMedia
-          className={classes.avatar}
-          image={avatar} // paste default avatar if not present
-          title={authorFullName}
-          component="div"
-        />
-      </Link>
+      <Box className={classes.avatarSection}>
+        <Link to={`/experts/${id}`}>
+          <CardMedia
+            className={classes.avatar}
+            image={avatar} // paste default avatar if not present
+            title={authorFullName}
+            component="div"
+          />
+        </Link>
+      </Box>
       <Box>
         <Link to={`/experts/${id}`}>
           <Typography variant="h3" className={classes.authorName}>

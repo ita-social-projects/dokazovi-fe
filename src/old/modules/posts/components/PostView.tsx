@@ -25,12 +25,7 @@ export interface IPostViewProps {
   isPreview?: boolean;
 }
 
-const PostView: React.FC<IPostViewProps> = ({
-  isPreview,
-  post,
-  modificationAllowed,
-  onDelete,
-}) => {
+const PostView: React.FC<IPostViewProps> = ({ isPreview, post, onDelete }) => {
   const { t } = useTranslation();
 
   const user = useSelector(selectCurrentUser);
@@ -38,7 +33,10 @@ const PostView: React.FC<IPostViewProps> = ({
   const isAdmin = authorities.data?.includes('SET_IMPORTANCE');
   const permission = user?.data?.id === post?.author?.id || isAdmin;
 
-  const classes = useStyles();
+  const isTopSectionShown =
+    post.origins[0].name !== t(langTokens.common.translation);
+
+  const classes = useStyles({ isTopSectionShown });
   const { mobile } = useContext(ScreenContext);
 
   const postContent = post.content ?? 'There is no post content';
@@ -62,10 +60,8 @@ const PostView: React.FC<IPostViewProps> = ({
         materialTitle={post.title}
         type={post.type}
       />
-      <Box>
-        {post.origins[0].name !== t(langTokens.common.translation) && (
-          <TopSection author={post.author} />
-        )}
+      <Box className={classes.wrapper}>
+        {isTopSectionShown && <TopSection author={post.author} />}
 
         {!mobile && !isPreview && permission && (
           <Box className={classes.actionsBlock}>

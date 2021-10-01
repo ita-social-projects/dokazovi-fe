@@ -5,12 +5,20 @@ export const useStyles = makeStyles(
     root: {
       display: 'flex',
       marginBottom: theme.spacing(8),
+      [theme.breakpoints.down('xs')]: {
+        flexDirection: 'column',
+      },
     },
     topics: {
       listStyle: 'none',
       display: 'flex',
       marginRight: '20px',
       height: '32px',
+      [theme.breakpoints.down('xs')]: {
+        margin: '0 15px 30px',
+        flexWrap: 'wrap',
+        height: 'auto',
+      },
       '& > *:not(:last-child)': {
         marginRight: '4px',
       },
@@ -19,6 +27,11 @@ export const useStyles = makeStyles(
         color: '#ffffff',
         backgroundColor: '#73DDFF',
         cursor: 'pointer',
+        [theme.breakpoints.down('xs')]: {
+          margin: '3px',
+          fontSize: '14px',
+          lineHeight: '1,19',
+        },
       },
     },
 
@@ -27,6 +40,10 @@ export const useStyles = makeStyles(
       display: 'flex',
       marginRight: '20px',
       height: '32px',
+      [theme.breakpoints.down('xs')]: {
+        margin: '0 15px 30px',
+        flexWrap: 'wrap',
+      },
 
       '& > *:not(:last-child)': {
         marginRight: '4px',
@@ -34,6 +51,10 @@ export const useStyles = makeStyles(
       '& > li': {
         padding: '5px 12px',
         cursor: 'pointer',
+        [theme.breakpoints.down('xs')]: {
+          fontSize: '14px',
+          padding: '5px 20px 5px 9px',
+        },
       },
       '& > *:first-child': {
         borderRightColor: '#FF5C00',

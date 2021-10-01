@@ -13,13 +13,14 @@ export const useStyles = makeStyles(
       right: '30px',
       top: '20px',
       [theme.breakpoints.down('xs')]: {
-        padding: '10px',
+        padding: '10px 5px',
         top: 0,
         left: '20px',
         right: 0,
         fontSize: '10px',
       },
     },
+
     link: { textDecoration: 'underline' },
     postTitle: {
       color: '#767676',
