@@ -40,10 +40,14 @@ export const useStyles = makeStyles(
       color: theme.palette.info.light,
     },
     video: {
-      width: '85em',
-      height: '50em',
+      width: '90em',
+      height: '51em',
       margin: '20px -225px 70px',
       borderBottom: '1px solid #767676',
+      [theme.breakpoints.down('md')]: {
+        width: 'calc(100vw - 100px)',
+        height: 'calc(60vw - 100px)',
+      },
     },
     iconBlack: {
       color: 'black',
