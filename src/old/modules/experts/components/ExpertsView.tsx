@@ -202,6 +202,10 @@ const ExpertsView: React.FC = () => {
     window.scrollTo(0, viewPort);
   }, [experts]);
 
+  useEffect(() => {
+    setPage(0);
+  }, []);
+
   const getRegions = () => {
     if (typeof selectedRegions !== 'string') {
       const names = selectedRegions?.reduce((acc, filter) => {
