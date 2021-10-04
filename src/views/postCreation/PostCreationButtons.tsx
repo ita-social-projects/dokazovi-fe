@@ -9,7 +9,8 @@ interface IIsModal {
   isEmpty: boolean;
   isEnoughLength: boolean;
   isVideoEmpty?: boolean;
-  isTooLong?:boolean,
+  isTooLong?: boolean;
+  hasBackGroundImg?: boolean;
 }
 
 export interface IPostCreationButtonsProps {
@@ -70,6 +71,8 @@ export const PostCreationButtons: React.FC<IPostCreationButtonsProps> = ({
         return modalMaker(t(langTokens.editor.notEnoughLength));
       case isModal?.isVideoEmpty:
         return modalMaker(t(langTokens.editor.noVideo));
+      case isModal?.hasBackGroundImg:
+        return modalMaker(t(langTokens.editor.noBgImg));
       default:
         return (
           <Button

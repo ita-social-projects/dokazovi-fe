@@ -269,6 +269,11 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
     newPost.title.length <= MIN_TITLE_LENGTH ||
     newPost.preview.length <= MIN_PREVIEW_LENGTH;
 
+  const hasBackGroundImg =
+    !!newPost?.origins?.length &&
+    newPost?.origins[0]?.id !== 1 &&
+    !newPost.previewImageUrl;
+
   const isTooLong = newPost.title.length > MAX_TITLE_LENGTH;
 
   const previewPost = React.useMemo(
@@ -446,7 +451,7 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
 
       <PostCreationButtons
         action="creating"
-        isModal={{ isEmpty, isEnoughLength, isTooLong }}
+        isModal={{ isEmpty, isEnoughLength, isTooLong, hasBackGroundImg }}
         onPublishClick={handlePublishClick}
         onPreviewClick={() => {
           setPreviewing(!previewing);
