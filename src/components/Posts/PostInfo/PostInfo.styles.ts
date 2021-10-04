@@ -7,6 +7,7 @@ export const useStyles = makeStyles(
       marginBottom: theme.spacing(8),
       [theme.breakpoints.down('xs')]: {
         flexDirection: 'column',
+        marginBottom: theme.spacing(6),
       },
     },
     topics: {
@@ -15,7 +16,7 @@ export const useStyles = makeStyles(
       marginRight: '20px',
       height: '32px',
       [theme.breakpoints.down('xs')]: {
-        margin: '0 15px 30px',
+        margin: '0 0 30px',
         flexWrap: 'wrap',
         height: 'auto',
       },
@@ -28,7 +29,7 @@ export const useStyles = makeStyles(
         backgroundColor: '#73DDFF',
         cursor: 'pointer',
         [theme.breakpoints.down('xs')]: {
-          margin: '3px',
+          marginRight: '3px',
           fontSize: '14px',
           lineHeight: '1,19',
         },
@@ -41,7 +42,6 @@ export const useStyles = makeStyles(
       marginRight: '20px',
       height: '32px',
       [theme.breakpoints.down('xs')]: {
-        margin: '0 15px 30px',
         flexWrap: 'wrap',
         height: '20px',
       },
@@ -61,6 +61,9 @@ export const useStyles = makeStyles(
         borderRightColor: '#FF5C00',
         borderRightStyle: 'solid',
         borderRightWidth: '1px',
+        [theme.breakpoints.down('xs')]: {
+          paddingLeft: '0px',
+        },
       },
     },
 

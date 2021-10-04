@@ -12,7 +12,8 @@ export const useStyles = makeStyles<Theme, IStyleProps>(
       padding: '70px 225px 150px',
       wordBreak: 'break-word',
       [theme.breakpoints.down('xs')]: {
-        padding: 0,
+        padding: '15px',
+        minHeight: '812px',
       },
     },
 
@@ -38,8 +39,6 @@ export const useStyles = makeStyles<Theme, IStyleProps>(
             ? theme.spacing(6)
             : theme.spacing(16),
           marginBottom: theme.spacing(6),
-          marginLeft: theme.spacing(3),
-          marginRight: theme.spacing(3),
           fontSize: '32px',
           lineHeight: '1,19',
         },

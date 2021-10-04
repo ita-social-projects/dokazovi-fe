@@ -9,7 +9,7 @@ export const useStyles = makeStyles(
       marginBottom: theme.spacing(5),
       [theme.breakpoints.down('xs')]: {
         marginTop: theme.spacing(16),
-        padding: '15px 20px 0',
+        padding: '10px 0 0',
         marginBottom: 0,
       },
     },
