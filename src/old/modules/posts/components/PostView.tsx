@@ -1,11 +1,12 @@
 /* eslint-disable react/no-danger */
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { Box, Card, Typography } from '@material-ui/core';
+import { Card, Box, Typography } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
+import { ScreenContext } from 'old/provider/MobileProvider/ScreenContext';
 import { useStyles } from '../styles/PostView.styles';
 import { IPost } from '../../../lib/types';
 import { ConfirmationModalWithButton } from '../../../lib/components/Modals/ConfirmationModalWithButton';
@@ -24,17 +25,19 @@ export interface IPostViewProps {
   isPreview?: boolean;
 }
 
-const PostView: React.FC<IPostViewProps> = ({
-  isPreview,
-  post,
-  modificationAllowed,
-  onDelete,
-}) => {
+const PostView: React.FC<IPostViewProps> = ({ isPreview, post, onDelete }) => {
   const { t } = useTranslation();
+
   const user = useSelector(selectCurrentUser);
   const authorities = useSelector(selectAuthorities);
   const isAdmin = authorities.data?.includes('SET_IMPORTANCE');
   const permission = user?.data?.id === post?.author?.id || isAdmin;
+
+  const isTopSectionShown =
+    post.origins[0].name !== t(langTokens.common.translation);
+
+  const classes = useStyles({ isTopSectionShown });
+  const { mobile } = useContext(ScreenContext);
   const [origin] = post.origins;
   const classes = useStyles();
 
@@ -60,11 +63,9 @@ const PostView: React.FC<IPostViewProps> = ({
         type={post.type}
       />
       <Box className={classes.wrapper}>
-        {post.origins[0].name !== t(langTokens.common.translation) && (
-          <TopSection author={post.author} />
-        )}
+        {isTopSectionShown && <TopSection author={post.author} />}
 
-        {!isPreview && permission && (
+        {!mobile && !isPreview && permission && (
           <Box className={classes.actionsBlock}>
             <Link to={`/edit-post?id=${post.id}`}>
               <EditIcon className={classes.iconBlack} />

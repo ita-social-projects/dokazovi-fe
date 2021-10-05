@@ -12,6 +12,7 @@ export const useStyles = makeStyles<Theme, IStyleProps>(
       [theme.breakpoints.down('xs')]: {
         width: '94vw',
       },
+      minHeight: '240px',
     },
     header: (props) => ({
       display: 'flex',

@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { Typography } from '@material-ui/core';
 import CreateIcon from '@material-ui/icons/Create';
+import { ScreenContext } from 'old/provider/MobileProvider/ScreenContext';
 import { AuthContext } from '../../old/provider/AuthProvider/AuthContext';
 import { useStyles } from './ContentSection.styles';
 import {
@@ -36,6 +37,7 @@ export default function ContentSection(prop: {
   const isAllInfoFetched = useSelector(selectIsAllInfoFetched);
   const loading = useSelector(selectInfoLoadingById(type));
   const location = useLocation();
+  const { mobile } = useContext(ScreenContext);
   const elRef = useRef<HTMLDivElement>(null);
 
   const openEditor = () => setEdit(true);
@@ -55,11 +57,20 @@ export default function ContentSection(prop: {
       elRef.current &&
       location.hash.includes(ConditionsContentSectionEnum[type].toLowerCase())
     ) {
-      elRef.current.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start',
-        inline: 'center',
-      });
+      if (mobile) {
+        const scrollHeight = elRef.current.getBoundingClientRect().top;
+
+        window.scrollBy({
+          behavior: 'smooth',
+          top: scrollHeight - (scrollHeight > 0 ? 50 : 120), // If scrolling to the top consider header height as well
+        });
+      } else {
+        elRef.current.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start',
+          inline: 'center',
+        });
+      }
     }
   });
 

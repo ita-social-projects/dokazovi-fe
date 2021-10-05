@@ -1,49 +1,62 @@
 import { makeStyles, Theme } from '@material-ui/core';
 
-export const useStyles = makeStyles(
+interface IStyleProps {
+  isTopSectionShown: boolean;
+}
+
+export const useStyles = makeStyles<Theme, IStyleProps>(
   (theme: Theme) => ({
     cardContainer: {
       position: 'relative',
       minHeight: '550px',
       padding: '70px 225px 150px',
       wordBreak: 'break-word',
+      [theme.breakpoints.down('xs')]: {
+        padding: '15px',
+        minHeight: '812px',
+      },
     },
+
     wrapper: {
       display: 'flex',
       flexDirection: 'column',
     },
-    authorBlock: {
-      minHeight: '100px',
-      display: 'flex',
-      alignItems: 'center',
-    },
-    avatar: {
-      height: 130,
-      width: 130,
-      marginRight: theme.spacing(4),
-      borderRadius: '50%',
-    },
+
     actionsBlock: {
       display: 'flex',
       marginLeft: 'auto',
       alignItems: 'center',
     },
-    contentRoot: {
+    contentRoot: (props) => ({
       minHeight: '550px',
       flexDirection: 'column',
+
       '& h1': {
         marginTop: theme.spacing(14),
         marginBottom: theme.spacing(10),
+        [theme.breakpoints.down('xs')]: {
+          marginTop: props.isTopSectionShown
+            ? theme.spacing(6)
+            : theme.spacing(16),
+          marginBottom: theme.spacing(6),
+          fontSize: '32px',
+          lineHeight: '1,19',
+        },
       },
-    },
+    }),
+
     createdAt: {
       color: theme.palette.info.light,
     },
     video: {
-      width: '72vw',
-      height: '100vh',
+      width: '90em',
+      height: '51em',
       margin: '20px -225px 70px',
       borderBottom: '1px solid #767676',
+      [theme.breakpoints.down('md')]: {
+        width: 'calc(100vw - 100px)',
+        height: 'calc(60vw - 100px)',
+      },
     },
     iconBlack: {
       color: 'black',
