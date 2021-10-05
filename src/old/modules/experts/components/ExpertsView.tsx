@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { isEmpty, uniq } from 'lodash';
@@ -41,6 +41,8 @@ import { useStyles } from '../styles/ExpertsView.styles';
 import { setGALocation } from '../../../../utilities/setGALocation';
 import { langTokens } from '../../../../locales/localizationInit';
 import { updateDir, updateReg } from '../../utilities/utilityFunctions';
+import ExpertsViewMobile from './ExpertsViewMobile';
+import { ScreenContext } from '../../../provider/MobileProvider/ScreenContext';
 
 const ExpertsView: React.FC = () => {
   const { t } = useTranslation();
@@ -65,6 +67,7 @@ const ExpertsView: React.FC = () => {
   const query = useQuery();
   const history = useHistory();
   const classes = useStyles();
+  const { mobile } = useContext(ScreenContext);
 
   const experts = selectExpertsByIds(expertIds);
 
@@ -107,7 +110,7 @@ const ExpertsView: React.FC = () => {
     }
     const queryType = getQueryTypeByFilterType(filterType);
     const checkedIds = Object.keys(checked).filter((key) => checked[key]);
-    const isQuerySame = uniq(Object.values(checked)).length === 1; // removing the query if user checks/unchecks the last box
+    const isQuerySame = uniq(Object.values(checked)).length === 1;
 
     query.set(queryType, checkedIds.join(','));
     if (!checkedIds.length || isQuerySame) {
@@ -261,6 +264,98 @@ const ExpertsView: React.FC = () => {
     }
   };
 
+  const SelectedTypes = (
+    <Box className={classes.container}>
+      {typeof selectedDirections === 'string' ? (
+        <Typography
+          className={classes.selectedFilters}
+          component="div"
+          variant="subtitle2"
+        >
+          {t(langTokens.common.allDirections)}
+        </Typography>
+      ) : (
+        <ChipsList
+          checkedNames={getDirections()}
+          handleDelete={handleDeleteChip}
+          chipsListType={ChipFilterEnum.DIRECTION}
+        />
+      )}
+      <Typography className={classes.divider} component="span">
+        |
+      </Typography>
+      {typeof selectedRegions === 'string' ? (
+        <Typography
+          className={classes.selectedFilters}
+          component="div"
+          variant="subtitle2"
+        >
+          {t(langTokens.common.allRegions)}
+        </Typography>
+      ) : (
+        <ChipsList
+          checkedNames={getRegions()}
+          handleDelete={handleDeleteChip}
+          chipsListType={ChipFilterEnum.REGION}
+        />
+      )}
+      <Typography className={classes.divider} component="span">
+        |
+      </Typography>
+      <Typography
+        className={classes.totalFilters}
+        component="div"
+        variant="subtitle2"
+        color="textSecondary"
+      >
+        {totalElements}{' '}
+        {t(langTokens.experts.expert, {
+          count: totalElements,
+        }).toLowerCase()}
+      </Typography>
+    </Box>
+  );
+
+  const FilterCheckboxes = propertiesLoaded && (
+    <>
+      <CheckboxLeftsideFilterForm
+        onFormChange={(checked) =>
+          setFilters(checked, FilterTypeEnum.DIRECTIONS)
+        }
+        possibleFilters={directions}
+        selectedFilters={selectedDirections}
+        filterTitle={t(langTokens.common.byDirection).toLowerCase()}
+        allTitle={t(langTokens.common.allDirections)}
+        filterType={QueryTypeEnum.DIRECTIONS}
+      />
+      <CheckboxLeftsideFilterForm
+        onFormChange={(checked, disabled) =>
+          setFilters(checked, FilterTypeEnum.REGIONS, disabled)
+        }
+        possibleFilters={regions}
+        selectedFilters={selectedRegions}
+        filterTitle={t(langTokens.common.byRegion).toLowerCase()}
+        allTitle={t(langTokens.common.allRegions)}
+        filterType={QueryTypeEnum.REGIONS}
+      />
+    </>
+  );
+
+  if (mobile) {
+    return (
+      <ExpertsViewMobile
+        page={page}
+        header={t(langTokens.common.experts)}
+        loading={loading}
+        experts={experts}
+        totalElements={totalElements}
+        SelectedTypes={SelectedTypes}
+        FilterCheckboxes={FilterCheckboxes}
+        setPage={loadMore}
+      />
+    );
+  }
+
   return (
     <>
       <PageTitle title={t(langTokens.common.experts)} />
@@ -280,85 +375,13 @@ const ExpertsView: React.FC = () => {
           md={8}
           lg={9}
         >
-          <Box className={classes.container}>
-            {typeof selectedDirections === 'string' ? (
-              <Typography
-                className={classes.selectedFilters}
-                component="div"
-                variant="subtitle2"
-              >
-                {t(langTokens.common.allDirections)}
-              </Typography>
-            ) : (
-              <ChipsList
-                checkedNames={getDirections()}
-                handleDelete={handleDeleteChip}
-                chipsListType={ChipFilterEnum.DIRECTION}
-              />
-            )}
-            <Typography className={classes.divider} component="span">
-              |
-            </Typography>
-            {typeof selectedRegions === 'string' ? (
-              <Typography
-                className={classes.selectedFilters}
-                component="div"
-                variant="subtitle2"
-              >
-                {t(langTokens.common.allRegions)}
-              </Typography>
-            ) : (
-              <ChipsList
-                checkedNames={getRegions()}
-                handleDelete={handleDeleteChip}
-                chipsListType={ChipFilterEnum.REGION}
-              />
-            )}
-            <Typography className={classes.divider} component="span">
-              |
-            </Typography>
-            <Typography
-              className={classes.totalFilters}
-              component="div"
-              variant="subtitle2"
-              color="textSecondary"
-            >
-              {totalElements}{' '}
-              {t(langTokens.experts.expert, {
-                count: totalElements,
-              }).toLowerCase()}
-            </Typography>
-          </Box>
+          {SelectedTypes}
         </Grid>
       </Grid>
       <Grid container direction="row">
         <Grid item container direction="column" xs={6} sm={5} md={4} lg={3}>
-          {propertiesLoaded && (
-            <>
-              <CheckboxLeftsideFilterForm
-                onFormChange={(checked) =>
-                  setFilters(checked, FilterTypeEnum.DIRECTIONS)
-                }
-                possibleFilters={directions}
-                selectedFilters={selectedDirections}
-                filterTitle={t(langTokens.common.byDirection).toLowerCase()}
-                allTitle={t(langTokens.common.allDirections)}
-                filterType={QueryTypeEnum.DIRECTIONS}
-              />
-              <CheckboxLeftsideFilterForm
-                onFormChange={(checked, disabled) =>
-                  setFilters(checked, FilterTypeEnum.REGIONS, disabled)
-                }
-                possibleFilters={regions}
-                selectedFilters={selectedRegions}
-                filterTitle={t(langTokens.common.byRegion).toLowerCase()}
-                allTitle={t(langTokens.common.allRegions)}
-                filterType={QueryTypeEnum.REGIONS}
-              />
-            </>
-          )}
+          {FilterCheckboxes}
         </Grid>
-
         <Grid
           className={classes.gridContainer}
           item
