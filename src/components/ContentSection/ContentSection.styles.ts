@@ -4,6 +4,11 @@ export const useStyles = makeStyles(
   (theme: Theme) => ({
     section: {
       marginBottom: '100px',
+      [theme.breakpoints.down('xs')]: {
+        background: '#F1F1F1',
+        padding: '50px 10px 0',
+        marginBottom: 0,
+      },
     },
 
     wrap: {
@@ -29,6 +34,11 @@ export const useStyles = makeStyles(
         fontWeight: 400,
         fontSize: '17px',
         lineHeight: 1.53,
+        [theme.breakpoints.down('xs')]: {
+          marginBottom: 0,
+          paddingBottom: theme.spacing(4),
+          fontSize: '20px',
+        },
       },
       '& h2': {
         marginBottom: theme.spacing(5),
@@ -36,6 +46,9 @@ export const useStyles = makeStyles(
         fontWeight: 700,
         fontSize: '32px',
         lineHeight: 1.17,
+        [theme.breakpoints.down('xs')]: {
+          fontSize: '24px',
+        },
       },
       '& h3': {
         marginBottom: theme.spacing(4),
@@ -66,6 +79,17 @@ export const useStyles = makeStyles(
         lineHeight: 1.86,
         textDecoration: 'underline',
         color: '#0000ff',
+        [theme.breakpoints.down('xs')]: {
+          fontSize: '20px',
+          fontStyle: 'normal',
+          color: '#006DFF',
+        },
+      },
+      '& strong': {
+        [theme.breakpoints.down('xs')]: {
+          fontFamily: 'Raleway',
+          fontWeight: 700,
+        },
       },
       '& blockquote': {
         marginBottom: theme.spacing(8),
@@ -92,6 +116,9 @@ export const useStyles = makeStyles(
         fontFamily: 'Literata',
         fontSize: '17px',
         lineHeight: 1.65,
+        [theme.breakpoints.down('xs')]: {
+          fontSize: '20px',
+        },
       },
       '& img': { width: '855px' },
       '& figcaption': {
