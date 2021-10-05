@@ -1,7 +1,7 @@
 /* eslint-disable react/no-danger */
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { Card, Box, Typography, Container } from '@material-ui/core';
+import { Box, Card, Typography } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import { useTranslation } from 'react-i18next';
@@ -38,6 +38,7 @@ const PostView: React.FC<IPostViewProps> = ({ isPreview, post, onDelete }) => {
 
   const classes = useStyles({ isTopSectionShown });
   const { mobile } = useContext(ScreenContext);
+  const [origin] = post.origins;
 
   const postContent = post.content ?? 'There is no post content';
   const postInfo = {
@@ -87,7 +88,7 @@ const PostView: React.FC<IPostViewProps> = ({ isPreview, post, onDelete }) => {
           )}
 
           {post.origins[0].name === t(langTokens.common.translation) && (
-            <SecondTopSection author={post.author} />
+            <SecondTopSection author={post.author} origin={origin.id} />
           )}
 
           <PostInfo info={postInfo} />
