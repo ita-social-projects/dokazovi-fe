@@ -43,7 +43,7 @@ export const useStyles = makeStyles(
       height: '32px',
       [theme.breakpoints.down('xs')]: {
         flexWrap: 'wrap',
-        height: '20px',
+        height: 'auto',
       },
 
       '& > *:not(:last-child)': {
@@ -55,6 +55,7 @@ export const useStyles = makeStyles(
         [theme.breakpoints.down('xs')]: {
           fontSize: '14px',
           padding: '0 15px',
+          marginBottom: '5px',
         },
       },
       '& > *:first-child': {

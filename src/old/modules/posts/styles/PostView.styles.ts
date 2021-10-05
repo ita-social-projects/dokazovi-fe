@@ -53,6 +53,11 @@ export const useStyles = makeStyles<Theme, IStyleProps>(
       height: '100vh',
       margin: '20px -225px 70px',
       borderBottom: '1px solid #767676',
+      [theme.breakpoints.down('xs')]: {
+        width: '100%',
+        height: '280px',
+        margin: '0 0 30px',
+      },
     },
     iconBlack: {
       color: 'black',
@@ -72,6 +77,10 @@ export const useStyles = makeStyles<Theme, IStyleProps>(
         fontSize: '32px',
         lineHeight: 1.17,
         marginTop: theme.spacing(14),
+        [theme.breakpoints.down('xs')]: {
+          fontSize: '28px',
+          marginTop: theme.spacing(6),
+        },
       },
       '& h3': {
         fontFamily: 'Raleway',
@@ -79,6 +88,9 @@ export const useStyles = makeStyles<Theme, IStyleProps>(
         fontSize: '19px',
         lineHeight: 1.17,
         marginTop: theme.spacing(14),
+        [theme.breakpoints.down('xs')]: {
+          marginTop: theme.spacing(6),
+        },
       },
       '& h4': {
         fontFamily: 'Raleway',
@@ -87,6 +99,9 @@ export const useStyles = makeStyles<Theme, IStyleProps>(
         color: ' #767676',
         lineHeight: 1.47,
         marginTop: theme.spacing(8),
+        [theme.breakpoints.down('xs')]: {
+          marginTop: theme.spacing(6),
+        },
       },
       '& h5': {
         fontFamily: 'Literata',
@@ -94,6 +109,9 @@ export const useStyles = makeStyles<Theme, IStyleProps>(
         fontSize: '14px',
         lineHeight: 1.86,
         marginTop: theme.spacing(8),
+        [theme.breakpoints.down('xs')]: {
+          marginTop: theme.spacing(6),
+        },
       },
       '& a': {
         fontStyle: 'italic',
@@ -110,20 +128,36 @@ export const useStyles = makeStyles<Theme, IStyleProps>(
         color: '#ff5c00',
         borderTop: '#4fdfff solid 1px',
         borderBottom: '#4fdfff solid 1px',
+        [theme.breakpoints.down('xs')]: {
+          padding: '15px 0',
+          fontSize: '20px',
+        },
       },
       '& ol': {
         paddingLeft: theme.spacing(5),
         fontFamily: 'Literata',
         fontSize: '17px',
         lineHeight: 1.65,
+        [theme.breakpoints.down('xs')]: {
+          paddingLeft: theme.spacing(4),
+        },
       },
       '& ul': {
         paddingLeft: theme.spacing(5),
         fontFamily: 'Literata',
         fontSize: '17px',
         lineHeight: 1.65,
+        [theme.breakpoints.down('xs')]: {
+          paddingLeft: theme.spacing(4),
+        },
       },
-      '& img': { width: '855px' },
+      '& img': {
+        width: '855px',
+        [theme.breakpoints.down('xs')]: {
+          width: '100%',
+          height: 'auto',
+        },
+      },
       '& figcaption': {
         marginTop: theme.spacing(2),
         fontFamily: 'Literata',
@@ -132,6 +166,9 @@ export const useStyles = makeStyles<Theme, IStyleProps>(
         fontSize: '14px',
         lineHeight: 1,
         color: '#767676',
+        [theme.breakpoints.down('xs')]: {
+          fontSize: '12px',
+        },
       },
     },
   }),
