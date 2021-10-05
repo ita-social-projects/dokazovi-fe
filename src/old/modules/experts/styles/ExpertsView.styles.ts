@@ -4,7 +4,7 @@ export const useStyles = makeStyles(
   (theme: Theme) => ({
     container: {
       display: 'flex',
-      flexWrap: 'nowrap',
+      flexWrap: 'wrap',
       margin: '7px 0px 15px 0px',
       justifyContent: 'flex-start',
       alignItems: 'center',
