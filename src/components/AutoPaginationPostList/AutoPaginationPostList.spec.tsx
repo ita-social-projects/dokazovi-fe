@@ -71,7 +71,7 @@ const posts: IPost[] = [
   },
 ];
 
-describe('', () => {
+describe('AutoPaginationPostList', () => {
   function setupIntersectionObserverMock({
     root = null,
     rootMargin = '',
@@ -114,7 +114,7 @@ describe('', () => {
     setupIntersectionObserverMock();
   });
 
-  it('', () => {
+  it('render post type', () => {
     render(
       <MemoryRouter>
         <AutoPaginationPostList posts={posts} setPage={jest.fn} />{' '}
