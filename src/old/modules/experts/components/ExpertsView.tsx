@@ -135,6 +135,10 @@ const ExpertsView: React.FC = () => {
 
   useEffect(() => {
     setGALocation(window);
+
+    return function cleanup() {
+      fetchData(false);
+    };
   }, []);
 
   useEffect(() => {
@@ -201,10 +205,6 @@ const ExpertsView: React.FC = () => {
   useEffect(() => {
     window.scrollTo(0, viewPort);
   }, [experts]);
-
-  useEffect(() => {
-    setPage(0);
-  }, []);
 
   const getRegions = () => {
     if (typeof selectedRegions !== 'string') {
