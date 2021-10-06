@@ -138,6 +138,10 @@ const ExpertsView: React.FC = () => {
 
   useEffect(() => {
     setGALocation(window);
+
+    return function cleanup() {
+      fetchData(false);
+    };
   }, []);
 
   useEffect(() => {
