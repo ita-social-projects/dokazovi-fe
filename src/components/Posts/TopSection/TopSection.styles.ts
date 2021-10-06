@@ -7,6 +7,17 @@ export const useStyles = makeStyles(
       display: 'flex',
       alignItems: 'center',
       marginBottom: theme.spacing(5),
+      [theme.breakpoints.down('xs')]: {
+        marginTop: theme.spacing(16),
+        padding: '10px 0 0',
+        marginBottom: 0,
+      },
+    },
+
+    avatarSection: {
+      [theme.breakpoints.down('xs')]: {
+        alignSelf: 'flex-start',
+      },
     },
 
     avatar: {
@@ -14,15 +25,29 @@ export const useStyles = makeStyles(
       width: 150,
       borderRadius: '50%',
       marginRight: theme.spacing(4),
+      [theme.breakpoints.down('xs')]: {
+        width: 87,
+        height: 87,
+        marginRight: '20px',
+      },
     },
     authorName: {
       fontSize: '24px',
       lineHeight: '1.17',
+      [theme.breakpoints.down('xs')]: {
+        fontSize: '18px',
+        marginBottom: '5px',
+      },
     },
 
     authorBio: {
       fontSize: '15px',
       lineHeight: '1.47',
+      [theme.breakpoints.down('xs')]: {
+        fontSize: '14px',
+        fontStyle: 'italic',
+        lineHeight: '1.43',
+      },
     },
   }),
   { name: 'PostView' },
