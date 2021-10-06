@@ -1,26 +1,18 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { Button, Typography, Avatar } from '@material-ui/core';
+import { Avatar, Button, Typography } from '@material-ui/core';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import { useTranslation } from 'react-i18next';
 import { useStyles } from './AccountMenu.styles';
-import {
-  StyledMenu,
-  StyledMenuItem,
-} from '../../old/lib/components/Menu/StyledMenu';
-import {
-  signOutAction,
-  getUserAsyncAction,
-  selectCurrentUser,
-} from '../../models/user';
+import { StyledMenu, StyledMenuItem } from '../../old/lib/components/Menu/StyledMenu';
+import { getUserAsyncAction, selectCurrentUser, signOutAction } from '../../models/user';
 import { useActions } from '../../shared/hooks';
 import { AuthContext } from '../../old/provider/AuthProvider/AuthContext';
 import { AccountIcon } from '../../old/lib/components/icons/AccountIcon';
 import { langTokens } from '../../locales/localizationInit';
 import { selectAuthorities } from '../../models/authorities';
 import { clearAuthoritiesAction } from '../../models/authorities/reducers';
-import { ScreenContext } from '../../old/provider/MobileProvider/ScreenContext';
 
 export const AccountMenu: React.FC = () => {
   const { t } = useTranslation();
@@ -36,7 +28,6 @@ export const AccountMenu: React.FC = () => {
   const authorities = useSelector(selectAuthorities).data?.includes(
     'SET_IMPORTANCE',
   );
-  const { tablet } = useContext(ScreenContext);
 
   const onLogoutHandler = () => {
     boundSignOutAction();
