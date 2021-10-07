@@ -304,10 +304,9 @@ const MaterialsView: React.FC = () => {
     }
   }
 
-  const selectedPostTypesString =
-    query.get(QueryTypeEnum.POST_TYPES) === '0'
-      ? stringOfPostTypes().split(' ')
-      : query.get(QueryTypeEnum.POST_TYPES)?.split(',');
+  const selectedPostTypesString = query
+    .get(QueryTypeEnum.POST_TYPES)
+    ?.split(',');
 
   let selectedPostTypes:
     | IPostType[]
