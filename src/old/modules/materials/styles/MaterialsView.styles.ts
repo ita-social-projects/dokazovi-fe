@@ -1,7 +1,13 @@
-import { makeStyles } from '@material-ui/core';
+import { makeStyles, Theme } from '@material-ui/core';
 
-export const useStyles = makeStyles(
-  (theme) => ({
+export interface IStyleProps {
+  pageYOffset: number;
+}
+
+const top = 20;
+
+export const useStyles = makeStyles<Theme, IStyleProps>(
+  (theme: Theme) => ({
     container: {
       display: 'flex',
       flexWrap: 'nowrap',
@@ -56,6 +62,45 @@ export const useStyles = makeStyles(
     },
     gridSpacing: {
       paddingLeft: '20px',
+    },
+    scrollabelContainer: {
+      position: 'sticky',
+      top: 80 + top,
+      overflowY: 'hidden',
+      maxHeight: ({ pageYOffset }) =>
+        `calc(100vh + ${
+          pageYOffset < 80 + top ? pageYOffset - 80 - top : 0
+        }px )`,
+      padding: '0px 15px 100px 0px',
+      margin: 0,
+      '&::-webkit-scrollbar': {
+        width: 5,
+      },
+      '&::-webkit-scrollbar-thumb': {
+        borderRadius: 2,
+        backgroundColor: theme.palette.primary.main,
+      },
+      '&:hover': {
+        overflowY: 'scroll',
+      },
+    },
+    headerContainer: {
+      margin: 0,
+      position: 'sticky',
+      top: top - 1,
+      zIndex: 1,
+    },
+    selectedFiltersWraper: {
+      backgroundColor: theme.palette.primary.light,
+      width: 'calc(100% + 20px)',
+    },
+    emptyDiv: {
+      zIndex: 1,
+      position: 'sticky',
+      top: -1,
+      width: 'calc(100% + 20px)',
+      backgroundColor: theme.palette.primary.light,
+      height: ({ pageYOffset }) => (pageYOffset < top ? pageYOffset : top),
     },
   }),
   {
