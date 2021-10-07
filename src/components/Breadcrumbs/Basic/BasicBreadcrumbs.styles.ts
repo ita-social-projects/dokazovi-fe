@@ -1,7 +1,7 @@
 import { makeStyles } from '@material-ui/core';
 
 export const useStyles = makeStyles(
-  {
+  (theme) => ({
     breadcrumbs: {
       fontFamily: 'Literata',
       fontStyle: 'italic',
@@ -12,12 +12,20 @@ export const useStyles = makeStyles(
       position: 'absolute',
       right: '30px',
       top: '20px',
+      [theme.breakpoints.down('xs')]: {
+        padding: '10px 5px',
+        top: 0,
+        left: '20px',
+        right: 0,
+        fontSize: '10px',
+      },
     },
+
     link: { textDecoration: 'underline' },
     postTitle: {
       color: '#767676',
       fontSize: 'inherit',
     },
-  },
+  }),
   { name: 'BasicBreadcrumbs' },
 );

@@ -1,49 +1,67 @@
 import { makeStyles, Theme } from '@material-ui/core';
 
-export const useStyles = makeStyles(
+interface IStyleProps {
+  isTopSectionShown: boolean;
+}
+
+export const useStyles = makeStyles<Theme, IStyleProps>(
   (theme: Theme) => ({
     cardContainer: {
       position: 'relative',
       minHeight: '550px',
       padding: '70px 225px 150px',
       wordBreak: 'break-word',
+      [theme.breakpoints.down('xs')]: {
+        padding: '15px',
+        minHeight: '812px',
+      },
     },
+
     wrapper: {
       display: 'flex',
       flexDirection: 'column',
     },
-    authorBlock: {
-      minHeight: '100px',
-      display: 'flex',
-      alignItems: 'center',
-    },
-    avatar: {
-      height: 130,
-      width: 130,
-      marginRight: theme.spacing(4),
-      borderRadius: '50%',
-    },
+
     actionsBlock: {
       display: 'flex',
       marginLeft: 'auto',
       alignItems: 'center',
     },
-    contentRoot: {
+    contentRoot: (props) => ({
       minHeight: '550px',
       flexDirection: 'column',
+
       '& h1': {
         marginTop: theme.spacing(14),
         marginBottom: theme.spacing(10),
+        [theme.breakpoints.down('xs')]: {
+          marginTop: props.isTopSectionShown
+            ? theme.spacing(6)
+            : theme.spacing(16),
+          marginBottom: theme.spacing(6),
+          fontSize: '32px',
+          lineHeight: '1,19',
+        },
       },
-    },
+    }),
+
     createdAt: {
       color: theme.palette.info.light,
     },
     video: {
-      width: '72vw',
-      height: '100vh',
+      width: '90em',
+      height: '51em',
       margin: '20px -225px 70px',
       borderBottom: '1px solid #767676',
+      [theme.breakpoints.down('xs')]: {
+        width: '100%',
+        height: '280px',
+        margin: '0 0 30px',
+      },
+      [theme.breakpoints.down('md')]: {
+        width: 'calc(100vw - 100px)',
+        height: 'calc(60vw - 100px)',
+      },
     },
     iconBlack: {
       color: 'black',
@@ -63,6 +81,10 @@ export const useStyles = makeStyles(
         fontSize: '32px',
         lineHeight: 1.17,
         marginTop: theme.spacing(14),
+        [theme.breakpoints.down('xs')]: {
+          fontSize: '28px',
+          marginTop: theme.spacing(6),
+        },
       },
       '& h3': {
         fontFamily: 'Raleway',
@@ -70,6 +92,9 @@ export const useStyles = makeStyles(
         fontSize: '19px',
         lineHeight: 1.17,
         marginTop: theme.spacing(14),
+        [theme.breakpoints.down('xs')]: {
+          marginTop: theme.spacing(6),
+        },
       },
       '& h4': {
         fontFamily: 'Raleway',
@@ -78,6 +103,9 @@ export const useStyles = makeStyles(
         color: ' #767676',
         lineHeight: 1.47,
         marginTop: theme.spacing(8),
+        [theme.breakpoints.down('xs')]: {
+          marginTop: theme.spacing(6),
+        },
       },
       '& h5': {
         fontFamily: 'Literata',
@@ -85,6 +113,9 @@ export const useStyles = makeStyles(
         fontSize: '14px',
         lineHeight: 1.86,
         marginTop: theme.spacing(8),
+        [theme.breakpoints.down('xs')]: {
+          marginTop: theme.spacing(6),
+        },
       },
       '& a': {
         fontStyle: 'italic',
@@ -101,20 +132,36 @@ export const useStyles = makeStyles(
         color: '#ff5c00',
         borderTop: '#4fdfff solid 1px',
         borderBottom: '#4fdfff solid 1px',
+        [theme.breakpoints.down('xs')]: {
+          padding: '15px 0',
+          fontSize: '20px',
+        },
       },
       '& ol': {
         paddingLeft: theme.spacing(5),
         fontFamily: 'Literata',
         fontSize: '17px',
         lineHeight: 1.65,
+        [theme.breakpoints.down('xs')]: {
+          paddingLeft: theme.spacing(4),
+        },
       },
       '& ul': {
         paddingLeft: theme.spacing(5),
         fontFamily: 'Literata',
         fontSize: '17px',
         lineHeight: 1.65,
+        [theme.breakpoints.down('xs')]: {
+          paddingLeft: theme.spacing(4),
+        },
       },
-      '& img': { width: '855px' },
+      '& img': {
+        width: '855px',
+        [theme.breakpoints.down('xs')]: {
+          width: '100%',
+          height: 'auto',
+        },
+      },
       '& figcaption': {
         marginTop: theme.spacing(2),
         fontFamily: 'Literata',
@@ -123,6 +170,9 @@ export const useStyles = makeStyles(
         fontSize: '14px',
         lineHeight: 1,
         color: '#767676',
+        [theme.breakpoints.down('xs')]: {
+          fontSize: '12px',
+        },
       },
     },
   }),
