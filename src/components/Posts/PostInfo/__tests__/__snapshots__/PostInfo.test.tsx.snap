@@ -1,0 +1,185 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PostInfo tests should PostInfo render correctly 1`] = `
+<DocumentFragment>
+  <div
+    class="PostInfo-root-1"
+  >
+    <ul
+      class="PostInfo-topics-2"
+      data-testid="topics"
+    >
+      <li
+        data-testid="direction"
+      >
+        Педіатрія
+      </li>
+      <li
+        data-testid="direction"
+      >
+        Терапія
+      </li>
+    </ul>
+    <ul
+      class="PostInfo-origins-3"
+      data-testid="origins"
+    >
+      <li
+        class="PostInfo-origin-4"
+        data-testid="origin"
+      >
+        Медитека
+      </li>
+      <li
+        class="PostInfo-origin-4"
+        data-testid="type"
+      >
+        Стаття
+      </li>
+      <li
+        class="PostInfo-createdAt-5"
+      >
+        05.10.2021
+      </li>
+      <li
+        class="PostInfo-icon-6"
+        data-testid="icon"
+      >
+        <svg
+          aria-hidden="true"
+          class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+          focusable="false"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"
+          />
+        </svg>
+      </li>
+      <li
+        class="PostInfo-counter-7"
+        data-testid="counter"
+      >
+        9
+      </li>
+    </ul>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`PostInfo tests should Skeleton be visible 1`] = `
+<DocumentFragment>
+  <div
+    class="PostInfo-root-43"
+  >
+    <ul
+      class="PostInfo-topics-44"
+      data-testid="topics"
+    >
+      <li
+        data-testid="direction"
+      >
+        Педіатрія
+      </li>
+      <li
+        data-testid="direction"
+      >
+        Терапія
+      </li>
+    </ul>
+    <ul
+      class="PostInfo-origins-45"
+      data-testid="origins"
+    >
+      <li
+        class="PostInfo-origin-46"
+        data-testid="origin"
+      >
+        Медитека
+      </li>
+      <li
+        class="PostInfo-origin-46"
+        data-testid="type"
+      >
+        Стаття
+      </li>
+      <li
+        class="PostInfo-createdAt-47"
+      >
+        05.10.2021
+      </li>
+      <li
+        class="PostInfo-icon-48"
+        data-testid="icon"
+      >
+        <svg
+          aria-hidden="true"
+          class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+          focusable="false"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"
+          />
+        </svg>
+      </li>
+      <li
+        class="PostInfo-counter-49"
+        data-testid="counter"
+      >
+        <span
+          class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+          data-testid="skeleton"
+          style="width: 40px; height: 20px;"
+        />
+      </li>
+    </ul>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`PostInfo tests should mobile be without Views Counter 1`] = `
+<DocumentFragment>
+  <div
+    class="PostInfo-root-36"
+  >
+    <ul
+      class="PostInfo-topics-37"
+      data-testid="topics"
+    >
+      <li
+        data-testid="direction"
+      >
+        Педіатрія
+      </li>
+      <li
+        data-testid="direction"
+      >
+        Терапія
+      </li>
+    </ul>
+    <ul
+      class="PostInfo-origins-38"
+      data-testid="origins"
+    >
+      <li
+        class="PostInfo-origin-39"
+        data-testid="origin"
+      >
+        Медитека
+      </li>
+      <li
+        class="PostInfo-origin-39"
+        data-testid="type"
+      >
+        Стаття
+      </li>
+      <li
+        class="PostInfo-createdAt-40"
+      >
+        05.10.2021
+      </li>
+    </ul>
+  </div>
+</DocumentFragment>
+`;
