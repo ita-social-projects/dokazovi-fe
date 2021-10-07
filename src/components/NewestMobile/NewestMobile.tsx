@@ -190,7 +190,6 @@ export const NewestMobile: React.FC = () => {
             axis="x"
             index={value}
             onChangeIndex={handleChangeIndex}
-            className={classes.content}
           >
             {content.map((posts, index) => {
               return (

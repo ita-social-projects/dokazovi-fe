@@ -11,7 +11,6 @@ export const useStyles = makeStyles((theme: Theme) => ({
     backgroundColor: theme.palette.common.black,
   },
   appBarRoot: {
-    height: 30,
     backgroundColor: theme.palette.background.default,
   },
   buttonsRoot: {
@@ -31,9 +30,6 @@ export const useStyles = makeStyles((theme: Theme) => ({
     alignItems: 'center',
     width: '100%',
     height: 80,
-  },
-  content: {
-    marginTop: theme.spacing(3),
   },
   tabRoot: {
     minHeight: theme.spacing(7),
