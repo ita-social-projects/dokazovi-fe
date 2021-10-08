@@ -1,1 +1,3 @@
-import { createSlice } from '@reduxjs/toolkit';
+export { adminlabReducer } from './reducers';
+export { getMatirealsAction } from './asyncActions';
+export { selectAdminlab } from './selectors';
