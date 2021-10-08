@@ -32,7 +32,7 @@ export const getMatirealsAction = createAsyncThunk(
           sort: ['published_at,desc'],
         },
       });
-      const { ids } = mapFetchedPosts(content);
+      const { ids: postIds } = mapFetchedPosts(content);
       const postWithViews: IAdminPost[] = await Promise.all(
         content.map(async (post) => {
           const { data } = await getUniquePostViewsCounter(post.id);
@@ -50,7 +50,7 @@ export const getMatirealsAction = createAsyncThunk(
         }
       });
 
-      return { posts, ids };
+      return { posts, postIds };
     } catch (error) {
       return rejectWithValue(error.response?.data);
     }
