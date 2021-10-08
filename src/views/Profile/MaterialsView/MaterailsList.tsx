@@ -8,23 +8,17 @@ import {
   TableHead,
   TableRow,
 } from '@material-ui/core';
-import { IPost } from 'old/lib/types';
+import { useSelector, useDispatch } from 'react-redux';
+import { getMatirealsAction, selectAdminlab } from 'models/adminlab';
 import { useStyles } from './styles/MaterailsList.styles';
-import { getPosts } from '../../../old/lib/utilities/API/api';
 
 const MaterailsList: React.FC = () => {
   const classes = useStyles();
-
-  const [postsList, setpostsList] = useState<IPost[]>([]);
+  const { postIds, posts } = useSelector(selectAdminlab);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    getPosts('latest-all', {
-      params: {
-        size: 12,
-      },
-    }).then((response) => {
-      setpostsList(response.data.content);
-    });
+    dispatch(getMatirealsAction());
   }, []);
 
   return (
@@ -44,20 +38,25 @@ const MaterailsList: React.FC = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {postsList.map((post) => (
-            <TableRow key={post.id}>
-              <TableCell>{post.id}</TableCell>
-              <TableCell className={classes.titleCol}>{post.title}</TableCell>
+          {postIds.map((postId) => (
+            <TableRow key={posts[postId].id}>
+              <TableCell>{posts[postId].id}</TableCell>
+              <TableCell className={classes.titleCol}>
+                <div>{posts[postId].type.name}</div>
+                <div>{posts[postId].title}</div>
+              </TableCell>
+              {/** TODO: status */}
               <TableCell>???</TableCell>
-              <TableCell>{post.modifiedAt}</TableCell>
+              <TableCell>{posts[postId].modifiedAt}</TableCell>
               <TableCell>
-                {post.directions.map((dir) => (
+                {posts[postId].directions.map((dir) => (
                   <p key={dir.label}>{dir.label}</p>
                 ))}
               </TableCell>
-              <TableCell>{`${post.author.firstName} ${post.author.lastName}`}</TableCell>
-              <TableCell>100?</TableCell>
-              <TableCell>100?</TableCell>
+              <TableCell>{`${posts[postId].author.firstName} ${posts[postId].author.lastName}`}</TableCell>
+              <TableCell>{posts[postId].uniqueViewsCounter}</TableCell>
+              {/** TODO: cannot get modifideViewsCounter */}
+              <TableCell>{posts[postId].uniqueViewsCounter}</TableCell>
               <TableCell>
                 <Button>delete</Button>
                 <Button>edit</Button>
