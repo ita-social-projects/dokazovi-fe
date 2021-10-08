@@ -56,7 +56,7 @@ const MaterailsList: React.FC = () => {
               <TableCell>{`${posts[postId].author.firstName} ${posts[postId].author.lastName}`}</TableCell>
               <TableCell>{posts[postId].uniqueViewsCounter}</TableCell>
               {/** TODO: cannot get modifideViewsCounter */}
-              <TableCell>{posts[postId].uniqueViewsCounter}</TableCell>
+              <TableCell>{posts[postId].modifideViewsCounter}</TableCell>
               <TableCell>
                 <Button>delete</Button>
                 <Button>edit</Button>

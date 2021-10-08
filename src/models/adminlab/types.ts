@@ -16,7 +16,7 @@ export interface IAdminlabData {
 }
 
 export interface IPostsOBJ {
-  [id: string]: IPost;
+  [id: string]: IAdminPost;
 }
 
 export interface IMyKnownError {
