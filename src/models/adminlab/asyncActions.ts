@@ -5,21 +5,18 @@ import {
   getUniquePostViewsCounter,
   getPosts,
 } from '../../old/lib/utilities/API/api';
-
 import { mapFetchedPosts } from '../materials/asyncActions';
-import {
-  IAdminPost,
-  IPostsOBJ,
-  IMyKnownError,
-  IGetMatirealsAction,
-} from './types';
-
+import { IAdminPost, IPostsOBJ, IFechedAdminMatirealOptions } from './types';
 const NEW_LOAD_POSTS_LIMIT = 15;
 
 export const getMatirealsAction = createAsyncThunk(
   'adminlab/getAllAdminsMatirealsAction',
-  async (_, { rejectWithValue }) => {
+  async (
+    options: IFechedAdminMatirealOptions,
+    { rejectWithValue, getState },
+  ) => {
     try {
+      const { sortBy, order, filters } = options;
       const {
         data: { content },
       } = await getPosts('all-posts', {
@@ -29,7 +26,7 @@ export const getMatirealsAction = createAsyncThunk(
           types: [1, 2, 3],
           directions: [1, 1, 3, 4, 7, 6, 2],
           origins: [1, 2, 3],
-          sort: ['published_at,desc'],
+          sort: [sortBy + ',' + order],
         },
       });
       const { ids: postIds } = mapFetchedPosts(content);
@@ -50,7 +47,15 @@ export const getMatirealsAction = createAsyncThunk(
         }
       });
 
-      return { posts, postIds };
+      return {
+        posts,
+        postIds,
+        sort: {
+          sortBy,
+          order,
+        },
+        filters,
+      };
     } catch (error) {
       return rejectWithValue(error.response?.data);
     }
