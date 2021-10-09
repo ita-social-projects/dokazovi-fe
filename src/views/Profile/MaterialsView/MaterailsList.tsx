@@ -10,6 +10,7 @@ import {
 } from '@material-ui/core';
 import { useSelector, useDispatch } from 'react-redux';
 import { getMatirealsAction, selectAdminlab } from 'models/adminlab';
+import { SortBy, Order } from 'models/adminlab/types';
 import { useStyles } from './styles/MaterailsList.styles';
 
 const MaterailsList: React.FC = () => {
@@ -18,7 +19,13 @@ const MaterailsList: React.FC = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getMatirealsAction());
+    dispatch(
+      getMatirealsAction({
+        sortBy: SortBy.post_id,
+        order: Order.desc,
+        filters: {},
+      }),
+    );
   }, []);
 
   const tableHeadContent = (
