@@ -28,21 +28,23 @@ const MaterailsList: React.FC = () => {
     );
   }, []);
 
-  const tableHeadContent = (
-    <TableRow>
-      <TableCell>Id</TableCell>
-      <TableCell className={classes.titleCol}>Заголовок</TableCell>
-      <TableCell>Статус</TableCell>
-      <TableCell>Дата зміни статусу</TableCell>
-      <TableCell>Тема</TableCell>
-      <TableCell>Автор</TableCell>
-      <TableCell>К-сть переглядів, що відображається на сайті</TableCell>
-      <TableCell>Реальна к-сть переглядів</TableCell>
-      <TableCell>Дії</TableCell>
-    </TableRow>
-  );
+  const tableHeadContent = [
+    { title: 'Id' },
+    { title: 'Заголовок' },
+    { title: 'Статус' },
+    { title: 'Дата зміни статусу' },
+    { title: 'Тема' },
+    { title: 'Автор' },
+    { title: 'К-сть переглядів, що відображається на сайті' },
+    { title: 'Реальна к-сть переглядів' },
+    { title: 'Дії' },
+  ];
 
-  const tableBodyContent = postIds.map((postId) => {
+  const tableHeadRows = tableHeadContent.map((item) => {
+    return <TableCell key={item.title}>{item.title}</TableCell>;
+  });
+
+  const tableBodyRows = postIds.map((postId) => {
     const {
       id,
       title,
@@ -83,8 +85,8 @@ const MaterailsList: React.FC = () => {
   return (
     <TableContainer>
       <Table className={classes.table}>
-        <TableHead>{tableHeadContent}</TableHead>
-        <TableBody>{tableBodyContent}</TableBody>
+        <TableHead>{tableHeadRows}</TableHead>
+        <TableBody>{tableBodyRows}</TableBody>
       </Table>
     </TableContainer>
   );
