@@ -4,6 +4,10 @@ export const useStyles = makeStyles(() => ({
   table: {
     '& .MuiTableCell-root': {
       border: '1px solid black',
+      padding: '10px',
+    },
+    '& .MuiTableCell-head': {
+      lineHeight: '1rem',
     },
   },
   titleCol: {
