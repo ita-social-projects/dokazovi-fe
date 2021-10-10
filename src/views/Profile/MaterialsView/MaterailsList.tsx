@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import {
   Button,
   Table,
@@ -8,18 +8,26 @@ import {
   TableHead,
   TableRow,
 } from '@material-ui/core';
+import { Order, SortBy } from 'models/adminlab/types';
 import { useSelector, useDispatch } from 'react-redux';
-import { getMatirealsAction, selectAdminlab } from 'models/adminlab';
+import {
+  getMatirealsAction,
+  selectAdminlab,
+  selectMeta,
+  setSort,
+} from 'models/adminlab';
 import { useStyles } from './styles/MaterailsList.styles';
 
 const MaterailsList: React.FC = () => {
   const classes = useStyles();
+  const { sort, filters } = useSelector(selectMeta);
   const { postIds, posts } = useSelector(selectAdminlab);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getMatirealsAction());
-  }, []);
+    console.log('AAAAAAAAAA');
+  }, [sort, filters]);
 
   const tableHeadContent = (
     <TableRow>
@@ -74,12 +82,23 @@ const MaterailsList: React.FC = () => {
   });
 
   return (
-    <TableContainer>
-      <Table className={classes.table}>
-        <TableHead>{tableHeadContent}</TableHead>
-        <TableBody>{tableBodyContent}</TableBody>
-      </Table>
-    </TableContainer>
+    <>
+      <TableContainer>
+        <Table className={classes.table}>
+          <TableHead>{tableHeadContent}</TableHead>
+          <TableBody>{tableBodyContent}</TableBody>
+        </Table>
+      </TableContainer>
+      <button
+        type="button"
+        onClick={() => {
+          const nweOrder = sort.order === Order.desc ? Order.asc : Order.desc;
+          dispatch(setSort({ ...sort, order: nweOrder }));
+        }}
+      >
+        OF
+      </button>
+    </>
   );
 };
 

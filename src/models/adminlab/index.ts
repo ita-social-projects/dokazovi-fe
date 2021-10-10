@@ -1,5 +1,5 @@
 /* eslint-disable import/no-cycle */
 
-export { adminlabReducer } from './reducers';
+export { adminlabReducer, setSort } from './reducers';
 export { getMatirealsAction } from './asyncActions';
-export { selectAdminlab } from './selectors';
+export { selectAdminlab, selectMeta } from './selectors';

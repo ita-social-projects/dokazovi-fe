@@ -6,20 +6,26 @@ export interface IAdminPost extends IPost {
 
 export interface IAdminlab {
   data: IAdminlabData;
+  meta: IAdminLabMeta;
   loading: LoadingStatusEnum;
   error: string | null;
+}
+
+export interface IAdminLabMeta {
+  sort: ISort;
+  filters: {
+    [key in QueryTypeEnum]?: number[];
+  };
+}
+
+export interface ISort {
+  order: keyof typeof Order;
+  sortBy: keyof typeof SortBy;
 }
 
 export interface IAdminlabData {
   postIds: number[];
   posts: IPostsOBJ;
-  sort: {
-    order: keyof typeof Order;
-    sortBy: keyof typeof SortBy;
-  };
-  filters: {
-    [key in QueryTypeEnum]?: number[];
-  };
 }
 
 export interface IFechedAdminMatirealOptions {

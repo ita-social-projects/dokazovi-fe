@@ -7,16 +7,18 @@ import {
 } from '../../old/lib/utilities/API/api';
 import { mapFetchedPosts } from '../materials/asyncActions';
 import { IAdminPost, IPostsOBJ, IFechedAdminMatirealOptions } from './types';
+import { RootStateType } from '../rootReducer';
 const NEW_LOAD_POSTS_LIMIT = 15;
 
 export const getMatirealsAction = createAsyncThunk(
   'adminlab/getAllAdminsMatirealsAction',
-  async (
-    options: IFechedAdminMatirealOptions,
-    { rejectWithValue, getState },
-  ) => {
+  async (_, { rejectWithValue, getState }) => {
     try {
-      const { sortBy, order, filters } = options;
+      const {
+        adminlab: {
+          meta: { sort, filters },
+        },
+      } = getState() as RootStateType;
       const {
         data: { content },
       } = await getPosts('all-posts', {
@@ -26,7 +28,7 @@ export const getMatirealsAction = createAsyncThunk(
           types: [1, 2, 3],
           directions: [1, 1, 3, 4, 7, 6, 2],
           origins: [1, 2, 3],
-          sort: [sortBy + ',' + order],
+          sort: [sort.sortBy + ',' + sort.order],
         },
       });
       const { ids: postIds } = mapFetchedPosts(content);
@@ -50,11 +52,6 @@ export const getMatirealsAction = createAsyncThunk(
       return {
         posts,
         postIds,
-        sort: {
-          sortBy,
-          order,
-        },
-        filters,
       };
     } catch (error) {
       return rejectWithValue(error.response?.data);
