@@ -25,9 +25,9 @@ export const getMatirealsAction = createAsyncThunk(
         params: {
           page: 0,
           size: NEW_LOAD_POSTS_LIMIT,
-          types: [1, 2, 3],
-          directions: [1, 1, 3, 4, 7, 6, 2],
-          origins: [1, 2, 3],
+          types: filters.types,
+          directions: filters.directions,
+          origins: filters.origins,
           sort: [sort.sortBy + ',' + sort.order],
         },
       });

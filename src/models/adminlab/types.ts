@@ -18,6 +18,11 @@ export interface IAdminLabMeta {
   };
 }
 
+export interface IFilter {
+  filter: string;
+  option: number;
+}
+
 export interface ISort {
   order: keyof typeof Order;
   sortBy: keyof typeof SortBy;
