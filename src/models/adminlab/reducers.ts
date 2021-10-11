@@ -22,9 +22,9 @@ const initialState: IAdminlab = {
       sortBy: SortBy.published_at,
     },
     filters: {
-      directions: [1, 2, 3, 4, 5, 6, 7],
-      origins: [1, 2, 3],
-      types: [1, 2, 3],
+      directions: [],
+      origins: [],
+      types: [],
     },
   },
   error: '',
@@ -39,13 +39,8 @@ const adminlabSlice = createSlice({
       state.meta.sort = action.payload;
     },
     setFilter: (state, action: PayloadAction<IFilter>) => {
-      const { filter, option } = action.payload;
-      const prewFilter = state.meta.filters[filter];
-      if (prewFilter.find((o) => option === o)) {
-        state.meta.filters[filter] = prewFilter.filter((opt) => opt !== option);
-      } else {
-        state.meta.filters[filter].push(option);
-      }
+      const { filter, options } = action.payload;
+      state.meta.filters[filter] = options;
     },
     editPost: (state, action: PayloadAction<IAdminPost>) => {
       const editedPostID = action.payload.id;

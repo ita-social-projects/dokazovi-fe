@@ -20,7 +20,7 @@ export interface IAdminLabMeta {
 
 export interface IFilter {
   filter: string;
-  option: number;
+  options: number[];
 }
 
 export interface ISort {
