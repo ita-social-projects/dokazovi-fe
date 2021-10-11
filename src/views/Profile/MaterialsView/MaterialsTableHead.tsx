@@ -54,11 +54,13 @@ const content = [
 
 const MaterailsTableHead: React.FC = () => {
   const dispatch = useDispatch();
-  const [sortByValue, setSortByValue] = useState(SortBy.post_id);
-  const [sortOrder, setSortOrder] = useState(Order.desc);
+  const [sortByValue, setSortByValue] = useState<keyof typeof SortBy>(
+    SortBy.post_id,
+  );
+  const [sortOrder, setSortOrder] = useState<keyof typeof Order>(Order.desc);
 
-  const handleClick = (sortKey) => {
-    let newOrder = Order.desc;
+  const handleClick = (sortKey: keyof typeof SortBy) => {
+    let newOrder: keyof typeof Order = Order.desc;
     if (sortKey === sortByValue) {
       newOrder = sortOrder === Order.desc ? Order.asc : Order.desc;
     }
