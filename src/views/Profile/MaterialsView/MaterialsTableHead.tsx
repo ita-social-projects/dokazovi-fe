@@ -1,52 +1,97 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { TableCell, TableHead } from '@material-ui/core';
-import { SortBy } from 'models/adminlab/types';
+import { SortBy, Order } from 'models/adminlab/types';
+import { useDispatch } from 'react-redux';
+import { setSort } from 'models/adminlab';
 
-const tableHeadContent = [
+const content = [
   {
-    sortKey: SortBy.post_id,
+    sortByField: SortBy.post_id,
+    isSortable: true,
     title: 'Id',
   },
   {
-    sortKey: SortBy.title,
+    sortByField: SortBy.title,
+    isSortable: true,
     title: 'Заголовок',
   },
   {
-    sortKey: SortBy.status,
+    sortByField: SortBy.status,
+    isSortable: false,
     title: 'Статус',
   },
   {
-    sortKey: SortBy.modifide_at,
+    sortByField: SortBy.modifide_at,
+    isSortable: true,
     title: 'Дата зміни статусу',
   },
   {
-    sortKey: SortBy.type_id,
+    sortByField: SortBy.type_id,
+    isSortable: false,
     title: 'Тема',
   },
   {
-    sortKey: SortBy.post_id,
+    sortByField: SortBy.post_id,
+    isSortable: false,
     title: 'Автор',
   },
   {
-    sortKey: SortBy.post_id,
+    sortByField: SortBy.post_id,
+    isSortable: false,
     title: 'К-сть переглядів, що відображається на сайті',
   },
   {
-    sortKey: SortBy.post_id,
+    sortByField: SortBy.post_id,
+    isSortable: false,
     title: 'Реальна к-сть переглядів',
   },
   {
-    sortKey: SortBy.post_id,
+    sortByField: SortBy.post_id,
+    isSortable: false,
     title: 'Дії',
   },
 ];
 
 const MaterailsTableHead: React.FC = () => {
-  const tableHeadRows = tableHeadContent.map((item) => {
-    return <TableCell key={item.title}>{item.title}</TableCell>;
+  const dispatch = useDispatch();
+  const [sortByValue, setSortByValue] = useState(SortBy.post_id);
+  const [sortOrder, setSortOrder] = useState(Order.desc);
+
+  const handleClick = (sortByField) => {
+    if (sortByField === sortByValue) {
+      setSortOrder(Order.asc);
+      console.log('1');
+    } else {
+      setSortOrder(Order.desc);
+      console.log('2');
+    }
+    setSortByValue(sortByField);
+    // setSortOrder(Order.asc);
+  };
+
+  useEffect(() => {
+    dispatch(
+      setSort({
+        sortBy: sortByValue,
+        order: sortOrder,
+      }),
+    );
+  }, [sortByValue, sortOrder]);
+
+  const cells = content.map((cell) => {
+    return (
+      <TableCell
+        key={cell.title}
+        onClick={
+          cell.isSortable ? () => handleClick(cell.sortByField) : undefined
+        }
+      >
+        {cell.title}
+      </TableCell>
+    );
   });
 
-  return <TableHead>{tableHeadRows}</TableHead>;
+  return <TableHead>{cells}</TableHead>;
 };
 
 export default MaterailsTableHead;
