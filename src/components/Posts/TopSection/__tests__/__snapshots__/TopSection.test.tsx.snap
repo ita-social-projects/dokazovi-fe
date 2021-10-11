@@ -1,0 +1,84 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TopSection tests should TopSection Component render correctly 1`] = `
+<DocumentFragment>
+  <div
+    class="MuiBox-root MuiBox-root-6 PostView-root-1"
+  >
+    <div
+      class="MuiBox-root MuiBox-root-7 PostView-avatarSection-2"
+      data-testid="avatarSection"
+    >
+      <a
+        href="/experts/35"
+      >
+        <div
+          class="MuiCardMedia-root PostView-avatar-3"
+          style="background-image: url(https://i.pravatar.cc/300?img=20);"
+          title="Єва Євенко"
+        />
+      </a>
+    </div>
+    <div
+      class="MuiBox-root MuiBox-root-8"
+      data-testid="infoAuthor"
+    >
+      <a
+        href="/experts/35"
+      >
+        <h3
+          class="MuiTypography-root PostView-authorName-4 MuiTypography-h3"
+        >
+          Єва Євенко
+        </h3>
+      </a>
+      <p
+        class="MuiTypography-root PostView-authorBio-5 MuiTypography-body1 MuiTypography-colorTextSecondary"
+      >
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+      </p>
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`TopSection tests should component be without avatar 1`] = `
+<DocumentFragment>
+  <div
+    class="MuiBox-root MuiBox-root-22 PostView-root-17"
+  >
+    <div
+      class="MuiBox-root MuiBox-root-23 PostView-avatarSection-18"
+      data-testid="avatarSection"
+    >
+      <a
+        href="/experts/35"
+      >
+        <div
+          class="MuiCardMedia-root PostView-avatar-19"
+          title="Єва Євенко"
+        />
+      </a>
+    </div>
+    <div
+      class="MuiBox-root MuiBox-root-24"
+      data-testid="infoAuthor"
+    >
+      <a
+        href="/experts/35"
+      >
+        <h3
+          class="MuiTypography-root PostView-authorName-20 MuiTypography-h3"
+        >
+          Єва Євенко
+        </h3>
+      </a>
+      <p
+        class="MuiTypography-root PostView-authorBio-21 MuiTypography-body1 MuiTypography-colorTextSecondary"
+      >
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+      </p>
+    </div>
+  </div>
+</DocumentFragment>
+`;
