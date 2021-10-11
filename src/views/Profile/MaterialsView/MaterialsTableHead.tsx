@@ -3,6 +3,8 @@ import { TableCell, TableHead } from '@material-ui/core';
 import { SortBy, Order } from 'models/adminlab/types';
 import { useDispatch } from 'react-redux';
 import { setSort } from 'models/adminlab';
+import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
+import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
 
 const content = [
   {
@@ -16,7 +18,7 @@ const content = [
     title: 'Заголовок',
   },
   {
-    sortKey: SortBy.status,
+    sortKey: null,
     isSortable: false,
     title: 'Статус',
   },
@@ -26,27 +28,27 @@ const content = [
     title: 'Дата зміни статусу',
   },
   {
-    sortKey: SortBy.type_id,
+    sortKey: null,
     isSortable: false,
     title: 'Тема',
   },
   {
-    sortKey: SortBy.post_id,
+    sortKey: null,
     isSortable: false,
     title: 'Автор',
   },
   {
-    sortKey: SortBy.post_id,
+    sortKey: null,
     isSortable: false,
     title: 'К-сть переглядів, що відображається на сайті',
   },
   {
-    sortKey: SortBy.post_id,
+    sortKey: null,
     isSortable: false,
     title: 'Реальна к-сть переглядів',
   },
   {
-    sortKey: SortBy.post_id,
+    sortKey: null,
     isSortable: false,
     title: 'Дії',
   },
@@ -58,8 +60,10 @@ const MaterailsTableHead: React.FC = () => {
     SortBy.post_id,
   );
   const [sortOrder, setSortOrder] = useState<keyof typeof Order>(Order.desc);
+  const icon =
+    sortOrder === Order.asc ? <ArrowUpwardIcon /> : <ArrowDownwardIcon />;
 
-  const handleClick = (sortKey: keyof typeof SortBy) => {
+  const handleClick = (sortKey) => {
     let newOrder: keyof typeof Order = Order.desc;
     if (sortKey === sortByValue) {
       newOrder = sortOrder === Order.desc ? Order.asc : Order.desc;
@@ -85,6 +89,7 @@ const MaterailsTableHead: React.FC = () => {
         onClick={cell.isSortable ? () => handleClick(cell.sortKey) : undefined}
       >
         {cell.title}
+        {cell.sortKey === sortByValue && icon}
       </TableCell>
     );
   });
