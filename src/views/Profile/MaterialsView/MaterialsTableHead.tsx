@@ -21,7 +21,7 @@ const content = [
     title: 'Статус',
   },
   {
-    sortKey: SortBy.modifide_at,
+    sortKey: SortBy.modified_at,
     isSortable: true,
     title: 'Дата зміни статусу',
   },
