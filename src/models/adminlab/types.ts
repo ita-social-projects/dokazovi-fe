@@ -58,7 +58,7 @@ export enum SortBy {
   status = 'status',
   important = 'important',
   created_at = 'created_at',
-  modifide_at = ' modifide_at',
+  modified_at = 'modified_at',
 }
 
 export enum Order {
