@@ -6,47 +6,47 @@ import { setSort } from 'models/adminlab';
 
 const content = [
   {
-    sortByField: SortBy.post_id,
+    sortKey: SortBy.post_id,
     isSortable: true,
     title: 'Id',
   },
   {
-    sortByField: SortBy.title,
+    sortKey: SortBy.title,
     isSortable: true,
     title: 'Заголовок',
   },
   {
-    sortByField: SortBy.status,
+    sortKey: SortBy.status,
     isSortable: false,
     title: 'Статус',
   },
   {
-    sortByField: SortBy.modifide_at,
+    sortKey: SortBy.modifide_at,
     isSortable: true,
     title: 'Дата зміни статусу',
   },
   {
-    sortByField: SortBy.type_id,
+    sortKey: SortBy.type_id,
     isSortable: false,
     title: 'Тема',
   },
   {
-    sortByField: SortBy.post_id,
+    sortKey: SortBy.post_id,
     isSortable: false,
     title: 'Автор',
   },
   {
-    sortByField: SortBy.post_id,
+    sortKey: SortBy.post_id,
     isSortable: false,
     title: 'К-сть переглядів, що відображається на сайті',
   },
   {
-    sortByField: SortBy.post_id,
+    sortKey: SortBy.post_id,
     isSortable: false,
     title: 'Реальна к-сть переглядів',
   },
   {
-    sortByField: SortBy.post_id,
+    sortKey: SortBy.post_id,
     isSortable: false,
     title: 'Дії',
   },
@@ -57,16 +57,14 @@ const MaterailsTableHead: React.FC = () => {
   const [sortByValue, setSortByValue] = useState(SortBy.post_id);
   const [sortOrder, setSortOrder] = useState(Order.desc);
 
-  const handleClick = (sortByField) => {
-    if (sortByField === sortByValue) {
-      setSortOrder(Order.asc);
-      console.log('1');
-    } else {
-      setSortOrder(Order.desc);
-      console.log('2');
+  const handleClick = (sortKey) => {
+    let newOrder = Order.desc;
+    if (sortKey === sortByValue) {
+      newOrder = sortOrder === Order.desc ? Order.asc : Order.desc;
     }
-    setSortByValue(sortByField);
-    // setSortOrder(Order.asc);
+
+    setSortOrder(newOrder);
+    setSortByValue(sortKey);
   };
 
   useEffect(() => {
@@ -82,9 +80,7 @@ const MaterailsTableHead: React.FC = () => {
     return (
       <TableCell
         key={cell.title}
-        onClick={
-          cell.isSortable ? () => handleClick(cell.sortByField) : undefined
-        }
+        onClick={cell.isSortable ? () => handleClick(cell.sortKey) : undefined}
       >
         {cell.title}
       </TableCell>
