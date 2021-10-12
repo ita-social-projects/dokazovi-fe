@@ -18,6 +18,7 @@ export const getMatirealsAction = createAsyncThunk(
         adminlab: {
           meta: { sort, filters },
         },
+        properties: { directions, postTypes, origins },
       } = getState() as RootStateType;
       const {
         data: { content },
@@ -25,9 +26,15 @@ export const getMatirealsAction = createAsyncThunk(
         params: {
           page: 0,
           size: NEW_LOAD_POSTS_LIMIT,
-          types: filters.types,
-          directions: filters.directions,
-          origins: filters.origins,
+          types: filters.types?.length
+            ? filters.types
+            : postTypes.map(({ id }) => id),
+          directions: filters.directions?.length
+            ? filters.directions
+            : directions.map(({ id }) => id),
+          origins: filters.origins?.length
+            ? filters.origins
+            : origins.map(({ id }) => id),
           sort: [sort.sortBy + ',' + sort.order],
         },
       });
