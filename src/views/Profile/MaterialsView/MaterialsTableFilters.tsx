@@ -18,22 +18,22 @@ const MaterialsTableFilters: React.FC = () => {
   const { filters } = useSelector(selectMeta);
 
   return (
-    <Grid direction="row">
-      <Grid direction="column" xs={5} sm={4} md={3} lg={1}>
+    <Grid container direction="row">
+      <Grid item direction="column" xs={5} sm={4} md={3} lg={1}>
         <MaterialsFilter
           allOptions={allDirections}
           selected={filters.directions}
           filter={QueryTypeEnum.DIRECTIONS}
         />
       </Grid>
-      <Grid direction="column" xs={5} sm={4} md={3} lg={1}>
+      <Grid item direction="column" xs={5} sm={4} md={3} lg={1}>
         <MaterialsFilter
           allOptions={allOrigins}
           selected={filters.origins}
           filter={QueryTypeEnum.ORIGINS}
         />
       </Grid>
-      <Grid direction="column" xs={5} sm={4} md={3} lg={1}>
+      <Grid item direction="column" xs={5} sm={4} md={3} lg={1}>
         <MaterialsFilter
           allOptions={allPostTypes}
           selected={filters.types}

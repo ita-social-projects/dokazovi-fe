@@ -16,7 +16,7 @@ export const getMatirealsAction = createAsyncThunk(
     try {
       const {
         adminlab: {
-          meta: { sort, filters },
+          meta: { sort, filters, page },
         },
         properties: { directions, postTypes, origins },
       } = getState() as RootStateType;
@@ -24,7 +24,7 @@ export const getMatirealsAction = createAsyncThunk(
         data: { content },
       } = await getPosts('all-posts', {
         params: {
-          page: 0,
+          page,
           size: NEW_LOAD_POSTS_LIMIT,
           types: filters.types?.length
             ? filters.types

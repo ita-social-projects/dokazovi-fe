@@ -16,6 +16,7 @@ export interface IAdminLabMeta {
   filters: {
     [key in QueryTypeEnum]?: number[];
   };
+  page: number;
 }
 
 export interface IFilter {
