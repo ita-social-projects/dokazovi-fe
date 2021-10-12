@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { Table, TableContainer } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { getMatirealsAction, selectMeta } from 'models/adminlab';
-import { SortBy, Order } from 'models/adminlab/types';
 import { useStyles } from './styles/MaterailsTable.styles';
 import MaterailsTableHead from './MaterialsTableHead';
 import MaterailsTableBody from './MaterialsTableBody';
