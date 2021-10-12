@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectMeta, setSort } from 'models/adminlab';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
+import { useStyles } from './styles/MaterialsTableHead.styles';
 
 const content = [
   {
@@ -55,6 +56,7 @@ const content = [
 ];
 
 const MaterailsTableHead: React.FC = () => {
+  const classes = useStyles();
   const dispatch = useDispatch();
   const {
     sort: { order, sortBy },
@@ -84,8 +86,10 @@ const MaterailsTableHead: React.FC = () => {
         key={cell.title}
         onClick={cell.isSortable ? () => handleClick(cell.sortKey) : undefined}
       >
-        {cell.title}
-        {cell.sortKey === sortBy && icon}
+        <span className={classes.wrapper}>
+          <span>{cell.title}</span>
+          {cell.sortKey === sortBy && icon}
+        </span>
       </TableCell>
     );
   });
