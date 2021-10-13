@@ -1,39 +1,17 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
-
-import { incrementPage, decrementPage, setPage } from 'models/adminlab';
-
-const style = {
-  margin: '0 50',
-};
+import { Pagination } from '@material-ui/lab';
+import { useStyles } from './styles/MaterialsTablePagination.styles';
 
 const MaterialsTablePagination: React.FC = () => {
-  const dispatch = useDispatch();
+  const classes = useStyles();
 
   return (
-    <div>
-      <button
-        type="button"
-        style={style}
-        onClick={() => dispatch(incrementPage())}
-      >
-        +1
-      </button>
-      <button
-        type="button"
-        style={style}
-        onClick={() => dispatch(setPage({ page: 4 }))}
-      >
-        set 4
-      </button>
-      <button
-        type="button"
-        style={style}
-        onClick={() => dispatch(decrementPage())}
-      >
-        -1
-      </button>
-    </div>
+    <Pagination
+      className={classes.root}
+      count={75}
+      page={1}
+      onChange={() => console.log('click')}
+    />
   );
 };
 

@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { TableCell, TableHead } from '@material-ui/core';
 import { SortBy, Order } from 'models/adminlab/types';
-import { useDispatch } from 'react-redux';
-import { setSort } from 'models/adminlab';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectMeta, setSort } from 'models/adminlab';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
+import { useStyles } from './styles/MaterialsTableHead.styles';
 
 const content = [
   {
@@ -55,32 +56,29 @@ const content = [
 ];
 
 const MaterailsTableHead: React.FC = () => {
+  const classes = useStyles();
   const dispatch = useDispatch();
-  const [sortByValue, setSortByValue] = useState<keyof typeof SortBy>(
-    SortBy.post_id,
-  );
-  const [sortOrder, setSortOrder] = useState<keyof typeof Order>(Order.desc);
-  const icon =
-    sortOrder === Order.asc ? <ArrowUpwardIcon /> : <ArrowDownwardIcon />;
+  const {
+    sort: { order, sortBy },
+  } = useSelector(selectMeta);
 
-  const handleClick = (sortKey) => {
-    let newOrder: keyof typeof Order = Order.desc;
-    if (sortKey === sortByValue) {
-      newOrder = sortOrder === Order.desc ? Order.asc : Order.desc;
+  const icon =
+    order === Order.asc ? <ArrowUpwardIcon /> : <ArrowDownwardIcon />;
+
+  const handleClick = (sortKey: keyof typeof SortBy | null) => {
+    let newOrder = Order.asc;
+
+    if (sortKey === sortBy) {
+      newOrder = order === Order.desc ? Order.asc : Order.desc;
     }
 
-    setSortOrder(newOrder);
-    setSortByValue(sortKey);
-  };
-
-  useEffect(() => {
     dispatch(
       setSort({
-        sortBy: sortByValue,
-        order: sortOrder,
+        sortBy: sortKey as keyof typeof SortBy,
+        order: newOrder,
       }),
     );
-  }, [sortByValue, sortOrder]);
+  };
 
   const cells = content.map((cell) => {
     return (
@@ -88,8 +86,10 @@ const MaterailsTableHead: React.FC = () => {
         key={cell.title}
         onClick={cell.isSortable ? () => handleClick(cell.sortKey) : undefined}
       >
-        {cell.title}
-        {cell.sortKey === sortByValue && icon}
+        <span className={classes.wrapper}>
+          <span>{cell.title}</span>
+          {cell.sortKey === sortBy && icon}
+        </span>
       </TableCell>
     );
   });
