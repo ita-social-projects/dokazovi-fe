@@ -31,10 +31,11 @@ export default function PostInfo({ info }: IPostInfo): JSX.Element {
 
   return (
     <div className={classes.root}>
-      <ul className={classes.topics}>
+      <ul className={classes.topics} data-testid="topics">
         {directions &&
           directions.map((el) => (
             <li
+              data-testid="direction"
               key={el.id}
               onClick={() => redirectToMaterialsFiltered(el.id, 'directions')}
             >
@@ -42,12 +43,13 @@ export default function PostInfo({ info }: IPostInfo): JSX.Element {
             </li>
           ))}
       </ul>
-      <ul className={classes.origins}>
+      <ul className={classes.origins} data-testid="origins">
         {origins &&
           origins.map(
             (el) =>
               el.name && (
                 <li
+                  data-testid="origin"
                   className={classes.origin}
                   onClick={() => redirectToMaterialsFiltered(el.id, 'origins')}
                   key={el.id}
@@ -58,6 +60,7 @@ export default function PostInfo({ info }: IPostInfo): JSX.Element {
           )}
         {type && (
           <li
+            data-testid="type"
             className={classes.origin}
             onClick={() => redirectToMaterialsFiltered(type.id, 'types')}
           >
@@ -67,12 +70,12 @@ export default function PostInfo({ info }: IPostInfo): JSX.Element {
         <li className={classes.createdAt}>{publishedAt}</li>
         {!mobile && (
           <>
-            <li className={classes.icon}>
+            <li className={classes.icon} data-testid="icon">
               <VisibilityIcon fontSize="small" />
             </li>
-            <li className={classes.counter}>
+            <li className={classes.counter} data-testid="counter">
               {uniqueViewsCounter === undefined ? (
-                <Skeleton width={40} height={20} />
+                <Skeleton width={40} height={20} data-testid="skeleton" />
               ) : (
                 uniqueViewsCounter
               )}
