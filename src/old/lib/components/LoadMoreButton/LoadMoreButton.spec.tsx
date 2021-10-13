@@ -33,7 +33,7 @@ describe('loadMoreButton test', () => {
     );
     expect(asFragment()).toMatchSnapshot();
   });
-  it('', () => {
+  it('should call function after click', () => {
     const loadMoreHandler = jest.fn();
     render(
       <LoadMoreButton
