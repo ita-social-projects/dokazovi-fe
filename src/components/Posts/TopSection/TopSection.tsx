@@ -3,7 +3,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useStyles } from './TopSection.styles';
 
-interface ITopSection {
+export interface ITopSection {
   author: {
     avatar?: string;
     firstName: string;
@@ -19,7 +19,7 @@ export default function TopSection({ author }: ITopSection): JSX.Element {
   const authorFullName = `${firstName} ${lastName}`;
   return (
     <Box className={classes.root}>
-      <Box className={classes.avatarSection}>
+      <Box className={classes.avatarSection} data-testid="avatarSection">
         <Link to={`/experts/${id}`}>
           <CardMedia
             className={classes.avatar}
@@ -29,7 +29,7 @@ export default function TopSection({ author }: ITopSection): JSX.Element {
           />
         </Link>
       </Box>
-      <Box>
+      <Box data-testid="infoAuthor">
         <Link to={`/experts/${id}`}>
           <Typography variant="h3" className={classes.authorName}>
             {authorFullName}
