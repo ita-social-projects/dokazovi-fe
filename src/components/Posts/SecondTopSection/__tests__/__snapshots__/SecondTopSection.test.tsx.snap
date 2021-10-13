@@ -1,0 +1,51 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SecondTopSection renders with main block should SecondTopSection component render correctly 1`] = `
+<DocumentFragment>
+  <div
+    class="MuiBox-root MuiBox-root-4 SecondPostView-root-1"
+    data-testid="block"
+  >
+    <a
+      href="/materials?origins=3"
+    >
+      <h4
+        class="MuiTypography-root SecondPostView-authorName-2 MuiTypography-h4"
+      >
+        Bill Yamamoto
+      </h4>
+      <p
+        class="MuiTypography-root SecondPostView-authorBio-3 MuiTypography-body1 MuiTypography-colorTextSecondary"
+      >
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+      </p>
+    </a>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`SecondTopSection renders with origin not equal to 3 should origin not equal to 3 1`] = `
+<DocumentFragment>
+  <div
+    class="MuiBox-root MuiBox-root-12 SecondPostView-root-9"
+    data-testid="block"
+  >
+    <a
+      data-testid="link"
+      href="/experts/56"
+    >
+      <h4
+        class="MuiTypography-root SecondPostView-authorName-10 MuiTypography-h4"
+      >
+        Bill Yamamoto
+      </h4>
+    </a>
+    <p
+      class="MuiTypography-root SecondPostView-authorBio-11 MuiTypography-body1 MuiTypography-colorTextSecondary"
+      data-testid="typography"
+    >
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+    </p>
+  </div>
+</DocumentFragment>
+`;
