@@ -112,7 +112,6 @@ const mockedState = {
   },
 };
 
-//@ts-ignore
 store.getState = () => mockedState;
 
 describe('ExpertsView component renders correctly', () => {
