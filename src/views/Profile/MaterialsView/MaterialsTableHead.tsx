@@ -4,7 +4,14 @@ import { SortBy, Order } from 'models/adminlab/types';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectMeta, setSort } from 'models/adminlab';
 
-const content = [
+interface IContent {
+  sortKey?: keyof typeof SortBy;
+  isSortable: boolean;
+  isSortInverted?: boolean;
+  title: string;
+}
+
+const content: IContent[] = [
   {
     sortKey: SortBy.post_id,
     isSortable: true,
@@ -16,7 +23,6 @@ const content = [
     title: 'Заголовок',
   },
   {
-    sortKey: null,
     isSortable: false,
     title: 'Статус',
   },
@@ -26,27 +32,24 @@ const content = [
     title: 'Дата зміни статусу',
   },
   {
-    sortKey: null,
     isSortable: false,
     title: 'Тема',
   },
   {
-    sortKey: null,
     isSortable: false,
     title: 'Автор',
   },
   {
-    sortKey: null,
     isSortable: false,
+    isSortInverted: true,
     title: 'К-сть переглядів, що відображається на сайті',
   },
   {
-    sortKey: null,
     isSortable: false,
+    isSortInverted: true,
     title: 'Реальна к-сть переглядів',
   },
   {
-    sortKey: null,
     isSortable: false,
     title: 'Дії',
   },
@@ -58,16 +61,19 @@ const MaterailsTableHead: React.FC = () => {
     sort: { order, sortBy },
   } = useSelector(selectMeta);
 
-  const handleSort = (sortKey: keyof typeof SortBy | null) => {
+  const handleSort = (cell: IContent) => {
     let newOrder = Order.asc;
+    if (cell.isSortInverted) {
+      newOrder = Order.desc;
+    }
 
-    if (sortKey === sortBy) {
+    if (cell.sortKey === sortBy) {
       newOrder = order === Order.desc ? Order.asc : Order.desc;
     }
 
     dispatch(
       setSort({
-        sortBy: sortKey as keyof typeof SortBy,
+        sortBy: cell.sortKey as keyof typeof SortBy,
         order: newOrder,
       }),
     );
@@ -83,7 +89,7 @@ const MaterailsTableHead: React.FC = () => {
           <TableSortLabel
             active={sortBy === cell.sortKey}
             direction={order}
-            onClick={() => handleSort(cell.sortKey)}
+            onClick={() => handleSort(cell)}
           >
             {cell.title}
           </TableSortLabel>
