@@ -62,7 +62,7 @@ const MaterailsTableHead: React.FC = () => {
   } = useSelector(selectMeta);
 
   const handleSort = (cell: IContent) => {
-    let newOrder = Order.asc;
+    let newOrder: keyof typeof Order = Order.asc;
     if (cell.isSortInverted) {
       newOrder = Order.desc;
     }
