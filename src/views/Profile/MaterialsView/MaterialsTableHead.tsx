@@ -1,11 +1,8 @@
 import React from 'react';
-import { TableCell, TableHead } from '@material-ui/core';
+import { TableCell, TableHead, TableSortLabel } from '@material-ui/core';
 import { SortBy, Order } from 'models/adminlab/types';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectMeta, setSort } from 'models/adminlab';
-import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
-import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
-import { useStyles } from './styles/MaterialsTableHead.styles';
 
 const content = [
   {
@@ -56,14 +53,10 @@ const content = [
 ];
 
 const MaterailsTableHead: React.FC = () => {
-  const classes = useStyles();
   const dispatch = useDispatch();
   const {
     sort: { order, sortBy },
   } = useSelector(selectMeta);
-
-  const icon =
-    order === Order.asc ? <ArrowUpwardIcon /> : <ArrowDownwardIcon />;
 
   const handleClick = (sortKey: keyof typeof SortBy | null) => {
     let newOrder = Order.asc;
@@ -84,12 +77,19 @@ const MaterailsTableHead: React.FC = () => {
     return (
       <TableCell
         key={cell.title}
-        onClick={cell.isSortable ? () => handleClick(cell.sortKey) : undefined}
+        sortDirection={sortBy === cell.sortKey ? order : false}
       >
-        <span className={classes.wrapper}>
-          <span>{cell.title}</span>
-          {cell.sortKey === sortBy && icon}
-        </span>
+        {cell.isSortable ? (
+          <TableSortLabel
+            active={sortBy === cell.sortKey}
+            direction={order}
+            onClick={() => handleClick(cell.sortKey)}
+          >
+            {cell.title}
+          </TableSortLabel>
+        ) : (
+          cell.title
+        )}
       </TableCell>
     );
   });
