@@ -1,5 +1,10 @@
 import React from 'react';
-import { TableCell, TableHead, TableSortLabel } from '@material-ui/core';
+import {
+  TableCell,
+  TableHead,
+  TableRow,
+  TableSortLabel,
+} from '@material-ui/core';
 import { SortBy, Order } from 'models/adminlab/types';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectMeta, setSort } from 'models/adminlab';
@@ -100,7 +105,11 @@ const MaterailsTableHead: React.FC = () => {
     );
   });
 
-  return <TableHead>{cells}</TableHead>;
+  return (
+    <TableHead>
+      <TableRow>{cells}</TableRow>
+    </TableHead>
+  );
 };
 
 export default MaterailsTableHead;
