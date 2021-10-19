@@ -6,9 +6,12 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Select from '@material-ui/core/Select';
 import Checkbox from '@material-ui/core/Checkbox';
 import { useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 
 import { QueryTypeEnum } from 'old/lib/types';
 import { setFilter } from '../../../models/adminlab';
+import { defaultPlural, langTokens } from '../../../locales/localizationInit';
+import { useStyles } from './styles/MaterialsFilter.styles';
 
 type VerticalType = number | 'bottom' | 'top' | 'center';
 type HorizontalType = number | 'center' | 'left' | 'right';
@@ -21,10 +24,15 @@ interface IFilter {
 }
 
 const MenuProps = {
-  transformOrigin: {
+  anchorOrigin: {
     vertical: 'bottom' as VerticalType,
     horizontal: 'left' as HorizontalType,
   },
+  transformOrigin: {
+    vertical: 'top' as VerticalType,
+    horizontal: 'left' as HorizontalType,
+  },
+
   getContentAnchorEl: null,
 };
 
@@ -35,13 +43,18 @@ export const MaterialsFilter: React.FC<IFilter> = ({
   selected,
   filter,
 }) => {
+  const ALL_OPTIONS_IDS = allOptions.map((e) => e.id);
+
+  const classes = useStyles();
   const dispatch = useDispatch();
   const handleChange = ({ target }) => {
     if (target?.value) {
       const value = target?.value as number[];
       const options =
         value.indexOf(SET_ALL_OPTIONS) > -1
-          ? allOptions.map((e) => e.id)
+          ? selected?.length === allOptions.length
+            ? []
+            : ALL_OPTIONS_IDS
           : value;
       dispatch(setFilter({ filter, options }));
     }
@@ -51,7 +64,10 @@ export const MaterialsFilter: React.FC<IFilter> = ({
     <div>
       <FormControl>
         <Select
+          className={classes.filterHeader}
           multiple
+          disableUnderline
+          displayEmpty
           value={selected}
           onChange={handleChange}
           renderValue={() => filter}

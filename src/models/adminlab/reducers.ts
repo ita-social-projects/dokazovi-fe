@@ -18,8 +18,8 @@ const initialState: IAdminlab = {
   },
   meta: {
     sort: {
-      order: Order.desc,
-      sortBy: SortBy.published_at,
+      order: Order.asc,
+      sortBy: SortBy.post_id,
     },
     filters: {
       directions: [],
@@ -39,6 +39,9 @@ const adminlabSlice = createSlice({
     setStateToInit: (state) => {
       state.data = initialState.data;
       state.meta = initialState.meta;
+    },
+    setFiltersToInit: (state) => {
+      state.meta.filters = initialState.meta.filters;
     },
     setSort: (state, action: PayloadAction<ISort>) => {
       state.meta.sort = action.payload;
@@ -77,5 +80,6 @@ export const {
   incrementPage,
   decrementPage,
   setPage,
+  setFiltersToInit,
 } = adminlabSlice.actions;
 export const adminlabReducer = adminlabSlice.reducer;

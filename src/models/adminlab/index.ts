@@ -8,6 +8,7 @@ export {
   incrementPage,
   decrementPage,
   setPage,
+  setFiltersToInit,
 } from './reducers';
 export { getMatirealsAction } from './asyncActions';
 export { selectAdminlab, selectMeta } from './selectors';
