@@ -58,7 +58,7 @@ const MaterailsTableHead: React.FC = () => {
     sort: { order, sortBy },
   } = useSelector(selectMeta);
 
-  const handleClick = (sortKey: keyof typeof SortBy | null) => {
+  const handleSort = (sortKey: keyof typeof SortBy | null) => {
     let newOrder = Order.asc;
 
     if (sortKey === sortBy) {
@@ -83,7 +83,7 @@ const MaterailsTableHead: React.FC = () => {
           <TableSortLabel
             active={sortBy === cell.sortKey}
             direction={order}
-            onClick={() => handleClick(cell.sortKey)}
+            onClick={() => handleSort(cell.sortKey)}
           >
             {cell.title}
           </TableSortLabel>
