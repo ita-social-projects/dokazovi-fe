@@ -1,13 +1,22 @@
 import React from 'react';
-import { TableCell, TableHead } from '@material-ui/core';
+import {
+  TableCell,
+  TableHead,
+  TableRow,
+  TableSortLabel,
+} from '@material-ui/core';
 import { SortBy, Order } from 'models/adminlab/types';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectMeta, setSort } from 'models/adminlab';
-import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
-import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
-import { useStyles } from './styles/MaterialsTableHead.styles';
 
-const content = [
+interface IContent {
+  sortKey?: keyof typeof SortBy;
+  isSortable: boolean;
+  isSortInverted?: boolean;
+  title: string;
+}
+
+const content: IContent[] = [
   {
     sortKey: SortBy.post_id,
     isSortable: true,
@@ -19,7 +28,6 @@ const content = [
     title: 'Заголовок',
   },
   {
-    sortKey: null,
     isSortable: false,
     title: 'Статус',
   },
@@ -29,52 +37,48 @@ const content = [
     title: 'Дата зміни статусу',
   },
   {
-    sortKey: null,
     isSortable: false,
     title: 'Тема',
   },
   {
-    sortKey: null,
     isSortable: false,
     title: 'Автор',
   },
   {
-    sortKey: null,
     isSortable: false,
+    isSortInverted: true,
     title: 'К-сть переглядів, що відображається на сайті',
   },
   {
-    sortKey: null,
     isSortable: false,
+    isSortInverted: true,
     title: 'Реальна к-сть переглядів',
   },
   {
-    sortKey: null,
     isSortable: false,
     title: 'Дії',
   },
 ];
 
 const MaterailsTableHead: React.FC = () => {
-  const classes = useStyles();
   const dispatch = useDispatch();
   const {
     sort: { order, sortBy },
   } = useSelector(selectMeta);
 
-  const icon =
-    order === Order.asc ? <ArrowUpwardIcon /> : <ArrowDownwardIcon />;
+  const handleSort = (cell: IContent) => {
+    let newOrder: keyof typeof Order = Order.asc;
+    if (cell.isSortInverted) {
+      newOrder = Order.desc;
+    }
 
-  const handleClick = (sortKey: keyof typeof SortBy | null) => {
-    let newOrder = Order.asc;
-
-    if (sortKey === sortBy) {
+    if (cell.sortKey === sortBy) {
       newOrder = order === Order.desc ? Order.asc : Order.desc;
     }
 
     dispatch(
       setSort({
-        sortBy: sortKey as keyof typeof SortBy,
+        sortBy: cell.sortKey as keyof typeof SortBy,
         order: newOrder,
       }),
     );
@@ -84,17 +88,28 @@ const MaterailsTableHead: React.FC = () => {
     return (
       <TableCell
         key={cell.title}
-        onClick={cell.isSortable ? () => handleClick(cell.sortKey) : undefined}
+        sortDirection={sortBy === cell.sortKey ? order : false}
       >
-        <span className={classes.wrapper}>
-          <span>{cell.title}</span>
-          {cell.sortKey === sortBy && icon}
-        </span>
+        {cell.isSortable ? (
+          <TableSortLabel
+            active={sortBy === cell.sortKey}
+            direction={order}
+            onClick={() => handleSort(cell)}
+          >
+            {cell.title}
+          </TableSortLabel>
+        ) : (
+          cell.title
+        )}
       </TableCell>
     );
   });
 
-  return <TableHead>{cells}</TableHead>;
+  return (
+    <TableHead>
+      <TableRow>{cells}</TableRow>
+    </TableHead>
+  );
 };
 
 export default MaterailsTableHead;

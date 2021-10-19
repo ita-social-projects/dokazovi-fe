@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, TableCell, TableRow } from '@material-ui/core';
+import { Button, TableBody, TableCell, TableRow } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 import { selectAdminlab } from 'models/adminlab';
 import { useStyles } from './styles/MaterailsTable.styles';
@@ -46,7 +46,7 @@ const MaterailsTableBody: React.FC = () => {
     );
   });
 
-  return <>{tableBodyRows}</>;
+  return <TableBody>{tableBodyRows}</TableBody>;
 };
 
 export default MaterailsTableBody;
