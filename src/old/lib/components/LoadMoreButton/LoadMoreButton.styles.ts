@@ -24,9 +24,6 @@ export const useStyles = makeStyles(
         [theme.breakpoints.down('xs')]: {
           margin: theme.spacing(0, 3, 14),
         },
-        [theme.breakpoints.down('xs')]: {
-          margin: theme.spacing(0, 3, 14),
-        },
       },
       button: {
         alignItems: 'center',

@@ -23,6 +23,7 @@ export default function ConditionNav(): JSX.Element {
         <NavLink
           to="#about"
           className={classes.link}
+          data-testid="about"
           activeClassName={isActive('#about') ? classes.linkSelected : ''}
         >
           {i18n.t(langTokens.footer.aboutPlatform)}
@@ -32,6 +33,7 @@ export default function ConditionNav(): JSX.Element {
         <NavLink
           to="#rules"
           className={classes.link}
+          data-testid="rules"
           activeClassName={isActive('#rules') ? classes.linkSelected : ''}
         >
           {i18n.t(langTokens.footer.termsOfUse)}
@@ -41,6 +43,7 @@ export default function ConditionNav(): JSX.Element {
         <NavLink
           to="#contacts"
           className={classes.link}
+          data-testid="contacts"
           activeClassName={isActive('#contacts') ? classes.linkSelected : ''}
         >
           {i18n.t(langTokens.footer.contacts)}
