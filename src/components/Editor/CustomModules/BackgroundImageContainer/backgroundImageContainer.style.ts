@@ -55,4 +55,15 @@ export const useStyles = makeStyles((theme) => ({
       cursor: 'pointer',
     },
   },
+  requiredField: {
+    '&::before': {
+      content: '"*"',
+      color: 'red',
+      display: 'inline',
+      fontSize: '27px',
+    },
+  },
+  addImage: {
+    marginBottom: theme.spacing(1),
+  },
 }));

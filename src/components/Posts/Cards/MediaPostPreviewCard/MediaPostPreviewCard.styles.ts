@@ -12,16 +12,17 @@ export const useStyles = makeStyles<Theme, IStyleProps>(
       [theme.breakpoints.down('xs')]: {
         width: '94vw',
       },
+      minHeight: '240px',
     },
     header: (props) => ({
       display: 'flex',
-      height: 182,
+      height: props.backgroundImageUrl ? 182 : 'auto',
       backgroundRepeat: 'no-repeat',
       backgroundPosition: 'center',
       backgroundSize: 'cover',
       padding: theme.spacing(4, 6, 0, 5),
       marginBottom: theme.spacing(6),
-      backgroundImage: props.backgroundImageUrl,
+      backgroundImage: `url(${props.backgroundImageUrl})`,
     }),
     body: {
       padding: theme.spacing(0, 6, 0, 5),
@@ -37,9 +38,9 @@ export const useStyles = makeStyles<Theme, IStyleProps>(
       wordWrap: 'break-word',
       marginBottom: theme.spacing(5),
     },
-    postType: {
-      color: theme.palette.common.white,
-    },
+    postType: (props) => ({
+      color: props.backgroundImageUrl ? theme.palette.common.white : '#60B3CD',
+    }),
   }),
   {
     name: 'MediaPostPreviewCard',

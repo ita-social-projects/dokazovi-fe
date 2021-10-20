@@ -11,6 +11,9 @@ export const useStyles = makeStyles(
     },
     photo: {
       height: '315px',
+      [theme.breakpoints.down('xs')]: {
+        height: 'auto',
+      },
     },
   }),
   {

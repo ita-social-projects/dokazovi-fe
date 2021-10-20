@@ -22,7 +22,7 @@ export const useStyles = makeStyles<Theme, IStyleProps>(
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'space-between',
-      height: 280,
+      height: props.backgroundImageUrl ? 280 : 'auto',
       backgroundRepeat: 'no-repeat',
       backgroundPosition: 'center',
       backgroundSize: 'cover',
@@ -42,15 +42,16 @@ export const useStyles = makeStyles<Theme, IStyleProps>(
       fontSize: '24px',
       lineHeight: '28px',
       marginBottom: theme.spacing(2.4),
-      color: theme.palette.common.white,
+      color: theme.palette.common.black,
     },
     textBody: {
       wordWrap: 'break-word',
       marginBottom: theme.spacing(5),
     },
-    postType: {
-      color: theme.palette.common.white,
-    },
+    postType: (props) => ({
+      color: props.backgroundImageUrl ? theme.palette.common.white : '#60B3CD',
+      marginBottom: theme.spacing(2),
+    }),
     filterLink: {
       cursor: 'pointer',
     },
