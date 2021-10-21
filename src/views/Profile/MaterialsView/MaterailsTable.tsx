@@ -3,6 +3,7 @@ import { Paper, Table, TableContainer } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   getMatirealsAction,
+  selectAdminlab,
   selectMeta,
   setStateToInit,
 } from 'models/adminlab';
@@ -15,6 +16,7 @@ import MaterialsTablePagination from './MaterialsTablePagination';
 const MaterailsTable: React.FC = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const { totalPages } = useSelector(selectAdminlab);
   const { sort, filters, page, size } = useSelector(selectMeta);
 
   useEffect(
@@ -37,7 +39,7 @@ const MaterailsTable: React.FC = () => {
           <MaterailsTableBody />
         </Table>
       </Paper>
-      <MaterialsTablePagination />
+      {totalPages > 1 && <MaterialsTablePagination />}
     </TableContainer>
   );
 };
