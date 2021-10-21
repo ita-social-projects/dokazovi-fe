@@ -4,6 +4,8 @@ import userEvent from '@testing-library/user-event';
 import PasswordResetView from '../PasswordResetView';
 import { resetPasswordRequest } from '../../../old/lib/utilities/API/api';
 
+jest.mock('axios');
+
 jest.mock('../../../old/lib/utilities/API/api', () => ({
   resetPasswordRequest: jest.fn(),
 }));
