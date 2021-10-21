@@ -8,7 +8,7 @@ const MaterailsTableBody: React.FC = () => {
   const classes = useStyles();
   const { postIds, posts } = useSelector(selectAdminlab);
 
-  const tableBodyRows = postIds.map((postId) => {
+  const rows = postIds.map((postId) => {
     const {
       id,
       title,
@@ -47,7 +47,7 @@ const MaterailsTableBody: React.FC = () => {
     );
   });
 
-  return <TableBody>{tableBodyRows}</TableBody>;
+  return <TableBody>{rows}</TableBody>;
 };
 
 export default MaterailsTableBody;

@@ -10,53 +10,53 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectMeta, setSort } from 'models/adminlab';
 
 interface IContent {
-  sortKey?: keyof typeof SortBy;
-  isSortable: boolean;
-  isSortInverted?: boolean;
   title: string;
+  isSortable: boolean;
+  sortKey?: keyof typeof SortBy;
+  initialSortOrder?: keyof typeof Order;
 }
 
 const content: IContent[] = [
   {
-    sortKey: SortBy.post_id,
-    isSortable: true,
     title: 'Id',
-  },
-  {
-    sortKey: SortBy.title,
     isSortable: true,
+    sortKey: SortBy.post_id,
+  },
+  {
     title: 'Заголовок',
+    isSortable: true,
+    sortKey: SortBy.title,
   },
   {
-    isSortable: false,
     title: 'Статус',
+    isSortable: false,
   },
   {
+    title: 'Дата зміни статусу',
     sortKey: SortBy.modified_at,
     isSortable: true,
-    title: 'Дата зміни статусу',
   },
   {
-    isSortable: false,
     title: 'Тема',
+    isSortable: false,
   },
   {
-    isSortable: false,
     title: 'Автор',
+    isSortable: false,
   },
   {
-    isSortable: false,
-    isSortInverted: true,
     title: 'К-сть переглядів, що відображається на сайті',
+    isSortable: false,
+    initialSortOrder: Order.desc,
   },
   {
-    isSortable: false,
-    isSortInverted: true,
     title: 'Реальна к-сть переглядів',
+    isSortable: false,
+    initialSortOrder: Order.desc,
   },
   {
-    isSortable: false,
     title: 'Дії',
+    isSortable: false,
   },
 ];
 
@@ -67,10 +67,9 @@ const MaterailsTableHead: React.FC = () => {
   } = useSelector(selectMeta);
 
   const handleSort = (cell: IContent) => {
-    let newOrder: keyof typeof Order = Order.asc;
-    if (cell.isSortInverted) {
-      newOrder = Order.desc;
-    }
+    let newOrder: keyof typeof Order = cell.initialSortOrder
+      ? cell.initialSortOrder
+      : Order.asc;
 
     if (cell.sortKey === sortBy) {
       newOrder = order === Order.desc ? Order.asc : Order.desc;

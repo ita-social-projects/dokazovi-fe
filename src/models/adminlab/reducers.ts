@@ -19,7 +19,7 @@ const initialState: IAdminlab = {
   },
   meta: {
     sort: {
-      order: Order.asc,
+      order: Order.desc,
       sortBy: SortBy.post_id,
     },
     filters: {
