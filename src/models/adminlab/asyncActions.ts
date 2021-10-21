@@ -8,7 +8,7 @@ import {
 import { mapFetchedPosts } from '../materials/asyncActions';
 import { IAdminPost, IPostsOBJ, IFechedAdminMatirealOptions } from './types';
 import { RootStateType } from '../rootReducer';
-const NEW_LOAD_POSTS_LIMIT = 15;
+const NEW_LOAD_POSTS_LIMIT = 12;
 
 export const getMatirealsAction = createAsyncThunk(
   'adminlab/getAllAdminsMatirealsAction',
