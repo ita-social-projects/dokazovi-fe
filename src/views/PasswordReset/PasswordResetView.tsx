@@ -49,7 +49,7 @@ const PasswordResetView = () => {
   );
 
   const submittedView = (
-    <Container>
+    <Container data-testid="submittedContainer">
       <Typography variant="h3" component="p" className={classes.centerText}>
         {`${t(langTokens.passwordForms.changePassowrdFromEmail)}!`}
       </Typography>
