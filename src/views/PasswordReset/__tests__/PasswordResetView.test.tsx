@@ -2,6 +2,7 @@ import React from 'react';
 import { render, screen, waitFor, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import PasswordResetView from '../PasswordResetView';
+import { resetPasswordRequest } from '../../../old/lib/utilities/API/api';
 
 jest.mock('../../../old/lib/utilities/API/api', () => ({
   resetPasswordRequest: jest.fn(),
@@ -38,5 +39,7 @@ describe('PasswordResetView tests', () => {
     await waitFor(() =>
       expect(screen.queryByText('Спробувати ще раз')).not.toBeInTheDocument(),
     );
+
+    expect(resetPasswordRequest).toHaveBeenCalled();
   });
 });
