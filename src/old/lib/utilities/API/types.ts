@@ -71,6 +71,7 @@ export type PostResponseType = {
     name: string;
   };
   videoUrl?: string;
+  status: string;
 };
 
 export type ExpertResponseType = {
@@ -209,6 +210,12 @@ export type GetExpertsConfigType = GetConfigType & {
 };
 
 export type GetPostsConfigType = GetConfigType;
+
+export type GetPostsAdminConfigType = GetConfigType & {
+  params: {
+    statuses: string[];
+  };
+};
 
 export type RequestParamsType = {
   page?: number;

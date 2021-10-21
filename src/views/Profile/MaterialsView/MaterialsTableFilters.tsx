@@ -4,12 +4,17 @@ import { Grid, IconButton } from '@material-ui/core';
 import HighlightOffRoundedIcon from '@material-ui/icons/HighlightOffRounded';
 
 import { QueryTypeEnum } from 'old/lib/types';
+import { IFilter } from '../../../models/adminlab/types';
 import {
   selectDirections,
   selectOrigins,
   selectPostTypes,
 } from '../../../models/properties';
-import { selectMeta, setFiltersToInit } from '../../../models/adminlab';
+import {
+  selectMeta,
+  setFiltersToInit,
+  setFilter,
+} from '../../../models/adminlab';
 import { MaterialsFilter } from './MaterialsFilter';
 import { useStyles } from './styles/MaterialsTableFilters.styles';
 
@@ -27,6 +32,10 @@ const MaterialsTableFilters: React.FC = () => {
     dispatch(setFiltersToInit());
   };
 
+  const onFilterChange = (payload: IFilter) => {
+    dispatch(setFilter(payload));
+  };
+
   return (
     <Grid className={classes.filterSrction} container direction="row">
       <Grid item direction="column" xs={5} sm={4} md={3} lg={2}>
@@ -40,6 +49,7 @@ const MaterialsTableFilters: React.FC = () => {
       </Grid>
       <Grid item direction="column" xs={5} sm={4} md={3} lg={2}>
         <MaterialsFilter
+          setChanges={onFilterChange}
           allOptions={allDirections}
           selected={filters.directions}
           filter={QueryTypeEnum.DIRECTIONS}
@@ -47,6 +57,7 @@ const MaterialsTableFilters: React.FC = () => {
       </Grid>
       <Grid item direction="column" xs={5} sm={4} md={3} lg={2}>
         <MaterialsFilter
+          setChanges={onFilterChange}
           allOptions={allOrigins}
           selected={filters.origins}
           filter={QueryTypeEnum.ORIGINS}
@@ -54,6 +65,7 @@ const MaterialsTableFilters: React.FC = () => {
       </Grid>
       <Grid item direction="column" xs={5} sm={4} md={3} lg={2}>
         <MaterialsFilter
+          setChanges={onFilterChange}
           allOptions={allPostTypes}
           selected={filters.types}
           filter={QueryTypeEnum.POST_TYPES}

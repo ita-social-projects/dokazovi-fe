@@ -14,6 +14,7 @@ const MaterailsTableBody: React.FC = () => {
       title,
       modifiedAt,
       directions,
+      status,
       author: { firstName, lastName },
       type: { name: typeName },
       uniqueViewsCounter,
@@ -28,7 +29,7 @@ const MaterailsTableBody: React.FC = () => {
           <p>{title}</p>
         </TableCell>
         {/** TODO: status */}
-        <TableCell>???</TableCell>
+        <TableCell>{status}</TableCell>
         <TableCell>{modifiedAt}</TableCell>
         <TableCell>
           {directions.map((dir) => (

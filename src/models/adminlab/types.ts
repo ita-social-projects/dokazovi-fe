@@ -2,6 +2,7 @@ import { IPost, LoadingStatusEnum, QueryTypeEnum } from '../../old/lib/types';
 
 export interface IAdminPost extends IPost {
   modifideViewsCounter?: number;
+  status: string;
 }
 
 export interface IAdminlab {
@@ -30,6 +31,7 @@ export interface ISort {
 }
 
 export interface IAdminlabData {
+  totalPages: number;
   postIds: number[];
   posts: IPostsOBJ;
 }

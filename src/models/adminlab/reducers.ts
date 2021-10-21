@@ -13,6 +13,7 @@ import { getMatirealsAction } from './asyncActions';
 
 const initialState: IAdminlab = {
   data: {
+    totalPages: 0,
     postIds: [],
     posts: {},
   },
@@ -50,12 +51,6 @@ const adminlabSlice = createSlice({
       const { filter, options } = action.payload;
       state.meta.filters[filter] = options;
     },
-    incrementPage: (state) => {
-      state.meta.page += 1;
-    },
-    decrementPage: (state) => {
-      state.meta.page -= 1;
-    },
     setPage: (state, action: PayloadAction<{ page: number }>) => {
       state.meta.page = action.payload.page;
     },
@@ -77,8 +72,6 @@ export const {
   editPost,
   setSort,
   setFilter,
-  incrementPage,
-  decrementPage,
   setPage,
   setFiltersToInit,
 } = adminlabSlice.actions;

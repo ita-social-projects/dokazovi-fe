@@ -5,8 +5,6 @@ export {
   setStateToInit,
   setSort,
   setFilter,
-  incrementPage,
-  decrementPage,
   setPage,
   setFiltersToInit,
 } from './reducers';

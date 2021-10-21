@@ -5,11 +5,10 @@ import FormControl from '@material-ui/core/FormControl';
 import ListItemText from '@material-ui/core/ListItemText';
 import Select from '@material-ui/core/Select';
 import Checkbox from '@material-ui/core/Checkbox';
-import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
 import { QueryTypeEnum } from 'old/lib/types';
-import { setFilter } from '../../../models/adminlab';
+
 import { defaultPlural, langTokens } from '../../../locales/localizationInit';
 import { useStyles } from './styles/MaterialsFilter.styles';
 
@@ -21,6 +20,7 @@ interface IFilter {
   allOptions: OptionType[];
   selected: number[] | undefined;
   filter: QueryTypeEnum;
+  setChanges: (payload: any) => void;
 }
 
 const MenuProps = {
@@ -42,11 +42,12 @@ export const MaterialsFilter: React.FC<IFilter> = ({
   allOptions,
   selected,
   filter,
+  setChanges,
 }) => {
   const ALL_OPTIONS_IDS = allOptions.map((e) => e.id);
 
   const classes = useStyles();
-  const dispatch = useDispatch();
+
   const handleChange = ({ target }) => {
     if (target?.value) {
       const value = target?.value as number[];
@@ -56,7 +57,7 @@ export const MaterialsFilter: React.FC<IFilter> = ({
             ? []
             : ALL_OPTIONS_IDS
           : value;
-      dispatch(setFilter({ filter, options }));
+      setChanges({ filter, options });
     }
   };
 
