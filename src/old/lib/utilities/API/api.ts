@@ -232,7 +232,6 @@ export const changePasswordRequest = async (
 };
 
 export const resetPasswordRequest = async (email: string): Promise<void> => {
-  console.log('enter resetPasswordRequest');
   await instance.post('/user/reset-password', { email });
 };
 

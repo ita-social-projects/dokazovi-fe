@@ -3,8 +3,6 @@ import { render, screen, waitFor, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import PasswordResetView from '../PasswordResetView';
 
-jest.mock('axios');
-
 jest.mock('../../../old/lib/utilities/API/api', () => ({
   resetPasswordRequest: jest.fn(),
 }));
