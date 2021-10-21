@@ -3,11 +3,15 @@ import { render, screen, waitFor, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import PasswordResetView from '../PasswordResetView';
 
+jest.mock('../../../old/lib/utilities/API/api', () => ({
+  resetPasswordRequest: jest.fn(),
+}));
+
 describe('PasswordResetView tests', () => {
-  it('should PasswordResetView component render', () => {
+  it('should PasswordResetView component render', async () => {
     const { asFragment } = render(<PasswordResetView />);
 
-    expect(asFragment()).toMatchSnapshot();
+    await waitFor(() => expect(asFragment()).toMatchSnapshot());
   });
 
   it('should form be submitted and click in submittedView work correctly', async () => {
