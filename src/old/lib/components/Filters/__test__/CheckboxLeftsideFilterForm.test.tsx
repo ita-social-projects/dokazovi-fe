@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import { store } from 'models/store';
 import { Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
-import { filtersStateEnum, QueryTypeEnum } from '../../../../lib/types';
+import { filtersStateEnum, QueryTypeEnum } from '../../../types';
 import { CheckboxLeftsideFilterForm } from '../CheckboxLeftsideFilterForm';
 
 const history = createMemoryHistory();
