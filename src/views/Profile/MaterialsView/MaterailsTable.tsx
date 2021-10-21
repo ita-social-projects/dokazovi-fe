@@ -15,7 +15,7 @@ import MaterialsTablePagination from './MaterialsTablePagination';
 const MaterailsTable: React.FC = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const { sort, filters, page } = useSelector(selectMeta);
+  const { sort, filters, page, size } = useSelector(selectMeta);
 
   useEffect(
     () => () => {
@@ -26,7 +26,7 @@ const MaterailsTable: React.FC = () => {
 
   useEffect(() => {
     dispatch(getMatirealsAction());
-  }, [filters, sort, page]);
+  }, [filters, sort, page, size]);
 
   return (
     <TableContainer>

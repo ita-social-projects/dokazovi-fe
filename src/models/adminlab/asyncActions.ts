@@ -10,13 +10,24 @@ import { IAdminPost, IPostsOBJ, IFechedAdminMatirealOptions } from './types';
 import { RootStateType } from '../rootReducer';
 const NEW_LOAD_POSTS_LIMIT = 15;
 
+interface IFilterOption {
+  id: number;
+}
+
+const setFilter = (
+  selected: number[] | undefined,
+  all: IFilterOption[],
+): number[] => {
+  return selected?.length ? selected : all.map(({ id }) => id);
+};
+
 export const getMatirealsAction = createAsyncThunk(
   'adminlab/getAllAdminsMatirealsAction',
   async (_, { rejectWithValue, getState }) => {
     try {
       const {
         adminlab: {
-          meta: { sort, filters, page },
+          meta: { sort, filters, page, size },
         },
         properties: { directions, postTypes, origins },
       } = getState() as RootStateType;
@@ -25,16 +36,10 @@ export const getMatirealsAction = createAsyncThunk(
       } = await getAdminPosts('all-posts', {
         params: {
           page,
-          size: NEW_LOAD_POSTS_LIMIT,
-          types: filters.types?.length
-            ? filters.types
-            : postTypes.map(({ id }) => id),
-          directions: filters.directions?.length
-            ? filters.directions
-            : directions.map(({ id }) => id),
-          origins: filters.origins?.length
-            ? filters.origins
-            : origins.map(({ id }) => id),
+          size,
+          types: setFilter(filters.types, postTypes),
+          directions: setFilter(filters.directions, directions),
+          origins: setFilter(filters.origins, origins),
           statuses: [],
           sort: [sort.sortBy + ',' + sort.order],
         },

@@ -38,15 +38,14 @@ const MaterialsTableFilters: React.FC = () => {
 
   return (
     <Grid className={classes.filterSrction} container direction="row">
-      <Grid item direction="column" xs={5} sm={4} md={3} lg={2}>
-        <IconButton
-          onClick={onClearIconClick}
-          color="primary"
-          className={classes.clearButton}
-        >
-          <HighlightOffRoundedIcon fontSize="large" />
-        </IconButton>
-      </Grid>
+      <IconButton
+        onClick={onClearIconClick}
+        color="primary"
+        className={classes.clearButton}
+      >
+        <HighlightOffRoundedIcon fontSize="large" />
+      </IconButton>
+
       <Grid item direction="column" xs={5} sm={4} md={3} lg={2}>
         <MaterialsFilter
           setChanges={onFilterChange}

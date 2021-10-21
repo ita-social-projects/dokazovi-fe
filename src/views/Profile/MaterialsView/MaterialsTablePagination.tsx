@@ -1,27 +1,28 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectMeta, setPage } from 'models/adminlab';
 import { Pagination } from '@material-ui/lab';
+import { useSelector, useDispatch } from 'react-redux';
+
+import { selectMeta, selectAdminlab, setPage } from 'models/adminlab';
+
 import { useStyles } from './styles/MaterialsTablePagination.styles';
 
 const MaterialsTablePagination: React.FC = () => {
-  const classes = useStyles();
-  const dispatch = useDispatch();
-  const { page } = useSelector(selectMeta);
+  const { size, page } = useSelector(selectMeta);
+  const { totalPages } = useSelector(selectAdminlab);
+  const classes = useStyles(selectAdminlab);
 
-  const handleChangePage = (
-    event: React.ChangeEvent<unknown>,
-    value: number,
-  ) => {
-    dispatch(setPage({ page: value - 1 }));
+  const dispatch = useDispatch();
+
+  const onPageChangeEvent = (_, value: number) => {
+    dispatch(setPage({ page: value }));
   };
 
   return (
     <Pagination
       className={classes.root}
-      count={75}
-      page={page + 1}
-      onChange={handleChangePage}
+      count={totalPages}
+      page={page}
+      onChange={onPageChangeEvent}
     />
   );
 };

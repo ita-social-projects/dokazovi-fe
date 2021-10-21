@@ -18,6 +18,7 @@ const initialState: IAdminlab = {
     posts: {},
   },
   meta: {
+    size: 12,
     sort: {
       order: Order.desc,
       sortBy: SortBy.post_id,
@@ -27,7 +28,7 @@ const initialState: IAdminlab = {
       origins: [],
       types: [],
     },
-    page: 0,
+    page: 1,
   },
   error: '',
   loading: LoadingStatusEnum.idle,
@@ -40,6 +41,9 @@ const adminlabSlice = createSlice({
     setStateToInit: (state) => {
       state.data = initialState.data;
       state.meta = initialState.meta;
+    },
+    setSize: (state, action: PayloadAction<{ size: number }>) => {
+      state.meta.size = action.payload.size;
     },
     setFiltersToInit: (state) => {
       state.meta.filters = initialState.meta.filters;

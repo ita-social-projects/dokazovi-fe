@@ -5,6 +5,7 @@ import FormControl from '@material-ui/core/FormControl';
 import ListItemText from '@material-ui/core/ListItemText';
 import Select from '@material-ui/core/Select';
 import Checkbox from '@material-ui/core/Checkbox';
+import Box from '@material-ui/core/Box';
 import { useTranslation } from 'react-i18next';
 
 import { QueryTypeEnum } from 'old/lib/types';
@@ -61,6 +62,18 @@ export const MaterialsFilter: React.FC<IFilter> = ({
     }
   };
 
+  const FilterLabel = () => {
+    const length = selected?.length;
+    return (
+      <div>
+        {filter}
+        {!!selected?.length && (
+          <label className={classes.filterCounter}>{selected?.length}</label>
+        )}
+      </div>
+    );
+  };
+
   return (
     <div>
       <FormControl>
@@ -71,7 +84,7 @@ export const MaterialsFilter: React.FC<IFilter> = ({
           displayEmpty
           value={selected}
           onChange={handleChange}
-          renderValue={() => filter}
+          renderValue={() => <FilterLabel />}
           MenuProps={MenuProps}
         >
           <MenuItem key={0} value={0}>
