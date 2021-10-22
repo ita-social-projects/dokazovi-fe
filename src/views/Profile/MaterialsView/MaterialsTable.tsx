@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Paper, Table, TableContainer } from '@material-ui/core';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import {
   getMaterialsAction,
   selectAdminlab,
@@ -12,22 +12,26 @@ import MaterialsTableHead from './MaterialsTableHead';
 import MaterialsTableBody from './MaterialsTableBody';
 import MaterialsTableFilters from './MaterialsTableFilters';
 import MaterialsTablePagination from './MaterialsTablePagination';
+import { useActions } from '../../../shared/hooks';
 
 const MaterialsTable: React.FC = () => {
   const classes = useStyles();
-  const dispatch = useDispatch();
+  const [boundedGetMaterialsAction, boundedSetStateToInit] = useActions([
+    getMaterialsAction,
+    setStateToInit,
+  ]);
   const { totalPages } = useSelector(selectAdminlab);
   const { sort, filters, page, size } = useSelector(selectMeta);
 
   useEffect(
     () => () => {
-      dispatch(setStateToInit());
+      boundedSetStateToInit();
     },
     [],
   );
 
   useEffect(() => {
-    dispatch(getMaterialsAction());
+    boundedGetMaterialsAction();
   }, [filters, sort, page, size]);
 
   return (

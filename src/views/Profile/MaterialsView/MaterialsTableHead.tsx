@@ -6,8 +6,9 @@ import {
   TableSortLabel,
 } from '@material-ui/core';
 import { SortBy, Order } from 'models/adminlab/types';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { selectMeta, setSort } from 'models/adminlab';
+import { useActions } from '../../../shared/hooks';
 
 interface IContent {
   title: string;
@@ -61,7 +62,7 @@ const content: IContent[] = [
 ];
 
 const MaterialsTableHead: React.FC = () => {
-  const dispatch = useDispatch();
+  const [boundedSetSort] = useActions([setSort]);
   const {
     sort: { order, sortBy },
   } = useSelector(selectMeta);
@@ -75,12 +76,10 @@ const MaterialsTableHead: React.FC = () => {
       newOrder = order === Order.desc ? Order.asc : Order.desc;
     }
 
-    dispatch(
-      setSort({
-        sortBy: cell.sortKey as keyof typeof SortBy,
-        order: newOrder,
-      }),
-    );
+    boundedSetSort({
+      sortBy: cell.sortKey as keyof typeof SortBy,
+      order: newOrder,
+    });
   };
 
   const cells = content.map((cell) => {

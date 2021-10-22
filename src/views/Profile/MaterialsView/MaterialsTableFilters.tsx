@@ -17,8 +17,10 @@ import {
 } from '../../../models/adminlab';
 import { MaterialsFilter } from './MaterialsFilter';
 import { useStyles } from './styles/MaterialsTableFilters.styles';
+import { useActions } from '../../../shared/hooks';
 
 const MaterialsTableFilters: React.FC = () => {
+  const [boundedSetFilter] = useActions([setFilter]);
   const dispatch = useDispatch();
 
   const allDirections = useSelector(selectDirections);
@@ -33,7 +35,7 @@ const MaterialsTableFilters: React.FC = () => {
   };
 
   const onFilterChange = (payload: IFilter) => {
-    dispatch(setFilter(payload));
+    boundedSetFilter(payload);
   };
 
   return (

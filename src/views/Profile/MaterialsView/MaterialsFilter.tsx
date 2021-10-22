@@ -25,6 +25,7 @@ interface IFilter {
 }
 
 const MenuProps = {
+  disableScrollLock: true,
   anchorOrigin: {
     vertical: 'bottom' as VerticalType,
     horizontal: 'left' as HorizontalType,
