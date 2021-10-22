@@ -1,11 +1,13 @@
 import React from 'react';
-import { render, fireEvent, cleanup, screen } from '@testing-library/react';
+import { cleanup, fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { PostAuthorSelection } from './PostAuthorSelection';
+import { ExpertResponseType } from '../../../old/lib/utilities/API/types';
 
-const onAuthorTableClick = () => {};
-const authors = [
+const onAuthorTableClick = jest.fn();
+const authors: ExpertResponseType[] = [
   {
+    bio: 'Doctor',
     avatar: 'abc',
     firstName: 'Max',
     id: 1,
@@ -29,6 +31,7 @@ const authors = [
     qualification: 'Therapist',
   },
   {
+    bio: 'Doctor',
     avatar: 'abc',
     firstName: 'Tax',
     id: 2,
@@ -52,6 +55,7 @@ const authors = [
     qualification: 'Therapist',
   },
   {
+    bio: 'Doctor',
     avatar: 'abc',
     firstName: 'Pax',
     id: 3,
@@ -78,6 +82,20 @@ const authors = [
 
 describe('PostAuthorSeclection', () => {
   afterEach(cleanup);
+
+  it('', () => {
+    render(
+      <PostAuthorSelection
+        authors={authors}
+        isDisplayTable
+        onAuthorTableClick={onAuthorTableClick}
+        handleOnChange={() => {}}
+      />,
+    );
+    const rows = screen.getAllByTestId('row');
+    rows.forEach((row) => userEvent.click(row));
+    expect(onAuthorTableClick).toHaveBeenCalledTimes(3);
+  });
 
   it('show authors lastnames recieved from props', () => {
     const { getAllByTestId } = render(

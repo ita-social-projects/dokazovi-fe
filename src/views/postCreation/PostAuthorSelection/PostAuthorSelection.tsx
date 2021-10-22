@@ -35,7 +35,12 @@ export const PostAuthorSelection: React.FC<IPostAuthorSelectionProps> = ({
   const table = authors?.map((item, idx) => {
     const { id, firstName, lastName } = item;
     return (
-      <TableRow key={id} onClick={() => onAuthorTableClick(id, item)} hover>
+      <TableRow
+        data-testid="row"
+        key={id}
+        onClick={() => onAuthorTableClick(id, item)}
+        hover
+      >
         <TableCell>{idx + 1}</TableCell>
         <TableCell>{firstName}</TableCell>
         <TableCell data-testid="item">{lastName}</TableCell>
