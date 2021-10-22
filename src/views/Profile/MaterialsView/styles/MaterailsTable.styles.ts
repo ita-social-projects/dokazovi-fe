@@ -11,7 +11,7 @@ export const useStyles = makeStyles(() => ({
     '& .MuiTableCell-head': {
       lineHeight: '1rem',
       fontWeight: '700',
-      fontSize: '16px',
+      fontSize: '14px',
     },
   },
 }));
