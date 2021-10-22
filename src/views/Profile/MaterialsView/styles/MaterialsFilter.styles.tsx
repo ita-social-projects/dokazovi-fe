@@ -10,7 +10,6 @@ export const useStyles = makeStyles((theme) => ({
     borderWidth: '2px',
     borderStyle: 'solid',
     borderColor: theme.palette.common.black,
-    lineHeight: 1,
     '&:hover': {
       backgroundColor: theme.palette.primary.main,
       borderColor: theme.palette.primary.main,
@@ -26,6 +25,9 @@ export const useStyles = makeStyles((theme) => ({
     '& .MuiSvgIcon-root': {
       top: 'calc(50% - 0.5em)',
       color: theme.palette.common.black,
+    },
+    '& .MuiSelect-select': {
+      fontFamily: 'Raleway',
     },
   },
   filterCounter: {
