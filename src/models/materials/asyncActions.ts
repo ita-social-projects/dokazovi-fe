@@ -2,7 +2,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { getPosts } from '../../old/lib/utilities/API/api';
 import { LOAD_POSTS_LIMIT } from '../../old/lib/constants/posts';
-import { IPost, LoadingStatusEnum } from '../../old/lib/types';
+import { IPost } from '../../old/lib/types';
 import { PostResponseType } from '../../old/lib/utilities/API/types';
 import { IFetchMaterialsOptions } from './types';
 
@@ -18,7 +18,13 @@ export const fetchMaterials = createAsyncThunk(
   'materials/fetchMaterials',
   async (options: IFetchMaterialsOptions, { getState, rejectWithValue }) => {
     try {
-      const { filters, page, appendPosts, url = 'all-posts' } = options;
+      const {
+        filters,
+        page,
+        appendPosts,
+        url = 'all-posts',
+        statuses = 'PUBLISHED',
+      } = options;
       const response = await getPosts(url, {
         params: {
           page: page,
@@ -27,6 +33,7 @@ export const fetchMaterials = createAsyncThunk(
           directions: filters.directions,
           origins: filters.origins,
           sort: ['published_at,desc'],
+          statuses,
         },
       });
 
