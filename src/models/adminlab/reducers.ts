@@ -28,7 +28,7 @@ const initialState: IAdminlab = {
       origins: [],
       types: [],
     },
-    page: 1,
+    page: 0,
   },
   error: '',
   loading: LoadingStatusEnum.idle,

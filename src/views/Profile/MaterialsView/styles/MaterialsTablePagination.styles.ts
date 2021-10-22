@@ -5,9 +5,14 @@ export const useStyles = makeStyles((theme: Theme) => ({
     '& .MuiPagination-ul': {
       justifyContent: 'flex-end',
     },
-    '& .MuiPaginationItem-page.Mui-selected': {
-      backgroundColor: theme.palette.common.black,
-      color: theme.palette.common.white,
+    '& .MuiPaginationItem-page': {
+      '&.Mui-selected': {
+        backgroundColor: theme.palette.common.black,
+        color: theme.palette.common.white,
+      },
+      '&:hover': {
+        backgroundColor: '#aaaaaa',
+      },
     },
   },
 }));

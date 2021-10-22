@@ -14,14 +14,14 @@ const MaterialsTablePagination: React.FC = () => {
   const dispatch = useDispatch();
 
   const onPageChangeEvent = (_, value: number) => {
-    dispatch(setPage({ page: value }));
+    dispatch(setPage({ page: value - 1 }));
   };
 
   return (
     <Pagination
       className={classes.root}
       count={totalPages}
-      page={page}
+      page={page + 1}
       onChange={onPageChangeEvent}
     />
   );

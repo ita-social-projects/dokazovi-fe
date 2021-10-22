@@ -29,13 +29,13 @@ const MaterailsTableBody: React.FC = () => {
 
     const chipStyle = { backgroundColor: '#e0e0e0' };
     if (typeId === 1) {
-      chipStyle.backgroundColor = '#987D7C';
+      chipStyle.backgroundColor = '#987d7c';
     }
     if (typeId === 2) {
-      chipStyle.backgroundColor = '#A09CB0';
+      chipStyle.backgroundColor = '#968ac2';
     }
     if (typeId === 3) {
-      chipStyle.backgroundColor = '#A3B9C9';
+      chipStyle.backgroundColor = '#a3c9ad';
     }
 
     return (
