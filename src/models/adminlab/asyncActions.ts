@@ -6,9 +6,8 @@ import {
   getAdminPosts,
 } from '../../old/lib/utilities/API/api';
 import { mapFetchedPosts } from '../materials/asyncActions';
-import { IAdminPost, IPostsOBJ, IFechedAdminMatirealOptions } from './types';
+import { IAdminPost, IPostsOBJ } from './types';
 import { RootStateType } from '../rootReducer';
-const NEW_LOAD_POSTS_LIMIT = 15;
 
 interface IFilterOption {
   id: number;
@@ -27,7 +26,7 @@ export const getMaterialsAction = createAsyncThunk(
     try {
       const {
         adminlab: {
-          meta: { sort, filters, page, size },
+          meta: { sort, filters, page, size, textFields },
         },
         properties: { directions, postTypes, origins },
       } = getState() as RootStateType;
@@ -42,6 +41,7 @@ export const getMaterialsAction = createAsyncThunk(
           origins: setFilter(filters.origins, origins),
           statuses: [],
           sort: [sort.sortBy + ',' + sort.order],
+          ...textFields,
         },
       });
       const { ids: postIds } = mapFetchedPosts(content);

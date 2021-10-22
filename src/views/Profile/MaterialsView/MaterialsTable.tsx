@@ -21,7 +21,7 @@ const MaterialsTable: React.FC = () => {
     setStateToInit,
   ]);
   const { totalPages } = useSelector(selectAdminlab);
-  const { sort, filters, page, size } = useSelector(selectMeta);
+  const { sort, filters, page, textFields, size } = useSelector(selectMeta);
 
   useEffect(
     () => () => {
@@ -32,7 +32,7 @@ const MaterialsTable: React.FC = () => {
 
   useEffect(() => {
     boundedGetMaterialsAction();
-  }, [filters, sort, page, size]);
+  }, [filters, sort, page, textFields, size]);
 
   return (
     <TableContainer>

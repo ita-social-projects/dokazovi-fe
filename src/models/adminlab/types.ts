@@ -5,6 +5,11 @@ export interface IAdminPost extends IPost {
   status: string;
 }
 
+export enum FieldEnum {
+  AUTHOR = 'author',
+  TITLE = 'title',
+}
+
 export interface IAdminlab {
   data: IAdminlabData;
   meta: IAdminLabMeta;
@@ -19,11 +24,19 @@ export interface IAdminLabMeta {
   };
   page: number;
   size: number;
+  textFields: {
+    [key in FieldEnum]: string;
+  };
 }
 
 export interface IFilter {
   filter: string;
   options: number[];
+}
+
+export interface IField {
+  field: string;
+  text: string;
 }
 
 export interface ISort {
@@ -35,14 +48,6 @@ export interface IAdminlabData {
   totalPages: number;
   postIds: number[];
   posts: IPostsOBJ;
-}
-
-export interface IFechedAdminMatirealOptions {
-  sortBy: keyof typeof SortBy;
-  order: keyof typeof Order;
-  filters: {
-    [key in QueryTypeEnum]?: number[];
-  };
 }
 
 export interface IPostsOBJ {

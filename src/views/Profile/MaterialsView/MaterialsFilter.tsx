@@ -5,7 +5,6 @@ import FormControl from '@material-ui/core/FormControl';
 import ListItemText from '@material-ui/core/ListItemText';
 import Select from '@material-ui/core/Select';
 import Checkbox from '@material-ui/core/Checkbox';
-import Box from '@material-ui/core/Box';
 import { useTranslation } from 'react-i18next';
 
 import { QueryTypeEnum } from 'old/lib/types';
@@ -17,7 +16,7 @@ type VerticalType = number | 'bottom' | 'top' | 'center';
 type HorizontalType = number | 'center' | 'left' | 'right';
 
 type OptionType = { id: number; name: string };
-interface IFilter {
+interface IMaterialsFilter {
   allOptions: OptionType[];
   selected: number[] | undefined;
   filter: QueryTypeEnum;
@@ -40,7 +39,7 @@ const MenuProps = {
 
 const SET_ALL_OPTIONS = 0;
 
-export const MaterialsFilter: React.FC<IFilter> = ({
+export const MaterialsFilter: React.FC<IMaterialsFilter> = ({
   allOptions,
   selected,
   filter,

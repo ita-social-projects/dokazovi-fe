@@ -6,9 +6,18 @@ import {
 } from '@reduxjs/toolkit';
 import { getAsyncActionsReducer } from '../helpers/asyncActions';
 
-import { IAdminlab, IAdminPost, SortBy, Order, ISort, IFilter } from './types';
+import {
+  IAdminlab,
+  IAdminPost,
+  SortBy,
+  Order,
+  ISort,
+  IFilter,
+  IField,
+} from './types';
 import { LoadingStatusEnum } from '../../old/lib/types';
 import { getMaterialsAction } from './asyncActions';
+
 // так можга тягнути перегляди getUniquePostViewsCounter
 
 const initialState: IAdminlab = {
@@ -29,6 +38,10 @@ const initialState: IAdminlab = {
       types: [],
     },
     page: 0,
+    textFields: {
+      author: '',
+      title: '',
+    },
   },
   error: '',
   loading: LoadingStatusEnum.idle,
@@ -45,8 +58,13 @@ const adminlabSlice = createSlice({
     setSize: (state, action: PayloadAction<{ size: number }>) => {
       state.meta.size = action.payload.size;
     },
+    setField: (state, action: PayloadAction<IField>) => {
+      const { text, field } = action.payload;
+      state.meta.textFields[field] = text;
+    },
     setFiltersToInit: (state) => {
       state.meta.filters = initialState.meta.filters;
+      state.meta.textFields = initialState.meta.textFields;
     },
     setSort: (state, action: PayloadAction<ISort>) => {
       state.meta.sort = action.payload;
@@ -78,5 +96,6 @@ export const {
   setFilter,
   setPage,
   setFiltersToInit,
+  setField,
 } = adminlabSlice.actions;
 export const adminlabReducer = adminlabSlice.reducer;
