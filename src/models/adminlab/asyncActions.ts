@@ -21,7 +21,7 @@ const setFilter = (
   return selected?.length ? selected : all.map(({ id }) => id);
 };
 
-export const getMatirealsAction = createAsyncThunk(
+export const getMaterialsAction = createAsyncThunk(
   'adminlab/getAllAdminsMatirealsAction',
   async (_, { rejectWithValue, getState }) => {
     try {
@@ -51,7 +51,7 @@ export const getMatirealsAction = createAsyncThunk(
           return {
             ...post,
             uniqueViewsCounter: data,
-            modifideViewsCounter: 4 + data,
+            modifiedViewsCounter: 4 + data,
           };
         }),
       );

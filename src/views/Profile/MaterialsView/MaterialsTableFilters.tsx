@@ -37,7 +37,7 @@ const MaterialsTableFilters: React.FC = () => {
   };
 
   return (
-    <Grid className={classes.filterSrction} container direction="row">
+    <Grid className={classes.filterSection} container direction="row">
       <IconButton
         onClick={onClearIconClick}
         color="primary"

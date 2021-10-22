@@ -8,5 +8,5 @@ export {
   setPage,
   setFiltersToInit,
 } from './reducers';
-export { getMatirealsAction } from './asyncActions';
+export { getMaterialsAction } from './asyncActions';
 export { selectAdminlab, selectMeta } from './selectors';

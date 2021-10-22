@@ -8,7 +8,7 @@ import { getAsyncActionsReducer } from '../helpers/asyncActions';
 
 import { IAdminlab, IAdminPost, SortBy, Order, ISort, IFilter } from './types';
 import { LoadingStatusEnum } from '../../old/lib/types';
-import { getMatirealsAction } from './asyncActions';
+import { getMaterialsAction } from './asyncActions';
 // так можга тягнути перегляди getUniquePostViewsCounter
 
 const initialState: IAdminlab = {
@@ -67,7 +67,7 @@ const adminlabSlice = createSlice({
     },
   },
   extraReducers: {
-    ...getAsyncActionsReducer(getMatirealsAction as any),
+    ...getAsyncActionsReducer(getMaterialsAction as any),
   },
 });
 

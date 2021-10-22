@@ -10,7 +10,7 @@ import { useSelector } from 'react-redux';
 import { selectAdminlab } from 'models/adminlab';
 import { useStyles } from './styles/MaterialsTableBody.styles';
 
-const MaterailsTableBody: React.FC = () => {
+const MaterialsTableBody: React.FC = () => {
   const classes = useStyles();
   const { postIds, posts } = useSelector(selectAdminlab);
 
@@ -24,7 +24,7 @@ const MaterailsTableBody: React.FC = () => {
       author: { firstName, lastName },
       type: { id: typeId, name: typeName },
       uniqueViewsCounter,
-      modifideViewsCounter,
+      modifiedViewsCounter,
     } = posts[postId];
 
     const chipStyle = { backgroundColor: '#e0e0e0' };
@@ -55,7 +55,7 @@ const MaterailsTableBody: React.FC = () => {
         </TableCell>
         <TableCell>{`${firstName} ${lastName}`}</TableCell>
         <TableCell>{uniqueViewsCounter}</TableCell>
-        <TableCell>{modifideViewsCounter}</TableCell>
+        <TableCell>{modifiedViewsCounter}</TableCell>
         <TableCell>
           <Button>delete</Button>
           <Button>edit</Button>
@@ -67,4 +67,4 @@ const MaterailsTableBody: React.FC = () => {
   return <TableBody>{rows}</TableBody>;
 };
 
-export default MaterailsTableBody;
+export default MaterialsTableBody;

@@ -60,7 +60,7 @@ const content: IContent[] = [
   },
 ];
 
-const MaterailsTableHead: React.FC = () => {
+const MaterialsTableHead: React.FC = () => {
   const dispatch = useDispatch();
   const {
     sort: { order, sortBy },
@@ -111,4 +111,4 @@ const MaterailsTableHead: React.FC = () => {
   );
 };
 
-export default MaterailsTableHead;
+export default MaterialsTableHead;

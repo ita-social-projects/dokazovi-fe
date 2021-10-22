@@ -2,18 +2,18 @@ import React, { useEffect } from 'react';
 import { Paper, Table, TableContainer } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  getMatirealsAction,
+  getMaterialsAction,
   selectAdminlab,
   selectMeta,
   setStateToInit,
 } from 'models/adminlab';
-import { useStyles } from './styles/MaterailsTable.styles';
-import MaterailsTableHead from './MaterialsTableHead';
-import MaterailsTableBody from './MaterialsTableBody';
+import { useStyles } from './styles/MaterialsTable.styles';
+import MaterialsTableHead from './MaterialsTableHead';
+import MaterialsTableBody from './MaterialsTableBody';
 import MaterialsTableFilters from './MaterialsTableFilters';
 import MaterialsTablePagination from './MaterialsTablePagination';
 
-const MaterailsTable: React.FC = () => {
+const MaterialsTable: React.FC = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const { totalPages } = useSelector(selectAdminlab);
@@ -27,7 +27,7 @@ const MaterailsTable: React.FC = () => {
   );
 
   useEffect(() => {
-    dispatch(getMatirealsAction());
+    dispatch(getMaterialsAction());
   }, [filters, sort, page, size]);
 
   return (
@@ -35,8 +35,8 @@ const MaterailsTable: React.FC = () => {
       <MaterialsTableFilters />
       <Paper>
         <Table className={classes.table}>
-          <MaterailsTableHead />
-          <MaterailsTableBody />
+          <MaterialsTableHead />
+          <MaterialsTableBody />
         </Table>
       </Paper>
       {totalPages > 1 && <MaterialsTablePagination />}
@@ -44,4 +44,4 @@ const MaterailsTable: React.FC = () => {
   );
 };
 
-export default MaterailsTable;
+export default MaterialsTable;
