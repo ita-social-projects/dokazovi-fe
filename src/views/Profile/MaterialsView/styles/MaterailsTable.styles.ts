@@ -14,9 +14,4 @@ export const useStyles = makeStyles(() => ({
       fontSize: '16px',
     },
   },
-  titleCol: {
-    width: '220px',
-    maxWidth: '220px',
-    overflowX: 'hidden',
-  },
 }));

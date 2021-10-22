@@ -1,8 +1,14 @@
 import React from 'react';
-import { Button, TableBody, TableCell, TableRow } from '@material-ui/core';
+import {
+  Button,
+  Chip,
+  TableBody,
+  TableCell,
+  TableRow,
+} from '@material-ui/core';
 import { useSelector } from 'react-redux';
 import { selectAdminlab } from 'models/adminlab';
-import { useStyles } from './styles/MaterailsTable.styles';
+import { useStyles } from './styles/MaterialsTableBody.styles';
 
 const MaterailsTableBody: React.FC = () => {
   const classes = useStyles();
@@ -16,16 +22,27 @@ const MaterailsTableBody: React.FC = () => {
       directions,
       status,
       author: { firstName, lastName },
-      type: { name: typeName },
+      type: { id: typeId, name: typeName },
       uniqueViewsCounter,
       modifideViewsCounter,
     } = posts[postId];
+
+    const chipStyle = { backgroundColor: '#e0e0e0' };
+    if (typeId === 1) {
+      chipStyle.backgroundColor = '#987D7C';
+    }
+    if (typeId === 2) {
+      chipStyle.backgroundColor = '#A09CB0';
+    }
+    if (typeId === 3) {
+      chipStyle.backgroundColor = '#A3B9C9';
+    }
 
     return (
       <TableRow key={id}>
         <TableCell>{id}</TableCell>
         <TableCell className={classes.titleCol}>
-          <p>{typeName}</p>
+          <Chip label={typeName} style={chipStyle} />
           <p>{title}</p>
         </TableCell>
         {/** TODO: status */}
