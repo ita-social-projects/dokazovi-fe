@@ -45,7 +45,7 @@ const MaterialsTableFilters: React.FC = () => {
         <HighlightOffRoundedIcon fontSize="large" />
       </IconButton>
 
-      <Grid item direction="column" xs={5} sm={4} md={3} lg={2}>
+      <Grid item direction="column">
         <MaterialsFilter
           setChanges={boundedSetFilter}
           allOptions={allDirections}
@@ -53,7 +53,7 @@ const MaterialsTableFilters: React.FC = () => {
           filter={QueryTypeEnum.DIRECTIONS}
         />
       </Grid>
-      <Grid item direction="column" xs={5} sm={4} md={3} lg={2}>
+      <Grid item direction="column">
         <MaterialsFilter
           setChanges={boundedSetFilter}
           allOptions={allOrigins}
@@ -61,7 +61,7 @@ const MaterialsTableFilters: React.FC = () => {
           filter={QueryTypeEnum.ORIGINS}
         />
       </Grid>
-      <Grid item direction="column" xs={5} sm={4} md={3} lg={2}>
+      <Grid item direction="column">
         <MaterialsFilter
           setChanges={boundedSetFilter}
           allOptions={allPostTypes}
