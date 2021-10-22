@@ -83,7 +83,20 @@ const authors: ExpertResponseType[] = [
 describe('PostAuthorSeclection', () => {
   afterEach(cleanup);
 
-  it('', () => {
+  it('should render "Такого автора не знайдено" when authorsLength=0 ', () => {
+    render(
+      <PostAuthorSelection
+        authors={[]}
+        isDisplayTable
+        onAuthorTableClick={onAuthorTableClick}
+        handleOnChange={() => {}}
+        authorsLength={0}
+      />,
+    );
+    expect(screen.getByText('Такого автора не знайдено')).toBeInTheDocument();
+  });
+
+  it('rows should be clickable', () => {
     render(
       <PostAuthorSelection
         authors={authors}
