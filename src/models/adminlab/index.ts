@@ -1,7 +1,7 @@
 /* eslint-disable import/no-cycle */
 
 export {
-  adminlabReducer,
+  adminLabReducer,
   setStateToInit,
   setSort,
   setFilter,
@@ -10,4 +10,4 @@ export {
   setField,
 } from './reducers';
 export { getMaterialsAction } from './asyncActions';
-export { selectAdminlab, selectMeta } from './selectors';
+export { selectAdminLab, selectMeta } from './selectors';

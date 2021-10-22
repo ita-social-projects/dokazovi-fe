@@ -7,7 +7,7 @@ import {
 import { getAsyncActionsReducer } from '../helpers/asyncActions';
 
 import {
-  IAdminlab,
+  IAdminLab,
   IAdminPost,
   SortBy,
   Order,
@@ -20,7 +20,7 @@ import { getMaterialsAction } from './asyncActions';
 
 // так можга тягнути перегляди getUniquePostViewsCounter
 
-const initialState: IAdminlab = {
+const initialState: IAdminLab = {
   data: {
     totalPages: 0,
     postIds: [],
@@ -47,8 +47,8 @@ const initialState: IAdminlab = {
   loading: LoadingStatusEnum.idle,
 };
 
-const adminlabSlice = createSlice({
-  name: 'adminlab',
+const adminLabSlice = createSlice({
+  name: 'adminLab',
   initialState,
   reducers: {
     setStateToInit: (state) => {
@@ -97,5 +97,5 @@ export const {
   setPage,
   setFiltersToInit,
   setField,
-} = adminlabSlice.actions;
-export const adminlabReducer = adminlabSlice.reducer;
+} = adminLabSlice.actions;
+export const adminLabReducer = adminLabSlice.reducer;

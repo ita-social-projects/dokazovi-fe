@@ -7,12 +7,12 @@ import {
   TableRow,
 } from '@material-ui/core';
 import { useSelector } from 'react-redux';
-import { selectAdminlab } from 'models/adminlab';
+import { selectAdminLab } from 'models/adminLab';
 import { useStyles } from './styles/MaterialsTableBody.styles';
 
 const MaterialsTableBody: React.FC = () => {
   const classes = useStyles();
-  const { postIds, posts } = useSelector(selectAdminlab);
+  const { postIds, posts } = useSelector(selectAdminLab);
 
   const rows = postIds.map((postId) => {
     const {

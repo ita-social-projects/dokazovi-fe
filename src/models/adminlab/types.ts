@@ -10,8 +10,8 @@ export enum FieldEnum {
   TITLE = 'title',
 }
 
-export interface IAdminlab {
-  data: IAdminlabData;
+export interface IAdminLab {
+  data: IAdminLabData;
   meta: IAdminLabMeta;
   loading: LoadingStatusEnum;
   error: string | null;
@@ -44,7 +44,7 @@ export interface ISort {
   sortBy: keyof typeof SortBy;
 }
 
-export interface IAdminlabData {
+export interface IAdminLabData {
   totalPages: number;
   postIds: number[];
   posts: IPostsOBJ;

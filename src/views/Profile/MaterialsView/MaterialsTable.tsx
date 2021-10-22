@@ -3,10 +3,10 @@ import { Paper, Table, TableContainer } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 import {
   getMaterialsAction,
-  selectAdminlab,
+  selectAdminLab,
   selectMeta,
   setStateToInit,
-} from 'models/adminlab';
+} from 'models/adminLab';
 import { useStyles } from './styles/MaterialsTable.styles';
 import MaterialsTableHead from './MaterialsTableHead';
 import MaterialsTableBody from './MaterialsTableBody';
@@ -20,7 +20,7 @@ const MaterialsTable: React.FC = () => {
     getMaterialsAction,
     setStateToInit,
   ]);
-  const { totalPages } = useSelector(selectAdminlab);
+  const { totalPages } = useSelector(selectAdminLab);
   const { sort, filters, page, textFields, size } = useSelector(selectMeta);
 
   useEffect(

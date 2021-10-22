@@ -21,11 +21,11 @@ const setFilter = (
 };
 
 export const getMaterialsAction = createAsyncThunk(
-  'adminlab/getAllAdminsMatirealsAction',
+  'adminLab/getAllAdminsMaterialsAction',
   async (_, { rejectWithValue, getState }) => {
     try {
       const {
-        adminlab: {
+        adminLab: {
           meta: { sort, filters, page, size, textFields },
         },
         properties: { directions, postTypes, origins },

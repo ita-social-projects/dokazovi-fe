@@ -1,7 +1,7 @@
 import React from 'react';
 import { Pagination } from '@material-ui/lab';
 import { useSelector } from 'react-redux';
-import { selectMeta, selectAdminlab, setPage } from 'models/adminlab';
+import { selectMeta, selectAdminLab, setPage } from 'models/adminLab';
 import { useActions } from '../../../shared/hooks';
 
 import { useStyles } from './styles/MaterialsTablePagination.styles';
@@ -9,8 +9,8 @@ import { useStyles } from './styles/MaterialsTablePagination.styles';
 const MaterialsTablePagination: React.FC = () => {
   const [boundedSetPage] = useActions([setPage]);
   const { size, page } = useSelector(selectMeta);
-  const { totalPages } = useSelector(selectAdminlab);
-  const classes = useStyles(selectAdminlab);
+  const { totalPages } = useSelector(selectAdminLab);
+  const classes = useStyles(selectAdminLab);
 
   const onPageChangeEvent = (_, value: number) => {
     boundedSetPage({ page: value - 1 });

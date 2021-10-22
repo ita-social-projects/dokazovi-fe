@@ -4,7 +4,7 @@ import { Grid, IconButton } from '@material-ui/core';
 import HighlightOffRoundedIcon from '@material-ui/icons/HighlightOffRounded';
 
 import { QueryTypeEnum } from 'old/lib/types';
-import { FieldEnum } from '../../../models/adminlab/types';
+import { FieldEnum } from '../../../models/adminLab/types';
 import {
   selectDirections,
   selectOrigins,
@@ -15,7 +15,7 @@ import {
   setFiltersToInit,
   setFilter,
   setField,
-} from '../../../models/adminlab';
+} from '../../../models/adminLab';
 import { MaterialsFilter } from './MaterialsFilter';
 import { MaterialsTextField } from './MaterialsTextField';
 import { useStyles } from './styles/MaterialsTableFilters.styles';
