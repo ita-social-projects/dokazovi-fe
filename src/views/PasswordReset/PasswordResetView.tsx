@@ -27,7 +27,7 @@ const PasswordResetView = () => {
   };
 
   const passwordResetView = (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(onSubmit)} data-testid="password-reset-view">
       <Typography variant="h3">
         {`${t(langTokens.passwordForms.resetPasswordTitle)}:`}
       </Typography>

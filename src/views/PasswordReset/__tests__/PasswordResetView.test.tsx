@@ -12,17 +12,20 @@ describe('PasswordResetView tests', () => {
   it('should PasswordResetView component render', async () => {
     const { asFragment } = render(<PasswordResetView />);
 
-    await waitFor(() => expect(asFragment()).toMatchSnapshot());
+    expect(
+      await screen.findByTestId('password-reset-view'),
+    ).toBeInTheDocument();
+
+    expect(asFragment()).toMatchSnapshot();
   });
 
-  it('should form be submitted and click in submittedView work correctly', async () => {
-    const { asFragment, getByTestId } = render(<PasswordResetView />);
+  it('should render success view', async () => {
+    const { getByTestId } = render(<PasswordResetView />);
 
     const basicInput = getByTestId('basic-input');
 
     fireEvent.blur(basicInput);
     userEvent.type(basicInput, 'test@mail.com');
-    expect(basicInput).toHaveValue('test@mail.com');
 
     expect(screen.queryByTestId('submittedContainer')).not.toBeInTheDocument();
     userEvent.click(screen.getByText('Підтвердити зміни'));
@@ -31,15 +34,26 @@ describe('PasswordResetView tests', () => {
       expect(screen.getByTestId('submittedContainer')).toBeInTheDocument(),
     );
 
-    expect(asFragment()).toMatchSnapshot();
+    expect(resetPasswordRequest).toHaveBeenCalled();
+  });
 
-    expect(screen.getByText('Спробувати ще раз')).toBeInTheDocument();
+  it('should render previous step', async () => {
+    const { getByTestId } = render(<PasswordResetView />);
+
+    const basicInput = getByTestId('basic-input');
+
+    fireEvent.blur(basicInput);
+    userEvent.type(basicInput, 'test@mail.com');
+    userEvent.click(screen.getByText('Підтвердити зміни'));
+
+    await waitFor(() =>
+      expect(screen.getByText('Спробувати ще раз')).toBeInTheDocument(),
+    );
+
     userEvent.click(screen.getByText('Спробувати ще раз'));
 
     await waitFor(() =>
       expect(screen.queryByText('Спробувати ще раз')).not.toBeInTheDocument(),
     );
-
-    expect(resetPasswordRequest).toHaveBeenCalled();
   });
 });
