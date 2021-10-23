@@ -21,13 +21,15 @@ export const useStyles = makeStyles((theme) => ({
     '& > div': {
       backgroundColor: 'none',
     },
-    padding: '2px 3px 0 10px',
     '& .MuiSvgIcon-root': {
       top: 'calc(50% - 0.5em)',
       color: theme.palette.common.black,
     },
-    '& .MuiSelect-select': {
+    '& .MuiSelect-root': {
       fontFamily: 'Raleway',
+      fontWeight: '500',
+      paddingLeft: '0.5rem',
+      paddingRight: '1.5rem',
     },
   },
   filterCounter: {
