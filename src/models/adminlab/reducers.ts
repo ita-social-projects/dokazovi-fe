@@ -18,8 +18,6 @@ import {
 import { LoadingStatusEnum } from '../../old/lib/types';
 import { getMaterialsAction } from './asyncActions';
 
-// так можга тягнути перегляди getUniquePostViewsCounter
-
 const initialState: IAdminlab = {
   data: {
     totalPages: 0,
@@ -36,6 +34,7 @@ const initialState: IAdminlab = {
       directions: [],
       origins: [],
       types: [],
+      statuses: [],
     },
     page: 0,
     textFields: {

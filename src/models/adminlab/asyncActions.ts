@@ -8,6 +8,7 @@ import {
 import { mapFetchedPosts } from '../materials/asyncActions';
 import { IAdminPost, IPostsOBJ } from './types';
 import { RootStateType } from '../rootReducer';
+import { values } from 'lodash';
 
 interface IFilterOption {
   id: number;
@@ -28,7 +29,7 @@ export const getMaterialsAction = createAsyncThunk(
         adminlab: {
           meta: { sort, filters, page, size, textFields },
         },
-        properties: { directions, postTypes, origins },
+        properties: { directions, postTypes, origins, statuses },
       } = getState() as RootStateType;
       const {
         data: { content, totalPages },
@@ -39,7 +40,7 @@ export const getMaterialsAction = createAsyncThunk(
           types: setFilter(filters.types, postTypes),
           directions: setFilter(filters.directions, directions),
           origins: setFilter(filters.origins, origins),
-          statuses: [],
+          statuses: setFilter(filters.statuses, statuses),
           sort: [sort.sortBy + ',' + sort.order],
           ...textFields,
         },

@@ -37,7 +37,7 @@ const MenuProps = {
   getContentAnchorEl: null,
 };
 
-const SET_ALL_OPTIONS = 0;
+const SET_ALL_OPTIONS = -1;
 
 export const MaterialsFilter: React.FC<IMaterialsFilter> = ({
   allOptions,
@@ -58,6 +58,7 @@ export const MaterialsFilter: React.FC<IMaterialsFilter> = ({
             ? []
             : ALL_OPTIONS_IDS
           : value;
+      console.log(value);
       setChanges({ filter, options });
     }
   };
@@ -67,7 +68,7 @@ export const MaterialsFilter: React.FC<IMaterialsFilter> = ({
     return (
       <div>
         {filter}
-        {!!selected?.length && (
+        {length && (
           <label className={classes.filterCounter}>{selected?.length}</label>
         )}
       </div>
@@ -87,9 +88,9 @@ export const MaterialsFilter: React.FC<IMaterialsFilter> = ({
           renderValue={() => <FilterLabel />}
           MenuProps={MenuProps}
         >
-          <MenuItem key={0} value={0}>
+          <MenuItem key={SET_ALL_OPTIONS} value={SET_ALL_OPTIONS}>
             <Checkbox checked={selected?.length === allOptions.length} />
-            <ListItemText primary="Всі Категорії" />
+            <ListItemText primary="Всі" />
           </MenuItem>
           {allOptions.map(({ name, id }) => (
             <MenuItem key={id} value={id}>

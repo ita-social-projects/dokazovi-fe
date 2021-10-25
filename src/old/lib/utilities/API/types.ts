@@ -213,7 +213,7 @@ export type GetPostsConfigType = GetConfigType;
 
 export type GetPostsAdminConfigType = GetConfigType & {
   params: {
-    statuses: string[];
+    statuses: number[];
     author: string;
     title: string;
   };

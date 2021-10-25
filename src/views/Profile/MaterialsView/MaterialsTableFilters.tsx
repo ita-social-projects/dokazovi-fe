@@ -9,6 +9,7 @@ import {
   selectDirections,
   selectOrigins,
   selectPostTypes,
+  selectPostStatuses,
 } from '../../../models/properties';
 import {
   selectMeta,
@@ -31,6 +32,7 @@ const MaterialsTableFilters: React.FC = () => {
   const allDirections = useSelector(selectDirections);
   const allOrigins = useSelector(selectOrigins);
   const allPostTypes = useSelector(selectPostTypes);
+  const allPostStatuses = useSelector(selectPostStatuses);
   const { filters, textFields } = useSelector(selectMeta);
 
   const classes = useStyles();
@@ -56,9 +58,9 @@ const MaterialsTableFilters: React.FC = () => {
       <Grid item direction="column" xs={5} sm={4} md={3} lg={2}>
         <MaterialsFilter
           setChanges={boundedSetFilter}
-          allOptions={allOrigins}
-          selected={filters.origins}
-          filter={QueryTypeEnum.ORIGINS}
+          allOptions={allPostStatuses}
+          selected={filters.statuses}
+          filter={QueryTypeEnum.STATUSES}
         />
       </Grid>
       <Grid item direction="column" xs={5} sm={4} md={3} lg={2}>

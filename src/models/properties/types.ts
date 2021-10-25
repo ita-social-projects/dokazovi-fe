@@ -4,6 +4,7 @@ import {
   IPostTag,
   IPostType,
   IRegion,
+  IPostStatus,
 } from '../../old/lib/types';
 
 export interface IPropertiesState {
@@ -12,4 +13,5 @@ export interface IPropertiesState {
   postTags: IPostTag[];
   directions: IDirection[];
   origins: IOrigin[];
+  statuses: IPostStatus[];
 }
