@@ -94,7 +94,7 @@ export const MaterialsFilter: React.FC<IMaterialsFilter> = ({
           </MenuItem>
           {allOptions.map(({ name, id }) => (
             <MenuItem key={id} value={id}>
-              <Checkbox checked={!!selected?.find((ID) => id === ID)} />
+              <Checkbox checked={!!selected?.includes(id)} />
               <ListItemText primary={name} />
             </MenuItem>
           ))}
