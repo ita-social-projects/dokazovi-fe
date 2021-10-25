@@ -10,7 +10,7 @@ import {
   BreadcrumbsLinksType,
 } from './Basic/BasicBreadcrumbs';
 
-export interface IProps {
+interface IProps {
   origins: IOrigin[];
   type: IPostType;
   expert: { id: number; expertName: string };
