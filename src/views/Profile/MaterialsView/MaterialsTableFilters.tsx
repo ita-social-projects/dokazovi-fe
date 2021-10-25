@@ -4,7 +4,7 @@ import { Grid, IconButton } from '@material-ui/core';
 import HighlightOffRoundedIcon from '@material-ui/icons/HighlightOffRounded';
 
 import { QueryTypeEnum } from 'old/lib/types';
-import { FieldEnum } from '../../../models/adminlab/types';
+import { FieldEnum } from '../../../models/adminLab/types';
 import {
   selectDirections,
   selectOrigins,
@@ -16,7 +16,7 @@ import {
   setFiltersToInit,
   setFilter,
   setField,
-} from '../../../models/adminlab';
+} from '../../../models/adminLab';
 import { MaterialsFilter } from './MaterialsFilter';
 import { MaterialsTextField } from './MaterialsTextField';
 import { useStyles } from './styles/MaterialsTableFilters.styles';
@@ -47,7 +47,7 @@ const MaterialsTableFilters: React.FC = () => {
         <HighlightOffRoundedIcon fontSize="large" />
       </IconButton>
 
-      <Grid item direction="column" xs={5} sm={4} md={3} lg={2}>
+      <Grid item direction="column">
         <MaterialsFilter
           setChanges={boundedSetFilter}
           allOptions={allDirections}
@@ -55,7 +55,7 @@ const MaterialsTableFilters: React.FC = () => {
           filter={QueryTypeEnum.DIRECTIONS}
         />
       </Grid>
-      <Grid item direction="column" xs={5} sm={4} md={3} lg={2}>
+      <Grid item direction="column">
         <MaterialsFilter
           setChanges={boundedSetFilter}
           allOptions={allPostStatuses}
@@ -63,7 +63,7 @@ const MaterialsTableFilters: React.FC = () => {
           filter={QueryTypeEnum.STATUSES}
         />
       </Grid>
-      <Grid item direction="column" xs={5} sm={4} md={3} lg={2}>
+      <Grid item direction="column">
         <MaterialsFilter
           setChanges={boundedSetFilter}
           allOptions={allPostTypes}
