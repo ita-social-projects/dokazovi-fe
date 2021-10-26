@@ -25,7 +25,7 @@ describe('Component renders correctly', () => {
         <MemoryRouter>
           <FilterItemsList
             checkedNames="ophthalmology"
-            checked={true}
+            checked
             isDisabledFilter={false}
           />
         </MemoryRouter>
@@ -41,7 +41,7 @@ describe('Component renders correctly', () => {
         <MemoryRouter>
           <FilterItemsList
             checkedNames="ophthalmology"
-            checked={true}
+            checked
             isDisabledFilter={false}
           />
         </MemoryRouter>

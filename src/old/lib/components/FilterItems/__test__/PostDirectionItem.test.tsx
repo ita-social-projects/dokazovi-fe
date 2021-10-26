@@ -11,7 +11,7 @@ describe('Component renders correctly', () => {
         labelName="Офтальмологія"
         handleClick={handleClickMock}
         isDisabledFilter={false}
-        checked={true}
+        checked
       />,
     );
     expect(screen.getByText('Офтальмологія')).toBeInTheDocument();
@@ -23,7 +23,7 @@ describe('Component renders correctly', () => {
         labelName="Офтальмологія"
         handleClick={handleClickMock}
         isDisabledFilter={false}
-        checked={true}
+        checked
       />,
     );
     const element = container.firstElementChild;
@@ -35,7 +35,7 @@ describe('Component renders correctly', () => {
     render(
       <PostDirectionItem
         labelName="Офтальмологія"
-        isDisabledFilter={true}
+        isDisabledFilter
         checked={false}
       />,
     );
