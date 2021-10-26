@@ -35,6 +35,7 @@ export const BurgerMenu: React.FC<IBurgerMenuProps> = ({
   return (
     <div>
       <IconButton
+        data-testid="menuButton"
         className={classes.icon}
         aria-label="Open drawer"
         edge="start"
