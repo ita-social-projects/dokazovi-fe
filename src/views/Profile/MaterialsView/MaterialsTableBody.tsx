@@ -14,7 +14,6 @@ import { useStyles } from './styles/MaterialsTableBody.styles';
 
 const MaterialsTableBody: React.FC = () => {
   const classes = useStyles();
-  console.log(classes);
   const { postIds, posts } = useSelector(selectAdminLab);
 
   const rows = postIds.map((postId) => {
