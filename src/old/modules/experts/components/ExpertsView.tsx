@@ -151,14 +151,6 @@ const ExpertsView: React.FC = () => {
   };
 
   useEffect(() => {
-    setGALocation(window);
-
-    return function cleanup() {
-      fetchData(false);
-    };
-  }, []);
-
-  useEffect(() => {
     const appendExperts = (previous && previous.page < page) || page !== 0;
     if (
       !isLastPage &&
