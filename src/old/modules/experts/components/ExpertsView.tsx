@@ -54,7 +54,6 @@ const ExpertsView: React.FC = () => {
   } = useSelector(selectExperts);
   const loading = useSelector(selectExpertsLoading);
 
-  const [viewPort, setViewPort] = useState(0);
   const [page, setPage] = useState(pageNumber);
   const [checkedFiltersDirections, setCheckedFiltersDirections] = useState<
     CheckboxFormStateType
@@ -63,10 +62,26 @@ const ExpertsView: React.FC = () => {
     CheckboxFormStateType
   >();
 
+  const [pageYOffset, setPageYOffset] = useState<number>(0);
+
+  const handleScroll = () => {
+    const position: number = window.pageYOffset;
+    setPageYOffset(position);
+  };
+
+  useEffect(() => {
+    setGALocation(window);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return function cleanup() {
+      fetchData(false);
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
   const previous = usePrevious({ page });
   const query = useQuery();
   const history = useHistory();
-  const classes = useStyles();
+  const classes = useStyles({ pageYOffset });
   const { mobile } = useContext(ScreenContext);
 
   const experts = selectExpertsByIds(expertIds);
@@ -132,7 +147,6 @@ const ExpertsView: React.FC = () => {
   };
 
   const loadMore = () => {
-    setViewPort(visualViewport.pageTop);
     setPage(page + 1);
   };
 
@@ -206,7 +220,7 @@ const ExpertsView: React.FC = () => {
   }, [query.get(QueryTypeEnum.REGIONS)]);
 
   useEffect(() => {
-    window.scrollTo(0, viewPort);
+    window.scrollTo(0, pageYOffset);
   }, [experts]);
 
   const getRegions = () => {
@@ -362,29 +376,32 @@ const ExpertsView: React.FC = () => {
 
   return (
     <>
-      <PageTitle title={t(langTokens.common.experts)} />
+      <div className={classes.emptyDiv}> </div>
+      <div className={classes.headerContainer}>
+        <PageTitle title={t(langTokens.common.experts)} />
+        <Grid container direction="row">
+          <Grid item container direction="column" xs={6} sm={5} md={4} lg={3}>
+            <Typography className={classes.title} variant="h1">
+              {`${t(langTokens.experts.selectedExperts)}:`}
+            </Typography>
+          </Grid>
+          <Grid
+            className={classes.gridContainer}
+            item
+            container
+            direction="column"
+            xs={6}
+            sm={7}
+            md={8}
+            lg={9}
+          >
+            <div className={classes.selectedFiltersWraper}>{SelectedTypes}</div>
+          </Grid>
+        </Grid>
+      </div>
       <Grid container direction="row">
         <Grid item container direction="column" xs={6} sm={5} md={4} lg={3}>
-          <Typography className={classes.title} variant="h1">
-            {`${t(langTokens.experts.selectedExperts)}:`}
-          </Typography>
-        </Grid>
-        <Grid
-          className={classes.gridContainer}
-          item
-          container
-          direction="column"
-          xs={6}
-          sm={7}
-          md={8}
-          lg={9}
-        >
-          {SelectedTypes}
-        </Grid>
-      </Grid>
-      <Grid container direction="row">
-        <Grid item container direction="column" xs={6} sm={5} md={4} lg={3}>
-          {FilterCheckboxes}
+          <div className={classes.scrollabelContainer}>{FilterCheckboxes}</div>
         </Grid>
         <Grid
           className={classes.gridContainer}
