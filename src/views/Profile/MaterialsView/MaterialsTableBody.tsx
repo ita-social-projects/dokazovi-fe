@@ -1,10 +1,12 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import {
   Button,
   Chip,
   TableBody,
   TableCell,
   TableRow,
+  Tooltip,
 } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 import { selectAdminLab } from 'models/adminLab';
@@ -12,6 +14,7 @@ import { useStyles } from './styles/MaterialsTableBody.styles';
 
 const MaterialsTableBody: React.FC = () => {
   const classes = useStyles();
+  console.log(classes);
   const { postIds, posts } = useSelector(selectAdminLab);
 
   const rows = postIds.map((postId) => {
@@ -57,8 +60,24 @@ const MaterialsTableBody: React.FC = () => {
         <TableCell>{uniqueViewsCounter}</TableCell>
         <TableCell>{modifiedViewsCounter}</TableCell>
         <TableCell>
-          <Button>delete</Button>
-          <Button>edit</Button>
+          <Link to={`/edit-post?id=${id}`} target="_blank">
+            <Tooltip
+              title="Edit"
+              placement="top-end"
+              classes={{
+                tooltip: classes.customTooltip,
+              }}
+            >
+              <Button
+                variant="contained"
+                classes={{
+                  root: classes.customButton,
+                }}
+              >
+                Edit
+              </Button>
+            </Tooltip>
+          </Link>
         </TableCell>
       </TableRow>
     );
