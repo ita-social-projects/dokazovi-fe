@@ -1,12 +1,12 @@
 import React, { useContext } from 'react';
-import { Button, Box } from '@material-ui/core';
+import { Box, Button } from '@material-ui/core';
 import RefreshIcon from '@material-ui/icons/Refresh';
 import { useTranslation } from 'react-i18next';
 import { ScreenContext } from 'old/provider/MobileProvider/ScreenContext';
 import { LoadingStatusEnum, LoadMoreButtonTextType } from '../../types';
 import {
-  LOAD_POSTS_LIMIT,
   LOAD_POSTS_BY_STATUS_LIMIT,
+  LOAD_POSTS_LIMIT,
 } from '../../constants/posts';
 import { LOAD_EXPERTS_LIMIT } from '../../constants/experts';
 import { useStyles } from './LoadMoreButton.styles';
@@ -56,13 +56,7 @@ export const LoadMoreButton: React.FC<ILoadMoreButtonProps> = ({
     if (textTypeLimit === LoadMoreButtonTextType.EXPERT) {
       return t(langTokens.experts.expertGenitiveCase, { count }).toLowerCase();
     }
-    if (
-      textTypeLimit === LoadMoreButtonTextType.POST ||
-      textTypeLimit === LoadMoreButtonTextType.POST_BY_STATUS
-    ) {
-      return t(langTokens.materials.material, { count }).toLowerCase();
-    }
-    return '';
+    return t(langTokens.materials.material, { count }).toLowerCase();
   };
 
   const renderLoadControls = (): JSX.Element => {
@@ -76,6 +70,7 @@ export const LoadMoreButton: React.FC<ILoadMoreButtonProps> = ({
     control = (
       <Box className={classes.root}>
         <Button
+          data-testid="loadMore"
           className={classes.button}
           variant="outlined"
           onClick={() => {

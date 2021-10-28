@@ -31,14 +31,13 @@ export const useStyles = makeStyles((theme: Theme) => ({
     width: '100%',
     height: 80,
   },
-  content: {
-    marginTop: theme.spacing(3),
-  },
   tabRoot: {
+    minHeight: theme.spacing(7),
     padding: 0,
+    minWidth: 0,
   },
   wrapper: {
-    fontSize: 16,
+    fontSize: 14,
   },
   buttonContainer: {
     display: 'flex',
@@ -68,5 +67,17 @@ export const useStyles = makeStyles((theme: Theme) => ({
       fontWeight: 500,
       fontSize: '16px',
     },
+  },
+  tabsContainer: {
+    display: 'inline-block',
+    '&>button': {
+      margin: theme.spacing(0, 0.75),
+    },
+  },
+  container: {
+    margin: '0 auto',
+  },
+  scroller: {
+    height: 35,
   },
 }));
