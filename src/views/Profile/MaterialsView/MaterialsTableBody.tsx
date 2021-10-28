@@ -1,13 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import {
-  Button,
   Chip,
+  IconButton,
   TableBody,
   TableCell,
   TableRow,
   Tooltip,
 } from '@material-ui/core';
+import EditIcon from '@material-ui/icons/Edit';
 import { useSelector } from 'react-redux';
 import { selectAdminLab } from 'models/adminLab';
 import { useStyles } from './styles/MaterialsTableBody.styles';
@@ -61,20 +62,20 @@ const MaterialsTableBody: React.FC = () => {
         <TableCell>
           <Link to={`/edit-post?id=${id}`} target="_blank">
             <Tooltip
-              title="Edit"
+              title="Редагувати"
               placement="top-end"
               classes={{
-                tooltip: classes.customTooltip,
+                tooltip: classes.tooltip,
               }}
             >
-              <Button
-                variant="contained"
+              <IconButton
+                aria-label="Редагувати"
                 classes={{
-                  root: classes.customButton,
+                  root: classes.icon,
                 }}
               >
-                Edit
-              </Button>
+                <EditIcon />
+              </IconButton>
             </Tooltip>
           </Link>
         </TableCell>
