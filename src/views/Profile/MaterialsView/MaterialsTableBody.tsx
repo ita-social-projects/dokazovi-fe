@@ -1,11 +1,18 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Chip, TableBody, TableCell, TableRow } from '@material-ui/core';
+import {
+  Chip,
+  TableBody,
+  TableCell,
+  TableRow,
+  Typography,
+} from '@material-ui/core';
 import { Edit, Archive, Today, Person, Visibility } from '@material-ui/icons';
 import { useSelector } from 'react-redux';
 import { selectAdminLab } from 'models/adminLab';
 import { useStyles } from './styles/MaterialsTableBody.styles';
 import MaterialsActionButton from './MaterialsActionButton';
+import { PostTypeEnum } from '../../../old/lib/types';
 
 const MaterialsTableBody: React.FC = () => {
   const classes = useStyles();
@@ -24,15 +31,20 @@ const MaterialsTableBody: React.FC = () => {
       modifiedViewsCounter,
     } = posts[postId];
 
-    const chipStyle = { backgroundColor: '#e0e0e0' };
-    if (typeId === 1) {
-      chipStyle.backgroundColor = '#987d7c';
-    }
-    if (typeId === 2) {
-      chipStyle.backgroundColor = '#968ac2';
-    }
-    if (typeId === 3) {
-      chipStyle.backgroundColor = '#a3c9ad';
+    let chipClass: string;
+
+    switch (typeId) {
+      case PostTypeEnum.ARTICLE:
+        chipClass = 'article';
+        break;
+      case PostTypeEnum.VIDEO:
+        chipClass = 'video';
+        break;
+      case PostTypeEnum.DOPYS:
+        chipClass = 'post';
+        break;
+      default:
+        chipClass = 'default';
     }
 
     const handleClick = (idx) => {
@@ -44,15 +56,19 @@ const MaterialsTableBody: React.FC = () => {
       <TableRow key={id}>
         <TableCell>{id}</TableCell>
         <TableCell className={classes.titleCol}>
-          <Chip label={typeName} style={chipStyle} />
-          <p>{title}</p>
+          <Chip label={typeName} className={classes[chipClass] as string} />
+          <Typography variant="h6" component="p">
+            {title}
+          </Typography>
         </TableCell>
         {/** TODO: status */}
         <TableCell>{status}</TableCell>
         <TableCell>{modifiedAt}</TableCell>
         <TableCell>
           {directions.map((dir) => (
-            <p key={dir.label}>{dir.label}</p>
+            <Typography variant="h6" component="p" key={dir.label}>
+              {dir.label}
+            </Typography>
           ))}
         </TableCell>
         <TableCell>{`${firstName} ${lastName}`}</TableCell>

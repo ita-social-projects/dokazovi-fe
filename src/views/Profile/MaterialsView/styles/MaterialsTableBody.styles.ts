@@ -15,4 +15,16 @@ export const useStyles = makeStyles((theme: Theme) => ({
       fontFamily: 'Raleway',
     },
   },
+  default: {
+    backgroundColor: '#e0e0e0',
+  },
+  article: {
+    backgroundColor: '#987d7c',
+  },
+  video: {
+    backgroundColor: '#968ac2',
+  },
+  post: {
+    backgroundColor: '#a3c9ad',
+  },
 }));
