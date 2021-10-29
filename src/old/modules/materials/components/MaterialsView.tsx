@@ -265,7 +265,10 @@ const MaterialsView: React.FC = () => {
     query.get(QueryTypeEnum.DIRECTIONS),
   ]);
 
-  const selectedOriginsString = query.get(QueryTypeEnum.ORIGINS)?.split(',');
+  const selectedOriginsString =
+    query.get(QueryTypeEnum.ORIGINS) === '0'
+      ? stringOfOrigins().split(' ')
+      : query.get(QueryTypeEnum.ORIGINS)?.split(',');
 
   let selectedOrigins:
     | IOrigin[]
