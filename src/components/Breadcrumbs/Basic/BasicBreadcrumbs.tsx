@@ -25,7 +25,7 @@ export const BasicBreadcrumbs: React.FC<IProps> = ({
         {t(langTokens.common.main)}
       </Link>
       {breadcrumbsLinks.map(({ to, label }) => (
-        <Link className={classes.link} key={to} to={to}>
+        <Link data-testid="link" className={classes.link} key={to} to={to}>
           {label}
         </Link>
       ))}
