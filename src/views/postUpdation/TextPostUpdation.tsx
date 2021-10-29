@@ -10,7 +10,10 @@ import { sanitizeHtml } from '../../old/lib/utilities/sanitizeHtml';
 import { getAllExperts, updatePost } from '../../old/lib/utilities/API/api';
 import { IDirection, IOrigin, IPost } from '../../old/lib/types';
 import { PostCreationButtons } from '../postCreation/PostCreationButtons';
-import { ExpertResponseType, UpdateTextPostRequestType } from '../../old/lib/utilities/API/types';
+import {
+  ExpertResponseType,
+  UpdateTextPostRequestType,
+} from '../../old/lib/utilities/API/types';
 import {
   CLEAR_HTML_REG_EXP,
   CONTENT_DEBOUNCE_TIMEOUT,
@@ -173,7 +176,7 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
     authorId: authorId ?? post.author.id,
   };
 
-  const contentText = updatedPost.content.replaceAll(CLEAR_HTML_REG_EXP, '');
+  const contentText = updatedPost.content.replace(CLEAR_HTML_REG_EXP, '');
 
   const isEmpty =
     !updatedPost.title ||
@@ -300,7 +303,7 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
               onHtmlContentChange={(value) => {
                 setTyping({ ...typing, content: true });
                 handleHtmlContentChange(value);
-                if (!htmlContent.replaceAll(CLEAR_HTML_REG_EXP, '').length) {
+                if (!htmlContent.replace(CLEAR_HTML_REG_EXP, '').length) {
                   setAutoChanges(false);
                 }
               }}
@@ -320,7 +323,7 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
 
       <PostCreationButtons
         action="updating"
-        isModal={{ isEmpty, isEnoughLength, isTooLong ,hasBackGroundImg }}
+        isModal={{ isEmpty, isEnoughLength, isTooLong, hasBackGroundImg }}
         onCancelClick={() => {
           history.goBack();
         }}
