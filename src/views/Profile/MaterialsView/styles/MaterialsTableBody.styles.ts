@@ -15,14 +15,4 @@ export const useStyles = makeStyles((theme: Theme) => ({
       fontFamily: 'Raleway',
     },
   },
-  tooltip: {
-    backgroundColor: theme.palette.common.black,
-    fontFamily: 'Raleway',
-  },
-  icon: {
-    color: theme.palette.common.black,
-    '&:hover': {
-      color: theme.palette.primary.main,
-    },
-  },
 }));
