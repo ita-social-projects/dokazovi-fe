@@ -35,7 +35,9 @@ describe('PasswordResetView tests', () => {
     expect(resetPasswordRequest).toHaveBeenCalled();
   });
 
-  /*  it('should render previous step', async () => {
+  it('should render previous step', async () => {
+    jest.mock('axios');
+
     const { getByTestId } = render(<PasswordResetView />);
 
     const basicInput = getByTestId('basic-input');
@@ -44,12 +46,14 @@ describe('PasswordResetView tests', () => {
     userEvent.type(basicInput, 'test@mail.com');
     userEvent.click(screen.getByText('Підтвердити зміни'));
 
-    expect(await screen.findByText('Спробувати ще раз')).toBeInTheDocument();
+    await waitFor(() =>
+      expect(screen.getByText('Спробувати ще раз')).toBeInTheDocument(),
+    );
 
     userEvent.click(screen.getByText('Спробувати ще раз'));
 
     await waitFor(() =>
       expect(screen.queryByText('Спробувати ще раз')).not.toBeInTheDocument(),
     );
-  }); */
+  });
 });
