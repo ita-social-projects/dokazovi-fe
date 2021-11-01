@@ -12,7 +12,7 @@ import { useSelector } from 'react-redux';
 import { selectAdminLab } from 'models/adminLab';
 import { useStyles } from './styles/MaterialsTableBody.styles';
 import MaterialsActionButton from './MaterialsActionButton';
-import { PostTypeEnum } from '../../../old/lib/types';
+import { PostStatus, PostTypeEnum } from '../../../old/lib/types';
 
 const MaterialsTableBody: React.FC = () => {
   const classes = useStyles();
@@ -31,6 +31,9 @@ const MaterialsTableBody: React.FC = () => {
       modifiedViewsCounter,
     } = posts[postId];
 
+    const editPostLink = `/edit-post?id=${id}`;
+    const fullName = `${firstName} ${lastName}`;
+
     let chipClass: string;
 
     switch (typeId) {
@@ -47,6 +50,14 @@ const MaterialsTableBody: React.FC = () => {
         chipClass = 'default';
     }
 
+    const postStatuses = {
+      [PostStatus.DRAFT]: 'Чернетка',
+      [PostStatus.MODERATION_FIRST_SIGN]: 'Очікує модерації',
+      [PostStatus.MODERATION_SECOND_SIGN]: 'На модерації',
+      [PostStatus.PUBLISHED]: 'Опубліковано',
+      [PostStatus.ARCHIVED]: 'Архівний',
+    };
+
     const handleClick = (idx) => {
       // eslint-disable-next-line no-console
       console.log(idx);
@@ -62,7 +73,7 @@ const MaterialsTableBody: React.FC = () => {
           </Typography>
         </TableCell>
         {/** TODO: status */}
-        <TableCell>{status}</TableCell>
+        <TableCell>{postStatuses[status]}</TableCell>
         <TableCell>{modifiedAt}</TableCell>
         <TableCell>
           {directions.map((dir) => (
@@ -71,11 +82,11 @@ const MaterialsTableBody: React.FC = () => {
             </Typography>
           ))}
         </TableCell>
-        <TableCell>{`${firstName} ${lastName}`}</TableCell>
+        <TableCell>{fullName}</TableCell>
         <TableCell>{uniqueViewsCounter}</TableCell>
         <TableCell>{modifiedViewsCounter}</TableCell>
         <TableCell>
-          <Link to={`/edit-post?id=${id}`} target="_blank">
+          <Link to={editPostLink} target="_blank">
             <MaterialsActionButton
               title="Редагувати"
               icon={<Edit />}
