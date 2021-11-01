@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, waitFor, fireEvent } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import PasswordResetView from '../PasswordResetView';
 import { resetPasswordRequest } from '../../../old/lib/utilities/API/api';
@@ -9,12 +9,10 @@ jest.mock('../../../old/lib/utilities/API/api', () => ({
 }));
 
 describe('PasswordResetView tests', () => {
-  it('should PasswordResetView component render', async () => {
+  it('should PasswordResetView component render', () => {
     const { asFragment } = render(<PasswordResetView />);
 
-    expect(
-      await screen.findByTestId('password-reset-view'),
-    ).toBeInTheDocument();
+    expect(screen.getByTestId('password-reset-view')).toBeInTheDocument();
 
     expect(asFragment()).toMatchSnapshot();
   });
