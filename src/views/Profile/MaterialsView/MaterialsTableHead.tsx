@@ -11,7 +11,7 @@ import { selectMeta, setSort } from 'models/adminLab';
 import { useActions } from '../../../shared/hooks';
 
 interface IContent {
-  title: string;
+  label: string;
   isSortable: boolean;
   sortKey?: keyof typeof SortBy;
   initialSortOrder?: keyof typeof Order;
@@ -19,44 +19,44 @@ interface IContent {
 
 const content: IContent[] = [
   {
-    title: 'Id',
+    label: 'Id',
     isSortable: true,
     sortKey: SortBy.post_id,
   },
   {
-    title: 'Заголовок',
+    label: 'Заголовок',
     isSortable: true,
     sortKey: SortBy.title,
   },
   {
-    title: 'Статус',
+    label: 'Статус',
     isSortable: false,
   },
   {
-    title: 'Дата зміни статусу',
+    label: 'Дата зміни статусу',
     sortKey: SortBy.modified_at,
     isSortable: true,
   },
   {
-    title: 'Тема',
+    label: 'Тема',
     isSortable: false,
   },
   {
-    title: 'Автор',
+    label: 'Автор',
     isSortable: false,
   },
   {
-    title: 'К-сть переглядів, що відображається на сайті',
-    isSortable: false,
-    initialSortOrder: Order.desc,
-  },
-  {
-    title: 'Реальна к-сть переглядів',
+    label: 'К-сть переглядів, що відображається на сайті',
     isSortable: false,
     initialSortOrder: Order.desc,
   },
   {
-    title: 'Дії',
+    label: 'Реальна к-сть переглядів',
+    isSortable: false,
+    initialSortOrder: Order.desc,
+  },
+  {
+    label: 'Дії',
     isSortable: false,
   },
 ];
@@ -85,7 +85,7 @@ const MaterialsTableHead: React.FC = () => {
   const cells = content.map((cell) => {
     return (
       <TableCell
-        key={cell.title}
+        key={cell.label}
         sortDirection={sortBy === cell.sortKey ? order : false}
       >
         {cell.isSortable ? (
@@ -94,10 +94,10 @@ const MaterialsTableHead: React.FC = () => {
             direction={order}
             onClick={() => handleSort(cell)}
           >
-            {cell.title}
+            {cell.label}
           </TableSortLabel>
         ) : (
-          cell.title
+          cell.label
         )}
       </TableCell>
     );
