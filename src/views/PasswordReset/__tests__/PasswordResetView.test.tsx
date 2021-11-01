@@ -36,7 +36,9 @@ describe('PasswordResetView tests', () => {
   });
 
   it('should render previous step', async () => {
-    jest.mock('axios');
+    jest.mock('../../../old/lib/utilities/API/api', () => ({
+      resetPasswordRequest: jest.fn(),
+    }));
 
     const { getByTestId } = render(<PasswordResetView />);
 
