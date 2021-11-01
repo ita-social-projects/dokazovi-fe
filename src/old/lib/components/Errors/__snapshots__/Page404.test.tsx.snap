@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Page404 render component and match snapshot 1`] = `
+<DocumentFragment>
+  <div
+    style="margin: auto;"
+  >
+    <h1
+      class="MuiTypography-root MuiTypography-h1 MuiTypography-alignCenter"
+    >
+      На жаль, таку сторінку не знайдено.
+    </h1>
+  </div>
+</DocumentFragment>
+`;
