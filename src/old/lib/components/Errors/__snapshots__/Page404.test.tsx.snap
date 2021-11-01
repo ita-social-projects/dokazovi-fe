@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Page404 render component and match snapshot 1`] = `
+exports[`Page404 should render component and match snapshot 1`] = `
 <DocumentFragment>
   <div
     style="margin: auto;"
