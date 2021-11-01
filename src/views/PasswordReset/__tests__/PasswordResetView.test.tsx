@@ -5,7 +5,7 @@ import PasswordResetView from '../PasswordResetView';
 import { resetPasswordRequest } from '../../../old/lib/utilities/API/api';
 
 jest.mock('../../../old/lib/utilities/API/api', () => ({
-  resetPasswordRequest: jest.fn(),
+  resetPasswordRequest: jest.fn(() => Promise),
 }));
 
 describe('PasswordResetView tests', () => {
