@@ -36,13 +36,9 @@ describe('PasswordResetView tests', () => {
   });
 
   it('should render previous step', async () => {
-    jest.mock('../../../old/lib/utilities/API/api', () => ({
-      resetPasswordRequest: jest.fn(),
-    }));
+    render(<PasswordResetView />);
 
-    const { getByTestId } = render(<PasswordResetView />);
-
-    const basicInput = getByTestId('basic-input');
+    const basicInput = screen.getByTestId('basic-input');
 
     fireEvent.blur(basicInput);
     userEvent.type(basicInput, 'test@mail.com');
