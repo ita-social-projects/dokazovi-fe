@@ -36,6 +36,10 @@ describe('PasswordResetView tests', () => {
   });
 
   it('should render previous step', async () => {
+    jest.mock('../../../old/lib/utilities/API/api', () => ({
+      resetPasswordRequest: jest.fn(),
+    }));
+
     const { getByTestId } = render(<PasswordResetView />);
 
     const basicInput = getByTestId('basic-input');
@@ -44,9 +48,7 @@ describe('PasswordResetView tests', () => {
     userEvent.type(basicInput, 'test@mail.com');
     userEvent.click(screen.getByText('Підтвердити зміни'));
 
-    await waitFor(() =>
-      expect(screen.getByText('Спробувати ще раз')).toBeInTheDocument(),
-    );
+    expect(await screen.findByText('Спробувати ще раз')).toBeInTheDocument();
 
     userEvent.click(screen.getByText('Спробувати ще раз'));
 
