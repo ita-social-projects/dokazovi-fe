@@ -9,11 +9,11 @@ jest.mock('../../../old/lib/utilities/API/api', () => ({
 }));
 
 describe('PasswordResetView tests', () => {
-  it('should PasswordResetView component render', () => {
+  it('should PasswordResetView component render', async () => {
     const { asFragment } = render(<PasswordResetView />);
-
-    expect(screen.getByTestId('password-reset-view')).toBeInTheDocument();
-
+    await waitFor(() => {
+      expect(screen.getByTestId('password-reset-view')).toBeInTheDocument();
+    });
     expect(asFragment()).toMatchSnapshot();
   });
 
