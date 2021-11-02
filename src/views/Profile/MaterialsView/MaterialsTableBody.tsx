@@ -82,8 +82,8 @@ const MaterialsTableBody: React.FC = () => {
           ))}
         </TableCell>
         <TableCell>{fullName}</TableCell>
-        <TableCell>{uniqueViewsCounter}</TableCell>
         <TableCell>{modifiedViewsCounter}</TableCell>
+        <TableCell>{uniqueViewsCounter}</TableCell>
         <TableCell>
           <Link to={editPostLink} target="_blank">
             <MaterialsActionButton
