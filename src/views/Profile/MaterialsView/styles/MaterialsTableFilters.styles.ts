@@ -1,6 +1,6 @@
-import { makeStyles } from '@material-ui/core';
+import { makeStyles, Theme } from '@material-ui/core';
 
-export const useStyles = makeStyles(() => ({
+export const useStyles = makeStyles((theme: Theme) => ({
   filterSection: {
     backgroundColor: 'white',
     padding: '7px 30px 7px 30px',
@@ -11,5 +11,9 @@ export const useStyles = makeStyles(() => ({
   },
   clearButton: {
     padding: 0,
+    color: theme.palette.common.black,
+    '&:hover': {
+      color: theme.palette.action.hover,
+    },
   },
 }));

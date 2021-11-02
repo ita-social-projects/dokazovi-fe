@@ -7,12 +7,12 @@ export const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.common.white,
     marginLeft: '0.5rem',
     marginRight: '0.5rem',
-    borderWidth: '2px',
+    borderWidth: '3px',
     borderStyle: 'solid',
     borderColor: theme.palette.common.black,
     '&:hover': {
-      backgroundColor: theme.palette.primary.main,
-      borderColor: theme.palette.primary.main,
+      backgroundColor: theme.palette.action.hover,
+      borderColor: theme.palette.action.hover,
     },
     '&:active': {
       backgroundColor: theme.palette.primary.main,
@@ -27,13 +27,13 @@ export const useStyles = makeStyles((theme) => ({
     },
     '& .MuiSelect-root': {
       fontFamily: 'Raleway',
-      fontWeight: '500',
+      fontWeight: '600',
       paddingLeft: '0.5rem',
       paddingRight: '1.5rem',
     },
   },
   filterCounter: {
-    backgroundColor: 'black',
+    backgroundColor: theme.palette.common.black,
     color: 'white',
     borderRadius: '1rem',
     marginLeft: 7,

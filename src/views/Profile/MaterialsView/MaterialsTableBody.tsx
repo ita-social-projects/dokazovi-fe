@@ -1,14 +1,18 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import {
-  Button,
   Chip,
   TableBody,
   TableCell,
   TableRow,
+  Typography,
 } from '@material-ui/core';
+import { Edit, Archive, Today, Person, Visibility } from '@material-ui/icons';
 import { useSelector } from 'react-redux';
 import { selectAdminLab } from 'models/adminLab';
 import { useStyles } from './styles/MaterialsTableBody.styles';
+import MaterialsActionButton from './MaterialsActionButton';
+import { PostStatus, PostTypeEnum } from '../../../old/lib/types';
 
 const MaterialsTableBody: React.FC = () => {
   const classes = useStyles();
@@ -27,38 +31,87 @@ const MaterialsTableBody: React.FC = () => {
       modifiedViewsCounter,
     } = posts[postId];
 
-    const chipStyle = { backgroundColor: '#e0e0e0' };
-    if (typeId === 1) {
-      chipStyle.backgroundColor = '#987d7c';
+    const editPostLink = `/edit-post?id=${id}`;
+    const fullName = `${firstName} ${lastName}`;
+
+    let chipClass: string;
+
+    switch (typeId) {
+      case PostTypeEnum.ARTICLE:
+        chipClass = 'article';
+        break;
+      case PostTypeEnum.VIDEO:
+        chipClass = 'video';
+        break;
+      case PostTypeEnum.DOPYS:
+        chipClass = 'post';
+        break;
+      default:
+        chipClass = 'default';
     }
-    if (typeId === 2) {
-      chipStyle.backgroundColor = '#968ac2';
-    }
-    if (typeId === 3) {
-      chipStyle.backgroundColor = '#a3c9ad';
-    }
+
+    const postStatuses = {
+      [PostStatus.DRAFT]: 'Чернетка',
+      [PostStatus.MODERATION_FIRST_SIGN]: 'Не переглянутий',
+      [PostStatus.MODERATION_SECOND_SIGN]: 'На модерації',
+      [PostStatus.PUBLISHED]: 'Опублікований',
+      [PostStatus.ARCHIVED]: 'Архівований',
+    };
+
+    const handleClick = (idx) => {
+      // eslint-disable-next-line no-console
+      console.log(idx);
+    };
 
     return (
       <TableRow key={id}>
         <TableCell>{id}</TableCell>
         <TableCell className={classes.titleCol}>
-          <Chip label={typeName} style={chipStyle} />
-          <p>{title}</p>
+          <Chip label={typeName} className={classes[chipClass] as string} />
+          <Typography variant="h6" component="p">
+            {title}
+          </Typography>
         </TableCell>
-        {/** TODO: status */}
-        <TableCell>{status}</TableCell>
+        <TableCell>{postStatuses[status]}</TableCell>
         <TableCell>{modifiedAt}</TableCell>
         <TableCell>
           {directions.map((dir) => (
-            <p key={dir.label}>{dir.label}</p>
+            <Typography variant="h6" component="p" key={dir.label}>
+              {dir.label}
+            </Typography>
           ))}
         </TableCell>
-        <TableCell>{`${firstName} ${lastName}`}</TableCell>
-        <TableCell>{uniqueViewsCounter}</TableCell>
+        <TableCell>{fullName}</TableCell>
         <TableCell>{modifiedViewsCounter}</TableCell>
+        <TableCell>{uniqueViewsCounter}</TableCell>
         <TableCell>
-          <Button>delete</Button>
-          <Button>edit</Button>
+          <Link to={editPostLink} target="_blank">
+            <MaterialsActionButton
+              title="Редагувати"
+              icon={<Edit />}
+              onClick={() => handleClick(id)}
+            />
+          </Link>
+          <MaterialsActionButton
+            title="Архівувати"
+            icon={<Archive />}
+            onClick={() => handleClick(id)}
+          />
+          <MaterialsActionButton
+            title="Змінити дату публікації"
+            icon={<Today />}
+            onClick={() => handleClick(id)}
+          />
+          <MaterialsActionButton
+            title="Змінити автора"
+            icon={<Person />}
+            onClick={() => handleClick(id)}
+          />
+          <MaterialsActionButton
+            title="Змінити кількість переглядів"
+            icon={<Visibility />}
+            onClick={() => handleClick(id)}
+          />
         </TableCell>
       </TableRow>
     );

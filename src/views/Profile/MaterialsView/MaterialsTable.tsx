@@ -35,16 +35,16 @@ const MaterialsTable: React.FC = () => {
   }, [filters, sort, page, textFields, size]);
 
   return (
-    <TableContainer>
+    <>
       <MaterialsTableFilters />
-      <Paper>
+      <TableContainer component={Paper}>
         <Table className={classes.table}>
           <MaterialsTableHead />
           <MaterialsTableBody />
         </Table>
-      </Paper>
+      </TableContainer>
       {totalPages > 1 && <MaterialsTablePagination />}
-    </TableContainer>
+    </>
   );
 };
 

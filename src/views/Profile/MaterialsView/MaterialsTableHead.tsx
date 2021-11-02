@@ -5,13 +5,14 @@ import {
   TableRow,
   TableSortLabel,
 } from '@material-ui/core';
-import { SortBy, Order } from 'models/adminLab/types';
+import { Order, SortBy } from 'models/adminLab/types';
 import { useSelector } from 'react-redux';
 import { selectMeta, setSort } from 'models/adminLab';
 import { useActions } from '../../../shared/hooks';
+import { useStyles } from './styles/MaterialsTableHead.styles';
 
 interface IContent {
-  title: string;
+  label: string;
   isSortable: boolean;
   sortKey?: keyof typeof SortBy;
   initialSortOrder?: keyof typeof Order;
@@ -19,85 +20,87 @@ interface IContent {
 
 const content: IContent[] = [
   {
-    title: 'Id',
+    label: 'Id',
     isSortable: true,
     sortKey: SortBy.post_id,
   },
   {
-    title: 'Заголовок',
+    label: 'Заголовок',
     isSortable: true,
     sortKey: SortBy.title,
   },
   {
-    title: 'Статус',
-    isSortable: false,
+    label: 'Статус',
+    isSortable: true,
+    sortKey: SortBy.status,
   },
   {
-    title: 'Дата зміни статусу',
+    label: 'Дата зміни статусу',
     sortKey: SortBy.modified_at,
     isSortable: true,
+    initialSortOrder: Order.desc,
   },
   {
-    title: 'Тема',
+    label: 'Тема',
     isSortable: false,
   },
   {
-    title: 'Автор',
+    label: 'Автор',
     isSortable: false,
   },
   {
-    title: 'К-сть переглядів, що відображається на сайті',
+    label: 'К-сть переглядів, що відображається на сайті',
     isSortable: false,
     initialSortOrder: Order.desc,
   },
   {
-    title: 'Реальна к-сть переглядів',
+    label: 'Реальна к-сть переглядів',
     isSortable: false,
     initialSortOrder: Order.desc,
   },
   {
-    title: 'Дії',
+    label: 'Дії',
     isSortable: false,
   },
 ];
 
 const MaterialsTableHead: React.FC = () => {
+  const classes = useStyles();
   const [boundedSetSort] = useActions([setSort]);
   const {
     sort: { order, sortBy },
   } = useSelector(selectMeta);
 
   const handleSort = (cell: IContent) => {
-    let newOrder: keyof typeof Order = cell.initialSortOrder
-      ? cell.initialSortOrder
-      : Order.asc;
+    const { sortKey, initialSortOrder } = cell;
+    let newOrder: keyof typeof Order = initialSortOrder || Order.asc;
 
-    if (cell.sortKey === sortBy) {
+    if (sortKey === sortBy) {
       newOrder = order === Order.desc ? Order.asc : Order.desc;
     }
 
     boundedSetSort({
-      sortBy: cell.sortKey as keyof typeof SortBy,
+      sortBy: sortKey as keyof typeof SortBy,
       order: newOrder,
     });
   };
 
   const cells = content.map((cell) => {
+    const { label, isSortable, sortKey } = cell;
+
     return (
-      <TableCell
-        key={cell.title}
-        sortDirection={sortBy === cell.sortKey ? order : false}
-      >
-        {cell.isSortable ? (
+      <TableCell key={label} sortDirection={sortBy === sortKey ? order : false}>
+        {isSortable ? (
           <TableSortLabel
-            active={sortBy === cell.sortKey}
+            active={sortBy === sortKey}
             direction={order}
+            className={classes.sortable}
             onClick={() => handleSort(cell)}
           >
-            {cell.title}
+            {label}
           </TableSortLabel>
         ) : (
-          cell.title
+          label
         )}
       </TableCell>
     );
