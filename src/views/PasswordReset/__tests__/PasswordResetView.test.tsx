@@ -7,6 +7,11 @@ import PasswordResetView from '../PasswordResetView';
 import * as api from '../../../old/lib/utilities/API/api';
 
 describe('PasswordResetView tests', () => {
+  beforeEach(() => {
+    const mockAxios = new MockAdapter(axios);
+    mockAxios.onPost('/user/reset-password').reply(200, {});
+  });
+
   it('should PasswordResetView component render', async () => {
     const { asFragment } = render(<PasswordResetView />);
 
@@ -38,9 +43,6 @@ describe('PasswordResetView tests', () => {
   });
 
   it('should render previous step', async () => {
-    const mockAxios = new MockAdapter(axios);
-    mockAxios.onPost('/user/reset-password').reply(200, {});
-
     const { getByTestId } = render(<PasswordResetView />);
 
     const basicInput = getByTestId('basic-input');
