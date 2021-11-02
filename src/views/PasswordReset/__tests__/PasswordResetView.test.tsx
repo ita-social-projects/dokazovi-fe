@@ -36,9 +36,7 @@ describe('PasswordResetView tests', () => {
   });
 
   it('should render previous step', async () => {
-    jest.mock('../../../old/lib/utilities/API/api', () => ({
-      resetPasswordRequest: jest.fn(),
-    }));
+    const resetPasswordRequest = jest.spyOn(api, 'resetPasswordRequest');
 
     const { getByTestId } = render(<PasswordResetView />);
 
@@ -57,5 +55,6 @@ describe('PasswordResetView tests', () => {
     await waitFor(() =>
       expect(screen.queryByText('Спробувати ще раз')).not.toBeInTheDocument(),
     );
+    expect(resetPasswordRequest).toHaveBeenCalled();
   });
 });
