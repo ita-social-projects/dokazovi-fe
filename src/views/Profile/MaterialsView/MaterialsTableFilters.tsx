@@ -41,7 +41,6 @@ const MaterialsTableFilters: React.FC = () => {
     <Grid className={classes.filterSection} container direction="row">
       <IconButton
         onClick={boundedSetFiltersToInit}
-        color="primary"
         className={classes.clearButton}
       >
         <HighlightOffRoundedIcon fontSize="large" />

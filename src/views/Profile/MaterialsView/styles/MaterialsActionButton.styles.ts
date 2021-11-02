@@ -9,7 +9,7 @@ export const useStyles = makeStyles((theme: Theme) => ({
     padding: 0,
     color: theme.palette.common.black,
     '&:hover': {
-      color: theme.palette.primary.main,
+      color: theme.palette.action.hover,
     },
   },
 }));

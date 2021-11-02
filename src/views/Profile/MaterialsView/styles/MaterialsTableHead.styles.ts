@@ -6,5 +6,8 @@ export const useStyles = makeStyles((theme: Theme) => ({
     '&.MuiTableSortLabel-active': {
       color: theme.palette.info.light,
     },
+    '&:hover': {
+      color: theme.palette.action.hover,
+    },
   },
 }));
