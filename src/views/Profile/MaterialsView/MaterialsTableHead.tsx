@@ -68,36 +68,34 @@ const MaterialsTableHead: React.FC = () => {
   } = useSelector(selectMeta);
 
   const handleSort = (cell: IContent) => {
-    let newOrder: keyof typeof Order = cell.initialSortOrder
-      ? cell.initialSortOrder
-      : Order.asc;
+    const { sortKey, initialSortOrder } = cell;
+    let newOrder: keyof typeof Order = initialSortOrder || Order.asc;
 
-    if (cell.sortKey === sortBy) {
+    if (sortKey === sortBy) {
       newOrder = order === Order.desc ? Order.asc : Order.desc;
     }
 
     boundedSetSort({
-      sortBy: cell.sortKey as keyof typeof SortBy,
+      sortBy: sortKey as keyof typeof SortBy,
       order: newOrder,
     });
   };
 
   const cells = content.map((cell) => {
+    const { label, isSortable, sortKey } = cell;
+
     return (
-      <TableCell
-        key={cell.label}
-        sortDirection={sortBy === cell.sortKey ? order : false}
-      >
-        {cell.isSortable ? (
+      <TableCell key={label} sortDirection={sortBy === sortKey ? order : false}>
+        {isSortable ? (
           <TableSortLabel
-            active={sortBy === cell.sortKey}
+            active={sortBy === sortKey}
             direction={order}
             onClick={() => handleSort(cell)}
           >
-            {cell.label}
+            {label}
           </TableSortLabel>
         ) : (
-          cell.label
+          label
         )}
       </TableCell>
     );

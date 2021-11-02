@@ -52,10 +52,10 @@ const MaterialsTableBody: React.FC = () => {
 
     const postStatuses = {
       [PostStatus.DRAFT]: 'Чернетка',
-      [PostStatus.MODERATION_FIRST_SIGN]: 'Очікує модерації',
+      [PostStatus.MODERATION_FIRST_SIGN]: 'Не переглянутий',
       [PostStatus.MODERATION_SECOND_SIGN]: 'На модерації',
-      [PostStatus.PUBLISHED]: 'Опубліковано',
-      [PostStatus.ARCHIVED]: 'Архівний',
+      [PostStatus.PUBLISHED]: 'Опублікований',
+      [PostStatus.ARCHIVED]: 'Архівований',
     };
 
     const handleClick = (idx) => {
@@ -72,7 +72,6 @@ const MaterialsTableBody: React.FC = () => {
             {title}
           </Typography>
         </TableCell>
-        {/** TODO: status */}
         <TableCell>{postStatuses[status]}</TableCell>
         <TableCell>{modifiedAt}</TableCell>
         <TableCell>
