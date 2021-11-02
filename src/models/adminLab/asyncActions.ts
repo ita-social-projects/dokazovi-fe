@@ -3,6 +3,8 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 
 import {
   getUniquePostViewsCounter,
+  getFakePostViewsCounter,
+  archivePost,
   getAdminPosts,
 } from '../../old/lib/utilities/API/api';
 import { mapFetchedPosts } from '../materials/asyncActions';
@@ -52,7 +54,7 @@ export const getMaterialsAction = createAsyncThunk(
           return {
             ...post,
             uniqueViewsCounter: data,
-            modifiedViewsCounter: 4 + data,
+            modifiedViewsCounter: data + 4,
           };
         }),
       );
@@ -68,6 +70,19 @@ export const getMaterialsAction = createAsyncThunk(
         posts,
         postIds,
       };
+    } catch (error) {
+      return rejectWithValue(error.response?.data);
+    }
+  },
+);
+
+export const archiveAdminPost = createAsyncThunk(
+  'adminLab/archivePost',
+  async (options: { id: number }, { rejectWithValue, getState }) => {
+    try {
+      const { id } = options;
+      const { data } = await archivePost(id);
+      return id;
     } catch (error) {
       return rejectWithValue(error.response?.data);
     }

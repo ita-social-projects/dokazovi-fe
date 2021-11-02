@@ -16,7 +16,7 @@ import {
   IField,
 } from './types';
 import { LoadingStatusEnum } from '../../old/lib/types';
-import { getMaterialsAction } from './asyncActions';
+import { getMaterialsAction, archiveAdminPost } from './asyncActions';
 
 // так можга тягнути перегляди getUniquePostViewsCounter
 
@@ -87,6 +87,13 @@ const adminLabSlice = createSlice({
   },
   extraReducers: {
     ...getAsyncActionsReducer(getMaterialsAction as any),
+    ...getAsyncActionsReducer(archiveAdminPost as any),
+    [archiveAdminPost.pending.type]: (state, action: PayloadAction<string>) => {
+      state.data.posts[action.payload] = {
+        ...state.data.posts[action.payload],
+        status: 'ARCHIVED',
+      };
+    },
   },
 });
 

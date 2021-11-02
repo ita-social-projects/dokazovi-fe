@@ -58,7 +58,6 @@ export const MaterialsFilter: React.FC<IMaterialsFilter> = ({
             ? []
             : ALL_OPTIONS_IDS
           : value;
-      console.log(value);
       setChanges({ filter, options });
     }
   };
@@ -68,7 +67,7 @@ export const MaterialsFilter: React.FC<IMaterialsFilter> = ({
     return (
       <div>
         {filter}
-        {length && (
+        {!!length && (
           <label className={classes.filterCounter}>{selected?.length}</label>
         )}
       </div>
