@@ -1,14 +1,14 @@
 import React from 'react';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import PasswordResetView from '../PasswordResetView';
 import * as api from '../../../old/lib/utilities/API/api';
+import { instance } from '../../../old/lib/utilities/API/api';
 
 describe('PasswordResetView tests', () => {
   beforeEach(() => {
-    const mockAxios = new MockAdapter(axios);
+    const mockAxios = new MockAdapter(instance);
     mockAxios.onPost('/user/reset-password').reply(200, {});
   });
 
