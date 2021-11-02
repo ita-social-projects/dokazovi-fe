@@ -5,7 +5,7 @@ import {
   TableRow,
   TableSortLabel,
 } from '@material-ui/core';
-import { SortBy, Order } from 'models/adminLab/types';
+import { Order, SortBy } from 'models/adminLab/types';
 import { useSelector } from 'react-redux';
 import { selectMeta, setSort } from 'models/adminLab';
 import { useActions } from '../../../shared/hooks';
@@ -37,6 +37,7 @@ const content: IContent[] = [
     label: 'Дата зміни статусу',
     sortKey: SortBy.modified_at,
     isSortable: true,
+    initialSortOrder: Order.desc,
   },
   {
     label: 'Тема',
