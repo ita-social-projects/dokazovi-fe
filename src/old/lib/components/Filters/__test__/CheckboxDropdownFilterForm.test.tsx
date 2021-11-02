@@ -37,9 +37,9 @@ describe('CheckboxDropdownFilterForm tests', () => {
             possibleFilters={possibleFiltersMock}
             selectedFilters={[]}
             filterTitle={filterTitleMock}
-            noAll={true}
+            noAll
             maximumReached={false}
-            isRequired={true}
+            isRequired
           />
         </MemoryRouter>
       </Provider>,
@@ -93,7 +93,7 @@ describe('Checkbox selection tests', () => {
             onFormChange={formChangeHandlerMock}
             possibleFilters={possibleFiltersMock}
             filterTitle={filterTitleMock}
-            noAll={true}
+            noAll
           />
         </MemoryRouter>
       </Provider>,
