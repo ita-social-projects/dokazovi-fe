@@ -9,6 +9,7 @@ import { SortBy, Order } from 'models/adminLab/types';
 import { useSelector } from 'react-redux';
 import { selectMeta, setSort } from 'models/adminLab';
 import { useActions } from '../../../shared/hooks';
+import { useStyles } from './styles/MaterialsTableHead.styles';
 
 interface IContent {
   label: string;
@@ -62,6 +63,7 @@ const content: IContent[] = [
 ];
 
 const MaterialsTableHead: React.FC = () => {
+  const classes = useStyles();
   const [boundedSetSort] = useActions([setSort]);
   const {
     sort: { order, sortBy },
@@ -90,6 +92,7 @@ const MaterialsTableHead: React.FC = () => {
           <TableSortLabel
             active={sortBy === sortKey}
             direction={order}
+            className={classes.sortable}
             onClick={() => handleSort(cell)}
           >
             {label}
