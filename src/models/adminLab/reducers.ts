@@ -88,7 +88,10 @@ const adminLabSlice = createSlice({
   extraReducers: {
     ...getAsyncActionsReducer(getMaterialsAction as any),
     ...getAsyncActionsReducer(archiveAdminPost as any),
-    [archiveAdminPost.pending.type]: (state, action: PayloadAction<string>) => {
+    [archiveAdminPost.fulfilled.type]: (
+      state,
+      action: PayloadAction<string>,
+    ) => {
       state.data.posts[action.payload] = {
         ...state.data.posts[action.payload],
         status: 'ARCHIVED',

@@ -163,11 +163,7 @@ export const getFakePostViewsCounter = async (
 export const archivePost = async (
   id: number,
 ): Promise<AxiosResponse<boolean>> => {
-  return instance.delete('/api/post', {
-    params: {
-      url: `/posts/${id}`,
-    },
-  });
+  return instance.delete(`/post/${id}`);
 };
 
 export const getPostById = async (

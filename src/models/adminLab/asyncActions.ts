@@ -81,6 +81,7 @@ export const archiveAdminPost = createAsyncThunk(
   async (options: { id: number }, { rejectWithValue, getState }) => {
     try {
       const { id } = options;
+      console.log(id);
       const { data } = await archivePost(id);
       return id;
     } catch (error) {
