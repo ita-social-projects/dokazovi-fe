@@ -31,7 +31,8 @@ const content: IContent[] = [
   },
   {
     label: 'Статус',
-    isSortable: false,
+    isSortable: true,
+    sortKey: SortBy.status,
   },
   {
     label: 'Дата зміни статусу',
