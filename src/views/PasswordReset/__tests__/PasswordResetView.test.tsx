@@ -40,7 +40,7 @@ describe('PasswordResetView tests', () => {
       resetPasswordRequest: jest.fn(),
     }));
 
-    const { getByTestId, asFragment } = render(<PasswordResetView />);
+    const { getByTestId } = render(<PasswordResetView />);
 
     const basicInput = getByTestId('basic-input');
 
@@ -54,6 +54,8 @@ describe('PasswordResetView tests', () => {
 
     userEvent.click(screen.getByText('Спробувати ще раз'));
 
-    await waitFor(() => expect(asFragment()).toMatchSnapshot());
+    await waitFor(() =>
+      expect(screen.queryByText('Спробувати ще раз')).not.toBeInTheDocument(),
+    );
   });
 });
