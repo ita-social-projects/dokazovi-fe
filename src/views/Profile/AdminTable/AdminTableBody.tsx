@@ -10,12 +10,12 @@ import {
 import { Edit, Archive, Today, Person, Visibility } from '@material-ui/icons';
 import { useSelector } from 'react-redux';
 import { selectAdminLab, archiveAdminPost } from 'models/adminLab';
-import { useStyles } from './styles/MaterialsTableBody.styles';
-import MaterialsActionButton from './MaterialsActionButton';
+import { useStyles } from './styles/AdminTableBody.styles';
+import AdminActionButton from './AdminActionButton';
 import { PostStatus, PostTypeEnum } from '../../../old/lib/types';
 import { useActions } from '../../../shared/hooks';
 
-const MaterialsTableBody: React.FC = () => {
+const AdminTableBody: React.FC = () => {
   const classes = useStyles();
   const { postIds, posts } = useSelector(selectAdminLab);
   const [boundedArchiveAdminPost] = useActions([archiveAdminPost]);
@@ -88,28 +88,28 @@ const MaterialsTableBody: React.FC = () => {
         <TableCell>{uniqueViewsCounter}</TableCell>
         <TableCell>
           <Link to={editPostLink} target="_blank">
-            <MaterialsActionButton
+            <AdminActionButton
               title="Редагувати"
               icon={<Edit />}
               onClick={() => handleClick(id)}
             />
           </Link>
-          <MaterialsActionButton
+          <AdminActionButton
             title="Архівувати"
             icon={<Archive />}
             onClick={() => boundedArchiveAdminPost({ id })}
           />
-          <MaterialsActionButton
+          <AdminActionButton
             title="Змінити дату публікації"
             icon={<Today />}
             onClick={() => handleClick(id)}
           />
-          <MaterialsActionButton
+          <AdminActionButton
             title="Змінити автора"
             icon={<Person />}
             onClick={() => handleClick(id)}
           />
-          <MaterialsActionButton
+          <AdminActionButton
             title="Змінити кількість переглядів"
             icon={<Visibility />}
             onClick={() => handleClick(id)}
@@ -122,4 +122,4 @@ const MaterialsTableBody: React.FC = () => {
   return <TableBody>{rows}</TableBody>;
 };
 
-export default MaterialsTableBody;
+export default AdminTableBody;

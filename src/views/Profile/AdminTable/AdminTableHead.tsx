@@ -9,7 +9,7 @@ import { Order, SortBy } from 'models/adminLab/types';
 import { useSelector } from 'react-redux';
 import { selectMeta, setSort } from 'models/adminLab';
 import { useActions } from '../../../shared/hooks';
-import { useStyles } from './styles/MaterialsTableHead.styles';
+import { useStyles } from './styles/AdminTableHead.styles';
 
 interface IContent {
   label: string;
@@ -31,8 +31,7 @@ const content: IContent[] = [
   },
   {
     label: 'Статус',
-    isSortable: true,
-    sortKey: SortBy.status,
+    isSortable: false,
   },
   {
     label: 'Дата зміни статусу',
@@ -64,7 +63,7 @@ const content: IContent[] = [
   },
 ];
 
-const MaterialsTableHead: React.FC = () => {
+const AdminTableHead: React.FC = () => {
   const classes = useStyles();
   const [boundedSetSort] = useActions([setSort]);
   const {
@@ -113,4 +112,4 @@ const MaterialsTableHead: React.FC = () => {
   );
 };
 
-export default MaterialsTableHead;
+export default AdminTableHead;

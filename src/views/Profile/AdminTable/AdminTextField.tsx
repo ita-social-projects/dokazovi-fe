@@ -9,7 +9,7 @@ interface IMaterialsTextField {
   setChanges: (payload: IField) => void;
 }
 
-export const MaterialsTextField: React.FC<IMaterialsTextField> = ({
+export const AdminTextField: React.FC<IMaterialsTextField> = ({
   value,
   field,
   setChanges,

@@ -10,7 +10,7 @@ import { useTranslation } from 'react-i18next';
 import { QueryTypeEnum } from 'old/lib/types';
 
 import { defaultPlural, langTokens } from '../../../locales/localizationInit';
-import { useStyles } from './styles/MaterialsFilter.styles';
+import { useStyles } from './styles/AdminFilter.styles';
 
 type VerticalType = number | 'bottom' | 'top' | 'center';
 type HorizontalType = number | 'center' | 'left' | 'right';
@@ -39,7 +39,7 @@ const MenuProps = {
 
 const SET_ALL_OPTIONS = -1;
 
-export const MaterialsFilter: React.FC<IMaterialsFilter> = ({
+export const AdminFilter: React.FC<IMaterialsFilter> = ({
   allOptions,
   selected,
   filter,

@@ -7,14 +7,14 @@ import {
   selectMeta,
   setStateToInit,
 } from 'models/adminLab';
-import { useStyles } from './styles/MaterialsTable.styles';
-import MaterialsTableHead from './MaterialsTableHead';
-import MaterialsTableBody from './MaterialsTableBody';
-import MaterialsTableFilters from './MaterialsTableFilters';
-import MaterialsTablePagination from './MaterialsTablePagination';
+import { useStyles } from './styles/AdminTable.styles';
+import AdminTableHead from './AdminTableHead';
+import AdminTableBody from './AdminTableBody';
+import AdminTableFilters from './AdminTableFilters';
+import AdminTablePagination from './AdminTablePagination';
 import { useActions } from '../../../shared/hooks';
 
-const MaterialsTable: React.FC = () => {
+const AdminTable: React.FC = () => {
   const classes = useStyles();
   const [boundedGetMaterialsAction, boundedSetStateToInit] = useActions([
     getMaterialsAction,
@@ -36,16 +36,16 @@ const MaterialsTable: React.FC = () => {
 
   return (
     <>
-      <MaterialsTableFilters />
+      <AdminTableFilters />
       <TableContainer component={Paper}>
         <Table className={classes.table}>
-          <MaterialsTableHead />
-          <MaterialsTableBody />
+          <AdminTableHead />
+          <AdminTableBody />
         </Table>
       </TableContainer>
-      {totalPages > 1 && <MaterialsTablePagination />}
+      {totalPages > 1 && <AdminTablePagination />}
     </>
   );
 };
 
-export default MaterialsTable;
+export default AdminTable;

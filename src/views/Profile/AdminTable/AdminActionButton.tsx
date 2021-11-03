@@ -1,6 +1,6 @@
 import React from 'react';
 import { IconButton, Tooltip } from '@material-ui/core';
-import { useStyles } from './styles/MaterialsActionButton.styles';
+import { useStyles } from './styles/AdminActionButton.styles';
 
 interface IMaterialsActionButton {
   title: string;
@@ -8,7 +8,7 @@ interface IMaterialsActionButton {
   onClick: (number) => void;
 }
 
-const MaterialsActionButton: React.FC<IMaterialsActionButton> = ({
+const AdminActionButton: React.FC<IMaterialsActionButton> = ({
   title,
   icon,
   onClick,
@@ -36,4 +36,4 @@ const MaterialsActionButton: React.FC<IMaterialsActionButton> = ({
   );
 };
 
-export default MaterialsActionButton;
+export default AdminActionButton;

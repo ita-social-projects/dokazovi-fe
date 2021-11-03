@@ -17,12 +17,12 @@ import {
   setFilter,
   setField,
 } from '../../../models/adminLab';
-import { MaterialsFilter } from './MaterialsFilter';
-import { MaterialsTextField } from './MaterialsTextField';
-import { useStyles } from './styles/MaterialsTableFilters.styles';
+import { AdminFilter } from './AdminFilter';
+import { AdminTextField } from './AdminTextField';
+import { useStyles } from './styles/AdminTableFilters.styles';
 import { useActions } from '../../../shared/hooks';
 
-const MaterialsTableFilters: React.FC = () => {
+const AdminTableFilters: React.FC = () => {
   const [
     boundedSetFilter,
     boundedSetField,
@@ -47,7 +47,7 @@ const MaterialsTableFilters: React.FC = () => {
       </IconButton>
 
       <Grid item direction="column">
-        <MaterialsFilter
+        <AdminFilter
           setChanges={boundedSetFilter}
           allOptions={allDirections}
           selected={filters.directions}
@@ -55,7 +55,7 @@ const MaterialsTableFilters: React.FC = () => {
         />
       </Grid>
       <Grid item direction="column">
-        <MaterialsFilter
+        <AdminFilter
           setChanges={boundedSetFilter}
           allOptions={allPostStatuses}
           selected={filters.statuses}
@@ -63,7 +63,7 @@ const MaterialsTableFilters: React.FC = () => {
         />
       </Grid>
       <Grid item direction="column">
-        <MaterialsFilter
+        <AdminFilter
           setChanges={boundedSetFilter}
           allOptions={allPostTypes}
           selected={filters.types}
@@ -71,14 +71,14 @@ const MaterialsTableFilters: React.FC = () => {
         />
       </Grid>
       <Grid item direction="column" xs={5} sm={4} md={3} lg={2}>
-        <MaterialsTextField
+        <AdminTextField
           value={textFields.author}
           field={FieldEnum.AUTHOR}
           setChanges={boundedSetField}
         />
       </Grid>
       <Grid item direction="column" xs={5} sm={4} md={3} lg={2}>
-        <MaterialsTextField
+        <AdminTextField
           value={textFields.title}
           field={FieldEnum.TITLE}
           setChanges={boundedSetField}
@@ -88,4 +88,4 @@ const MaterialsTableFilters: React.FC = () => {
   );
 };
 
-export default MaterialsTableFilters;
+export default AdminTableFilters;
