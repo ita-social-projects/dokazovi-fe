@@ -48,6 +48,7 @@ export const Notification: React.FC<INotificationProps> = ({ message }) => {
         {message}
       </Typography>
       <Button
+        data-testid="button"
         color="primary"
         onClick={() => history.push('/')}
         className={[classes.btnCancel, classes.btn].join(' ')}
