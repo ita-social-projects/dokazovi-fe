@@ -9,5 +9,5 @@ export {
   setFiltersToInit,
   setField,
 } from './reducers';
-export { getMaterialsAction } from './asyncActions';
+export { getMaterialsAction, archiveAdminPost } from './asyncActions';
 export { selectAdminLab, selectMeta } from './selectors';

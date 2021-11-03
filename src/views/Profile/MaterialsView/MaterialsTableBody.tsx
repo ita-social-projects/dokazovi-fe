@@ -9,14 +9,16 @@ import {
 } from '@material-ui/core';
 import { Edit, Archive, Today, Person, Visibility } from '@material-ui/icons';
 import { useSelector } from 'react-redux';
-import { selectAdminLab } from 'models/adminLab';
+import { selectAdminLab, archiveAdminPost } from 'models/adminLab';
 import { useStyles } from './styles/MaterialsTableBody.styles';
 import MaterialsActionButton from './MaterialsActionButton';
 import { PostStatus, PostTypeEnum } from '../../../old/lib/types';
+import { useActions } from '../../../shared/hooks';
 
 const MaterialsTableBody: React.FC = () => {
   const classes = useStyles();
   const { postIds, posts } = useSelector(selectAdminLab);
+  const [boundedArchiveAdminPost] = useActions([archiveAdminPost]);
 
   const rows = postIds.map((postId) => {
     const {
@@ -95,7 +97,7 @@ const MaterialsTableBody: React.FC = () => {
           <MaterialsActionButton
             title="Архівувати"
             icon={<Archive />}
-            onClick={() => handleClick(id)}
+            onClick={() => boundedArchiveAdminPost({ id })}
           />
           <MaterialsActionButton
             title="Змінити дату публікації"
