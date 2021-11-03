@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import {
   Chip,
   TableBody,
@@ -7,18 +6,15 @@ import {
   TableRow,
   Typography,
 } from '@material-ui/core';
-import { Edit, Archive, Today, Person, Visibility } from '@material-ui/icons';
 import { useSelector } from 'react-redux';
-import { selectAdminLab, archiveAdminPost } from 'models/adminLab';
+import { selectAdminLab } from 'models/adminLab';
 import { useStyles } from './styles/AdminTableBody.styles';
-import AdminActionButton from './AdminActionButton';
 import { PostStatus, PostTypeEnum } from '../../../old/lib/types';
-import { useActions } from '../../../shared/hooks';
+import ActionButtons from './ActionButtons';
 
 const AdminTableBody: React.FC = () => {
   const classes = useStyles();
   const { postIds, posts } = useSelector(selectAdminLab);
-  const [boundedArchiveAdminPost] = useActions([archiveAdminPost]);
 
   const rows = postIds.map((postId) => {
     const {
@@ -33,7 +29,6 @@ const AdminTableBody: React.FC = () => {
       modifiedViewsCounter,
     } = posts[postId];
 
-    const editPostLink = `/edit-post?id=${id}`;
     const fullName = `${firstName} ${lastName}`;
 
     let chipClass: string;
@@ -60,11 +55,6 @@ const AdminTableBody: React.FC = () => {
       [PostStatus.ARCHIVED]: 'Архівований',
     };
 
-    const handleClick = (idx) => {
-      // eslint-disable-next-line no-console
-      console.log(idx);
-    };
-
     return (
       <TableRow key={id}>
         <TableCell>{id}</TableCell>
@@ -87,33 +77,7 @@ const AdminTableBody: React.FC = () => {
         <TableCell>{modifiedViewsCounter}</TableCell>
         <TableCell>{uniqueViewsCounter}</TableCell>
         <TableCell>
-          <Link to={editPostLink} target="_blank">
-            <AdminActionButton
-              title="Редагувати"
-              icon={<Edit />}
-              onClick={() => handleClick(id)}
-            />
-          </Link>
-          <AdminActionButton
-            title="Архівувати"
-            icon={<Archive />}
-            onClick={() => boundedArchiveAdminPost({ id })}
-          />
-          <AdminActionButton
-            title="Змінити дату публікації"
-            icon={<Today />}
-            onClick={() => handleClick(id)}
-          />
-          <AdminActionButton
-            title="Змінити автора"
-            icon={<Person />}
-            onClick={() => handleClick(id)}
-          />
-          <AdminActionButton
-            title="Змінити кількість переглядів"
-            icon={<Visibility />}
-            onClick={() => handleClick(id)}
-          />
+          <ActionButtons id={id} />
         </TableCell>
       </TableRow>
     );
