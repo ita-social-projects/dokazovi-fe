@@ -1,0 +1,29 @@
+{
+  "content": [
+    {
+      "avatar": "https://i.imgur.com/k0j4vVH.png",
+      "bio": "Медичний експерт ЮНІСЕФ в Україні",
+      "firstName": "Bill",
+      "id": 56,
+      "lastAddedPost": {
+        "id": 41,
+        "title": "Календар вакцинації"
+      },
+      "lastName": "Yamamoto",
+      "mainDirection": {
+        "id": 10,
+        "name": "Pediatrics"
+      },
+      "mainInstitution": {
+        "city": {
+          "id": 190,
+          "name": "Київ"
+        },
+        "id": 10,
+        "name": "UNICEF Ukraine"
+      },
+      "qualification": "Медичний експерт"
+    }
+  ],
+  "totalElements": 2
+}
