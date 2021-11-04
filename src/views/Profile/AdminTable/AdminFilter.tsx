@@ -5,11 +5,9 @@ import FormControl from '@material-ui/core/FormControl';
 import ListItemText from '@material-ui/core/ListItemText';
 import Select from '@material-ui/core/Select';
 import Checkbox from '@material-ui/core/Checkbox';
-import { useTranslation } from 'react-i18next';
 
 import { QueryTypeEnum } from 'old/lib/types';
 
-import { defaultPlural, langTokens } from '../../../locales/localizationInit';
 import { useStyles } from './styles/AdminFilter.styles';
 
 type VerticalType = number | 'bottom' | 'top' | 'center';

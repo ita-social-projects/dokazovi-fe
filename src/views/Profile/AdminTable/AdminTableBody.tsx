@@ -31,6 +31,12 @@ const AdminTableBody: React.FC = () => {
 
     const fullName = `${firstName} ${lastName}`;
 
+    const directionsList = directions.map((dir) => (
+      <Typography variant="h6" component="p" key={dir.label}>
+        {dir.label}
+      </Typography>
+    ));
+
     let chipClass: string;
 
     switch (typeId) {
@@ -66,13 +72,7 @@ const AdminTableBody: React.FC = () => {
         </TableCell>
         <TableCell>{postStatuses[status]}</TableCell>
         <TableCell>{modifiedAt}</TableCell>
-        <TableCell>
-          {directions.map((dir) => (
-            <Typography variant="h6" component="p" key={dir.label}>
-              {dir.label}
-            </Typography>
-          ))}
-        </TableCell>
+        <TableCell>{directionsList}</TableCell>
         <TableCell>{fullName}</TableCell>
         <TableCell>{modifiedViewsCounter}</TableCell>
         <TableCell>{uniqueViewsCounter}</TableCell>

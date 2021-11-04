@@ -9,7 +9,7 @@ import { useStyles } from './styles/ActionButtons.styles';
 interface IActionButtons {
   id: number;
 }
-//
+
 const ActionButtons: React.FC<IActionButtons> = ({ id }) => {
   const classes = useStyles();
   const [boundedArchiveAdminPost] = useActions([archiveAdminPost]);
@@ -34,7 +34,7 @@ const ActionButtons: React.FC<IActionButtons> = ({ id }) => {
   };
 
   return (
-    <div>
+    <>
       <Button
         className={classes.mainButton}
         id="actionMenu"
@@ -73,7 +73,7 @@ const ActionButtons: React.FC<IActionButtons> = ({ id }) => {
           Змінити кількість переглядів
         </MenuItem>
       </Menu>
-    </div>
+    </>
   );
 };
 

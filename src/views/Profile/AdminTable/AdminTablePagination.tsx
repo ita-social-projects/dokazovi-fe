@@ -8,7 +8,7 @@ import { useStyles } from './styles/AdminTablePagination.styles';
 
 const AdminTablePagination: React.FC = () => {
   const [boundedSetPage] = useActions([setPage]);
-  const { size, page } = useSelector(selectMeta);
+  const { page } = useSelector(selectMeta);
   const { totalPages } = useSelector(selectAdminLab);
   const classes = useStyles(selectAdminLab);
 
