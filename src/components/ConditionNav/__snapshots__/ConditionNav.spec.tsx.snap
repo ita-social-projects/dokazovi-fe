@@ -1,0 +1,43 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ConditionsNav should render correctly and match the snapshot 1`] = `
+<DocumentFragment>
+  <ul
+    class="
+      ConditionsNav-root-1 
+      
+    "
+  >
+    <li>
+      <a
+        aria-current="page"
+        class="ConditionsNav-link-3"
+        data-testid="about"
+        href="/#about"
+      >
+        Про платформу
+      </a>
+    </li>
+    <li>
+      <a
+        aria-current="page"
+        class="ConditionsNav-link-3"
+        data-testid="rules"
+        href="/#rules"
+      >
+        Правила використання
+      </a>
+    </li>
+    <li>
+      <a
+        aria-current="page"
+        class="ConditionsNav-link-3"
+        data-testid="contacts"
+        href="/#contacts"
+      >
+        Контакти
+      </a>
+    </li>
+  </ul>
+</DocumentFragment>
+`;

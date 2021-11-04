@@ -68,6 +68,10 @@ export const BasicInput: React.FC<IBasicInputProps> = ({
           </InputAdornment>
         ),
       }}
+      // eslint-disable-next-line react/jsx-no-duplicate-props
+      inputProps={{
+        'data-testid': 'basic-input',
+      }}
     />
   );
 };

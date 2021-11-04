@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`loadMoreButton test rendering when it is last page 1`] = `<DocumentFragment />`;

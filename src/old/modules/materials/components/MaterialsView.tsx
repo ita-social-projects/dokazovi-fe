@@ -81,10 +81,29 @@ const MaterialsView: React.FC = () => {
   const [checkedFiltersPostTypes, setCheckedFiltersPostTypes] = useState<
     CheckboxFormStateType
   >();
+
+  const [pageYOffset, setPageYOffset] = useState<number>(0);
+
+  const handleScroll = () => {
+    const position: number = window.pageYOffset;
+    setPageYOffset(position);
+  };
+
+  useEffect(() => {
+    setGALocation(window);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return function cleanup() {
+      fetchData(false);
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
   const previous = usePrevious({ page });
   const history = useHistory();
   const query = useQuery();
-  const classes = useStyles();
+  const classes = useStyles({
+    pageYOffset,
+  });
   const materials = selectPostsByIds(postIds);
   const origins = useSelector(selectOrigins);
   const originsInPlural: IOrigin[] = [];
@@ -223,14 +242,6 @@ const MaterialsView: React.FC = () => {
   };
 
   useEffect(() => {
-    setGALocation(window);
-
-    return function cleanup() {
-      fetchData(false);
-    };
-  }, []);
-
-  useEffect(() => {
     const appendPosts = previous && previous.page < page;
     if (
       !isLastPage &&
@@ -254,7 +265,10 @@ const MaterialsView: React.FC = () => {
     query.get(QueryTypeEnum.DIRECTIONS),
   ]);
 
-  const selectedOriginsString = query.get(QueryTypeEnum.ORIGINS)?.split(',');
+  const selectedOriginsString =
+    query.get(QueryTypeEnum.ORIGINS) === '0'
+      ? stringOfOrigins().split(' ')
+      : query.get(QueryTypeEnum.ORIGINS)?.split(',');
 
   let selectedOrigins:
     | IOrigin[]
@@ -563,28 +577,31 @@ const MaterialsView: React.FC = () => {
   return (
     <>
       <PageTitle title={t(langTokens.common.materials)} />
+      <div className={classes.emptyDiv}> </div>
+      <div className={classes.headerContainer}>
+        <Grid container direction="row">
+          <Grid item container direction="column" xs={5} sm={4} md={3} lg={2}>
+            <Typography className={classes.title} variant="h1">
+              {`${t(langTokens.materials.selectedMaterials)}:`}
+            </Typography>
+          </Grid>
+          <Grid
+            className={classes.gridSpacing}
+            item
+            container
+            direction="column"
+            xs={7}
+            sm={8}
+            md={9}
+            lg={10}
+          >
+            <div className={classes.selectedFiltersWraper}>{SelectedTypes}</div>
+          </Grid>
+        </Grid>
+      </div>
       <Grid container direction="row">
         <Grid item container direction="column" xs={5} sm={4} md={3} lg={2}>
-          <Typography className={classes.title} variant="h1">
-            {`${t(langTokens.materials.selectedMaterials)}:`}
-          </Typography>
-        </Grid>
-        <Grid
-          className={classes.gridSpacing}
-          item
-          container
-          direction="column"
-          xs={7}
-          sm={8}
-          md={9}
-          lg={10}
-        >
-          {SelectedTypes}
-        </Grid>
-      </Grid>
-      <Grid container direction="row">
-        <Grid item container direction="column" xs={5} sm={4} md={3} lg={2}>
-          {FilterCheckboxes}
+          <div className={classes.scrollabelContainer}>{FilterCheckboxes}</div>
         </Grid>
         <Grid
           className={classes.gridSpacing}

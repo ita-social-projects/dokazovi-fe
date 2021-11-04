@@ -134,6 +134,7 @@ export interface IPost {
   previewImageUrl?: string;
   importantImageUrl?: string;
   videoUrl?: string;
+  status?: string;
 }
 
 export interface IExpert {
