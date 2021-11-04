@@ -27,6 +27,7 @@ export const useStyles = makeStyles<Theme, IStyleProps>(
       fontSize: '28px',
       lineHeight: '28px',
       fontWeight: 'bold',
+      backgroundColor: theme.palette.primary.light,
     },
     selectedFilters: {
       margin: '0px 15px 15px 0px',

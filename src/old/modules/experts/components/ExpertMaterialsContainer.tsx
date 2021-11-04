@@ -88,7 +88,7 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
     CheckboxFormStateType
   >();
   const loading = useSelector(selectExpertMaterialsLoading);
-  const classes = useStyles();
+  const classes = useStyles({ pageYOffset: 0 });
   const query = useQuery();
   const history = useHistory();
   const [page, setPage] = useState(pageNumber);

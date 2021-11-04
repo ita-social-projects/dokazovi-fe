@@ -1,0 +1,74 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PostBreadcrumbs tests should PostBreadcrumbs render 1`] = `
+<DocumentFragment>
+  <nav
+    aria-label="breadcrumb"
+    class="MuiTypography-root MuiBreadcrumbs-root BasicBreadcrumbs-breadcrumbs-1 MuiTypography-body1 MuiTypography-colorTextSecondary"
+  >
+    <ol
+      class="MuiBreadcrumbs-ol"
+    >
+      <li
+        class="MuiBreadcrumbs-li"
+      >
+        <a
+          class="BasicBreadcrumbs-link-2"
+          href="/"
+        >
+          Головна
+        </a>
+      </li>
+      <li
+        aria-hidden="true"
+        class="MuiBreadcrumbs-separator"
+      >
+        /
+      </li>
+      <li
+        class="MuiBreadcrumbs-li"
+      >
+        <a
+          class="BasicBreadcrumbs-link-2"
+          data-testid="link"
+          href="/materials?origins=2"
+        >
+          Медитека
+        </a>
+      </li>
+      <li
+        aria-hidden="true"
+        class="MuiBreadcrumbs-separator"
+      >
+        /
+      </li>
+      <li
+        class="MuiBreadcrumbs-li"
+      >
+        <a
+          class="BasicBreadcrumbs-link-2"
+          data-testid="link"
+          href="/materials?types=1"
+        >
+          Стаття
+        </a>
+      </li>
+      <li
+        aria-hidden="true"
+        class="MuiBreadcrumbs-separator"
+      >
+        /
+      </li>
+      <li
+        class="MuiBreadcrumbs-li"
+      >
+        <p
+          class="MuiTypography-root BasicBreadcrumbs-postTitle-3 MuiTypography-body1"
+        >
+          Як підготуватися до вакцинації
+        </p>
+      </li>
+    </ol>
+  </nav>
+</DocumentFragment>
+`;

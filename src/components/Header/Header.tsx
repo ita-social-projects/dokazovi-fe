@@ -1,5 +1,15 @@
 import React, { useContext, useState } from 'react';
-import { Box, Button, Container, Input, Menu, MenuItem, Slide, Toolbar, Typography } from '@material-ui/core';
+import {
+  Box,
+  Button,
+  Container,
+  Input,
+  Menu,
+  MenuItem,
+  Slide,
+  Toolbar,
+  Typography,
+} from '@material-ui/core';
 import { Link, NavLink, Route } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import SearchIcon from '@material-ui/icons/Search';
@@ -13,7 +23,10 @@ import { IHeaderProps } from './types';
 import { ScreenContext } from '../../old/provider/MobileProvider/ScreenContext';
 import { BurgerMenu } from '../BurgerMenu/BurgerMenu';
 import { useActions } from '../../shared/hooks';
-import { makeHeaderInvisible, makeHeaderVisible } from '../../models/headerVisibility';
+import {
+  makeHeaderInvisible,
+  makeHeaderVisible,
+} from '../../models/headerVisibility';
 
 export const navElems: IHeaderProps[] = [
   {
@@ -54,17 +67,18 @@ export const Header: React.FC = () => {
     enter: 200,
     exit: 200,
   };
-
-  window.onscroll = () => {
-    setOldPageOffsetY(visualViewport.pageTop);
-    if (visualViewport.pageTop >= oldPageOffsetY) {
-      setVisible(false);
-      boundMakeHeaderInvisible();
-    } else {
-      setVisible(true);
-      boundMakeHeaderVisible();
-    }
-  };
+  if (mobile) {
+    window.onscroll = () => {
+      setOldPageOffsetY(visualViewport.pageTop);
+      if (visualViewport.pageTop >= oldPageOffsetY) {
+        setVisible(false);
+        boundMakeHeaderInvisible();
+      } else {
+        setVisible(true);
+        boundMakeHeaderVisible();
+      }
+    };
+  }
 
   return (
     <Slide in={!mobile || visible} timeout={transitionDuration}>
