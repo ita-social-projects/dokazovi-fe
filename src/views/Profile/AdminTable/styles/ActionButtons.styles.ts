@@ -2,9 +2,10 @@ import { makeStyles, Theme } from '@material-ui/core';
 
 export const useStyles = makeStyles((theme: Theme) => ({
   mainButton: {
+    backgroundColor: theme.palette.background.default,
     minWidth: '1px',
-    width: theme.spacing(10),
-    height: theme.spacing(10),
+    width: theme.spacing(7),
+    height: theme.spacing(7),
     '&:hover': {
       backgroundColor: theme.palette.action.hover,
     },
@@ -14,8 +15,16 @@ export const useStyles = makeStyles((theme: Theme) => ({
       color: theme.palette.common.black,
     },
   },
-  btnGroup: {
-    '& .MuiButton-root': {
+  menuRoot: {
+    '& .MuiMenu-paper': {
+      boxShadow: 'rgb(0 0 0 / 16%) 2px 2px 2px 2px',
+    },
+    '& .MuiList-root': {
+      padding: 0,
+    },
+    '& .MuiButtonBase-root': {
+      ...theme.typography.button,
+      backgroundColor: theme.palette.background.default,
       '&:hover': {
         backgroundColor: theme.palette.action.hover,
       },
