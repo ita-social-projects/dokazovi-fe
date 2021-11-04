@@ -5,6 +5,7 @@ import { LOAD_POSTS_LIMIT } from '../../old/lib/constants/posts';
 import { IPost } from '../../old/lib/types';
 import { PostResponseType } from '../../old/lib/utilities/API/types';
 import { IFetchMaterialsOptions } from './types';
+import { PostStatusForApi } from '../../old/lib/types';
 
 export const mapFetchedPosts = (
   posts: PostResponseType[],
@@ -18,13 +19,8 @@ export const fetchMaterials = createAsyncThunk(
   'materials/fetchMaterials',
   async (options: IFetchMaterialsOptions, { getState, rejectWithValue }) => {
     try {
-      const {
-        filters,
-        page,
-        appendPosts,
-        url = 'all-posts',
-        statuses = 'PUBLISHED',
-      } = options;
+      const { filters, page, appendPosts, url = 'all-posts' } = options;
+
       const response = await getPosts(url, {
         params: {
           page: page,
@@ -33,7 +29,7 @@ export const fetchMaterials = createAsyncThunk(
           directions: filters.directions,
           origins: filters.origins,
           sort: ['published_at,desc'],
-          statuses,
+          statuses: [3],
         },
       });
 

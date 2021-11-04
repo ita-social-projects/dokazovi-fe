@@ -68,6 +68,7 @@ export enum SortBy {
   important = 'important',
   created_at = 'created_at',
   modified_at = 'modified_at',
+  author = 'author.firstName',
 }
 
 export enum Order {
