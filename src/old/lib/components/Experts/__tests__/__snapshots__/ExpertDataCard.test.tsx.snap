@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ExpertBlock test should render component and match snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="MuiPaper-root MuiCard-root ExpertDataCard-root-1 MuiPaper-elevation1 MuiPaper-rounded"
+  >
+    <h4
+      class="MuiTypography-root ExpertDataCard-name-2 MuiTypography-h4"
+    >
+      Таржеман Соколов
+    </h4>
+    <h6
+      class="MuiTypography-root ExpertDataCard-qualification-3 MuiTypography-h6 MuiTypography-gutterBottom"
+    >
+      Кандидат медичних наук, Медікум, Дніпро
+    </h6>
+  </div>
+</DocumentFragment>
+`;
