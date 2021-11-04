@@ -1,9 +1,5 @@
 /* eslint-disable */
-import {
-  createSlice,
-  PayloadAction,
-  ActionReducerMapBuilder,
-} from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { getAsyncActionsReducer } from '../helpers/asyncActions';
 
 import {

@@ -3,14 +3,12 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 
 import {
   getUniquePostViewsCounter,
-  getFakePostViewsCounter,
   archivePost,
   getAdminPosts,
 } from '../../old/lib/utilities/API/api';
 import { mapFetchedPosts } from '../materials/asyncActions';
 import { IAdminPost, IPostsOBJ } from './types';
 import { RootStateType } from '../rootReducer';
-import { values } from 'lodash';
 
 interface IFilterOption {
   id: number;
