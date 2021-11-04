@@ -1,52 +1,56 @@
 import * as React from 'react';
 import { Link } from 'react-router-dom';
-import { Popover, Button, ButtonGroup } from '@material-ui/core';
-import { Archive, Edit, Person, Today, Visibility } from '@material-ui/icons';
+import { Button, MenuItem, Menu } from '@material-ui/core';
+import { MoreVert } from '@material-ui/icons';
 import { archiveAdminPost } from '../../../models/adminLab';
 import { useActions } from '../../../shared/hooks';
+import { useStyles } from './styles/ActionButtons.styles';
 
 interface IActionButtons {
   id: number;
 }
 
 const ActionButtons: React.FC<IActionButtons> = ({ id }) => {
+  const classes = useStyles();
   const [boundedArchiveAdminPost] = useActions([archiveAdminPost]);
-  const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
-    null,
-  );
+  const editPostLink = `/edit-post?id=${id}`;
 
-  const handleClickPopover = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const isMenuOpen = Boolean(anchorEl);
+  const handleOpenMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
-
-  const handleClosePopover = () => {
+  const handleCloseMenu = () => {
     setAnchorEl(null);
   };
 
-  const open = Boolean(anchorEl);
-  const idPopover = open ? 'simple-popover' : undefined;
+  const handleButtonClick = () => {
+    handleCloseMenu();
+  };
 
-  const editPostLink = `/edit-post?id=${id}`;
-
-  const handleClick = (idx) => {
-    // eslint-disable-next-line no-console
-    console.log(idx);
+  const handleArchiveButtonClick = (idx: number) => {
+    boundedArchiveAdminPost({ idx });
+    handleCloseMenu();
   };
 
   return (
-    <div>
+    <>
       <Button
-        aria-describedby={idPopover}
-        variant="contained"
-        onClick={handleClickPopover}
-      >
-        Actions
-      </Button>
-      <Popover
-        id={idPopover}
-        open={open}
+        className={classes.mainButton}
+        id="actionMenu"
+        startIcon={<MoreVert />}
+        aria-controls="positioned-menu"
+        aria-haspopup="true"
+        aria-expanded={isMenuOpen ? 'true' : undefined}
+        onClick={handleOpenMenu}
+      />
+      <Menu
+        className={classes.menuRoot}
+        id="positioned-menu"
+        aria-labelledby="actionMenu"
         anchorEl={anchorEl}
-        onClose={handleClosePopover}
+        open={isMenuOpen}
+        onClose={handleCloseMenu}
         anchorOrigin={{
           vertical: 'bottom',
           horizontal: 'right',
@@ -55,35 +59,21 @@ const ActionButtons: React.FC<IActionButtons> = ({ id }) => {
           vertical: 'top',
           horizontal: 'right',
         }}
+        transitionDuration={400}
       >
-        <ButtonGroup
-          variant="contained"
-          orientation="vertical"
-          aria-label="vertical contained button group"
-        >
-          <Button startIcon={<Edit />}>
-            <Link to={editPostLink} target="_blank">
-              Редагувати
-            </Link>
-          </Button>
-          <Button
-            startIcon={<Archive />}
-            onClick={() => boundedArchiveAdminPost({ id })}
-          >
-            Архівувати
-          </Button>
-          <Button startIcon={<Today />} onClick={() => handleClick(id)}>
-            Змінити дату публікації
-          </Button>
-          <Button startIcon={<Person />} onClick={() => handleClick(id)}>
-            Змінити автора
-          </Button>
-          <Button startIcon={<Visibility />} onClick={() => handleClick(id)}>
-            Змінити кількість переглядів
-          </Button>
-        </ButtonGroup>
-      </Popover>
-    </div>
+        <Link to={editPostLink} target="_blank">
+          <MenuItem onClick={handleButtonClick}>Редагувати</MenuItem>
+        </Link>
+        <MenuItem onClick={() => handleArchiveButtonClick(id)}>
+          Архівувати
+        </MenuItem>
+        <MenuItem onClick={handleButtonClick}>Змінити дату публікації</MenuItem>
+        <MenuItem onClick={handleButtonClick}>Змінити автора</MenuItem>
+        <MenuItem onClick={handleButtonClick}>
+          Змінити кількість переглядів
+        </MenuItem>
+      </Menu>
+    </>
   );
 };
 
