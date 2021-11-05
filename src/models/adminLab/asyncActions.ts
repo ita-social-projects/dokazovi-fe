@@ -4,7 +4,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import {
   getUniquePostViewsCounter,
   archivePost,
-  getAdminPosts,
+  getPosts,
 } from '../../old/lib/utilities/API/api';
 import { mapFetchedPosts } from '../materials/asyncActions';
 import { IAdminPost, IPostsOBJ } from './types';
@@ -33,7 +33,7 @@ export const getMaterialsAction = createAsyncThunk(
       } = getState() as RootStateType;
       const {
         data: { content, totalPages },
-      } = await getAdminPosts('all-posts', {
+      } = await getPosts('all-posts', {
         params: {
           page,
           size,
@@ -41,7 +41,7 @@ export const getMaterialsAction = createAsyncThunk(
           directions: setFilter(filters.directions, directions),
           origins: setFilter(filters.origins, origins),
           statuses: setFilter(filters.statuses, statuses),
-          sort: [sort.sortBy + ',' + sort.order],
+          sort: [`${sort.sortBy},${sort.order}`],
           ...textFields,
         },
       });
@@ -62,9 +62,9 @@ export const getMaterialsAction = createAsyncThunk(
           posts[post.id] = post;
         }
       });
-      const To = totalPages as number;
+      const totalPagesWithType = totalPages as number;
       return {
-        totalPages: To,
+        totalPages: totalPagesWithType,
         posts,
         postIds,
       };

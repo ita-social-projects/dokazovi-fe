@@ -82,17 +82,7 @@ export type GetPostsRequestType =
 
 export const getPosts = async (
   postsRequestType: GetPostsRequestType,
-  config?: GetPostsConfigType,
-): Promise<AxiosResponse<PostsResponseType>> => {
-  return instance.get(`/post/${postsRequestType}`, {
-    ...defaultConfig,
-    ...config,
-  });
-};
-
-export const getAdminPosts = async (
-  postsRequestType: GetPostsRequestType,
-  config?: GetPostsAdminConfigType,
+  config?: GetPostsConfigType | GetPostsAdminConfigType,
 ): Promise<AxiosResponse<PostsResponseType>> => {
   return instance.get(`/post/${postsRequestType}`, {
     ...defaultConfig,

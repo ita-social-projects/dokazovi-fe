@@ -6,8 +6,6 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Select from '@material-ui/core/Select';
 import Checkbox from '@material-ui/core/Checkbox';
 
-import { QueryTypeEnum } from 'old/lib/types';
-
 import { useStyles } from './styles/AdminFilter.styles';
 
 type VerticalType = number | 'bottom' | 'top' | 'center';
@@ -17,7 +15,7 @@ type OptionType = { id: number; name: string };
 interface IMaterialsFilter {
   allOptions: OptionType[];
   selected: number[] | undefined;
-  filter: QueryTypeEnum;
+  filter: string;
   setChanges: (payload: any) => void;
 }
 
