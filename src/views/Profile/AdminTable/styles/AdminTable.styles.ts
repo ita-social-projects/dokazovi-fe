@@ -1,17 +1,14 @@
-import { makeStyles } from '@material-ui/core';
+import { makeStyles, Theme } from '@material-ui/core';
 
-export const useStyles = makeStyles(() => ({
+export const useStyles = makeStyles((theme: Theme) => ({
   table: {
     marginBottom: '1rem',
     '& .MuiTableCell-root': {
-      padding: '9px',
-      fontFamily: 'Raleway',
-      fontWeight: '500',
+      padding: theme.spacing(1.8),
+      ...theme.typography.h6,
     },
     '& .MuiTableCell-head': {
-      lineHeight: '1rem',
-      fontWeight: '700',
-      fontSize: '14px',
+      ...theme.typography.button,
     },
   },
 }));

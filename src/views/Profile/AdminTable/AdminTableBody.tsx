@@ -7,13 +7,16 @@ import {
   Typography,
 } from '@material-ui/core';
 import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import { selectAdminLab } from '../../../models/adminLab';
 import { useStyles } from './styles/AdminTableBody.styles';
 import { PostStatus, PostTypeEnum } from '../../../old/lib/types';
 import ActionButtons from './ActionButtons';
+import { langTokens } from '../../../locales/localizationInit';
 
 const AdminTableBody: React.FC = () => {
   const classes = useStyles();
+  const { t } = useTranslation();
   const { postIds, posts } = useSelector(selectAdminLab);
 
   const rows = postIds.map((postId) => {
@@ -54,11 +57,15 @@ const AdminTableBody: React.FC = () => {
     }
 
     const postStatuses = {
-      [PostStatus.DRAFT]: 'Чернетка',
-      [PostStatus.MODERATION_FIRST_SIGN]: 'Не переглянутий',
-      [PostStatus.MODERATION_SECOND_SIGN]: 'На модерації',
-      [PostStatus.PUBLISHED]: 'Опублікований',
-      [PostStatus.ARCHIVED]: 'Архівований',
+      [PostStatus.DRAFT]: t(langTokens.admin.draft),
+      [PostStatus.MODERATION_FIRST_SIGN]: t(
+        langTokens.admin.moderationFirstSign,
+      ),
+      [PostStatus.MODERATION_SECOND_SIGN]: t(
+        langTokens.admin.moderationSecondSign,
+      ),
+      [PostStatus.PUBLISHED]: t(langTokens.admin.published),
+      [PostStatus.ARCHIVED]: t(langTokens.admin.archived),
     };
 
     return (

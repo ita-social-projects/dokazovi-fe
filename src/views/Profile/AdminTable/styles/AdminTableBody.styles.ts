@@ -2,8 +2,8 @@ import { makeStyles, Theme } from '@material-ui/core';
 
 export const useStyles = makeStyles((theme: Theme) => ({
   titleCol: {
-    width: '220px',
-    maxWidth: '220px',
+    width: theme.spacing(44),
+    maxWidth: theme.spacing(44),
     overflowX: 'hidden',
     '& .MuiChip-root': {
       borderRadius: 0,
@@ -16,7 +16,7 @@ export const useStyles = makeStyles((theme: Theme) => ({
     },
   },
   default: {
-    backgroundColor: '#e0e0e0',
+    backgroundColor: theme.palette.background.default,
   },
   article: {
     backgroundColor: '#987d7c',

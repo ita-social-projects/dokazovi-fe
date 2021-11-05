@@ -7,6 +7,8 @@ import Select from '@material-ui/core/Select';
 import Checkbox from '@material-ui/core/Checkbox';
 
 import { useStyles } from './styles/AdminFilter.styles';
+import { useTranslation } from 'react-i18next';
+import { langTokens } from '../../../locales/localizationInit';
 
 type VerticalType = number | 'bottom' | 'top' | 'center';
 type HorizontalType = number | 'center' | 'left' | 'right';
@@ -44,6 +46,7 @@ export const AdminFilter: React.FC<IMaterialsFilter> = ({
   const ALL_OPTIONS_IDS = allOptions.map((e) => e.id);
 
   const classes = useStyles();
+  const { t } = useTranslation();
 
   const handleChange = ({ target }) => {
     if (target?.value) {
@@ -85,7 +88,7 @@ export const AdminFilter: React.FC<IMaterialsFilter> = ({
         >
           <MenuItem key={SET_ALL_OPTIONS} value={SET_ALL_OPTIONS}>
             <Checkbox checked={selected?.length === allOptions.length} />
-            <ListItemText primary="Всі" />
+            <ListItemText primary={t(langTokens.common.all)} />
           </MenuItem>
           {allOptions.map(({ name, id }) => (
             <MenuItem key={id} value={id}>

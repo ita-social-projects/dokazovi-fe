@@ -7,10 +7,11 @@ export const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.common.white,
     marginLeft: '0.4rem',
     marginRight: '0.4rem',
-    borderWidth: '1px',
+    borderWidth: theme.spacing(0.2),
     borderStyle: 'solid',
     borderColor: theme.palette.common.black,
     boxShadow: 'rgb(0 0 0 / 8%) 0px 1px 2px',
+
     '&:hover': {
       backgroundColor: theme.palette.action.hover,
       borderColor: theme.palette.action.hover,
@@ -35,7 +36,7 @@ export const useStyles = makeStyles((theme) => ({
   },
   filterCounter: {
     backgroundColor: theme.palette.common.black,
-    color: 'white',
+    color: theme.palette.common.white,
     borderRadius: '1rem',
     marginLeft: 7,
     padding: '1px 1rem',

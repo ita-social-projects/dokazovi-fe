@@ -1,10 +1,12 @@
-import * as React from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button, MenuItem, Menu } from '@material-ui/core';
 import { MoreVert } from '@material-ui/icons';
+import { useTranslation } from 'react-i18next';
 import { archiveAdminPost } from '../../../models/adminLab';
 import { useActions } from '../../../shared/hooks';
 import { useStyles } from './styles/ActionButtons.styles';
+import { langTokens } from '../../../locales/localizationInit';
 
 interface IActionButtons {
   id: number;
@@ -12,6 +14,7 @@ interface IActionButtons {
 
 const ActionButtons: React.FC<IActionButtons> = ({ id }) => {
   const classes = useStyles();
+  const { t } = useTranslation();
   const [boundedArchiveAdminPost] = useActions([archiveAdminPost]);
   const editPostLink = `/edit-post?id=${id}`;
 
@@ -63,15 +66,21 @@ const ActionButtons: React.FC<IActionButtons> = ({ id }) => {
         transitionDuration={400}
       >
         <Link to={editPostLink} target="_blank">
-          <MenuItem onClick={handleButtonClick}>Редагувати</MenuItem>
+          <MenuItem onClick={handleButtonClick}>
+            {t(langTokens.admin.edit)}
+          </MenuItem>
         </Link>
         <MenuItem onClick={() => handleArchiveButtonClick(id)}>
-          Архівувати
+          {t(langTokens.admin.archive)}
         </MenuItem>
-        <MenuItem onClick={handleButtonClick}>Змінити дату публікації</MenuItem>
-        <MenuItem onClick={handleButtonClick}>Змінити автора</MenuItem>
         <MenuItem onClick={handleButtonClick}>
-          Змінити кількість переглядів
+          {t(langTokens.admin.changePublicationDate)}
+        </MenuItem>
+        <MenuItem onClick={handleButtonClick}>
+          {t(langTokens.admin.changeViewsCount)}
+        </MenuItem>
+        <MenuItem onClick={handleButtonClick}>
+          {t(langTokens.admin.returnToAuthor)}
         </MenuItem>
       </Menu>
     </>
