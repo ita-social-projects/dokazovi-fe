@@ -30,7 +30,7 @@ const PostView: React.FC<IPostViewProps> = ({ isPreview, post, onDelete }) => {
 
   const user = useSelector(selectCurrentUser);
   const authorities = useSelector(selectAuthorities);
-  const isAdmin = authorities.data?.includes('SET_IMPORTANCE');
+  const isAdmin = authorities?.data?.includes('SET_IMPORTANCE');
   const permission = user?.data?.id === post?.author?.id || isAdmin;
 
   const isTopSectionShown =
@@ -66,7 +66,7 @@ const PostView: React.FC<IPostViewProps> = ({ isPreview, post, onDelete }) => {
 
         {!mobile && !isPreview && permission && (
           <Box className={classes.actionsBlock}>
-            <Link to={`/edit-post?id=${post.id}`}>
+            <Link data-testid="editor link" to={`/edit-post?id=${post.id}`}>
               <EditIcon className={classes.iconBlack} />
             </Link>
             {onDelete && (
@@ -74,7 +74,12 @@ const PostView: React.FC<IPostViewProps> = ({ isPreview, post, onDelete }) => {
                 message={`${t(langTokens.materials.needToDeleteMaterial)} '${
                   post.title
                 }'?`}
-                buttonIcon={<DeleteIcon className={classes.iconBlack} />}
+                buttonIcon={
+                  <DeleteIcon
+                    data-testid="delete button"
+                    className={classes.iconBlack}
+                  />
+                }
                 onConfirmButtonClick={onDelete}
               />
             )}
