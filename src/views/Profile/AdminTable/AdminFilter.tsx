@@ -51,9 +51,10 @@ export const AdminFilter: React.FC<IMaterialsFilter> = ({
       if (value.indexOf(SET_ALL_OPTIONS) > -1) {
         const options =
           selected?.length === allOptions.length ? [] : ALL_OPTIONS_IDS;
-        return setChanges({ filter, options });
+        setChanges({ filter, options });
+      } else {
+        setChanges({ filter, options: value });
       }
-      return setChanges({ filter, options: value });
     }
   };
 
