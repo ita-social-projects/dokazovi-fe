@@ -3,11 +3,10 @@ import { useSelector } from 'react-redux';
 import { Grid, IconButton } from '@material-ui/core';
 import HighlightOffRoundedIcon from '@material-ui/icons/HighlightOffRounded';
 
-import { QueryTypeEnum } from 'old/lib/types';
+import { QueryTypeEnum } from '../../../old/lib/types';
 import { FieldEnum } from '../../../models/adminLab/types';
 import {
   selectDirections,
-  selectOrigins,
   selectPostTypes,
   selectPostStatuses,
 } from '../../../models/properties';
@@ -30,7 +29,6 @@ const AdminTableFilters: React.FC = () => {
   ] = useActions([setFilter, setField, setFiltersToInit]);
 
   const allDirections = useSelector(selectDirections);
-  const allOrigins = useSelector(selectOrigins);
   const allPostTypes = useSelector(selectPostTypes);
   const allPostStatuses = useSelector(selectPostStatuses);
   const { filters, textFields } = useSelector(selectMeta);

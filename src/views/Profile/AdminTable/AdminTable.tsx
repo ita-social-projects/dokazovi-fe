@@ -6,7 +6,7 @@ import {
   selectAdminLab,
   selectMeta,
   setStateToInit,
-} from 'models/adminLab';
+} from '../../../models/adminLab';
 import { useStyles } from './styles/AdminTable.styles';
 import AdminTableHead from './AdminTableHead';
 import AdminTableBody from './AdminTableBody';

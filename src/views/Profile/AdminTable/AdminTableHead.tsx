@@ -5,9 +5,9 @@ import {
   TableRow,
   TableSortLabel,
 } from '@material-ui/core';
-import { Order, SortBy } from 'models/adminLab/types';
 import { useSelector } from 'react-redux';
-import { selectMeta, setSort } from 'models/adminLab';
+import { selectMeta, setSort } from '../../../models/adminLab';
+import { Order, SortBy } from '../../../models/adminLab/types';
 import { useActions } from '../../../shared/hooks';
 import { useStyles } from './styles/AdminTableHead.styles';
 

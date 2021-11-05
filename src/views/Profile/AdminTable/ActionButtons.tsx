@@ -28,8 +28,8 @@ const ActionButtons: React.FC<IActionButtons> = ({ id }) => {
     handleCloseMenu();
   };
 
-  const handleArchiveButtonClick = (idx: { id: number }) => {
-    boundedArchiveAdminPost(idx);
+  const handleArchiveButtonClick = (idx: number) => {
+    boundedArchiveAdminPost({ id: idx });
     handleCloseMenu();
   };
 
@@ -65,7 +65,7 @@ const ActionButtons: React.FC<IActionButtons> = ({ id }) => {
         <Link to={editPostLink} target="_blank">
           <MenuItem onClick={handleButtonClick}>Редагувати</MenuItem>
         </Link>
-        <MenuItem onClick={() => handleArchiveButtonClick({ id })}>
+        <MenuItem onClick={() => handleArchiveButtonClick(id)}>
           Архівувати
         </MenuItem>
         <MenuItem onClick={handleButtonClick}>Змінити дату публікації</MenuItem>
