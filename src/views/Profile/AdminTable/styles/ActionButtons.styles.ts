@@ -3,7 +3,7 @@ import { makeStyles, Theme } from '@material-ui/core';
 export const useStyles = makeStyles((theme: Theme) => ({
   mainButton: {
     backgroundColor: theme.palette.background.default,
-    minWidth: '1px',
+    minWidth: theme.spacing(0.2),
     width: theme.spacing(7),
     height: theme.spacing(7),
     '&:hover': {
