@@ -5,7 +5,6 @@ import { LOAD_POSTS_LIMIT } from '../../old/lib/constants/posts';
 import { IPost } from '../../old/lib/types';
 import { PostResponseType } from '../../old/lib/utilities/API/types';
 import { IFetchMaterialsOptions } from './types';
-import { PostStatusForApi } from '../../old/lib/types';
 
 export const mapFetchedPosts = (
   posts: PostResponseType[],

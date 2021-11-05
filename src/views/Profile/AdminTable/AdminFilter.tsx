@@ -50,13 +50,12 @@ export const AdminFilter: React.FC<IMaterialsFilter> = ({
   const handleChange = ({ target }) => {
     if (target?.value) {
       const value = target?.value as number[];
-      const options =
-        value.indexOf(SET_ALL_OPTIONS) > -1
-          ? selected?.length === allOptions.length
-            ? []
-            : ALL_OPTIONS_IDS
-          : value;
-      setChanges({ filter, options });
+      if (value.indexOf(SET_ALL_OPTIONS) > -1) {
+        const options =
+          selected?.length === allOptions.length ? [] : ALL_OPTIONS_IDS;
+        return setChanges({ filter, options });
+      }
+      return setChanges({ filter, options: value });
     }
   };
 

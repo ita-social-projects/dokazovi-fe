@@ -80,7 +80,7 @@ export const archiveAdminPost = createAsyncThunk(
     try {
       const { id } = options;
       console.log(id);
-      const { data } = await archivePost(id);
+      await archivePost(id);
       return id;
     } catch (error) {
       return rejectWithValue(error.response?.data);
