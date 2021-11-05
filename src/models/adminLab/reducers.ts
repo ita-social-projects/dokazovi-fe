@@ -30,7 +30,6 @@ const initialState: IAdminLab = {
     },
     filters: {
       directions: [],
-      origins: [],
       types: [],
       statuses: [],
     },

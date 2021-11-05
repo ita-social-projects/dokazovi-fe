@@ -63,9 +63,10 @@ export const AdminFilter: React.FC<IMaterialsFilter> = ({
 
   const FilterLabel = () => {
     const length = selected?.length;
+    console.log(filter);
     return (
       <div>
-        {filter}
+        {t(langTokens.admin[filter])}
         {!!length && (
           <label className={classes.filterCounter}>{selected?.length}</label>
         )}

@@ -10,7 +10,7 @@ import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { selectAdminLab } from '../../../models/adminLab';
 import { useStyles } from './styles/AdminTableBody.styles';
-import { PostStatus, PostTypeEnum } from '../../../old/lib/types';
+import { PostTypeEnum } from '../../../old/lib/types';
 import ActionButtons from './ActionButtons';
 import { langTokens } from '../../../locales/localizationInit';
 
@@ -56,18 +56,6 @@ const AdminTableBody: React.FC = () => {
         chipClass = 'default';
     }
 
-    const postStatuses = {
-      [PostStatus.DRAFT]: t(langTokens.admin.draft),
-      [PostStatus.MODERATION_FIRST_SIGN]: t(
-        langTokens.admin.moderationFirstSign,
-      ),
-      [PostStatus.MODERATION_SECOND_SIGN]: t(
-        langTokens.admin.moderationSecondSign,
-      ),
-      [PostStatus.PUBLISHED]: t(langTokens.admin.published),
-      [PostStatus.ARCHIVED]: t(langTokens.admin.archived),
-    };
-
     return (
       <TableRow key={id}>
         <TableCell>{id}</TableCell>
@@ -77,7 +65,7 @@ const AdminTableBody: React.FC = () => {
             {title}
           </Typography>
         </TableCell>
-        <TableCell>{postStatuses[status]}</TableCell>
+        <TableCell>{t(langTokens.admin[status])}</TableCell>
         <TableCell>{modifiedAt}</TableCell>
         <TableCell>{directionsList}</TableCell>
         <TableCell>{fullName}</TableCell>

@@ -2,6 +2,7 @@ import React from 'react';
 import TextField from '@material-ui/core/TextField';
 import FormControl from '@material-ui/core/FormControl';
 import { FieldEnum, IField } from '../../../models/adminLab/types';
+import i18, { langTokens } from '../../../locales/localizationInit';
 
 interface IMaterialsTextField {
   value: string;
@@ -18,11 +19,10 @@ export const AdminTextField: React.FC<IMaterialsTextField> = ({
     const text = event.target.value;
     setChanges({ field, text });
   };
-
   return (
     <FormControl>
       <TextField
-        placeholder={field}
+        placeholder={i18.t(langTokens.admin[field])}
         value={value}
         onChange={handleTextChange}
       />
