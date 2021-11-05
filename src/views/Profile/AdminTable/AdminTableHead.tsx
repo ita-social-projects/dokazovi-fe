@@ -10,6 +10,7 @@ import { selectMeta, setSort } from '../../../models/adminLab';
 import { Order, SortBy } from '../../../models/adminLab/types';
 import { useActions } from '../../../shared/hooks';
 import { useStyles } from './styles/AdminTableHead.styles';
+import i18n, { langTokens } from '../../../locales/localizationInit';
 
 interface IContent {
   label: string;
@@ -20,45 +21,45 @@ interface IContent {
 
 const content: IContent[] = [
   {
-    label: 'Id',
+    label: i18n.t(langTokens.admin.id),
     isSortable: true,
     sortKey: SortBy.post_id,
   },
   {
-    label: 'Заголовок',
+    label: i18n.t(langTokens.admin.title),
     isSortable: true,
     sortKey: SortBy.title,
   },
   {
-    label: 'Статус',
+    label: i18n.t(langTokens.admin.status),
     isSortable: false,
   },
   {
-    label: 'Дата зміни статусу',
+    label: i18n.t(langTokens.admin.dateOfStatusChange),
     sortKey: SortBy.modified_at,
     isSortable: true,
     initialSortOrder: Order.desc,
   },
   {
-    label: 'Тема',
+    label: i18n.t(langTokens.admin.direction),
     isSortable: false,
   },
   {
-    label: 'Автор',
+    label: i18n.t(langTokens.admin.author),
     isSortable: false,
   },
   {
-    label: 'К-сть переглядів, що відображається на сайті',
-    isSortable: false,
-    initialSortOrder: Order.desc,
-  },
-  {
-    label: 'Реальна к-сть переглядів',
+    label: i18n.t(langTokens.admin.views),
     isSortable: false,
     initialSortOrder: Order.desc,
   },
   {
-    label: 'Дії',
+    label: i18n.t(langTokens.admin.realViews),
+    isSortable: false,
+    initialSortOrder: Order.desc,
+  },
+  {
+    label: i18n.t(langTokens.admin.actions),
     isSortable: false,
   },
 ];
