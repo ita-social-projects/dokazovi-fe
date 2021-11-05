@@ -7,7 +7,7 @@ import {
   Typography,
 } from '@material-ui/core';
 import { useSelector } from 'react-redux';
-import { selectAdminLab } from 'models/adminLab';
+import { selectAdminLab } from '../../../models/adminLab';
 import { useStyles } from './styles/AdminTableBody.styles';
 import { PostStatus, PostTypeEnum } from '../../../old/lib/types';
 import ActionButtons from './ActionButtons';

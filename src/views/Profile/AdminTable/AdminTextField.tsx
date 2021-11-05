@@ -1,7 +1,7 @@
 import React from 'react';
 import TextField from '@material-ui/core/TextField';
 import FormControl from '@material-ui/core/FormControl';
-import { FieldEnum, IField } from 'models/adminLab/types';
+import { FieldEnum, IField } from '../../../models/adminLab/types';
 
 interface IMaterialsTextField {
   value: string;

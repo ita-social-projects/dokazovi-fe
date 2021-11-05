@@ -29,7 +29,7 @@ const ActionButtons: React.FC<IActionButtons> = ({ id }) => {
   };
 
   const handleArchiveButtonClick = (idx: number) => {
-    boundedArchiveAdminPost({ idx });
+    boundedArchiveAdminPost({ id: idx });
     handleCloseMenu();
   };
 
@@ -49,6 +49,7 @@ const ActionButtons: React.FC<IActionButtons> = ({ id }) => {
         id="positioned-menu"
         aria-labelledby="actionMenu"
         anchorEl={anchorEl}
+        getContentAnchorEl={null}
         open={isMenuOpen}
         onClose={handleCloseMenu}
         anchorOrigin={{
