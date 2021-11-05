@@ -7,7 +7,7 @@ import {
   getPosts,
 } from '../../old/lib/utilities/API/api';
 import { mapFetchedPosts } from '../materials/asyncActions';
-import { IAdminPost, IPostsOBJ } from './types';
+import { IAdminPost, IPostsOBJ, IAdminLabData } from './types';
 import { RootStateType } from '../rootReducer';
 
 interface IFilterOption {
@@ -23,7 +23,10 @@ const setFilter = (
 
 export const getMaterialsAction = createAsyncThunk(
   'adminLab/getAllAdminsMaterialsAction',
-  async (_, { rejectWithValue, getState }) => {
+  async (
+    _,
+    { rejectWithValue, getState },
+  ): Promise<IAdminLabData | unknown> => {
     try {
       const {
         adminLab: {
@@ -56,15 +59,14 @@ export const getMaterialsAction = createAsyncThunk(
           };
         }),
       );
-      const posts: IPostsOBJ = {};
+      const posts = {};
       postWithViews.forEach((post) => {
         if (posts && post.id) {
           posts[post.id] = post;
         }
       });
-      const totalPagesWithType = totalPages as number;
       return {
-        totalPages: totalPagesWithType,
+        totalPages,
         posts,
         postIds,
       };
