@@ -7,7 +7,7 @@ import {
   getPosts,
 } from '../../old/lib/utilities/API/api';
 import { mapFetchedPosts } from '../materials/asyncActions';
-import { IAdminPost, IPostsOBJ, IAdminLabData } from './types';
+import { IAdminPost, IAdminLabData } from './types';
 import { RootStateType } from '../rootReducer';
 
 interface IFilterOption {
@@ -81,7 +81,6 @@ export const archiveAdminPost = createAsyncThunk(
   async (options: { id: number }, { rejectWithValue, getState }) => {
     try {
       const { id } = options;
-      console.log(id);
       await archivePost(id);
       return id;
     } catch (error) {
