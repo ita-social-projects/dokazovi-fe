@@ -13,7 +13,10 @@ import { getAsyncActionsReducer } from '../helpers/asyncActions';
 
 const statuses = Object.keys(PostStatusForApi)
   .slice(0, 5)
-  .map((key) => ({ id: +key, name: PostStatusForApi[+key] }));
+  .map((key) => ({
+    id: +key,
+    name: PostStatusForApi[+key],
+  }));
 
 const initialState: IPropertiesState = {
   postTypes: [],

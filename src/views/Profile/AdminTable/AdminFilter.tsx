@@ -13,7 +13,11 @@ import { langTokens } from '../../../locales/localizationInit';
 type VerticalType = number | 'bottom' | 'top' | 'center';
 type HorizontalType = number | 'center' | 'left' | 'right';
 
-type OptionType = { id: number; name: string };
+type OptionType = {
+  id: number;
+  name: string;
+  label?: string;
+};
 interface IMaterialsFilter {
   allOptions: OptionType[];
   selected: number[] | undefined;
@@ -91,10 +95,10 @@ export const AdminFilter: React.FC<IMaterialsFilter> = ({
             <Checkbox checked={selected?.length === allOptions.length} />
             <ListItemText primary={t(langTokens.common.all)} />
           </MenuItem>
-          {allOptions.map(({ name, id }) => (
-            <MenuItem key={id} value={id}>
-              <Checkbox checked={!!selected?.includes(id)} />
-              <ListItemText primary={name} />
+          {allOptions.map((option) => (
+            <MenuItem key={option.id} value={option.id}>
+              <Checkbox checked={!!selected?.includes(option.id)} />
+              <ListItemText primary={option?.label ?? option.name} />
             </MenuItem>
           ))}
         </Select>

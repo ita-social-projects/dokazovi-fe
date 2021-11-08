@@ -262,9 +262,9 @@ export type ConditionsContentSectionType =
   | ConditionsContentSectionEnum.CONTACTS;
 
 export enum PostStatusForApi {
-  DRAFT = 0,
-  MODERATION_FIRST_SIGN = 1,
-  MODERATION_SECOND_SIGN = 2,
-  PUBLISHED = 3,
-  ARCHIVED = 4,
+  'Чернетка' = 0,
+  'Не переглянутий' = 1,
+  'На модерації' = 2,
+  'Опубліковано' = 3,
+  'Архівований' = 4,
 }
