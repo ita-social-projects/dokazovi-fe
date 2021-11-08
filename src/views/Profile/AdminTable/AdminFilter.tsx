@@ -63,7 +63,6 @@ export const AdminFilter: React.FC<IMaterialsFilter> = ({
 
   const FilterLabel = () => {
     const length = selected?.length;
-    console.log(filter);
     return (
       <div>
         {t(langTokens.admin[filter])}
