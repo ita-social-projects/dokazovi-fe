@@ -100,6 +100,7 @@ export enum QueryTypeEnum {
   TAGS = 'tags',
   PAGE = 'page',
   ORIGINS = 'origins',
+  STATUSES = 'statuses',
 }
 
 export interface IPost {
@@ -161,6 +162,11 @@ export interface IPostTag {
 }
 
 export interface IPostType {
+  id: number;
+  name: string;
+}
+
+export interface IPostStatus {
   id: number;
   name: string;
 }
@@ -254,3 +260,11 @@ export type ConditionsContentSectionType =
   | ConditionsContentSectionEnum.ABOUT
   | ConditionsContentSectionEnum.RULES
   | ConditionsContentSectionEnum.CONTACTS;
+
+export enum PostStatusForApi {
+  'Чернетка' = 0,
+  'Не переглянутий' = 1,
+  'На модерації' = 2,
+  'Опубліковано' = 3,
+  'Архівований' = 4,
+}

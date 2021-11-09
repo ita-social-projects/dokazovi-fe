@@ -6,7 +6,7 @@ import { IExpert } from '../../../old/lib/types';
 import { ERROR_404 } from '../../../old/lib/constants/routes';
 import { getCurrentUser } from '../../../old/lib/utilities/API/api';
 
-export const ExpertMaterialsViewWrapper: React.FC = () => {
+export const MaterialsViewWrapper: React.FC = () => {
   const { expertId } = useParams<{ expertId: string }>();
   const history = useHistory();
   const [loadedExpert, setLoadedExpert] = useState<IExpert>();

@@ -10,6 +10,7 @@ import {
   ExpertsResponseType,
   GetExpertsConfigType,
   GetPostsConfigType,
+  GetPostsAdminConfigType,
   GetFilteredPostsType,
   GetTagsConfigType,
   LoginResponseType,
@@ -81,7 +82,7 @@ export type GetPostsRequestType =
 
 export const getPosts = async (
   postsRequestType: GetPostsRequestType,
-  config?: GetPostsConfigType,
+  config?: GetPostsConfigType | GetPostsAdminConfigType,
 ): Promise<AxiosResponse<PostsResponseType>> => {
   return instance.get(`/post/${postsRequestType}`, {
     ...defaultConfig,
@@ -137,6 +138,22 @@ export const getUniquePostViewsCounter = async (
       url: `/posts/${id}`,
     },
   });
+};
+
+export const getFakePostViewsCounter = async (
+  id: number,
+): Promise<AxiosResponse<number>> => {
+  return instance.get('/post/post-fake-view-count', {
+    params: {
+      url: `/posts/${id}`,
+    },
+  });
+};
+
+export const archivePost = async (
+  id: number,
+): Promise<AxiosResponse<boolean>> => {
+  return instance.delete(`/post/${id}`);
 };
 
 export const getPostById = async (
