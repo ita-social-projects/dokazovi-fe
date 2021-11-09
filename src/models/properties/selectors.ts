@@ -5,6 +5,7 @@ import {
   IPostTag,
   IPostType,
   IRegion,
+  IPostStatus,
 } from '../../old/lib/types';
 
 export const selectPostTypes = (state: RootStateType): IPostType[] =>
@@ -17,3 +18,5 @@ export const selectDirections = (state: RootStateType): IDirection[] =>
   state.properties.directions;
 export const selectOrigins = (state: RootStateType): IOrigin[] =>
   state.properties.origins;
+export const selectPostStatuses = (state: RootStateType): IPostStatus[] =>
+  state.properties.statuses;

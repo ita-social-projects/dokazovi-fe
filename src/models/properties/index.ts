@@ -13,4 +13,5 @@ export {
   selectPostTags,
   selectPostTypes,
   selectRegions,
+  selectPostStatuses,
 } from './selectors';
