@@ -1,6 +1,12 @@
 import { makeStyles, Theme } from '@material-ui/core';
 
-export const useStyles = makeStyles(
+export interface IStyleProps {
+  pageYOffset: number;
+}
+
+const top = 20;
+
+export const useStyles = makeStyles<Theme, IStyleProps>(
   (theme: Theme) => ({
     container: {
       display: 'flex',
@@ -21,6 +27,7 @@ export const useStyles = makeStyles(
       fontSize: '28px',
       lineHeight: '28px',
       fontWeight: 'bold',
+      backgroundColor: theme.palette.primary.light,
     },
     selectedFilters: {
       margin: '0px 15px 15px 0px',
@@ -69,6 +76,45 @@ export const useStyles = makeStyles(
       [theme.breakpoints.down('sm')]: {
         paddingLeft: '30px',
       },
+    },
+    scrollabelContainer: {
+      position: 'sticky',
+      top: 80 + top,
+      overflowY: 'hidden',
+      maxHeight: ({ pageYOffset }) =>
+        `calc(100vh + ${
+          pageYOffset < 80 + top ? pageYOffset - 80 - top : 0
+        }px )`,
+      padding: '0px 15px 100px 0px',
+      margin: 0,
+      '&::-webkit-scrollbar': {
+        width: 5,
+      },
+      '&::-webkit-scrollbar-thumb': {
+        borderRadius: 2,
+        backgroundColor: theme.palette.primary.main,
+      },
+      '&:hover': {
+        overflowY: 'scroll',
+      },
+    },
+    headerContainer: {
+      margin: 0,
+      position: 'sticky',
+      top: top - 1,
+      zIndex: 1,
+    },
+    selectedFiltersWraper: {
+      backgroundColor: theme.palette.primary.light,
+      width: 'calc(100% + 20px)',
+    },
+    emptyDiv: {
+      zIndex: 1,
+      position: 'sticky',
+      top: -1,
+      width: 'calc(100% + 20px)',
+      backgroundColor: theme.palette.primary.light,
+      height: ({ pageYOffset }) => (pageYOffset < top ? pageYOffset : top),
     },
   }),
   {

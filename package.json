@@ -119,6 +119,9 @@
         "lines": 0,
         "statements": 0
       }
-    }
+    },
+    "transformIgnorePatterns": [
+      "/node_modules/(?!quill-image-uploader).+\\.js$"
+    ]
   }
 }
