@@ -27,6 +27,7 @@ jobs:
           --build-arg REACT_APP_IMGUR_CLIENT_ID=${{ secrets.REACT_APP_IMGUR_CLIENT_ID }}
           --build-arg REACT_APP_GOOGLE_ID=${{ secrets.REACT_APP_GOOGLE_ID }}
           --build-arg REACT_APP_BASE_URL=${{ secrets.REACT_APP_BASE_URL }}
+          --build-arg SERVER_FQDN=${{ secrets.SERVER_FQDN }}
           -t dokazovi_fe .
       - name: Deploy on heroku
         id: heroku
