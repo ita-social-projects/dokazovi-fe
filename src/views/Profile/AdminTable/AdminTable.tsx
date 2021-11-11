@@ -21,7 +21,7 @@ const AdminTable: React.FC = () => {
     setStateToInit,
   ]);
   const { totalPages } = useSelector(selectAdminLab);
-  const { sort, filters, page, textFields, size } = useSelector(selectMeta);
+  const meta = useSelector(selectMeta);
 
   useEffect(
     () => () => {
@@ -32,7 +32,7 @@ const AdminTable: React.FC = () => {
 
   useEffect(() => {
     boundedGetMaterialsAction();
-  }, [filters, sort, page, textFields, size]);
+  }, [meta]);
 
   return (
     <>

@@ -27,7 +27,13 @@ export interface IAdminLabMeta {
   textFields: {
     [key in FieldEnum]: string;
   };
+  date: IDate
 }
+
+interface IDate{
+    start: string | undefined;
+    end: string | undefined;
+};
 
 export interface IFilter {
   filter: string;
@@ -75,3 +81,8 @@ export enum Order {
   desc = 'desc',
   asc = 'asc',
 }
+
+export interface IDateManipulation{
+  date: string | undefined;
+  option: "end" | "start"
+};

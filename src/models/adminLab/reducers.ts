@@ -10,9 +10,11 @@ import {
   ISort,
   IFilter,
   IField,
+  IDateManipulation
 } from './types';
 import { LoadingStatusEnum } from '../../old/lib/types';
 import { getMaterialsAction, archiveAdminPost } from './asyncActions';
+import { access } from 'fs';
 
 // так можга тягнути перегляди getUniquePostViewsCounter
 
@@ -38,6 +40,10 @@ const initialState: IAdminLab = {
       author: '',
       title: '',
     },
+    date: {
+      start: undefined,
+      end: undefined,
+    },
   },
   error: '',
   loading: LoadingStatusEnum.idle,
@@ -53,24 +59,34 @@ const adminLabSlice = createSlice({
     },
     setSize: (state, action: PayloadAction<{ size: number }>) => {
       state.meta.size = action.payload.size;
+      state.meta.page = initialState.meta.page;
     },
     setField: (state, action: PayloadAction<IField>) => {
       const { text, field } = action.payload;
       state.meta.textFields[field] = text;
+      state.meta.page = initialState.meta.page;
     },
     setFiltersToInit: (state) => {
       state.meta.filters = initialState.meta.filters;
       state.meta.textFields = initialState.meta.textFields;
+      state.meta.page = initialState.meta.page;
     },
     setSort: (state, action: PayloadAction<ISort>) => {
       state.meta.sort = action.payload;
+      state.meta.page = initialState.meta.page;
     },
     setFilter: (state, action: PayloadAction<IFilter>) => {
       const { filter, options } = action.payload;
       state.meta.filters[filter] = options;
+      state.meta.page = initialState.meta.page;
     },
     setPage: (state, action: PayloadAction<{ page: number }>) => {
       state.meta.page = action.payload.page;
+    },
+    setDate: (state, action: PayloadAction<IDateManipulation>)=>{
+      const { date, option } = action.payload;
+      state.meta.date[option] = date;
+      state.meta.page = initialState.meta.page;
     },
     editPost: (state, action: PayloadAction<IAdminPost>) => {
       const editedPostID = action.payload.id;
@@ -103,5 +119,6 @@ export const {
   setPage,
   setFiltersToInit,
   setField,
+  setDate,
 } = adminLabSlice.actions;
 export const adminLabReducer = adminLabSlice.reducer;

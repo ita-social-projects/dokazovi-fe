@@ -15,8 +15,10 @@ import {
   setFiltersToInit,
   setFilter,
   setField,
+  setDate,
 } from '../../../models/adminLab';
 import { AdminFilter } from './AdminFilter';
+import { AdminDatePicker } from './AdminDatePicker';
 import { AdminTextField } from './AdminTextField';
 import { useStyles } from './styles/AdminTableFilters.styles';
 import { useActions } from '../../../shared/hooks';
@@ -26,12 +28,13 @@ const AdminTableFilters: React.FC = () => {
     boundedSetFilter,
     boundedSetField,
     boundedSetFiltersToInit,
-  ] = useActions([setFilter, setField, setFiltersToInit]);
+    boundedSetDate,
+  ] = useActions([setFilter, setField, setFiltersToInit, setDate]);
 
   const allDirections = useSelector(selectDirections);
   const allPostTypes = useSelector(selectPostTypes);
   const allPostStatuses = useSelector(selectPostStatuses);
-  const { filters, textFields } = useSelector(selectMeta);
+  const { filters, textFields, date } = useSelector(selectMeta);
 
   const classes = useStyles();
 
@@ -81,6 +84,9 @@ const AdminTableFilters: React.FC = () => {
           field={FieldEnum.TITLE}
           setChanges={boundedSetField}
         />
+      </Grid>
+      <Grid item direction="column" xs={5} sm={4} md={3} lg={2}>
+        <AdminDatePicker start={date.start} end={date.end} setChanges={boundedSetDate} />
       </Grid>
     </Grid>
   );
