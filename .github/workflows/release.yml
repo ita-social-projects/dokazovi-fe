@@ -22,6 +22,8 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - name: Build the tagged Docker image
+        env:
+          SERVER_FQDN: ${{ secrets.SERVER_FQDN }}
         run: >
           docker build -f Dockerfile.prod
           --build-arg REACT_APP_IMGUR_CLIENT_ID=${{ secrets.REACT_APP_IMGUR_CLIENT_ID }}
