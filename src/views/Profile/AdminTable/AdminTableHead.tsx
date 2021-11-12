@@ -97,7 +97,12 @@ const AdminTableHead: React.FC = () => {
     const { label, isSortable, sortKey, tooltip, icon } = cell;
 
     return (
-      <Tooltip key={label} title={tooltip || ''} placement="right">
+      <Tooltip
+        key={label}
+        title={tooltip || ''}
+        placement="right"
+        classes={{ tooltip: classes.tooltip }}
+      >
         <TableCell sortDirection={sortBy === sortKey ? order : false}>
           {isSortable ? (
             <TableSortLabel
