@@ -37,8 +37,11 @@ const AdminTable: React.FC = () => {
   return (
     <>
       <AdminTableFilters />
-      <TableContainer component={Paper}>
-        <Table className={classes.table}>
+      <TableContainer
+        component={Paper}
+        classes={{ root: classes.tableContainer }}
+      >
+        <Table>
           <AdminTableHead />
           <AdminTableBody />
         </Table>

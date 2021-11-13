@@ -32,7 +32,7 @@ interface IMaterialsDate {
 export const AdminDatePicker: React.FC<IMaterialsDate> = ({ start, end, setChanges  }) => {
     
     const parsDate = (date: string | undefined)=>{
-        return date && new Date(date).toISOString().slice(0,10);
+        return date && new Date(date).toISOString().slice(0,10); 
     };
 
     return (<div>

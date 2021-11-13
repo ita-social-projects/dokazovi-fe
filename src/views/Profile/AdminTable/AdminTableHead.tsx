@@ -4,8 +4,10 @@ import {
   TableHead,
   TableRow,
   TableSortLabel,
+  Tooltip,
 } from '@material-ui/core';
 import { useSelector } from 'react-redux';
+import { Visibility } from '@material-ui/icons';
 import { selectMeta, setSort } from '../../../models/adminLab';
 import { Order, SortBy } from '../../../models/adminLab/types';
 import { useActions } from '../../../shared/hooks';
@@ -17,6 +19,8 @@ interface IContent {
   isSortable: boolean;
   sortKey?: keyof typeof SortBy;
   initialSortOrder?: keyof typeof Order;
+  tooltip?: string;
+  icon?: JSX.Element;
 }
 
 const content: IContent[] = [
@@ -52,11 +56,15 @@ const content: IContent[] = [
     label: i18n.t(langTokens.admin.views),
     isSortable: false,
     initialSortOrder: Order.desc,
+    tooltip: i18n.t(langTokens.admin.viewsFull),
+    icon: <Visibility />,
   },
   {
     label: i18n.t(langTokens.admin.realViews),
     isSortable: false,
     initialSortOrder: Order.desc,
+    tooltip: i18n.t(langTokens.admin.realViewsFull),
+    icon: <Visibility />,
   },
   {
     label: i18n.t(langTokens.admin.actions),
@@ -86,23 +94,31 @@ const AdminTableHead: React.FC = () => {
   };
 
   const cells = content.map((cell) => {
-    const { label, isSortable, sortKey } = cell;
+    const { label, isSortable, sortKey, tooltip, icon } = cell;
 
     return (
-      <TableCell key={label} sortDirection={sortBy === sortKey ? order : false}>
-        {isSortable ? (
-          <TableSortLabel
-            active={sortBy === sortKey}
-            direction={order}
-            className={classes.sortable}
-            onClick={() => handleSort(cell)}
-          >
-            {label}
-          </TableSortLabel>
-        ) : (
-          label
-        )}
-      </TableCell>
+      <Tooltip
+        key={label}
+        title={tooltip || ''}
+        placement="right"
+        classes={{ tooltip: classes.tooltip }}
+      >
+        <TableCell sortDirection={sortBy === sortKey ? order : false}>
+          {isSortable ? (
+            <TableSortLabel
+              active={sortBy === sortKey}
+              direction={order}
+              className={classes.sortable}
+              onClick={() => handleSort(cell)}
+            >
+              {label}
+            </TableSortLabel>
+          ) : (
+            label
+          )}
+          {icon}
+        </TableCell>
+      </Tooltip>
     );
   });
 
