@@ -5,6 +5,7 @@ import {
   getUniquePostViewsCounter,
   archivePost,
   getPosts,
+  updatePost,
 } from '../../old/lib/utilities/API/api';
 import { mapFetchedPosts } from '../materials/asyncActions';
 import { IAdminPost, IAdminLabData } from './types';
@@ -76,9 +77,9 @@ export const getMaterialsAction = createAsyncThunk(
   },
 );
 
-export const archiveAdminPost = createAsyncThunk(
-  'adminLab/archivePost',
-  async (options: { id: number }, { rejectWithValue, getState }) => {
+export const deleteAdminPost = createAsyncThunk(
+  'adminLab/deletePost',
+  async (options: { id: number }, { rejectWithValue }) => {
     try {
       const { id } = options;
       await archivePost(id);
@@ -88,3 +89,19 @@ export const archiveAdminPost = createAsyncThunk(
     }
   },
 );
+
+export const setPostStatus = createAsyncThunk(
+  'adminLab/setPostStatus',
+  async (option: {id: number, postStatus: number}, { rejectWithValue, getState }) => {
+    try{
+      const {id, postStatus} = option;
+      const  { adminLab: { data: { posts } } } = getState() as RootStateType;
+      const setStatusOnPost = posts[id];
+      await updatePost({...setStatusOnPost, postStatus, authorId: setStatusOnPost.author.id});
+      return { id, status: postStatus }
+    }catch(error){
+      return rejectWithValue(error.response?.data);
+    }
+  }
+);
+

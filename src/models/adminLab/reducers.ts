@@ -1,7 +1,6 @@
 /* eslint-disable */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { getAsyncActionsReducer } from '../helpers/asyncActions';
-
 import {
   IAdminLab,
   IAdminPost,
@@ -10,11 +9,12 @@ import {
   ISort,
   IFilter,
   IField,
-  IDateManipulation
+  IDateManipulation,
+  StatusesForActions
 } from './types';
 import { LoadingStatusEnum } from '../../old/lib/types';
-import { getMaterialsAction, archiveAdminPost } from './asyncActions';
-import { access } from 'fs';
+import { getMaterialsAction, deleteAdminPost, setPostStatus } from './asyncActions';
+
 
 // так можга тягнути перегляди getUniquePostViewsCounter
 
@@ -64,7 +64,7 @@ const adminLabSlice = createSlice({
     setField: (state, action: PayloadAction<IField>) => {
       const { text, field } = action.payload;
       state.meta.textFields[field] = text;
-      state.meta.page = initialState.meta.page;
+     
     },
     setFiltersToInit: (state) => {
       state.meta.filters = initialState.meta.filters;
@@ -98,16 +98,28 @@ const adminLabSlice = createSlice({
   },
   extraReducers: {
     ...getAsyncActionsReducer(getMaterialsAction as any),
-    ...getAsyncActionsReducer(archiveAdminPost as any),
-    [archiveAdminPost.fulfilled.type]: (
+    ...getAsyncActionsReducer(deleteAdminPost as any),
+    ...getAsyncActionsReducer(setPostStatus as any),
+    [deleteAdminPost.fulfilled.type]: (
       state,
       action: PayloadAction<string>,
     ) => {
-      state.data.posts[action.payload] = {
-        ...state.data.posts[action.payload],
-        status: 'ARCHIVED',
-      };
+      delete state.data.posts[action.payload];
+      if(state.data.postIds.length % state.meta.size == 1){
+        if(state.meta.page + 1 == state.data.totalPages ){
+          state.meta.page -= 1;
+        }
+        state.data.totalPages -= 1;
+      }
+      state.data.postIds = state.data.postIds.filter(id => id !== +action.payload);
     },
+    [setPostStatus.fulfilled.type]: (
+      state,
+      action: PayloadAction<{id: number, status: number,}>
+    ) => {
+      const { id, status } = action.payload;
+      state.data.posts[id] = {...state.data.posts[id], status:  StatusesForActions[status]};
+    }
   },
 });
 

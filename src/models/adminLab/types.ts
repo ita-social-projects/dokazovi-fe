@@ -86,3 +86,11 @@ export interface IDateManipulation{
   date: string | undefined;
   option: "end" | "start"
 };
+
+export enum StatusesForActions{
+  DRAFT,
+  MODERATION_FIRST_SIGN,
+  MODERATION_SECOND_SIGN,
+  PUBLISHED,
+  ARCHIVED,
+}

@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom';
 import { Button, MenuItem, Menu } from '@material-ui/core';
 import { MoreVert } from '@material-ui/icons';
 import { useTranslation } from 'react-i18next';
-import { archiveAdminPost } from '../../../models/adminLab';
+import { StatusesForActions } from '../../../models/adminLab/types';
+import { deleteAdminPost, setPostStatus } from '../../../models/adminLab';
 import { useActions } from '../../../shared/hooks';
 import { useStyles } from './styles/ActionButtons.styles';
 import { langTokens } from '../../../locales/localizationInit';
@@ -15,7 +16,7 @@ interface IActionButtons {
 const ActionButtons: React.FC<IActionButtons> = ({ id }) => {
   const classes = useStyles();
   const { t } = useTranslation();
-  const [boundedArchiveAdminPost] = useActions([archiveAdminPost]);
+  const [boundedDeleteAdminPost, boundedSetPostStatus] = useActions([deleteAdminPost, setPostStatus]);
   const editPostLink = `/edit-post?id=${id}`;
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -31,8 +32,13 @@ const ActionButtons: React.FC<IActionButtons> = ({ id }) => {
     handleCloseMenu();
   };
 
-  const handleArchiveButtonClick = (idx: number) => {
-    boundedArchiveAdminPost({ id: idx });
+  const handleDeleteButtonClick = (idx: number) => {
+    boundedDeleteAdminPost({ id: idx });
+    handleCloseMenu();
+  };
+
+  const handelSetPostStatus = (idx: number, postStatus: number)=>{
+    boundedSetPostStatus({ id: idx, postStatus });
     handleCloseMenu();
   };
 
@@ -70,8 +76,8 @@ const ActionButtons: React.FC<IActionButtons> = ({ id }) => {
             {t(langTokens.admin.edit)}
           </MenuItem>
         </Link>
-        <MenuItem onClick={() => handleArchiveButtonClick(id)}>
-          {t(langTokens.admin.archive)}
+        <MenuItem onClick={() => handleDeleteButtonClick(id)}> { /* Тут теперь удаление поста */  }
+          {t(langTokens.admin.delete)}
         </MenuItem>
         <MenuItem onClick={handleButtonClick}>
           {t(langTokens.admin.changePublicationDate)}
@@ -79,8 +85,11 @@ const ActionButtons: React.FC<IActionButtons> = ({ id }) => {
         <MenuItem onClick={handleButtonClick}>
           {t(langTokens.admin.changeViewsCount)}
         </MenuItem>
-        <MenuItem onClick={handleButtonClick}>
+        <MenuItem onClick={() => handelSetPostStatus(id, StatusesForActions.DRAFT)}>
           {t(langTokens.admin.returnToAuthor)}
+        </MenuItem>
+        <MenuItem onClick={() => handelSetPostStatus(id, StatusesForActions.ARCHIVED)}>
+          {t(langTokens.admin.archive)}
         </MenuItem>
       </Menu>
     </>

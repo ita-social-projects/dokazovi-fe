@@ -16,6 +16,7 @@ export const admin = {
   PUBLISHED: 'Опублікований',
   ARCHIVED: 'Архівований',
   edit: 'Редагувати',
+  delete: 'Видалит',
   archive: 'Надіслати в архів',
   remove: 'Видалити',
   publish: 'Опублікувати',
