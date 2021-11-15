@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ExpertBlock test should render component and match snapshot 1`] = `
+exports[`ExpertDataCard test should render component and match snapshot 1`] = `
 <DocumentFragment>
   <div
     class="MuiPaper-root MuiCard-root ExpertDataCard-root-1 MuiPaper-elevation1 MuiPaper-rounded"
