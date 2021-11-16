@@ -16,7 +16,7 @@ export const admin = {
   PUBLISHED: 'Опублікований',
   ARCHIVED: 'Архівований',
   edit: 'Редагувати',
-  delete: 'Видалит',
+  delete: 'Видалити',
   archive: 'Надіслати в архів',
   remove: 'Видалити',
   publish: 'Опублікувати',
@@ -27,4 +27,10 @@ export const admin = {
   statuses: 'Статуси',
   directions: 'Теми',
   types: 'Типи',
+  returnToAuthorTitle:
+    'Ви впевнені, що хочете повернути автору на редагування матеріал "{{material}}"?',
+  archiveTitle: 'Перемістити публікацію в архів?',
+  archiveSuccess: 'Ваша стаття була успішно відправлена в архів',
+  deleteTitle: 'Ви дійсно хочете видалити публікацію?',
+  deleteSuccess: 'Ваша стаття була успішно видалена',
 };
