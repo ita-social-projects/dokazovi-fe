@@ -46,7 +46,6 @@ describe('PasswordResetView tests', () => {
   });
 
 
-
   it('should render previous step', async () => {
 
 
