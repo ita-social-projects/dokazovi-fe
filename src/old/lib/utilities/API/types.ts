@@ -237,6 +237,7 @@ export type RequestParamsType = {
   origins?: number[];
   userName?: string;
   posts?: string;
+  status?: string;
 };
 
 export type GetFilteredPostsType = {
