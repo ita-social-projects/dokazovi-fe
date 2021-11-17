@@ -1,5 +1,4 @@
 import React from 'react';
-
 import { MemoryRouter, Router } from 'react-router-dom';
 import { render, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
@@ -30,6 +29,7 @@ const MOCK_USER = {
     },
   },
 };
+
 
 const TRANSLATION_POST_MOCK: IPost = {
   author: {
@@ -237,6 +237,7 @@ const DEFAULT_POST_MOCK: IPost = {
   ],
 };
 
+
 const DEFAULT_POST_WITHOUT_POSTCONTENT_MOCK: IPost = {
   author: {
     id: 1,
@@ -335,6 +336,7 @@ describe('edit and delete button should be available', () => {
     ).toBeInTheDocument();
   });
 });
+
 
 
 describe('PostView component renders', () => {
