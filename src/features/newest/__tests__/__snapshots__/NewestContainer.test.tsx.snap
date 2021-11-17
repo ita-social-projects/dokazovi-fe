@@ -1,0 +1,682 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NewestContainer component should match snapshot 1`] = `
+<div>
+  <div
+    class="NewestContainer-container-1"
+  >
+    <div
+      class="NewestPostsList-container-2"
+    >
+      <a
+        href="/materials?origins=1"
+      >
+        <div
+          class="NewestPostsList-header-3"
+        >
+          <span
+            class="MuiTypography-root NewestPostsList-postsType-4 MuiTypography-h5"
+          >
+            Думки експертів
+          </span>
+          <div
+            class="NewestPostsList-line-5"
+          />
+          <div
+            class="NewestPostsList-arrow-6"
+          >
+            <span />
+            <span />
+            <span />
+            <span />
+          </div>
+        </div>
+      </a>
+      <div
+        class="MuiGrid-root NewestPostsList-grid-7 MuiGrid-container MuiGrid-spacing-xs-3 MuiGrid-item"
+      >
+        <div>
+          <div
+            class="MuiPaper-root MuiCard-root MediaPostPreviewCard-root-9 MuiPaper-elevation1 MuiPaper-rounded"
+            data-testid="skeleton"
+          >
+            <div
+              class="MuiBox-root MuiBox-root-16 MediaPostPreviewCard-header-10 MediaPostPreviewCard-header-15"
+            >
+              <span
+                class="MuiSkeleton-root MuiSkeleton-text MediaPostPreviewCard-postType-14 MuiSkeleton-pulse"
+              />
+            </div>
+            <div
+              class="MuiBox-root MuiBox-root-17 MediaPostPreviewCard-body-11"
+            >
+              <h3
+                class="MuiSkeleton-root MuiSkeleton-text MediaPostPreviewCard-textHeader-12 MuiSkeleton-pulse"
+              />
+              <p
+                class="MuiSkeleton-root MuiSkeleton-text MediaPostPreviewCard-textBody-13 MuiSkeleton-pulse"
+                color="textPrimary"
+              />
+              <div
+                class="MuiBox-root MuiBox-root-18"
+              >
+                <span
+                  class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                  color="textSecondary"
+                  style="width: 60%;"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div
+            class="MuiPaper-root MuiCard-root MediaPostPreviewCard-root-9 MuiPaper-elevation1 MuiPaper-rounded"
+            data-testid="skeleton"
+          >
+            <div
+              class="MuiBox-root MuiBox-root-20 MediaPostPreviewCard-header-10 MediaPostPreviewCard-header-19"
+            >
+              <span
+                class="MuiSkeleton-root MuiSkeleton-text MediaPostPreviewCard-postType-14 MuiSkeleton-pulse"
+              />
+            </div>
+            <div
+              class="MuiBox-root MuiBox-root-21 MediaPostPreviewCard-body-11"
+            >
+              <h3
+                class="MuiSkeleton-root MuiSkeleton-text MediaPostPreviewCard-textHeader-12 MuiSkeleton-pulse"
+              />
+              <p
+                class="MuiSkeleton-root MuiSkeleton-text MediaPostPreviewCard-textBody-13 MuiSkeleton-pulse"
+                color="textPrimary"
+              />
+              <div
+                class="MuiBox-root MuiBox-root-22"
+              >
+                <span
+                  class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                  color="textSecondary"
+                  style="width: 60%;"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div
+            class="MuiPaper-root MuiCard-root MediaPostPreviewCard-root-9 MuiPaper-elevation1 MuiPaper-rounded"
+            data-testid="skeleton"
+          >
+            <div
+              class="MuiBox-root MuiBox-root-24 MediaPostPreviewCard-header-10 MediaPostPreviewCard-header-23"
+            >
+              <span
+                class="MuiSkeleton-root MuiSkeleton-text MediaPostPreviewCard-postType-14 MuiSkeleton-pulse"
+              />
+            </div>
+            <div
+              class="MuiBox-root MuiBox-root-25 MediaPostPreviewCard-body-11"
+            >
+              <h3
+                class="MuiSkeleton-root MuiSkeleton-text MediaPostPreviewCard-textHeader-12 MuiSkeleton-pulse"
+              />
+              <p
+                class="MuiSkeleton-root MuiSkeleton-text MediaPostPreviewCard-textBody-13 MuiSkeleton-pulse"
+                color="textPrimary"
+              />
+              <div
+                class="MuiBox-root MuiBox-root-26"
+              >
+                <span
+                  class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                  color="textSecondary"
+                  style="width: 60%;"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div
+            class="MuiPaper-root MuiCard-root MediaPostPreviewCard-root-9 MuiPaper-elevation1 MuiPaper-rounded"
+            data-testid="skeleton"
+          >
+            <div
+              class="MuiBox-root MuiBox-root-28 MediaPostPreviewCard-header-10 MediaPostPreviewCard-header-27"
+            >
+              <span
+                class="MuiSkeleton-root MuiSkeleton-text MediaPostPreviewCard-postType-14 MuiSkeleton-pulse"
+              />
+            </div>
+            <div
+              class="MuiBox-root MuiBox-root-29 MediaPostPreviewCard-body-11"
+            >
+              <h3
+                class="MuiSkeleton-root MuiSkeleton-text MediaPostPreviewCard-textHeader-12 MuiSkeleton-pulse"
+              />
+              <p
+                class="MuiSkeleton-root MuiSkeleton-text MediaPostPreviewCard-textBody-13 MuiSkeleton-pulse"
+                color="textPrimary"
+              />
+              <div
+                class="MuiBox-root MuiBox-root-30"
+              >
+                <span
+                  class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                  color="textSecondary"
+                  style="width: 60%;"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="NewestPostsList-container-2"
+    >
+      <a
+        href="/materials?origins=2"
+      >
+        <div
+          class="NewestPostsList-header-3"
+        >
+          <span
+            class="MuiTypography-root NewestPostsList-postsType-4 MuiTypography-h5"
+          >
+            Медитека
+          </span>
+          <div
+            class="NewestPostsList-line-5"
+          />
+          <div
+            class="NewestPostsList-arrow-6"
+          >
+            <span />
+            <span />
+            <span />
+            <span />
+          </div>
+        </div>
+      </a>
+      <div
+        class="MuiGrid-root NewestPostsList-grid-7 MuiGrid-container MuiGrid-spacing-xs-3 MuiGrid-item"
+      >
+        <div>
+          <div
+            class="MuiPaper-root MuiCard-root MediaPostPreviewCard-root-9 MuiPaper-elevation1 MuiPaper-rounded"
+            data-testid="skeleton"
+          >
+            <div
+              class="MuiBox-root MuiBox-root-32 MediaPostPreviewCard-header-10 MediaPostPreviewCard-header-31"
+            >
+              <span
+                class="MuiSkeleton-root MuiSkeleton-text MediaPostPreviewCard-postType-14 MuiSkeleton-pulse"
+              />
+            </div>
+            <div
+              class="MuiBox-root MuiBox-root-33 MediaPostPreviewCard-body-11"
+            >
+              <h3
+                class="MuiSkeleton-root MuiSkeleton-text MediaPostPreviewCard-textHeader-12 MuiSkeleton-pulse"
+              />
+              <p
+                class="MuiSkeleton-root MuiSkeleton-text MediaPostPreviewCard-textBody-13 MuiSkeleton-pulse"
+                color="textPrimary"
+              />
+              <div
+                class="MuiBox-root MuiBox-root-34"
+              >
+                <span
+                  class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                  color="textSecondary"
+                  style="width: 60%;"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div
+            class="MuiPaper-root MuiCard-root MediaPostPreviewCard-root-9 MuiPaper-elevation1 MuiPaper-rounded"
+            data-testid="skeleton"
+          >
+            <div
+              class="MuiBox-root MuiBox-root-36 MediaPostPreviewCard-header-10 MediaPostPreviewCard-header-35"
+            >
+              <span
+                class="MuiSkeleton-root MuiSkeleton-text MediaPostPreviewCard-postType-14 MuiSkeleton-pulse"
+              />
+            </div>
+            <div
+              class="MuiBox-root MuiBox-root-37 MediaPostPreviewCard-body-11"
+            >
+              <h3
+                class="MuiSkeleton-root MuiSkeleton-text MediaPostPreviewCard-textHeader-12 MuiSkeleton-pulse"
+              />
+              <p
+                class="MuiSkeleton-root MuiSkeleton-text MediaPostPreviewCard-textBody-13 MuiSkeleton-pulse"
+                color="textPrimary"
+              />
+              <div
+                class="MuiBox-root MuiBox-root-38"
+              >
+                <span
+                  class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                  color="textSecondary"
+                  style="width: 60%;"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div
+            class="MuiPaper-root MuiCard-root MediaPostPreviewCard-root-9 MuiPaper-elevation1 MuiPaper-rounded"
+            data-testid="skeleton"
+          >
+            <div
+              class="MuiBox-root MuiBox-root-40 MediaPostPreviewCard-header-10 MediaPostPreviewCard-header-39"
+            >
+              <span
+                class="MuiSkeleton-root MuiSkeleton-text MediaPostPreviewCard-postType-14 MuiSkeleton-pulse"
+              />
+            </div>
+            <div
+              class="MuiBox-root MuiBox-root-41 MediaPostPreviewCard-body-11"
+            >
+              <h3
+                class="MuiSkeleton-root MuiSkeleton-text MediaPostPreviewCard-textHeader-12 MuiSkeleton-pulse"
+              />
+              <p
+                class="MuiSkeleton-root MuiSkeleton-text MediaPostPreviewCard-textBody-13 MuiSkeleton-pulse"
+                color="textPrimary"
+              />
+              <div
+                class="MuiBox-root MuiBox-root-42"
+              >
+                <span
+                  class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                  color="textSecondary"
+                  style="width: 60%;"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div
+            class="MuiPaper-root MuiCard-root MediaPostPreviewCard-root-9 MuiPaper-elevation1 MuiPaper-rounded"
+            data-testid="skeleton"
+          >
+            <div
+              class="MuiBox-root MuiBox-root-44 MediaPostPreviewCard-header-10 MediaPostPreviewCard-header-43"
+            >
+              <span
+                class="MuiSkeleton-root MuiSkeleton-text MediaPostPreviewCard-postType-14 MuiSkeleton-pulse"
+              />
+            </div>
+            <div
+              class="MuiBox-root MuiBox-root-45 MediaPostPreviewCard-body-11"
+            >
+              <h3
+                class="MuiSkeleton-root MuiSkeleton-text MediaPostPreviewCard-textHeader-12 MuiSkeleton-pulse"
+              />
+              <p
+                class="MuiSkeleton-root MuiSkeleton-text MediaPostPreviewCard-textBody-13 MuiSkeleton-pulse"
+                color="textPrimary"
+              />
+              <div
+                class="MuiBox-root MuiBox-root-46"
+              >
+                <span
+                  class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                  color="textSecondary"
+                  style="width: 60%;"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="NewestPostsList-container-2"
+    >
+      <a
+        href="/materials?origins=3"
+      >
+        <div
+          class="NewestPostsList-header-3"
+        >
+          <span
+            class="MuiTypography-root NewestPostsList-postsType-4 MuiTypography-h5"
+          >
+            Переклади
+          </span>
+          <div
+            class="NewestPostsList-line-5"
+          />
+          <div
+            class="NewestPostsList-arrow-6"
+          >
+            <span />
+            <span />
+            <span />
+            <span />
+          </div>
+        </div>
+      </a>
+      <div
+        class="MuiGrid-root NewestPostsList-grid-7 MuiGrid-container MuiGrid-spacing-xs-3 MuiGrid-item"
+      >
+        <div>
+          <div
+            class="MuiPaper-root MuiCard-root MediaPostPreviewCard-root-9 MuiPaper-elevation1 MuiPaper-rounded"
+            data-testid="skeleton"
+          >
+            <div
+              class="MuiBox-root MuiBox-root-48 MediaPostPreviewCard-header-10 MediaPostPreviewCard-header-47"
+            >
+              <span
+                class="MuiSkeleton-root MuiSkeleton-text MediaPostPreviewCard-postType-14 MuiSkeleton-pulse"
+              />
+            </div>
+            <div
+              class="MuiBox-root MuiBox-root-49 MediaPostPreviewCard-body-11"
+            >
+              <h3
+                class="MuiSkeleton-root MuiSkeleton-text MediaPostPreviewCard-textHeader-12 MuiSkeleton-pulse"
+              />
+              <p
+                class="MuiSkeleton-root MuiSkeleton-text MediaPostPreviewCard-textBody-13 MuiSkeleton-pulse"
+                color="textPrimary"
+              />
+              <div
+                class="MuiBox-root MuiBox-root-50"
+              >
+                <span
+                  class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                  color="textSecondary"
+                  style="width: 60%;"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div
+            class="MuiPaper-root MuiCard-root MediaPostPreviewCard-root-9 MuiPaper-elevation1 MuiPaper-rounded"
+            data-testid="skeleton"
+          >
+            <div
+              class="MuiBox-root MuiBox-root-52 MediaPostPreviewCard-header-10 MediaPostPreviewCard-header-51"
+            >
+              <span
+                class="MuiSkeleton-root MuiSkeleton-text MediaPostPreviewCard-postType-14 MuiSkeleton-pulse"
+              />
+            </div>
+            <div
+              class="MuiBox-root MuiBox-root-53 MediaPostPreviewCard-body-11"
+            >
+              <h3
+                class="MuiSkeleton-root MuiSkeleton-text MediaPostPreviewCard-textHeader-12 MuiSkeleton-pulse"
+              />
+              <p
+                class="MuiSkeleton-root MuiSkeleton-text MediaPostPreviewCard-textBody-13 MuiSkeleton-pulse"
+                color="textPrimary"
+              />
+              <div
+                class="MuiBox-root MuiBox-root-54"
+              >
+                <span
+                  class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                  color="textSecondary"
+                  style="width: 60%;"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div
+            class="MuiPaper-root MuiCard-root MediaPostPreviewCard-root-9 MuiPaper-elevation1 MuiPaper-rounded"
+            data-testid="skeleton"
+          >
+            <div
+              class="MuiBox-root MuiBox-root-56 MediaPostPreviewCard-header-10 MediaPostPreviewCard-header-55"
+            >
+              <span
+                class="MuiSkeleton-root MuiSkeleton-text MediaPostPreviewCard-postType-14 MuiSkeleton-pulse"
+              />
+            </div>
+            <div
+              class="MuiBox-root MuiBox-root-57 MediaPostPreviewCard-body-11"
+            >
+              <h3
+                class="MuiSkeleton-root MuiSkeleton-text MediaPostPreviewCard-textHeader-12 MuiSkeleton-pulse"
+              />
+              <p
+                class="MuiSkeleton-root MuiSkeleton-text MediaPostPreviewCard-textBody-13 MuiSkeleton-pulse"
+                color="textPrimary"
+              />
+              <div
+                class="MuiBox-root MuiBox-root-58"
+              >
+                <span
+                  class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                  color="textSecondary"
+                  style="width: 60%;"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div
+            class="MuiPaper-root MuiCard-root MediaPostPreviewCard-root-9 MuiPaper-elevation1 MuiPaper-rounded"
+            data-testid="skeleton"
+          >
+            <div
+              class="MuiBox-root MuiBox-root-60 MediaPostPreviewCard-header-10 MediaPostPreviewCard-header-59"
+            >
+              <span
+                class="MuiSkeleton-root MuiSkeleton-text MediaPostPreviewCard-postType-14 MuiSkeleton-pulse"
+              />
+            </div>
+            <div
+              class="MuiBox-root MuiBox-root-61 MediaPostPreviewCard-body-11"
+            >
+              <h3
+                class="MuiSkeleton-root MuiSkeleton-text MediaPostPreviewCard-textHeader-12 MuiSkeleton-pulse"
+              />
+              <p
+                class="MuiSkeleton-root MuiSkeleton-text MediaPostPreviewCard-textBody-13 MuiSkeleton-pulse"
+                color="textPrimary"
+              />
+              <div
+                class="MuiBox-root MuiBox-root-62"
+              >
+                <span
+                  class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                  color="textSecondary"
+                  style="width: 60%;"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="NewestPostsList-container-2"
+    >
+      <a
+        href="/materials?types=2"
+      >
+        <div
+          class="NewestPostsList-header-3"
+        >
+          <span
+            class="MuiTypography-root NewestPostsList-postsType-4 MuiTypography-h5"
+          >
+            Відео
+          </span>
+          <div
+            class="NewestPostsList-line-5"
+          />
+          <div
+            class="NewestPostsList-arrow-6"
+          >
+            <span />
+            <span />
+            <span />
+            <span />
+          </div>
+        </div>
+      </a>
+      <div
+        class="MuiGrid-root NewestPostsList-grid-7 MuiGrid-container MuiGrid-spacing-xs-3 MuiGrid-item"
+      >
+        <div>
+          <div
+            class="MuiPaper-root MuiCard-root MediaPostPreviewCard-root-9 MuiPaper-elevation1 MuiPaper-rounded"
+            data-testid="skeleton"
+          >
+            <div
+              class="MuiBox-root MuiBox-root-64 MediaPostPreviewCard-header-10 MediaPostPreviewCard-header-63"
+            >
+              <span
+                class="MuiSkeleton-root MuiSkeleton-text MediaPostPreviewCard-postType-14 MuiSkeleton-pulse"
+              />
+            </div>
+            <div
+              class="MuiBox-root MuiBox-root-65 MediaPostPreviewCard-body-11"
+            >
+              <h3
+                class="MuiSkeleton-root MuiSkeleton-text MediaPostPreviewCard-textHeader-12 MuiSkeleton-pulse"
+              />
+              <p
+                class="MuiSkeleton-root MuiSkeleton-text MediaPostPreviewCard-textBody-13 MuiSkeleton-pulse"
+                color="textPrimary"
+              />
+              <div
+                class="MuiBox-root MuiBox-root-66"
+              >
+                <span
+                  class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                  color="textSecondary"
+                  style="width: 60%;"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div
+            class="MuiPaper-root MuiCard-root MediaPostPreviewCard-root-9 MuiPaper-elevation1 MuiPaper-rounded"
+            data-testid="skeleton"
+          >
+            <div
+              class="MuiBox-root MuiBox-root-68 MediaPostPreviewCard-header-10 MediaPostPreviewCard-header-67"
+            >
+              <span
+                class="MuiSkeleton-root MuiSkeleton-text MediaPostPreviewCard-postType-14 MuiSkeleton-pulse"
+              />
+            </div>
+            <div
+              class="MuiBox-root MuiBox-root-69 MediaPostPreviewCard-body-11"
+            >
+              <h3
+                class="MuiSkeleton-root MuiSkeleton-text MediaPostPreviewCard-textHeader-12 MuiSkeleton-pulse"
+              />
+              <p
+                class="MuiSkeleton-root MuiSkeleton-text MediaPostPreviewCard-textBody-13 MuiSkeleton-pulse"
+                color="textPrimary"
+              />
+              <div
+                class="MuiBox-root MuiBox-root-70"
+              >
+                <span
+                  class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                  color="textSecondary"
+                  style="width: 60%;"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div
+            class="MuiPaper-root MuiCard-root MediaPostPreviewCard-root-9 MuiPaper-elevation1 MuiPaper-rounded"
+            data-testid="skeleton"
+          >
+            <div
+              class="MuiBox-root MuiBox-root-72 MediaPostPreviewCard-header-10 MediaPostPreviewCard-header-71"
+            >
+              <span
+                class="MuiSkeleton-root MuiSkeleton-text MediaPostPreviewCard-postType-14 MuiSkeleton-pulse"
+              />
+            </div>
+            <div
+              class="MuiBox-root MuiBox-root-73 MediaPostPreviewCard-body-11"
+            >
+              <h3
+                class="MuiSkeleton-root MuiSkeleton-text MediaPostPreviewCard-textHeader-12 MuiSkeleton-pulse"
+              />
+              <p
+                class="MuiSkeleton-root MuiSkeleton-text MediaPostPreviewCard-textBody-13 MuiSkeleton-pulse"
+                color="textPrimary"
+              />
+              <div
+                class="MuiBox-root MuiBox-root-74"
+              >
+                <span
+                  class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                  color="textSecondary"
+                  style="width: 60%;"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div
+            class="MuiPaper-root MuiCard-root MediaPostPreviewCard-root-9 MuiPaper-elevation1 MuiPaper-rounded"
+            data-testid="skeleton"
+          >
+            <div
+              class="MuiBox-root MuiBox-root-76 MediaPostPreviewCard-header-10 MediaPostPreviewCard-header-75"
+            >
+              <span
+                class="MuiSkeleton-root MuiSkeleton-text MediaPostPreviewCard-postType-14 MuiSkeleton-pulse"
+              />
+            </div>
+            <div
+              class="MuiBox-root MuiBox-root-77 MediaPostPreviewCard-body-11"
+            >
+              <h3
+                class="MuiSkeleton-root MuiSkeleton-text MediaPostPreviewCard-textHeader-12 MuiSkeleton-pulse"
+              />
+              <p
+                class="MuiSkeleton-root MuiSkeleton-text MediaPostPreviewCard-textBody-13 MuiSkeleton-pulse"
+                color="textPrimary"
+              />
+              <div
+                class="MuiBox-root MuiBox-root-78"
+              >
+                <span
+                  class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+                  color="textSecondary"
+                  style="width: 60%;"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

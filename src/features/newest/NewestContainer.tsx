@@ -19,6 +19,8 @@ export const NewestContainer: React.FC = () => {
     LoadingStatusEnum.pending,
   );
 
+  console.log('NewestContainer is rendered');
+
   useEffect(() => {
     getNewestPosts()
       .then((res): void => {
