@@ -31,6 +31,7 @@ const MOCK_USER = {
   },
 };
 
+
 const TRANSLATION_POST_MOCK: IPost = {
   author: {
     id: 1,
@@ -236,6 +237,7 @@ const DEFAULT_POST_MOCK: IPost = {
     },
   ],
 };
+
 
 const DEFAULT_POST_WITHOUT_POSTCONTENT_MOCK: IPost = {
   author: {

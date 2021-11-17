@@ -2,6 +2,7 @@ import React from 'react';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
+
 import MockAdapter from 'axios-mock-adapter';
 import PasswordResetView from '../PasswordResetView';
 import * as api from '../../../old/lib/utilities/API/api';
@@ -12,6 +13,7 @@ describe('PasswordResetView tests', () => {
     const mockAxios = new MockAdapter(instance);
     mockAxios.onPost('/user/reset-password').reply(200, {});
   });
+
 
   it('should PasswordResetView component render', async () => {
     const { asFragment } = render(<PasswordResetView />);
@@ -46,6 +48,7 @@ describe('PasswordResetView tests', () => {
 
   it('should render previous step', async () => {
 
+
     const { getByTestId } = render(<PasswordResetView />);
 
     const basicInput = getByTestId('basic-input');
@@ -63,6 +66,8 @@ describe('PasswordResetView tests', () => {
     await waitFor(() =>
       expect(screen.queryByText('Спробувати ще раз')).not.toBeInTheDocument(),
     );
+
   });
+
 
 });
