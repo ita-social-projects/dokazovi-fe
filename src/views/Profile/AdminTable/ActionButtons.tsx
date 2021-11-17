@@ -56,33 +56,33 @@ const ActionButtons: React.FC<IActionButtons> = ({ id, status, title }) => {
     setAnchorEl(null);
   };
 
-  const handleButtonClick = (btn: IButton) => {
-    handleCloseMenu();
-    btn.handler(btn.id);
-  };
-
-  const handleDeleteConfirmButtonClick = (idx: number) => {
-    boundedDeleteAdminPost({ id: idx });
-    toast.success(t(langTokens.admin.deleteSuccess));
-    closeModal();
-  };
-
-  const handleArchiveConfirmButtonClick = (idx: number) => {
-    handleSetPostStatus(idx, StatusesForActions.ARCHIVED);
-    toast.success(t(langTokens.admin.archiveSuccess));
-    closeModal();
-  };
-
-  const handleSetPostStatus = (idx: number, postStatus: number) => {
-    boundedSetPostStatus({ id: idx, postStatus });
-  };
-
   const openModal = (modal: string) => {
     setCurrentActiveModal(modal);
   };
 
   const closeModal = () => {
     setCurrentActiveModal(null);
+  };
+
+  const handleButtonClick = (btn: IButton) => {
+    const { id: btnId, handler } = btn;
+    handleCloseMenu();
+    handler(btnId);
+  };
+
+  const handleDeleteConfirm = () => {
+    boundedDeleteAdminPost({ id });
+    toast.success(t(langTokens.admin.deleteSuccess));
+    closeModal();
+  };
+
+  const handleArchiveConfirm = () => {
+    boundedSetPostStatus({
+      id,
+      postStatus: StatusesForActions.ARCHIVED,
+    });
+    toast.success(t(langTokens.admin.archiveSuccess));
+    closeModal();
   };
 
   const buttons: IButton[] = [
@@ -148,9 +148,7 @@ const ActionButtons: React.FC<IActionButtons> = ({ id, status, title }) => {
       handler: (btnId) => openModal(btnId),
       modal: {
         title: t(langTokens.admin.archiveTitle),
-        onConfirmButtonClick: () => {
-          handleArchiveConfirmButtonClick(id);
-        },
+        onConfirmButtonClick: () => handleArchiveConfirm(),
       },
     },
     {
@@ -160,9 +158,7 @@ const ActionButtons: React.FC<IActionButtons> = ({ id, status, title }) => {
       handler: (btnId) => openModal(btnId),
       modal: {
         title: t(langTokens.admin.deleteTitle),
-        onConfirmButtonClick: () => {
-          handleDeleteConfirmButtonClick(id);
-        },
+        onConfirmButtonClick: () => handleDeleteConfirm(),
       },
     },
   ];
@@ -175,14 +171,14 @@ const ActionButtons: React.FC<IActionButtons> = ({ id, status, title }) => {
       </MenuItem>
     ));
 
-  const renderModal = (singleBtnObj: string) => {
-    const obj = buttons.find((el) => el.id === singleBtnObj);
+  const renderModal = (btnId: string) => {
+    const btn = buttons.find((el) => el.id === btnId);
     return (
-      obj?.modal && (
+      btn?.modal && (
         <ActionButtonsModal
           open={!!currentActiveModal}
           onClose={() => setCurrentActiveModal(null)}
-          modal={obj.modal}
+          modal={btn.modal}
         />
       )
     );
@@ -199,28 +195,26 @@ const ActionButtons: React.FC<IActionButtons> = ({ id, status, title }) => {
         aria-expanded={isMenuOpen ? 'true' : undefined}
         onClick={handleOpenMenu}
       />
-      {buttonsRendered.length > 0 && (
-        <Menu
-          className={classes.menuRoot}
-          id="positioned-menu"
-          aria-labelledby="actionMenu"
-          anchorEl={anchorEl}
-          getContentAnchorEl={null}
-          open={isMenuOpen}
-          onClose={handleCloseMenu}
-          anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'right',
-          }}
-          transformOrigin={{
-            vertical: 'top',
-            horizontal: 'right',
-          }}
-          transitionDuration={400}
-        >
-          {buttonsRendered}
-        </Menu>
-      )}
+      <Menu
+        className={classes.menuRoot}
+        id="positioned-menu"
+        aria-labelledby="actionMenu"
+        anchorEl={anchorEl}
+        getContentAnchorEl={null}
+        open={isMenuOpen}
+        onClose={handleCloseMenu}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'right',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
+        }}
+        transitionDuration={400}
+      >
+        {buttonsRendered}
+      </Menu>
       {currentActiveModal && renderModal(currentActiveModal)}
     </>
   ) : (
