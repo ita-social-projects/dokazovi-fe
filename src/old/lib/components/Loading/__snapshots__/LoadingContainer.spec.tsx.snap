@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LoadingContainer should render correctly 1`] = `
+<DocumentFragment>
+  <div
+    class="MuiGrid-root LoadingContainer-container-2 MuiGrid-container"
+  />
+</DocumentFragment>
+`;
