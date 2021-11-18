@@ -1,15 +1,14 @@
 import React, { useState } from 'react';
-import { Button, MenuItem, Menu } from '@material-ui/core';
-import { MoreVert } from '@material-ui/icons';
+import { MenuItem } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import { StatusesForActions } from '../../../models/adminLab/types';
 import { deleteAdminPost, setPostStatus } from '../../../models/adminLab';
 import { useActions } from '../../../shared/hooks';
-import { useStyles } from './styles/ActionButtons.styles';
 import { PostStatus } from '../../../old/lib/types';
 import { langTokens } from '../../../locales/localizationInit';
 import ActionButtonsModal, { IModalSettings } from './ActionButtonsModal';
+import ActionButtonsMenu from './ActionButtonsMenu';
 
 interface IActionButtons {
   id: number;
@@ -27,7 +26,6 @@ interface IButton {
 }
 
 const ActionButtons: React.FC<IActionButtons> = ({ id, status, title }) => {
-  const classes = useStyles();
   const { t } = useTranslation();
   const [boundedDeleteAdminPost, boundedSetPostStatus] = useActions([
     deleteAdminPost,
@@ -46,15 +44,6 @@ const ActionButtons: React.FC<IActionButtons> = ({ id, status, title }) => {
   const [currentActiveModal, setCurrentActiveModal] = useState<null | string>(
     null,
   );
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const isMenuOpen = Boolean(anchorEl);
-
-  const handleOpenMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleCloseMenu = () => {
-    setAnchorEl(null);
-  };
 
   const openModal = (modal: string) => {
     setCurrentActiveModal(modal);
@@ -66,7 +55,6 @@ const ActionButtons: React.FC<IActionButtons> = ({ id, status, title }) => {
 
   const handleButtonClick = (btn: IButton) => {
     const { id: btnId, handler } = btn;
-    handleCloseMenu();
     handler(btnId);
   };
 
@@ -186,35 +174,7 @@ const ActionButtons: React.FC<IActionButtons> = ({ id, status, title }) => {
 
   return buttonsRendered.length > 0 ? (
     <>
-      <Button
-        className={classes.mainButton}
-        id="actionMenu"
-        startIcon={<MoreVert />}
-        aria-controls="positioned-menu"
-        aria-haspopup="true"
-        aria-expanded={isMenuOpen ? 'true' : undefined}
-        onClick={handleOpenMenu}
-      />
-      <Menu
-        className={classes.menuRoot}
-        id="positioned-menu"
-        aria-labelledby="actionMenu"
-        anchorEl={anchorEl}
-        getContentAnchorEl={null}
-        open={isMenuOpen}
-        onClose={handleCloseMenu}
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'right',
-        }}
-        transformOrigin={{
-          vertical: 'top',
-          horizontal: 'right',
-        }}
-        transitionDuration={400}
-      >
-        {buttonsRendered}
-      </Menu>
+      <ActionButtonsMenu buttonsRendered={buttonsRendered} />
       {currentActiveModal && renderModal(currentActiveModal)}
     </>
   ) : (
