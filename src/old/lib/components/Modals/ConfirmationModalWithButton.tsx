@@ -34,7 +34,7 @@ export const ConfirmationModalWithButton: React.FC<IConfirmationModalWithButtonP
   const [open, setOpen] = useState(false);
 
   return (
-    <div>
+    <div data-testid="confirmation-modal">
       {buttonIcon && (
         <IconButton
           style={{ padding: '0px' }}
@@ -68,6 +68,7 @@ export const ConfirmationModalWithButton: React.FC<IConfirmationModalWithButtonP
           className={classes.btnContainer}
         >
           <Button
+            data-testid="confirmation-button"
             onClick={() => {
               onConfirmButtonClick();
               setOpen(false);
