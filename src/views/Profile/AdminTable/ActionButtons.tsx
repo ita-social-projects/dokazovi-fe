@@ -8,7 +8,7 @@ import { useActions } from '../../../shared/hooks';
 import { PostStatus } from '../../../old/lib/types';
 import { langTokens } from '../../../locales/localizationInit';
 import ActionButtonsModal, { IModalSettings } from './ActionButtonsModal';
-import ActionButtonsMenu from './ActionButtonsMenu';
+import ActionMenu from './ActionMenu';
 
 interface IActionButtons {
   id: number;
@@ -41,16 +41,14 @@ const ActionButtons: React.FC<IActionButtons> = ({ id, status, title }) => {
   } = PostStatus;
 
   const editPostLink = `/edit-post?id=${id}`;
-  const [currentActiveModal, setCurrentActiveModal] = useState<null | string>(
-    null,
-  );
+  const [activeModal, setActiveModal] = useState<null | string>(null);
 
   const openModal = (modal: string) => {
-    setCurrentActiveModal(modal);
+    setActiveModal(modal);
   };
 
   const closeModal = () => {
-    setCurrentActiveModal(null);
+    setActiveModal(null);
   };
 
   const handleButtonClick = (btn: IButton) => {
@@ -159,23 +157,18 @@ const ActionButtons: React.FC<IActionButtons> = ({ id, status, title }) => {
       </MenuItem>
     ));
 
-  const renderModal = (btnId: string) => {
-    const btn = buttons.find((el) => el.id === btnId);
-    return (
-      btn?.modal && (
-        <ActionButtonsModal
-          open={!!currentActiveModal}
-          onClose={() => setCurrentActiveModal(null)}
-          modal={btn.modal}
-        />
-      )
-    );
-  };
+  const activeBtn = buttons.find((el) => el.id === activeModal);
 
   return buttonsRendered.length > 0 ? (
     <>
-      <ActionButtonsMenu buttonsRendered={buttonsRendered} />
-      {currentActiveModal && renderModal(currentActiveModal)}
+      <ActionMenu buttonsRendered={buttonsRendered} />
+      {activeModal && activeBtn?.modal && (
+        <ActionButtonsModal
+          open={!!activeModal}
+          onClose={closeModal}
+          modal={activeBtn.modal}
+        />
+      )}
     </>
   ) : (
     <></>

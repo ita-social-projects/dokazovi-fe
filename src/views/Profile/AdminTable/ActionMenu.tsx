@@ -7,9 +7,7 @@ interface IActionButtonsMenu {
   buttonsRendered: JSX.Element[];
 }
 
-const ActionButtonsMenu: React.FC<IActionButtonsMenu> = ({
-  buttonsRendered,
-}) => {
+const ActionMenu: React.FC<IActionButtonsMenu> = ({ buttonsRendered }) => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const isMenuOpen = Boolean(anchorEl);
@@ -57,4 +55,4 @@ const ActionButtonsMenu: React.FC<IActionButtonsMenu> = ({
   );
 };
 
-export default ActionButtonsMenu;
+export default ActionMenu;
