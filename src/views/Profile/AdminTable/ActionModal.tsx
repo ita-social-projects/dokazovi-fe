@@ -17,7 +17,7 @@ interface IActionButtonsModal {
   modal: IModalSettings;
 }
 
-const ActionButtonsModal: React.FC<IActionButtonsModal> = ({
+const ActionModal: React.FC<IActionButtonsModal> = ({
   open,
   onClose,
   modal,
@@ -26,7 +26,7 @@ const ActionButtonsModal: React.FC<IActionButtonsModal> = ({
 
   return (
     <Dialog open={open} onClose={onClose}>
-      <DialogTitle>{modal.title}</DialogTitle>
+      {modal.title && <DialogTitle>{modal.title}</DialogTitle>}
       {modal.content && <DialogContent>{modal.content}</DialogContent>}
       <DialogActions>
         <Button onClick={modal.onConfirmButtonClick}>
@@ -38,4 +38,4 @@ const ActionButtonsModal: React.FC<IActionButtonsModal> = ({
   );
 };
 
-export default ActionButtonsModal;
+export default ActionModal;

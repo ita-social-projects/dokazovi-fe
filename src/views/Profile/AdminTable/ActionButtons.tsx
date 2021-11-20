@@ -7,7 +7,7 @@ import { deleteAdminPost, setPostStatus } from '../../../models/adminLab';
 import { useActions } from '../../../shared/hooks';
 import { PostStatus } from '../../../old/lib/types';
 import { langTokens } from '../../../locales/localizationInit';
-import ActionButtonsModal, { IModalSettings } from './ActionButtonsModal';
+import ActionModal, { IModalSettings } from './ActionModal';
 import ActionMenu from './ActionMenu';
 
 interface IActionButtons {
@@ -162,8 +162,8 @@ const ActionButtons: React.FC<IActionButtons> = ({ id, status, title }) => {
   return buttonsRendered.length > 0 ? (
     <>
       <ActionMenu buttonsRendered={buttonsRendered} />
-      {activeModal && activeBtn?.modal && (
-        <ActionButtonsModal
+      {activeBtn?.modal && (
+        <ActionModal
           open={!!activeModal}
           onClose={closeModal}
           modal={activeBtn.modal}
