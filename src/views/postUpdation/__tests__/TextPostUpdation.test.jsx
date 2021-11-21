@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-return */
@@ -7,6 +8,24 @@ import { render, screen, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
 import { TextPostUpdation } from '../TextPostUpdation';
+
+jest.mock('../../../old/lib/utilities/Imgur/getStringFromFile', () => ({
+  ...jest.requireActual('../../../old/lib/utilities/Imgur/getStringFromFile'),
+  getStringFromFile: () => Promise.resolve(),
+}));
+
+jest.mock('../../../old/lib/utilities/Imgur/uploadImageToImgur', () => ({
+  ...jest.requireActual('../../../old/lib/utilities/Imgur/uploadImageToImgur'),
+  uploadImageToImgur: () =>
+    Promise.resolve({
+      data: {
+        status: 200,
+        data: {
+          link: 'hello.png',
+        },
+      },
+    }),
+}));
 
 const store = {
   authorities: { data: ['SET_IMPORTANCE'] },
@@ -22,7 +41,7 @@ const store = {
       },
     ],
 
-    origins: [{ id: 2, name: 'Медитека', parameter: null }],
+    origins: [{ id: 1, name: 'Думка експерта', parameter: null }],
   },
 };
 
@@ -88,60 +107,8 @@ jest.mock('../../../old/lib/utilities/API/api', () => ({
     }),
   updatePost: () =>
     Promise.resolve({
-      // data: {
-      //   id: 95,
-      //   content: <div />,
-      //   directions: [
-      //     {
-      //       id: 1,
-      //       name: 'Covid-19',
-      //     },
-      //   ],
-      //   origins: [{ id: 2, name: 'Медитека', parameter: null }],
-      //   preview: ' ',
-      //   previewImageUrl: ' ',
-      //   importantImageUrl: ' ',
-      //   title: 'Діти та батьки і COVID-19 test',
-      //   type: { id: 1, name: 'Стаття' },
-      //   authorId: 17,
-      // },
-      // data: {
-      //   author: {
-      //     firstName: 'Олена',
-      //     id: 17,
-      //     lastName: 'Шевченко',
-      //     mainInstitution: {
-      //       city: {
-      //         id: 190,
-      //         name: 'Київ',
-      //       },
-      //       id: 1,
-      //       name: 'Адоніс',
-      //     },
-      //   },
-      //   content:
-      //     '<h4>Чи небезпечний COVID-19 для дітей? Що важливо врахувати про вагітність і пологи під час пандемії?',
-      //   preview:
-      //     'Чи небезпечний COVID-19 для дітей?Чи небезпечний COVID-19 для дітей?',
-      //   postType: { id: 2, name: ' ' },
-      //   createdAt: '6.07.2021',
-      //   publishedAt: '6.07.2021',
-      //   directions: [{ id: 1, name: 'Covid-19' }],
-      //   origins: [{ id: 2, name: 'Медитека', parameter: null }],
-      //   id: 95,
-      //   title: 'Діти та батьки і COVID-19 test',
-      //   type: { id: 1, name: 'Стаття' },
-      // },
-
       data: {
-        id: 95,
-        title: 'Діти та батьки і COVID-19 test',
-        content:
-          'Чи небезпечний COVID-19 для дітей? Що важливо врахувати про вагітність і пологи під час пандемії?',
-        directions: [{ id: 1, name: 'Covid-19' }],
-        preview:
-          'Чи небезпечний COVID-19 для дітей?Чи небезпечний COVID-19 для дітей?небезпечний',
-        type: { id: 1, name: 'Стаття' },
+        id: 105,
       },
     }),
 }));
@@ -152,12 +119,12 @@ describe('TextPostUpdation tests', () => {
   //   jest.useRealTimers();
   // });
   const textPostUpdationMocks = {
-    pageTitle: 'Редагування статті',
-    titleInputLabel: 'Заголовок статті:',
-    contentInputLabel: 'Текст статті:',
+    pageTitle: 'Редагування допису',
+    titleInputLabel: 'Заголовок допису:',
+    contentInputLabel: 'Текст допису:',
     editorToolbar: () => <div />,
     post: {
-      id: 95,
+      id: 105,
       title: 'Діти та батьки і COVID-19',
       content:
         '<h4>Чи небезпечний COVID-19 для дітей? Що важливо врахувати про вагітність і пологи під час пандемії?',
@@ -175,12 +142,14 @@ describe('TextPostUpdation tests', () => {
         },
       },
       directions: [{ id: 1, name: 'Covid-19' }],
-      type: { id: 1, name: 'Стаття' },
+      type: { id: 3, name: 'Допис' },
       createdAt: '6.07.2021',
       publishedAt: '6.07.2021',
-      origins: [{ id: 2, name: 'Медитека', parameter: null }],
+      origins: [{ id: 1, name: 'Думка експерта', parameter: null }],
       preview:
         'Чи небезпечний COVID-19 для дітей?Чи небезпечний COVID-19 для дітей?',
+      // previewImageUrl: 'https://i.imgur.com/1VU2fe5.png',
+      // importantImageUrl: 'https://i.imgur.com/1VU2fe5.png',
     },
   };
 
@@ -204,27 +173,33 @@ describe('TextPostUpdation tests', () => {
     expect(asFragment()).toMatchSnapshot();
   });
 
-  it('should render direction checkboxes', () => {
+  it('should render direction checkboxes', async () => {
     const checkboxDirection = screen
       .getAllByTestId('checkbox')[0]
       .querySelector('input[type="checkbox"]');
 
     expect(checkboxDirection).not.toBeChecked();
     userEvent.click(checkboxDirection);
-    expect(checkboxDirection).toBeChecked();
+
+    await waitFor(() => expect(checkboxDirection).toBeChecked());
   });
 
-  it('should render origin checkboxes', () => {
+  it('should render origin checkboxes', async () => {
     const checkboxOrigin = screen
       .getAllByTestId('checkbox')[1]
       .querySelector('input[type="checkbox"]');
+
+    expect(checkboxOrigin).toBeChecked();
     userEvent.click(checkboxOrigin);
-    expect(checkboxOrigin).not.toBeChecked();
+
+    await waitFor(() => expect(checkboxOrigin).not.toBeChecked());
   });
 
   it('should render title input', async () => {
     const input = screen.getByTestId('text-field');
+
     userEvent.type(input, ' test');
+
     await waitFor(() =>
       expect(input).toHaveValue('Діти та батьки і COVID-19 test'),
     );
@@ -251,7 +226,10 @@ describe('TextPostUpdation tests', () => {
 
     // jest.advanceTimersByTime(500);
 
-    expect(await screen.findByTestId('authors-table')).toBeInTheDocument();
+    await waitFor(() =>
+      expect(screen.getByTestId('authors-table')).toBeInTheDocument(),
+    );
+
     expect(screen.getByTestId('row')).toHaveTextContent('Олена');
     expect(screen.getByTestId('row')).toHaveTextContent('Шевченко');
   });
@@ -262,9 +240,19 @@ describe('TextPostUpdation tests', () => {
     userEvent.clear(authorInput);
     userEvent.type(authorInput, 'Олена Шевченко');
 
-    expect(await screen.findByTestId('authors-table')).toBeInTheDocument();
+    await waitFor(() =>
+      expect(screen.getByTestId('authors-table')).toBeInTheDocument(),
+    );
     const authorRow = screen.getByTestId('row');
     userEvent.click(authorRow);
+    expect(screen.queryByTestId('authors-table')).not.toBeInTheDocument();
+  });
+
+  it('should not render author', () => {
+    const authorInput = screen.getByPlaceholderText('Choose some author');
+
+    userEvent.clear(authorInput);
+
     expect(screen.queryByTestId('authors-table')).not.toBeInTheDocument();
   });
 
@@ -275,10 +263,10 @@ describe('TextPostUpdation tests', () => {
 
     userEvent.upload(imageLoader, file);
 
-    // expect(imageLoader.files[0]).toStrictEqual(file);
-    // expect(imageLoader.files.item(0)).toStrictEqual(file);
+    await waitFor(() => expect(imageLoader.files[0]).toStrictEqual(file));
+    expect(imageLoader.files).toHaveLength(1);
 
-    await waitFor(() => expect(imageLoader.files).toHaveLength(1));
+    // expect(imageLoader).toBeInTheDocument();
   });
 
   it('should cancel button work properly', async () => {
@@ -290,14 +278,14 @@ describe('TextPostUpdation tests', () => {
     await waitFor(() => expect(mockHistoryGoBack).toHaveBeenCalled());
   });
 
-  // it('should save button work properly', async () => {
-  //   const saveButton = screen.getByText('Зберегти');
-  //   userEvent.click(saveButton);
+  it('should save button work properly', async () => {
+    const saveButton = screen.getByText('Зберегти');
+    userEvent.click(saveButton);
 
-  // await waitFor(() =>
-  //   expect(mockHistoryPush).toHaveBeenCalledWith(`/posts/95`),
-  // );
-  // });
+    await waitFor(() =>
+      expect(mockHistoryPush).toHaveBeenCalledWith(`/posts/105`),
+    );
+  });
 
   it('should preview button work properly', () => {
     const previewButton = screen.getByText('Попередній перегляд');

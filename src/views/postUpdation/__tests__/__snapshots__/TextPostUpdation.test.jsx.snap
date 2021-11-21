@@ -256,7 +256,7 @@ exports[`TextPostUpdation tests should render component 1`] = `
                             checked=""
                             class="PrivateSwitchBase-input-9"
                             data-indeterminate="false"
-                            name="2"
+                            name="1"
                             type="checkbox"
                             value=""
                           />
@@ -286,7 +286,7 @@ exports[`TextPostUpdation tests should render component 1`] = `
                           <span
                             class="MuiChip-label MuiChip-labelSmall"
                           >
-                            Медитека
+                            Думка експерта
                           </span>
                           <span
                             class="MuiTouchRipple-root"
@@ -309,7 +309,7 @@ exports[`TextPostUpdation tests should render component 1`] = `
     <h5
       class="MuiTypography-root makeStyles-requiredField-1 MuiTypography-h5"
     >
-      Заголовок статті:
+      Заголовок допису:
     </h5>
     <div
       class="MuiFormControl-root MuiTextField-root MuiFormControl-fullWidth"
@@ -488,7 +488,7 @@ exports[`TextPostUpdation tests should render component 1`] = `
     <h5
       class="MuiTypography-root makeStyles-requiredField-1 MuiTypography-h5"
     >
-      Текст статті:
+      Текст допису:
     </h5>
     <div />
   </div>
@@ -531,35 +531,20 @@ exports[`TextPostUpdation tests should render component 1`] = `
           class="MuiTouchRipple-root"
         />
       </button>
-      <div>
-        <button
-          class="MuiButtonBase-root MuiIconButton-root"
-          style="padding: 0px;"
-          tabindex="0"
-          type="button"
+      <button
+        class="MuiButtonBase-root MuiButton-root MuiButton-contained"
+        tabindex="0"
+        type="button"
+      >
+        <span
+          class="MuiButton-label"
         >
-          <span
-            class="MuiIconButton-label"
-          />
-        </button>
-        <button
-          class="MuiButtonBase-root MuiButton-root MuiButton-contained"
-          tabindex="0"
-          type="button"
-        >
-          <span
-            class="MuiButton-label"
-          >
-            Зберегти
-          </span>
-          <span
-            class="MuiTouchRipple-root"
-          />
-        </button>
+          Зберегти
+        </span>
         <span
           class="MuiTouchRipple-root"
         />
-      </div>
+      </button>
     </div>
   </div>
 </DocumentFragment>
