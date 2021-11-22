@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
@@ -8,6 +9,14 @@ import { render, screen, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
 import { TextPostUpdation } from '../TextPostUpdation';
+
+jest.mock('lodash', () => ({
+  ...jest.requireActual('lodash'),
+  debounce: (fn) => {
+    fn.cancel = jest.fn();
+    return fn;
+  },
+}));
 
 jest.mock('../../../old/lib/utilities/Imgur/getStringFromFile', () => ({
   ...jest.requireActual('../../../old/lib/utilities/Imgur/getStringFromFile'),
@@ -64,9 +73,6 @@ jest.mock('react-redux', () => ({
 
 global.document.execCommand = jest.fn();
 
-// jest.mock('quill', () => () => {});
-// jest.mock('quill-image-uploader', () => () => {});
-
 jest.mock('../../../components/Editor/Editors/TextPostEditor', () => ({
   ...jest.requireActual('../../../components/Editor/Editors/TextPostEditor'),
   TextPostEditor: () => <div />,
@@ -115,9 +121,7 @@ jest.mock('../../../old/lib/utilities/API/api', () => ({
 
 describe('TextPostUpdation tests', () => {
   let component;
-  // afterEach(() => {
-  //   jest.useRealTimers();
-  // });
+
   const textPostUpdationMocks = {
     pageTitle: 'Редагування допису',
     titleInputLabel: 'Заголовок допису:',
@@ -148,12 +152,10 @@ describe('TextPostUpdation tests', () => {
       origins: [{ id: 1, name: 'Думка експерта', parameter: null }],
       preview:
         'Чи небезпечний COVID-19 для дітей?Чи небезпечний COVID-19 для дітей?',
-      // previewImageUrl: 'https://i.imgur.com/1VU2fe5.png',
-      // importantImageUrl: 'https://i.imgur.com/1VU2fe5.png',
     },
   };
 
-  beforeEach(() => {
+  beforeEach(async () => {
     component = render(
       <MemoryRouter>
         <TextPostUpdation
@@ -165,34 +167,19 @@ describe('TextPostUpdation tests', () => {
         />
       </MemoryRouter>,
     );
+
+    await waitFor(
+      () =>
+        new Promise((resolve) => {
+          resolve();
+        }, 0),
+    );
   });
 
   it('should render component', () => {
     const { asFragment } = component;
 
     expect(asFragment()).toMatchSnapshot();
-  });
-
-  it('should render direction checkboxes', async () => {
-    const checkboxDirection = screen
-      .getAllByTestId('checkbox')[0]
-      .querySelector('input[type="checkbox"]');
-
-    expect(checkboxDirection).not.toBeChecked();
-    userEvent.click(checkboxDirection);
-
-    await waitFor(() => expect(checkboxDirection).toBeChecked());
-  });
-
-  it('should render origin checkboxes', async () => {
-    const checkboxOrigin = screen
-      .getAllByTestId('checkbox')[1]
-      .querySelector('input[type="checkbox"]');
-
-    expect(checkboxOrigin).toBeChecked();
-    userEvent.click(checkboxOrigin);
-
-    await waitFor(() => expect(checkboxOrigin).not.toBeChecked());
   });
 
   it('should render title input', async () => {
@@ -217,14 +204,10 @@ describe('TextPostUpdation tests', () => {
   });
 
   it('should author search work', async () => {
-    // jest.useFakeTimers('modern');
-
     const authorInput = screen.getByPlaceholderText('Choose some author');
 
     userEvent.clear(authorInput);
     userEvent.type(authorInput, 'Олена Шевченко');
-
-    // jest.advanceTimersByTime(500);
 
     await waitFor(() =>
       expect(screen.getByTestId('authors-table')).toBeInTheDocument(),
@@ -248,12 +231,34 @@ describe('TextPostUpdation tests', () => {
     expect(screen.queryByTestId('authors-table')).not.toBeInTheDocument();
   });
 
-  it('should not render author', () => {
+  it('should not render author', async () => {
     const authorInput = screen.getByPlaceholderText('Choose some author');
 
     userEvent.clear(authorInput);
 
-    expect(screen.queryByTestId('authors-table')).not.toBeInTheDocument();
+    await waitFor(() =>
+      expect(screen.queryByTestId('authors-table')).not.toBeInTheDocument(),
+    );
+  });
+
+  it('should render direction checkboxes', async () => {
+    const checkboxDirection = screen
+      .getAllByTestId('checkbox')[0]
+      .querySelector('input[type="checkbox"]');
+
+    userEvent.click(checkboxDirection);
+
+    await waitFor(() => expect(checkboxDirection).toBeChecked());
+  });
+
+  it('should render origin checkboxes', async () => {
+    const checkboxOrigin = screen
+      .getAllByTestId('checkbox')[1]
+      .querySelector('input[type="checkbox"]');
+
+    userEvent.click(checkboxOrigin);
+
+    await waitFor(() => expect(checkboxOrigin).not.toBeChecked());
   });
 
   it('should render image upload', async () => {
@@ -265,8 +270,6 @@ describe('TextPostUpdation tests', () => {
 
     await waitFor(() => expect(imageLoader.files[0]).toStrictEqual(file));
     expect(imageLoader.files).toHaveLength(1);
-
-    // expect(imageLoader).toBeInTheDocument();
   });
 
   it('should cancel button work properly', async () => {
@@ -287,14 +290,14 @@ describe('TextPostUpdation tests', () => {
     );
   });
 
-  it('should preview button work properly', () => {
+  it('should preview button work properly', async () => {
     const previewButton = screen.getByText('Попередній перегляд');
     userEvent.click(previewButton);
 
     const backToPreviewButton = screen.getByText('Назад до редагування');
-    expect(backToPreviewButton).toBeInTheDocument();
+    await waitFor(() => expect(backToPreviewButton).toBeInTheDocument());
     userEvent.click(backToPreviewButton);
 
-    expect(previewButton).toBeInTheDocument();
+    await waitFor(() => expect(previewButton).toBeInTheDocument());
   });
 });
