@@ -1,13 +1,13 @@
 import React from 'react';
 import { Button, Menu } from '@material-ui/core';
 import { MoreVert } from '@material-ui/icons';
-import { useStyles } from './styles/ActionButtonsMenu.styles';
+import { useStyles } from './styles/ActionMenu.styles';
 
-interface IActionButtonsMenu {
+interface IActionMenu {
   buttonsRendered: JSX.Element[];
 }
 
-const ActionMenu: React.FC<IActionButtonsMenu> = ({ buttonsRendered }) => {
+const ActionMenu: React.FC<IActionMenu> = ({ buttonsRendered }) => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const isMenuOpen = Boolean(anchorEl);
