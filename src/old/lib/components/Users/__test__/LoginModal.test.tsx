@@ -68,3 +68,41 @@ describe('LoginModal tests', () => {
     });
   });
 });
+
+describe('Login submition failed', () => {
+  beforeEach(() => {
+    const mockedAxios = new MockAdapter(api.instance);
+    mockedAxios
+      .onPost('/auth/login')
+      .replyOnce(500, { data: { status: 'error' } });
+    render(
+      <Provider store={store}>
+        <Router history={history}>
+          <LoginModal />
+        </Router>
+      </Provider>,
+    );
+  });
+
+  afterEach(cleanup);
+
+  it('should submit authorization form with error', async () => {
+    const loginFn = jest
+      .spyOn(api, 'login')
+      .mockRejectedValueOnce({ response: { data: { status: 'Error' } } });
+
+    const openMenuButton = screen.getByRole('button', { name: 'Увійти' });
+    fireEvent.click(openMenuButton);
+
+    const inputs = screen.getAllByTestId('basic-input');
+    userEvent.type(inputs[0], 'testmail@mail.com');
+    userEvent.type(inputs[1], 'testpassword');
+
+    const submitButton = screen.getByRole('button', { name: 'Увійти' });
+    fireEvent.submit(submitButton);
+
+    await waitFor(() => {
+      expect(loginFn).toHaveBeenCalled();
+    });
+  });
+});
