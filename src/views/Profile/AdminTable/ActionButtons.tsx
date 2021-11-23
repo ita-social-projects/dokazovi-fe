@@ -99,9 +99,9 @@ const ActionButtons: React.FC<IActionButtons> = ({ id, status, title }) => {
       id: 'publishBtn',
       label: t(langTokens.admin.publish),
       allowedStatuses: [MODERATION_SECOND_SIGN, ARCHIVED],
-      // eslint-disable-next-line no-console
-      handler: () => console.log('publishBtn handler'),
-      modal: null,
+      handler: () => {
+        window.open(editPostLink);
+      },
     },
     {
       id: 'schedulePublishBtn',
