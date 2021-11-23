@@ -18,12 +18,25 @@ import { LoginModal } from '../LoginModal';
 
 const history = createMemoryHistory();
 
+const submitLoginForm = () => {
+  const openMenuButton = screen.getByRole('button', { name: 'Увійти' });
+  fireEvent.click(openMenuButton);
+
+  const inputs = screen.getAllByTestId('basic-input');
+  userEvent.type(inputs[0], 'testmail@mail.com');
+  userEvent.type(inputs[1], 'testpassword');
+
+  const submitButton = screen.getByRole('button', { name: 'Увійти' });
+  fireEvent.submit(submitButton);
+};
+
 describe('LoginModal tests', () => {
   beforeEach(() => {
     const mockedAxios = new MockAdapter(api.instance);
     mockedAxios
       .onPost('/auth/login')
       .replyOnce(200, { data: { status: 'success' } });
+
     render(
       <Provider store={store}>
         <Router history={history}>
@@ -52,16 +65,7 @@ describe('LoginModal tests', () => {
       isDismissed: false,
     });
 
-    const openMenuButton = screen.getByRole('button', { name: 'Увійти' });
-    fireEvent.click(openMenuButton);
-
-    const inputs = screen.getAllByTestId('basic-input');
-    userEvent.type(inputs[0], 'testmail@mail.com');
-    userEvent.type(inputs[1], 'testpassword');
-
-    const submitButton = screen.getByRole('button', { name: 'Увійти' });
-    fireEvent.submit(submitButton);
-
+    submitLoginForm();
     await waitFor(() => {
       expect(swalFireMock).toHaveBeenCalled();
       expect(history.location.pathname).toBe('/');
@@ -75,6 +79,7 @@ describe('Login submition failed', () => {
     mockedAxios
       .onPost('/auth/login')
       .replyOnce(500, { data: { status: 'error' } });
+
     render(
       <Provider store={store}>
         <Router history={history}>
@@ -91,16 +96,7 @@ describe('Login submition failed', () => {
       .spyOn(api, 'login')
       .mockRejectedValueOnce({ response: { data: { status: 'Error' } } });
 
-    const openMenuButton = screen.getByRole('button', { name: 'Увійти' });
-    fireEvent.click(openMenuButton);
-
-    const inputs = screen.getAllByTestId('basic-input');
-    userEvent.type(inputs[0], 'testmail@mail.com');
-    userEvent.type(inputs[1], 'testpassword');
-
-    const submitButton = screen.getByRole('button', { name: 'Увійти' });
-    fireEvent.submit(submitButton);
-
+    submitLoginForm();
     await waitFor(() => {
       expect(loginFn).toHaveBeenCalled();
     });
