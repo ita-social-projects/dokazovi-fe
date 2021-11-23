@@ -3,7 +3,7 @@ import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { BasicInput } from '../BasicInput';
 
-jest.mock('axios');
+jest.mock('request');
 
 describe('BasicInput component tests', () => {
   it('should render BasicInput component', () => {
