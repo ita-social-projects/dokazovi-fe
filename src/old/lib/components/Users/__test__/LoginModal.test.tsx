@@ -18,22 +18,12 @@ import { LoginModal } from '../LoginModal';
 
 const history = createMemoryHistory();
 
-const mockedAxios = new MockAdapter(api.instance);
-
-const submitLoginForm = () => {
-  const openMenuButton = screen.getByRole('button', { name: 'Увійти' });
-  fireEvent.click(openMenuButton);
-
-  const inputs = screen.getAllByTestId('basic-input');
-  userEvent.type(inputs[0], 'testmail@mail.com');
-  userEvent.type(inputs[1], 'testpassword');
-
-  const submitButton = screen.getByRole('button', { name: 'Увійти' });
-  fireEvent.submit(submitButton);
-};
-
 describe('LoginModal tests', () => {
   beforeEach(() => {
+    const mockedAxios = new MockAdapter(api.instance);
+    mockedAxios
+      .onPost('/auth/login')
+      .replyOnce(200, { data: { status: 'success' } });
     render(
       <Provider store={store}>
         <Router history={history}>
@@ -56,27 +46,25 @@ describe('LoginModal tests', () => {
   });
 
   it("should submit authorization form after passing email and password data by clicking on 'Увійти' button", async () => {
-    mockedAxios.onPost('/auth/login').replyOnce(200, {});
     const swalFireMock = jest.spyOn(Swal, 'fire').mockResolvedValueOnce({
       isConfirmed: true,
       isDenied: false,
       isDismissed: false,
     });
-    submitLoginForm();
+
+    const openMenuButton = screen.getByRole('button', { name: 'Увійти' });
+    fireEvent.click(openMenuButton);
+
+    const inputs = screen.getAllByTestId('basic-input');
+    userEvent.type(inputs[0], 'testmail@mail.com');
+    userEvent.type(inputs[1], 'testpassword');
+
+    const submitButton = screen.getByRole('button', { name: 'Увійти' });
+    fireEvent.submit(submitButton);
+
     await waitFor(() => {
       expect(swalFireMock).toHaveBeenCalled();
       expect(history.location.pathname).toBe('/');
-    });
-  });
-
-  it('should submit authorization form with error', async () => {
-    mockedAxios.onPost('/auth/login').replyOnce(500);
-    const loginFn = jest
-      .spyOn(api, 'login')
-      .mockRejectedValueOnce({ response: { data: { status: 'Error' } } });
-    submitLoginForm();
-    await waitFor(() => {
-      expect(loginFn).toHaveBeenCalled();
     });
   });
 });
