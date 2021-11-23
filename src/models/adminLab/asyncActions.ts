@@ -3,6 +3,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 
 import {
   getUniquePostViewsCounter,
+  getFakePostViewsCounter,
   archivePost,
   getPosts,
   updatePost,
@@ -10,6 +11,7 @@ import {
 import { mapFetchedPosts } from '../materials/asyncActions';
 import { IAdminPost, IAdminLabData } from './types';
 import { RootStateType } from '../rootReducer';
+import { parsDate } from '../../utilities/parsDate'
 
 interface IFilterOption {
   id: number;
@@ -31,7 +33,7 @@ export const getMaterialsAction = createAsyncThunk(
     try {
       const {
         adminLab: {
-          meta: { sort, filters, page, size, textFields },
+          meta: { sort, filters, page, size, textFields, date },
         },
         properties: { directions, postTypes, origins, statuses },
       } = getState() as RootStateType;
@@ -47,16 +49,20 @@ export const getMaterialsAction = createAsyncThunk(
           statuses: setFilter(filters.statuses, statuses),
           sort: [`${sort.sortBy},${sort.order}`],
           ...textFields,
+          startDate: parsDate(date.start),
+          endDate: parsDate(date.end),
         },
       });
+      console.log( parsDate(date.start),parsDate(date.start)?.length)
       const { ids: postIds } = mapFetchedPosts(content);
       const postWithViews: IAdminPost[] = await Promise.all(
         content.map(async (post) => {
           const { data } = await getUniquePostViewsCounter(post.id);
+          const response = await getFakePostViewsCounter(post.id);
           return {
             ...post,
             uniqueViewsCounter: data,
-            modifiedViewsCounter: data + 4,
+            modifiedViewsCounter: response.data,
           };
         }),
       );

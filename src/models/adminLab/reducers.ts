@@ -16,13 +16,14 @@ import { LoadingStatusEnum } from '../../old/lib/types';
 import { getMaterialsAction, deleteAdminPost, setPostStatus } from './asyncActions';
 
 
-// так можга тягнути перегляди getUniquePostViewsCounter
-
 const initialState: IAdminLab = {
   data: {
     totalPages: 0,
     postIds: [],
     posts: {},
+  },
+  modifications:{
+    fakeViews: 0
   },
   meta: {
     size: 12,
@@ -64,7 +65,6 @@ const adminLabSlice = createSlice({
     setField: (state, action: PayloadAction<IField>) => {
       const { text, field } = action.payload;
       state.meta.textFields[field] = text;
-     
     },
     setFiltersToInit: (state) => {
       state.meta.filters = initialState.meta.filters;
@@ -87,6 +87,10 @@ const adminLabSlice = createSlice({
       const { date, option } = action.payload;
       state.meta.date[option] = date;
       state.meta.page = initialState.meta.page;
+    },
+    setFakeViews: (state, action: PayloadAction<{ fakeViews: number }>) => {
+      const { fakeViews } = action.payload;
+      state.modifications.fakeViews = fakeViews;
     },
     editPost: (state, action: PayloadAction<IAdminPost>) => {
       const editedPostID = action.payload.id;

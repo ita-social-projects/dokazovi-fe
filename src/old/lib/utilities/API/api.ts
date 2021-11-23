@@ -150,6 +150,18 @@ export const getFakePostViewsCounter = async (
   });
 };
 
+export const setFakePostViewsCounter = async (
+  id: number,
+  views: number,
+): Promise<AxiosResponse<number>> => {
+  return instance.post('/post/post-fake-view-count', {
+    params: {
+      url: `/posts/${id}`,
+      views
+    },
+  });
+};
+
 export const archivePost = async (
   id: number,
 ): Promise<AxiosResponse<boolean>> => {

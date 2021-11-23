@@ -14,6 +14,7 @@ export interface IAdminLab {
   data: IAdminLabData;
   meta: IAdminLabMeta;
   loading: LoadingStatusEnum;
+  modifications: IAdminLabModifications;
   error: string | null;
 }
 
@@ -28,6 +29,10 @@ export interface IAdminLabMeta {
     [key in FieldEnum]: string;
   };
   date: IDate
+}
+
+export interface IAdminLabModifications {
+  fakeViews: number;
 }
 
 interface IDate{

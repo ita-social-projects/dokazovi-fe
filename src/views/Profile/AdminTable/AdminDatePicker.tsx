@@ -2,6 +2,7 @@ import React from 'react';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
+import { parsDate } from 'utilities/parsDate';
 import { DatePicker } from "@material-ui/pickers";
 
 
@@ -31,9 +32,7 @@ interface IMaterialsDate {
 
 export const AdminDatePicker: React.FC<IMaterialsDate> = ({ start, end, setChanges  }) => {
     
-    const parsDate = (date: string | undefined)=>{
-        return date && new Date(date).toISOString().slice(0,10); 
-    };
+    
 
     return (<div>
         <FormControl>

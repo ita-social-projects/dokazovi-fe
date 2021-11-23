@@ -221,6 +221,8 @@ export type GetPostsAdminConfigType = GetConfigType & {
     statuses: number[];
     author: string;
     title: string;
+    startDate?: string;
+    endDate?: string;
   };
 };
 
