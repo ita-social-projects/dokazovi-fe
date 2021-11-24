@@ -156,7 +156,7 @@ export const setFakePostViewsCounter = async (
 ): Promise<AxiosResponse<number>> => {
   return instance.post(`/post/set-fake-view/${id}`, null ,{
     params: {
-      views : '100'
+     views
     },
   });
 };
