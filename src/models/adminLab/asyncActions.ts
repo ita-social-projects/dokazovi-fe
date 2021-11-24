@@ -7,6 +7,7 @@ import {
   archivePost,
   getPosts,
   updatePost,
+  setFakePostViewsCounter,
 } from '../../old/lib/utilities/API/api';
 import { mapFetchedPosts } from '../materials/asyncActions';
 import { IAdminPost, IAdminLabData } from './types';
@@ -111,3 +112,16 @@ export const setPostStatus = createAsyncThunk(
   }
 );
 
+export const setFakeViews = createAsyncThunk(
+  'adminLab/SetFakeViews', 
+  async (option: {id: number }, { rejectWithValue, getState }) => {
+    try{
+      const { id } = option;
+      const  { adminLab: { modifications: { fakeViews } } } = getState() as RootStateType;
+      await setFakePostViewsCounter(id, fakeViews);
+      return { id }
+    }catch(error){
+      return rejectWithValue(error.response?.data);
+    }
+  }
+);

@@ -13,7 +13,7 @@ import {
   StatusesForActions
 } from './types';
 import { LoadingStatusEnum } from '../../old/lib/types';
-import { getMaterialsAction, deleteAdminPost, setPostStatus } from './asyncActions';
+import { getMaterialsAction, deleteAdminPost, setPostStatus, setFakeViews } from './asyncActions';
 
 
 const initialState: IAdminLab = {
@@ -23,7 +23,7 @@ const initialState: IAdminLab = {
     posts: {},
   },
   modifications:{
-    fakeViews: 0
+    fakeViews: 100
   },
   meta: {
     size: 12,
@@ -104,6 +104,7 @@ const adminLabSlice = createSlice({
     ...getAsyncActionsReducer(getMaterialsAction as any),
     ...getAsyncActionsReducer(deleteAdminPost as any),
     ...getAsyncActionsReducer(setPostStatus as any),
+    ...getAsyncActionsReducer(setFakeViews as any),
     [deleteAdminPost.fulfilled.type]: (
       state,
       action: PayloadAction<string>,
@@ -123,7 +124,19 @@ const adminLabSlice = createSlice({
     ) => {
       const { id, status } = action.payload;
       state.data.posts[id] = {...state.data.posts[id], status:  StatusesForActions[status]};
-    }
+    },
+    [setFakeViews.fulfilled.type]: (
+      state,
+      action: PayloadAction<{ id: number, fakeViews: number }>
+    )=>{
+      const { id } = action.payload;
+      const postToModify = state.data.posts[id];
+      if (postToModify.modifiedViewsCounter){
+        postToModify.modifiedViewsCounter += state.modifications.fakeViews;
+      }else{
+        postToModify.modifiedViewsCounter = state.modifications.fakeViews
+      } 
+    },
   },
 });
 

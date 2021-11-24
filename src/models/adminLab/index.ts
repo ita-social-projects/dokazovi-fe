@@ -10,5 +10,5 @@ export {
   setField,
   setDate,
 } from './reducers';
-export { getMaterialsAction, deleteAdminPost, setPostStatus } from './asyncActions';
-export { selectAdminLab, selectMeta } from './selectors';
+export { getMaterialsAction, deleteAdminPost, setPostStatus, setFakeViews } from './asyncActions';
+export { selectAdminLab, selectMeta, selectModifications } from './selectors';

@@ -3,7 +3,7 @@ import { MenuItem } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import { StatusesForActions } from '../../../models/adminLab/types';
-import { deleteAdminPost, setPostStatus } from '../../../models/adminLab';
+import { deleteAdminPost, setPostStatus, setFakeViews } from '../../../models/adminLab';
 import { useActions } from '../../../shared/hooks';
 import { PostStatus } from '../../../old/lib/types';
 import { langTokens } from '../../../locales/localizationInit';
@@ -27,9 +27,10 @@ interface IButton {
 
 const ActionButtons: React.FC<IActionButtons> = ({ id, status, title }) => {
   const { t } = useTranslation();
-  const [boundedDeleteAdminPost, boundedSetPostStatus] = useActions([
+  const [boundedDeleteAdminPost, boundedSetPostStatus, boundedSetFakeViews] = useActions([
     deleteAdminPost,
     setPostStatus,
+    setFakeViews,
   ]);
 
   const {
@@ -69,6 +70,10 @@ const ActionButtons: React.FC<IActionButtons> = ({ id, status, title }) => {
     });
     toast.success(t(langTokens.admin.archiveSuccess));
     closeModal();
+  };
+
+  const handlerSetFakeViews = () => {
+    boundedSetFakeViews({ id });
   };
 
   const buttons: IButton[] = [
@@ -124,7 +129,7 @@ const ActionButtons: React.FC<IActionButtons> = ({ id, status, title }) => {
       label: t(langTokens.admin.changeViewsCount),
       allowedStatuses: [PUBLISHED],
       // eslint-disable-next-line no-console
-      handler: () => console.log('changeViewsCountBtn handler'),
+      handler: () => handlerSetFakeViews(),
       modal: null,
     },
     {
