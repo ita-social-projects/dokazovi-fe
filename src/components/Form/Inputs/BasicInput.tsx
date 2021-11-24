@@ -60,15 +60,9 @@ export const BasicInput: React.FC<IBasicInputProps> = ({
               onClick={() => setShowPassword(!showPassword)}
             >
               {showPassword ? (
-                <VisibilityOff
-                  data-testid="visibility-off"
-                  className={classes.visibilityIcon}
-                />
+                <VisibilityOff className={classes.visibilityIcon} />
               ) : (
-                <Visibility
-                  data-testid="visibility"
-                  className={classes.visibilityIcon}
-                />
+                <Visibility className={classes.visibilityIcon} />
               )}
             </IconButton>
           </InputAdornment>

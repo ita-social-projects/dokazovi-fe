@@ -5,7 +5,6 @@ import userEvent from '@testing-library/user-event';
 import { BasicInput } from '../BasicInput';
 
 jest.mock('axios');
-jest.mock('request');
 jest.mock('clsx');
 jest.mock('@material-ui/icons', () => ({
   Visibility: () => <div data-testid="visibility" />,
