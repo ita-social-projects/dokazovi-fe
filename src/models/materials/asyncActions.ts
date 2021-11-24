@@ -19,7 +19,6 @@ export const fetchMaterials = createAsyncThunk(
   async (options: IFetchMaterialsOptions, { getState, rejectWithValue }) => {
     try {
 
-
       const { filters, page, appendPosts, url = 'all-posts' } = options;
 
       const response = await getPosts(url, {
