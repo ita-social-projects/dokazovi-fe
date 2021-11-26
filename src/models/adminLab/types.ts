@@ -94,8 +94,10 @@ export interface IDateManipulation{
 
 export enum StatusesForActions{
   DRAFT,
+  NEEDS_EDITING,
   MODERATION_FIRST_SIGN,
   MODERATION_SECOND_SIGN,
+  PLANNED,
   PUBLISHED,
   ARCHIVED,
 }

@@ -11,8 +11,10 @@ export const admin = {
   realViewsFull: 'Реальна кількість переглядів',
   actions: 'Дії',
   DRAFT: 'Чернетка',
+  NEEDS_EDITING: "Потребує редагування",
   MODERATION_FIRST_SIGN: 'Не переглянутий',
   MODERATION_SECOND_SIGN: 'На модерації',
+  PLANNED: "Заплановано",
   PUBLISHED: 'Опублікований',
   ARCHIVED: 'Архівований',
   edit: 'Редагувати',
@@ -31,6 +33,7 @@ export const admin = {
     'Ви впевнені, що хочете повернути автору на редагування матеріал "{{title}}"?',
   archiveTitle: 'Перемістити публікацію в архів?',
   archiveSuccess: 'Ваша стаття була успішно відправлена в архів',
+  returnSuccess: 'Ваша стаття була успішно повернена автору',
   deleteTitle: 'Ви дійсно хочете видалити публікацію?',
   deleteSuccess: 'Ваша стаття була успішно видалена',
 };

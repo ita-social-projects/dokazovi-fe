@@ -123,6 +123,7 @@ const adminLabSlice = createSlice({
       action: PayloadAction<{id: number, status: number,}>
     ) => {
       const { id, status } = action.payload;
+      console.log(status)
       state.data.posts[id] = {...state.data.posts[id], status:  StatusesForActions[status]};
     },
     [setFakeViews.fulfilled.type]: (

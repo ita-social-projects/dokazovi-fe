@@ -38,6 +38,7 @@ const ActionButtons: React.FC<IActionButtons> = ({ id, status, title }) => {
     MODERATION_FIRST_SIGN,
     MODERATION_SECOND_SIGN,
     PUBLISHED,
+
     ARCHIVED,
   } = PostStatus;
 
@@ -72,6 +73,15 @@ const ActionButtons: React.FC<IActionButtons> = ({ id, status, title }) => {
     closeModal();
   };
 
+  const handleReturnConfirm = () => {
+    boundedSetPostStatus({ 
+      id, 
+      postStatus: StatusesForActions.NEEDS_EDITING 
+    });
+    toast.success(t(langTokens.admin.returnSuccess));
+    closeModal();
+  };
+
   const handlerSetFakeViews = () => {
     boundedSetFakeViews({ id });
   };
@@ -93,11 +103,7 @@ const ActionButtons: React.FC<IActionButtons> = ({ id, status, title }) => {
       handler: (btnId) => openModal(btnId),
       modal: {
         title: t(langTokens.admin.returnToAuthorTitle, { title }),
-        onConfirmButtonClick: () => {
-          // handleSetPostStatus(id, StatusesForActions.?????);
-          toast.error('no such functionality so far');
-          closeModal();
-        },
+        onConfirmButtonClick: handleReturnConfirm
       },
     },
     {
