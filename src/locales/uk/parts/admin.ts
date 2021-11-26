@@ -36,4 +36,6 @@ export const admin = {
   returnSuccess: 'Ваша стаття була успішно повернена автору',
   deleteTitle: 'Ви дійсно хочете видалити публікацію?',
   deleteSuccess: 'Ваша стаття була успішно видалена',
+  changeViewsCountTitle: 'Змінити кількість переглядів?',
+  changeViewsCountSuccess: 'Кількість переглядів успішно змінена',
 };
