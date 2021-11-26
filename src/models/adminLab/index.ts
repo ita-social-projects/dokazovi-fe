@@ -9,6 +9,12 @@ export {
   setFiltersToInit,
   setField,
   setDate,
+  setFakeViewsInput,
 } from './reducers';
-export { getMaterialsAction, deleteAdminPost, setPostStatus, setFakeViews } from './asyncActions';
+export {
+  getMaterialsAction,
+  deleteAdminPost,
+  setPostStatus,
+  setFakeViews,
+} from './asyncActions';
 export { selectAdminLab, selectMeta, selectModifications } from './selectors';

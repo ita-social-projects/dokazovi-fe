@@ -33,4 +33,6 @@ export const admin = {
   archiveSuccess: 'Ваша стаття була успішно відправлена в архів',
   deleteTitle: 'Ви дійсно хочете видалити публікацію?',
   deleteSuccess: 'Ваша стаття була успішно видалена',
+  changeViewsCountTitle: 'Змінити кількість переглядів?',
+  changeViewsCountSuccess: 'Кількість переглядів успішно змінена',
 };

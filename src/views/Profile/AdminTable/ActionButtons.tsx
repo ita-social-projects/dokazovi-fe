@@ -3,12 +3,17 @@ import { MenuItem } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import { StatusesForActions } from '../../../models/adminLab/types';
-import { deleteAdminPost, setPostStatus, setFakeViews } from '../../../models/adminLab';
+import {
+  deleteAdminPost,
+  setPostStatus,
+  setFakeViews,
+} from '../../../models/adminLab';
 import { useActions } from '../../../shared/hooks';
 import { PostStatus } from '../../../old/lib/types';
 import { langTokens } from '../../../locales/localizationInit';
 import ActionModal, { IModalSettings } from './ActionModal';
 import ActionMenu from './ActionMenu';
+import ChangeViewsCountModal from './Modals/ChangeViewsCountModal';
 
 interface IActionButtons {
   id: number;
@@ -27,11 +32,11 @@ interface IButton {
 
 const ActionButtons: React.FC<IActionButtons> = ({ id, status, title }) => {
   const { t } = useTranslation();
-  const [boundedDeleteAdminPost, boundedSetPostStatus, boundedSetFakeViews] = useActions([
-    deleteAdminPost,
-    setPostStatus,
-    setFakeViews,
-  ]);
+  const [
+    boundedDeleteAdminPost,
+    boundedSetPostStatus,
+    boundedSetFakeViews,
+  ] = useActions([deleteAdminPost, setPostStatus, setFakeViews]);
 
   const {
     DRAFT,
@@ -128,9 +133,16 @@ const ActionButtons: React.FC<IActionButtons> = ({ id, status, title }) => {
       id: 'changeViewsCountBtn',
       label: t(langTokens.admin.changeViewsCount),
       allowedStatuses: [PUBLISHED],
-      // eslint-disable-next-line no-console
-      handler: () => handlerSetFakeViews(),
-      modal: null,
+      handler: (btnId) => openModal(btnId),
+      modal: {
+        title: t(langTokens.admin.changeViewsCountTitle),
+        content: <ChangeViewsCountModal />,
+        onConfirmButtonClick: () => {
+          handlerSetFakeViews();
+          toast.success(t(langTokens.admin.changeViewsCountSuccess));
+          closeModal();
+        },
+      },
     },
     {
       id: 'archiveBtn',
