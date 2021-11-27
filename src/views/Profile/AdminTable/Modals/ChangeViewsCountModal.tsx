@@ -14,9 +14,7 @@ const ChangeViewsCountModal: React.FC = () => {
   const [boundSetFakeViews] = useActions([setFakeViewsInput]);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const viewsCount = Number(
-      event.target.value.replace(/^-?\d{2}(\.\d+)?$/, ''),
-    );
+    const viewsCount = Number(event.target.value.replace(/\D/g, ''));
     boundSetFakeViews({ fakeViews: viewsCount });
   };
 
