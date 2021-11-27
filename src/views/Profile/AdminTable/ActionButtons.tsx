@@ -79,16 +79,18 @@ const ActionButtons: React.FC<IActionButtons> = ({ id, status, title }) => {
   };
 
   const handleReturnConfirm = () => {
-    boundedSetPostStatus({ 
-      id, 
-      postStatus: StatusesForActions.NEEDS_EDITING 
+    boundedSetPostStatus({
+      id,
+      postStatus: StatusesForActions.NEEDS_EDITING,
     });
     toast.success(t(langTokens.admin.returnSuccess));
     closeModal();
   };
 
-  const handlerSetFakeViews = () => {
+  const handlerSetFakeViewsConfirm = () => {
     boundedSetFakeViews({ id });
+    toast.success(t(langTokens.admin.changeViewsCountSuccess));
+    closeModal();
   };
 
   const buttons: IButton[] = [
@@ -108,7 +110,7 @@ const ActionButtons: React.FC<IActionButtons> = ({ id, status, title }) => {
       handler: (btnId) => openModal(btnId),
       modal: {
         title: t(langTokens.admin.returnToAuthorTitle, { title }),
-        onConfirmButtonClick: handleReturnConfirm
+        onConfirmButtonClick: handleReturnConfirm,
       },
     },
     {
@@ -143,11 +145,7 @@ const ActionButtons: React.FC<IActionButtons> = ({ id, status, title }) => {
       modal: {
         title: t(langTokens.admin.changeViewsCountTitle),
         content: <ChangeViewsCountModal />,
-        onConfirmButtonClick: () => {
-          handlerSetFakeViews();
-          toast.success(t(langTokens.admin.changeViewsCountSuccess));
-          closeModal();
-        },
+        onConfirmButtonClick: handlerSetFakeViewsConfirm,
       },
     },
     {
@@ -157,7 +155,7 @@ const ActionButtons: React.FC<IActionButtons> = ({ id, status, title }) => {
       handler: (btnId) => openModal(btnId),
       modal: {
         title: t(langTokens.admin.archiveTitle),
-        onConfirmButtonClick: () => handleArchiveConfirm(),
+        onConfirmButtonClick: handleArchiveConfirm,
       },
     },
     {
@@ -167,7 +165,7 @@ const ActionButtons: React.FC<IActionButtons> = ({ id, status, title }) => {
       handler: (btnId) => openModal(btnId),
       modal: {
         title: t(langTokens.admin.deleteTitle),
-        onConfirmButtonClick: () => handleDeleteConfirm(),
+        onConfirmButtonClick: handleDeleteConfirm,
       },
     },
   ];
