@@ -144,7 +144,7 @@ const ActionButtons: React.FC<IActionButtons> = ({ id, status, title }) => {
       handler: (btnId) => openModal(btnId),
       modal: {
         title: t(langTokens.admin.changeViewsCountTitle),
-        content: <ChangeViewsCountModal />,
+        content: <ChangeViewsCountModal id={id} />,
         onConfirmButtonClick: handlerSetFakeViewsConfirm,
       },
     },
