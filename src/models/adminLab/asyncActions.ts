@@ -119,8 +119,9 @@ export const setFakeViews = createAsyncThunk(
   async (option: {id: number }, { rejectWithValue, getState }) => {
     try{
       const { id } = option;
-      const  { adminLab: { modifications: { fakeViews } } } = getState() as RootStateType;
-      await setFakePostViewsCounter(id, fakeViews);
+      const  { adminLab: { modifications: { fakeViews }, data: {posts} } } = getState() as RootStateType;
+      const uniqueViewsCounter = posts[id].uniqueViewsCounter;
+      await setFakePostViewsCounter(id, fakeViews - (!!uniqueViewsCounter ? uniqueViewsCounter : 0));
       return { id }
     }catch(error){
       return rejectWithValue(error.response?.data);
