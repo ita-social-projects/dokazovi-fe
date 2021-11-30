@@ -11,7 +11,7 @@ const FilterCheckboxes = () => {
   return <div>FilterCheckboxes</div>;
 };
 const LoadMoreButton = () => {
-  return <button>Load More</button>;
+  return <button type="button">Load More</button>;
 };
 
 const PROPS_MOCK = {
