@@ -16,20 +16,3 @@ exports[`PostDirectionLink should render correctly 1`] = `
   </div>
 </DocumentFragment>
 `;
-
-exports[`PostDirectionLink should render correctly when loading status is pending 1`] = `
-<DocumentFragment>
-  <div
-    class="MuiButtonBase-root MuiChip-root PostDirectionChip-directionChip-1 PostDirectionChip-directionChip-2 MuiChip-sizeSmall MuiChip-clickable"
-    role="button"
-    tabindex="0"
-  >
-    <span
-      class="MuiChip-label MuiChip-labelSmall"
-    />
-    <span
-      class="MuiTouchRipple-root"
-    />
-  </div>
-</DocumentFragment>
-`;
