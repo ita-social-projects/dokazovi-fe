@@ -64,6 +64,13 @@ const AdminTableFilters: React.FC = () => {
           filter={QueryTypeEnum.STATUSES}
         />
       </Grid>
+      <Grid item md={3}>
+        <AdminDatePicker
+          start={date.start}
+          end={date.end}
+          setChanges={boundedSetDate}
+        />
+      </Grid>
       <Grid item>
         <AdminFilter
           setChanges={boundedSetFilter}
@@ -72,22 +79,19 @@ const AdminTableFilters: React.FC = () => {
           filter={QueryTypeEnum.POST_TYPES}
         />
       </Grid>
-      <Grid item md={3}>
-        <AdminTextField
-          value={textFields.author}
-          field={FieldEnum.AUTHOR}
-          setChanges={boundedSetField}
-        />
-      </Grid>
-      <Grid item md={3}>
+      <Grid item md={2}>
         <AdminTextField
           value={textFields.title}
           field={FieldEnum.TITLE}
           setChanges={boundedSetField}
         />
       </Grid>
-      <Grid item direction="column" xs={5} sm={4} md={3} lg={2}>
-        <AdminDatePicker start={date.start} end={date.end} setChanges={boundedSetDate} />
+      <Grid item md={2}>
+        <AdminTextField
+          value={textFields.author}
+          field={FieldEnum.AUTHOR}
+          setChanges={boundedSetField}
+        />
       </Grid>
     </Grid>
   );
