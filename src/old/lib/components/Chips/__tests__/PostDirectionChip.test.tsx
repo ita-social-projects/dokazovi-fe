@@ -25,6 +25,5 @@ describe('PostDirectionChip test', () => {
     const button = screen.getByRole('button');
     userEvent.click(button);
     expect(handleClickMock).toHaveBeenCalled();
-    expect(screen.getByText('Офтальмологія')).toBeInTheDocument();
   });
 });
