@@ -55,7 +55,7 @@ export const AdminDatePicker: React.FC<IMaterialsDate> = ({
           )}
           MenuProps={MenuProps}
         >
-          <Box display="flex" className={classes.pickersWrappper}>
+          <Box display="flex" className={classes.pickersWrapper}>
             <DatePicker
               autoOk
               orientation="portrait"
