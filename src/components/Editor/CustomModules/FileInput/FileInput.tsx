@@ -17,7 +17,7 @@ export const FileInput: React.FC<IFileInputProps> = ({ onDrop }) => {
   return (
     <Paper variant="outlined" {...getRootProps()} className={classes.root}>
       <CropOriginalIcon className={classes.icon} />
-      <input {...getInputProps()} />
+      <input data-testid="file-input" {...getInputProps()} />
       <Typography variant="subtitle1" className={classes.imgInputText}>
         {t(langTokens.editor.addImgFromPC)}
       </Typography>
