@@ -67,6 +67,7 @@ export const RegistrationModal: React.FC<IRegistrationProps> = (props) => {
                   })}
                   label={t(langTokens.loginRegistration.firstName)}
                   style={{ width: '100%' }}
+                  data-testid="form-input"
                 />
               </Grid>
               <Grid item xs={6}>
@@ -80,6 +81,7 @@ export const RegistrationModal: React.FC<IRegistrationProps> = (props) => {
                   })}
                   label={t(langTokens.loginRegistration.lastName)}
                   style={{ width: '100%' }}
+                  data-testid="form-input"
                 />
               </Grid>
               <Grid item xs={6}>
@@ -94,6 +96,7 @@ export const RegistrationModal: React.FC<IRegistrationProps> = (props) => {
                   inputRef={register(emailValidationObj)}
                   label="Email"
                   style={{ width: '100%' }}
+                  data-testid="form-input"
                 />
               </Grid>
               <Grid item xs={12}>
@@ -119,6 +122,7 @@ export const RegistrationModal: React.FC<IRegistrationProps> = (props) => {
                   }}
                   label={t(langTokens.loginRegistration.password)}
                   style={{ width: '100%' }}
+                  data-testid="form-input"
                 />
               </Grid>
               <Grid item xs={12}>
@@ -155,6 +159,7 @@ export const RegistrationModal: React.FC<IRegistrationProps> = (props) => {
                   }}
                   label={t(langTokens.loginRegistration.repeatPassword)}
                   style={{ width: '100%' }}
+                  data-testid="form-input"
                 />
               </Grid>
               <Grid item xs={12}>
@@ -169,7 +174,11 @@ export const RegistrationModal: React.FC<IRegistrationProps> = (props) => {
                   textAlign: 'center',
                 }}
               >
-                <Button type="submit" variant="outlined">
+                <Button
+                  type="submit"
+                  variant="outlined"
+                  data-testid="submit-button"
+                >
                   {t(langTokens.loginRegistration.register)}
                 </Button>
               </Grid>
