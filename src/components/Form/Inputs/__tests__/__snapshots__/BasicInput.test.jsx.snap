@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`BasicInput component tests should render BasicInput component 1`] = `
+<DocumentFragment>
+  <div>
+    <div>
+      <input
+        aria-invalid="false"
+        data-testid="basic-input"
+        type="text"
+        value=""
+      />
+      <fieldset
+        aria-hidden="true"
+        style="padding-left: 8px;"
+      >
+        <legend
+          class="PrivateNotchedOutline-legend-5"
+          style="width: 0.01px;"
+        >
+          <span>
+            ​
+          </span>
+        </legend>
+      </fieldset>
+    </div>
+  </div>
+</DocumentFragment>
+`;
