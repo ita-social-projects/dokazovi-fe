@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ExpertBlock test should render component and match snapshot 1`] = `
+<DocumentFragment>
+  <img
+    alt="doctor"
+    aria-hidden="true"
+    class="makeStyles-photo-1"
+    src="https://i.pravatar.cc/300?img=44"
+  />
+</DocumentFragment>
+`;

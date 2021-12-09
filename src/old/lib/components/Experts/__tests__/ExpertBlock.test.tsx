@@ -1,6 +1,8 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
-import { ExpertDataCard } from '../ExpertDataCard';
+import { render, screen, fireEvent } from '@testing-library/react';
+import { Router } from 'react-router-dom';
+import { createMemoryHistory } from 'history';
+import { ExpertBlock } from '../ExpertBlock';
 import { IExpert } from '../../../types';
 
 const MOCK_DATA: IExpert = {
@@ -38,21 +40,24 @@ const MOCK_DATA: IExpert = {
   },
 };
 
-const renderExpertDataCard = () =>
-  render(<ExpertDataCard expert={MOCK_DATA} />);
-
-describe('ExpertDataCard test', () => {
-  beforeEach(() => renderExpertDataCard());
+describe('ExpertBlock test', () => {
   it('should render component and match snapshot', () => {
-    const { asFragment } = render(<ExpertDataCard expert={MOCK_DATA} />);
+    const { asFragment } = render(<ExpertBlock expert={MOCK_DATA} />);
     expect(asFragment()).toMatchSnapshot();
   });
-  it("should render Expert's name", () => {
-    expect(screen.getByText('Таржеман Соколов')).toBeInTheDocument();
+  it("should render Expert's image", () => {
+    render(<ExpertBlock expert={MOCK_DATA} />);
+    expect(screen.getByAltText('doctor')).toBeInTheDocument();
   });
-  it("should render Expert's qualification, name of mainInstitution and city", () => {
-    expect(
-      screen.getByText('Кандидат медичних наук, Медікум, Дніпро'),
-    ).toBeInTheDocument();
+  it('should handle redirect to Expert page ', () => {
+    const history = createMemoryHistory();
+    history.push(`/experts/${MOCK_DATA.id}`);
+    render(
+      <Router history={history}>
+        <ExpertBlock expert={MOCK_DATA} />
+      </Router>,
+    );
+    fireEvent.click(screen.getByAltText('doctor'));
+    expect(history.location.pathname).toBe('/experts/6');
   });
 });
