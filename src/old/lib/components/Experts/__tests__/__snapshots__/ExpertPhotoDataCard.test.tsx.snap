@@ -1,0 +1,38 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ExpertPhotoDataCard test should render component and match snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="MuiPaper-root MuiCard-root ExpertPhotoDataCard-root-1 MuiPaper-elevation1 MuiPaper-rounded"
+  >
+    <a
+      href="/experts/6"
+    >
+      <div
+        class="MuiBox-root MuiBox-root-3 ExpertPhotoDataCard-photo-2"
+      >
+        <img
+          alt="doctor"
+          aria-hidden="true"
+          class="makeStyles-photo-4"
+          src="https://i.pravatar.cc/300?img=44"
+        />
+      </div>
+      <div
+        class="MuiPaper-root MuiCard-root ExpertDataCard-root-5 MuiPaper-elevation1 MuiPaper-rounded"
+      >
+        <h4
+          class="MuiTypography-root ExpertDataCard-name-6 MuiTypography-h4"
+        >
+          Таржеман Соколов
+        </h4>
+        <h6
+          class="MuiTypography-root ExpertDataCard-qualification-7 MuiTypography-h6 MuiTypography-gutterBottom"
+        >
+          Кандидат медичних наук, Медікум, Дніпро
+        </h6>
+      </div>
+    </a>
+  </div>
+</DocumentFragment>
+`;
