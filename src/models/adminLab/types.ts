@@ -28,17 +28,17 @@ export interface IAdminLabMeta {
   textFields: {
     [key in FieldEnum]: string;
   };
-  date: IDate
+  date: IDate;
 }
 
 export interface IAdminLabModifications {
   fakeViews: number;
 }
 
-interface IDate{
-    start: string | undefined;
-    end: string | undefined;
-};
+interface IDate {
+  start: string | undefined;
+  end: string | undefined;
+}
 
 export interface IFilter {
   filter: string;
@@ -80,6 +80,8 @@ export enum SortBy {
   created_at = 'created_at',
   modified_at = 'modified_at',
   'author.firstName' = 'author.firstName',
+  views = 'views',
+  fakeViews = 'fakeViews',
 }
 
 export enum Order {
@@ -87,12 +89,12 @@ export enum Order {
   asc = 'asc',
 }
 
-export interface IDateManipulation{
+export interface IDateManipulation {
   date: string | undefined;
-  option: "end" | "start"
-};
+  option: 'end' | 'start';
+}
 
-export enum StatusesForActions{
+export enum StatusesForActions {
   DRAFT,
   NEEDS_EDITING,
   MODERATION_FIRST_SIGN,

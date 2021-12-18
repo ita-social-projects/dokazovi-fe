@@ -54,14 +54,16 @@ const content: IContent[] = [
   },
   {
     label: i18n.t(langTokens.admin.views),
-    isSortable: false,
+    isSortable: true,
+    sortKey: SortBy.fakeViews,
     initialSortOrder: Order.desc,
     tooltip: i18n.t(langTokens.admin.viewsFull),
     icon: <Visibility />,
   },
   {
     label: i18n.t(langTokens.admin.realViews),
-    isSortable: false,
+    isSortable: true,
+    sortKey: SortBy.views,
     initialSortOrder: Order.desc,
     tooltip: i18n.t(langTokens.admin.realViewsFull),
     icon: <Visibility />,
