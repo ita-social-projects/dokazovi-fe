@@ -63,7 +63,7 @@ exports[`TextPostUpdation tests should render component 1`] = `
         </div>
       </div>
       <div
-        class="MuiCollapse-root MuiCollapse-hidden"
+        class="MuiCollapse-container MuiCollapse-hidden"
         style="min-height: 0px;"
       >
         <div
@@ -213,7 +213,7 @@ exports[`TextPostUpdation tests should render component 1`] = `
         </div>
       </div>
       <div
-        class="MuiCollapse-root MuiCollapse-hidden"
+        class="MuiCollapse-container MuiCollapse-hidden"
         style="min-height: 0px;"
       >
         <div
