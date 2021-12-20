@@ -5,6 +5,7 @@ import { PostsList } from 'old/lib/components/Posts/PostsList';
 import FiltersMenu from 'components/FiltersMenuMobile/FiltersMenu';
 import FiltersButton from 'old/lib/components/FiltersButton/FiltersButton';
 import { IPost, LoadingStatusType, LoadingStatusEnum } from 'old/lib/types';
+import UpButton from 'old/lib/components/UpButton/UpButton';
 import { useStyles } from '../styles/MaterialsViewMobile.styles';
 
 interface IMaterialsViewMobileProps {
@@ -55,6 +56,7 @@ const MaterialsViewMobile: FC<IMaterialsViewMobileProps> = ({
           </>
         )}
       </Grid>
+      <UpButton />
       <FiltersButton
         filtersMenuOpen={filtersMenuOpen}
         setFiltersMenuOpen={setFiltersMenuOpen}
