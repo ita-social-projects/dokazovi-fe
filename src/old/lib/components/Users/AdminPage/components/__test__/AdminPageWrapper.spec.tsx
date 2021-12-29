@@ -76,7 +76,6 @@ describe('should render AdminPageWrapper component if authorities  equal true', 
         </MemoryRouter>
       </Provider>,
     );
-    screen.debug();
   });
 
   it('should render heading content element with text', () => {
