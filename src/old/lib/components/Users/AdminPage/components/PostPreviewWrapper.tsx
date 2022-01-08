@@ -54,7 +54,12 @@ const PostPreviewWrapper: React.FC<IPostPreviewWrapper> = ({
     boundAddToImportant(newPost);
     updateRemovedPosts(newPost, viewMode);
   };
+
+  const confirmPostRemovalFromImportant = () =>
+    window.confirm('Ви дійсно хочете видалити цей матеріал з Важливих?');
+
   const removePostFromImportant = (newPost: IPost) => {
+    if (!confirmPostRemovalFromImportant()) return;
     boundRemoveFromImportant(newPost);
     updateRemovedPosts(newPost, viewMode);
   };
