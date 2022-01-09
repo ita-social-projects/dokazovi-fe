@@ -1,0 +1,71 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`header renderers 1`] = `
+<DocumentFragment>
+  <div
+    class="Header-header-1"
+    id="header"
+    style="webkit-transform: none; transform: none; webkit-transition: -webkit-transform 200ms cubic-bezier(0.0, 0, 0.2, 1) 0ms; transition: transform 200ms cubic-bezier(0.0, 0, 0.2, 1) 0ms;"
+  >
+    <div
+      class="MuiContainer-root Header-container-3 MuiContainer-maxWidthLg"
+    >
+      <div
+        class="MuiToolbar-root MuiToolbar-regular Header-toolbar-4 MuiToolbar-gutters"
+      >
+        <div
+          class="MuiBox-root MuiBox-root-17"
+        >
+          <a
+            href="/"
+          >
+            <h1
+              class="MuiTypography-root Header-logo-5 MuiTypography-h1"
+            >
+              Доказові
+            </h1>
+          </a>
+          <div
+            class="MuiBox-root MuiBox-root-18 Header-tabs-7"
+          >
+            <a
+              aria-current="page"
+              class="Header-tab-8 active"
+              href="/"
+            >
+              <h5
+                class="MuiTypography-root Header-tabLabel-9 MuiTypography-h5"
+              >
+                Головна
+              </h5>
+            </a>
+            <a
+              class="Header-tab-8"
+              href="/materials"
+            >
+              <h5
+                class="MuiTypography-root Header-tabLabel-9 MuiTypography-h5"
+              >
+                Матеріали
+              </h5>
+            </a>
+            <a
+              class="Header-tab-8"
+              href="/experts"
+            >
+              <h5
+                class="MuiTypography-root Header-tabLabel-9 MuiTypography-h5"
+              >
+                Автори
+              </h5>
+            </a>
+          </div>
+        </div>
+        <div
+          class="MuiBox-root MuiBox-root-19 Header-actionsContainer-6"
+        />
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;
