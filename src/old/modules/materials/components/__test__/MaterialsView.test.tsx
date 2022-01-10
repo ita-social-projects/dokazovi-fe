@@ -1,10 +1,10 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import MaterialsView from '../MaterialsView';
+import { MemoryRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { store } from 'models/store';
 import { LoadingStatusEnum } from 'old/lib/types';
-import { MemoryRouter } from 'react-router-dom';
+import MaterialsView from '../MaterialsView';
 
 const mockedState = {
   page: 1,
