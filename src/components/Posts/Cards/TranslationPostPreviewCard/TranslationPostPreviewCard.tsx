@@ -121,7 +121,13 @@ export const TranslationPostPreviewCard: React.FC<IPostPreviewCardProps> = ({
             {cardBody}
           </Typography>
         )}
-        {shouldNotUseLink ? cardText : <Link to={postLink}>{cardText}</Link>}
+        {shouldNotUseLink ? (
+          cardText
+        ) : (
+          <Link to={postLink} target="_blank">
+            {cardText}
+          </Link>
+        )}
       </Box>
     </Card>
   );
