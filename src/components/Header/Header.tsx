@@ -1,4 +1,6 @@
-import React, { useContext, useState } from 'react';
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+import React, { useContext, useState, useEffect, useRef } from 'react';
 import {
   Box,
   Button,
@@ -9,6 +11,8 @@ import {
   Slide,
   Toolbar,
   Typography,
+  TextField,
+  InputAdornment,
 } from '@material-ui/core';
 import { Link, NavLink, Route } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -53,7 +57,8 @@ export const Header: React.FC = () => {
 
   const [visible, setVisible] = useState<boolean>(true);
   const [oldPageOffsetY, setOldPageOffsetY] = useState<number>(0);
-  const [searchInput, setSearchInput] = useState<null | Element>(null);
+  // const [searchInput, setSearchInput] = useState<null | Element>(null);
+  const [searchInput, setSearchInput] = useState<boolean>(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
 
   const { mobile } = useContext(ScreenContext);
@@ -79,6 +84,58 @@ export const Header: React.FC = () => {
       }
     };
   }
+
+  const wrapperRef = useRef(null);
+
+  // useEffect(() => {
+  //   /**
+  //    * Alert if clicked on outside of element
+  //    */
+  //   const handleClickOutside = (event: { target: { value: any; name: string } }) => {
+  //     if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
+  //       console.log('clicked outside');
+  //       // setState();
+  //     }
+  //   };
+
+  //   // Bind the event listener
+  //   document.addEventListener("mousedown", handleClickOutside);
+  //   return () => {
+  //     // Unbind the event listener on clean up
+  //     document.removeEventListener("mousedown", handleClickOutside);
+  //   };
+  // }, [wrapperRef]);
+
+  //   const outsideClicker = () => {
+
+  //     useOutsideClick(wrapperRef);
+
+  //     return <div ref={wrapperRef}></div>;
+  // }
+
+  const renderMobileToolbar = () => {
+    return (
+      <>
+        <BurgerMenu
+          navigation={navElems}
+          mobileMenuOpen={mobileMenuOpen}
+          setMobileMenuOpen={(b) => setMobileMenuOpen(b)}
+        />
+        <Box display="flex">
+          {!searchInput && (
+            <Link to="/">
+              <Typography
+                className={mobile ? classes.logoMobile : classes.logo}
+                variant="h1"
+              >
+                {t(langTokens.common.projectName)}
+              </Typography>
+            </Link>
+          )}
+        </Box>
+      </>
+    );
+  };
 
   return (
     <Slide in={!mobile || visible} timeout={transitionDuration}>
@@ -106,23 +163,53 @@ export const Header: React.FC = () => {
                   </Typography>
                 </Link>
               )}
-              {!mobile && (
-                <Box className={classes.tabs}>
-                  {navElems.map((item) => (
-                    <NavLink
-                      to={item.url}
-                      key={item.id}
-                      className={classes.tab}
-                      exact
+            </Box>
+            <Box>
+              {mobile && (
+                <div>
+                  {searchInput ? (
+                    <TextField
+                      variant="standard"
+                      // label='Textfield'
+                      className={classes.searchInput}
+                      InputProps={{
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <SearchIcon className={classes.searchInputIcon} />
+                          </InputAdornment>
+                        ),
+                      }}
+                    />
+                  ) : (
+                    <Button
+                      aria-controls="simple-menu"
+                      aria-haspopup="true"
+                      onClick={() => setSearchInput((prev) => !prev)}
+                      ref={wrapperRef}
                     >
-                      <Typography variant="h5" className={classes.tabLabel}>
-                        {item.label}
-                      </Typography>
-                    </NavLink>
-                  ))}
-                </Box>
+                      <SearchIcon className={classes.searchIcon} />
+                    </Button>
+                  )}
+                </div>
               )}
             </Box>
+            {!mobile && (
+              <Box className={classes.tabs}>
+                {navElems.map((item) => (
+                  <NavLink
+                    to={item.url}
+                    key={item.id}
+                    className={classes.tab}
+                    exact
+                  >
+                    <Typography variant="h5" className={classes.tabLabel}>
+                      {item.label}
+                    </Typography>
+                  </NavLink>
+                ))}
+              </Box>
+            )}
+
             {!mobile && (
               <Box className={classes.actionsContainer}>
                 {authenticated && <PostCreationMenu />}
@@ -135,7 +222,7 @@ export const Header: React.FC = () => {
                 )}
               </Box>
             )}
-            {mobile && (
+            {/* {mobile && (
               <div>
                 <Button
                   aria-controls="simple-menu"
@@ -158,11 +245,44 @@ export const Header: React.FC = () => {
                       className={classes.searchInput}
                       placeholder={t(langTokens.common.inputSearchPlaceholder)}
                     />
+                    <div>Hello</div>
                     <SearchIcon className={classes.searchInputIcon} />
                   </MenuItem>
                 </Menu>
+
               </div>
-            )}
+            )} */}
+
+            {/* {mobile && (
+              <div>
+                {searchInput ?
+                  <TextField
+                    variant="standard"
+                    // label='Textfield'
+                    className={classes.searchInput}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <SearchIcon className={classes.searchInputIcon} />
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+                  :
+                  <Button
+                    aria-controls="simple-menu"
+                    aria-haspopup="true"
+                    onClick={() => setSearchInput(prev => !prev)}
+                    ref={wrapperRef}
+                  >
+                    <SearchIcon className={classes.searchIcon} />
+
+                  </Button>
+
+                }
+
+              </div>
+            )} */}
           </Toolbar>
         </Container>
       </div>
