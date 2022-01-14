@@ -26,6 +26,11 @@ export const useStyles = makeStyles(
       justifyContent: 'space-between',
       padding: 0,
     },
+    toolbarWrapper: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+    },
     logo: {
       color: theme.palette.common.white,
       marginBottom: 6,
@@ -63,6 +68,8 @@ export const useStyles = makeStyles(
     logoMobile: {
       fontSize: 38,
       color: theme.palette.common.white,
+      paddingLeft: theme.spacing(1.7),
+      paddingRight: theme.spacing(1.7),
     },
     searchIcon: {
       color: theme.palette.common.white,
@@ -77,19 +84,20 @@ export const useStyles = makeStyles(
       // fontSize: 16,
       // paddingLeft: theme.spacing(2),
       // color: theme.palette.common.white,
-      width: '100%',
+
       background: theme.palette.common.white,
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
       paddingLeft: theme.spacing(1),
-      marginLeft: theme.spacing(1),
-      flexGrow: 1,
+      marginLeft: theme.spacing(0),
+      // flexGrow: 1,
     },
+
     searchInputIcon: {
       backgroundColor: theme.palette.common.white,
       marginRight: theme.spacing(1),
-      fontSize: 28,
+      fontSize: 32,
     },
     paper: {
       width: '70%',

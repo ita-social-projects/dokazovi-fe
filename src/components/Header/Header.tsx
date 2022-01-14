@@ -1,6 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
-import React, { useContext, useState, useEffect, useRef } from 'react';
+import React, {
+  useContext,
+  useState,
+  useEffect,
+  useRef,
+  ReactNode,
+} from 'react';
 import {
   Box,
   Button,
@@ -85,6 +91,12 @@ export const Header: React.FC = () => {
     };
   }
 
+  useEffect(() => {
+    if (!mobile) {
+      setSearchInput(false);
+    }
+  }, [mobile]);
+
   const wrapperRef = useRef(null);
 
   // useEffect(() => {
@@ -116,23 +128,54 @@ export const Header: React.FC = () => {
   const renderMobileToolbar = () => {
     return (
       <>
-        <BurgerMenu
-          navigation={navElems}
-          mobileMenuOpen={mobileMenuOpen}
-          setMobileMenuOpen={(b) => setMobileMenuOpen(b)}
-        />
-        <Box display="flex">
-          {!searchInput && (
-            <Link to="/">
-              <Typography
-                className={mobile ? classes.logoMobile : classes.logo}
-                variant="h1"
+        {mobile && (
+          <BurgerMenu
+            navigation={navElems}
+            mobileMenuOpen={mobileMenuOpen}
+            setMobileMenuOpen={(b) => setMobileMenuOpen(b)}
+          />
+        )}
+
+        {!searchInput ? (
+          <>
+            <Box display="flex">
+              <Link to="/">
+                <Typography
+                  className={mobile ? classes.logoMobile : classes.logo}
+                  variant="h1"
+                >
+                  {t(langTokens.common.projectName)}
+                </Typography>
+              </Link>
+            </Box>
+            {mobile && (
+              <Button
+                aria-controls="simple-menu"
+                aria-haspopup="true"
+                onClick={() => setSearchInput((prev) => !prev)}
+                ref={wrapperRef}
               >
-                {t(langTokens.common.projectName)}
-              </Typography>
-            </Link>
-          )}
-        </Box>
+                <SearchIcon className={classes.searchIcon} />
+              </Button>
+            )}
+          </>
+        ) : (
+          mobile && (
+            <TextField
+              fullWidth
+              variant="standard"
+              className={classes.searchInput}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <SearchIcon className={classes.searchInputIcon} />
+                  </InputAdornment>
+                ),
+                disableUnderline: true,
+              }}
+            />
+          )
+        )}
       </>
     );
   };
@@ -145,72 +188,40 @@ export const Header: React.FC = () => {
       >
         <Container className={classes.container}>
           <Toolbar className={classes.toolbar}>
-            {mobile && (
-              <BurgerMenu
-                navigation={navElems}
-                mobileMenuOpen={mobileMenuOpen}
-                setMobileMenuOpen={(b) => setMobileMenuOpen(b)}
-              />
-            )}
-            <Box display="flex">
-              {!mobileMenuOpen && !searchInput && (
-                <Link to="/">
-                  <Typography
-                    className={mobile ? classes.logoMobile : classes.logo}
-                    variant="h1"
-                  >
-                    {t(langTokens.common.projectName)}
-                  </Typography>
-                </Link>
-              )}
-            </Box>
-            <Box>
-              {mobile && (
-                <div>
-                  {searchInput ? (
-                    <TextField
-                      variant="standard"
-                      // label='Textfield'
-                      className={classes.searchInput}
-                      InputProps={{
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            <SearchIcon className={classes.searchInputIcon} />
-                          </InputAdornment>
-                        ),
-                      }}
-                    />
-                  ) : (
-                    <Button
-                      aria-controls="simple-menu"
-                      aria-haspopup="true"
-                      onClick={() => setSearchInput((prev) => !prev)}
-                      ref={wrapperRef}
-                    >
-                      <SearchIcon className={classes.searchIcon} />
-                    </Button>
-                  )}
-                </div>
-              )}
-            </Box>
-            {!mobile && (
-              <Box className={classes.tabs}>
-                {navElems.map((item) => (
-                  <NavLink
-                    to={item.url}
-                    key={item.id}
-                    className={classes.tab}
-                    exact
-                  >
-                    <Typography variant="h5" className={classes.tabLabel}>
-                      {item.label}
-                    </Typography>
-                  </NavLink>
-                ))}
-              </Box>
-            )}
+            <Box display="flex" className={classes.toolbarWrapper}>
+              {renderMobileToolbar()}
 
-            {!mobile && (
+              {!mobile && (
+                <>
+                  <Box className={classes.tabs}>
+                    {navElems.map((item) => (
+                      <NavLink
+                        to={item.url}
+                        key={item.id}
+                        className={classes.tab}
+                        exact
+                      >
+                        <Typography variant="h5" className={classes.tabLabel}>
+                          {item.label}
+                        </Typography>
+                      </NavLink>
+                    ))}
+                  </Box>
+                  <Box className={classes.actionsContainer}>
+                    {authenticated && <PostCreationMenu />}
+                    {authenticated ? (
+                      <AccountMenu />
+                    ) : (
+                      <Route path="/opendoctorgate">
+                        <LoginModal />
+                      </Route>
+                    )}
+                  </Box>
+                </>
+              )}
+            </Box>
+
+            {/* {!mobile && (
               <Box className={classes.actionsContainer}>
                 {authenticated && <PostCreationMenu />}
                 {authenticated ? (
@@ -221,7 +232,8 @@ export const Header: React.FC = () => {
                   </Route>
                 )}
               </Box>
-            )}
+            )} */}
+
             {/* {mobile && (
               <div>
                 <Button
