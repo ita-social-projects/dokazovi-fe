@@ -18,6 +18,7 @@ import {
   deleteAdminPost,
   setPostStatus,
   setFakeViews,
+  setNewPostDate,
 } from './asyncActions';
 
 const initialState: IAdminLab = {
@@ -28,6 +29,7 @@ const initialState: IAdminLab = {
   },
   modifications: {
     fakeViews: 0,
+    newPostPublicationDate: '',
   },
   meta: {
     size: 12,
@@ -106,12 +108,20 @@ const adminLabSlice = createSlice({
         [editedPostID]: action.payload,
       };
     },
+    setNewPostDateInput: (
+      state,
+      action: PayloadAction<{ newPublicationDate: string }>,
+    ) => {
+      const { newPublicationDate } = action.payload;
+      state.modifications.newPostPublicationDate = newPublicationDate;
+    },
   },
   extraReducers: {
     ...getAsyncActionsReducer(getMaterialsAction as any),
     ...getAsyncActionsReducer(deleteAdminPost as any),
     ...getAsyncActionsReducer(setPostStatus as any),
     ...getAsyncActionsReducer(setFakeViews as any),
+    ...getAsyncActionsReducer(setNewPostDate as any),
     [deleteAdminPost.fulfilled.type]: (
       state,
       action: PayloadAction<string>,
@@ -137,6 +147,7 @@ const adminLabSlice = createSlice({
         status: StatusesForActions[status],
       };
     },
+
     [setFakeViews.fulfilled.type]: (
       state,
       action: PayloadAction<{ id: number; fakeViews: number }>,
@@ -147,6 +158,18 @@ const adminLabSlice = createSlice({
         postToModify.modifiedViewsCounter = state.modifications.fakeViews;
       } else {
         postToModify.modifiedViewsCounter = state.modifications.fakeViews;
+      }
+    },
+    [setNewPostDate.fulfilled.type]: (
+      state,
+      action: PayloadAction<{ id: number; newPublishedAt: string }>,
+    ) => {
+      const { id } = action.payload;
+      const postToModify = state.data.posts[id];
+      if (postToModify.publishedAt) {
+        postToModify.publishedAt = state.modifications.newPostPublicationDate;
+      } else {
+        postToModify.publishedAt = state.modifications.newPostPublicationDate;
       }
     },
   },
@@ -162,5 +185,6 @@ export const {
   setField,
   setDate,
   setFakeViewsInput,
+  setNewPostDateInput,
 } = adminLabSlice.actions;
 export const adminLabReducer = adminLabSlice.reducer;

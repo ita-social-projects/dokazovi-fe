@@ -8,7 +8,7 @@ import {
 } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { selectAdminLab } from '../../../models/adminLab';
+import { selectAdminLab, selectModifications } from '../../../models/adminLab';
 import { useStyles } from './styles/AdminTableBody.styles';
 import { PostTypeEnum } from '../../../old/lib/types';
 import ActionButtons from './ActionButtons';
@@ -18,6 +18,7 @@ const AdminTableBody: React.FC = () => {
   const classes = useStyles();
   const { t } = useTranslation();
   const { postIds, posts } = useSelector(selectAdminLab);
+  const { newPostPublicationDate } = useSelector(selectModifications);
 
   const rows = postIds.map((postId) => {
     const {
@@ -30,6 +31,7 @@ const AdminTableBody: React.FC = () => {
       type: { id: typeId, name: typeName },
       uniqueViewsCounter,
       modifiedViewsCounter,
+      publishedAt,
     } = posts[postId];
 
     const fullName = `${firstName} ${lastName}`;
@@ -66,13 +68,20 @@ const AdminTableBody: React.FC = () => {
           </Typography>
         </TableCell>
         <TableCell>{t(langTokens.admin[status])}</TableCell>
-        <TableCell>{modifiedAt}</TableCell>
+        <TableCell>
+          {newPostPublicationDate ? publishedAt : modifiedAt}
+        </TableCell>
         <TableCell>{directionsList}</TableCell>
         <TableCell>{fullName}</TableCell>
         <TableCell>{modifiedViewsCounter}</TableCell>
         <TableCell>{uniqueViewsCounter}</TableCell>
         <TableCell>
-          <ActionButtons id={id} title={title} status={status} />
+          <ActionButtons
+            id={id}
+            title={title}
+            status={status}
+            postDate={newPostPublicationDate}
+          />
         </TableCell>
       </TableRow>
     );

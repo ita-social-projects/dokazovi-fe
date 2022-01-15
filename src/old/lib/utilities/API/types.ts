@@ -30,6 +30,7 @@ export type CreatePostRequestUnionType =
 type UpdatePostRequestType = CreatePostRequestType & {
   id: number;
   postStatus?: number;
+  newPostDate?: string;
 };
 
 export type UpdateTextPostRequestType = UpdatePostRequestType;

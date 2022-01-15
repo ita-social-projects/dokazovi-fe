@@ -25,6 +25,8 @@ export const admin = {
   schedulePublish: 'Запланувати публікацію',
   changePublicationDate: 'Змінити дату публікації',
   changeViewsCount: 'Змінити кількість переглядів',
+  currentPublicationDate: 'Поточна дата публікації',
+  newPublicationDate: 'Нова дата публікації',
   returnToAuthor: 'Надіслати автору на редагування',
   statuses: 'Статуси',
   directions: 'Теми',
@@ -38,6 +40,8 @@ export const admin = {
   deleteSuccess: 'Ваша стаття була успішно видалена',
   changeViewsCountTitle: 'Змінити кількість переглядів?',
   changeViewsCountSuccess: 'Кількість переглядів успішно змінена',
+  changeDateSuccess: 'Дату публікації змінено',
+  scheduleDateSuccess: 'Дату публікації заплановано',
   from: 'з',
   to: 'по',
 };

@@ -7,6 +7,8 @@ import {
   deleteAdminPost,
   setPostStatus,
   setFakeViews,
+  setNewPostDate,
+  selectAdminLab,
 } from '../../../models/adminLab';
 import { useActions } from '../../../shared/hooks';
 import { PostStatus } from '../../../old/lib/types';
@@ -14,11 +16,13 @@ import { langTokens } from '../../../locales/localizationInit';
 import ActionModal, { IModalSettings } from './ActionModal';
 import ActionMenu from './ActionMenu';
 import ChangeViewsCountModal from './Modals/ChangeViewsCountModal';
+import ChangePublicationDateModal from './Modals/ChangePublicationDateModal';
 
 interface IActionButtons {
   id: number;
   status: string;
   title: string;
+  postDate: string;
 }
 
 interface IButton {
@@ -30,13 +34,24 @@ interface IButton {
   onConfirmButtonClick?: () => void;
 }
 
-const ActionButtons: React.FC<IActionButtons> = ({ id, status, title }) => {
+const ActionButtons: React.FC<IActionButtons> = ({
+  id,
+  postDate,
+  status,
+  title,
+}) => {
   const { t } = useTranslation();
   const [
     boundedDeleteAdminPost,
     boundedSetPostStatus,
     boundedSetFakeViews,
-  ] = useActions([deleteAdminPost, setPostStatus, setFakeViews]);
+    boundedSetNewPostDate,
+  ] = useActions([
+    deleteAdminPost,
+    setPostStatus,
+    setFakeViews,
+    setNewPostDate,
+  ]);
 
   const {
     DRAFT,
@@ -45,7 +60,16 @@ const ActionButtons: React.FC<IActionButtons> = ({ id, status, title }) => {
     PUBLISHED,
 
     ARCHIVED,
+    PLANNED,
   } = PostStatus;
+
+  const isFutureDateCheck = (date: string) => {
+    const currentDate = Date.parse(new Date().toString());
+    const publicationDate = Date.parse(date.split('.').reverse().join('-'));
+    return currentDate < publicationDate;
+  };
+
+  const isFutureDate = isFutureDateCheck(postDate);
 
   const editPostLink = `/edit-post?id=${id}`;
   const [activeModal, setActiveModal] = useState<null | string>(null);
@@ -93,6 +117,24 @@ const ActionButtons: React.FC<IActionButtons> = ({ id, status, title }) => {
     closeModal();
   };
 
+  const handlerChangePublicationDate = () => {
+    boundedSetNewPostDate({ id });
+    if (status === PUBLISHED && isFutureDate) {
+      boundedSetPostStatus({
+        id,
+        postStatus: StatusesForActions.PLANNED,
+      });
+      toast.success(t(langTokens.admin.scheduleDateSuccess));
+    } else {
+      boundedSetPostStatus({
+        id,
+        postStatus: StatusesForActions.PUBLISHED,
+      });
+      toast.success(t(langTokens.admin.changeDateSuccess));
+    }
+    closeModal();
+  };
+
   const buttons: IButton[] = [
     {
       id: 'editBtn',
@@ -132,10 +174,14 @@ const ActionButtons: React.FC<IActionButtons> = ({ id, status, title }) => {
     {
       id: 'changePublicationDateBtn',
       label: t(langTokens.admin.changePublicationDate),
-      allowedStatuses: [],
+      allowedStatuses: [MODERATION_SECOND_SIGN, ARCHIVED, PUBLISHED, PLANNED],
       // eslint-disable-next-line no-console
-      handler: () => console.log('changePublicationDateBtn handler'),
-      modal: null,
+      handler: (btnId) => openModal(btnId),
+      modal: {
+        title: t(langTokens.admin.currentPublicationDate),
+        content: <ChangePublicationDateModal id={id} />,
+        onConfirmButtonClick: handlerChangePublicationDate,
+      },
     },
     {
       id: 'changeViewsCountBtn',
@@ -167,6 +213,22 @@ const ActionButtons: React.FC<IActionButtons> = ({ id, status, title }) => {
         title: t(langTokens.admin.deleteTitle),
         onConfirmButtonClick: handleDeleteConfirm,
       },
+    },
+    {
+      id: 'set_status',
+      label: t(langTokens.admin.status),
+      allowedStatuses: [
+        PUBLISHED,
+        ARCHIVED,
+        DRAFT,
+        MODERATION_FIRST_SIGN,
+        MODERATION_SECOND_SIGN,
+      ],
+      handler: () =>
+        boundedSetPostStatus({
+          id,
+          postStatus: StatusesForActions.NEEDS_EDITING,
+        }),
     },
   ];
 

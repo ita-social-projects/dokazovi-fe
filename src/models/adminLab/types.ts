@@ -33,6 +33,7 @@ export interface IAdminLabMeta {
 
 export interface IAdminLabModifications {
   fakeViews: number;
+  newPostPublicationDate: string;
 }
 
 interface IDate {

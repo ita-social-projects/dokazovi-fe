@@ -9,6 +9,7 @@ export enum PostStatus {
   MODERATION_SECOND_SIGN = 'MODERATION_SECOND_SIGN',
   PUBLISHED = 'PUBLISHED',
   ARCHIVED = 'ARCHIVED',
+  PLANNED = 'PLANNED',
 }
 
 export enum OriginTypeEnum {
