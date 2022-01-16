@@ -1,26 +1,13 @@
-import React, { useContext, useState, useEffect } from 'react';
-import {
-  Box,
-  Button,
-  Container,
-  Slide,
-  Toolbar,
-  Typography,
-  TextField,
-  InputAdornment,
-} from '@material-ui/core';
-import { Link, NavLink, Route } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
-import SearchIcon from '@material-ui/icons/Search';
+import React, { useContext, useState } from 'react';
+import { Box, Container, Slide, Toolbar } from '@material-ui/core';
 import { useStyles } from './Header.styles';
-import { PostCreationMenu } from './PostCreationMenu';
-import { LoginModal } from '../../old/lib/components/Users/LoginModal';
-import { AccountMenu } from './AccountMenu';
-import { AuthContext } from '../../old/provider/AuthProvider/AuthContext';
 import i18n, { langTokens } from '../../locales/localizationInit';
 import { IHeaderProps } from './types';
 import { ScreenContext } from '../../old/provider/MobileProvider/ScreenContext';
 import { BurgerMenu } from '../BurgerMenu/BurgerMenu';
+import { ToolbarMobile } from './ToolbarMobile';
+// eslint-disable-next-line import/no-cycle
+import { ToolbarDesktop } from './ToolbarDesktop';
 import { useActions } from '../../shared/hooks';
 import {
   makeHeaderInvisible,
@@ -47,16 +34,10 @@ export const navElems: IHeaderProps[] = [
 
 export const Header: React.FC = () => {
   const classes = useStyles();
-  const { t } = useTranslation();
-  const { authenticated } = useContext(AuthContext);
-
   const [visible, setVisible] = useState<boolean>(true);
   const [oldPageOffsetY, setOldPageOffsetY] = useState<number>(0);
-  const [isSearchVisible, setIsSearchVisible] = useState<boolean>(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
-
   const { mobile } = useContext(ScreenContext);
-
   const [boundMakeHeaderVisible, boundMakeHeaderInvisible] = useActions([
     makeHeaderVisible,
     makeHeaderInvisible,
@@ -79,12 +60,6 @@ export const Header: React.FC = () => {
     };
   }
 
-  useEffect(() => {
-    if (!mobile) {
-      setIsSearchVisible(false);
-    }
-  }, [mobile]);
-
   return (
     <Slide in={!mobile || visible} timeout={transitionDuration}>
       <div
@@ -104,86 +79,8 @@ export const Header: React.FC = () => {
                   setMobileMenuOpen={(b) => setMobileMenuOpen(b)}
                 />
               )}
-
-              {!isSearchVisible ? (
-                <>
-                  <Box display="flex">
-                    <Link to="/">
-                      <Typography
-                        className={mobile ? classes.logoMobile : classes.logo}
-                        variant="h1"
-                      >
-                        {t(langTokens.common.projectName)}
-                      </Typography>
-                    </Link>
-                  </Box>
-                  {mobile && (
-                    <Button
-                      aria-controls="simple-menu"
-                      aria-haspopup="true"
-                      onClick={() => setIsSearchVisible((prev) => !prev)}
-                    >
-                      <SearchIcon className={classes.searchIcon} />
-                    </Button>
-                  )}
-                </>
-              ) : (
-                mobile &&
-                isSearchVisible && (
-                  <>
-                    <div
-                      className={classes.backdrop}
-                      onClick={() => setIsSearchVisible(false)}
-                    />
-                    <TextField
-                      fullWidth
-                      variant="standard"
-                      className={classes.searchInput}
-                      InputProps={{
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            <SearchIcon className={classes.searchInput} />
-                          </InputAdornment>
-                        ),
-                        disableUnderline: true,
-                      }}
-                    />
-                  </>
-                )
-              )}
-
-              {!mobile && (
-                <>
-                  <Box className={classes.tabs}>
-                    {navElems.map((item) => (
-                      <NavLink
-                        to={item.url}
-                        key={item.id}
-                        className={classes.tab}
-                        exact
-                      >
-                        <Typography variant="h5" className={classes.tabLabel}>
-                          {item.label}
-                        </Typography>
-                      </NavLink>
-                    ))}
-                  </Box>
-                </>
-              )}
+              {mobile ? <ToolbarMobile /> : <ToolbarDesktop />}
             </Box>
-
-            {!mobile && (
-              <Box className={classes.actionsContainer}>
-                {authenticated && <PostCreationMenu />}
-                {authenticated ? (
-                  <AccountMenu />
-                ) : (
-                  <Route path="/opendoctorgate">
-                    <LoginModal />
-                  </Route>
-                )}
-              </Box>
-            )}
           </Toolbar>
         </Container>
       </div>

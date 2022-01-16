@@ -39,6 +39,12 @@ export const useStyles = makeStyles(
       alignItems: 'center',
       width: '100%',
     },
+    toolbarDesktop: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      width: '100%',
+    },
     logo: {
       color: theme.palette.common.white,
       marginBottom: 6,
