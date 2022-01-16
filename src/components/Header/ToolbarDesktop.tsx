@@ -8,8 +8,7 @@ import { PostCreationMenu } from './PostCreationMenu';
 import { AccountMenu } from './AccountMenu';
 import { LoginModal } from '../../old/lib/components/Users/LoginModal';
 import { Logo } from './Logo';
-// eslint-disable-next-line import/no-cycle
-import { navElems } from './Header';
+import { navElements } from './navElements';
 
 export const ToolbarDesktop = () => {
   const classes = useStyles();
@@ -22,7 +21,7 @@ export const ToolbarDesktop = () => {
       <div style={{ display: 'flex' }}>
         <Logo mobile={mobile} isSearchVisible={isSearchVisible} />
         <Box className={classes.tabs}>
-          {navElems.map((item) => (
+          {navElements.map((item) => (
             <NavLink to={item.url} key={item.id} className={classes.tab} exact>
               <Typography variant="h5" className={classes.tabLabel}>
                 {item.label}

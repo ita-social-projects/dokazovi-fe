@@ -8,48 +8,53 @@ import SearchIcon from '@material-ui/icons/Search';
 import { useStyles } from './Header.styles';
 import { Logo } from './Logo';
 import { BurgerMenu } from '../BurgerMenu/BurgerMenu';
-// import { navElems } from './Header';
+import { navElements } from './navElements';
 
 export const ToolbarMobile = () => {
   const classes = useStyles();
   const [isSearchVisible, setIsSearchVisible] = useState<boolean>(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
   const isOnMobile = true;
-
-  if (isSearchVisible) {
-    return (
-      <>
-        <Logo mobile={isOnMobile} isSearchVisible={isSearchVisible} />
-        <div
-          className={classes.backdrop}
-          onClick={() => setIsSearchVisible(false)}
-        />
-        <TextField
-          fullWidth
-          variant="standard"
-          className={classes.searchInput}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <SearchIcon className={classes.searchInput} />
-              </InputAdornment>
-            ),
-            disableUnderline: true,
-          }}
-        />
-      </>
-    );
-  }
 
   return (
     <>
+      <BurgerMenu
+        navigation={navElements}
+        mobileMenuOpen={mobileMenuOpen}
+        setMobileMenuOpen={(b) => setMobileMenuOpen(b)}
+      />
       <Logo mobile={isOnMobile} isSearchVisible={isSearchVisible} />
-      <Button
-        aria-controls="simple-menu"
-        aria-haspopup="true"
-        onClick={() => setIsSearchVisible((prev) => !prev)}
-      >
-        <SearchIcon className={classes.searchIcon} />
-      </Button>
+      {isSearchVisible ? (
+        <>
+          <div
+            className={classes.backdrop}
+            onClick={() => setIsSearchVisible(false)}
+          />
+          <TextField
+            fullWidth
+            variant="standard"
+            className={classes.searchInput}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <SearchIcon className={classes.searchInput} />
+                </InputAdornment>
+              ),
+              disableUnderline: true,
+            }}
+          />
+        </>
+      ) : (
+        <>
+          <Button
+            aria-controls="simple-menu"
+            aria-haspopup="true"
+            onClick={() => setIsSearchVisible((prev) => !prev)}
+          >
+            <SearchIcon className={classes.searchIcon} />
+          </Button>
+        </>
+      )}
     </>
   );
 };
