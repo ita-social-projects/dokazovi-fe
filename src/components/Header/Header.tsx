@@ -1,19 +1,8 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-import React, {
-  useContext,
-  useState,
-  useEffect,
-  useRef,
-  ReactNode,
-} from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import {
   Box,
   Button,
   Container,
-  Input,
-  Menu,
-  MenuItem,
   Slide,
   Toolbar,
   Typography,
@@ -63,8 +52,7 @@ export const Header: React.FC = () => {
 
   const [visible, setVisible] = useState<boolean>(true);
   const [oldPageOffsetY, setOldPageOffsetY] = useState<number>(0);
-  // const [searchInput, setSearchInput] = useState<null | Element>(null);
-  const [searchInput, setSearchInput] = useState<boolean>(false);
+  const [isSearchVisible, setIsSearchVisible] = useState<boolean>(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
 
   const { mobile } = useContext(ScreenContext);
@@ -93,92 +81,9 @@ export const Header: React.FC = () => {
 
   useEffect(() => {
     if (!mobile) {
-      setSearchInput(false);
+      setIsSearchVisible(false);
     }
   }, [mobile]);
-
-  const wrapperRef = useRef(null);
-
-  // useEffect(() => {
-  //   /**
-  //    * Alert if clicked on outside of element
-  //    */
-  //   const handleClickOutside = (event: { target: { value: any; name: string } }) => {
-  //     if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
-  //       console.log('clicked outside');
-  //       // setState();
-  //     }
-  //   };
-
-  //   // Bind the event listener
-  //   document.addEventListener("mousedown", handleClickOutside);
-  //   return () => {
-  //     // Unbind the event listener on clean up
-  //     document.removeEventListener("mousedown", handleClickOutside);
-  //   };
-  // }, [wrapperRef]);
-
-  //   const outsideClicker = () => {
-
-  //     useOutsideClick(wrapperRef);
-
-  //     return <div ref={wrapperRef}></div>;
-  // }
-
-  const renderMobileToolbar = () => {
-    return (
-      <>
-        {mobile && (
-          <BurgerMenu
-            navigation={navElems}
-            mobileMenuOpen={mobileMenuOpen}
-            setMobileMenuOpen={(b) => setMobileMenuOpen(b)}
-          />
-        )}
-
-        {!searchInput ? (
-          <>
-            <Box display="flex">
-              <Link to="/">
-                <Typography
-                  className={mobile ? classes.logoMobile : classes.logo}
-                  variant="h1"
-                >
-                  {t(langTokens.common.projectName)}
-                </Typography>
-              </Link>
-            </Box>
-            {mobile && (
-              <Button
-                aria-controls="simple-menu"
-                aria-haspopup="true"
-                onClick={() => setSearchInput((prev) => !prev)}
-                ref={wrapperRef}
-              >
-                <SearchIcon className={classes.searchIcon} />
-              </Button>
-            )}
-          </>
-        ) : (
-          mobile && (
-            <TextField
-              fullWidth
-              variant="standard"
-              className={classes.searchInput}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <SearchIcon className={classes.searchInputIcon} />
-                  </InputAdornment>
-                ),
-                disableUnderline: true,
-              }}
-            />
-          )
-        )}
-      </>
-    );
-  };
 
   return (
     <Slide in={!mobile || visible} timeout={transitionDuration}>
@@ -187,9 +92,65 @@ export const Header: React.FC = () => {
         className={mobile ? classes.headerMobile : classes.header}
       >
         <Container className={classes.container}>
-          <Toolbar className={classes.toolbar}>
-            <Box display="flex" className={classes.toolbarWrapper}>
-              {renderMobileToolbar()}
+          <Toolbar className={classes.toolbarWrapper}>
+            <Box
+              display="flex"
+              className={mobile ? classes.toolbarMobile : classes.toolbar}
+            >
+              {mobile && (
+                <BurgerMenu
+                  navigation={navElems}
+                  mobileMenuOpen={mobileMenuOpen}
+                  setMobileMenuOpen={(b) => setMobileMenuOpen(b)}
+                />
+              )}
+
+              {!isSearchVisible ? (
+                <>
+                  <Box display="flex">
+                    <Link to="/">
+                      <Typography
+                        className={mobile ? classes.logoMobile : classes.logo}
+                        variant="h1"
+                      >
+                        {t(langTokens.common.projectName)}
+                      </Typography>
+                    </Link>
+                  </Box>
+                  {mobile && (
+                    <Button
+                      aria-controls="simple-menu"
+                      aria-haspopup="true"
+                      onClick={() => setIsSearchVisible((prev) => !prev)}
+                    >
+                      <SearchIcon className={classes.searchIcon} />
+                    </Button>
+                  )}
+                </>
+              ) : (
+                mobile &&
+                isSearchVisible && (
+                  <>
+                    <div
+                      className={classes.backdrop}
+                      onClick={() => setIsSearchVisible(false)}
+                    />
+                    <TextField
+                      fullWidth
+                      variant="standard"
+                      className={classes.searchInput}
+                      InputProps={{
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <SearchIcon className={classes.searchInput} />
+                          </InputAdornment>
+                        ),
+                        disableUnderline: true,
+                      }}
+                    />
+                  </>
+                )
+              )}
 
               {!mobile && (
                 <>
@@ -207,21 +168,11 @@ export const Header: React.FC = () => {
                       </NavLink>
                     ))}
                   </Box>
-                  <Box className={classes.actionsContainer}>
-                    {authenticated && <PostCreationMenu />}
-                    {authenticated ? (
-                      <AccountMenu />
-                    ) : (
-                      <Route path="/opendoctorgate">
-                        <LoginModal />
-                      </Route>
-                    )}
-                  </Box>
                 </>
               )}
             </Box>
 
-            {/* {!mobile && (
+            {!mobile && (
               <Box className={classes.actionsContainer}>
                 {authenticated && <PostCreationMenu />}
                 {authenticated ? (
@@ -232,69 +183,7 @@ export const Header: React.FC = () => {
                   </Route>
                 )}
               </Box>
-            )} */}
-
-            {/* {mobile && (
-              <div>
-                <Button
-                  aria-controls="simple-menu"
-                  aria-haspopup="true"
-                  onClick={(e) => setSearchInput(e.currentTarget)}
-                >
-                  <SearchIcon className={classes.searchIcon} />
-                </Button>
-                <Menu
-                  classes={{ list: classes.label, paper: classes.paper }}
-                  id="simple-menu"
-                  anchorEl={searchInput}
-                  keepMounted
-                  open={Boolean(searchInput)}
-                  onClose={() => setSearchInput(null)}
-                >
-                  <MenuItem className={classes.searchInputWrapper}>
-                    <Input
-                      disableUnderline
-                      className={classes.searchInput}
-                      placeholder={t(langTokens.common.inputSearchPlaceholder)}
-                    />
-                    <div>Hello</div>
-                    <SearchIcon className={classes.searchInputIcon} />
-                  </MenuItem>
-                </Menu>
-
-              </div>
-            )} */}
-
-            {/* {mobile && (
-              <div>
-                {searchInput ?
-                  <TextField
-                    variant="standard"
-                    // label='Textfield'
-                    className={classes.searchInput}
-                    InputProps={{
-                      endAdornment: (
-                        <InputAdornment position="end">
-                          <SearchIcon className={classes.searchInputIcon} />
-                        </InputAdornment>
-                      ),
-                    }}
-                  />
-                  :
-                  <Button
-                    aria-controls="simple-menu"
-                    aria-haspopup="true"
-                    onClick={() => setSearchInput(prev => !prev)}
-                    ref={wrapperRef}
-                  >
-                    <SearchIcon className={classes.searchIcon} />
-
-                  </Button>
-
-                }
-
-              </div>
-            )} */}
+            )}
           </Toolbar>
         </Container>
       </div>

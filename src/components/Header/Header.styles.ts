@@ -21,15 +21,23 @@ export const useStyles = makeStyles(
         padding: theme.spacing(0, 5),
       },
     },
-    toolbar: {
+    toolbarWrapper: {
+      display: 'flex',
       height: '100%',
+      width: '100%',
       justifyContent: 'space-between',
       padding: 0,
     },
-    toolbarWrapper: {
+    toolbar: {
+      display: 'flex',
+      alignItems: 'center',
+      width: '100%',
+    },
+    toolbarMobile: {
       display: 'flex',
       justifyContent: 'space-between',
       alignItems: 'center',
+      width: '100%',
     },
     logo: {
       color: theme.palette.common.white,
@@ -79,21 +87,20 @@ export const useStyles = makeStyles(
       padding: 0,
     },
     searchInput: {
-      // width: '85%',
-      // height: 39,
-      // fontSize: 16,
-      // paddingLeft: theme.spacing(2),
-      // color: theme.palette.common.white,
-
       background: theme.palette.common.white,
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
       paddingLeft: theme.spacing(1),
       marginLeft: theme.spacing(0),
-      // flexGrow: 1,
     },
-
+    backdrop: {
+      position: 'fixed',
+      left: 0,
+      right: 0,
+      top: 0,
+      bottom: 0,
+    },
     searchInputIcon: {
       backgroundColor: theme.palette.common.white,
       marginRight: theme.spacing(1),
