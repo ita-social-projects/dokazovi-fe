@@ -73,7 +73,7 @@ export const PostAuthorSelection: React.FC<IPostAuthorSelectionProps> = ({
 
       {authors?.length !== 0
         ? isDisplayTable && (
-            <Table>
+            <Table data-testid="authors-table">
               <TableHead>
                 <TableRow>
                   <TableCell>#</TableCell>

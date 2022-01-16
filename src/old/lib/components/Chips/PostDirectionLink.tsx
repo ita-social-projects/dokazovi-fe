@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { IDirection } from '../../types';
 import PostDirectionChip from './PostDirectionChip';
 
-interface IPostDirectionLinkProps {
+export interface IPostDirectionLinkProps {
   direction: IDirection;
 }
 

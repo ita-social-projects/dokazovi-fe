@@ -81,6 +81,7 @@ export const useStyles = makeStyles<Theme, IStyleProps>(
       position: 'sticky',
       top: 80 + top,
       overflowY: 'hidden',
+      scrollBehavior: 'smooth',
       maxHeight: ({ pageYOffset }) =>
         `calc(100vh + ${
           pageYOffset < 80 + top ? pageYOffset - 80 - top : 0

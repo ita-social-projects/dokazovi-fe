@@ -39,7 +39,7 @@ const FiltersMenu: FC<IFiltersMenuProps> = ({
       }}
     >
       <Grid container>
-        <Grid container direction="row" className={classes.container}>
+        <Grid container direction="row" className={classes.containerSelected}>
           <Typography className={classes.headerSelected}>
             {t(langTokens.common.selected)}:
           </Typography>

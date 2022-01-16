@@ -108,15 +108,15 @@ describe('PostInfo tests', () => {
     expect(history.location.search).toBe('?types=1');
   });
 
-  it('should mobile be without Views Counter', () => {
+  it('should mobile be with Views Counter', () => {
     const { asFragment } = render(
       <ScreenContext.Provider value={{ mobile: true, tablet: null }}>
         <PostInfo info={mocks.info} />
       </ScreenContext.Provider>,
     );
 
-    expect(screen.queryByTestId('icon')).not.toBeInTheDocument();
-    expect(screen.queryByTestId('counter')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('icon')).toBeInTheDocument();
+    expect(screen.queryByTestId('counter')).toBeInTheDocument();
 
     expect(asFragment()).toMatchSnapshot();
   });

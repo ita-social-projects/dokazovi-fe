@@ -57,6 +57,7 @@ exports[`NoteUpdation tests should NoteUpdation render 1`] = `
         <input
           aria-invalid="false"
           class="MuiInputBase-input MuiInput-input"
+          data-testid="text-field"
           id="post-name"
           required=""
           type="text"
@@ -157,6 +158,7 @@ exports[`NoteUpdation tests should NoteUpdation render 1`] = `
         </svg>
         <input
           autocomplete="off"
+          data-testid="file-input"
           multiple=""
           style="display: none;"
           tabindex="-1"
@@ -200,6 +202,7 @@ exports[`NoteUpdation tests should NoteUpdation render 1`] = `
         </svg>
         <input
           autocomplete="off"
+          data-testid="file-input"
           multiple=""
           style="display: none;"
           tabindex="-1"
@@ -905,7 +908,9 @@ exports[`NoteUpdation tests should NoteUpdation render 1`] = `
   <div
     class="MuiBox-root MuiBox-root-45"
   >
-    <div>
+    <div
+      data-testid="confirmation-modal"
+    >
       <button
         class="MuiButtonBase-root MuiButton-root MuiButton-contained Mui-disabled Mui-disabled"
         disabled=""
