@@ -139,7 +139,7 @@ const ActionButtons: React.FC<IActionButtons> = ({
     {
       id: 'editBtn',
       label: t(langTokens.admin.edit),
-      allowedStatuses: [PUBLISHED, MODERATION_SECOND_SIGN, ARCHIVED],
+      allowedStatuses: [PUBLISHED, MODERATION_SECOND_SIGN, ARCHIVED, PLANNED],
       modal: null,
       handler: () => {
         window.open(editPostLink);
