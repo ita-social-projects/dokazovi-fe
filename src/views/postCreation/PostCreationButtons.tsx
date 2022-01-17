@@ -99,8 +99,8 @@ export const PostCreationButtons: React.FC<IPostCreationButtonsProps> = ({
         <ConfirmationModalWithButton
           message={`${t(langTokens.editor.wantToCancel)} ${
             action === 'updating'
-              ? t(langTokens.editor.creation.toLowerCase())
-              : t(langTokens.editor.updation.toLowerCase())
+              ? t(langTokens.editor.updation.toLowerCase())
+              : t(langTokens.editor.creation.toLowerCase())
           }?`}
           buttonText={cancelButtonText}
           onConfirmButtonClick={onCancelClick}

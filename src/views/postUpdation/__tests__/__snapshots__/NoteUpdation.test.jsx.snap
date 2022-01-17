@@ -948,6 +948,9 @@ exports[`NoteUpdation tests should NoteUpdation render 1`] = `
         </span>
       </button>
     </div>
+    <div
+      class="MuiBox-root MuiBox-root-53"
+    />
   </div>
 </DocumentFragment>
 `;
