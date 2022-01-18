@@ -10,16 +10,14 @@ import { LoginModal } from '../../old/lib/components/Users/LoginModal';
 import { Logo } from './Logo';
 import { navElements } from './navElements';
 
-export const ToolbarDesktop = () => {
+export const ToolbarDesktop: React.FC = () => {
   const classes = useStyles();
   const { authenticated } = useContext(AuthContext);
-  const mobile = false;
-  const isSearchVisible = false;
 
   return (
     <div className={classes.toolbarDesktop}>
       <div style={{ display: 'flex' }}>
-        <Logo mobile={mobile} isSearchVisible={isSearchVisible} />
+        <Logo isOnMobile={false} isSearchVisible={false} />
         <Box className={classes.tabs}>
           {navElements.map((item) => (
             <NavLink to={item.url} key={item.id} className={classes.tab} exact>

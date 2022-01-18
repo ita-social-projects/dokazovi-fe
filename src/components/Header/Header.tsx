@@ -24,6 +24,7 @@ export const Header: React.FC = () => {
     enter: 200,
     exit: 200,
   };
+
   if (mobile) {
     window.onscroll = () => {
       setOldPageOffsetY(visualViewport.pageTop);
@@ -44,14 +45,7 @@ export const Header: React.FC = () => {
         className={mobile ? classes.headerMobile : classes.header}
       >
         <Container className={classes.container}>
-          <Toolbar className={classes.toolbarWrapper}>
-            <Box
-              display="flex"
-              className={mobile ? classes.toolbarMobile : classes.toolbar}
-            >
-              {mobile ? <ToolbarMobile /> : <ToolbarDesktop />}
-            </Box>
-          </Toolbar>
+          {mobile ? <ToolbarMobile /> : <ToolbarDesktop />}
         </Container>
       </div>
     </Slide>

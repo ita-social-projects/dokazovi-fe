@@ -16,22 +16,14 @@ export const useStyles = makeStyles(
     },
     container: {
       height: '100%',
+      width: '100%',
       padding: theme.spacing(0, 10),
       [theme.breakpoints.down('xs')]: {
         padding: theme.spacing(0, 5),
       },
-    },
-    toolbarWrapper: {
       display: 'flex',
-      height: '100%',
-      width: '100%',
       justifyContent: 'space-between',
-      padding: 0,
-    },
-    toolbar: {
-      display: 'flex',
       alignItems: 'center',
-      width: '100%',
     },
     toolbarMobile: {
       display: 'flex',
@@ -82,15 +74,10 @@ export const useStyles = makeStyles(
     logoMobile: {
       fontSize: 38,
       color: theme.palette.common.white,
-      paddingLeft: theme.spacing(1.7),
-      paddingRight: theme.spacing(1.7),
     },
     searchIcon: {
       color: theme.palette.common.white,
       fontSize: 48,
-    },
-    searchInputWrapper: {
-      padding: 0,
     },
     searchInput: {
       background: theme.palette.common.white,
@@ -99,13 +86,6 @@ export const useStyles = makeStyles(
       alignItems: 'center',
       paddingLeft: theme.spacing(1),
       marginLeft: theme.spacing(0),
-    },
-    backdrop: {
-      position: 'fixed',
-      left: 0,
-      right: 0,
-      top: 0,
-      bottom: 0,
     },
     searchInputIcon: {
       backgroundColor: theme.palette.common.white,

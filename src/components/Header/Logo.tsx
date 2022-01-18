@@ -6,7 +6,15 @@ import { useTranslation } from 'react-i18next';
 import { langTokens } from '../../locales/localizationInit';
 import { useStyles } from './Header.styles';
 
-export const Logo = ({ mobile, isSearchVisible }) => {
+type LogoPropType = {
+  isOnMobile: boolean;
+  isSearchVisible: boolean;
+};
+
+export const Logo: React.FC<LogoPropType> = ({
+  isOnMobile,
+  isSearchVisible,
+}) => {
   const { t } = useTranslation();
   const classes = useStyles();
   if (isSearchVisible) return null;
@@ -16,7 +24,7 @@ export const Logo = ({ mobile, isSearchVisible }) => {
       <Box display="flex">
         <Link to="/">
           <Typography
-            className={mobile ? classes.logoMobile : classes.logo}
+            className={isOnMobile ? classes.logoMobile : classes.logo}
             variant="h1"
           >
             {t(langTokens.common.projectName)}
