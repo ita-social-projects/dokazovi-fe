@@ -10,6 +10,9 @@ export const useStyles = makeStyles(
     container: {
       justifyContent: 'space-between',
     },
+    containerSelected: {
+      marginTop: '85px',
+    },
     headerSelected: {
       color: '#FF5C00',
       fontFamily: 'Raleway',
@@ -21,7 +24,8 @@ export const useStyles = makeStyles(
       fontFamily: 'Literata',
       fontSize: '14px',
       fontWeight: 400,
-      fontStyleL: 'italic',
+      fontStyle: 'italic',
+      paddingLeft: '15px',
     },
     selectedTypesContainer: {
       alignItems: 'center',

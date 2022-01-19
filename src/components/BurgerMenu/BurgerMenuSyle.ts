@@ -18,7 +18,7 @@ export const useStyles = makeStyles((theme) => ({
     color: 'white',
     height: '100vh',
     border: 'none',
-    width: `207px`,
+    width: `200px`,
     paddingLeft: theme.spacing(5),
   },
   link: {

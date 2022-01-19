@@ -15,6 +15,12 @@ export const AutoPaginationExpertsList: React.FC<IAutoPaginationExpertsListProps
   const lastElement = useRef<HTMLDivElement>(null);
   const observer = useRef<IntersectionObserver>();
 
+  const observerOptions = {
+    root: null,
+    rootMargin: '0px',
+    threshold: 0.25,
+  };
+
   useEffect(() => {
     if (observer.current) {
       observer.current.disconnect();
@@ -24,7 +30,7 @@ export const AutoPaginationExpertsList: React.FC<IAutoPaginationExpertsListProps
         if (entries[0].isIntersecting) {
           setPage();
         }
-      });
+      }, observerOptions);
       observer.current.observe(lastElement.current);
     }
   }, [experts.length]);
