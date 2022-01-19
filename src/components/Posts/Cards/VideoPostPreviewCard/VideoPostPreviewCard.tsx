@@ -65,7 +65,13 @@ export const VideoPostPreviewCard: React.FC<IPostPreviewCardProps> = ({
   );
   return (
     <Card className={classes.root}>
-      {shouldNotUseLink ? card : <Link to={postLink}>{card}</Link>}
+      {shouldNotUseLink ? (
+        card
+      ) : (
+        <Link to={postLink} target="_blank">
+          {card}
+        </Link>
+      )}
     </Card>
   );
 };

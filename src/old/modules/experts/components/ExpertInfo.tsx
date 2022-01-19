@@ -14,7 +14,11 @@ const ExpertInfo: React.FC<IExpertInfoProps> = ({ expert }) => {
 
   return (
     <>
-      <Grid container className={classes.personalInfo}>
+      <Grid
+        container
+        className={classes.personalInfo}
+        data-testid="expert-info"
+      >
         <Avatar
           src={expert.avatar}
           alt="Photo"

@@ -261,6 +261,9 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
               required
               id="post-name"
               value={title.value}
+              inputProps={{
+                'data-testid': 'text-field',
+              }}
               onChange={(e) => {
                 setTitle({ ...title, value: e.target.value });
               }}

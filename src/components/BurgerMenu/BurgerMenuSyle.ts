@@ -18,11 +18,11 @@ export const useStyles = makeStyles((theme) => ({
     color: 'white',
     height: '100%',
     border: 'none',
-    width: `207px`,
+    width: `200px`,
     paddingLeft: theme.spacing(5),
   },
   link: {
-    display:'block',
+    display: 'block',
     marginTop: theme.spacing(8),
     color: theme.palette.primary.main,
     fontWeight: 600,
@@ -39,7 +39,7 @@ export const useStyles = makeStyles((theme) => ({
     fontSize: 16,
     lineHeight: '18px',
   },
-  root:{
-    backgroundColor:theme.palette.common.black,
+  root: {
+    backgroundColor: theme.palette.common.black,
   },
 }));
