@@ -55,7 +55,7 @@ const content: IContent[] = [
   {
     label: i18n.t(langTokens.admin.views),
     isSortable: true,
-    sortKey: SortBy.fakeViews,
+    sortKey: SortBy.views,
     initialSortOrder: Order.desc,
     tooltip: i18n.t(langTokens.admin.viewsFull),
     icon: <Visibility />,
@@ -63,7 +63,7 @@ const content: IContent[] = [
   {
     label: i18n.t(langTokens.admin.realViews),
     isSortable: true,
-    sortKey: SortBy.views,
+    sortKey: SortBy.real_views,
     initialSortOrder: Order.desc,
     tooltip: i18n.t(langTokens.admin.realViewsFull),
     icon: <Visibility />,

@@ -81,8 +81,8 @@ export enum SortBy {
   created_at = 'created_at',
   modified_at = 'modified_at',
   'author.firstName' = 'author.firstName',
+  real_views = 'real_views',
   views = 'views',
-  fakeViews = 'fakeViews',
 }
 
 export enum Order {
