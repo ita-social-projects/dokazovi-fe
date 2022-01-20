@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { Box, Container, Slide, Toolbar } from '@material-ui/core';
+import { Container, Slide } from '@material-ui/core';
 import { useStyles } from './Header.styles';
 import { ScreenContext } from '../../old/provider/MobileProvider/ScreenContext';
 import { ToolbarMobile } from './ToolbarMobile';
