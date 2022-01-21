@@ -56,10 +56,15 @@ export const BackgroundImageContainer: React.FC<IBackgroundImageContainerProps> 
   };
 
   return (
-    <Box mt={2} display="flex" flexDirection="column" alignItems="start">
-      <Typography className={classes.addImage} variant="h5">{`${title}:`}</Typography>
+    <Box mt={2} display="flex" flexDirection="column">
+      <Typography
+        className={classes.addImage}
+        variant="h5"
+      >{`${title}`}</Typography>
       {reminder && (
-        <Typography className={classes.requiredField} variant="h6">{t(langTokens.editor.warn)}</Typography>
+        <Typography className={classes.requiredField} variant="h6">
+          {t(langTokens.editor.warn)}
+        </Typography>
       )}
       <Box mb={2}>
         {notCarousel && (

@@ -277,21 +277,58 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
           {postAuthorSelection}
           {isAdmin && (
             <>
-              <BackgroundImageContainer
-                dispatchImageUrl={setPreviewImageUrl}
-                fileSelectorHandler={fileSelectorHandler(setPreviewImageUrl)}
-                title={t(langTokens.editor.backgroundImage)}
-                imgUrl={previewPost?.previewImageUrl}
-                reminder
-              />
+              <Box className={classes.backgroundImagesContainer}>
+                <Box className={classes.backgroundImageWrapper}>
+                  <BackgroundImageContainer
+                    dispatchImageUrl={setPreviewImageUrl}
+                    fileSelectorHandler={fileSelectorHandler(
+                      setPreviewImageUrl,
+                    )}
+                    title={t(langTokens.editor.backgroundImage)}
+                    imgUrl={previewPost?.previewImageUrl}
+                    reminder
+                  />
+                </Box>
+              </Box>
               <BorderBottom />
-              <BackgroundImageContainer
-                dispatchImageUrl={setImportantImageUrl}
-                fileSelectorHandler={fileSelectorHandler(setImportantImageUrl)}
-                title={t(langTokens.editor.carouselImage)}
-                imgUrl={previewPost?.importantImageUrl}
-                notCarousel={false}
-              />
+              <Box>
+                <Typography variant="h5">
+                  {t(langTokens.editor.carouselImage)}
+                </Typography>
+                <Box className={classes.carouselImagesContainer}>
+                  <Box className={classes.carouselImageWrapper}>
+                    <BackgroundImageContainer
+                      dispatchImageUrl={setImportantImageUrl}
+                      fileSelectorHandler={fileSelectorHandler(
+                        setImportantImageUrl,
+                      )}
+                      title=""
+                      imgUrl={previewPost?.importantImageUrl}
+                      notCarousel={false}
+                    />
+                  </Box>
+                  <Box className={classes.carouselImageWrapper}>
+                    <BackgroundImageContainer
+                      dispatchImageUrl={setImportantImageUrl}
+                      fileSelectorHandler={fileSelectorHandler(
+                        setImportantImageUrl,
+                      )}
+                      title=""
+                      imgUrl={previewPost?.importantImageUrl}
+                      notCarousel={false}
+                    />
+                  </Box>
+                  {/* <Box className={classes.carouselImageWrapper}>
+                    <BackgroundImageContainer
+                      dispatchImageUrl={setImportantImageUrl}
+                      fileSelectorHandler={fileSelectorHandler(setImportantImageUrl)}
+                      title=''
+                      imgUrl={previewPost?.importantImageUrl}
+                      notCarousel={false}
+                    />
+                  </Box> */}
+                </Box>
+              </Box>
               <BorderBottom />
             </>
           )}
