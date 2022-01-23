@@ -73,6 +73,9 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
   const [importantImageUrl, setImportantImageUrl] = useState(
     post.importantImageUrl ?? '',
   );
+  const [importantMobileImageUrl, setImportantMobileImageUrl] = useState(
+    post.importantMobileImageUrl ?? '',
+  );
   const [preview, setPreview] = useState(post.preview);
   const [title, setTitle] = useState({
     value: post.title,
@@ -171,6 +174,7 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
     preview,
     previewImageUrl,
     importantImageUrl,
+    importantMobileImageUrl,
     title: title.value,
     type: post.type,
     authorId: authorId ?? post.author.id,
@@ -210,6 +214,7 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
     preview,
     previewImageUrl,
     importantImageUrl,
+    importantMobileImageUrl,
     directions: selectedDirections,
     origins: selectedOrigins,
     title: title.value,
@@ -287,6 +292,7 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
                     title={t(langTokens.editor.backgroundImage)}
                     imgUrl={previewPost?.previewImageUrl}
                     reminder
+                    forMobilePic={false}
                   />
                 </Box>
               </Box>
@@ -305,6 +311,7 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
                       title=""
                       imgUrl={previewPost?.importantImageUrl}
                       notCarousel={false}
+                      forMobilePic={false}
                     />
                   </Box>
                   <Box className={classes.carouselImageWrapper}>
@@ -314,19 +321,11 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
                         setImportantImageUrl,
                       )}
                       title=""
-                      imgUrl={previewPost?.importantImageUrl}
+                      imgUrl={previewPost?.importantMobileImageUrl}
                       notCarousel={false}
+                      forMobilePic
                     />
                   </Box>
-                  {/* <Box className={classes.carouselImageWrapper}>
-                    <BackgroundImageContainer
-                      dispatchImageUrl={setImportantImageUrl}
-                      fileSelectorHandler={fileSelectorHandler(setImportantImageUrl)}
-                      title=''
-                      imgUrl={previewPost?.importantImageUrl}
-                      notCarousel={false}
-                    />
-                  </Box> */}
                 </Box>
               </Box>
               <BorderBottom />

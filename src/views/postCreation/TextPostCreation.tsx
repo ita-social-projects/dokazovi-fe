@@ -24,7 +24,10 @@ import {
 import { IDirection, IOrigin, IPost, PostTypeEnum } from '../../old/lib/types';
 import { sanitizeHtml } from '../../old/lib/utilities/sanitizeHtml';
 import { PostCreationButtons } from './PostCreationButtons';
-import { CreateTextPostRequestType, ExpertResponseType } from '../../old/lib/utilities/API/types';
+import {
+  CreateTextPostRequestType,
+  ExpertResponseType,
+} from '../../old/lib/utilities/API/types';
 import { createPost, getAllExperts } from '../../old/lib/utilities/API/api';
 import {
   CLEAR_HTML_REG_EXP,
@@ -407,6 +410,7 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
                 title={t(langTokens.editor.backgroundImage)}
                 imgUrl={newPost?.previewImageUrl}
                 reminder
+                forMobilePic={false}
               />
               <BorderBottom />
               <BackgroundImageContainer
@@ -417,6 +421,7 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
                 title={t(langTokens.editor.carouselImage)}
                 imgUrl={newPost?.importantImageUrl}
                 notCarousel={false}
+                forMobilePic={false}
               />
               <BorderBottom />
             </>

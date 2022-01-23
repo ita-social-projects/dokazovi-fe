@@ -18,6 +18,7 @@ export const BackgroundImageContainer: React.FC<IBackgroundImageContainerProps> 
   title,
   notCarousel = true,
   reminder,
+  forMobilePic,
 }) => {
   const classes = useStyles();
   const { t } = useTranslation();
@@ -74,7 +75,7 @@ export const BackgroundImageContainer: React.FC<IBackgroundImageContainerProps> 
           />
         )}
 
-        <FileInput onDrop={fileSelectorHandler} />
+        <FileInput onDrop={fileSelectorHandler} forMobilePic={forMobilePic} />
       </Box>
       {imgUrl && (
         <Box className={classes.imgContainer}>
