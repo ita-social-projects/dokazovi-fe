@@ -30,4 +30,9 @@ export const useStyle = makeStyles(() => ({
   backgroundImageWrapper: {
     flexBasis: '33%',
   },
+  imageSizeText: {
+    fontStyle: 'normal',
+    fontFamily: 'sans-serif',
+    paddingLeft: '10px',
+  },
 }));

@@ -313,6 +313,12 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
                       notCarousel={false}
                       forMobilePic={false}
                     />
+                    <Typography
+                      variant="subtitle2"
+                      className={classes.imageSizeText}
+                    >
+                      {t(langTokens.editor.pcImageSize)}
+                    </Typography>
                   </Box>
                   <Box className={classes.carouselImageWrapper}>
                     <BackgroundImageContainer
@@ -325,6 +331,12 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
                       notCarousel={false}
                       forMobilePic
                     />
+                    <Typography
+                      variant="subtitle2"
+                      className={classes.imageSizeText}
+                    >
+                      {t(langTokens.editor.mobileImageSize)}
+                    </Typography>
                   </Box>
                 </Box>
               </Box>

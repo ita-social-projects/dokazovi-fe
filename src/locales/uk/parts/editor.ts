@@ -49,8 +49,8 @@ export const editor = {
   confirmImgRemoving: 'Ви впевнені, що хочете видалити цю картинку?',
   removingSucceeded: 'Успішно видалено!',
   addImgFromPC: 'Завантажити зображення із комп`ютера',
-  addImgForPC: 'Завантажити зображення для десктопа',
-  addImgForMobile: 'Завантажити зображення для мобільної версіі',
+  addImgForPC: 'Зображення для компʼютера',
+  addImgForMobile: 'Зображення для телефона',
   addImgFromExternalResource:
     'Додати посилання на зображення із зовнішнього ресурсу',
   requiredField: 'Заповніть, будь-ласка, обов`язкові поля, помічені зірочкою',
@@ -59,4 +59,6 @@ export const editor = {
   noVideo: 'Додайте, будь ласка, відео',
   toMuchTitleLength: 'Ви ввели забагато символів',
   noBgImg: `Фонове зображення обов'язкове`,
+  pcImageSize: `*(Розширення зображення - 1305x455)`,
+  mobileImageSize: `*(Розширення зображення - 414x585)`,
 };
