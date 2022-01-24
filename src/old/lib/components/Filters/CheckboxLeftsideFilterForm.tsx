@@ -183,9 +183,9 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
     }
 
     if (filterType === QueryTypeEnum.ORIGINS) {
-      const origin = allOrigins.map((origin) => origin.id);
+      const originItem = allOrigins.map((origin) => origin.id);
       const filterNameValue = +filterName!;
-      result = origin?.includes(filterNameValue);
+      result = originItem?.includes(filterNameValue);
     }
 
     return result;
