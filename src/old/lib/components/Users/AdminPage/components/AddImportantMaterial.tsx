@@ -49,7 +49,6 @@ const AddImportantMaterial: React.FC<IAddImportantMaterial> = ({
 
   const renderImportantMaterialsSelector = () => {
     let selector: JSX.Element | JSX.Element[] = <></>;
-
     if (unselectedPosts.length || !meta.isLastPage) {
       selector = unselectedPosts.map((post, index) => (
         <PostPreviewWrapper

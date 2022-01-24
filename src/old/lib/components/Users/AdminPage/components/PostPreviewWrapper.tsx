@@ -115,7 +115,7 @@ const PostPreviewWrapper: React.FC<IPostPreviewWrapper> = ({
       )}
       {viewMode === 'preview' && (isHovered || !post.importantImageUrl) && (
         <div className={classes.cardHoverView}>
-          {post.importantImageUrl && (
+          {post.importantImageUrl && post.importantMobileImageUrl && (
             <Typography
               className={classes.cardHoverButtons}
               display="block"
