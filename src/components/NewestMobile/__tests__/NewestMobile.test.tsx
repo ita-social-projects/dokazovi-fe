@@ -5,7 +5,7 @@ import { MemoryRouter, Router } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { store } from 'models/store';
 
-import { mockMobileContent } from './mockMobileContent';
+import { mockMobileContent } from '../mockMobileContent';
 import { NewestMobile } from '../NewestMobile';
 
 store.getState = () => mockMobileContent;
