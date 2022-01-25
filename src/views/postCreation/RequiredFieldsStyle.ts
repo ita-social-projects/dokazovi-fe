@@ -34,5 +34,11 @@ export const useStyle = makeStyles(() => ({
     fontStyle: 'normal',
     fontFamily: 'sans-serif',
     paddingLeft: '10px',
+    '&::before': {
+      content: '"*"',
+      color: 'red',
+      display: 'inline',
+      fontSize: '20px',
+    },
   },
 }));

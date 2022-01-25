@@ -57,7 +57,6 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
   const classes = useStyle();
   const authorities = useSelector(selectAuthorities);
   const isAdmin = authorities.data?.includes('SET_IMPORTANCE');
-
   const [autoChanges, setAutoChanges] = useState(true);
 
   const [selectedDirections, setSelectedDirections] = useState<IDirection[]>(
@@ -301,6 +300,12 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
                 <Typography variant="h5">
                   {t(langTokens.editor.carouselImage)}
                 </Typography>
+                <Typography
+                  variant="subtitle2"
+                  className={classes.imageSizeText}
+                >
+                  {t(langTokens.editor.allSizesWarning)}
+                </Typography>
                 <Box className={classes.carouselImagesContainer}>
                   <Box className={classes.carouselImageWrapper}>
                     <BackgroundImageContainer
@@ -324,7 +329,7 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
                     <BackgroundImageContainer
                       dispatchImageUrl={setImportantImageUrl}
                       fileSelectorHandler={fileSelectorHandler(
-                        setImportantImageUrl,
+                        setImportantMobileImageUrl,
                       )}
                       title=""
                       imgUrl={previewPost?.importantMobileImageUrl}
