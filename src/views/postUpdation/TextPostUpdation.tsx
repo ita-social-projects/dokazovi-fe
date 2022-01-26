@@ -70,12 +70,12 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
   const [previewImageUrl, setPreviewImageUrl] = useState(
     post.previewImageUrl ?? '',
   );
-  const [importantImageUrl, setImportantImageUrl] = useState(
+  const [importantImageUrl, setImportantImageUrl] = useState<string>(
     post.importantImageUrl ?? '',
   );
-  const [importantMobileImageUrl, setImportantMobileImageUrl] = useState(
-    post.importantMobileImageUrl ?? '',
-  );
+  const [importantMobileImageUrl, setImportantMobileImageUrl] = useState<
+    string
+  >(post.importantMobileImageUrl ?? '');
   const [preview, setPreview] = useState(post.preview);
   const [title, setTitle] = useState({
     value: post.title,

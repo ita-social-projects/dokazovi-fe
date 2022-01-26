@@ -7,7 +7,16 @@ import { BackgroundImageContainer } from '../../components/Editor/CustomModules/
 import { langTokens } from '../../locales/localizationInit';
 import { useStyle } from './RequiredFieldsStyle';
 import { fileSelectorHandler } from './fileSelectorHandler';
+// import { IPost } from '../../old/lib/types';
+// import { CreatePostRequestType } from '../../old/lib/utilities/API/types';
 
+// interface ICarouselImagesWrapperProps {
+//   post: IPost | CreatePostRequestType,
+//   setImportantImageUrl: React.Dispatch<React.SetStateAction<string>>
+//   setImportantMobileImageUrl: React.Dispatch<React.SetStateAction<string>>,
+// }
+
+// export const CarouselImagesWrapper: React.FC<ICarouselImagesWrapperProps> = ({
 export const CarouselImagesWrapper = ({
   post,
   setImportantImageUrl,
