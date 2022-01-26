@@ -242,6 +242,7 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
     authorId: isAdmin ? savedPostDraft.authorId : user.data?.id,
     previewImageUrl: savedPostDraft.previewImageUrl,
     importantImageUrl: savedPostDraft.importantImageUrl,
+    importantMobileImageUrl: savedPostDraft.importantMobileImageUrl,
     content: savedPostDraft.htmlContent,
     directions: savedPostDraft.directions,
     origins: savedPostDraft.origins,
