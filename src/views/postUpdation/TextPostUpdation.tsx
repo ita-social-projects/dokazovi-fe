@@ -327,7 +327,7 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
                   </Box>
                   <Box className={classes.carouselImageWrapper}>
                     <BackgroundImageContainer
-                      dispatchImageUrl={setImportantImageUrl}
+                      dispatchImageUrl={setImportantMobileImageUrl}
                       fileSelectorHandler={fileSelectorHandler(
                         setImportantMobileImageUrl,
                       )}
