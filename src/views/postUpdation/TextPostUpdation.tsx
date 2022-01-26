@@ -298,62 +298,10 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
               </Box>
               <BorderBottom />
               <CarouselImagesWrapper
-                post={post}
-                previewPost={previewPost}
-                importantImageUrl={importantImageUrl}
+                post={previewPost}
                 setImportantImageUrl={setImportantImageUrl}
-                importantMobileImageUrl={importantMobileImageUrl}
                 setImportantMobileImageUrl={setImportantMobileImageUrl}
               />
-              {/* <Box>
-                <Typography variant="h5">
-                  {t(langTokens.editor.carouselImage)}
-                </Typography>
-                <Typography
-                  variant="subtitle2"
-                  className={classes.imageSizeText}
-                >
-                  {t(langTokens.editor.allSizesWarning)}
-                </Typography>
-                <Box className={classes.carouselImagesContainer}>
-                  <Box className={classes.carouselImageWrapper}>
-                    <BackgroundImageContainer
-                      dispatchImageUrl={setImportantImageUrl}
-                      fileSelectorHandler={fileSelectorHandler(
-                        setImportantImageUrl,
-                      )}
-                      title=""
-                      imgUrl={previewPost?.importantImageUrl}
-                      notCarousel={false}
-                      forMobilePic={false}
-                    />
-                    <Typography
-                      variant="subtitle2"
-                      className={classes.imageSizeText}
-                    >
-                      {t(langTokens.editor.pcImageSize)}
-                    </Typography>
-                  </Box>
-                  <Box className={classes.carouselImageWrapper}>
-                    <BackgroundImageContainer
-                      dispatchImageUrl={setImportantMobileImageUrl}
-                      fileSelectorHandler={fileSelectorHandler(
-                        setImportantMobileImageUrl,
-                      )}
-                      title=""
-                      imgUrl={previewPost?.importantMobileImageUrl}
-                      notCarousel={false}
-                      forMobilePic
-                    />
-                    <Typography
-                      variant="subtitle2"
-                      className={classes.imageSizeText}
-                    >
-                      {t(langTokens.editor.mobileImageSize)}
-                    </Typography>
-                  </Box>
-                </Box>
-              </Box> */}
               <BorderBottom />
             </>
           )}

@@ -1,31 +1,20 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import React from 'react';
-import { useSelector } from 'react-redux';
-// import { selectAuthorities } from '../../models/authorities';
-import { Box, TextField, Typography } from '@material-ui/core';
+import { Box, Typography } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
-import { BorderBottom } from '../../old/lib/components/Border';
-import { uploadImageToImgur } from '../../old/lib/utilities/Imgur/uploadImageToImgur';
 import { BackgroundImageContainer } from '../../components/Editor/CustomModules/BackgroundImageContainer/BackgroundImageContainer';
 import { langTokens } from '../../locales/localizationInit';
 import { useStyle } from './RequiredFieldsStyle';
 import { fileSelectorHandler } from './fileSelectorHandler';
-import { IPost } from '../../old/lib/types';
 
 export const CarouselImagesWrapper = ({
   post,
-  previewPost,
-  importantImageUrl,
   setImportantImageUrl,
-  importantMobileImageUrl,
   setImportantMobileImageUrl,
 }) => {
   const classes = useStyle();
   const { t } = useTranslation();
-
-  // const authorities = useSelector(selectAuthorities);
-  // const isAdmin = authorities.data?.includes('SET_IMPORTANCE');
   return (
     <>
       <Box>
@@ -41,7 +30,7 @@ export const CarouselImagesWrapper = ({
               dispatchImageUrl={setImportantImageUrl}
               fileSelectorHandler={fileSelectorHandler(setImportantImageUrl)}
               title=""
-              imgUrl={previewPost?.importantImageUrl}
+              imgUrl={post?.importantImageUrl}
               notCarousel={false}
               forMobilePic={false}
             />
@@ -56,7 +45,7 @@ export const CarouselImagesWrapper = ({
                 setImportantMobileImageUrl,
               )}
               title=""
-              imgUrl={previewPost?.importantMobileImageUrl}
+              imgUrl={post?.importantMobileImageUrl}
               notCarousel={false}
               forMobilePic
             />

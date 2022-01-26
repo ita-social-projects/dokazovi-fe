@@ -57,7 +57,7 @@ export const BackgroundImageContainer: React.FC<IBackgroundImageContainerProps> 
   };
 
   return (
-    <Box mt={2} display="flex" flexDirection="column">
+    <Box display="flex" flexDirection="column">
       <Typography
         className={classes.addImage}
         variant="h5"

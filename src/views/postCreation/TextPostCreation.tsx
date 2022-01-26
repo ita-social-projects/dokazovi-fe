@@ -4,7 +4,6 @@ import _ from 'lodash';
 import { useSelector } from 'react-redux';
 import { Box, TextField, Typography } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
-import { DropEvent, FileRejection } from 'react-dropzone';
 import { PageTitle } from 'components/Page/PageTitle';
 import { RootStateType } from '../../models/rootReducer';
 import {
@@ -14,6 +13,7 @@ import {
   setAuthorsName,
   setImageUrl,
   setImportantImageUrl,
+  setImportantMobileImageUrl,
   setPostBody,
   setPostDirections,
   setPostOrigin,
@@ -40,13 +40,13 @@ import {
   PREVIEW_DEBOUNCE_TIMEOUT,
 } from '../../old/lib/constants/editors';
 import PostView from '../../old/modules/posts/components/PostView';
+import { CarouselImagesWrapper } from './CarouselImagesWrapper';
 import { TextPostEditor } from '../../components/Editor/Editors/TextPostEditor';
 import { IEditorToolbarProps } from '../../components/Editor/types';
 import { PostDirectionsSelector } from './PostDirectionsSelector';
 import { PostOriginsSelector } from './PostOriginsSelector';
 import { BorderBottom } from '../../old/lib/components/Border';
-import { getStringFromFile } from '../../old/lib/utilities/Imgur/getStringFromFile';
-import { uploadImageToImgur } from '../../old/lib/utilities/Imgur/uploadImageToImgur';
+import { fileSelectorHandler } from './fileSelectorHandler';
 import { BackgroundImageContainer } from '../../components/Editor/CustomModules/BackgroundImageContainer/BackgroundImageContainer';
 import { PostAuthorSelection } from './PostAuthorSelection/PostAuthorSelection';
 import { selectCurrentUser } from '../../models/user';
@@ -119,6 +119,7 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
     boundSetPostPreviewManuallyChanged,
     boundResetDraft,
     boundSetImportantImageUrl,
+    boundSetImportantMobileImageUrl,
   ] = useActions([
     setPostDirections,
     setPostOrigin,
@@ -132,6 +133,7 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
     setPostPreviewManuallyChanged,
     resetDraft,
     setImportantImageUrl,
+    setImportantMobileImageUrl,
   ]);
 
   const handleDirectionsChange = (value: IDirection[]) => {
@@ -165,6 +167,13 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
 
   const dispatchImportantImageUrl = (previewImageUrl: string): void => {
     boundSetImportantImageUrl({
+      postType: PostTypeEnum.ARTICLE,
+      value: previewImageUrl,
+    });
+  };
+
+  const dispatchImportantMobileImageUrl = (previewImageUrl: string): void => {
+    boundSetImportantMobileImageUrl({
       postType: PostTypeEnum.ARTICLE,
       value: previewImageUrl,
     });
@@ -223,22 +232,6 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
     setAuthor(item);
     setAuthors([]);
     setSearchValue(authorFullName);
-  };
-
-  const fileSelectorHandler = (
-    dispatchFunc: (arg: string) => void,
-  ): (<T extends File>(
-    acceptedFiles: T[],
-    fileRejections: FileRejection[],
-    event: DropEvent,
-  ) => void) => (files) => {
-    getStringFromFile(files)
-      .then((str) => uploadImageToImgur(str))
-      .then((res) => {
-        if (res.data.status === 200) {
-          dispatchFunc(res.data.data.link);
-        }
-      });
   };
 
   const handlePreviewManuallyChanged = () => {
@@ -413,15 +406,10 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
                 forMobilePic={false}
               />
               <BorderBottom />
-              <BackgroundImageContainer
-                dispatchImageUrl={dispatchImportantImageUrl}
-                fileSelectorHandler={fileSelectorHandler(
-                  dispatchImportantImageUrl,
-                )}
-                title={t(langTokens.editor.carouselImage)}
-                imgUrl={newPost?.importantImageUrl}
-                notCarousel={false}
-                forMobilePic={false}
+              <CarouselImagesWrapper
+                post={newPost}
+                setImportantImageUrl={dispatchImportantImageUrl}
+                setImportantMobileImageUrl={dispatchImportantMobileImageUrl}
               />
               <BorderBottom />
             </>
