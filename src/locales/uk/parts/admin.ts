@@ -26,4 +26,5 @@ export const admin = {
   statuses: 'Статуси',
   directions: 'Теми',
   types: 'Типи',
+  addToCarousel: 'Додати до каруселі',
 };

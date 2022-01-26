@@ -6,6 +6,7 @@ import DeleteIcon from '@material-ui/icons/DeleteOutlineRounded';
 import Typography from '@material-ui/core/Typography';
 import Input from '@material-ui/core/Input';
 import { toast } from 'react-toastify';
+import { useTranslation } from 'react-i18next';
 import { useStyles } from '../styles/PostPreviewWrapper.styles';
 import {
   addToImportant,
@@ -15,6 +16,7 @@ import {
 import { ImportantPostPreviewCard } from '../../../../../../components/Posts/Cards/ImportantPostPreviewCard/ImportantPostPreviewCard';
 import { IPost, ViewModsType } from '../../../../types';
 import { useActions } from '../../../../../../shared/hooks';
+import { langTokens } from '../../../../../../locales/localizationInit';
 
 interface IPostPreviewWrapper {
   post: IPost;
@@ -31,6 +33,7 @@ const PostPreviewWrapper: React.FC<IPostPreviewWrapper> = ({
   postsAmount,
   updateRemovedPosts,
 }) => {
+  const { t } = useTranslation();
   const [isHovered, switchHover] = useState(false);
   const [newPosition, changePosition] = useState<number | string>(position);
   const classes = useStyles({ refineInputPadding: newPosition > 9 });
@@ -122,7 +125,7 @@ const PostPreviewWrapper: React.FC<IPostPreviewWrapper> = ({
               variant="button"
               onClick={() => addPostToImportant(post)}
             >
-              Додати до каруселі
+              {t(langTokens.admin.addToCarousel)}
             </Typography>
           )}
           <Typography
@@ -135,7 +138,7 @@ const PostPreviewWrapper: React.FC<IPostPreviewWrapper> = ({
               })
             }
           >
-            Редагувати
+            {t(langTokens.admin.edit)}
           </Typography>
         </div>
       )}

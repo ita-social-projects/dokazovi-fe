@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { DropEvent, FileRejection } from 'react-dropzone';
 import { PageTitle } from 'components/Page/PageTitle';
 import { useSelector } from 'react-redux';
+import { CarouselImagesWrapper } from 'views/postCreation/CarouselImagesWrapper';
 import { sanitizeHtml } from '../../old/lib/utilities/sanitizeHtml';
 import { getAllExperts, updatePost } from '../../old/lib/utilities/API/api';
 import { IDirection, IOrigin, IPost } from '../../old/lib/types';
@@ -296,7 +297,15 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
                 </Box>
               </Box>
               <BorderBottom />
-              <Box>
+              <CarouselImagesWrapper
+                post={post}
+                previewPost={previewPost}
+                importantImageUrl={importantImageUrl}
+                setImportantImageUrl={setImportantImageUrl}
+                importantMobileImageUrl={importantMobileImageUrl}
+                setImportantMobileImageUrl={setImportantMobileImageUrl}
+              />
+              {/* <Box>
                 <Typography variant="h5">
                   {t(langTokens.editor.carouselImage)}
                 </Typography>
@@ -344,7 +353,7 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
                     </Typography>
                   </Box>
                 </Box>
-              </Box>
+              </Box> */}
               <BorderBottom />
             </>
           )}
