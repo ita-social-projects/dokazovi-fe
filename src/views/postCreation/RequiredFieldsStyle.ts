@@ -21,7 +21,7 @@ export const useStyle = makeStyles(() => ({
     display: 'flex',
   },
   carouselImageWrapper: {
-    flexBasis: '33%',
+    width: '33%',
     marginRight: '10px',
   },
   backgroundImagesContainer: {
