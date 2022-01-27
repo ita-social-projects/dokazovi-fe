@@ -23,7 +23,6 @@ export const CarouselImagesWrapper: React.FC<ICarouselImagesWrapperProps> = ({
   setImportantImageUrl,
   setImportantMobileImageUrl,
 }) => {
-  console.log(post);
   const classes = useStyle();
   const { t } = useTranslation();
   return (
