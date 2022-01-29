@@ -13,6 +13,7 @@ import {
   setImportantPosts,
 } from '../../../../../../models/main';
 import PostPreviewWrapper from './PostPreviewWrapper';
+import { DesktopImagesWrapper } from './DesktopImagesWrapper';
 import { ImportantContainer } from '../../../../../modules/main/components/ImportantContainer';
 import { IPost, ViewModsType } from '../../../../types';
 import { LoadingContainer } from '../../../Loading/LoadingContainer';
@@ -95,6 +96,7 @@ const ImportantView: React.FC = () => {
 
   return (
     <>
+      <DesktopImagesWrapper updateRemovedPosts={updateRemovedPosts} />
       <div className={classes.adminImportantSection}>
         {loading === 'pending' && (
           <LoadingContainer

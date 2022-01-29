@@ -86,7 +86,7 @@ const AddImportantMaterial: React.FC<IAddImportantMaterial> = ({
         className={classes.addMaterialsHeader}
         expandIcon={<ExpandMore />}
       >
-        <h2>Додати матеріали</h2>
+        <Typography variant="h4">Додати матеріали</Typography>
       </AccordionSummary>
       <AccordionDetails className="sectionDetails">
         <>
