@@ -14,17 +14,18 @@ import PostPreviewWrapper from './PostPreviewWrapper';
 import { useStyles } from '../styles/DesktopImagesWrapper.styles';
 import { IPost, ViewModsType } from '../../../../types';
 
-interface IDesktopImageWrapperProps {
+interface IImportantImagesWrapper {
   updateRemovedPosts: (post: IPost, status: ViewModsType) => void;
+  forDeviceType: 'desktop' | 'mobile' | 'tablet';
 }
 
-export const DesktopImagesWrapper = ({
+export const ImportantImagesWrapper: React.FunctionComponent<IImportantImagesWrapper> = ({
   updateRemovedPosts,
-}: IDesktopImageWrapperProps) => {
+  forDeviceType,
+}) => {
   const { t } = useTranslation();
   const {
     loading,
-    setImportant: { success },
     important: { importantPostIds, importantPosts },
   } = useSelector(selectMain);
   const classes = useStyles();
@@ -60,6 +61,7 @@ export const DesktopImagesWrapper = ({
                   viewMode="selected"
                   postsAmount={mappedPosts.length}
                   updateRemovedPosts={updateRemovedPosts}
+                  forDeviceType={forDeviceType}
                 />
               ))
             : null}

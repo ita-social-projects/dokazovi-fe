@@ -22,6 +22,7 @@ interface IPostPreviewWrapper {
   viewMode: ViewModsType;
   postsAmount: number;
   updateRemovedPosts: (post: IPost, status: ViewModsType) => void;
+  forDeviceType: 'desktop' | 'mobile' | 'tablet';
 }
 
 const PostPreviewWrapper: React.FC<IPostPreviewWrapper> = ({
@@ -30,6 +31,7 @@ const PostPreviewWrapper: React.FC<IPostPreviewWrapper> = ({
   viewMode,
   postsAmount,
   updateRemovedPosts,
+  forDeviceType,
 }) => {
   const [isHovered, switchHover] = useState(false);
   const [newPosition, changePosition] = useState<number | string>(position);
@@ -140,7 +142,11 @@ const PostPreviewWrapper: React.FC<IPostPreviewWrapper> = ({
         </div>
       )}
       <Box className="unclicable">
-        <ImportantPostPreviewCard post={post} size="small" />
+        <ImportantPostPreviewCard
+          post={post}
+          size="small"
+          forDeviceType={forDeviceType}
+        />
       </Box>
     </Box>
   );

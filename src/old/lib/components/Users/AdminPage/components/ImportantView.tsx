@@ -12,8 +12,8 @@ import {
   selectMain,
   setImportantPosts,
 } from '../../../../../../models/main';
+import { ImportantImagesWrapper } from './ImportantImagesWrapper';
 import PostPreviewWrapper from './PostPreviewWrapper';
-import { DesktopImagesWrapper } from './DesktopImagesWrapper';
 import { ImportantContainer } from '../../../../../modules/main/components/ImportantContainer';
 import { IPost, ViewModsType } from '../../../../types';
 import { LoadingContainer } from '../../../Loading/LoadingContainer';
@@ -96,9 +96,16 @@ const ImportantView: React.FC = () => {
 
   return (
     <>
-      <DesktopImagesWrapper updateRemovedPosts={updateRemovedPosts} />
+      <ImportantImagesWrapper
+        updateRemovedPosts={updateRemovedPosts}
+        forDeviceType="desktop"
+      />
+      <ImportantImagesWrapper
+        updateRemovedPosts={updateRemovedPosts}
+        forDeviceType="mobile"
+      />
       <div className={classes.adminImportantSection}>
-        {loading === 'pending' && (
+        {/* {loading === 'pending' && (
           <LoadingContainer
             loading={loading}
             expand
@@ -114,9 +121,10 @@ const ImportantView: React.FC = () => {
                 viewMode="selected"
                 postsAmount={mappedPosts.length}
                 updateRemovedPosts={updateRemovedPosts}
+                forDeviceType='desktop'
               />
             ))
-          : null}
+          : null} */}
         {loading === 'succeeded' && !mappedPosts.length && (
           <Typography className={classes.centeredElement}>
             Зараз секція &quot;Важливе&quot; порожня. Почніть додавати матеріали

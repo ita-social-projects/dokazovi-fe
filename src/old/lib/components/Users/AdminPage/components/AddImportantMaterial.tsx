@@ -59,6 +59,7 @@ const AddImportantMaterial: React.FC<IAddImportantMaterial> = ({
           viewMode="preview"
           postsAmount={selectedPosts.length}
           updateRemovedPosts={updateRemovedPosts}
+          forDeviceType="desktop"
         />
       ));
     } else if (
