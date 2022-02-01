@@ -34,4 +34,6 @@ export const admin = {
   imagesTablet: 'Планшетні зображення',
   review: 'Переглянути',
   close: 'Закрити',
+  selectedImportantMaterials: 'Зараз використовуються:',
+  selectOption: `Оберіть об'єкт налаштування у меню`,
 };

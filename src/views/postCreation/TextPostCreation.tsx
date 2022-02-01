@@ -398,14 +398,18 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
           {postAuthorSelection}
           {isAdmin && (
             <>
-              <BackgroundImageContainer
-                dispatchImageUrl={dispatchImageUrl}
-                fileSelectorHandler={fileSelectorHandler(dispatchImageUrl)}
-                title={t(langTokens.editor.backgroundImage)}
-                imgUrl={newPost?.previewImageUrl}
-                reminder
-                forMobilePic={false}
-              />
+              <Box className={classes.backgroundImagesContainer}>
+                <Box className={classes.backgroundImageWrapper}>
+                  <BackgroundImageContainer
+                    dispatchImageUrl={dispatchImageUrl}
+                    fileSelectorHandler={fileSelectorHandler(dispatchImageUrl)}
+                    title={t(langTokens.editor.backgroundImage)}
+                    imgUrl={newPost?.previewImageUrl}
+                    reminder
+                    forMobilePic={false}
+                  />
+                </Box>
+              </Box>
               <BorderBottom />
               <CarouselImagesWrapper
                 post={newPost}

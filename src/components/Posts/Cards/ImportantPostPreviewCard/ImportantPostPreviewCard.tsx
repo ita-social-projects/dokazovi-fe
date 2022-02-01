@@ -10,23 +10,22 @@ export const ImportantPostPreviewCard: React.FC<IPostPreviewCardProps> = (
   props,
 ) => {
   const { post, size = 'large', forDeviceType } = props;
+
   let bgImageURL = background;
   switch (true) {
     case forDeviceType === 'desktop':
       bgImageURL = post.importantImageUrl || background;
       break;
     case forDeviceType === 'mobile':
-      bgImageURL = background;
+      bgImageURL = post.importantMobileImageUrl || background;
       break;
     case forDeviceType === 'tablet':
-      bgImageURL = post.importantImageUrl || background;
+      bgImageURL = background;
       break;
     default:
       break;
   }
-  // const bgImageURL = post.importantImageUrl
-  //   ? post.importantImageUrl
-  //   : background;
+
   const classes = useStyles({ backgroundImageUrl: bgImageURL, size });
   const history = useHistory();
 

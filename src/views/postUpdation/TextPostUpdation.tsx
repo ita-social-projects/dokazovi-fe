@@ -247,7 +247,6 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
   return (
     <>
       <PageTitle title={pageTitle} />
-
       {!previewing ? (
         <>
           <PostDirectionsSelector

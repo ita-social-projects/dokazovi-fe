@@ -34,5 +34,5 @@ export const useStyles = makeStyles(
       fontWeight: 'bold',
     },
   }),
-  { name: 'DesktopImagesWrapper' },
+  { name: 'ImportantImagesWrapper' },
 );
