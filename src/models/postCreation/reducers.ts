@@ -38,6 +38,7 @@ const initialState: IPostCreationState = {
     preview: { value: '', isManuallyChanged: false },
     previewImageUrl: '',
     importantImageUrl: '',
+    importantMobileImageUrl: '',
     authorsName: '',
     authorsDetails: '',
     authorId: null,
