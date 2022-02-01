@@ -11,7 +11,7 @@ import i18n, { langTokens } from '../../../../../../locales/localizationInit';
 import { LoadingContainer } from '../../../Loading/LoadingContainer';
 import AddImportantMaterial from './AddImportantMaterial';
 import PostPreviewWrapper from './PostPreviewWrapper';
-import { useStyles } from '../styles/DesktopImagesWrapper.styles';
+import { useStyles } from '../styles/ImportantImagesWrapper.styles';
 import { IPost, ViewModsType } from '../../../../types';
 
 interface IImportantImagesWrapper {
