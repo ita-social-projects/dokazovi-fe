@@ -449,9 +449,24 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
     </>
   );
 
+  const header = () => {
+    if (!mobile)
+      return (
+        <Typography
+          className={classes.chipsHeading}
+          component="div"
+          variant="subtitle2"
+        >
+          {`${t(langTokens.experts.selectedExpertMaterials)}:`}
+        </Typography>
+      );
+    return <></>;
+  };
+
   const SelectedTypes = (
     <Box className={classes.container}>
-      {typeof selectedPostTypes === 'string' ? (
+      {header()}
+      {typeof selectedPostTypes === 'string' && !TheOnlyAvailablePostType ? (
         <Typography
           className={classes.selectedFilters}
           component="div"
@@ -461,6 +476,7 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
         </Typography>
       ) : (
         <ChipsList
+          TheOnlyAvailablePostType={TheOnlyAvailablePostType}
           filtersPlural={postTypesInPlural}
           checkedNames={getPostTypes()}
           handleDelete={handleDeleteChip}
@@ -470,7 +486,7 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
       <Typography className={classes.divider} component="span">
         |
       </Typography>
-      {typeof selectedDirections === 'string' ? (
+      {typeof selectedDirections === 'string' && !TheOnlyAvailableDirection ? (
         <Typography
           className={classes.selectedFilters}
           component="div"
@@ -480,6 +496,7 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
         </Typography>
       ) : (
         <ChipsList
+          TheOnlyAvailableDirection={TheOnlyAvailableDirection}
           checkedNames={getDirections()}
           handleDelete={handleDeleteChip}
           chipsListType={ChipFilterEnum.DIRECTION}
@@ -502,19 +519,30 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
     </Box>
   );
 
+  const LoadMoreButtonEl = (
+    <LoadMoreButton
+      clicked={loadMore}
+      isLastPage={isLastPage}
+      loading={loading}
+      totalPages={totalPages}
+      totalElements={totalElements}
+      pageNumber={pageNumber}
+      textType={LoadMoreButtonTextType.POST}
+    />
+  );
+
   if (mobile) {
     return (
       <ExpertMaterialsMobile
         expert={expert}
         page={page}
-        header={t(langTokens.experts.selectExpertMaterials)}
         loading={loading}
         totalElements={totalElements}
         materials={materials}
-        // possibleFilters={postTypesInPlural}
         SelectedTypes={SelectedTypes}
         FilterCheckboxes={FilterCheckboxes}
-        setPage={loadMore}
+        resetPage={loadMore}
+        LoadMoreButton={LoadMoreButtonEl}
       />
     );
   }
@@ -535,7 +563,7 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
           >
             {t(langTokens.experts.selectExpertMaterials)}
           </Typography>
-          <div className={classes.scrollabelContainer}>{FilterCheckboxes}</div>
+          <div>{FilterCheckboxes}</div>
         </Grid>
         <Grid
           className={classes.materialsContainer}
@@ -559,15 +587,7 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
                   alignItems="center"
                   ref={gridRef}
                 >
-                  <LoadMoreButton
-                    clicked={loadMore}
-                    isLastPage={isLastPage}
-                    loading={loading}
-                    totalPages={totalPages}
-                    totalElements={totalElements}
-                    pageNumber={pageNumber}
-                    textType={LoadMoreButtonTextType.POST}
-                  />
+                  {LoadMoreButtonEl}
                 </Grid>
               ) : null}
             </>
