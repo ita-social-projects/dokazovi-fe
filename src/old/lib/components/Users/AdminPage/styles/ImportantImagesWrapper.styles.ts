@@ -2,10 +2,10 @@ import { makeStyles, Theme } from '@material-ui/core';
 
 export const useStyles = makeStyles(
   (theme: Theme) => ({
-    desktopImagesContainer: {
+    imagesContainer: {
       margin: '15px auto 0',
     },
-    desktopImagesDetails: {
+    imagesDetails: {
       margin: '15px 0 0',
       padding: '0',
       display: 'flex',
@@ -19,7 +19,7 @@ export const useStyles = makeStyles(
       },
     },
 
-    desktopImagesAccordion: {
+    imagesAccordion: {
       backgroundColor: '#e5e5e5',
       '&::before': {
         height: 0,
@@ -28,7 +28,7 @@ export const useStyles = makeStyles(
         flexDirection: 'column',
       },
     },
-    desktopImagesHeader: {
+    imagesHeader: {
       border: '1px solid #000',
       fontSize: '1.5em',
       fontWeight: 'bold',
