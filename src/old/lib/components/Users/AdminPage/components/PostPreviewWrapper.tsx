@@ -118,32 +118,35 @@ const PostPreviewWrapper: React.FC<IPostPreviewWrapper> = ({
           </IconButton>
         </>
       )}
-      {viewMode === 'preview' && (isHovered || !post.importantImageUrl) && (
-        <div className={classes.cardHoverView}>
-          {post.importantImageUrl && post.importantMobileImageUrl && (
+      {viewMode === 'preview' &&
+        (isHovered ||
+          !post.importantImageUrl ||
+          !post.importantMobileImageUrl) && (
+          <div className={classes.cardHoverView}>
+            {post.importantImageUrl && post.importantMobileImageUrl && (
+              <Typography
+                className={classes.cardHoverButtons}
+                display="block"
+                variant="button"
+                onClick={() => addPostToImportant(post)}
+              >
+                {t(langTokens.admin.addToCarousel)}
+              </Typography>
+            )}
             <Typography
               className={classes.cardHoverButtons}
               display="block"
               variant="button"
-              onClick={() => addPostToImportant(post)}
+              onClick={() =>
+                history.push(`/edit-post?id=${post.id}`, {
+                  from: history.location.pathname,
+                })
+              }
             >
-              {t(langTokens.admin.addToCarousel)}
+              {t(langTokens.admin.edit)}
             </Typography>
-          )}
-          <Typography
-            className={classes.cardHoverButtons}
-            display="block"
-            variant="button"
-            onClick={() =>
-              history.push(`/edit-post?id=${post.id}`, {
-                from: history.location.pathname,
-              })
-            }
-          >
-            {t(langTokens.admin.edit)}
-          </Typography>
-        </div>
-      )}
+          </div>
+        )}
       <Box className="unclicable">
         <ImportantPostPreviewCard
           post={post}
