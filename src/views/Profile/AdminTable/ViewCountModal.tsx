@@ -1,93 +1,68 @@
-export {};
+import React from 'react';
+import { useTranslation } from 'react-i18next';
+import Button from '@material-ui/core/Button';
+import Box from '@material-ui/core/Box';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Dialog from '@material-ui/core/Dialog';
+import Typography from '@material-ui/core/Typography';
+import { DialogContent } from '@material-ui/core';
+import TextField from '@material-ui/core/TextField';
+import { langTokens } from '../../../locales/localizationInit';
+import { useStyles } from '../styles/ViewCountModal.styles';
 
-// import * as React from 'react';
-// import Button from '@mui/material/Button';
-// import Avatar from '@mui/material/Avatar';
-// import List from '@mui/material/List';
-// import ListItem from '@mui/material/ListItem';
-// import ListItemAvatar from '@mui/material/ListItemAvatar';
-// import ListItemText from '@mui/material/ListItemText';
-// import DialogTitle from '@mui/material/DialogTitle';
-// import Dialog from '@mui/material/Dialog';
-// import PersonIcon from '@mui/icons-material/Person';
-// import AddIcon from '@mui/icons-material/Add';
-// import Typography from '@mui/material/Typography';
-// import { blue } from '@mui/material/colors';
+export interface ISimpleDialogProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
 
-// const emails = ['username@gmail.com', 'user02@gmail.com'];
+export const ViewCountModal: React.FC<ISimpleDialogProps> = (props) => {
+  const { isOpen, onClose } = props;
+  const { t } = useTranslation();
+  const classes = useStyles();
+  const [viewCount, setViewCount] = React.useState(0);
 
-// export interface ISimpleDialogProps {
-//   open: boolean;
-//   selectedValue: string;
-//   onClose: (value: string) => void;
-// }
+  const handleClose = () => {
+    onClose();
+  };
 
-// function SimpleDialog(props: ISimpleDialogProps) {
-//   const { onClose, selectedValue, open } = props;
-
-//   const handleClose = () => {
-//     onClose(selectedValue);
-//   };
-
-//   const handleListItemClick = (value: string) => {
-//     onClose(value);
-//   };
-
-//   return (
-//     <Dialog onClose={handleClose} open={open}>
-//       <DialogTitle>Set backup account</DialogTitle>
-//       <List sx={{ pt: 0 }}>
-//         {emails.map((email) => (
-//           <ListItem button onClick={() => handleListItemClick(email)} key={email}>
-//             <ListItemAvatar>
-//               <Avatar >
-//               {/* <Avatar sx={{ bgcolor: blue[100], color: blue[600] }}> */}
-//                 <PersonIcon />
-//               </Avatar>
-//             </ListItemAvatar>
-//             <ListItemText primary={email} />
-//           </ListItem>
-//         ))}
-//         <ListItem autoFocus button onClick={() => handleListItemClick('addAccount')}>
-//           <ListItemAvatar>
-//             <Avatar>
-//               <AddIcon />
-//             </Avatar>
-//           </ListItemAvatar>
-//           <ListItemText primary="Add account" />
-//         </ListItem>
-//       </List>
-//     </Dialog>
-//   );
-// }
-
-// export default function SimpleDialogDemo() {
-//   const [open, setOpen] = React.useState(false);
-//   const [selectedValue, setSelectedValue] = React.useState(emails[1]);
-
-//   const handleClickOpen = () => {
-//     setOpen(true);
-//   };
-
-//   const handleClose = (value: string) => {
-//     setOpen(false);
-//     setSelectedValue(value);
-//   };
-
-//   return (
-//     <div>
-//       <Typography variant="subtitle1" component="div">
-//         Selected: {selectedValue}
-//       </Typography>
-//       <br />
-//       <Button variant="outlined" onClick={handleClickOpen}>
-//         Open simple dialog
-//       </Button>
-//       <SimpleDialog
-//         selectedValue={selectedValue}
-//         open={open}
-//         onClose={handleClose}
-//       />
-//     </div>
-//   );
-// }
+  return (
+    <Dialog onClose={handleClose} open={isOpen} className={classes.root}>
+      <DialogTitle className={classes.dialogTitle}>
+        <Typography variant="h5">
+          {t(langTokens.admin.changeViewsCount)}
+        </Typography>
+      </DialogTitle>
+      <DialogContent className={classes.dialogContent}>
+        <TextField
+          fullWidth
+          variant="standard"
+          type="number"
+          autoFocus
+          value={viewCount}
+          onChange={(event) => setViewCount(Number(event.target.value))}
+          InputProps={{
+            disableUnderline: true,
+          }}
+          className={classes.viewsInput}
+        />
+        <Box className={classes.modalBtns}>
+          <Button
+            variant="text"
+            className={classes.secondaryBtn}
+            onClick={() => handleClose()}
+          >
+            {t(langTokens.admin.dismiss)}
+          </Button>
+          <Button
+            variant="contained"
+            className={classes.primaryBtn}
+            disabled={viewCount < 0}
+            // onClick={}
+          >
+            {t(langTokens.admin.save)}
+          </Button>
+        </Box>
+      </DialogContent>
+    </Dialog>
+  );
+};

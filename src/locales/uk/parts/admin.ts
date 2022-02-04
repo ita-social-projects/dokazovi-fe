@@ -36,4 +36,6 @@ export const admin = {
   close: 'Закрити',
   selectedImportantMaterials: 'Зараз використовуються:',
   selectOption: `Оберіть об'єкт налаштування у меню`,
+  save: 'Зберегти',
+  dismiss: 'Скасувати',
 };
