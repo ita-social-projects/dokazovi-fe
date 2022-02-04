@@ -12,19 +12,30 @@ export const useStyles = makeStyles(
       position: 'sticky',
       top: 0,
       left: 0,
-      zIndex:1500,
+      zIndex: 1500,
     },
     container: {
       height: '100%',
+      width: '100%',
       padding: theme.spacing(0, 10),
       [theme.breakpoints.down('xs')]: {
         padding: theme.spacing(0, 5),
       },
-    },
-    toolbar: {
-      height: '100%',
+      display: 'flex',
       justifyContent: 'space-between',
-      padding: 0,
+      alignItems: 'center',
+    },
+    toolbarMobile: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      width: '100%',
+    },
+    toolbarDesktop: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      width: '100%',
     },
     logo: {
       color: theme.palette.common.white,
@@ -68,18 +79,17 @@ export const useStyles = makeStyles(
       color: theme.palette.common.white,
       fontSize: 48,
     },
-    searchInputWrapper: {
-      padding: 0,
-    },
     searchInput: {
-      width: '85%',
-      height: 39,
-      fontSize: 16,
-      paddingLeft: theme.spacing(2),
+      background: theme.palette.common.white,
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      paddingLeft: theme.spacing(1),
+      marginLeft: theme.spacing(0),
     },
     searchInputIcon: {
       backgroundColor: theme.palette.common.white,
-      marginRight: theme.spacing(2),
+      marginRight: theme.spacing(1),
       fontSize: 32,
     },
     paper: {
