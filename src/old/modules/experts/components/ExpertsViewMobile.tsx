@@ -1,4 +1,4 @@
-import React, { FC, useState, useRef, useEffect } from 'react';
+import React, { FC, useState } from 'react';
 import { Container, Grid, Box, Typography } from '@material-ui/core';
 import { LoadingContainer } from 'old/lib/components/Loading/LoadingContainer';
 import FiltersMenu from 'components/FiltersMenuMobile/FiltersMenu';

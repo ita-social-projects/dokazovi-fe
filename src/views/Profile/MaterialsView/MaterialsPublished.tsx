@@ -47,7 +47,6 @@ export interface IMaterialsPublishedProps {
 
 const MaterialsPublished: React.FC<IMaterialsPublishedProps> = ({
   expertId,
-  expert,
 }) => {
   const { t } = useTranslation();
   const classes = useStyles();

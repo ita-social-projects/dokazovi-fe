@@ -1,6 +1,6 @@
 import { Box, Grid, Typography } from '@material-ui/core';
 import { isEmpty, uniq } from 'lodash';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useContext } from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import SentimentVeryDissatisfiedIcon from '@material-ui/icons/SentimentVeryDissatisfied';
@@ -58,6 +58,8 @@ import {
 } from '../../../../models/expertMaterials';
 import { updatePostTypes, updateDir } from '../../utilities/utilityFunctions';
 import { selectExpertPostsByIds } from '../../../../models/helpers/selectors';
+import { ScreenContext } from '../../../provider/MobileProvider/ScreenContext';
+import ExpertMaterialsMobile from './ExpertMaterialsMobile';
 
 export interface IExpertMaterialsContainerProps {
   expertId: number;
@@ -97,6 +99,7 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
     ActiveDirectionType[]
   >();
   const previous = usePrevious({ page });
+  const { mobile } = useContext(ScreenContext);
 
   const [boundResetMaterials, boundFetchExpertMaterials] = useActions([
     resetMaterials,
@@ -411,6 +414,138 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
       </Grid>
     );
   }
+  const FilterCheckboxes = propertiesLoaded && (
+    <>
+      <CheckboxLeftsideFilterForm
+        disabledPostTypes={disabledPostTypes}
+        expertId={expertId}
+        onFormChange={(checked, disabled) =>
+          setFilters(checked, FilterTypeEnum.POST_TYPES, disabled)
+        }
+        possibleFilters={postTypesInPlural}
+        selectedFilters={selectedPostTypes}
+        filterTitle={t(langTokens.common.byType).toLowerCase()}
+        allTitle={t(langTokens.common.allTypes)}
+        setTheOnlyAvailableFilter={(name) => {
+          handleChipsLogicTransform(name, FilterTypeEnum.POST_TYPES);
+        }}
+        filterType={QueryTypeEnum.POST_TYPES}
+      />
+      <CheckboxLeftsideFilterForm
+        disabledDirections={disabledDirections}
+        expertId={expertId}
+        onFormChange={(checked, disabled) =>
+          setFilters(checked, FilterTypeEnum.DIRECTIONS, disabled)
+        }
+        possibleFilters={directions}
+        selectedFilters={selectedDirections}
+        filterTitle={t(langTokens.common.byDirection).toLowerCase()}
+        allTitle={t(langTokens.common.allDirections)}
+        setTheOnlyAvailableFilter={(name) => {
+          handleChipsLogicTransform(name, FilterTypeEnum.DIRECTIONS);
+        }}
+        filterType={QueryTypeEnum.DIRECTIONS}
+      />
+    </>
+  );
+
+  const header = () => {
+    if (!mobile)
+      return (
+        <Typography
+          className={classes.chipsHeading}
+          component="div"
+          variant="subtitle2"
+        >
+          {`${t(langTokens.experts.selectedExpertMaterials)}:`}
+        </Typography>
+      );
+    return <></>;
+  };
+
+  const SelectedTypes = (
+    <Box className={classes.container}>
+      {header()}
+      {typeof selectedPostTypes === 'string' && !TheOnlyAvailablePostType ? (
+        <Typography
+          className={classes.selectedFilters}
+          component="div"
+          variant="subtitle2"
+        >
+          {t(langTokens.common.allTypes)}
+        </Typography>
+      ) : (
+        <ChipsList
+          TheOnlyAvailablePostType={TheOnlyAvailablePostType}
+          filtersPlural={postTypesInPlural}
+          checkedNames={getPostTypes()}
+          handleDelete={handleDeleteChip}
+          chipsListType={ChipFilterEnum.POST_TYPE}
+        />
+      )}
+      <Typography className={classes.divider} component="span">
+        |
+      </Typography>
+      {typeof selectedDirections === 'string' && !TheOnlyAvailableDirection ? (
+        <Typography
+          className={classes.selectedFilters}
+          component="div"
+          variant="subtitle2"
+        >
+          {t(langTokens.common.allDirections)}
+        </Typography>
+      ) : (
+        <ChipsList
+          TheOnlyAvailableDirection={TheOnlyAvailableDirection}
+          checkedNames={getDirections()}
+          handleDelete={handleDeleteChip}
+          chipsListType={ChipFilterEnum.DIRECTION}
+        />
+      )}
+      <Typography className={classes.divider} component="span">
+        |
+      </Typography>
+      <Typography
+        className={classes.totalFilters}
+        component="div"
+        variant="subtitle2"
+        color="textSecondary"
+      >
+        {totalElements}{' '}
+        {t(langTokens.materials.material, {
+          count: totalElements,
+        }).toLowerCase()}
+      </Typography>
+    </Box>
+  );
+
+  const LoadMoreButtonEl = (
+    <LoadMoreButton
+      clicked={loadMore}
+      isLastPage={isLastPage}
+      loading={loading}
+      totalPages={totalPages}
+      totalElements={totalElements}
+      pageNumber={pageNumber}
+      textType={LoadMoreButtonTextType.POST}
+    />
+  );
+
+  if (mobile) {
+    return (
+      <ExpertMaterialsMobile
+        expert={expert}
+        page={page}
+        loading={loading}
+        totalElements={totalElements}
+        materials={materials}
+        SelectedTypes={SelectedTypes}
+        FilterCheckboxes={FilterCheckboxes}
+        resetPage={loadMore}
+        LoadMoreButton={LoadMoreButtonEl}
+      />
+    );
+  }
 
   return (
     <>
@@ -428,40 +563,7 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
           >
             {t(langTokens.experts.selectExpertMaterials)}
           </Typography>
-          {propertiesLoaded && (
-            <>
-              <CheckboxLeftsideFilterForm
-                disabledPostTypes={disabledPostTypes}
-                expertId={expertId}
-                onFormChange={(checked, disabled) =>
-                  setFilters(checked, FilterTypeEnum.POST_TYPES, disabled)
-                }
-                possibleFilters={postTypesInPlural}
-                selectedFilters={selectedPostTypes}
-                filterTitle={t(langTokens.common.byType).toLowerCase()}
-                allTitle={t(langTokens.common.allTypes)}
-                setTheOnlyAvailableFilter={(name) => {
-                  handleChipsLogicTransform(name, FilterTypeEnum.POST_TYPES);
-                }}
-                filterType={QueryTypeEnum.POST_TYPES}
-              />
-              <CheckboxLeftsideFilterForm
-                disabledDirections={disabledDirections}
-                expertId={expertId}
-                onFormChange={(checked, disabled) =>
-                  setFilters(checked, FilterTypeEnum.DIRECTIONS, disabled)
-                }
-                possibleFilters={directions}
-                selectedFilters={selectedDirections}
-                filterTitle={t(langTokens.common.byDirection).toLowerCase()}
-                allTitle={t(langTokens.common.allDirections)}
-                setTheOnlyAvailableFilter={(name) => {
-                  handleChipsLogicTransform(name, FilterTypeEnum.DIRECTIONS);
-                }}
-                filterType={QueryTypeEnum.DIRECTIONS}
-              />
-            </>
-          )}
+          <div>{FilterCheckboxes}</div>
         </Grid>
         <Grid
           className={classes.materialsContainer}
@@ -472,67 +574,7 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
           md={9}
           direction="column"
         >
-          <Box className={classes.container}>
-            <Typography
-              className={classes.chipsHeading}
-              component="div"
-              variant="subtitle2"
-            >
-              {`${t(langTokens.experts.selectedExpertMaterials)}:`}
-            </Typography>
-            {typeof selectedPostTypes === 'string' &&
-            !TheOnlyAvailablePostType ? (
-              <Typography
-                className={classes.selectedFilters}
-                component="div"
-                variant="subtitle2"
-              >
-                {t(langTokens.common.allTypes)}
-              </Typography>
-            ) : (
-              <ChipsList
-                TheOnlyAvailablePostType={TheOnlyAvailablePostType}
-                filtersPlural={postTypesInPlural}
-                checkedNames={getPostTypes()}
-                handleDelete={handleDeleteChip}
-                chipsListType={ChipFilterEnum.POST_TYPE}
-              />
-            )}
-            <Typography className={classes.divider} component="span">
-              |
-            </Typography>
-            {typeof selectedDirections === 'string' &&
-            !TheOnlyAvailableDirection ? (
-              <Typography
-                className={classes.selectedFilters}
-                component="div"
-                variant="subtitle2"
-              >
-                {t(langTokens.common.allDirections)}
-              </Typography>
-            ) : (
-              <ChipsList
-                TheOnlyAvailableDirection={TheOnlyAvailableDirection}
-                checkedNames={getDirections()}
-                handleDelete={handleDeleteChip}
-                chipsListType={ChipFilterEnum.DIRECTION}
-              />
-            )}
-            <Typography className={classes.divider} component="span">
-              |
-            </Typography>
-            <Typography
-              className={classes.totalFilters}
-              component="div"
-              variant="subtitle2"
-              color="textSecondary"
-            >
-              {totalElements}{' '}
-              {t(langTokens.materials.material, {
-                count: totalElements,
-              }).toLowerCase()}
-            </Typography>
-          </Box>
+          <div className={classes.selectedFiltersWraper}>{SelectedTypes}</div>
           {page === 0 && loading === LoadingStatusEnum.pending ? (
             <LoadingContainer loading={LoadingStatusEnum.pending} expand />
           ) : (
@@ -545,15 +587,7 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
                   alignItems="center"
                   ref={gridRef}
                 >
-                  <LoadMoreButton
-                    clicked={loadMore}
-                    isLastPage={isLastPage}
-                    loading={loading}
-                    totalPages={totalPages}
-                    totalElements={totalElements}
-                    pageNumber={pageNumber}
-                    textType={LoadMoreButtonTextType.POST}
-                  />
+                  {LoadMoreButtonEl}
                 </Grid>
               ) : null}
             </>
