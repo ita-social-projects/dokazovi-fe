@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Drawer,
   Hidden,
@@ -8,7 +8,7 @@ import {
 } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import { useTranslation } from 'react-i18next';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import { langTokens } from '../../locales/localizationInit';
 import { IHeaderProps } from '../Header/types';
 import { useStyles } from './BurgerMenuSyle';
@@ -32,6 +32,8 @@ export const BurgerMenu: React.FC<IBurgerMenuProps> = ({
     setMobileMenuOpen(!mobileMenuOpen);
   };
 
+  const [activeId, setActiveId] = useState<number>();
+
   return (
     <div>
       <IconButton
@@ -47,7 +49,7 @@ export const BurgerMenu: React.FC<IBurgerMenuProps> = ({
         <Drawer
           classes={{ paper: classes.root }}
           variant="temporary"
-          anchor="left"
+          anchor="top"
           open={mobileMenuOpen}
           onClose={handleDrawerToggle}
           ModalProps={{
@@ -73,17 +75,24 @@ export const BurgerMenu: React.FC<IBurgerMenuProps> = ({
                 </NavLink>
               ))}
               {navElements.map((item) => (
-                <NavLink
-                  className={classes.link}
-                  onClick={handleDrawerToggle}
+                <Link
+                  className={
+                    activeId === item.id
+                      ? `${classes.link} active`
+                      : classes.link
+                  }
+                  onClick={() => setActiveId(item.id)}
                   to={item.url}
                   key={item.id}
-                  exact
                 >
-                  <Typography className={classes.footerLinks} component="span">
+                  <Typography
+                    className={classes.footerLinks}
+                    component="h6"
+                    variant="h2"
+                  >
                     {item.label}
                   </Typography>
-                </NavLink>
+                </Link>
               ))}
             </List>
           </div>

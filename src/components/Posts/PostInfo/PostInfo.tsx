@@ -68,20 +68,18 @@ export default function PostInfo({ info }: IPostInfo): JSX.Element {
           </li>
         )}
         <li className={classes.createdAt}>{publishedAt}</li>
-        {!mobile && (
-          <>
-            <li className={classes.icon} data-testid="icon">
-              <VisibilityIcon fontSize="small" />
-            </li>
-            <li className={classes.counter} data-testid="counter">
-              {uniqueViewsCounter === undefined ? (
-                <Skeleton width={40} height={20} data-testid="skeleton" />
-              ) : (
-                uniqueViewsCounter
-              )}
-            </li>
-          </>
-        )}
+        <>
+          <li className={classes.icon} data-testid="icon">
+            <VisibilityIcon fontSize="small" />
+          </li>
+          <li className={classes.counter} data-testid="counter">
+            {uniqueViewsCounter === undefined ? (
+              <Skeleton width={40} height={20} data-testid="skeleton" />
+            ) : (
+              uniqueViewsCounter
+            )}
+          </li>
+        </>
       </ul>
     </div>
   );

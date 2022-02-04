@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PostDirectionChip test should render PostDirectionChip component and match snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="MuiButtonBase-root MuiChip-root PostDirectionChip-directionChip-1 PostDirectionChip-directionChip-2 MuiChip-sizeSmall MuiChip-clickable"
+    role="button"
+    tabindex="0"
+  >
+    <span
+      class="MuiChip-label MuiChip-labelSmall"
+    >
+      Офтальмологія
+    </span>
+    <span
+      class="MuiTouchRipple-root"
+    />
+  </div>
+</DocumentFragment>
+`;

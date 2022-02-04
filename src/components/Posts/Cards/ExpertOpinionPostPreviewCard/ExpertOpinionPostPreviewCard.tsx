@@ -123,9 +123,17 @@ export const ExpertOpinionPostPreviewCard: React.FC<IPostPreviewCardProps> = ({
       {shouldNotUseLink ? (
         expertBody
       ) : (
-        <Link to={expertLink}>{expertBody}</Link>
+        <Link to={expertLink} target="_blank">
+          {expertBody}
+        </Link>
       )}
-      {shouldNotUseLink ? postBody : <Link to={postLink}>{postBody}</Link>}
+      {shouldNotUseLink ? (
+        postBody
+      ) : (
+        <Link to={postLink} target="_blank">
+          {postBody}
+        </Link>
+      )}
     </Card>
   );
 };

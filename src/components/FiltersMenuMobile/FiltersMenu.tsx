@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { Drawer, Grid, Box, Typography } from '@material-ui/core';
+import { SwipeableDrawer, Grid, Box, Typography } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
 import { langTokens } from '../../locales/localizationInit';
 import ArrowForward from '../../assets/svg/ArrowForward.svg';
@@ -28,18 +28,19 @@ const FiltersMenu: FC<IFiltersMenuProps> = ({
   };
 
   return (
-    <Drawer
+    <SwipeableDrawer
       classes={{ paper: classes.root }}
       variant="temporary"
       anchor="left"
       open={filtersMenuOpen}
       onClose={handleDrawerToggle}
+      onOpen={()=>{}}
       ModalProps={{
         keepMounted: true,
       }}
     >
       <Grid container>
-        <Grid container direction="row" className={classes.container}>
+        <Grid container direction="row" className={classes.containerSelected}>
           <Typography className={classes.headerSelected}>
             {t(langTokens.common.selected)}:
           </Typography>
@@ -60,7 +61,7 @@ const FiltersMenu: FC<IFiltersMenuProps> = ({
         </Grid>
         {FilterCheckboxes}
       </Grid>
-    </Drawer>
+    </SwipeableDrawer>
   );
 };
 

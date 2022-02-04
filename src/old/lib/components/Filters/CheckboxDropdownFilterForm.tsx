@@ -132,6 +132,7 @@ export const CheckboxDropdownFilterForm: React.FC<ICheckboxDropdownFilterFormPro
         }
         control={
           <Checkbox
+            data-testid="checkbox"
             checked={checked[id]}
             onChange={(event) => onCheckboxCheck(event)}
             name={id}

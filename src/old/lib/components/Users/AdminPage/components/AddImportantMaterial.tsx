@@ -49,7 +49,6 @@ const AddImportantMaterial: React.FC<IAddImportantMaterial> = ({
 
   const renderImportantMaterialsSelector = () => {
     let selector: JSX.Element | JSX.Element[] = <></>;
-
     if (unselectedPosts.length || !meta.isLastPage) {
       selector = unselectedPosts.map((post, index) => (
         <PostPreviewWrapper
@@ -59,6 +58,7 @@ const AddImportantMaterial: React.FC<IAddImportantMaterial> = ({
           viewMode="preview"
           postsAmount={selectedPosts.length}
           updateRemovedPosts={updateRemovedPosts}
+          forDeviceType="desktop"
         />
       ));
     } else if (
@@ -86,7 +86,7 @@ const AddImportantMaterial: React.FC<IAddImportantMaterial> = ({
         className={classes.addMaterialsHeader}
         expandIcon={<ExpandMore />}
       >
-        <h2>Додати матеріали</h2>
+        <Typography variant="h4">Додати матеріали</Typography>
       </AccordionSummary>
       <AccordionDetails className="sectionDetails">
         <>

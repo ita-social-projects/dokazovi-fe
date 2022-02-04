@@ -41,7 +41,7 @@ const MOCK_DATA: IExpert = {
 const renderExpertDataCard = () =>
   render(<ExpertDataCard expert={MOCK_DATA} />);
 
-describe('ExpertBlock test', () => {
+describe('ExpertDataCard test', () => {
   beforeEach(() => renderExpertDataCard());
   it('should render component and match snapshot', () => {
     const { asFragment } = render(<ExpertDataCard expert={MOCK_DATA} />);
