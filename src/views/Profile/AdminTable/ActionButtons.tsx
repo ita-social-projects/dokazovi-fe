@@ -7,6 +7,7 @@ import { archiveAdminPost } from '../../../models/adminLab';
 import { useActions } from '../../../shared/hooks';
 import { useStyles } from './styles/ActionButtons.styles';
 import { langTokens } from '../../../locales/localizationInit';
+// import { ViewCountDialog } from './ViewCountDialog';
 
 interface IActionButtons {
   id: number;
@@ -23,6 +24,10 @@ const ActionButtons: React.FC<IActionButtons> = ({ id }) => {
   const handleOpenMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
+  const [isViewCountModal, setIsViewCountModal] = React.useState<boolean>(
+    false,
+  );
+
   const handleCloseMenu = () => {
     setAnchorEl(null);
   };
@@ -33,6 +38,11 @@ const ActionButtons: React.FC<IActionButtons> = ({ id }) => {
 
   const handleArchiveButtonClick = (idx: number) => {
     boundedArchiveAdminPost({ id: idx });
+    handleCloseMenu();
+  };
+
+  const handleViewsChange = () => {
+    setIsViewCountModal(true);
     handleCloseMenu();
   };
 
@@ -76,13 +86,14 @@ const ActionButtons: React.FC<IActionButtons> = ({ id }) => {
         <MenuItem onClick={handleButtonClick}>
           {t(langTokens.admin.changePublicationDate)}
         </MenuItem>
-        <MenuItem onClick={handleButtonClick}>
+        <MenuItem onClick={handleViewsChange}>
           {t(langTokens.admin.changeViewsCount)}
         </MenuItem>
         <MenuItem onClick={handleButtonClick}>
           {t(langTokens.admin.returnToAuthor)}
         </MenuItem>
       </Menu>
+      {/* {isViewCountModal && <ViewCountDialog />} */}
     </>
   );
 };
