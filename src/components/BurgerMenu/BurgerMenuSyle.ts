@@ -16,7 +16,7 @@ export const useStyles = makeStyles((theme) => ({
     padding: 0,
     backgroundColor: 'black',
     color: 'white',
-    height: '100%',
+    height: '100vh',
     border: 'none',
     width: `200px`,
     paddingLeft: theme.spacing(5),
@@ -40,6 +40,7 @@ export const useStyles = makeStyles((theme) => ({
     lineHeight: '18px',
   },
   root: {
+    right: 'auto',
     backgroundColor: theme.palette.common.black,
   },
 }));
