@@ -8,7 +8,7 @@ interface IStyleProps {
 const sizeModes = {
   mobile: {
     root: {
-      height: 585,
+      height: 'calc(100vh - 200px)',
       padding: [0],
     },
   },

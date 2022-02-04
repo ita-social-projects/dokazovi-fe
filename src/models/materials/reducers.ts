@@ -4,7 +4,6 @@ import { LoadingStatusEnum } from '../../old/lib/types';
 import { IMaterialsState } from './types';
 import { fetchMaterials } from './asyncActions';
 import { getAsyncActionsReducer } from '../helpers/asyncActions';
-import { expertsSlice } from '../expertMaterials/reducers';
 
 const initialState: IMaterialsState = {
   data: {

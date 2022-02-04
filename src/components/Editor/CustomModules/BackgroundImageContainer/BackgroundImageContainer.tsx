@@ -18,6 +18,7 @@ export const BackgroundImageContainer: React.FC<IBackgroundImageContainerProps> 
   title,
   notCarousel = true,
   reminder,
+  forMobilePic,
 }) => {
   const classes = useStyles();
   const { t } = useTranslation();
@@ -56,10 +57,15 @@ export const BackgroundImageContainer: React.FC<IBackgroundImageContainerProps> 
   };
 
   return (
-    <Box mt={2} display="flex" flexDirection="column" alignItems="start">
-      <Typography className={classes.addImage} variant="h5">{`${title}:`}</Typography>
+    <Box display="flex" flexDirection="column">
+      <Typography
+        className={classes.addImage}
+        variant="h5"
+      >{`${title}`}</Typography>
       {reminder && (
-        <Typography className={classes.requiredField} variant="h6">{t(langTokens.editor.warn)}</Typography>
+        <Typography className={classes.requiredField} variant="h6">
+          {t(langTokens.editor.warn)}
+        </Typography>
       )}
       <Box mb={2}>
         {notCarousel && (
@@ -69,7 +75,7 @@ export const BackgroundImageContainer: React.FC<IBackgroundImageContainerProps> 
           />
         )}
 
-        <FileInput onDrop={fileSelectorHandler} />
+        <FileInput onDrop={fileSelectorHandler} forMobilePic={forMobilePic} />
       </Box>
       {imgUrl && (
         <Box className={classes.imgContainer}>

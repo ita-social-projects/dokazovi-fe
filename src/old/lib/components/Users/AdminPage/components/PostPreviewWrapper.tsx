@@ -6,6 +6,7 @@ import DeleteIcon from '@material-ui/icons/DeleteOutlineRounded';
 import Typography from '@material-ui/core/Typography';
 import Input from '@material-ui/core/Input';
 import { toast } from 'react-toastify';
+import { useTranslation } from 'react-i18next';
 import { useStyles } from '../styles/PostPreviewWrapper.styles';
 import {
   addToImportant,
@@ -15,6 +16,7 @@ import {
 import { ImportantPostPreviewCard } from '../../../../../../components/Posts/Cards/ImportantPostPreviewCard/ImportantPostPreviewCard';
 import { IPost, ViewModsType } from '../../../../types';
 import { useActions } from '../../../../../../shared/hooks';
+import { langTokens } from '../../../../../../locales/localizationInit';
 
 interface IPostPreviewWrapper {
   post: IPost;
@@ -22,6 +24,7 @@ interface IPostPreviewWrapper {
   viewMode: ViewModsType;
   postsAmount: number;
   updateRemovedPosts: (post: IPost, status: ViewModsType) => void;
+  forDeviceType: 'desktop' | 'mobile' | 'tablet';
 }
 
 const PostPreviewWrapper: React.FC<IPostPreviewWrapper> = ({
@@ -30,7 +33,9 @@ const PostPreviewWrapper: React.FC<IPostPreviewWrapper> = ({
   viewMode,
   postsAmount,
   updateRemovedPosts,
+  forDeviceType,
 }) => {
+  const { t } = useTranslation();
   const [isHovered, switchHover] = useState(false);
   const [newPosition, changePosition] = useState<number | string>(position);
   const classes = useStyles({ refineInputPadding: newPosition > 9 });
@@ -54,7 +59,12 @@ const PostPreviewWrapper: React.FC<IPostPreviewWrapper> = ({
     boundAddToImportant(newPost);
     updateRemovedPosts(newPost, viewMode);
   };
+
+  const confirmPostRemovalFromImportant = () =>
+    window.confirm('Ви дійсно хочете видалити цей матеріал з Важливих?');
+
   const removePostFromImportant = (newPost: IPost) => {
+    if (!confirmPostRemovalFromImportant()) return;
     boundRemoveFromImportant(newPost);
     updateRemovedPosts(newPost, viewMode);
   };
@@ -113,34 +123,41 @@ const PostPreviewWrapper: React.FC<IPostPreviewWrapper> = ({
           </IconButton>
         </>
       )}
-      {viewMode === 'preview' && (isHovered || !post.importantImageUrl) && (
-        <div className={classes.cardHoverView}>
-          {post.importantImageUrl && (
+      {viewMode === 'preview' &&
+        (isHovered ||
+          !post.importantImageUrl ||
+          !post.importantMobileImageUrl) && (
+          <div className={classes.cardHoverView}>
+            {post.importantImageUrl && post.importantMobileImageUrl && (
+              <Typography
+                className={classes.cardHoverButtons}
+                display="block"
+                variant="button"
+                onClick={() => addPostToImportant(post)}
+              >
+                {t(langTokens.admin.addToCarousel)}
+              </Typography>
+            )}
             <Typography
               className={classes.cardHoverButtons}
               display="block"
               variant="button"
-              onClick={() => addPostToImportant(post)}
+              onClick={() =>
+                history.push(`/edit-post?id=${post.id}`, {
+                  from: history.location.pathname,
+                })
+              }
             >
-              Додати до каруселі
+              {t(langTokens.admin.edit)}
             </Typography>
-          )}
-          <Typography
-            className={classes.cardHoverButtons}
-            display="block"
-            variant="button"
-            onClick={() =>
-              history.push(`/edit-post?id=${post.id}`, {
-                from: history.location.pathname,
-              })
-            }
-          >
-            Редагувати
-          </Typography>
-        </div>
-      )}
+          </div>
+        )}
       <Box className="unclicable">
-        <ImportantPostPreviewCard post={post} size="small" />
+        <ImportantPostPreviewCard
+          post={post}
+          size="small"
+          forDeviceType={forDeviceType}
+        />
       </Box>
     </Box>
   );

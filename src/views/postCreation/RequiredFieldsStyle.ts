@@ -17,4 +17,28 @@ export const useStyle = makeStyles(() => ({
       fontSize: '15px',
     },
   },
+  carouselImagesContainer: {
+    display: 'flex',
+  },
+  carouselImageWrapper: {
+    width: '33%',
+    marginRight: '10px',
+  },
+  backgroundImagesContainer: {
+    display: 'flex',
+  },
+  backgroundImageWrapper: {
+    flexBasis: '33%',
+  },
+  imageSizeText: {
+    fontStyle: 'normal',
+    fontFamily: 'sans-serif',
+    paddingLeft: '10px',
+
+    '&::before': {
+      content: '"*"',
+      display: 'inline',
+      fontSize: '20px',
+    },
+  },
 }));
