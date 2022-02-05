@@ -7,23 +7,86 @@ import Dialog from '@material-ui/core/Dialog';
 import Typography from '@material-ui/core/Typography';
 import { DialogContent } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
+import axios, { AxiosResponse } from 'axios';
 import { langTokens } from '../../../locales/localizationInit';
 import { useStyles } from '../styles/ViewCountModal.styles';
+
+// type ImgurPostResponseType = {
+//   data: { deletehash: string; link: string };
+//   status: number;
+// };
+
+// const uploadImageToImgur = (
+//   url: string,
+//   config = {
+//     headers: {
+//       Authorization: `Client-ID ${CLIENT_ID}`,
+//     },
+//   },
+// ): Promise<AxiosResponse<ImgurPostResponseType>> => {
+//   const formData = new FormData();
+//   formData.append('image', url);
+//   return axios.post(`${BASE_URL}/image`, formData, {
+//     method: 'post',
+//     ...config,
+//   });
+// };
+
+const accessToken = `eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIyNyIsImlhdCI6MTY0Mzk4MjY3NiwiZXhwIjoxNjQ0ODQ2Njc2LCJQZXJtaXNzaW9ucyI6IltTQVZFX09XTl9QVUJMSUNBVElPTiwgU0FWRV9QTEFURk9STV9JTkZPUk1BVElPTiwgU0VUX0lNUE9SVEFOQ0UsIFNBVkVfVEFHLCBERUxFVEVfUE9TVCwgVVBEQVRFX1BPU1QsIFVQREFURV9QTEFURk9STV9JTkZPUk1BVElPTiwgU0FWRV9QVUJMSUNBVElPTl0ifQ.A8KL_N8NaZjJ7_-tPEQrb_cm85EO0geQzAg--A3cvTMmHXYPAK-bQA780mCboWYqp4yf6LLwq3ztRHVfGriiHA`;
 
 export interface ISimpleDialogProps {
   isOpen: boolean;
   onClose: () => void;
+  postId: number;
 }
 
 export const ViewCountModal: React.FC<ISimpleDialogProps> = (props) => {
-  const { isOpen, onClose } = props;
+  const { isOpen, onClose, postId } = props;
   const { t } = useTranslation();
   const classes = useStyles();
   const [viewCount, setViewCount] = React.useState(0);
+  console.log(postId);
 
   const handleClose = () => {
     onClose();
   };
+
+  // const setFakeViews = async (id, views) => {
+  //   // do something
+  //   const settings = {
+  //     method: 'POST',
+  //     headers: {
+
+  //         // Accept: 'application/json',
+  //         // 'Content-Type': 'application/json',
+
+  //   }, };
+  //   const headers = {
+  //     'Authorization': accessToken,
+  //   };
+
+  //   try {
+  //     // const fetchResponse = await fetch(`https://dokazovi-be-release.herokuapp.com:443/api/post/set-fake-view/${id}?views=${views}
+  //     // `, settings);
+  //     // const data = await fetchResponse.json();
+  //     // console.log(data);
+  //     // return data
+  //     const testLink = `${id}?views=${views}`;
+  //     console.log(testLink);
+  //     const response = await axios.post(
+  //       `https://dokazovi-be-release.herokuapp.com:443/api/post/set-fake-view/${id}?views=${views}`,
+  //       {},
+  //       {
+  //         headers: {
+  //           'Authorization: accessToken,
+  //         }
+  //     });
+  //     console.log(response);
+
+  //   } catch (error) {
+  //     return error;
+  //   }
+  // };
 
   return (
     <Dialog onClose={handleClose} open={isOpen} className={classes.root}>

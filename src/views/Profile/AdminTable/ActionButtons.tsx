@@ -101,6 +101,7 @@ const ActionButtons: React.FC<IActionButtons> = ({ id }) => {
       <ViewCountModal
         isOpen={isViewCountModal}
         onClose={() => hideViewCountModal()}
+        postId={id}
       />
     </>
   );
