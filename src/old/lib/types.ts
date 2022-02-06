@@ -133,6 +133,7 @@ export interface IPost {
   preview: string;
   previewImageUrl?: string;
   importantImageUrl?: string;
+  importantMobileImageUrl?: string;
   videoUrl?: string;
   status?: string;
 }

@@ -18,6 +18,7 @@ export interface IBackgroundImageContainerProps {
   imgUrl?: string;
   notCarousel?: boolean;
   reminder?: boolean;
+  forMobilePic: boolean;
 }
 
 export interface IFileInputProps {
@@ -26,4 +27,5 @@ export interface IFileInputProps {
     fileRejections: FileRejection[],
     event: DropEvent,
   ) => void;
+  forMobilePic: boolean;
 }

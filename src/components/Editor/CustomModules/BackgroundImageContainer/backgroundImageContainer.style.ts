@@ -6,7 +6,7 @@ export const useStyles = makeStyles((theme) => ({
     display: 'inline-block',
   },
   imageFrame: {
-    maxWidth: '500px',
+    maxWidth: '100%',
     // height: '240px',
   },
   deleteButton: {

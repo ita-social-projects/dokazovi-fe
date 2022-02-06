@@ -2,13 +2,13 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { BurgerMenu } from './BurgerMenu';
-import { navElems } from '../Header/Header';
+import { navElements } from '../Header/navElements';
 
 describe('Burger menu test', () => {
   it('should render properly', () => {
     const { asFragment } = render(
       <BurgerMenu
-        navigation={navElems}
+        navigation={navElements}
         mobileMenuOpen
         setMobileMenuOpen={jest.fn}
       />,
@@ -20,7 +20,7 @@ describe('Burger menu test', () => {
     const clickHandlerMock = jest.fn();
     render(
       <BurgerMenu
-        navigation={navElems}
+        navigation={navElements}
         mobileMenuOpen
         setMobileMenuOpen={clickHandlerMock}
       />,

@@ -5,4 +5,5 @@ export interface IPostPreviewCardProps {
   size?: 'small' | 'large' | 'mobile';
   shouldNotUseLink?: boolean;
   resetPage?: () => void;
+  forDeviceType?: 'desktop' | 'mobile' | 'tablet';
 }

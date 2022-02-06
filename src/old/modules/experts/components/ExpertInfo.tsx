@@ -1,8 +1,9 @@
-import { Avatar, Grid, Typography } from '@material-ui/core';
-import React from 'react';
+import { Avatar, Grid, Typography, Box, CardMedia } from '@material-ui/core';
+import React, { useContext } from 'react';
 import { IExpert } from '../../../lib/types';
 import { useStyles } from '../styles/ExpertInfo.styles';
 import Accordion from './Accordion';
+import { ScreenContext } from '../../../provider/MobileProvider/ScreenContext';
 
 export interface IExpertInfoProps {
   expert: IExpert;
@@ -11,6 +12,37 @@ export interface IExpertInfoProps {
 const ExpertInfo: React.FC<IExpertInfoProps> = ({ expert }) => {
   const classes = useStyles();
   const expertFullName = `${expert.firstName} ${expert.lastName}`;
+  const { mobile } = useContext(ScreenContext);
+
+  if (mobile) {
+    return (
+      <>
+        <Box className={classes.root}>
+          <Box className={classes.avatarSection}>
+            <Avatar
+              src={expert.avatar}
+              alt="Photo"
+              variant="circle"
+              className={classes.avatar}
+            />
+          </Box>
+          <Box>
+            <Typography variant="h3" className={classes.fullName}>
+              {expertFullName}
+            </Typography>
+            <Typography align="justify" className={classes.bio}>
+              {expert.bio}
+            </Typography>
+          </Box>
+        </Box>
+        <Grid container item className={classes.accordionWrapper}>
+          {expert.email || expert.socialNetwork ? (
+            <Accordion expert={expert} />
+          ) : null}
+        </Grid>
+      </>
+    );
+  }
 
   return (
     <>
