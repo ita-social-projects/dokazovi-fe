@@ -10,6 +10,7 @@ import {
   ISort,
   IFilter,
   IField,
+  IFakeView,
 } from './types';
 import { LoadingStatusEnum } from '../../old/lib/types';
 import { getMaterialsAction, archiveAdminPost } from './asyncActions';
@@ -79,6 +80,10 @@ const adminLabSlice = createSlice({
         [editedPostID]: action.payload,
       };
     },
+    editFakeViewCount: (state, action: PayloadAction<IFakeView>) => {
+      const { id, modifiedViewsCounter } = action.payload;
+      state.data.posts[id].modifiedViewsCounter = modifiedViewsCounter;
+    },
   },
   extraReducers: {
     ...getAsyncActionsReducer(getMaterialsAction as any),
@@ -103,5 +108,6 @@ export const {
   setPage,
   setFiltersToInit,
   setField,
+  editFakeViewCount,
 } = adminLabSlice.actions;
 export const adminLabReducer = adminLabSlice.reducer;

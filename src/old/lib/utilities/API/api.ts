@@ -27,6 +27,7 @@ import {
   ActiveDirectionType,
   PlatformInformationType,
   UpdatePlatformInformationRequestType,
+  SetFakePostViewsCounterType,
 } from './types';
 import { BASE_URL } from '../../../apiURL';
 import { getToken } from '../../../provider/AuthProvider/getToken';
@@ -148,6 +149,13 @@ export const getFakePostViewsCounter = async (
       url: `/posts/${id}`,
     },
   });
+};
+
+export const setFakePostViewsCounter = async (
+  id: number,
+  views: number,
+): Promise<AxiosResponse<SetFakePostViewsCounterType>> => {
+  return instance.post(`/post/set-fake-view/${id}?views=${views}`);
 };
 
 export const archivePost = async (

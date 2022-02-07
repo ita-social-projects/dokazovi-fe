@@ -261,3 +261,12 @@ export type UpdatePlatformInformationRequestType = {
   title?: string;
   text?: string;
 };
+
+export type SetFakePostViewsCounterType = {
+  config: unknown;
+  data?: string;
+  headers: unknown;
+  request: XMLHttpRequest;
+  status: number;
+  statusText: string;
+};

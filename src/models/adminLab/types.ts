@@ -75,3 +75,8 @@ export enum Order {
   desc = 'desc',
   asc = 'asc',
 }
+
+export interface IFakeView {
+  id: number;
+  modifiedViewsCounter: number;
+}

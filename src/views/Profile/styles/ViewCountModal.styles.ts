@@ -21,8 +21,19 @@ export const useStyles = makeStyles(
       border: '2px solid #F3F3F3',
       padding: theme.spacing(2),
       borderRadius: 10,
+      '& input[type=number]': {
+        '-moz-appearance': 'textfield',
+      },
+      '& input[type=number]::-webkit-outer-spin-button': {
+        '-webkit-appearance': 'none',
+        margin: 0,
+      },
+      '& input[type=number]::-webkit-inner-spin-button': {
+        '-webkit-appearance': 'none',
+        margin: 0,
+      },
     },
-    modalBtns: {
+    modalButtons: {
       display: 'flex',
       justifyContent: 'space-around',
       margin: '30px 15px',

@@ -1,10 +1,9 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Button, MenuItem, Menu } from '@material-ui/core';
 import { MoreVert } from '@material-ui/icons';
 import { useTranslation } from 'react-i18next';
-import { archiveAdminPost } from '../../../models/adminLab';
+import { archiveAdminPost, editFakeViewCount } from '../../../models/adminLab';
 import { useActions } from '../../../shared/hooks';
 import { useStyles } from './styles/ActionButtons.styles';
 import { langTokens } from '../../../locales/localizationInit';
@@ -18,6 +17,7 @@ const ActionButtons: React.FC<IActionButtons> = ({ id }) => {
   const classes = useStyles();
   const { t } = useTranslation();
   const [boundedArchiveAdminPost] = useActions([archiveAdminPost]);
+  const [boundEditViews] = useActions([editFakeViewCount]);
   const editPostLink = `/edit-post?id=${id}`;
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -51,9 +51,6 @@ const ActionButtons: React.FC<IActionButtons> = ({ id }) => {
     setIsViewCountModal(false);
     handleCloseMenu();
   };
-
-  const globalState = useSelector((store) => store);
-  console.log(globalState);
 
   return (
     <>
@@ -106,6 +103,7 @@ const ActionButtons: React.FC<IActionButtons> = ({ id }) => {
         isOpen={isViewCountModal}
         onClose={() => hideViewCountModal()}
         postId={id}
+        editViews={boundEditViews}
       />
     </>
   );
