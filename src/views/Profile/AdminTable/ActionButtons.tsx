@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Button, MenuItem, Menu } from '@material-ui/core';
 import { MoreVert } from '@material-ui/icons';
@@ -50,6 +51,9 @@ const ActionButtons: React.FC<IActionButtons> = ({ id }) => {
     setIsViewCountModal(false);
     handleCloseMenu();
   };
+
+  const globalState = useSelector((store) => store);
+  console.log(globalState);
 
   return (
     <>

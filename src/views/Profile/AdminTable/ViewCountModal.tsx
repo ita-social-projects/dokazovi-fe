@@ -45,48 +45,40 @@ export const ViewCountModal: React.FC<ISimpleDialogProps> = (props) => {
   const { t } = useTranslation();
   const classes = useStyles();
   const [viewCount, setViewCount] = React.useState(0);
-  console.log(postId);
 
   const handleClose = () => {
     onClose();
   };
 
-  // const setFakeViews = async (id, views) => {
-  //   // do something
-  //   const settings = {
-  //     method: 'POST',
-  //     headers: {
+  const getErrorMessage = (error: unknown) => {
+    if (error instanceof Error) return error.message;
+    return String(error);
+  };
 
-  //         // Accept: 'application/json',
-  //         // 'Content-Type': 'application/json',
+  const setFakeViews = async (id: number, views: number): Promise<unknown> => {
+    const settings = {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    };
 
-  //   }, };
-  //   const headers = {
-  //     'Authorization': accessToken,
-  //   };
+    try {
+      const response = await axios.post(
+        `https://dokazovi-be-release.herokuapp.com:443/api/post/set-fake-view/${id}?views=${views}`,
+        {},
+        settings,
+      );
+      const postViews = await axios.get(
+        `https://dokazovi-be-release.herokuapp.com:443/api/post/post-view-count?url=%2Fposts%2F${id}`,
+      );
 
-  //   try {
-  //     // const fetchResponse = await fetch(`https://dokazovi-be-release.herokuapp.com:443/api/post/set-fake-view/${id}?views=${views}
-  //     // `, settings);
-  //     // const data = await fetchResponse.json();
-  //     // console.log(data);
-  //     // return data
-  //     const testLink = `${id}?views=${views}`;
-  //     console.log(testLink);
-  //     const response = await axios.post(
-  //       `https://dokazovi-be-release.herokuapp.com:443/api/post/set-fake-view/${id}?views=${views}`,
-  //       {},
-  //       {
-  //         headers: {
-  //           'Authorization: accessToken,
-  //         }
-  //     });
-  //     console.log(response);
-
-  //   } catch (error) {
-  //     return error;
-  //   }
-  // };
+      console.log(response.status);
+      console.log(postViews.data);
+      return response;
+    } catch (error) {
+      return getErrorMessage(error);
+    }
+  };
 
   return (
     <Dialog onClose={handleClose} open={isOpen} className={classes.root}>
@@ -120,7 +112,7 @@ export const ViewCountModal: React.FC<ISimpleDialogProps> = (props) => {
             variant="contained"
             className={classes.primaryBtn}
             disabled={viewCount < 0}
-            // onClick={}
+            onClick={() => setFakeViews(postId, viewCount)}
           >
             {t(langTokens.admin.save)}
           </Button>
