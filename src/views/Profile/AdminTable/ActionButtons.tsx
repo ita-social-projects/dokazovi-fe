@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button, MenuItem, Menu } from '@material-ui/core';
 import { MoreVert } from '@material-ui/icons';
@@ -8,9 +8,19 @@ import { useActions } from '../../../shared/hooks';
 import { useStyles } from './styles/ActionButtons.styles';
 import { langTokens } from '../../../locales/localizationInit';
 import { ViewCountModal } from './ViewCountModal';
+import { AdminTableModalContainer } from './AdminTableModalContainer';
 
 interface IActionButtons {
   id: number;
+}
+
+interface IModalOptions {
+  option: (...params: any[]) => void;
+}
+
+enum Options {
+  editViewCount,
+  deletePost,
 }
 
 const ActionButtons: React.FC<IActionButtons> = ({ id }) => {
@@ -18,6 +28,7 @@ const ActionButtons: React.FC<IActionButtons> = ({ id }) => {
   const { t } = useTranslation();
   const [boundedArchiveAdminPost] = useActions([archiveAdminPost]);
   const [boundEditViews] = useActions([editFakeViewCount]);
+  const [actionOption, setActionOption] = useState(null);
   const editPostLink = `/edit-post?id=${id}`;
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -25,9 +36,7 @@ const ActionButtons: React.FC<IActionButtons> = ({ id }) => {
   const handleOpenMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
-  const [isViewCountModal, setIsViewCountModal] = React.useState<boolean>(
-    false,
-  );
+  const [isModalShown, setIsModalShown] = React.useState<boolean>(false);
 
   const handleCloseMenu = () => {
     setAnchorEl(null);
@@ -42,14 +51,29 @@ const ActionButtons: React.FC<IActionButtons> = ({ id }) => {
     handleCloseMenu();
   };
 
-  const showViewCountModal = () => {
-    setIsViewCountModal(true);
+  const handleHideModal = () => {
+    setIsModalShown(false);
     handleCloseMenu();
   };
 
-  const hideViewCountModal = () => {
-    setIsViewCountModal(false);
+  const handleShowModal = (option: number) => {
+    setIsModalShown(true);
+    adminTableModalContainer(option);
     handleCloseMenu();
+  };
+  console.log('hello');
+
+  const adminTableModalContainer = (option: number) => {
+    const actionOption = option ? boundEditViews : boundEditViews;
+
+    return (
+      <AdminTableModalContainer
+        isOpen={isModalShown}
+        onClose={handleHideModal}
+        postId={id}
+        option={actionOption}
+      />
+    );
   };
 
   return (
@@ -92,19 +116,32 @@ const ActionButtons: React.FC<IActionButtons> = ({ id }) => {
         <MenuItem onClick={handleButtonClick}>
           {t(langTokens.admin.changePublicationDate)}
         </MenuItem>
-        <MenuItem onClick={showViewCountModal}>
+        <MenuItem onClick={() => handleShowModal(Options.editViewCount)}>
           {t(langTokens.admin.changeViewsCount)}
         </MenuItem>
         <MenuItem onClick={handleButtonClick}>
           {t(langTokens.admin.returnToAuthor)}
         </MenuItem>
+        <MenuItem onClick={() => handleShowModal(Options.deletePost)}>
+          Delete article
+        </MenuItem>
       </Menu>
-      <ViewCountModal
-        isOpen={isViewCountModal}
-        onClose={() => hideViewCountModal()}
+      {/* <ViewCountModal
+        isOpen={isModalShown}
+        onClose={handleHideModal}
         postId={id}
         editViews={boundEditViews}
-      />
+      /> */}
+      {adminTableModalContainer(actionOption)}
+      {/* <AdminTableModalContainer
+        isOpen={isModalShown}
+        onClose={handleHideModal}
+        postId={id}
+        action={editViews}
+        // ниже в свою функцию можешь сразу передать айди, мне он нужен чуть дальше
+        // deletePost={() => deleteHandler(id)}
+        deletePost={() => null}
+      /> */}
     </>
   );
 };
