@@ -13,14 +13,13 @@ import { setFakePostViewsCounter } from '../../../old/lib/utilities/API/api';
 import { IFakeView } from '../../../models/adminLab/types';
 
 export interface ISimpleDialogProps {
-  isOpen: boolean;
   onClose: () => void;
   postId: number;
   editViews: (payload: IFakeView) => void;
 }
 
 export const ViewCountModal: React.FC<ISimpleDialogProps> = (props) => {
-  const { editViews, isOpen, onClose, postId } = props;
+  const { editViews, onClose, postId } = props;
   const { t } = useTranslation();
   const classes = useStyles();
   const [viewCount, setViewCount] = React.useState(0);
@@ -49,7 +48,7 @@ export const ViewCountModal: React.FC<ISimpleDialogProps> = (props) => {
   };
 
   return (
-    <Dialog onClose={handleClose} open={isOpen} className={classes.root}>
+    <Dialog onClose={handleClose} open className={classes.root}>
       <DialogTitle className={classes.dialogTitle}>
         <Typography variant="h5">
           {t(langTokens.admin.changeViewsCount)}
