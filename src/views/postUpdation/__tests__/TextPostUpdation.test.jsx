@@ -181,6 +181,7 @@ describe('TextPostUpdation tests', () => {
 
     expect(asFragment()).toMatchSnapshot();
   });
+  
 
   it('should render title input', async () => {
     const input = screen.getByTestId('text-field');
