@@ -16,8 +16,10 @@ interface IActionButtons {
 const ActionButtons: React.FC<IActionButtons> = ({ id }) => {
   const classes = useStyles();
   const { t } = useTranslation();
-  const [boundedArchiveAdminPost] = useActions([archiveAdminPost]);
-  const [boundEditViews] = useActions([editFakeViewCount]);
+  const [boundedArchiveAdminPost, boundEditViews] = useActions([
+    archiveAdminPost,
+    editFakeViewCount,
+  ]);
   const editPostLink = `/edit-post?id=${id}`;
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
