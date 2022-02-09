@@ -48,7 +48,7 @@ describe('ArticleUpdation tests', () => {
     render(<ArticleUpdation post={postMocks} />);
 
     expect(screen.getByText('Заголовок статті:')).toBeInTheDocument();
-    expect(screen.getByText('Фонове зображення:')).toBeInTheDocument();
+    expect(screen.getByText('Фонове зображення')).toBeInTheDocument();
     expect(screen.getByText('Текст статті:')).toBeInTheDocument();
   });
 });
