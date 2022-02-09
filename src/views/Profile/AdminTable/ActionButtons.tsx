@@ -1,24 +1,32 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Button, MenuItem, Menu } from '@material-ui/core';
+import { Button, MenuItem, Menu, Box } from '@material-ui/core';
 import { MoreVert } from '@material-ui/icons';
 import { useTranslation } from 'react-i18next';
 import { archiveAdminPost } from '../../../models/adminLab';
 import { useActions } from '../../../shared/hooks';
 import { useStyles } from './styles/ActionButtons.styles';
 import { langTokens } from '../../../locales/localizationInit';
+import { DeleteConfirmationModal } from './DeleteConfirmationModal';
+import {
+  deletePostById,
+  getPostById,
+} from '../../../old/lib/utilities/API/api';
+import { toast } from 'react-toastify';
 
 interface IActionButtons {
   id: number;
+  status: string;
 }
 
-const ActionButtons: React.FC<IActionButtons> = ({ id }) => {
+const ActionButtons: React.FC<IActionButtons> = ({ id, status }) => {
   const classes = useStyles();
   const { t } = useTranslation();
   const [boundedArchiveAdminPost] = useActions([archiveAdminPost]);
   const editPostLink = `/edit-post?id=${id}`;
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [deleteEl, setDeleteEl] = useState(false);
   const isMenuOpen = Boolean(anchorEl);
   const handleOpenMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -34,6 +42,23 @@ const ActionButtons: React.FC<IActionButtons> = ({ id }) => {
   const handleArchiveButtonClick = (idx: number) => {
     boundedArchiveAdminPost({ id: idx });
     handleCloseMenu();
+  };
+
+  const handleDeleteButtonClick = () => {
+    setDeleteEl(true);
+    handleCloseMenu();
+  };
+
+  const handlePostDeletion = async () => {
+    try {
+      const response = await deletePostById(Number(id));
+      if (response.data.success) {
+        toast.success(`${t(langTokens.materials.materialDeletedSuccess)}!`);
+        // history.go(-1);
+      }
+    } catch (e) {
+      toast.success(`${t(langTokens.materials.materialDeletedFail)}.`);
+    }
   };
 
   return (
@@ -82,7 +107,19 @@ const ActionButtons: React.FC<IActionButtons> = ({ id }) => {
         <MenuItem onClick={handleButtonClick}>
           {t(langTokens.admin.returnToAuthor)}
         </MenuItem>
+        {status !== 'MODERATION_SECOND_SIGN' && (
+          <MenuItem onClick={handleDeleteButtonClick}>
+            {t(langTokens.admin.remove)}
+          </MenuItem>
+        )}
       </Menu>
+      {deleteEl && (
+        <DeleteConfirmationModal
+          message={`${t(langTokens.materials.needToDeleteMaterial)}?`}
+          onConfirmButtonClick={handlePostDeletion}
+          onCancelClick={() => setDeleteEl(false)}
+        />
+      )}
     </>
   );
 };

@@ -72,7 +72,7 @@ const AdminTableBody: React.FC = () => {
         <TableCell>{modifiedViewsCounter}</TableCell>
         <TableCell>{uniqueViewsCounter}</TableCell>
         <TableCell>
-          <ActionButtons id={id} />
+          <ActionButtons id={id} status={status} />
         </TableCell>
       </TableRow>
     );
