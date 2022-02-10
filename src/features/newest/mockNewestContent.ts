@@ -59,6 +59,7 @@ export const mockNewestContent = {
           publishedAt: '25.10.2021',
           importanceOrder: null,
           importantImageUrl: '',
+          importantMobileImageUrl: '',
         },
         {
           id: 114,
@@ -100,6 +101,7 @@ export const mockNewestContent = {
           publishedAt: '22.10.2021',
           importanceOrder: null,
           importantImageUrl: '',
+          importantMobileImageUrl: '',
         },
         {
           id: 89,
@@ -157,6 +159,7 @@ export const mockNewestContent = {
           publishedAt: '20.10.2021',
           importanceOrder: null,
           importantImageUrl: '',
+          importantMobileImageUrl: '',
         },
         {
           id: 82,
@@ -214,6 +217,7 @@ export const mockNewestContent = {
           publishedAt: '20.10.2021',
           importanceOrder: null,
           importantImageUrl: '',
+          importantMobileImageUrl: '',
         },
       ],
     },
@@ -262,6 +266,7 @@ export const mockNewestContent = {
           publishedAt: '20.10.2021',
           importanceOrder: null,
           importantImageUrl: '',
+          importantMobileImageUrl: '',
         },
         {
           id: 90,
@@ -319,6 +324,7 @@ export const mockNewestContent = {
           publishedAt: '20.10.2021',
           importanceOrder: null,
           importantImageUrl: '',
+          importantMobileImageUrl: '',
         },
         {
           id: 85,
@@ -376,6 +382,7 @@ export const mockNewestContent = {
           publishedAt: '20.10.2021',
           importanceOrder: null,
           importantImageUrl: '',
+          importantMobileImageUrl: '',
         },
         {
           id: 84,
@@ -433,6 +440,7 @@ export const mockNewestContent = {
           publishedAt: '20.10.2021',
           importanceOrder: null,
           importantImageUrl: '',
+          importantMobileImageUrl: '',
         },
       ],
     },
@@ -482,6 +490,7 @@ export const mockNewestContent = {
           publishedAt: '20.10.2021',
           importanceOrder: null,
           importantImageUrl: '',
+          importantMobileImageUrl: '',
         },
         {
           id: 88,
@@ -539,6 +548,7 @@ export const mockNewestContent = {
           publishedAt: '20.10.2021',
           importanceOrder: null,
           importantImageUrl: '',
+          importantMobileImageUrl: '',
         },
         {
           id: 87,
@@ -595,6 +605,7 @@ export const mockNewestContent = {
           publishedAt: '20.10.2021',
           importanceOrder: null,
           importantImageUrl: '',
+          importantMobileImageUrl: '',
         },
         {
           id: 86,
@@ -652,6 +663,7 @@ export const mockNewestContent = {
           publishedAt: '20.10.2021',
           importanceOrder: null,
           importantImageUrl: '',
+          importantMobileImageUrl: '',
         },
       ],
     },
@@ -761,6 +773,7 @@ export const mockNewestContent = {
           publishedAt: '20.10.2021',
           importanceOrder: null,
           importantImageUrl: '',
+          importantMobileImageUrl: '',
         },
         {
           id: 7,
@@ -821,6 +834,7 @@ export const mockNewestContent = {
           publishedAt: '20.10.2021',
           importanceOrder: null,
           importantImageUrl: '',
+          importantMobileImageUrl: '',
         },
         {
           id: 110,
@@ -862,6 +876,7 @@ export const mockNewestContent = {
           publishedAt: '06.08.2021',
           importanceOrder: null,
           importantImageUrl: '',
+          importantMobileImageUrl: '',
         },
       ],
     },

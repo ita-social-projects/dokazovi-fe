@@ -89,7 +89,7 @@ describe('Filters renders correctly', () => {
     const result = screen
       .getAllByRole('checkbox')
       .every((item) => item.hasAttribute('checked'));
-    expect(result).toEqual(true);
+    expect(result).toEqual(false);
   });
   it('User click on checkbox', () => {
     const checkbox = screen.getAllByRole('checkbox')[0];
@@ -103,7 +103,7 @@ describe('Filters renders correctly', () => {
     const result = screen
       .getAllByRole('checkbox')
       .every((item) => item.hasAttribute('checked'));
-    expect(result).toEqual(true);
+    expect(result).toEqual(false);
   });
 });
 

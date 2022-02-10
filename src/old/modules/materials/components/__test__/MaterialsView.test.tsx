@@ -96,6 +96,7 @@ const mockedState = {
           publishedAt: '20.10.2021',
           importanceOrder: null,
           importantImageUrl: '',
+          importantMobileImageUrl: '',
         },
         '114': {
           id: 114,
@@ -133,6 +134,7 @@ const mockedState = {
           publishedAt: '22.10.2021',
           importanceOrder: null,
           importantImageUrl: '',
+          importantMobileImageUrl: '',
         },
       },
       meta: {

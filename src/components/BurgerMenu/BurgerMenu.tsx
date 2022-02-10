@@ -49,7 +49,7 @@ export const BurgerMenu: React.FC<IBurgerMenuProps> = ({
         <Drawer
           classes={{ paper: classes.root }}
           variant="temporary"
-          anchor="left"
+          anchor="top"
           open={mobileMenuOpen}
           onClose={handleDrawerToggle}
           ModalProps={{

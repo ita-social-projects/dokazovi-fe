@@ -13,6 +13,7 @@ export type CreatePostRequestType = {
   };
   previewImageUrl?: string;
   importantImageUrl?: string;
+  importantMobileImageUrl?: string;
   videoUrl?: string;
   authorId?: number | null;
 };
