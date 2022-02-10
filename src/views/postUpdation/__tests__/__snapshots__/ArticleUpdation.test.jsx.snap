@@ -289,6 +289,7 @@ exports[`ArticleUpdation tests should ArticleUpdation render 1`] = `
             </div>
           </div>
         </div>
+
         <h6
           class="MuiTypography-root makeStyles-imageSizeText-7 MuiTypography-subtitle2"
         >
