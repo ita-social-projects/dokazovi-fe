@@ -79,6 +79,11 @@ const adminLabSlice = createSlice({
         [editedPostID]: action.payload,
       };
     },
+    removePost: (state, action: PayloadAction<number>) => {
+      state.data.postIds = state.data.postIds?.filter(
+        (id) => id !== action.payload,
+      );
+    },
   },
   extraReducers: {
     ...getAsyncActionsReducer(getMaterialsAction as any),
@@ -103,5 +108,6 @@ export const {
   setPage,
   setFiltersToInit,
   setField,
+  removePost,
 } = adminLabSlice.actions;
 export const adminLabReducer = adminLabSlice.reducer;

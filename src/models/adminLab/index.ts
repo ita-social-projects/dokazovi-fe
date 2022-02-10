@@ -8,6 +8,7 @@ export {
   setPage,
   setFiltersToInit,
   setField,
+  removePost,
 } from './reducers';
 export { getMaterialsAction, archiveAdminPost } from './asyncActions';
 export { selectAdminLab, selectMeta } from './selectors';

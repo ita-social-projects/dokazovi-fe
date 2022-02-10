@@ -1,18 +1,15 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { Button, MenuItem, Menu, Box } from '@material-ui/core';
 import { MoreVert } from '@material-ui/icons';
 import { useTranslation } from 'react-i18next';
-import { archiveAdminPost } from '../../../models/adminLab';
+import { archiveAdminPost, removePost } from '../../../models/adminLab';
 import { useActions } from '../../../shared/hooks';
 import { useStyles } from './styles/ActionButtons.styles';
 import { langTokens } from '../../../locales/localizationInit';
 import { DeleteConfirmationModal } from './DeleteConfirmationModal';
-import {
-  deletePostById,
-  getPostById,
-} from '../../../old/lib/utilities/API/api';
-import { toast } from 'react-toastify';
+import { deletePostById } from '../../../old/lib/utilities/API/api';
 
 interface IActionButtons {
   id: number;
@@ -22,7 +19,10 @@ interface IActionButtons {
 const ActionButtons: React.FC<IActionButtons> = ({ id, status }) => {
   const classes = useStyles();
   const { t } = useTranslation();
-  const [boundedArchiveAdminPost] = useActions([archiveAdminPost]);
+  const [boundedArchiveAdminPost, boundedRemovePost] = useActions([
+    archiveAdminPost,
+    removePost,
+  ]);
   const editPostLink = `/edit-post?id=${id}`;
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -54,8 +54,8 @@ const ActionButtons: React.FC<IActionButtons> = ({ id, status }) => {
       const response = await deletePostById(Number(id));
       if (response.data.success) {
         toast.success(`${t(langTokens.materials.materialDeletedSuccess)}!`);
-        // history.go(-1);
       }
+      boundedRemovePost(Number(id));
     } catch (e) {
       toast.success(`${t(langTokens.materials.materialDeletedFail)}.`);
     }
