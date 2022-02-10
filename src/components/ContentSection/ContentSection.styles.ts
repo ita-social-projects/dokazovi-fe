@@ -71,6 +71,14 @@ export const useStyles = makeStyles(
         fontSize: '14px',
         lineHeight: 1.86,
       },
+      '& a[href^="mailto:"]': {
+        fontSize: '17px',
+        color: 'black',
+        lineHeight: '16px',
+        textDecoration: 'none',
+        fontStyle: 'normal',
+        fontWeight: '700',
+      },
       '& a': {
         fontFamily: 'Literata',
         fontStyle: 'italic',

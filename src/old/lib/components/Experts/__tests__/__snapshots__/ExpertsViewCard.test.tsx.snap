@@ -1,0 +1,89 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ExpertsViewCard test should render component and match snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="makeStyles-container-2"
+  >
+    <h4
+      class="MuiTypography-root MuiTypography-h4"
+    >
+      <a
+        class="MuiTypography-root MuiLink-root MuiLink-underlineHover MuiTypography-colorPrimary"
+        href="/experts"
+      >
+        Автори
+      </a>
+    </h4>
+    <div
+      class="makeStyles-experts-1"
+    >
+      <div
+        class="makeStyles-item_0-4"
+      >
+        <img
+          alt="doctor"
+          aria-hidden="true"
+          class="makeStyles-photo-15"
+          src="https://i.pravatar.cc/300?img=16"
+        />
+      </div>
+      <div
+        class="makeStyles-item_1-5"
+      >
+        <img
+          alt="doctor"
+          aria-hidden="true"
+          class="makeStyles-photo-15"
+          src="https://i.pravatar.cc/300?img=44"
+        />
+      </div>
+      <div
+        class="makeStyles-item_2-6"
+      >
+        <img
+          alt="doctor"
+          aria-hidden="true"
+          class="makeStyles-photo-15"
+          src="https://i.pravatar.cc/300?img=44"
+        />
+      </div>
+      <div
+        class="makeStyles-item_3-7"
+      >
+        <img
+          alt="doctor"
+          aria-hidden="true"
+          class="makeStyles-photo-15"
+          src="https://i.pravatar.cc/300?img=16"
+        />
+      </div>
+      <div />
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`ExpertsViewCard test should render error message when loading is failed 1`] = `
+<DocumentFragment>
+  <div
+    class="makeStyles-container-50"
+  >
+    <h4
+      class="MuiTypography-root MuiTypography-h4"
+    >
+      <a
+        class="MuiTypography-root MuiLink-root MuiLink-underlineHover MuiTypography-colorPrimary"
+        href="/experts"
+      >
+        Автори
+      </a>
+    </h4>
+    <div
+      class="makeStyles-experts-49"
+    >
+      <div />
+    </div>
+  </div>
+</DocumentFragment>
+`;
