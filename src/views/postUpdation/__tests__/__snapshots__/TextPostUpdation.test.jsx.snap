@@ -63,7 +63,7 @@ exports[`TextPostUpdation tests should render component 1`] = `
         </div>
       </div>
       <div
-        class="MuiCollapse-container MuiCollapse-hidden"
+        class="MuiCollapse-root MuiCollapse-hidden"
         style="min-height: 0px;"
       >
         <div
@@ -97,7 +97,6 @@ exports[`TextPostUpdation tests should render component 1`] = `
                       <span
                         aria-disabled="false"
                         class="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-11 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
-
                         data-testid="checkbox"
                       >
                         <span
@@ -105,7 +104,6 @@ exports[`TextPostUpdation tests should render component 1`] = `
                         >
                           <input
                             class="PrivateSwitchBase-input-14"
-
                             data-indeterminate="false"
                             name="3"
                             type="checkbox"
@@ -156,7 +154,6 @@ exports[`TextPostUpdation tests should render component 1`] = `
   </div>
   <div
     class="MuiBox-root MuiBox-root-16"
-
   >
     <div
       class="MuiPaper-root MuiAccordion-root MuiAccordion-rounded MuiPaper-elevation1 MuiPaper-rounded"
@@ -216,7 +213,7 @@ exports[`TextPostUpdation tests should render component 1`] = `
         </div>
       </div>
       <div
-        class="MuiCollapse-container MuiCollapse-hidden"
+        class="MuiCollapse-root MuiCollapse-hidden"
         style="min-height: 0px;"
       >
         <div
