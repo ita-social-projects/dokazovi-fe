@@ -2,8 +2,8 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
 import {
-  getUniquePostViewsCounter,
-  getFakePostViewsCounter,
+  // getUniquePostViewsCounter,
+  // getFakePostViewsCounter,
   archivePost,
   getPosts,
   updatePost,
@@ -56,26 +56,26 @@ export const getMaterialsAction = createAsyncThunk(
       });
       console.log(parsDate(date.start), parsDate(date.start)?.length);
       const { ids: postIds } = mapFetchedPosts(content);
-      const postWithViews: IAdminPost[] = await Promise.all(
-        content.map(async (post) => {
-          const { data } = await getUniquePostViewsCounter(post.id);
-          const response = await getFakePostViewsCounter(post.id);
-          return {
-            ...post,
-            uniqueViewsCounter: data,
-            modifiedViewsCounter: response.data,
-          };
-        }),
-      );
-      const posts = {};
-      postWithViews.forEach((post) => {
-        if (posts && post.id) {
-          posts[post.id] = post;
-        }
-      });
+      // const postWithViews: IAdminPost[] = await Promise.all(
+      //   content.map(async (post) => {
+      //     const { data } = await getUniquePostViewsCounter(post.id);
+      //     const response = await getFakePostViewsCounter(post.id);
+      //     return {
+      //       ...post,
+      //       uniqueViewsCounter: data,
+      //       modifiedViewsCounter: response.data,
+      //     };
+      //   }),
+      // );
+      // const posts = {};
+      // postWithViews.forEach((post) => {
+      //   if (posts && post.id) {
+      //     posts[post.id] = post;
+      //   }
+      // });
       return {
         totalPages,
-        posts,
+        // posts,
         postIds,
       };
     } catch (error) {
