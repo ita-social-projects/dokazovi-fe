@@ -42,6 +42,7 @@ export const admin = {
   changeViewsCountSuccess: 'Кількість переглядів успішно змінена',
   changeDateSuccess: 'Дату публікації змінено',
   scheduleDateSuccess: 'Дату публікації заплановано',
+  schedulePublishTitle: 'Запланувати публікацію?',
   from: 'з',
   to: 'по',
 };

@@ -29,7 +29,7 @@ const AdminTableBody: React.FC = () => {
       status,
       author: { firstName, lastName },
       type: { id: typeId, name: typeName },
-      // uniqueViewsCounter,
+      uniqueViewsCounter,
       // modifiedViewsCounter,
       publishedAt,
     } = posts[postId];
@@ -73,14 +73,14 @@ const AdminTableBody: React.FC = () => {
         </TableCell>
         <TableCell>{directionsList}</TableCell>
         <TableCell>{fullName}</TableCell>
-        {/* <TableCell>{modifiedViewsCounter}</TableCell> */}
-        {/* <TableCell>{uniqueViewsCounter}</TableCell> */}
+        <TableCell>{'100'}</TableCell>
+        <TableCell>{uniqueViewsCounter}</TableCell>
         <TableCell>
           <ActionButtons
             id={id}
             title={title}
             status={status}
-            postDate={newPostPublicationDate}
+            // postDate={newPostPublicationDate}
           />
         </TableCell>
       </TableRow>
