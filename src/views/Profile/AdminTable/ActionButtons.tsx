@@ -148,7 +148,7 @@ const ActionButtons: React.FC<IActionButtons> = ({
     {
       id: 'returnToAuthorBtn',
       label: t(langTokens.admin.returnToAuthor),
-      allowedStatuses: [MODERATION_SECOND_SIGN, PUBLISHED, ARCHIVED],
+      allowedStatuses: [MODERATION_SECOND_SIGN, PUBLISHED, ARCHIVED, PLANNED],
       handler: (btnId) => openModal(btnId),
       modal: {
         title: t(langTokens.admin.returnToAuthorTitle, { title }),
