@@ -154,11 +154,11 @@ const adminLabSlice = createSlice({
     ) => {
       const { id } = action.payload;
       const postToModify = state.data.posts[id];
-      if (postToModify.modifiedViewsCounter) {
-        postToModify.modifiedViewsCounter = state.modifications.fakeViews;
-      } else {
-        postToModify.modifiedViewsCounter = state.modifications.fakeViews;
-      }
+      // if (postToModify.modifiedViewsCounter) {
+      //   postToModify.modifiedViewsCounter = state.modifications.fakeViews;
+      // } else {
+      //   postToModify.modifiedViewsCounter = state.modifications.fakeViews;
+      // }
     },
     [setNewPostDate.fulfilled.type]: (
       state,

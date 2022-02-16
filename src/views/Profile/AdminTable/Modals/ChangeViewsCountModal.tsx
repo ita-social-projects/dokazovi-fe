@@ -19,13 +19,13 @@ const ChangeViewsCountModal: React.FC<IChangeViewsCountModal> = ({ id }) => {
   const { posts } = useSelector(selectAdminLab);
   const [boundSetFakeViewsInput] = useActions([setFakeViewsInput]);
 
-  useEffect(() => {
-    boundSetFakeViewsInput({ fakeViews: posts[id].modifiedViewsCounter });
-  }, []);
+  // useEffect(() => {
+  //   boundSetFakeViewsInput({ fakeViews: posts[id].modifiedViewsCounter });
+  // }, []);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const viewsCount = event.target.value.replace(/\D/g, '');
-    boundSetFakeViewsInput({ fakeViews: viewsCount });
+    // boundSetFakeViewsInput({ fakeViews: viewsCount });
   };
 
   return (
