@@ -16,7 +16,6 @@ export const AdminTextField: React.FC<IMaterialsTextField> = ({
   const [text, setText] = useState<string>('');
 
   useEffect(() => {
-    if (text.length < 3) return;
     setChanges({ field, text });
   }, [text]);
 
