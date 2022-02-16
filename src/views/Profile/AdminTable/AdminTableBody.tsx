@@ -73,7 +73,7 @@ const AdminTableBody: React.FC = () => {
         </TableCell>
         <TableCell>{directionsList}</TableCell>
         <TableCell>{fullName}</TableCell>
-        <TableCell>{'100'}</TableCell>
+        <TableCell>100</TableCell>
         <TableCell>{uniqueViewsCounter}</TableCell>
         <TableCell>
           <ActionButtons

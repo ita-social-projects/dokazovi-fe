@@ -80,18 +80,10 @@ const AdminTableFilters: React.FC = () => {
         />
       </Grid>
       <Grid item md={2}>
-        <AdminTextField
-          value={textFields.title}
-          field={FieldEnum.TITLE}
-          setChanges={boundedSetField}
-        />
+        <AdminTextField field={FieldEnum.TITLE} setChanges={boundedSetField} />
       </Grid>
       <Grid item md={2}>
-        <AdminTextField
-          value={textFields.author}
-          field={FieldEnum.AUTHOR}
-          setChanges={boundedSetField}
-        />
+        <AdminTextField field={FieldEnum.AUTHOR} setChanges={boundedSetField} />
       </Grid>
     </Grid>
   );
