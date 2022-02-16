@@ -43,7 +43,7 @@ const ActionButtons: React.FC<IActionButtons> = ({ id, status, title }) => {
     MODERATION_FIRST_SIGN,
     MODERATION_SECOND_SIGN,
     PUBLISHED,
-
+    PLANNED,
     ARCHIVED,
   } = PostStatus;
 
@@ -94,7 +94,7 @@ const ActionButtons: React.FC<IActionButtons> = ({ id, status, title }) => {
   };
 
   const handlerSchedulePublish = () => {
-        boundedSetPostStatus({
+    boundedSetPostStatus({
       id,
       postStatus: StatusesForActions.PLANNED,
     });
