@@ -43,7 +43,7 @@ const ActionButtons: React.FC<IActionButtons> = ({ id, status, title }) => {
     MODERATION_FIRST_SIGN,
     MODERATION_SECOND_SIGN,
     PUBLISHED,
-
+    PLANNED,
     ARCHIVED,
   } = PostStatus;
 
@@ -94,7 +94,7 @@ const ActionButtons: React.FC<IActionButtons> = ({ id, status, title }) => {
   };
 
   const handlerSchedulePublish = () => {
-        boundedSetPostStatus({
+    boundedSetPostStatus({
       id,
       postStatus: StatusesForActions.PLANNED,
     });
@@ -115,7 +115,7 @@ const ActionButtons: React.FC<IActionButtons> = ({ id, status, title }) => {
     {
       id: 'returnToAuthorBtn',
       label: t(langTokens.admin.returnToAuthor),
-      allowedStatuses: [MODERATION_SECOND_SIGN, PUBLISHED, ARCHIVED],
+      allowedStatuses: [MODERATION_SECOND_SIGN, PUBLISHED, ARCHIVED, PLANNED],
       handler: (btnId) => openModal(btnId),
       modal: {
         title: t(langTokens.admin.returnToAuthorTitle, { title }),
