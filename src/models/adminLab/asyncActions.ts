@@ -2,8 +2,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
 import {
-  getUniquePostViewsCounter,
-  getFakePostViewsCounter,
+  // getUniquePostViewsCounter,
   archivePost,
   getPosts,
   updatePost,
@@ -54,21 +53,22 @@ export const getMaterialsAction = createAsyncThunk(
           endDate: parsDate(date.end),
         },
       });
-      console.log(parsDate(date.start), parsDate(date.start)?.length);
+      // console.log(parsDate(date.start), parsDate(date.start)?.length);
       const { ids: postIds } = mapFetchedPosts(content);
-      const postWithViews: IAdminPost[] = await Promise.all(
-        content.map(async (post) => {
-          const { data } = await getUniquePostViewsCounter(post.id);
-          // const response = await getFakePostViewsCounter(post.id);
-          return {
-            ...post,
-            uniqueViewsCounter: data,
-            // modifiedViewsCounter: response.data,
-          };
-        }),
-      );
+      // const postWithViews: IAdminPost[] = await Promise.all(
+      //   content.map(async (post) => {
+      //     // const { data } = await getUniquePostViewsCounter(post.id);
+      //     // const response = await getFakePostViewsCounter(post.id);
+      //     return {
+      //       ...post,
+      //       // uniqueViewsCounter: data,
+      //       // modifiedViewsCounter: response.data,
+      //     };
+      //   }),
+      // );
+
       const posts = {};
-      postWithViews.forEach((post) => {
+      content.forEach((post) => {
         if (posts && post.id) {
           posts[post.id] = post;
         }
@@ -125,28 +125,28 @@ export const setPostStatus = createAsyncThunk(
   },
 );
 
-export const setFakeViews = createAsyncThunk(
-  'adminLab/SetFakeViews',
-  async (option: { id: number }, { rejectWithValue, getState }) => {
-    try {
-      const { id } = option;
-      const {
-        adminLab: {
-          modifications: { fakeViews },
-          data: { posts },
-        },
-      } = getState() as RootStateType;
-      const uniqueViewsCounter = posts[id].uniqueViewsCounter;
-      await setFakePostViewsCounter(
-        id,
-        fakeViews - (!!uniqueViewsCounter ? uniqueViewsCounter : 0),
-      );
-      return { id };
-    } catch (error) {
-      return rejectWithValue(error.response?.data);
-    }
-  },
-);
+// export const setFakeViews = createAsyncThunk(
+//   'adminLab/SetFakeViews',
+//   async (option: { id: number }, { rejectWithValue, getState }) => {
+//     try {
+//       const { id } = option;
+//       const {
+//         adminLab: {
+//           modifications: { fakeViews },
+//           data: { posts },
+//         },
+//       } = getState() as RootStateType;
+//       const uniqueViewsCounter = posts[id].realViews;
+//       await setFakePostViewsCounter(
+//         id,
+//         fakeViews - (!!uniqueViewsCounter ? uniqueViewsCounter : 0),
+//       );
+//       return { id };
+//     } catch (error) {
+//       return rejectWithValue(error.response?.data);
+//     }
+//   },
+// );
 
 export const setNewPostDate = createAsyncThunk(
   'adminLab/setNewPostDate',

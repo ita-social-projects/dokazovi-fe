@@ -108,7 +108,8 @@ export interface IPost {
   id: number;
   title: string;
   content: string;
-  uniqueViewsCounter?: number;
+  realViews?: number;
+  views?: number;
   author: {
     avatar?: string;
     firstName: string;
@@ -134,6 +135,7 @@ export interface IPost {
   preview: string;
   previewImageUrl?: string;
   importantImageUrl?: string;
+  importantMobileImageUrl?: string;
   videoUrl?: string;
   status?: string;
 }

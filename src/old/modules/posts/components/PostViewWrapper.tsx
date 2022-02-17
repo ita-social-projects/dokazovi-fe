@@ -6,7 +6,7 @@ import { PageTitle } from 'components/Page/PageTitle';
 import {
   deletePostById,
   getPostById,
-  getUniquePostViewsCounter,
+  // getUniquePostViewsCounter,
 } from '../../../lib/utilities/API/api';
 import {
   IPost,
@@ -73,19 +73,19 @@ const PostViewWrapper: React.FC = () => {
       });
   }, []);
 
-  useEffect(() => {
-    getUniquePostViewsCounter(Number(postId))
-      .then((res) => {
-        const uniqueViewsCounter = res.data;
-        setLoadedPost((post) => {
-          return { ...post, uniqueViewsCounter } as IPost;
-        });
-      })
-      .catch((err) => {
-        // eslint-disable-next-line no-console
-        console.error(err);
-      });
-  }, []);
+  // useEffect(() => {
+  //   getUniquePostViewsCounter(Number(postId))
+  //     .then((res) => {
+  //       const uniqueViewsCounter = res.data;
+  //       setLoadedPost((post) => {
+  //         return { ...post, uniqueViewsCounter } as IPost;
+  //       });
+  //     })
+  //     .catch((err) => {
+  //       // eslint-disable-next-line no-console
+  //       console.error(err);
+  //     });
+  // }, []);
 
   if (statusCode === 404) {
     history.push(ERROR_404);

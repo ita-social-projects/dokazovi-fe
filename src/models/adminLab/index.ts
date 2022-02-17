@@ -9,14 +9,14 @@ export {
   setFiltersToInit,
   setField,
   setDate,
-  setFakeViewsInput,
+  // setFakeViewsInput,
   setNewPostDateInput,
 } from './reducers';
 export {
   getMaterialsAction,
   deleteAdminPost,
   setPostStatus,
-  setFakeViews,
+  // setFakeViews,
   setNewPostDate,
 } from './asyncActions';
 export { selectAdminLab, selectMeta, selectModifications } from './selectors';

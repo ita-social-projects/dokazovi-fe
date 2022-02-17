@@ -132,25 +132,25 @@ export const getAllExperts = async (
 
 // Now this info will be sent with all info about a post
 
-export const getUniquePostViewsCounter = async (
-  id: number,
-): Promise<AxiosResponse<number>> => {
-  return instance.get('/post/post-view-count', {
-    params: {
-      url: `/posts/${id}`,
-    },
-  });
-};
+// export const getUniquePostViewsCounter = async (
+//   id: number,
+// ): Promise<AxiosResponse<number>> => {
+//   return instance.get('/post/post-view-count', {
+//     params: {
+//       url: `/posts/${id}`,
+//     },
+//   });
+// };
 
-export const getFakePostViewsCounter = async (
-  id: number,
-): Promise<AxiosResponse<number>> => {
-  return instance.get('/post/post-fake-view-count', {
-    params: {
-      url: `/posts/${id}`,
-    },
-  });
-};
+// export const getFakePostViewsCounter = async (
+//   id: number,
+// ): Promise<AxiosResponse<number>> => {
+//   return instance.get('/post/post-fake-view-count', {
+//     params: {
+//       url: `/posts/${id}`,
+//     },
+//   });
+// };
 
 export const setFakePostViewsCounter = async (
   id: number,

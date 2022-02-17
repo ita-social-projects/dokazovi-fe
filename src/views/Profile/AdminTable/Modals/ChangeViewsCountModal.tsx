@@ -5,7 +5,7 @@ import { useStyles } from './ChangeViewsCountModal.styles';
 import {
   selectAdminLab,
   selectModifications,
-  setFakeViewsInput,
+  // setFakeViewsInput,
 } from '../../../../models/adminLab';
 import { useActions } from '../../../../shared/hooks';
 
@@ -17,7 +17,7 @@ const ChangeViewsCountModal: React.FC<IChangeViewsCountModal> = ({ id }) => {
   const classes = useStyles();
   const { fakeViews } = useSelector(selectModifications);
   const { posts } = useSelector(selectAdminLab);
-  const [boundSetFakeViewsInput] = useActions([setFakeViewsInput]);
+  // const [boundSetFakeViewsInput] = useActions([setFakeViewsInput]);
 
   // useEffect(() => {
   //   boundSetFakeViewsInput({ fakeViews: posts[id].modifiedViewsCounter });
