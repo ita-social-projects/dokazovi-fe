@@ -155,12 +155,15 @@ export const getAllExperts = async (
 export const setFakePostViewsCounter = async (
   id: number,
   views: number,
-): Promise<AxiosResponse<number>> => {
-  return instance.post(`/post/set-fake-view/${id}`, null, {
+): Promise<AxiosResponse<any>> => {
+  const result = instance.post(`/post/set-fake-view/${id}`, null, {
     params: {
       views,
     },
   });
+  // const result = instance.post(`/post/set-fake-view/${id}?views=${views}`);
+  // console.log(result);
+  return result;
 };
 
 export const archivePost = async (

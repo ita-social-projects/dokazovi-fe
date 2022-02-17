@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Box, TextField } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 import { useStyles } from './ChangeViewsCountModal.styles';
 import {
   selectAdminLab,
   selectModifications,
-  // setFakeViewsInput,
+  setFakeViewsInput,
 } from '../../../../models/adminLab';
 import { useActions } from '../../../../shared/hooks';
 
@@ -17,15 +17,15 @@ const ChangeViewsCountModal: React.FC<IChangeViewsCountModal> = ({ id }) => {
   const classes = useStyles();
   const { fakeViews } = useSelector(selectModifications);
   const { posts } = useSelector(selectAdminLab);
-  // const [boundSetFakeViewsInput] = useActions([setFakeViewsInput]);
+  const [boundSetFakeViewsInput] = useActions([setFakeViewsInput]);
 
-  // useEffect(() => {
-  //   boundSetFakeViewsInput({ fakeViews: posts[id].modifiedViewsCounter });
-  // }, []);
+  useEffect(() => {
+    boundSetFakeViewsInput({ fakeViews: posts[id].views });
+  }, []);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const viewsCount = event.target.value.replace(/\D/g, '');
-    // boundSetFakeViewsInput({ fakeViews: viewsCount });
+    boundSetFakeViewsInput({ fakeViews: viewsCount });
   };
 
   return (

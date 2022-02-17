@@ -6,7 +6,7 @@ import { StatusesForActions } from '../../../models/adminLab/types';
 import {
   deleteAdminPost,
   setPostStatus,
-  // setFakeViews,
+  setFakeViews,
 } from '../../../models/adminLab';
 import { useActions } from '../../../shared/hooks';
 import { PostStatus } from '../../../old/lib/types';
@@ -35,8 +35,8 @@ const ActionButtons: React.FC<IActionButtons> = ({ id, status, title }) => {
   const [
     boundedDeleteAdminPost,
     boundedSetPostStatus,
-    // boundedSetFakeViews,
-  ] = useActions([deleteAdminPost, setPostStatus]);
+    boundedSetFakeViews,
+  ] = useActions([deleteAdminPost, setPostStatus, setFakeViews]);
 
   const {
     DRAFT,
@@ -88,7 +88,7 @@ const ActionButtons: React.FC<IActionButtons> = ({ id, status, title }) => {
   };
 
   const handlerSetFakeViewsConfirm = () => {
-    // boundedSetFakeViews({ id });
+    boundedSetFakeViews({ id });
     toast.success(t(langTokens.admin.changeViewsCountSuccess));
     closeModal();
   };

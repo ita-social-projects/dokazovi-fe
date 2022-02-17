@@ -125,28 +125,28 @@ export const setPostStatus = createAsyncThunk(
   },
 );
 
-// export const setFakeViews = createAsyncThunk(
-//   'adminLab/SetFakeViews',
-//   async (option: { id: number }, { rejectWithValue, getState }) => {
-//     try {
-//       const { id } = option;
-//       const {
-//         adminLab: {
-//           modifications: { fakeViews },
-//           data: { posts },
-//         },
-//       } = getState() as RootStateType;
-//       const uniqueViewsCounter = posts[id].realViews;
-//       await setFakePostViewsCounter(
-//         id,
-//         fakeViews - (!!uniqueViewsCounter ? uniqueViewsCounter : 0),
-//       );
-//       return { id };
-//     } catch (error) {
-//       return rejectWithValue(error.response?.data);
-//     }
-//   },
-// );
+export const setFakeViews = createAsyncThunk(
+  'adminLab/SetFakeViews',
+  async (option: { id: number }, { rejectWithValue, getState }) => {
+    try {
+      const { id } = option;
+      const {
+        adminLab: {
+          modifications: { fakeViews },
+          data: { posts },
+        },
+      } = getState() as RootStateType;
+      const realViews = posts[id].realViews;
+      await setFakePostViewsCounter(
+        id,
+        fakeViews - (realViews ? realViews : 0),
+      );
+      return { id };
+    } catch (error) {
+      return rejectWithValue(error.response?.data);
+    }
+  },
+);
 
 export const setNewPostDate = createAsyncThunk(
   'adminLab/setNewPostDate',
