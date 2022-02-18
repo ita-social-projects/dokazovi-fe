@@ -8,14 +8,14 @@ export const useStyles = makeStyles(
         bottom: 20,
         left: 25,
         padding: '12px 10px',
-        backgroundColor: '#000000',
-        opacity: '0.4',
+        backgroundColor: '#FF5C00',
+        opacity: '0.8',
         color: 'white',
         borderRadius: '40px',
         zIndex: 1200,
         '&.MuiButton-root:focus': {
-          backgroundColor: '#000000',
-          opacity: '0.4',
+          backgroundColor: '#FF5C00',
+          opacity: '0.8',
         },
       },
       upIcon: {
