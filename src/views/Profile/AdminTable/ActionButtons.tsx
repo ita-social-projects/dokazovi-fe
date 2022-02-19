@@ -78,6 +78,15 @@ const ActionButtons: React.FC<IActionButtons> = ({ id, status, title }) => {
     closeModal();
   };
 
+  const handlePublishConfirm = () => {
+    boundedSetPostStatus({
+      id,
+      postStatus: StatusesForActions.PUBLISHED,
+    });
+    toast.success(t(langTokens.admin.publishSuccess));
+    closeModal();
+  };
+
   const handleReturnConfirm = () => {
     boundedSetPostStatus({
       id,
@@ -126,8 +135,13 @@ const ActionButtons: React.FC<IActionButtons> = ({ id, status, title }) => {
       id: 'publishBtn',
       label: t(langTokens.admin.publish),
       allowedStatuses: [MODERATION_SECOND_SIGN, ARCHIVED],
-      handler: () => {
-        window.open(editPostLink);
+      // handler: () => {
+      //   window.open(editPostLink);
+      // },
+      handler: (btnId) => openModal(btnId),
+      modal: {
+        title: t(langTokens.admin.publishTitle),
+        onConfirmButtonClick: handlePublishConfirm,
       },
     },
     {
