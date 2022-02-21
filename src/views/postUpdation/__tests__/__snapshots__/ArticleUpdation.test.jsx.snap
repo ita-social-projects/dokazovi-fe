@@ -41,7 +41,7 @@ exports[`ArticleUpdation tests should ArticleUpdation render 1`] = `
     </svg>
   </div>
   <div
-    class="MuiBox-root MuiBox-root-3"
+    class="MuiBox-root MuiBox-root-8"
   >
     <h5
       class="MuiTypography-root makeStyles-requiredField-1 MuiTypography-h5"
@@ -95,132 +95,213 @@ exports[`ArticleUpdation tests should ArticleUpdation render 1`] = `
     style="margin-bottom: 24px;"
   />
   <div
-    class="MuiBox-root MuiBox-root-14"
+    class="MuiBox-root MuiBox-root-9 makeStyles-backgroundImagesContainer-5"
+  >
+    <div
+      class="MuiBox-root MuiBox-root-10 makeStyles-backgroundImageWrapper-6"
+    >
+      <div
+        class="MuiBox-root MuiBox-root-21"
+      >
+        <h5
+          class="MuiTypography-root makeStyles-addImage-20 MuiTypography-h5"
+        >
+          Фонове зображення
+        </h5>
+        <h6
+          class="MuiTypography-root makeStyles-requiredField-19 MuiTypography-h6"
+        >
+          (тільки для перекладу або медитеки)
+        </h6>
+        <div
+          class="MuiBox-root MuiBox-root-22"
+        >
+          <div>
+            <div
+              class="MuiPaper-root makeStyles-root-24 MuiPaper-outlined MuiPaper-rounded"
+            >
+              <button
+                class="MuiButtonBase-root MuiIconButton-root"
+                tabindex="0"
+                title="За посиланням"
+                type="button"
+              >
+                <span
+                  class="MuiIconButton-label"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root makeStyles-icon-25"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z"
+                    />
+                  </svg>
+                </span>
+              </button>
+              <h6
+                class="MuiTypography-root makeStyles-imgInputText-26 MuiTypography-subtitle1"
+              >
+                Додати посилання на зображення із зовнішнього ресурсу
+              </h6>
+            </div>
+          </div>
+          <div
+            class="MuiPaper-root makeStyles-root-27 MuiPaper-outlined MuiPaper-rounded"
+            tabindex="0"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root makeStyles-icon-28"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zm-5.04-6.71l-2.75 3.54-1.96-2.36L6.5 17h11l-3.54-4.71z"
+              />
+            </svg>
+            <input
+              autocomplete="off"
+              data-testid="file-input"
+              multiple=""
+              style="display: none;"
+              tabindex="-1"
+              type="file"
+            />
+            <h6
+              class="MuiTypography-root makeStyles-imgInputText-29 MuiTypography-subtitle1"
+            >
+              Зображення для компʼютера
+            </h6>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="BorderBottom-customBorder-30"
+  />
+  <div
+    class="MuiBox-root MuiBox-root-31"
   >
     <h5
-      class="MuiTypography-root makeStyles-addImage-13 MuiTypography-h5"
+      class="MuiTypography-root MuiTypography-h5"
     >
-      Фонове зображення:
+      Зображення для каруселі
     </h5>
     <h6
-      class="MuiTypography-root makeStyles-requiredField-12 MuiTypography-h6"
+      class="MuiTypography-root makeStyles-imageSizeText-7 MuiTypography-subtitle2"
     >
-      (тільки для перекладу або медитеки)
+      Для візуалізації зображень статті в каруселі потрібно завантажити усі варіації зображень картинки для статті (‘Зображення для компʼютера’ та ‘Зображення для телефона’)
     </h6>
     <div
-      class="MuiBox-root MuiBox-root-15"
+      class="MuiBox-root MuiBox-root-32 makeStyles-carouselImagesContainer-3"
     >
-      <div>
+      <div
+        class="MuiBox-root MuiBox-root-33 makeStyles-carouselImageWrapper-4"
+      >
         <div
-          class="MuiPaper-root makeStyles-root-17 MuiPaper-outlined MuiPaper-rounded"
+          class="MuiBox-root MuiBox-root-34"
         >
-          <button
-            class="MuiButtonBase-root MuiIconButton-root"
-            tabindex="0"
-            title="За посиланням"
-            type="button"
+          <h5
+            class="MuiTypography-root makeStyles-addImage-20 MuiTypography-h5"
+          />
+          <div
+            class="MuiBox-root MuiBox-root-35"
           >
-            <span
-              class="MuiIconButton-label"
+            <div
+              class="MuiPaper-root makeStyles-root-27 MuiPaper-outlined MuiPaper-rounded"
+              tabindex="0"
             >
               <svg
                 aria-hidden="true"
-                class="MuiSvgIcon-root makeStyles-icon-18"
+                class="MuiSvgIcon-root makeStyles-icon-28"
                 focusable="false"
                 viewBox="0 0 24 24"
               >
                 <path
-                  d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z"
+                  d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zm-5.04-6.71l-2.75 3.54-1.96-2.36L6.5 17h11l-3.54-4.71z"
                 />
               </svg>
-            </span>
-          </button>
-          <h6
-            class="MuiTypography-root makeStyles-imgInputText-19 MuiTypography-subtitle1"
-          >
-            Додати посилання на зображення із зовнішнього ресурсу
-          </h6>
+              <input
+                autocomplete="off"
+                data-testid="file-input"
+                multiple=""
+                style="display: none;"
+                tabindex="-1"
+                type="file"
+              />
+              <h6
+                class="MuiTypography-root makeStyles-imgInputText-29 MuiTypography-subtitle1"
+              >
+                Зображення для компʼютера
+              </h6>
+            </div>
+          </div>
         </div>
+        <h6
+          class="MuiTypography-root makeStyles-imageSizeText-7 MuiTypography-subtitle2"
+        >
+          (Рекомендоване розширення зображення - 1305x455)
+        </h6>
       </div>
       <div
-        class="MuiPaper-root makeStyles-root-20 MuiPaper-outlined MuiPaper-rounded"
-        tabindex="0"
+        class="MuiBox-root MuiBox-root-36 makeStyles-carouselImageWrapper-4"
       >
-        <svg
-          aria-hidden="true"
-          class="MuiSvgIcon-root makeStyles-icon-21"
-          focusable="false"
-          viewBox="0 0 24 24"
+        <div
+          class="MuiBox-root MuiBox-root-37"
         >
-          <path
-            d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zm-5.04-6.71l-2.75 3.54-1.96-2.36L6.5 17h11l-3.54-4.71z"
+          <h5
+            class="MuiTypography-root makeStyles-addImage-20 MuiTypography-h5"
           />
-        </svg>
-        <input
-          autocomplete="off"
-          data-testid="file-input"
-          multiple=""
-          style="display: none;"
-          tabindex="-1"
-          type="file"
-        />
+          <div
+            class="MuiBox-root MuiBox-root-38"
+          >
+            <div
+              class="MuiPaper-root makeStyles-root-27 MuiPaper-outlined MuiPaper-rounded"
+              tabindex="0"
+            >
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root makeStyles-icon-28"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M17 1.01L7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14z"
+                />
+              </svg>
+              <input
+                autocomplete="off"
+                data-testid="file-input"
+                multiple=""
+                style="display: none;"
+                tabindex="-1"
+                type="file"
+              />
+              <h6
+                class="MuiTypography-root makeStyles-imgInputText-29 MuiTypography-subtitle1"
+              >
+                Зображення для телефона
+              </h6>
+            </div>
+          </div>
+        </div>
         <h6
-          class="MuiTypography-root makeStyles-imgInputText-22 MuiTypography-subtitle1"
+          class="MuiTypography-root makeStyles-imageSizeText-7 MuiTypography-subtitle2"
         >
-          Завантажити зображення із комп\`ютера
+          (Рекомендоване розширення зображення - 414x585)
         </h6>
       </div>
     </div>
   </div>
   <div
-    class="BorderBottom-customBorder-23"
+    class="BorderBottom-customBorder-30"
   />
   <div
-    class="MuiBox-root MuiBox-root-24"
-  >
-    <h5
-      class="MuiTypography-root makeStyles-addImage-13 MuiTypography-h5"
-    >
-      Зображення для каруселі:
-    </h5>
-    <div
-      class="MuiBox-root MuiBox-root-25"
-    >
-      <div
-        class="MuiPaper-root makeStyles-root-20 MuiPaper-outlined MuiPaper-rounded"
-        tabindex="0"
-      >
-        <svg
-          aria-hidden="true"
-          class="MuiSvgIcon-root makeStyles-icon-21"
-          focusable="false"
-          viewBox="0 0 24 24"
-        >
-          <path
-            d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zm-5.04-6.71l-2.75 3.54-1.96-2.36L6.5 17h11l-3.54-4.71z"
-          />
-        </svg>
-        <input
-          autocomplete="off"
-          data-testid="file-input"
-          multiple=""
-          style="display: none;"
-          tabindex="-1"
-          type="file"
-        />
-        <h6
-          class="MuiTypography-root makeStyles-imgInputText-22 MuiTypography-subtitle1"
-        >
-          Завантажити зображення із комп\`ютера
-        </h6>
-      </div>
-    </div>
-  </div>
-  <div
-    class="BorderBottom-customBorder-23"
-  />
-  <div
-    class="MuiBox-root MuiBox-root-26"
+    class="MuiBox-root MuiBox-root-39"
   >
     <h5
       class="MuiTypography-root makeStyles-requiredField-1 MuiTypography-h5"
@@ -790,7 +871,7 @@ exports[`ArticleUpdation tests should ArticleUpdation render 1`] = `
       </div>
     </div>
     <div
-      class="BorderBottom-customBorder-23"
+      class="BorderBottom-customBorder-30"
     />
     <div
       class="MuiGrid-root MuiGrid-container"
@@ -830,10 +911,10 @@ exports[`ArticleUpdation tests should ArticleUpdation render 1`] = `
             />
             <fieldset
               aria-hidden="true"
-              class="PrivateNotchedOutline-root-27 MuiOutlinedInput-notchedOutline"
+              class="PrivateNotchedOutline-root-40 MuiOutlinedInput-notchedOutline"
             >
               <legend
-                class="PrivateNotchedOutline-legendLabelled-29 PrivateNotchedOutline-legendNotched-30"
+                class="PrivateNotchedOutline-legendLabelled-42 PrivateNotchedOutline-legendNotched-43"
               >
                 <span>
                   Текст картки матеріалу
@@ -852,30 +933,30 @@ exports[`ArticleUpdation tests should ArticleUpdation render 1`] = `
         class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-md-6 MuiGrid-grid-lg-4"
       >
         <div
-          class="MuiPaper-root MuiCard-root ExpertOpinionPostPreviewCard-root-31 MuiPaper-elevation1 MuiPaper-rounded"
+          class="MuiPaper-root MuiCard-root ExpertOpinionPostPreviewCard-root-44 MuiPaper-elevation1 MuiPaper-rounded"
         >
           <div
-            class="MuiBox-root MuiBox-root-40 ExpertOpinionPostPreviewCard-header-34"
+            class="MuiBox-root MuiBox-root-53 ExpertOpinionPostPreviewCard-header-47"
           >
             <div
-              class="MuiBox-root MuiBox-root-41"
+              class="MuiBox-root MuiBox-root-54"
             >
               <div
-                class="MuiBox-root MuiBox-root-42"
+                class="MuiBox-root MuiBox-root-55"
               >
                 <span
-                  class="MuiTypography-root ExpertOpinionPostPreviewCard-postType-38 MuiTypography-overline"
+                  class="MuiTypography-root ExpertOpinionPostPreviewCard-postType-51 MuiTypography-overline"
                 >
                   Думка експерта
                 </span>
                 <span
-                  class="MuiTypography-root ExpertOpinionPostPreviewCard-authorFullName-33 MuiTypography-h5"
+                  class="MuiTypography-root ExpertOpinionPostPreviewCard-authorFullName-46 MuiTypography-h5"
                 >
                   Bill Yamamoto
                 </span>
               </div>
               <div
-                class="MuiCardMedia-root ExpertOpinionPostPreviewCard-avatar-32"
+                class="MuiCardMedia-root ExpertOpinionPostPreviewCard-avatar-45"
                 data-testid="avatar"
                 title="Bill Yamamoto"
               />
@@ -885,24 +966,24 @@ exports[`ArticleUpdation tests should ArticleUpdation render 1`] = `
             />
           </div>
           <div
-            class="MuiBox-root MuiBox-root-43 ExpertOpinionPostPreviewCard-body-35"
+            class="MuiBox-root MuiBox-root-56 ExpertOpinionPostPreviewCard-body-48"
           >
             <div
-              class="MuiCardContent-root ExpertOpinionPostPreviewCard-content-39"
+              class="MuiCardContent-root ExpertOpinionPostPreviewCard-content-52"
             >
               <h3
-                class="MuiTypography-root ExpertOpinionPostPreviewCard-textHeader-36 MuiTypography-h4 MuiTypography-gutterBottom"
+                class="MuiTypography-root ExpertOpinionPostPreviewCard-textHeader-49 MuiTypography-h4 MuiTypography-gutterBottom"
               >
                 Як підготуватися до вакцинації
               </h3>
               <p
-                class="MuiTypography-root ExpertOpinionPostPreviewCard-textBody-37 MuiTypography-body2 MuiTypography-colorTextPrimary MuiTypography-gutterBottom"
+                class="MuiTypography-root ExpertOpinionPostPreviewCard-textBody-50 MuiTypography-body2 MuiTypography-colorTextPrimary MuiTypography-gutterBottom"
               >
                 cvj;qdksjn;ckjnqsd;jkcvnq;sjdhcfn;wejqnhc;vksdnc;jkasdn;jkfd;skcn
               </p>
             </div>
             <div
-              class="MuiBox-root MuiBox-root-44"
+              class="MuiBox-root MuiBox-root-57"
             >
               <span
                 class="MuiTypography-root MuiTypography-caption MuiTypography-colorTextSecondary"
@@ -916,7 +997,7 @@ exports[`ArticleUpdation tests should ArticleUpdation render 1`] = `
     </div>
   </div>
   <div
-    class="MuiBox-root MuiBox-root-45"
+    class="MuiBox-root MuiBox-root-58"
   >
     <div
       data-testid="confirmation-modal"
@@ -935,7 +1016,7 @@ exports[`ArticleUpdation tests should ArticleUpdation render 1`] = `
       </button>
     </div>
     <div
-      class="MuiBox-root MuiBox-root-52"
+      class="MuiBox-root MuiBox-root-65"
     >
       <button
         class="MuiButtonBase-root MuiButton-root MuiButton-contained Mui-disabled Mui-disabled"

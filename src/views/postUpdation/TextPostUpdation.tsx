@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { DropEvent, FileRejection } from 'react-dropzone';
 import { PageTitle } from 'components/Page/PageTitle';
 import { useSelector } from 'react-redux';
+import { CarouselImagesWrapper } from 'views/postCreation/CarouselImagesWrapper';
 import { sanitizeHtml } from '../../old/lib/utilities/sanitizeHtml';
 import { getAllExperts, updatePost } from '../../old/lib/utilities/API/api';
 import { IDirection, IOrigin, IPost } from '../../old/lib/types';
@@ -57,7 +58,6 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
   const classes = useStyle();
   const authorities = useSelector(selectAuthorities);
   const isAdmin = authorities.data?.includes('SET_IMPORTANCE');
-
   const [autoChanges, setAutoChanges] = useState(true);
 
   const [selectedDirections, setSelectedDirections] = useState<IDirection[]>(
@@ -70,9 +70,12 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
   const [previewImageUrl, setPreviewImageUrl] = useState(
     post.previewImageUrl ?? '',
   );
-  const [importantImageUrl, setImportantImageUrl] = useState(
+  const [importantImageUrl, setImportantImageUrl] = useState<string>(
     post.importantImageUrl ?? '',
   );
+  const [importantMobileImageUrl, setImportantMobileImageUrl] = useState<
+    string
+  >(post.importantMobileImageUrl ?? '');
   const [preview, setPreview] = useState(post.preview);
   const [title, setTitle] = useState({
     value: post.title,
@@ -171,6 +174,7 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
     preview,
     previewImageUrl,
     importantImageUrl,
+    importantMobileImageUrl,
     title: title.value,
     type: post.type,
     authorId: authorId ?? post.author.id,
@@ -210,6 +214,7 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
     preview,
     previewImageUrl,
     importantImageUrl,
+    importantMobileImageUrl,
     directions: selectedDirections,
     origins: selectedOrigins,
     title: title.value,
@@ -242,7 +247,6 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
   return (
     <>
       <PageTitle title={pageTitle} />
-
       {!previewing ? (
         <>
           <PostDirectionsSelector
@@ -277,20 +281,25 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
           {postAuthorSelection}
           {isAdmin && (
             <>
-              <BackgroundImageContainer
-                dispatchImageUrl={setPreviewImageUrl}
-                fileSelectorHandler={fileSelectorHandler(setPreviewImageUrl)}
-                title={t(langTokens.editor.backgroundImage)}
-                imgUrl={previewPost?.previewImageUrl}
-                reminder
-              />
+              <Box className={classes.backgroundImagesContainer}>
+                <Box className={classes.backgroundImageWrapper}>
+                  <BackgroundImageContainer
+                    dispatchImageUrl={setPreviewImageUrl}
+                    fileSelectorHandler={fileSelectorHandler(
+                      setPreviewImageUrl,
+                    )}
+                    title={t(langTokens.editor.backgroundImage)}
+                    imgUrl={previewPost?.previewImageUrl}
+                    reminder
+                    forMobilePic={false}
+                  />
+                </Box>
+              </Box>
               <BorderBottom />
-              <BackgroundImageContainer
-                dispatchImageUrl={setImportantImageUrl}
-                fileSelectorHandler={fileSelectorHandler(setImportantImageUrl)}
-                title={t(langTokens.editor.carouselImage)}
-                imgUrl={previewPost?.importantImageUrl}
-                notCarousel={false}
+              <CarouselImagesWrapper
+                post={previewPost}
+                setImportantImageUrl={setImportantImageUrl}
+                setImportantMobileImageUrl={setImportantMobileImageUrl}
               />
               <BorderBottom />
             </>

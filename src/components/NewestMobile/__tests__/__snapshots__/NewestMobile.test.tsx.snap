@@ -1,0 +1,410 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NewestContainer component renders correctly should match snapshot 1`] = `
+<div>
+  <div>
+    <header
+      class="MuiPaper-root MuiAppBar-root makeStyles-appBarRoot-3 MuiAppBar-positionFixed MuiAppBar-colorDefault makeStyles-stickyTop-11 mui-fixed MuiPaper-elevation4"
+    >
+      <div
+        class="makeStyles-container-15"
+      >
+        <div
+          class="MuiTabs-root makeStyles-buttonsRoot-4"
+        >
+          <div
+            class="MuiTabs-scroller makeStyles-scroller-16 MuiTabs-fixed"
+            style="overflow: hidden;"
+          >
+            <div
+              aria-label="full width tabs example"
+              class="MuiTabs-flexContainer makeStyles-tabsContainer-14"
+              role="tablist"
+            >
+              <button
+                aria-controls="full-width-tabpanel-0"
+                aria-selected="true"
+                class="MuiButtonBase-root MuiTab-root makeStyles-tabRoot-8 MuiTab-textColorPrimary Mui-selected makeStyles-selected-5 MuiTab-fullWidth"
+                data-testid="full-width-tab-0"
+                id="full-width-tab-0"
+                role="tab"
+                tabindex="0"
+                type="button"
+              >
+                <span
+                  class="MuiTab-wrapper makeStyles-wrapper-9"
+                >
+                  Думки експертів
+                </span>
+                <span
+                  class="MuiTouchRipple-root"
+                />
+              </button>
+              <button
+                aria-controls="full-width-tabpanel-1"
+                aria-selected="false"
+                class="MuiButtonBase-root MuiTab-root makeStyles-tabRoot-8 MuiTab-textColorPrimary MuiTab-fullWidth"
+                data-testid="full-width-tab-1"
+                id="full-width-tab-1"
+                role="tab"
+                tabindex="-1"
+                type="button"
+              >
+                <span
+                  class="MuiTab-wrapper makeStyles-wrapper-9"
+                >
+                  Переклад
+                </span>
+                <span
+                  class="MuiTouchRipple-root"
+                />
+              </button>
+              <button
+                aria-controls="full-width-tabpanel-2"
+                aria-selected="false"
+                class="MuiButtonBase-root MuiTab-root makeStyles-tabRoot-8 MuiTab-textColorPrimary MuiTab-fullWidth"
+                data-testid="full-width-tab-2"
+                id="full-width-tab-2"
+                role="tab"
+                tabindex="-1"
+                type="button"
+              >
+                <span
+                  class="MuiTab-wrapper makeStyles-wrapper-9"
+                >
+                  Медитека
+                </span>
+                <span
+                  class="MuiTouchRipple-root"
+                />
+              </button>
+              <button
+                aria-controls="full-width-tabpanel-3"
+                aria-selected="false"
+                class="MuiButtonBase-root MuiTab-root makeStyles-tabRoot-8 MuiTab-textColorPrimary MuiTab-fullWidth"
+                data-testid="full-width-tab-3"
+                id="full-width-tab-3"
+                role="tab"
+                tabindex="-1"
+                type="button"
+              >
+                <span
+                  class="MuiTab-wrapper makeStyles-wrapper-9"
+                >
+                  Відео
+                </span>
+                <span
+                  class="MuiTouchRipple-root"
+                />
+              </button>
+            </div>
+            <span
+              class="PrivateTabIndicator-root-17 PrivateTabIndicator-colorSecondary-19 MuiTabs-indicator makeStyles-indicator-2"
+              style="left: 0px; width: 0px;"
+            />
+          </div>
+        </div>
+      </div>
+    </header>
+    <div
+      style="overflow-x: hidden;"
+    >
+      <div
+        class="react-swipeable-view-container"
+        style="flex-direction: row; transition: all 0s ease 0s; direction: ltr; display: flex; will-change: transform;"
+      >
+        <div
+          aria-hidden="false"
+          data-swipeable="true"
+          style="width: 100%; flex-shrink: 0; overflow: auto;"
+        >
+          <div
+            aria-labelledby="full-width-tab-0"
+            id="full-width-tabpanel-0"
+            role="tabpanel"
+          >
+            <div
+              class="PostsList-masonryGrid-21"
+            >
+              <div
+                class="PostsList-masonryColumn-22"
+                style="width: 50%;"
+              >
+                <div
+                  class="PostsList-masonryItem-23"
+                >
+                  <div
+                    class="MuiPaper-root MuiCard-root ExpertOpinionPostPreviewCard-root-24 MuiPaper-elevation1 MuiPaper-rounded"
+                  >
+                    <a
+                      href="/experts/13"
+                      target="_blank"
+                    >
+                      <div
+                        class="MuiBox-root MuiBox-root-33 ExpertOpinionPostPreviewCard-header-27"
+                      >
+                        <div
+                          class="MuiBox-root MuiBox-root-34"
+                        >
+                          <div
+                            class="MuiBox-root MuiBox-root-35"
+                          >
+                            <a
+                              href="/posts/117"
+                            >
+                              <span
+                                class="MuiTypography-root ExpertOpinionPostPreviewCard-postType-31 MuiTypography-overline"
+                              >
+                                Думка експерта
+                              </span>
+                            </a>
+                            <span
+                              class="MuiTypography-root ExpertOpinionPostPreviewCard-authorFullName-26 MuiTypography-h5"
+                            >
+                              Марина Вовк
+                            </span>
+                          </div>
+                          <div
+                            class="MuiCardMedia-root ExpertOpinionPostPreviewCard-avatar-25"
+                            data-testid="avatar"
+                            style="background-image: url(https://i.pravatar.cc/300?img=5);"
+                            title="Марина Вовк"
+                          />
+                        </div>
+                        <span
+                          class="MuiTypography-root MuiTypography-subtitle2 MuiTypography-colorTextSecondary MuiTypography-gutterBottom"
+                        >
+                          Lorem ipsum dolor sit amet, consectetur adipiscing
+                        </span>
+                      </div>
+                    </a>
+                    <a
+                      href="/posts/117"
+                      target="_blank"
+                    >
+                      <div
+                        class="MuiBox-root MuiBox-root-36 ExpertOpinionPostPreviewCard-body-28"
+                      >
+                        <div
+                          class="MuiCardContent-root ExpertOpinionPostPreviewCard-content-32"
+                        >
+                          <h3
+                            class="MuiTypography-root ExpertOpinionPostPreviewCard-textHeader-29 MuiTypography-h4 MuiTypography-gutterBottom"
+                          >
+                            ТЕСТ publish
+                          </h3>
+                          <p
+                            class="MuiTypography-root ExpertOpinionPostPreviewCard-textBody-30 MuiTypography-body2 MuiTypography-colorTextPrimary MuiTypography-gutterBottom"
+                          >
+                            Fermentum iaculis eu non diam phasellus vestibulum lorem sed.
+                          </p>
+                        </div>
+                        <div
+                          class="MuiBox-root MuiBox-root-37"
+                        >
+                          <span
+                            class="MuiTypography-root MuiTypography-caption MuiTypography-colorTextSecondary"
+                          >
+                            16 січня
+                          </span>
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+                </div>
+                <div
+                  class="PostsList-masonryItem-23"
+                >
+                  <div
+                    class="MuiPaper-root MuiCard-root ExpertOpinionPostPreviewCard-root-24 MuiPaper-elevation1 MuiPaper-rounded"
+                  >
+                    <a
+                      href="/experts/14"
+                      target="_blank"
+                    >
+                      <div
+                        class="MuiBox-root MuiBox-root-48 ExpertOpinionPostPreviewCard-header-27"
+                      >
+                        <div
+                          class="MuiBox-root MuiBox-root-49"
+                        >
+                          <div
+                            class="MuiBox-root MuiBox-root-50"
+                          >
+                            <a
+                              href="/posts/114"
+                            >
+                              <span
+                                class="MuiTypography-root ExpertOpinionPostPreviewCard-postType-31 MuiTypography-overline"
+                              >
+                                Думка експерта
+                              </span>
+                            </a>
+                            <span
+                              class="MuiTypography-root ExpertOpinionPostPreviewCard-authorFullName-26 MuiTypography-h5"
+                            >
+                              Олег Петренко
+                            </span>
+                          </div>
+                          <div
+                            class="MuiCardMedia-root ExpertOpinionPostPreviewCard-avatar-25"
+                            data-testid="avatar"
+                            style="background-image: url(https://i.pravatar.cc/300?img=11);"
+                            title="Олег Петренко"
+                          />
+                        </div>
+                        <span
+                          class="MuiTypography-root MuiTypography-subtitle2 MuiTypography-colorTextSecondary MuiTypography-gutterBottom"
+                        >
+                          Lorem ipsum dolor sit amet, consectetur adipiscing
+                        </span>
+                      </div>
+                    </a>
+                    <a
+                      href="/posts/114"
+                      target="_blank"
+                    >
+                      <div
+                        class="MuiBox-root MuiBox-root-51 ExpertOpinionPostPreviewCard-body-28"
+                      >
+                        <div
+                          class="MuiCardContent-root ExpertOpinionPostPreviewCard-content-32"
+                        >
+                          <h3
+                            class="MuiTypography-root ExpertOpinionPostPreviewCard-textHeader-29 MuiTypography-h4 MuiTypography-gutterBottom"
+                          >
+                            Допис Lorem Ipsum
+                          </h3>
+                          <p
+                            class="MuiTypography-root ExpertOpinionPostPreviewCard-textBody-30 MuiTypography-body2 MuiTypography-colorTextPrimary MuiTypography-gutterBottom"
+                          >
+                            Існує багато варіацій уривків з Lorem Ipsum, але більшість з них зазнала певних змін на кшталт жартівливих вставок або змішування слів, які навіть не виглядають правдоподібно.
+                          </p>
+                        </div>
+                        <div
+                          class="MuiBox-root MuiBox-root-52"
+                        >
+                          <span
+                            class="MuiTypography-root MuiTypography-caption MuiTypography-colorTextSecondary"
+                          >
+                            22 жовтня
+                          </span>
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="PostsList-masonryColumn-22"
+                style="width: 50%;"
+              >
+                <div
+                  class="PostsList-masonryItem-23"
+                >
+                  <div
+                    class="MuiPaper-root MuiCard-root ExpertOpinionPostPreviewCard-root-24 MuiPaper-elevation1 MuiPaper-rounded"
+                  >
+                    <a
+                      href="/experts/10"
+                      target="_blank"
+                    >
+                      <div
+                        class="MuiBox-root MuiBox-root-38 ExpertOpinionPostPreviewCard-header-27"
+                      >
+                        <div
+                          class="MuiBox-root MuiBox-root-39"
+                        >
+                          <div
+                            class="MuiBox-root MuiBox-root-40"
+                          >
+                            <a
+                              href="/posts/116"
+                            >
+                              <span
+                                class="MuiTypography-root ExpertOpinionPostPreviewCard-postType-31 MuiTypography-overline"
+                              >
+                                Думка експерта
+                              </span>
+                            </a>
+                            <span
+                              class="MuiTypography-root ExpertOpinionPostPreviewCard-authorFullName-26 MuiTypography-h5"
+                            >
+                              Марія Марієнко
+                            </span>
+                          </div>
+                          <div
+                            class="MuiCardMedia-root ExpertOpinionPostPreviewCard-avatar-25"
+                            data-testid="avatar"
+                            style="background-image: url(https://i.pravatar.cc/300?img=16);"
+                            title="Марія Марієнко"
+                          />
+                        </div>
+                        <span
+                          class="MuiTypography-root MuiTypography-subtitle2 MuiTypography-colorTextSecondary MuiTypography-gutterBottom"
+                        >
+                          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat duis.
+                        </span>
+                      </div>
+                    </a>
+                    <a
+                      href="/posts/116"
+                      target="_blank"
+                    >
+                      <div
+                        class="MuiBox-root MuiBox-root-41 ExpertOpinionPostPreviewCard-body-28"
+                      >
+                        <div
+                          class="MuiCardContent-root ExpertOpinionPostPreviewCard-content-32"
+                        >
+                          <h3
+                            class="MuiTypography-root ExpertOpinionPostPreviewCard-textHeader-29 MuiTypography-h4 MuiTypography-gutterBottom"
+                          >
+                            This is title
+                          </h3>
+                          <p
+                            class="MuiTypography-root ExpertOpinionPostPreviewCard-textBody-30 MuiTypography-body2 MuiTypography-colorTextPrimary MuiTypography-gutterBottom"
+                          >
+                            Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet Lorem ipsum dolor sit amet
+                          </p>
+                        </div>
+                        <div
+                          class="MuiBox-root MuiBox-root-42"
+                        >
+                          <span
+                            class="MuiTypography-root MuiTypography-caption MuiTypography-colorTextSecondary"
+                          >
+                            14 січня
+                          </span>
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="makeStyles-buttonContainer-10"
+            >
+              <button
+                class="MuiButtonBase-root MuiButton-root MuiButton-outlined makeStyles-button-13"
+                tabindex="0"
+                type="button"
+              >
+                <span
+                  class="MuiButton-label"
+                >
+                  Всі думки експертів
+                </span>
+                <span
+                  class="MuiTouchRipple-root"
+                />
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

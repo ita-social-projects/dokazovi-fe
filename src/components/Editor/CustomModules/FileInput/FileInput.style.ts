@@ -8,7 +8,7 @@ export const useStyles = makeStyles((theme) => ({
     color: '#333',
     padding: '10px',
     marginTop: '20px',
-    width: '500px',
+    width: '100%',
     '&:hover': {
       color: '#06c',
     },

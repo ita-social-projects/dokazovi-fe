@@ -3,7 +3,7 @@ import { makeStyles, Theme } from '@material-ui/core';
 export const useStyles = makeStyles(
   (theme: Theme) => ({
     adminImportantSection: {
-      minHeight: '200px',
+      minHeight: '100px',
       margin: '15px auto 0',
       display: 'flex',
       flexWrap: 'wrap',

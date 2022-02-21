@@ -3,8 +3,10 @@ import { useSelector } from 'react-redux';
 import Dialog from '@material-ui/core/Dialog';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import { useTranslation } from 'react-i18next';
 import Swal from 'sweetalert2';
 import AddImportantMaterial from './AddImportantMaterial';
+import { langTokens } from '../../../../../../locales/localizationInit';
 import { useStyles } from '../styles/ImportantView.styles';
 import {
   clearSetImportant,
@@ -12,14 +14,14 @@ import {
   selectMain,
   setImportantPosts,
 } from '../../../../../../models/main';
-import PostPreviewWrapper from './PostPreviewWrapper';
+import { ImportantImagesWrapper } from './ImportantImagesWrapper';
 import { ImportantContainer } from '../../../../../modules/main/components/ImportantContainer';
 import { IPost, ViewModsType } from '../../../../types';
-import { LoadingContainer } from '../../../Loading/LoadingContainer';
 import { useActions } from '../../../../../../shared/hooks';
 
 const ImportantView: React.FC = () => {
   const classes = useStyles();
+  const { t } = useTranslation();
   const [
     boundFetchImportantPosts,
     boundSetImportantPosts,
@@ -95,30 +97,19 @@ const ImportantView: React.FC = () => {
 
   return (
     <>
+      <ImportantImagesWrapper
+        updateRemovedPosts={updateRemovedPosts}
+        forDeviceType="desktop"
+        expanded
+      />
+      <ImportantImagesWrapper
+        updateRemovedPosts={updateRemovedPosts}
+        forDeviceType="mobile"
+      />
       <div className={classes.adminImportantSection}>
-        {loading === 'pending' && (
-          <LoadingContainer
-            loading={loading}
-            expand
-            errorMsg="Виникла помилка при завантаженні матеріалів"
-          />
-        )}
-        {loading !== 'pending' && mappedPosts.length
-          ? mappedPosts.map((post, index) => (
-              <PostPreviewWrapper
-                key={post.id}
-                post={post}
-                position={index + 1}
-                viewMode="selected"
-                postsAmount={mappedPosts.length}
-                updateRemovedPosts={updateRemovedPosts}
-              />
-            ))
-          : null}
         {loading === 'succeeded' && !mappedPosts.length && (
           <Typography className={classes.centeredElement}>
-            Зараз секція &quot;Важливе&quot; порожня. Почніть додавати матеріали
-            за допомогою меню знизу
+            {t(langTokens.admin.importantEmpty)}
           </Typography>
         )}
       </div>
@@ -131,7 +122,7 @@ const ImportantView: React.FC = () => {
           disabled={mappedPosts.length < 1}
           onClick={() => setPreviewStatus(true)}
         >
-          Переглянути
+          {t(langTokens.admin.review)}
         </Button>
         <Button
           className={classes.primaryButtons}
@@ -141,7 +132,7 @@ const ImportantView: React.FC = () => {
           disabled={mappedPosts.length < 1}
           onClick={publishImportantPosts}
         >
-          Публікувати
+          {t(langTokens.admin.publish)}
         </Button>
       </div>
       <AddImportantMaterial
@@ -161,7 +152,7 @@ const ImportantView: React.FC = () => {
           size="large"
           onClick={() => setPreviewStatus(false)}
         >
-          Закрити
+          {t(langTokens.admin.close)}
         </Button>
       </Dialog>
     </>

@@ -3,6 +3,7 @@ import { IDirection, IOrigin, PostTypeEnum } from '../../old/lib/types';
 export interface INewPostDraft {
   previewImageUrl?: string;
   importantImageUrl?: string;
+  importantMobileImageUrl?: string;
   title: string;
   directions: IDirection[];
   origins: IOrigin[];

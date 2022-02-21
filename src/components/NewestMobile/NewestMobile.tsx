@@ -11,7 +11,10 @@ import { useHistory } from 'react-router-dom';
 import { langTokens } from '../../locales/localizationInit';
 import { useStyles } from './NewestMobileStyle';
 import { useActions } from '../../shared/hooks';
-import { fetchNewestMobile, selectMobileMaterials } from '../../models/newestPostsMobile';
+import {
+  fetchNewestMobile,
+  selectMobileMaterials,
+} from '../../models/newestPostsMobile';
 import { PostsList } from '../../old/lib/components/Posts/PostsList';
 import { selectHeaderVisibility } from '../../models/headerVisibility';
 
@@ -19,6 +22,7 @@ const a11yProps = (index: number) => {
   return {
     id: `full-width-tab-${index}`,
     'aria-controls': `full-width-tabpanel-${index}`,
+    'data-testid': `full-width-tab-${index}`,
   };
 };
 
