@@ -11,50 +11,54 @@ exports[`Header component tests header should be rendered with "create" and "pro
       class="MuiContainer-root Header-container-22 MuiContainer-maxWidthLg"
     >
       <div
-        class="MuiToolbar-root MuiToolbar-regular Header-toolbar-23 MuiToolbar-gutters"
+        class="Header-toolbarDesktop-24"
       >
         <div
-          class="MuiBox-root MuiBox-root-36"
+          style="display: flex;"
         >
-          <a
-            href="/"
-          >
-            <h1
-              class="MuiTypography-root Header-logo-24 MuiTypography-h1"
-            >
-              Доказові
-            </h1>
-          </a>
           <div
-            class="MuiBox-root MuiBox-root-37 Header-tabs-26"
+            class="MuiBox-root MuiBox-root-36"
+          >
+            <a
+              href="/"
+            >
+              <h1
+                class="MuiTypography-root Header-logo-25 MuiTypography-h1"
+              >
+                Доказові
+              </h1>
+            </a>
+          </div>
+          <div
+            class="MuiBox-root MuiBox-root-37 Header-tabs-27"
           >
             <a
               aria-current="page"
-              class="Header-tab-27 active"
+              class="Header-tab-28 active"
               href="/"
             >
               <h5
-                class="MuiTypography-root Header-tabLabel-28 MuiTypography-h5"
+                class="MuiTypography-root Header-tabLabel-29 MuiTypography-h5"
               >
                 Головна
               </h5>
             </a>
             <a
-              class="Header-tab-27"
+              class="Header-tab-28"
               href="/materials"
             >
               <h5
-                class="MuiTypography-root Header-tabLabel-28 MuiTypography-h5"
+                class="MuiTypography-root Header-tabLabel-29 MuiTypography-h5"
               >
                 Матеріали
               </h5>
             </a>
             <a
-              class="Header-tab-27"
+              class="Header-tab-28"
               href="/experts"
             >
               <h5
-                class="MuiTypography-root Header-tabLabel-28 MuiTypography-h5"
+                class="MuiTypography-root Header-tabLabel-29 MuiTypography-h5"
               >
                 Автори
               </h5>
@@ -62,7 +66,7 @@ exports[`Header component tests header should be rendered with "create" and "pro
           </div>
         </div>
         <div
-          class="MuiBox-root MuiBox-root-38 Header-actionsContainer-25"
+          class="MuiBox-root MuiBox-root-38 Header-actionsContainer-26"
         >
           <div
             class="makeStyles-container-39"
@@ -116,50 +120,54 @@ exports[`Header component tests header should be rendered without issues 1`] = `
       class="MuiContainer-root Header-container-3 MuiContainer-maxWidthLg"
     >
       <div
-        class="MuiToolbar-root MuiToolbar-regular Header-toolbar-4 MuiToolbar-gutters"
+        class="Header-toolbarDesktop-5"
       >
         <div
-          class="MuiBox-root MuiBox-root-17"
+          style="display: flex;"
         >
-          <a
-            href="/"
-          >
-            <h1
-              class="MuiTypography-root Header-logo-5 MuiTypography-h1"
-            >
-              Доказові
-            </h1>
-          </a>
           <div
-            class="MuiBox-root MuiBox-root-18 Header-tabs-7"
+            class="MuiBox-root MuiBox-root-17"
+          >
+            <a
+              href="/"
+            >
+              <h1
+                class="MuiTypography-root Header-logo-6 MuiTypography-h1"
+              >
+                Доказові
+              </h1>
+            </a>
+          </div>
+          <div
+            class="MuiBox-root MuiBox-root-18 Header-tabs-8"
           >
             <a
               aria-current="page"
-              class="Header-tab-8 active"
+              class="Header-tab-9 active"
               href="/"
             >
               <h5
-                class="MuiTypography-root Header-tabLabel-9 MuiTypography-h5"
+                class="MuiTypography-root Header-tabLabel-10 MuiTypography-h5"
               >
                 Головна
               </h5>
             </a>
             <a
-              class="Header-tab-8"
+              class="Header-tab-9"
               href="/materials"
             >
               <h5
-                class="MuiTypography-root Header-tabLabel-9 MuiTypography-h5"
+                class="MuiTypography-root Header-tabLabel-10 MuiTypography-h5"
               >
                 Матеріали
               </h5>
             </a>
             <a
-              class="Header-tab-8"
+              class="Header-tab-9"
               href="/experts"
             >
               <h5
-                class="MuiTypography-root Header-tabLabel-9 MuiTypography-h5"
+                class="MuiTypography-root Header-tabLabel-10 MuiTypography-h5"
               >
                 Автори
               </h5>
@@ -167,7 +175,7 @@ exports[`Header component tests header should be rendered without issues 1`] = `
           </div>
         </div>
         <div
-          class="MuiBox-root MuiBox-root-19 Header-actionsContainer-6"
+          class="MuiBox-root MuiBox-root-19 Header-actionsContainer-7"
         />
       </div>
     </div>
@@ -185,77 +193,71 @@ exports[`Header component tests mobile version should be rendered correctly 1`] 
     <div
       class="MuiContainer-root Header-container-130 MuiContainer-maxWidthLg"
     >
-      <div
-        class="MuiToolbar-root MuiToolbar-regular Header-toolbar-131 MuiToolbar-gutters"
-      >
-        <div>
-          <button
-            aria-label="Open drawer"
-            class="MuiButtonBase-root MuiIconButton-root makeStyles-icon-144 MuiIconButton-edgeStart"
-            data-testid="menuButton"
-            tabindex="0"
-            type="button"
-          >
-            <span
-              class="MuiIconButton-label"
-            >
-              <svg
-                aria-hidden="true"
-                class="MuiSvgIcon-root makeStyles-menuIcon-145"
-                focusable="false"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"
-                />
-              </svg>
-            </span>
-            <span
-              class="MuiTouchRipple-root"
-            />
-          </button>
-        </div>
-        <div
-          class="MuiBox-root MuiBox-root-152"
+      <div>
+        <button
+          aria-label="Open drawer"
+          class="MuiButtonBase-root MuiIconButton-root makeStyles-icon-144 MuiIconButton-edgeStart"
+          data-testid="menuButton"
+          tabindex="0"
+          type="button"
         >
-          <a
-            href="/"
+          <span
+            class="MuiIconButton-label"
           >
-            <h1
-              class="MuiTypography-root Header-logoMobile-137 MuiTypography-h1"
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root makeStyles-menuIcon-145"
+              focusable="false"
+              viewBox="0 0 24 24"
             >
-              Доказові
-            </h1>
-          </a>
-        </div>
-        <div>
-          <button
-            aria-controls="simple-menu"
-            aria-haspopup="true"
-            class="MuiButtonBase-root MuiButton-root MuiButton-text"
-            tabindex="0"
-            type="button"
-          >
-            <span
-              class="MuiButton-label"
-            >
-              <svg
-                aria-hidden="true"
-                class="MuiSvgIcon-root Header-searchIcon-138"
-                focusable="false"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"
-                />
-              </svg>
-            </span>
-            <span
-              class="MuiTouchRipple-root"
-            />
-          </button>
-        </div>
+              <path
+                d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"
+              />
+            </svg>
+          </span>
+          <span
+            class="MuiTouchRipple-root"
+          />
+        </button>
       </div>
+      <div
+        class="MuiBox-root MuiBox-root-152"
+      >
+        <a
+          href="/"
+        >
+          <h1
+            class="MuiTypography-root Header-logoMobile-138 MuiTypography-h1"
+          >
+            Доказові
+          </h1>
+        </a>
+      </div>
+      <button
+        aria-controls="simple-menu"
+        aria-haspopup="true"
+        class="MuiButtonBase-root MuiButton-root MuiButton-text"
+        tabindex="0"
+        type="button"
+      >
+        <span
+          class="MuiButton-label"
+        >
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root Header-searchIcon-139"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"
+            />
+          </svg>
+        </span>
+        <span
+          class="MuiTouchRipple-root"
+        />
+      </button>
     </div>
   </div>
 </DocumentFragment>

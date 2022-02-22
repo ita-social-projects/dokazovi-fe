@@ -4,7 +4,6 @@ import _ from 'lodash';
 import { useSelector } from 'react-redux';
 import { Box, TextField, Typography } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
-import { DropEvent, FileRejection } from 'react-dropzone';
 import { PageTitle } from 'components/Page/PageTitle';
 import { RootStateType } from '../../models/rootReducer';
 import {
@@ -14,6 +13,7 @@ import {
   setAuthorsName,
   setImageUrl,
   setImportantImageUrl,
+  setImportantMobileImageUrl,
   setPostBody,
   setPostDirections,
   setPostOrigin,
@@ -24,7 +24,10 @@ import {
 import { IDirection, IOrigin, IPost, PostTypeEnum } from '../../old/lib/types';
 import { sanitizeHtml } from '../../old/lib/utilities/sanitizeHtml';
 import { PostCreationButtons } from './PostCreationButtons';
-import { CreateTextPostRequestType, ExpertResponseType } from '../../old/lib/utilities/API/types';
+import {
+  CreateTextPostRequestType,
+  ExpertResponseType,
+} from '../../old/lib/utilities/API/types';
 import { createPost, getAllExperts } from '../../old/lib/utilities/API/api';
 import {
   CLEAR_HTML_REG_EXP,
@@ -37,13 +40,13 @@ import {
   PREVIEW_DEBOUNCE_TIMEOUT,
 } from '../../old/lib/constants/editors';
 import PostView from '../../old/modules/posts/components/PostView';
+import { CarouselImagesWrapper } from './CarouselImagesWrapper';
 import { TextPostEditor } from '../../components/Editor/Editors/TextPostEditor';
 import { IEditorToolbarProps } from '../../components/Editor/types';
 import { PostDirectionsSelector } from './PostDirectionsSelector';
 import { PostOriginsSelector } from './PostOriginsSelector';
 import { BorderBottom } from '../../old/lib/components/Border';
-import { getStringFromFile } from '../../old/lib/utilities/Imgur/getStringFromFile';
-import { uploadImageToImgur } from '../../old/lib/utilities/Imgur/uploadImageToImgur';
+import { fileSelectorHandler } from './fileSelectorHandler';
 import { BackgroundImageContainer } from '../../components/Editor/CustomModules/BackgroundImageContainer/BackgroundImageContainer';
 import { PostAuthorSelection } from './PostAuthorSelection/PostAuthorSelection';
 import { selectCurrentUser } from '../../models/user';
@@ -116,6 +119,7 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
     boundSetPostPreviewManuallyChanged,
     boundResetDraft,
     boundSetImportantImageUrl,
+    boundSetImportantMobileImageUrl,
   ] = useActions([
     setPostDirections,
     setPostOrigin,
@@ -129,6 +133,7 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
     setPostPreviewManuallyChanged,
     resetDraft,
     setImportantImageUrl,
+    setImportantMobileImageUrl,
   ]);
 
   const handleDirectionsChange = (value: IDirection[]) => {
@@ -162,6 +167,13 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
 
   const dispatchImportantImageUrl = (previewImageUrl: string): void => {
     boundSetImportantImageUrl({
+      postType: PostTypeEnum.ARTICLE,
+      value: previewImageUrl,
+    });
+  };
+
+  const dispatchImportantMobileImageUrl = (previewImageUrl: string): void => {
+    boundSetImportantMobileImageUrl({
       postType: PostTypeEnum.ARTICLE,
       value: previewImageUrl,
     });
@@ -222,22 +234,6 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
     setSearchValue(authorFullName);
   };
 
-  const fileSelectorHandler = (
-    dispatchFunc: (arg: string) => void,
-  ): (<T extends File>(
-    acceptedFiles: T[],
-    fileRejections: FileRejection[],
-    event: DropEvent,
-  ) => void) => (files) => {
-    getStringFromFile(files)
-      .then((str) => uploadImageToImgur(str))
-      .then((res) => {
-        if (res.data.status === 200) {
-          dispatchFunc(res.data.data.link);
-        }
-      });
-  };
-
   const handlePreviewManuallyChanged = () => {
     boundSetPostPreviewManuallyChanged(postType.type);
   };
@@ -246,6 +242,7 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
     authorId: isAdmin ? savedPostDraft.authorId : user.data?.id,
     previewImageUrl: savedPostDraft.previewImageUrl,
     importantImageUrl: savedPostDraft.importantImageUrl,
+    importantMobileImageUrl: savedPostDraft.importantMobileImageUrl,
     content: savedPostDraft.htmlContent,
     directions: savedPostDraft.directions,
     origins: savedPostDraft.origins,
@@ -401,22 +398,23 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
           {postAuthorSelection}
           {isAdmin && (
             <>
-              <BackgroundImageContainer
-                dispatchImageUrl={dispatchImageUrl}
-                fileSelectorHandler={fileSelectorHandler(dispatchImageUrl)}
-                title={t(langTokens.editor.backgroundImage)}
-                imgUrl={newPost?.previewImageUrl}
-                reminder
-              />
+              <Box className={classes.backgroundImagesContainer}>
+                <Box className={classes.backgroundImageWrapper}>
+                  <BackgroundImageContainer
+                    dispatchImageUrl={dispatchImageUrl}
+                    fileSelectorHandler={fileSelectorHandler(dispatchImageUrl)}
+                    title={t(langTokens.editor.backgroundImage)}
+                    imgUrl={newPost?.previewImageUrl}
+                    reminder
+                    forMobilePic={false}
+                  />
+                </Box>
+              </Box>
               <BorderBottom />
-              <BackgroundImageContainer
-                dispatchImageUrl={dispatchImportantImageUrl}
-                fileSelectorHandler={fileSelectorHandler(
-                  dispatchImportantImageUrl,
-                )}
-                title={t(langTokens.editor.carouselImage)}
-                imgUrl={newPost?.importantImageUrl}
-                notCarousel={false}
+              <CarouselImagesWrapper
+                post={newPost}
+                setImportantImageUrl={dispatchImportantImageUrl}
+                setImportantMobileImageUrl={dispatchImportantMobileImageUrl}
               />
               <BorderBottom />
             </>

@@ -82,7 +82,7 @@ describe('PostUpdationWrapper tests', () => {
 
     await waitFor(() => {
       expect(screen.getByText('Заголовок статті:')).toBeInTheDocument();
-      expect(screen.getByText('Фонове зображення:')).toBeInTheDocument();
+      expect(screen.getByText('Фонове зображення')).toBeInTheDocument();
       expect(screen.getByText('Текст статті:')).toBeInTheDocument();
     });
   });

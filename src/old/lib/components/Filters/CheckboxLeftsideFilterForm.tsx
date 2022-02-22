@@ -165,12 +165,27 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
     onFormChange(checkedFilters);
   };
 
-  const getUsersPresentProperty = (filterName: string | undefined) => {
+  const getUsersPresentProperty = (filterName: string | number | undefined) => {
     const allRegions = store.getState().properties.regions;
+    const allDirections = store.getState().properties.directions;
+    const allOrigins = store.getState().properties.origins;
+
     let result: boolean | undefined = false;
+
     if (filterType === QueryTypeEnum.REGIONS) {
       const region = allRegions.find((reg) => reg.name === filterName);
       result = region?.usersPresent;
+    }
+
+    if (filterType === QueryTypeEnum.DIRECTIONS) {
+      const direction = allDirections.find((dir) => dir.name === filterName);
+      result = direction?.hasPosts;
+    }
+
+    if (filterType === QueryTypeEnum.ORIGINS) {
+      const originItem = allOrigins.map((origin) => origin.id);
+      const filterNameValue = +filterName!;
+      result = originItem?.includes(filterNameValue);
     }
 
     return result;
@@ -198,6 +213,10 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
         (filter) =>
           (filterType === QueryTypeEnum.REGIONS &&
             !getUsersPresentProperty(filter.name)) ||
+          (filterType === QueryTypeEnum.DIRECTIONS &&
+            !getUsersPresentProperty(filter.name)) ||
+          (filterType === QueryTypeEnum.ORIGINS &&
+            !getUsersPresentProperty(filter.id)) ||
           checkWhetherDisabledDirection(filter.name) ||
           checkWhetherDisabledPostType(Number(filter.id)),
       ),
@@ -251,7 +270,14 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
     const disabledRegionItem =
       !getUsersPresentProperty(filterName) &&
       filterType === QueryTypeEnum.REGIONS;
-    let disabledDirectionItem = false;
+
+    const disabledOriginItem =
+      !getUsersPresentProperty(filter.id) &&
+      filterType === QueryTypeEnum.ORIGINS;
+
+    let disabledDirectionItem =
+      !getUsersPresentProperty(filterName) &&
+      filterType === QueryTypeEnum.DIRECTIONS;
 
     if (disabledDirections?.length) {
       disabledDirectionItem = checkWhetherDisabledDirection(filterName);
@@ -263,7 +289,10 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
     }
 
     const disabledFilter =
-      disabledRegionItem || disabledDirectionItem || disabledPostTypeItem;
+      disabledRegionItem ||
+      disabledDirectionItem ||
+      disabledOriginItem ||
+      disabledPostTypeItem;
 
     return (
       <>
