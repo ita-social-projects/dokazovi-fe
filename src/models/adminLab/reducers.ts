@@ -127,8 +127,8 @@ const adminLabSlice = createSlice({
       action: PayloadAction<string>,
     ) => {
       delete state.data.posts[action.payload];
-      if (state.data.postIds.length % state.meta.size == 1) {
-        if (state.meta.page + 1 == state.data.totalPages) {
+      if (state.data.postIds.length % state.meta.size === 1) {
+        if (state.meta.page + 1 === state.data.totalPages) {
           state.meta.page -= 1;
         }
         state.data.totalPages -= 1;
@@ -166,11 +166,7 @@ const adminLabSlice = createSlice({
     ) => {
       const { id } = action.payload;
       const postToModify = state.data.posts[id];
-      if (postToModify.publishedAt) {
-        postToModify.publishedAt = state.modifications.newPostPublicationDate;
-      } else {
-        postToModify.publishedAt = state.modifications.newPostPublicationDate;
-      }
+      postToModify.publishedAt = state.modifications.newPostPublicationDate;
     },
   },
 });

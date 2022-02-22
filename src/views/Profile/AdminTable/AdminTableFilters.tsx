@@ -34,7 +34,7 @@ const AdminTableFilters: React.FC = () => {
   const allDirections = useSelector(selectDirections);
   const allPostTypes = useSelector(selectPostTypes);
   const allPostStatuses = useSelector(selectPostStatuses);
-  const { filters, textFields, date } = useSelector(selectMeta);
+  const { filters, date } = useSelector(selectMeta);
 
   const classes = useStyles();
 

@@ -158,7 +158,7 @@ const ActionButtons: React.FC<IActionButtons> = ({ id, status, title }) => {
     {
       id: 'changePublicationDateBtn',
       label: t(langTokens.admin.changePublicationDate),
-      allowedStatuses: [],
+      allowedStatuses: [MODERATION_SECOND_SIGN, PUBLISHED, ARCHIVED, PLANNED],
       // eslint-disable-next-line no-console
       handler: () => console.log('changePublicationDateBtn handler'),
       modal: null,

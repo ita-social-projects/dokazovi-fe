@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Box, TextField } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 import { useStyles } from './ChangeViewsCountModal.styles';
