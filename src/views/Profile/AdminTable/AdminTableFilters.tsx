@@ -15,8 +15,10 @@ import {
   setFiltersToInit,
   setFilter,
   setField,
+  setDate,
 } from '../../../models/adminLab';
 import { AdminFilter } from './AdminFilter';
+import { AdminDatePicker } from './AdminDatePicker';
 import { AdminTextField } from './AdminTextField';
 import { useStyles } from './styles/AdminTableFilters.styles';
 import { useActions } from '../../../shared/hooks';
@@ -26,25 +28,27 @@ const AdminTableFilters: React.FC = () => {
     boundedSetFilter,
     boundedSetField,
     boundedSetFiltersToInit,
-  ] = useActions([setFilter, setField, setFiltersToInit]);
+    boundedSetDate,
+  ] = useActions([setFilter, setField, setFiltersToInit, setDate]);
 
   const allDirections = useSelector(selectDirections);
   const allPostTypes = useSelector(selectPostTypes);
   const allPostStatuses = useSelector(selectPostStatuses);
-  const { filters, textFields } = useSelector(selectMeta);
+  const { filters, date } = useSelector(selectMeta);
 
   const classes = useStyles();
 
   return (
     <Grid className={classes.filterSection} container direction="row">
-      <IconButton
-        onClick={boundedSetFiltersToInit}
-        className={classes.clearButton}
-      >
-        <HighlightOffRoundedIcon fontSize="large" />
-      </IconButton>
-
-      <Grid item direction="column">
+      <Grid item>
+        <IconButton
+          onClick={boundedSetFiltersToInit}
+          className={classes.clearButton}
+        >
+          <HighlightOffRoundedIcon fontSize="large" />
+        </IconButton>
+      </Grid>
+      <Grid item>
         <AdminFilter
           setChanges={boundedSetFilter}
           allOptions={allDirections}
@@ -52,7 +56,7 @@ const AdminTableFilters: React.FC = () => {
           filter={QueryTypeEnum.DIRECTIONS}
         />
       </Grid>
-      <Grid item direction="column">
+      <Grid item>
         <AdminFilter
           setChanges={boundedSetFilter}
           allOptions={allPostStatuses}
@@ -60,7 +64,14 @@ const AdminTableFilters: React.FC = () => {
           filter={QueryTypeEnum.STATUSES}
         />
       </Grid>
-      <Grid item direction="column">
+      <Grid item md={3}>
+        <AdminDatePicker
+          start={date.start}
+          end={date.end}
+          setChanges={boundedSetDate}
+        />
+      </Grid>
+      <Grid item>
         <AdminFilter
           setChanges={boundedSetFilter}
           allOptions={allPostTypes}
@@ -68,19 +79,11 @@ const AdminTableFilters: React.FC = () => {
           filter={QueryTypeEnum.POST_TYPES}
         />
       </Grid>
-      <Grid item direction="column" xs={5} sm={4} md={3} lg={2}>
-        <AdminTextField
-          value={textFields.author}
-          field={FieldEnum.AUTHOR}
-          setChanges={boundedSetField}
-        />
+      <Grid item md={2}>
+        <AdminTextField field={FieldEnum.TITLE} setChanges={boundedSetField} />
       </Grid>
-      <Grid item direction="column" xs={5} sm={4} md={3} lg={2}>
-        <AdminTextField
-          value={textFields.title}
-          field={FieldEnum.TITLE}
-          setChanges={boundedSetField}
-        />
+      <Grid item md={2}>
+        <AdminTextField field={FieldEnum.AUTHOR} setChanges={boundedSetField} />
       </Grid>
     </Grid>
   );

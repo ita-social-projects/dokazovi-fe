@@ -4,7 +4,7 @@ export const useStyles = makeStyles((theme: Theme) => ({
   filterSection: {
     backgroundColor: 'white',
     padding: theme.spacing(1.4, 6),
-    borderRadius: 'calc( 1rem + 10px )',
+    borderRadius: theme.spacing(0.8),
     marginBottom: '1rem',
     width: '100%',
     alignItems: 'center',

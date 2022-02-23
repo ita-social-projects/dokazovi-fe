@@ -34,7 +34,7 @@ const FiltersMenu: FC<IFiltersMenuProps> = ({
       anchor="left"
       open={filtersMenuOpen}
       onClose={handleDrawerToggle}
-      onOpen={()=>{}}
+      onOpen={() => {}}
       ModalProps={{
         keepMounted: true,
       }}

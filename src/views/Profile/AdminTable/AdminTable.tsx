@@ -21,7 +21,7 @@ const AdminTable: React.FC = () => {
     setStateToInit,
   ]);
   const { totalPages } = useSelector(selectAdminLab);
-  const { sort, filters, page, textFields, size } = useSelector(selectMeta);
+  const meta = useSelector(selectMeta);
 
   useEffect(
     () => () => {
@@ -32,13 +32,16 @@ const AdminTable: React.FC = () => {
 
   useEffect(() => {
     boundedGetMaterialsAction();
-  }, [filters, sort, page, textFields, size]);
+  }, [ meta ]);
 
   return (
     <>
       <AdminTableFilters />
-      <TableContainer component={Paper}>
-        <Table className={classes.table}>
+      <TableContainer
+        component={Paper}
+        classes={{ root: classes.tableContainer }}
+      >
+        <Table>
           <AdminTableHead />
           <AdminTableBody />
         </Table>

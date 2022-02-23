@@ -1044,6 +1044,9 @@ exports[`ArticleUpdation tests should ArticleUpdation render 1`] = `
         </span>
       </button>
     </div>
+    <div
+      class="MuiBox-root MuiBox-root-66"
+    />
   </div>
 </DocumentFragment>
 `;

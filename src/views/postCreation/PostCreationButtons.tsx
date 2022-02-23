@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { ConfirmationModalWithButton } from '../../old/lib/components/Modals/ConfirmationModalWithButton';
 import { langTokens } from '../../locales/localizationInit';
 import { InformationModal } from '../../old/lib/components/Modals/InformationModal';
+import { IPost } from '../../old/lib/types';
 
 interface IIsModal {
   isEmpty: boolean;
@@ -22,6 +23,7 @@ export interface IPostCreationButtonsProps {
   disabled?: boolean;
   loading?: boolean;
   isModal?: IIsModal;
+  post?: IPost;
 }
 
 export const PostCreationButtons: React.FC<IPostCreationButtonsProps> = ({
@@ -33,6 +35,7 @@ export const PostCreationButtons: React.FC<IPostCreationButtonsProps> = ({
   disabled,
   loading,
   isModal,
+  post,
 }) => {
   const { t } = useTranslation();
 
@@ -43,8 +46,12 @@ export const PostCreationButtons: React.FC<IPostCreationButtonsProps> = ({
   const previewButtonText = previewing
     ? t(langTokens.editor.backToUpdation)
     : t(langTokens.editor.preview);
-  const publishButtonText =
+  const saveButtonText =
     action === 'creating'
+      ? t(langTokens.editor.publish)
+      : t(langTokens.editor.save);
+  const publishButtonText =
+    action === 'updating'
       ? t(langTokens.editor.publish)
       : t(langTokens.editor.save);
 
@@ -54,7 +61,7 @@ export const PostCreationButtons: React.FC<IPostCreationButtonsProps> = ({
         message={message}
         buttonIcon={
           <Button variant="contained" disabled={disabled || loading}>
-            {publishButtonText}
+            {saveButtonText}
           </Button>
         }
       />
@@ -80,7 +87,7 @@ export const PostCreationButtons: React.FC<IPostCreationButtonsProps> = ({
             disabled={disabled || loading}
             onClick={onPublishClick}
           >
-            {publishButtonText}
+            {saveButtonText}
           </Button>
         );
     }
@@ -91,9 +98,9 @@ export const PostCreationButtons: React.FC<IPostCreationButtonsProps> = ({
       {onCancelClick && (
         <ConfirmationModalWithButton
           message={`${t(langTokens.editor.wantToCancel)} ${
-            action === 'creating'
-              ? t(langTokens.editor.creation.toLowerCase())
-              : t(langTokens.editor.updation.toLowerCase())
+            action === 'updating'
+              ? t(langTokens.editor.updation.toLowerCase())
+              : t(langTokens.editor.creation.toLowerCase())
           }?`}
           buttonText={cancelButtonText}
           onConfirmButtonClick={onCancelClick}
@@ -111,8 +118,25 @@ export const PostCreationButtons: React.FC<IPostCreationButtonsProps> = ({
         >
           {previewButtonText}
         </Button>
-
         {switchModalText()}
+      </Box>
+
+      <Box display="flex" flexDirection="row" marginLeft="10px">
+        {action === 'updating' &&
+        (post?.status === 'ARCHIVED' ||
+          post?.status === 'PLANNED' ||
+          post?.status === 'MODERATION_SECOND_SIGN') ? (
+          <Button
+            style={{ marginRight: '10px' }}
+            variant="outlined"
+            disabled={disabled || loading}
+            onClick={onPublishClick}
+          >
+            {publishButtonText}
+          </Button>
+        ) : (
+          ''
+        )}
       </Box>
     </Box>
   );

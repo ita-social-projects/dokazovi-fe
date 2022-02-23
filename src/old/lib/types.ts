@@ -9,6 +9,7 @@ export enum PostStatus {
   MODERATION_SECOND_SIGN = 'MODERATION_SECOND_SIGN',
   PUBLISHED = 'PUBLISHED',
   ARCHIVED = 'ARCHIVED',
+  PLANNED = 'PLANNED',
 }
 
 export enum OriginTypeEnum {
@@ -107,7 +108,8 @@ export interface IPost {
   id: number;
   title: string;
   content: string;
-  uniqueViewsCounter?: number;
+  realViews?: number;
+  views?: number;
   author: {
     avatar?: string;
     firstName: string;
@@ -264,8 +266,10 @@ export type ConditionsContentSectionType =
 
 export enum PostStatusForApi {
   'Чернетка' = 0,
-  'Не переглянутий' = 1,
-  'На модерації' = 2,
-  'Опубліковано' = 3,
-  'Архівований' = 4,
+  'Потребує модерації' = 1,
+  'Не переглянутий' = 2,
+  'На модерації' = 3,
+  'Заплановано' = 4,
+  'Опубліковано' = 5,
+  'Архівований' = 6,
 }

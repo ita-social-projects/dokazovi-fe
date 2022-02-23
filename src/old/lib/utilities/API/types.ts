@@ -30,6 +30,8 @@ export type CreatePostRequestUnionType =
 
 type UpdatePostRequestType = CreatePostRequestType & {
   id: number;
+  postStatus?: number;
+  newPostDate?: string;
 };
 
 export type UpdateTextPostRequestType = UpdatePostRequestType;
@@ -221,6 +223,8 @@ export type GetPostsAdminConfigType = GetConfigType & {
     statuses: number[];
     author: string;
     title: string;
+    startDate?: string;
+    endDate?: string;
   };
 };
 

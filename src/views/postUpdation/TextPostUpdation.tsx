@@ -345,6 +345,7 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
         }}
         previewing={previewing}
         disabled={Object.values(typing).some((i) => i)}
+        post={post}
       />
     </>
   );
