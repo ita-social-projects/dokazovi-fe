@@ -1,11 +1,8 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 import { IExpert } from '../../../old/lib/types';
-import { selectAuthorities } from '../../../models/authorities';
-// import MaterialsDraft from './MaterialsDraft';
-// import MaterialsPublished from './MaterialsPublished';
-import AdminTable from '../AdminTable/AdminTable';
-import { AuthorTable } from './AuthorTable';
+import { AdminTable } from '../AdminTable/AdminTable';
+// import { useSelector } from 'react-redux';
+// import { selectAuthorities } from '../../../models/authorities';
 
 export interface IExpertProfileViewProps {
   expert: IExpert;
@@ -14,8 +11,11 @@ export interface IExpertProfileViewProps {
 export const MaterialsView: React.FC<IExpertProfileViewProps> = ({
   expert,
 }) => {
-  const authorities = useSelector(selectAuthorities);
-  const isAdmin = authorities.data?.includes('SET_IMPORTANCE');
+  // на данный момент isAdmin тут не нужен, лучше его определить уже в копоненте админтейбл
+  // или где там ниже он вам нужен
 
-  return isAdmin ? <AdminTable /> : <AuthorTable />;
+  // const authorities = useSelector(selectAuthorities);
+  // const isAdmin = authorities.data?.includes('SET_IMPORTANCE');
+
+  return <AdminTable />;
 };

@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { Grid, IconButton } from '@material-ui/core';
 import HighlightOffRoundedIcon from '@material-ui/icons/HighlightOffRounded';
-
+import { selectAuthorities } from '../../../models/authorities';
 import { QueryTypeEnum } from '../../../old/lib/types';
 import { FieldEnum } from '../../../models/adminLab/types';
 import {
@@ -35,6 +35,8 @@ const AdminTableFilters: React.FC = () => {
   const allPostTypes = useSelector(selectPostTypes);
   const allPostStatuses = useSelector(selectPostStatuses);
   const { filters, date } = useSelector(selectMeta);
+  const authorities = useSelector(selectAuthorities);
+  const isAdmin = authorities.data?.includes('SET_IMPORTANCE');
 
   const classes = useStyles();
 
@@ -56,21 +58,25 @@ const AdminTableFilters: React.FC = () => {
           filter={QueryTypeEnum.DIRECTIONS}
         />
       </Grid>
-      <Grid item>
-        <AdminFilter
-          setChanges={boundedSetFilter}
-          allOptions={allPostStatuses}
-          selected={filters.statuses}
-          filter={QueryTypeEnum.STATUSES}
-        />
-      </Grid>
-      <Grid item md={3}>
-        <AdminDatePicker
-          start={date.start}
-          end={date.end}
-          setChanges={boundedSetDate}
-        />
-      </Grid>
+      {isAdmin && (
+        <>
+          <Grid item>
+            <AdminFilter
+              setChanges={boundedSetFilter}
+              allOptions={allPostStatuses}
+              selected={filters.statuses}
+              filter={QueryTypeEnum.STATUSES}
+            />
+          </Grid>
+          <Grid item md={3}>
+            <AdminDatePicker
+              start={date.start}
+              end={date.end}
+              setChanges={boundedSetDate}
+            />
+          </Grid>
+        </>
+      )}
       <Grid item>
         <AdminFilter
           setChanges={boundedSetFilter}
@@ -79,12 +85,22 @@ const AdminTableFilters: React.FC = () => {
           filter={QueryTypeEnum.POST_TYPES}
         />
       </Grid>
-      <Grid item md={2}>
-        <AdminTextField field={FieldEnum.TITLE} setChanges={boundedSetField} />
-      </Grid>
-      <Grid item md={2}>
-        <AdminTextField field={FieldEnum.AUTHOR} setChanges={boundedSetField} />
-      </Grid>
+      {isAdmin && (
+        <>
+          <Grid item md={2}>
+            <AdminTextField
+              field={FieldEnum.TITLE}
+              setChanges={boundedSetField}
+            />
+          </Grid>
+          <Grid item md={2}>
+            <AdminTextField
+              field={FieldEnum.AUTHOR}
+              setChanges={boundedSetField}
+            />
+          </Grid>
+        </>
+      )}
     </Grid>
   );
 };
