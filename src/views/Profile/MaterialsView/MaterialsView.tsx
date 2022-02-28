@@ -5,6 +5,7 @@ import { selectAuthorities } from '../../../models/authorities';
 // import MaterialsDraft from './MaterialsDraft';
 // import MaterialsPublished from './MaterialsPublished';
 import AdminTable from '../AdminTable/AdminTable';
+import { AuthorTable } from './AuthorTable';
 
 export interface IExpertProfileViewProps {
   expert: IExpert;
@@ -16,14 +17,5 @@ export const MaterialsView: React.FC<IExpertProfileViewProps> = ({
   const authorities = useSelector(selectAuthorities);
   const isAdmin = authorities.data?.includes('SET_IMPORTANCE');
 
-  return isAdmin ? (
-    <AdminTable />
-  ) : (
-    <>
-      <div>table component will be here</div>
-      <div>{`Is admin logged? - ${isAdmin ? 'YES' : 'NO'}`}</div>
-      {/* здесь у нас будет компонент аналогичный <AdminTable /> но с ограниченными
-      возможностями (такими, как описано в наших стори); */}
-    </>
-  );
+  return isAdmin ? <AdminTable /> : <AuthorTable />;
 };
