@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   Chip,
   TableBody,
@@ -13,12 +13,18 @@ import { useStyles } from './styles/AdminTableBody.styles';
 import { PostTypeEnum } from '../../../old/lib/types';
 import ActionButtons from './ActionButtons';
 import { langTokens } from '../../../locales/localizationInit';
+import { fetchExpertMaterials } from './fetchExpertMaterials';
 
-const AdminTableBody: React.FC = () => {
+const AdminTableBody: React.FC<{
+  expertId: number | undefined;
+  isAdmin: boolean | undefined;
+}> = ({ expertId, isAdmin }) => {
   const classes = useStyles();
   const { t } = useTranslation();
+  console.log(isAdmin);
   const { postIds, posts } = useSelector(selectAdminLab);
   const { newPostPublicationDate } = useSelector(selectModifications);
+  const expertPostsIds = fetchExpertMaterials(10);
 
   const rows = postIds.map((postId) => {
     const {

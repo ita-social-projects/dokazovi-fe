@@ -12,10 +12,17 @@ import AdminTableHead from './AdminTableHead';
 import AdminTableBody from './AdminTableBody';
 import AdminTableFilters from './AdminTableFilters';
 import AdminTablePagination from './AdminTablePagination';
+import { selectAuthorities } from '../../../models/authorities';
 import { useActions } from '../../../shared/hooks';
 
-export const AdminTable: React.FC = () => {
+interface IAdminTable {
+  expertId?: number;
+}
+
+export const AdminTable: React.FC<IAdminTable> = ({ expertId }) => {
   const classes = useStyles();
+  const authorities = useSelector(selectAuthorities);
+  const isAdmin = authorities.data?.includes('SET_IMPORTANCE');
   const [boundedGetMaterialsAction, boundedSetStateToInit] = useActions([
     getMaterialsAction,
     setStateToInit,
@@ -43,7 +50,7 @@ export const AdminTable: React.FC = () => {
       >
         <Table>
           <AdminTableHead />
-          <AdminTableBody />
+          <AdminTableBody expertId={expertId} isAdmin={isAdmin} />
         </Table>
       </TableContainer>
       {totalPages > 1 && <AdminTablePagination />}
