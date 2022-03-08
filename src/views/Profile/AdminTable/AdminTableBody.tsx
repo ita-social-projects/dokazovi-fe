@@ -29,13 +29,12 @@ const AdminTableBody: React.FC<IAdminTableBodyProps> = ({
   const { newPostPublicationDate } = useSelector(selectModifications);
   const { postIds, posts } = useSelector(selectAdminLab);
 
-  // здесь вызываю функцию с параметром 10 (другой автор) чтобы было больше постов
-  // у автора, которым я залогинен, всего одна статья, не поиграться с фильтрами потом;
+  const [allPosts, setAllPosts] = useState<IPost[] | null>([]);
+  const [allPostIds, setAllPostIds] = useState<number[] | null>([]);
 
-  // вытаскиваем из функции ниже посты и айди к ним (называем к примеру authorPosts, authorPostIds)
-  // и в зависимости от isAdmin из пропсов передаем в rows либо postIds/posts как сейчас, либо
-  // authorPostIds/authorPosts если isAdmin === false
-  fetchExpertMaterials(10);
+  useEffect(() => {
+    const { authorPosts, authorPostIds } = fetchExpertMaterials(10);
+  }, []);
 
   const rows = postIds.map((postId) => {
     const {
