@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Chip,
   TableBody,
@@ -10,21 +10,32 @@ import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { selectAdminLab, selectModifications } from '../../../models/adminLab';
 import { useStyles } from './styles/AdminTableBody.styles';
-import { PostTypeEnum } from '../../../old/lib/types';
+import { PostTypeEnum, IPost } from '../../../old/lib/types';
 import ActionButtons from './ActionButtons';
 import { langTokens } from '../../../locales/localizationInit';
 import { fetchExpertMaterials } from './fetchExpertMaterials';
 
-const AdminTableBody: React.FC<{
+interface IAdminTableBodyProps {
   expertId: number | undefined;
   isAdmin: boolean | undefined;
-}> = ({ expertId, isAdmin }) => {
+}
+
+const AdminTableBody: React.FC<IAdminTableBodyProps> = ({
+  expertId,
+  isAdmin,
+}) => {
   const classes = useStyles();
   const { t } = useTranslation();
-  console.log(isAdmin);
-  const { postIds, posts } = useSelector(selectAdminLab);
   const { newPostPublicationDate } = useSelector(selectModifications);
-  const expertPostsIds = fetchExpertMaterials(10);
+  const { postIds, posts } = useSelector(selectAdminLab);
+
+  // здесь вызываю функцию с параметром 10 (другой автор) чтобы было больше постов
+  // у автора, которым я залогинен, всего одна статья, не поиграться с фильтрами потом;
+
+  // вытаскиваем из функции ниже посты и айди к ним (называем к примеру authorPosts, authorPostIds)
+  // и в зависимости от isAdmin из пропсов передаем в rows либо postIds/posts как сейчас, либо
+  // authorPostIds/authorPosts если isAdmin === false
+  fetchExpertMaterials(10);
 
   const rows = postIds.map((postId) => {
     const {
