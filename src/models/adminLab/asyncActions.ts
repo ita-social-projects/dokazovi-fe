@@ -5,6 +5,7 @@ import {
   // getUniquePostViewsCounter,
   archivePost,
   getPosts,
+  getAuthorPosts,
   updatePost,
   setFakePostViewsCounter,
 } from '../../old/lib/utilities/API/api';
@@ -53,19 +54,60 @@ export const getMaterialsAction = createAsyncThunk(
           endDate: parsDate(date.end),
         },
       });
-      // console.log(parsDate(date.start), parsDate(date.start)?.length);
+
       const { ids: postIds } = mapFetchedPosts(content);
-      // const postWithViews: IAdminPost[] = await Promise.all(
-      //   content.map(async (post) => {
-      //     // const { data } = await getUniquePostViewsCounter(post.id);
-      //     // const response = await getFakePostViewsCounter(post.id);
-      //     return {
-      //       ...post,
-      //       // uniqueViewsCounter: data,
-      //       // modifiedViewsCounter: response.data,
-      //     };
-      //   }),
-      // );
+
+      const posts = {};
+      content.forEach((post) => {
+        if (posts && post.id) {
+          posts[post.id] = post;
+        }
+      });
+      return {
+        totalPages,
+        posts,
+        postIds,
+      };
+    } catch (error) {
+      return rejectWithValue(error.response?.data);
+    }
+  },
+);
+
+/////////////////////////////////////////////////////
+
+export const getAuthorMaterialsAction = createAsyncThunk(
+  'adminLab/getAuthorMaterialsAction',
+  async (
+    id: number,
+    { rejectWithValue, getState },
+  ): Promise<IAdminLabData | unknown> => {
+    try {
+      const {
+        adminLab: {
+          meta: { sort, filters, page, size, textFields, date },
+        },
+        properties: { directions, postTypes, origins, statuses },
+      } = getState() as RootStateType;
+
+      const {
+        data: { content, totalPages },
+      } = await getAuthorPosts(id, 'latest-by-expert', {
+        params: {
+          page,
+          size,
+          // types: setFilter(filters.types, postTypes),
+          directions: setFilter(filters.directions, directions),
+          origins: setFilter(filters.origins, origins),
+          // statuses: setFilter(filters.statuses, statuses),
+          // sort: [`${sort.sortBy},${sort.order}`],
+          // ...textFields,
+          // startDate: parsDate(date.start),
+          // endDate: parsDate(date.end),
+        },
+      });
+
+      const { ids: postIds } = mapFetchedPosts(content);
 
       const posts = {};
       content.forEach((post) => {

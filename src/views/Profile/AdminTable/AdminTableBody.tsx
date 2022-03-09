@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import {
   Chip,
   TableBody,
@@ -10,10 +10,9 @@ import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { selectAdminLab, selectModifications } from '../../../models/adminLab';
 import { useStyles } from './styles/AdminTableBody.styles';
-import { PostTypeEnum, IPost } from '../../../old/lib/types';
+import { PostTypeEnum } from '../../../old/lib/types';
 import ActionButtons from './ActionButtons';
 import { langTokens } from '../../../locales/localizationInit';
-import { fetchExpertMaterials } from './fetchExpertMaterials';
 
 interface IAdminTableBodyProps {
   expertId: number | undefined;
@@ -28,13 +27,6 @@ const AdminTableBody: React.FC<IAdminTableBodyProps> = ({
   const { t } = useTranslation();
   const { newPostPublicationDate } = useSelector(selectModifications);
   const { postIds, posts } = useSelector(selectAdminLab);
-
-  const [allPosts, setAllPosts] = useState<IPost[] | null>([]);
-  const [allPostIds, setAllPostIds] = useState<number[] | null>([]);
-
-  useEffect(() => {
-    const { authorPosts, authorPostIds } = fetchExpertMaterials(10);
-  }, []);
 
   const rows = postIds.map((postId) => {
     const {

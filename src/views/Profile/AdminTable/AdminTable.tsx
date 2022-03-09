@@ -3,6 +3,7 @@ import { Paper, Table, TableContainer } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 import {
   getMaterialsAction,
+  getAuthorMaterialsAction,
   selectAdminLab,
   selectMeta,
   setStateToInit,
@@ -23,8 +24,13 @@ export const AdminTable: React.FC<IAdminTable> = ({ expertId }) => {
   const classes = useStyles();
   const authorities = useSelector(selectAuthorities);
   const isAdmin = authorities.data?.includes('SET_IMPORTANCE');
-  const [boundedGetMaterialsAction, boundedSetStateToInit] = useActions([
+  const [
+    boundedGetMaterialsAction,
+    boundGetAuthorMaterialsAction,
+    boundedSetStateToInit,
+  ] = useActions([
     getMaterialsAction,
+    getAuthorMaterialsAction,
     setStateToInit,
   ]);
   const { totalPages } = useSelector(selectAdminLab);
@@ -38,7 +44,11 @@ export const AdminTable: React.FC<IAdminTable> = ({ expertId }) => {
   );
 
   useEffect(() => {
-    boundedGetMaterialsAction();
+    if (isAdmin) {
+      boundedGetMaterialsAction();
+    } else {
+      boundGetAuthorMaterialsAction(10);
+    }
   }, [meta]);
 
   return (
