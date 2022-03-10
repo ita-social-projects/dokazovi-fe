@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { Grid, IconButton } from '@material-ui/core';
 import HighlightOffRoundedIcon from '@material-ui/icons/HighlightOffRounded';
-
+import i18, { langTokens } from '../../../locales/localizationInit';
 import { QueryTypeEnum } from '../../../old/lib/types';
 import { FieldEnum } from '../../../models/adminLab/types';
 import {
@@ -80,10 +80,18 @@ const AdminTableFilters: React.FC = () => {
         />
       </Grid>
       <Grid item md={2}>
-        <AdminTextField field={FieldEnum.TITLE} setChanges={boundedSetField} />
+        <AdminTextField
+          field={FieldEnum.TITLE}
+          placeholder={i18.t(langTokens.admin.searchTitlePlaceholder)}
+          setChanges={boundedSetField}
+        />
       </Grid>
       <Grid item md={2}>
-        <AdminTextField field={FieldEnum.AUTHOR} setChanges={boundedSetField} />
+        <AdminTextField
+          field={FieldEnum.AUTHOR}
+          placeholder={i18.t(langTokens.admin.searchAuthorPlaceholder)}
+          setChanges={boundedSetField}
+        />
       </Grid>
     </Grid>
   );
