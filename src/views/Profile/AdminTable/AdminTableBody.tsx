@@ -80,8 +80,12 @@ const AdminTableBody: React.FC<IAdminTableBodyProps> = ({
           {newPostPublicationDate ? publishedAt : modifiedAt}
         </TableCell>
         <TableCell>{directionsList}</TableCell>
-        <TableCell>{fullName}</TableCell>
-        <TableCell>{views}</TableCell>
+        {isAdmin && (
+          <>
+            <TableCell>{fullName}</TableCell>
+            <TableCell>{views}</TableCell>
+          </>
+        )}
         <TableCell>{realViews}</TableCell>
         <TableCell>
           <ActionButtons

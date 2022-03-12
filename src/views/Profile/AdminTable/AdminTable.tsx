@@ -59,7 +59,7 @@ export const AdminTable: React.FC<IAdminTable> = ({ expertId }) => {
         classes={{ root: classes.tableContainer }}
       >
         <Table>
-          <AdminTableHead />
+          <AdminTableHead isAdmin={isAdmin} />
           <AdminTableBody expertId={expertId} isAdmin={isAdmin} />
         </Table>
       </TableContainer>

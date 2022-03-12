@@ -23,6 +23,10 @@ interface IContent {
   icon?: JSX.Element;
 }
 
+interface IAdminTableHeadProps {
+  isAdmin: boolean | undefined;
+}
+
 const content: IContent[] = [
   {
     label: i18n.t(langTokens.admin.id),
@@ -74,7 +78,7 @@ const content: IContent[] = [
   },
 ];
 
-const AdminTableHead: React.FC = () => {
+const AdminTableHead: React.FC<IAdminTableHeadProps> = ({ isAdmin }) => {
   const classes = useStyles();
   const [boundedSetSort] = useActions([setSort]);
   const {
@@ -96,6 +100,15 @@ const AdminTableHead: React.FC = () => {
   };
 
   const cells = content.map((cell) => {
+    if (
+      !isAdmin &&
+      [
+        i18n.t(langTokens.admin.views),
+        i18n.t(langTokens.admin.author),
+      ].includes(cell.label)
+    ) {
+      return null;
+    }
     const { label, isSortable, sortKey, tooltip, icon } = cell;
 
     return (

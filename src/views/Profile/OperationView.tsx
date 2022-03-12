@@ -1,6 +1,5 @@
 import React from 'react';
-import { Container, Table } from '@material-ui/core';
-// import { MaterialsViewWrapper } from './';
+import { Container } from '@material-ui/core';
 import { MaterialsViewWrapper } from './MaterialsView/MaterialsViewWrapper';
 import { useStyles } from './styles/OperationView.styles';
 import { IProfileMenuOption } from '../../old/lib/types';
