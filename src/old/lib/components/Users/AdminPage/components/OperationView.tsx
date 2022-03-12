@@ -41,15 +41,7 @@ const OperationView: React.FC<IOperationViewProps> = (props) => {
         return operationView;
       }
       default: {
-        const operationView = (
-          <div className="adminInitialView">
-            <Typography component="span" className="initialMessage">
-              {t(langTokens.admin.selectOption)}
-            </Typography>
-          </div>
-        );
-
-        return operationView;
+        return <div>{t(langTokens.admin.selectOption)}</div>;
       }
     }
   };

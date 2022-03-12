@@ -17,13 +17,13 @@ interface ISidemenuProps {
 const adminMenuOptions: IAdminMenuOption[] = [
   {
     section: 'Головна',
-    label: 'Важливе',
-    value: 'important',
+    label: 'Керування матеріалами',
+    value: 'materials',
   },
   {
     section: 'Головна',
-    label: 'Керування матеріалами',
-    value: 'materials',
+    label: 'Важливе',
+    value: 'important',
   },
 ];
 

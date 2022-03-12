@@ -9,7 +9,11 @@ import { selectAuthorities } from '../../../../../../models/authorities';
 const AdminPage: React.FC = () => {
   const [selectedOption, changeOption] = useState<
     IAdminMenuOption | Record<string, never>
-  >({});
+  >({
+    section: 'Головна',
+    label: 'Керування матеріалами',
+    value: 'materials',
+  });
 
   const authorities = useSelector(selectAuthorities).data?.includes(
     'SET_IMPORTANCE',
