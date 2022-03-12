@@ -20,6 +20,11 @@ const adminMenuOptions: IAdminMenuOption[] = [
     label: 'Важливе',
     value: 'important',
   },
+  {
+    section: 'Головна',
+    label: 'Керування матеріалами',
+    value: 'materials',
+  },
 ];
 
 const Sidemenu: React.FC<ISidemenuProps> = (props) => {
