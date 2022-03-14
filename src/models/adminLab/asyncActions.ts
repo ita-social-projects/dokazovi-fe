@@ -96,14 +96,14 @@ export const getAuthorMaterialsAction = createAsyncThunk(
         params: {
           page,
           size,
-          // types: setFilter(filters.types, postTypes),
+          types: setFilter(filters.types, postTypes),
           directions: setFilter(filters.directions, directions),
           origins: setFilter(filters.origins, origins),
-          // statuses: setFilter(filters.statuses, statuses),
-          // sort: [`${sort.sortBy},${sort.order}`],
-          // ...textFields,
-          // startDate: parsDate(date.start),
-          // endDate: parsDate(date.end),
+          statuses: setFilter(filters.statuses, statuses),
+          sort: [`${sort.sortBy},${sort.order}`],
+          ...textFields,
+          startDate: parsDate(date.start),
+          endDate: parsDate(date.end),
         },
       });
 

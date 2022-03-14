@@ -47,7 +47,7 @@ export const AdminTable: React.FC<IAdminTable> = ({ expertId }) => {
     if (isAdmin) {
       boundedGetMaterialsAction();
     } else {
-      boundGetAuthorMaterialsAction(10);
+      boundGetAuthorMaterialsAction(expertId);
     }
   }, [meta]);
 

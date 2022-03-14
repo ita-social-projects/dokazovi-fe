@@ -95,7 +95,7 @@ export const getAuthorPosts = async (
   postsRequestType: GetPostsRequestType,
   config?: GetPostsConfigType | GetPostsAdminConfigType,
 ): Promise<AxiosResponse<PostsResponseType>> => {
-  return instance.get(`/post/${postsRequestType}?expert=${id}`, {
+  return instance.get(`/post/all-posts/${id}`, {
     ...defaultConfig,
     ...config,
   });
