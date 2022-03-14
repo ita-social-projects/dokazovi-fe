@@ -6,7 +6,7 @@ export const admin = {
   direction: 'Тема',
   author: 'Автор',
   views: 'Перегляди',
-  realViews: 'Реальні перегляди',
+  realViews: 'Реальна кількість переглядів',
   viewsFull: 'Кількість переглядів, що відображається',
   realViewsFull: 'Реальна кількість переглядів',
   actions: 'Дії',
