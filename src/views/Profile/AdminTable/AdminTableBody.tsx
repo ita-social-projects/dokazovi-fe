@@ -15,14 +15,10 @@ import ActionButtons from './ActionButtons';
 import { langTokens } from '../../../locales/localizationInit';
 
 interface IAdminTableBodyProps {
-  expertId: number | undefined;
   isAdmin: boolean | undefined;
 }
 
-const AdminTableBody: React.FC<IAdminTableBodyProps> = ({
-  expertId,
-  isAdmin,
-}) => {
+const AdminTableBody: React.FC<IAdminTableBodyProps> = ({ isAdmin }) => {
   const classes = useStyles();
   const { t } = useTranslation();
   const { newPostPublicationDate } = useSelector(selectModifications);
@@ -92,6 +88,7 @@ const AdminTableBody: React.FC<IAdminTableBodyProps> = ({
             id={id}
             title={title}
             status={status}
+            isAdmin={isAdmin}
             // postDate={newPostPublicationDate}
           />
         </TableCell>

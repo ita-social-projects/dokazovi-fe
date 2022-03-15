@@ -74,8 +74,6 @@ export const getMaterialsAction = createAsyncThunk(
   },
 );
 
-/////////////////////////////////////////////////////
-
 export const getAuthorMaterialsAction = createAsyncThunk(
   'adminLab/getAuthorMaterialsAction',
   async (

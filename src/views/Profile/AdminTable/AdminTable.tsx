@@ -60,7 +60,7 @@ export const AdminTable: React.FC<IAdminTable> = ({ expertId }) => {
       >
         <Table>
           <AdminTableHead isAdmin={isAdmin} />
-          <AdminTableBody expertId={expertId} isAdmin={isAdmin} />
+          <AdminTableBody isAdmin={isAdmin} />
         </Table>
       </TableContainer>
       {totalPages > 1 && <AdminTablePagination />}

@@ -19,6 +19,7 @@ interface IActionButtons {
   id: number;
   status: string;
   title: string;
+  isAdmin: boolean | undefined;
 }
 
 interface IButton {
@@ -28,9 +29,16 @@ interface IButton {
   allowedStatuses: string[];
   modal?: IModalSettings | null;
   onConfirmButtonClick?: () => void;
+  adminUse: boolean;
+  authorUse: boolean;
 }
 
-const ActionButtons: React.FC<IActionButtons> = ({ id, status, title }) => {
+const ActionButtons: React.FC<IActionButtons> = ({
+  id,
+  status,
+  title,
+  isAdmin,
+}) => {
   const { t } = useTranslation();
   const [
     boundedDeleteAdminPost,
@@ -45,6 +53,7 @@ const ActionButtons: React.FC<IActionButtons> = ({ id, status, title }) => {
     PUBLISHED,
     PLANNED,
     ARCHIVED,
+    NEEDS_EDITING,
   } = PostStatus;
 
   const editPostLink = `/edit-post?id=${id}`;
@@ -115,11 +124,19 @@ const ActionButtons: React.FC<IActionButtons> = ({ id, status, title }) => {
     {
       id: 'editBtn',
       label: t(langTokens.admin.edit),
-      allowedStatuses: [PUBLISHED, MODERATION_SECOND_SIGN, ARCHIVED],
+      allowedStatuses: [
+        PUBLISHED,
+        MODERATION_SECOND_SIGN,
+        ARCHIVED,
+        DRAFT,
+        NEEDS_EDITING,
+      ],
       modal: null,
       handler: () => {
         window.open(editPostLink);
       },
+      adminUse: true,
+      authorUse: true,
     },
     {
       id: 'returnToAuthorBtn',
@@ -130,6 +147,8 @@ const ActionButtons: React.FC<IActionButtons> = ({ id, status, title }) => {
         title: t(langTokens.admin.returnToAuthorTitle, { title }),
         onConfirmButtonClick: handleReturnConfirm,
       },
+      adminUse: true,
+      authorUse: false,
     },
     {
       id: 'publishBtn',
@@ -143,6 +162,8 @@ const ActionButtons: React.FC<IActionButtons> = ({ id, status, title }) => {
         title: t(langTokens.admin.publishTitle),
         onConfirmButtonClick: handlePublishConfirm,
       },
+      adminUse: true,
+      authorUse: false,
     },
     {
       id: 'schedulePublishBtn',
@@ -154,6 +175,8 @@ const ActionButtons: React.FC<IActionButtons> = ({ id, status, title }) => {
         title: t(langTokens.admin.schedulePublishTitle),
         onConfirmButtonClick: handlerSchedulePublish,
       },
+      adminUse: true,
+      authorUse: false,
     },
     {
       id: 'changePublicationDateBtn',
@@ -162,6 +185,8 @@ const ActionButtons: React.FC<IActionButtons> = ({ id, status, title }) => {
       // eslint-disable-next-line no-console
       handler: () => console.log('changePublicationDateBtn handler'),
       modal: null,
+      adminUse: true,
+      authorUse: false,
     },
     {
       id: 'changeViewsCountBtn',
@@ -173,6 +198,8 @@ const ActionButtons: React.FC<IActionButtons> = ({ id, status, title }) => {
         content: <ChangeViewsCountModal id={id} />,
         onConfirmButtonClick: handlerSetFakeViewsConfirm,
       },
+      adminUse: true,
+      authorUse: false,
     },
     {
       id: 'archiveBtn',
@@ -183,20 +210,36 @@ const ActionButtons: React.FC<IActionButtons> = ({ id, status, title }) => {
         title: t(langTokens.admin.archiveTitle),
         onConfirmButtonClick: handleArchiveConfirm,
       },
+      adminUse: true,
+      authorUse: false,
     },
     {
       id: 'deleteBtn',
       label: t(langTokens.admin.delete),
-      allowedStatuses: [PUBLISHED, ARCHIVED],
+      allowedStatuses: [PUBLISHED, ARCHIVED, NEEDS_EDITING],
       handler: (btnId) => openModal(btnId),
       modal: {
         title: t(langTokens.admin.deleteTitle),
         onConfirmButtonClick: handleDeleteConfirm,
       },
+      adminUse: true,
+      authorUse: true,
+    },
+    {
+      id: 'sendForReview',
+      label: t(langTokens.admin.sendForReview),
+      allowedStatuses: [DRAFT, NEEDS_EDITING],
+      handler: (btnId) => openModal(btnId),
+      modal: null,
+      adminUse: false,
+      authorUse: true,
     },
   ];
 
-  const buttonsRendered = buttons
+  const adminBtnOptions = buttons.filter((btn) => btn.adminUse);
+  const authorBtnOptions = buttons.filter((btn) => btn.authorUse);
+
+  const buttonsRendered = (isAdmin ? adminBtnOptions : authorBtnOptions)
     .filter((btn) => btn.allowedStatuses?.includes(status as PostStatus))
     .map((btn) => (
       <MenuItem key={btn.label} onClick={() => handleButtonClick(btn)}>
@@ -205,7 +248,6 @@ const ActionButtons: React.FC<IActionButtons> = ({ id, status, title }) => {
     ));
 
   const activeBtn = buttons.find((el) => el.id === activeModal);
-
   return buttonsRendered.length > 0 ? (
     <>
       <ActionMenu buttonsRendered={buttonsRendered} />
