@@ -5,6 +5,7 @@ import {
   TableCell,
   TableRow,
   Typography,
+  Link
 } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
@@ -26,7 +27,7 @@ const AdminTableBody: React.FC = () => {
       modifiedAt,
       directions,
       status,
-      author: { firstName, lastName },
+      author: { id: authorId, firstName, lastName },
       type: { id: typeId, name: typeName },
       uniqueViewsCounter,
       modifiedViewsCounter,
@@ -68,7 +69,7 @@ const AdminTableBody: React.FC = () => {
         <TableCell>{t(langTokens.admin[status])}</TableCell>
         <TableCell>{modifiedAt}</TableCell>
         <TableCell>{directionsList}</TableCell>
-        <TableCell>{fullName}</TableCell>
+        <TableCell><Link href = {`/experts/${authorId}` } color="inherit">{fullName}</Link></TableCell>
         <TableCell>{modifiedViewsCounter}</TableCell>
         <TableCell>{uniqueViewsCounter}</TableCell>
         <TableCell>
