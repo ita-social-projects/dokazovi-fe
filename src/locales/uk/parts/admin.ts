@@ -57,4 +57,5 @@ export const admin = {
   close: 'Закрити',
   selectedImportantMaterials: 'Зараз використовуються:',
   selectOption: `Оберіть об'єкт налаштування у меню`,
+  resetTableFilters: `Скинути всі фільтри`,
 };

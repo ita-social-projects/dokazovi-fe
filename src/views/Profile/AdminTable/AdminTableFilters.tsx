@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Grid, IconButton } from '@material-ui/core';
+import { Grid, IconButton, Tooltip } from '@material-ui/core';
 import HighlightOffRoundedIcon from '@material-ui/icons/HighlightOffRounded';
 
 import { QueryTypeEnum } from '../../../old/lib/types';
@@ -41,12 +41,18 @@ const AdminTableFilters: React.FC = () => {
   return (
     <Grid className={classes.filterSection} container direction="row">
       <Grid item>
-        <IconButton
-          onClick={boundedSetFiltersToInit}
-          className={classes.clearButton}
+        <Tooltip
+          title="Скинути всі фільтри"
+          placement="bottom"
+          classes={{ tooltip: classes.tooltip }}
         >
-          <HighlightOffRoundedIcon fontSize="large" />
-        </IconButton>
+          <IconButton
+            onClick={boundedSetFiltersToInit}
+            className={classes.clearButton}
+          >
+            <HighlightOffRoundedIcon fontSize="large" />
+          </IconButton>
+        </Tooltip>
       </Grid>
       <Grid item>
         <AdminFilter
