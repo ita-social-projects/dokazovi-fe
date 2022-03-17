@@ -34,9 +34,10 @@ const AdminTableFilters: React.FC = () => {
   const allDirections = useSelector(selectDirections);
   const allPostTypes = useSelector(selectPostTypes);
   const allPostStatuses = useSelector(selectPostStatuses);
-  const { filters, date } = useSelector(selectMeta);
+  const { filters, date, textFields } = useSelector(selectMeta);
 
   const resetFilters = () => {
+    console.log(textFields);
     boundedSetFiltersToInit();
   };
 
@@ -81,10 +82,18 @@ const AdminTableFilters: React.FC = () => {
         />
       </Grid>
       <Grid item md={2}>
-        <AdminTextField field={FieldEnum.TITLE} setChanges={boundedSetField} />
+        <AdminTextField
+          field={FieldEnum.TITLE}
+          setChanges={boundedSetField}
+          input={textFields.title}
+        />
       </Grid>
       <Grid item md={2}>
-        <AdminTextField field={FieldEnum.AUTHOR} setChanges={boundedSetField} />
+        <AdminTextField
+          field={FieldEnum.AUTHOR}
+          setChanges={boundedSetField}
+          input={textFields.author}
+        />
       </Grid>
     </Grid>
   );
