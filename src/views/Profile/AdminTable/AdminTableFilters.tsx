@@ -36,15 +36,16 @@ const AdminTableFilters: React.FC = () => {
   const allPostStatuses = useSelector(selectPostStatuses);
   const { filters, date } = useSelector(selectMeta);
 
+  const resetFilters = () => {
+    boundedSetFiltersToInit();
+  };
+
   const classes = useStyles();
 
   return (
     <Grid className={classes.filterSection} container direction="row">
       <Grid item>
-        <IconButton
-          onClick={boundedSetFiltersToInit}
-          className={classes.clearButton}
-        >
+        <IconButton onClick={resetFilters} className={classes.clearButton}>
           <HighlightOffRoundedIcon fontSize="large" />
         </IconButton>
       </Grid>
