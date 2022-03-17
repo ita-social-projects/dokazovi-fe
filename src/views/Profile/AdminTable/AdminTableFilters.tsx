@@ -37,7 +37,6 @@ const AdminTableFilters: React.FC = () => {
   const { filters, date, textFields } = useSelector(selectMeta);
 
   const resetFilters = () => {
-    console.log(textFields);
     boundedSetFiltersToInit();
   };
 
@@ -85,14 +84,14 @@ const AdminTableFilters: React.FC = () => {
         <AdminTextField
           field={FieldEnum.TITLE}
           setChanges={boundedSetField}
-          input={textFields.title}
+          inputValue={textFields.title}
         />
       </Grid>
       <Grid item md={2}>
         <AdminTextField
           field={FieldEnum.AUTHOR}
           setChanges={boundedSetField}
-          input={textFields.author}
+          inputValue={textFields.author}
         />
       </Grid>
     </Grid>
