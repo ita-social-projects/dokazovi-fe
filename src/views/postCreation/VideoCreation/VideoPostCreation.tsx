@@ -269,6 +269,7 @@ export const VideoPostCreation: React.FC<IVideoPostCreationProps> = ({
   );
 
   const handlePublishClick = async () => {
+    newPost.postStatus = 5;
     const response = await createPost(newPost);
     boundResetDraft(PostTypeEnum.VIDEO);
     history.push(`/posts/${response.data.id}`);
