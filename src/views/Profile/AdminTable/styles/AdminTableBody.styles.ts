@@ -15,6 +15,9 @@ export const useStyles = makeStyles((theme: Theme) => ({
       fontFamily: 'Raleway',
     },
   },
+  title: {
+    wordWrap: 'break-word',
+  },
   default: {
     backgroundColor: theme.palette.background.default,
   },
