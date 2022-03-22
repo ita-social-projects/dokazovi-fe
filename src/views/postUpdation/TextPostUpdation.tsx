@@ -9,7 +9,12 @@ import { useSelector } from 'react-redux';
 import { CarouselImagesWrapper } from 'views/postCreation/CarouselImagesWrapper';
 import { sanitizeHtml } from '../../old/lib/utilities/sanitizeHtml';
 import { getAllExperts, updatePost } from '../../old/lib/utilities/API/api';
-import { IDirection, IOrigin, IPost } from '../../old/lib/types';
+import {
+  IDirection,
+  IOrigin,
+  IPost,
+  PostStatusForApi,
+} from '../../old/lib/types';
 import { PostCreationButtons } from '../postCreation/PostCreationButtons';
 import {
   ExpertResponseType,
@@ -222,7 +227,9 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
   };
 
   const handlePublishClick = async () => {
-    updatedPost.postStatus = 5;
+    updatedPost.postStatus = isAdmin
+      ? PostStatusForApi['Опубліковано']
+      : PostStatusForApi['На модерації'];
     const response = await updatePost(updatedPost);
     history.push(`/posts/${response.data.id}`);
   };

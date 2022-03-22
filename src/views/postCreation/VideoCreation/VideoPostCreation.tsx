@@ -25,6 +25,7 @@ import {
   IPost,
   IOrigin,
   PostTypeEnum,
+  PostStatusForApi,
 } from '../../../old/lib/types';
 import { sanitizeHtml } from '../../../old/lib/utilities/sanitizeHtml';
 import { parseVideoIdFromUrl } from '../../../old/lib/utilities/parseVideoIdFromUrl';
@@ -269,7 +270,9 @@ export const VideoPostCreation: React.FC<IVideoPostCreationProps> = ({
   );
 
   const handlePublishClick = async () => {
-    newPost.postStatus = 5;
+    newPost.postStatus = isAdmin
+      ? PostStatusForApi['Опубліковано']
+      : PostStatusForApi['На модерації'];
     const response = await createPost(newPost);
     boundResetDraft(PostTypeEnum.VIDEO);
     history.push(`/posts/${response.data.id}`);

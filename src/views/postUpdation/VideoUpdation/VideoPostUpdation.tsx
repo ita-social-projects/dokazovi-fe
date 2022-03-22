@@ -7,7 +7,12 @@ import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { sanitizeHtml } from '../../../old/lib/utilities/sanitizeHtml';
 import { updatePost, getAllExperts } from '../../../old/lib/utilities/API/api';
-import { IDirection, IPost, IOrigin } from '../../../old/lib/types';
+import {
+  IDirection,
+  IPost,
+  IOrigin,
+  PostStatusForApi,
+} from '../../../old/lib/types';
 import { PostCreationButtons } from '../../postCreation/PostCreationButtons';
 import {
   UpdateVideoPostRequestType,
@@ -190,7 +195,9 @@ export const VideoPostUpdation: React.FC<ITextPostUpdationProps> = ({
   };
 
   const handlePublishClick = async () => {
-    updatedPost.postStatus = 5;
+    updatedPost.postStatus = isAdmin
+      ? PostStatusForApi['Опубліковано']
+      : PostStatusForApi['На модерації'];
     const response = await updatePost(updatedPost);
     history.push(`/posts/${response.data.id}`);
   };
@@ -301,6 +308,7 @@ export const VideoPostUpdation: React.FC<ITextPostUpdationProps> = ({
         }}
         previewing={previewing}
         disabled={Object.values(typing).some((i) => i)}
+        post={post}
       />
     </>
   );

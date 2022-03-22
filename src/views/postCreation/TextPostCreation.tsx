@@ -21,7 +21,13 @@ import {
   setPostPreviewText,
   setPostTitle,
 } from '../../models/postCreation';
-import { IDirection, IOrigin, IPost, PostTypeEnum } from '../../old/lib/types';
+import {
+  IDirection,
+  IOrigin,
+  IPost,
+  PostTypeEnum,
+  PostStatusForApi,
+} from '../../old/lib/types';
 import { sanitizeHtml } from '../../old/lib/utilities/sanitizeHtml';
 import { PostCreationButtons } from './PostCreationButtons';
 import {
@@ -291,7 +297,9 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
   );
 
   const handlePublishClick = async () => {
-    newPost.postStatus = 5;
+    newPost.postStatus = isAdmin
+      ? PostStatusForApi['Опубліковано']
+      : PostStatusForApi['На модерації'];
     const response = await createPost(newPost);
     boundResetDraft(postType.type);
     history.push(`/posts/${response.data.id}`);
