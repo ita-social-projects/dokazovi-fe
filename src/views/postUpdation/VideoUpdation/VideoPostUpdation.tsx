@@ -100,7 +100,7 @@ export const VideoPostUpdation: React.FC<ITextPostUpdationProps> = ({
     preview: post.preview,
     videoUrl: post.videoUrl,
   });
-  console.log(post);
+
   useEffect(() => {
     if (
       JSON.stringify(postInitialState.current) !==
