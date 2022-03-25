@@ -9,6 +9,7 @@ import { sanitizeHtml } from '../../old/lib/utilities/sanitizeHtml';
 import { ArticleUpdation } from './ArticleUpdation';
 import { NoteUpdation } from './NoteUpdation';
 import { VideoUpdation } from './VideoUpdation/VideoUpdation';
+import { PostUpdation } from './PostUpdation';
 import { useQuery } from '../../old/lib/hooks/useQuery';
 import { setGALocation } from '../../utilities/setGALocation';
 import { ERROR_404 } from '../../old/lib/constants/routes';
@@ -65,9 +66,10 @@ const PostUpdationWrapper: React.FC = () => {
       {loadedPost &&
         (user.data?.id === loadedPost?.author.id || isAdmin ? (
           <>
-            {loadedPost.type.id === 1 && <ArticleUpdation post={loadedPost} />}
+            {/* {loadedPost.type.id === 1 && <ArticleUpdation post={loadedPost} />}
             {loadedPost.type.id === 3 && <NoteUpdation post={loadedPost} />}
-            {loadedPost.type.id === 2 && <VideoUpdation post={loadedPost} />}
+            {loadedPost.type.id === 2 && <VideoUpdation post={loadedPost} />} */}
+            <PostUpdation post={loadedPost} />
           </>
         ) : (
           <Notification message={t(langTokens.common.permissionError)} />
