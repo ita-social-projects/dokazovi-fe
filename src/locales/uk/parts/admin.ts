@@ -1,5 +1,5 @@
 export const admin = {
-  id: 'Id',
+  id: 'ID',
   title: 'Заголовок',
   status: 'Статус',
   dateOfStatusChange: 'Дата зміни статусу',
