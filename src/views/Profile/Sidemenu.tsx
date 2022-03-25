@@ -20,10 +20,6 @@ const profileMenuOptions: IProfileMenuOption[] = [
     value: 'info',
   },
   {
-    label: i18n.t(langTokens.common.materials),
-    value: 'materials',
-  },
-  {
     label: i18n.t(langTokens.common.passwordChange),
     value: 'passwordChange',
   },
