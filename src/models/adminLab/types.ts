@@ -80,7 +80,7 @@ export enum SortBy {
   important = 'important',
   created_at = 'created_at',
   modified_at = 'modified_at',
-  'author.firstName' = 'author.firstName',
+  first_name = 'first_name',
   real_views = 'real_views',
   views = 'views',
 }

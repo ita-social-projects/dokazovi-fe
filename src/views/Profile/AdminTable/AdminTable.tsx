@@ -14,7 +14,7 @@ import AdminTableFilters from './AdminTableFilters';
 import AdminTablePagination from './AdminTablePagination';
 import { useActions } from '../../../shared/hooks';
 
-const AdminTable: React.FC = () => {
+export const AdminTable: React.FC = () => {
   const classes = useStyles();
   const [boundedGetMaterialsAction, boundedSetStateToInit] = useActions([
     getMaterialsAction,
@@ -32,7 +32,7 @@ const AdminTable: React.FC = () => {
 
   useEffect(() => {
     boundedGetMaterialsAction();
-  }, [ meta ]);
+  }, [meta]);
 
   return (
     <>
@@ -50,5 +50,3 @@ const AdminTable: React.FC = () => {
     </>
   );
 };
-
-export default AdminTable;

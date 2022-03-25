@@ -4,7 +4,7 @@ import { IExpert } from '../../../old/lib/types';
 import { selectAuthorities } from '../../../models/authorities';
 import MaterialsDraft from './MaterialsDraft';
 import MaterialsPublished from './MaterialsPublished';
-import AdminTable from '../AdminTable/AdminTable';
+import { AdminTable } from '../AdminTable/AdminTable';
 
 export interface IExpertProfileViewProps {
   expert: IExpert;
