@@ -50,7 +50,8 @@ const content: IContent[] = [
   },
   {
     label: i18n.t(langTokens.admin.author),
-    isSortable: false,
+    isSortable: true,
+    sortKey: SortBy.first_name,
   },
   {
     label: i18n.t(langTokens.admin.views),
