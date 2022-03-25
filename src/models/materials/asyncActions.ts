@@ -5,6 +5,7 @@ import { LOAD_POSTS_LIMIT } from '../../old/lib/constants/posts';
 import { IPost } from '../../old/lib/types';
 import { PostResponseType } from '../../old/lib/utilities/API/types';
 import { IFetchMaterialsOptions } from './types';
+import { StatusesForActions } from '../adminLab/types';
 
 export const mapFetchedPosts = (
   posts: PostResponseType[],
@@ -28,7 +29,7 @@ export const fetchMaterials = createAsyncThunk(
           directions: filters.directions,
           origins: filters.origins,
           sort: ['published_at,desc'],
-          statuses: [3],
+          statuses: [StatusesForActions.PUBLISHED],
         },
       });
 
