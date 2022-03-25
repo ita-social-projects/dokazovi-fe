@@ -1003,9 +1003,8 @@ exports[`ArticleUpdation tests should ArticleUpdation render 1`] = `
       data-testid="confirmation-modal"
     >
       <button
-        class="MuiButtonBase-root MuiButton-root MuiButton-contained Mui-disabled Mui-disabled"
-        disabled=""
-        tabindex="-1"
+        class="MuiButtonBase-root MuiButton-root MuiButton-contained"
+        tabindex="0"
         type="button"
       >
         <span
@@ -1013,16 +1012,18 @@ exports[`ArticleUpdation tests should ArticleUpdation render 1`] = `
         >
           Відмінити редагування
         </span>
+        <span
+          class="MuiTouchRipple-root"
+        />
       </button>
     </div>
     <div
       class="MuiBox-root MuiBox-root-65"
     >
       <button
-        class="MuiButtonBase-root MuiButton-root MuiButton-contained Mui-disabled Mui-disabled"
-        disabled=""
+        class="MuiButtonBase-root MuiButton-root MuiButton-contained"
         style="margin-right: 10px;"
-        tabindex="-1"
+        tabindex="0"
         type="button"
       >
         <span
@@ -1030,11 +1031,13 @@ exports[`ArticleUpdation tests should ArticleUpdation render 1`] = `
         >
           Попередній перегляд
         </span>
+        <span
+          class="MuiTouchRipple-root"
+        />
       </button>
       <button
-        class="MuiButtonBase-root MuiButton-root MuiButton-contained Mui-disabled Mui-disabled"
-        disabled=""
-        tabindex="-1"
+        class="MuiButtonBase-root MuiButton-root MuiButton-contained"
+        tabindex="0"
         type="button"
       >
         <span
@@ -1042,6 +1045,9 @@ exports[`ArticleUpdation tests should ArticleUpdation render 1`] = `
         >
           Зберегти
         </span>
+        <span
+          class="MuiTouchRipple-root"
+        />
       </button>
     </div>
     <div

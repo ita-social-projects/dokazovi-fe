@@ -34,17 +34,18 @@ const AdminTableFilters: React.FC = () => {
   const allDirections = useSelector(selectDirections);
   const allPostTypes = useSelector(selectPostTypes);
   const allPostStatuses = useSelector(selectPostStatuses);
-  const { filters, date } = useSelector(selectMeta);
+  const { filters, date, textFields } = useSelector(selectMeta);
+
+  const resetFilters = () => {
+    boundedSetFiltersToInit();
+  };
 
   const classes = useStyles();
 
   return (
     <Grid className={classes.filterSection} container direction="row">
       <Grid item>
-        <IconButton
-          onClick={boundedSetFiltersToInit}
-          className={classes.clearButton}
-        >
+        <IconButton onClick={resetFilters} className={classes.clearButton}>
           <HighlightOffRoundedIcon fontSize="large" />
         </IconButton>
       </Grid>
@@ -80,10 +81,18 @@ const AdminTableFilters: React.FC = () => {
         />
       </Grid>
       <Grid item md={2}>
-        <AdminTextField field={FieldEnum.TITLE} setChanges={boundedSetField} />
+        <AdminTextField
+          field={FieldEnum.TITLE}
+          setChanges={boundedSetField}
+          inputValue={textFields.title}
+        />
       </Grid>
       <Grid item md={2}>
-        <AdminTextField field={FieldEnum.AUTHOR} setChanges={boundedSetField} />
+        <AdminTextField
+          field={FieldEnum.AUTHOR}
+          setChanges={boundedSetField}
+          inputValue={textFields.author}
+        />
       </Grid>
     </Grid>
   );
