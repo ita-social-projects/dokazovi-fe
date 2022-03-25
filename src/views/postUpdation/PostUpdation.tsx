@@ -1,11 +1,9 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { langTokens } from '../../locales/localizationInit';
-import ArticleEditorToolbar from '../../components/Editor/Editors/ArticleEditorToolbar';
-import { VideoEditorToolbar } from '../../components/Editor/Editors/VideoEditorToolbar';
+
 import { IPost } from '../../old/lib/types';
-import { TextPostUpdation } from './TextPostUpdation';
-import { VideoPostUpdation } from './VideoUpdation/VideoPostUpdation';
+import { AllPostTypesUpdation } from './AllPostTypesUpdation';
 
 export interface IPostUpdationProps {
   post: IPost;
@@ -14,25 +12,37 @@ export interface IPostUpdationProps {
 export const PostUpdation: React.FC<IPostUpdationProps> = ({ post }) => {
   const { t } = useTranslation();
 
+  const postLabels = [
+    {
+      type: 1,
+      pageTitle: t(langTokens.editor.articleUpdation),
+      titleInputLabel: t(langTokens.editor.articleTitle),
+      contentInputLabel: t(langTokens.editor.articleText),
+    },
+    {
+      type: 2,
+      pageTitle: t(langTokens.editor.videoUpdation),
+      titleInputLabel: t(langTokens.editor.videoTitle),
+      contentInputLabel: t(langTokens.editor.videoDescription),
+    },
+    {
+      type: 3,
+      pageTitle: t(langTokens.editor.noteUpdation),
+      titleInputLabel: t(langTokens.editor.noteTitle),
+      contentInputLabel: t(langTokens.editor.noteText),
+    },
+  ];
+
+  const currentPostLabels = postLabels.filter(
+    (labels) => labels.type === post.type.id,
+  )[0];
+
   return (
-    <>
-      {post.type.id !== 2 ? (
-        <TextPostUpdation
-          post={post}
-          editorToolbar={ArticleEditorToolbar}
-          pageTitle={t(langTokens.editor.articleUpdation)}
-          titleInputLabel={`${t(langTokens.editor.articleTitle)}:`}
-          contentInputLabel={`${t(langTokens.editor.articleText)}:`}
-        />
-      ) : (
-        <VideoPostUpdation
-          post={post}
-          editorToolbar={VideoEditorToolbar}
-          pageTitle={t(langTokens.editor.videoUpdation)}
-          titleInputLabel={`${t(langTokens.editor.videoTitle)}:`}
-          contentInputLabel={`${t(langTokens.editor.videoDescription)}:`}
-        />
-      )}
-    </>
+    <AllPostTypesUpdation
+      post={post}
+      pageTitle={currentPostLabels.pageTitle}
+      titleInputLabel={currentPostLabels.titleInputLabel}
+      contentInputLabel={currentPostLabels.contentInputLabel}
+    />
   );
 };

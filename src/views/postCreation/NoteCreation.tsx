@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import NoteEditorToolbar from '../../components/Editor/Editors/NoteEditorToolbar';
 import { PostTypeEnum } from '../../old/lib/types';
 import { TextPostCreation } from './TextPostCreation';
 import { setGALocation } from '../../utilities/setGALocation';
@@ -14,10 +13,9 @@ const NoteCreation: React.FC = () => {
 
   return (
     <TextPostCreation
-      editorToolbar={NoteEditorToolbar}
-      pageTitle={t(langTokens.editor.postCreation)}
-      titleInputLabel={`${t(langTokens.editor.postTitle)}:`}
-      contentInputLabel={`${t(langTokens.editor.postText)}:`}
+      pageTitle={t(langTokens.editor.noteCreation)}
+      titleInputLabel={`${t(langTokens.editor.noteTitle)}:`}
+      contentInputLabel={`${t(langTokens.editor.noteText)}:`}
       postType={{
         type: PostTypeEnum.DOPYS,
         name: t(langTokens.common.post),

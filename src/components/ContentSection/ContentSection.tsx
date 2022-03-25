@@ -16,12 +16,11 @@ import {
   fetchInfoById,
   selectInfoById,
   selectInfoLoadingById,
-  selectIsAllInfoFetched,
+  // selectIsAllInfoFetched,
   updateInfo,
 } from '../../models/info';
 import { LoadingContainer } from '../../old/lib/components/Loading/LoadingContainer';
 import { GeneralEditor } from '../Editor/GeneralEditor';
-import { VideoEditorToolbar } from '../Editor/Editors/VideoEditorToolbar';
 import { PostCreationButtons } from '../../views/postCreation/PostCreationButtons';
 
 export default function ContentSection(prop: {
@@ -34,7 +33,7 @@ export default function ContentSection(prop: {
   const [edit, setEdit] = useState(false);
   const dispatch = useDispatch();
   const info = useSelector(selectInfoById(type));
-  const isAllInfoFetched = useSelector(selectIsAllInfoFetched);
+  // const isAllInfoFetched = useSelector(selectIsAllInfoFetched);
   const loading = useSelector(selectInfoLoadingById(type));
   const location = useLocation();
   const { mobile } = useContext(ScreenContext);
@@ -110,7 +109,6 @@ export default function ContentSection(prop: {
           {edit ? (
             <>
               <GeneralEditor
-                toolbar={VideoEditorToolbar}
                 initialHtmlContent={content || info.text}
                 onHtmlContentChange={(s) => setContent(s)}
               />

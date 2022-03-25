@@ -40,7 +40,6 @@ export interface ITextPostUpdationProps {
   pageTitle: string;
   titleInputLabel: string;
   contentInputLabel: string;
-  editorToolbar: React.ComponentType<IEditorToolbarProps>;
   post: IPost;
 }
 
@@ -48,7 +47,6 @@ export const VideoPostUpdation: React.FC<ITextPostUpdationProps> = ({
   pageTitle,
   titleInputLabel,
   contentInputLabel,
-  editorToolbar,
   post,
 }) => {
   const history = useHistory();
@@ -250,7 +248,6 @@ export const VideoPostUpdation: React.FC<ITextPostUpdationProps> = ({
   return (
     <>
       <PageTitle title={pageTitle} />
-
       {!previewing ? (
         <>
           <PostDirectionsSelector
@@ -299,7 +296,6 @@ export const VideoPostUpdation: React.FC<ITextPostUpdationProps> = ({
               {contentInputLabel}
             </Typography>
             <TextPostEditor
-              toolbar={editorToolbar}
               initialHtmlContent={htmlContent}
               initialPreview={preview}
               onHtmlContentChange={(value) => {

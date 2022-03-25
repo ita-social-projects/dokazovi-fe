@@ -65,12 +65,7 @@ const PostUpdationWrapper: React.FC = () => {
     <>
       {loadedPost &&
         (user.data?.id === loadedPost?.author.id || isAdmin ? (
-          <>
-            {/* {loadedPost.type.id === 1 && <ArticleUpdation post={loadedPost} />}
-            {loadedPost.type.id === 3 && <NoteUpdation post={loadedPost} />}
-            {loadedPost.type.id === 2 && <VideoUpdation post={loadedPost} />} */}
-            <PostUpdation post={loadedPost} />
-          </>
+          <PostUpdation post={loadedPost} />
         ) : (
           <Notification message={t(langTokens.common.permissionError)} />
         ))}

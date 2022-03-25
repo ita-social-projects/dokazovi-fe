@@ -42,7 +42,6 @@ import {
 import PostView from '../../old/modules/posts/components/PostView';
 import { CarouselImagesWrapper } from './CarouselImagesWrapper';
 import { TextPostEditor } from '../../components/Editor/Editors/TextPostEditor';
-import { IEditorToolbarProps } from '../../components/Editor/types';
 import { PostDirectionsSelector } from './PostDirectionsSelector';
 import { PostOriginsSelector } from './PostOriginsSelector';
 import { BorderBottom } from '../../old/lib/components/Border';
@@ -61,7 +60,6 @@ interface IPostCreationProps {
   titleInputLabel?: string;
   contentInputLabel?: string;
   postType: { type: PostTypeEnum; name: string };
-  editorToolbar: React.ComponentType<IEditorToolbarProps>;
 }
 
 type ExtraFieldsType = null | JSX.Element;
@@ -71,7 +69,6 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
   titleInputLabel,
   contentInputLabel,
   postType,
-  editorToolbar,
 }) => {
   const { t } = useTranslation();
   const history = useHistory();
@@ -424,7 +421,6 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
               {contentInputLabel}
             </Typography>
             <TextPostEditor
-              toolbar={editorToolbar}
               initialHtmlContent={savedPostDraft.htmlContent}
               initialPreview={savedPostDraft.preview.value}
               onHtmlContentChange={(value) => {

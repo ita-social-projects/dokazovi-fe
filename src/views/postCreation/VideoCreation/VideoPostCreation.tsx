@@ -47,7 +47,6 @@ import {
 } from '../../../old/lib/constants/editors';
 import PostView from '../../../old/modules/posts/components/PostView';
 import { TextPostEditor } from '../../../components/Editor/Editors/TextPostEditor';
-import { IEditorToolbarProps } from '../../../components/Editor/types';
 import { PostDirectionsSelector } from '../PostDirectionsSelector';
 import { PostOriginsSelector } from '../PostOriginsSelector';
 import { BorderBottom } from '../../../old/lib/components/Border';
@@ -63,7 +62,6 @@ interface IVideoPostCreationProps {
   pageTitle?: string;
   titleInputLabel?: string;
   contentInputLabel?: string;
-  editorToolbar: React.ComponentType<IEditorToolbarProps>;
 }
 
 type ExtraFieldsType = null | JSX.Element;
@@ -72,7 +70,6 @@ export const VideoPostCreation: React.FC<IVideoPostCreationProps> = ({
   pageTitle,
   titleInputLabel,
   contentInputLabel,
-  editorToolbar,
 }) => {
   const { t } = useTranslation();
   const history = useHistory();
@@ -393,7 +390,7 @@ export const VideoPostCreation: React.FC<IVideoPostCreationProps> = ({
               {contentInputLabel}
             </Typography>
             <TextPostEditor
-              toolbar={editorToolbar}
+              // toolbar={editorToolbar}
               initialHtmlContent={savedPostDraft.htmlContent}
               initialPreview={savedPostDraft.preview.value}
               onHtmlContentChange={(value) => {
