@@ -5,6 +5,7 @@ import ImportantView from './ImportantView';
 import { useStyles } from '../styles/OperationView.styles';
 import { IAdminMenuOption } from '../../../../types';
 import { langTokens } from '../../../../../../locales/localizationInit';
+import { AdminTable } from '../../../../../../views/Profile/AdminTable/AdminTable';
 
 interface IOperationViewProps {
   selectedOption: IAdminMenuOption | Record<string, never>;
@@ -12,42 +13,41 @@ interface IOperationViewProps {
 
 const OperationView: React.FC<IOperationViewProps> = (props) => {
   const { selectedOption } = props;
-  const { section, label, value } = selectedOption;
+  const { value } = selectedOption;
   const classes = useStyles();
   const { t } = useTranslation();
 
   const renderOperationView = () => {
-    if (value === 'important') {
-      const operationView = (
-        <>
-          <Typography component="h2" className="menuTitle">
-            {t(langTokens.admin.selectedImportantMaterials)}
-          </Typography>
-          <ImportantView />
-        </>
-      );
+    switch (value) {
+      case 'important': {
+        const operationView = (
+          <>
+            <Typography component="h2" className="menuTitle">
+              {t(langTokens.admin.selectedImportantMaterials)}
+            </Typography>
+            <ImportantView />
+          </>
+        );
 
-      return operationView;
+        return operationView;
+      }
+      case 'materials': {
+        const operationView = (
+          <>
+            <AdminTable />
+          </>
+        );
+
+        return operationView;
+      }
+      default: {
+        return <div>{t(langTokens.admin.selectOption)}</div>;
+      }
     }
-
-    const operationView = (
-      <div className="adminInitialView">
-        <Typography component="span" className="initialMessage">
-          {t(langTokens.admin.selectOption)}
-        </Typography>
-      </div>
-    );
-
-    return operationView;
   };
 
   return (
     <Container className={classes.operationView}>
-      {value && (
-        <Typography component="h1" className="menuPath">
-          {`${section} > ${label}`}
-        </Typography>
-      )}
       {renderOperationView()}
     </Container>
   );
