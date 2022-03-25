@@ -5,7 +5,7 @@ export const admin = {
   dateOfStatusChange: 'Дата зміни статусу',
   direction: 'Тема',
   author: 'Автор',
-  views: 'Перегляди',
+  views: 'Кількість переглядів, що відображається',
   realViews: 'Реальні перегляди',
   viewsFull: 'Кількість переглядів, що відображається',
   realViewsFull: 'Реальна кількість переглядів',
