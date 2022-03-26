@@ -1,11 +1,11 @@
 export const admin = {
-  id: 'Id',
+  id: 'ID',
   title: 'Заголовок',
   status: 'Статус',
   dateOfStatusChange: 'Дата зміни статусу',
   direction: 'Тема',
   author: 'Автор',
-  views: 'Перегляди',
+  views: 'Кількість переглядів, що відображається',
   realViews: 'Реальні перегляди',
   viewsFull: 'Кількість переглядів, що відображається',
   realViewsFull: 'Реальна кількість переглядів',
@@ -57,4 +57,5 @@ export const admin = {
   close: 'Закрити',
   selectedImportantMaterials: 'Зараз використовуються:',
   selectOption: `Оберіть об'єкт налаштування у меню`,
+  resetTableFilters: `Скинути всі фільтри`,
 };

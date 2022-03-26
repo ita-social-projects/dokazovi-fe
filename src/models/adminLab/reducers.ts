@@ -76,6 +76,7 @@ const adminLabSlice = createSlice({
       state.meta.filters = initialState.meta.filters;
       state.meta.textFields = initialState.meta.textFields;
       state.meta.page = initialState.meta.page;
+      state.meta.date = initialState.meta.date;
     },
     setSort: (state, action: PayloadAction<ISort>) => {
       state.meta.sort = action.payload;

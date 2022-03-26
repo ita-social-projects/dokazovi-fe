@@ -27,7 +27,6 @@ import VideoUrlInputModal from '../../../components/Editor/CustomModules/VideoUr
 import { parseVideoIdFromUrl } from '../../../old/lib/utilities/parseVideoIdFromUrl';
 import PostView from '../../../old/modules/posts/components/PostView';
 import { TextPostEditor } from '../../../components/Editor/Editors/TextPostEditor';
-import { IEditorToolbarProps } from '../../../components/Editor/types';
 import { PostDirectionsSelector } from '../../postCreation/PostDirectionsSelector';
 import { PostOriginsSelector } from '../../postCreation/PostOriginsSelector';
 import { PostAuthorSelection } from '../../postCreation/PostAuthorSelection/PostAuthorSelection';

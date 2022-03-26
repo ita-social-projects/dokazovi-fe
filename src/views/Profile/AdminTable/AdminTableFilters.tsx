@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Grid, IconButton } from '@material-ui/core';
+import { Grid, IconButton, Tooltip } from '@material-ui/core';
 import HighlightOffRoundedIcon from '@material-ui/icons/HighlightOffRounded';
 
 import { QueryTypeEnum } from '../../../old/lib/types';
@@ -34,19 +34,26 @@ const AdminTableFilters: React.FC = () => {
   const allDirections = useSelector(selectDirections);
   const allPostTypes = useSelector(selectPostTypes);
   const allPostStatuses = useSelector(selectPostStatuses);
-  const { filters, date } = useSelector(selectMeta);
+  const { filters, date, textFields } = useSelector(selectMeta);
+
+  const resetFilters = () => {
+    boundedSetFiltersToInit();
+  };
 
   const classes = useStyles();
 
   return (
     <Grid className={classes.filterSection} container direction="row">
       <Grid item>
-        <IconButton
-          onClick={boundedSetFiltersToInit}
-          className={classes.clearButton}
+        <Tooltip
+          title="Скинути всі фільтри"
+          placement="bottom"
+          classes={{ tooltip: classes.tooltip }}
         >
-          <HighlightOffRoundedIcon fontSize="large" />
-        </IconButton>
+          <IconButton onClick={resetFilters} className={classes.clearButton}>
+            <HighlightOffRoundedIcon fontSize="large" />
+          </IconButton>
+        </Tooltip>
       </Grid>
       <Grid item>
         <AdminFilter
@@ -80,10 +87,18 @@ const AdminTableFilters: React.FC = () => {
         />
       </Grid>
       <Grid item md={2}>
-        <AdminTextField field={FieldEnum.TITLE} setChanges={boundedSetField} />
+        <AdminTextField
+          field={FieldEnum.TITLE}
+          setChanges={boundedSetField}
+          inputValue={textFields.title}
+        />
       </Grid>
       <Grid item md={2}>
-        <AdminTextField field={FieldEnum.AUTHOR} setChanges={boundedSetField} />
+        <AdminTextField
+          field={FieldEnum.AUTHOR}
+          setChanges={boundedSetField}
+          inputValue={textFields.author}
+        />
       </Grid>
     </Grid>
   );
