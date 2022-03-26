@@ -12,6 +12,7 @@ export interface INewPostDraft {
   authorsName: string;
   authorsDetails: string;
   authorId?: number | null;
+  videoUrl?: string;
 }
 
 export interface IPostPreview {
