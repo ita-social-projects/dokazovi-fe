@@ -1,4 +1,4 @@
-import { IPostType, IOrigin, IDirection } from '../types';
+import { IDirection } from '../types';
 
 export const sortByAlphabet = (
   array: IDirection[],

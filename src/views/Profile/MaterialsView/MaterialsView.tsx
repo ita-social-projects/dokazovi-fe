@@ -20,7 +20,7 @@ export const MaterialsView: React.FC<IExpertProfileViewProps> = ({
     <AdminTable />
   ) : (
     <>
-      <MaterialsDraft expertId={expert.id} expert={expert} />
+      <MaterialsDraft expertId={expert.id} />
       <MaterialsPublished expertId={expert.id} expert={expert} />
     </>
   );

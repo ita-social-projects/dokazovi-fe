@@ -19,6 +19,7 @@ import {
   QueryTypeEnum,
   filtersStateEnum,
 } from '../../types';
+// import { configureStore } from '@reduxjs/toolkit';
 
 interface IFilter {
   id: string | number;
@@ -54,7 +55,6 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
   setTheOnlyAvailableFilter,
   filterType,
 }) => {
-  // console.log(filterType, selectedFilters);
   const [disabledCheckBoxesIds, setDisabledCheckBoxesIds] = useState<
     number[]
   >();
@@ -64,7 +64,6 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
 
   const getCheckedStateFromFilters = (): CheckboxFormStateType => {
     if (typeof selectedFilters !== 'string') {
-      // console.log(selectedFilters);
       return possibleFilters.reduce((acc, next) => {
         acc[next.id] = Boolean(
           selectedFilters?.find((filter) => filter.id === next.id),

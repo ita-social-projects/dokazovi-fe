@@ -46,14 +46,10 @@ import { useStyles } from './styles/MaterialsByStatus.styles';
 
 export interface IMaterialsDraftProps {
   expertId: number;
-  expert: IExpert;
   onDelete?: (arg0: number, arg1: string) => void;
 }
 
-const MaterialsDraft: React.FC<IMaterialsDraftProps> = ({
-  expertId,
-  expert,
-}) => {
+const MaterialsDraft: React.FC<IMaterialsDraftProps> = ({ expertId }) => {
   const { t } = useTranslation();
   const classes = useStyles();
   const [isTouched, setTouchStatus] = useState(false);
