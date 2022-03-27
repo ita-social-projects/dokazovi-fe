@@ -21,7 +21,6 @@ import {
   setPostPreviewText,
   setPostTitle,
   selectVideoUrl,
-  selectVideoPostDraft,
   setVideoUrl,
 } from '../../models/postCreation';
 import { IDirection, IOrigin, IPost, PostTypeEnum } from '../../old/lib/types';
@@ -30,7 +29,6 @@ import { parseVideoIdFromUrl } from '../../old/lib/utilities/parseVideoIdFromUrl
 import VideoUrlInputModal from '../../components/Editor/CustomModules/VideoUrlInputModal';
 import { PostCreationButtons } from './PostCreationButtons';
 import {
-  CreateTextPostRequestType,
   ExpertResponseType,
   CreatePostRequestType,
 } from '../../old/lib/utilities/API/types';
@@ -55,7 +53,6 @@ import { fileSelectorHandler } from './fileSelectorHandler';
 import { BackgroundImageContainer } from '../../components/Editor/CustomModules/BackgroundImageContainer/BackgroundImageContainer';
 import { PostAuthorSelection } from './PostAuthorSelection/PostAuthorSelection';
 import { selectCurrentUser } from '../../models/user';
-// import { selectTextPostDraft } from '../../models/postCreation/selectors';
 import { selectPostDraft } from '../../models/postCreation/selectors';
 import { useActions } from '../../shared/hooks';
 import { langTokens } from '../../locales/localizationInit';
@@ -82,6 +79,7 @@ export const PostCreation: React.FC<IPostCreationProps> = ({
   const classes = useStyle();
   const authorities = useSelector(selectAuthorities);
   const isAdmin = authorities.data?.includes('SET_IMPORTANCE');
+  const isVideoPost = postType.type === PostTypeEnum.VIDEO;
 
   const savedPostDraft = useSelector((state: RootStateType) =>
     selectPostDraft(state, postType.type),
@@ -302,6 +300,7 @@ export const PostCreation: React.FC<IPostCreationProps> = ({
         directions: savedPostDraft.directions,
         origins: savedPostDraft.origins,
         title: savedPostDraft.title,
+        videoUrl: savedPostDraft.videoUrl,
         type: { id: postType.type, name: postType.name },
       } as IPost),
     [user, savedPostDraft],
@@ -412,8 +411,10 @@ export const PostCreation: React.FC<IPostCreationProps> = ({
               </div>
             )}
           </Box>
+
           {postAuthorSelection}
-          {isAdmin && (
+
+          {isAdmin && !isVideoPost && (
             <>
               <Box className={classes.backgroundImagesContainer}>
                 <Box className={classes.backgroundImageWrapper}>
@@ -433,14 +434,33 @@ export const PostCreation: React.FC<IPostCreationProps> = ({
                 setImportantImageUrl={dispatchImportantImageUrl}
                 setImportantMobileImageUrl={dispatchImportantMobileImageUrl}
               />
-              <BorderBottom />
             </>
           )}
+
+          {isVideoPost && (
+            <>
+              <Box mt={2}>
+                <VideoUrlInputModal dispatchVideoUrl={handleVideoUrlChange} />
+                {videoId && (
+                  <iframe
+                    title="video"
+                    width="360"
+                    height="240"
+                    src={`https://www.youtube.com/embed/${videoId}`}
+                    frameBorder="0"
+                    allowFullScreen
+                  />
+                )}
+              </Box>
+            </>
+          )}
+          <BorderBottom />
           <Box mt={2}>
             <Typography className={classes.requiredField} variant="h5">
               {contentInputLabel}
             </Typography>
             <TextPostEditor
+              isVideoPost
               initialHtmlContent={savedPostDraft.htmlContent}
               initialPreview={savedPostDraft.preview.value}
               onHtmlContentChange={(value) => {
@@ -465,13 +485,18 @@ export const PostCreation: React.FC<IPostCreationProps> = ({
 
       <PostCreationButtons
         action="creating"
-        isModal={{ isEmpty, isEnoughLength, isTooLong, hasBackGroundImg }}
+        isModal={{
+          isEmpty,
+          isEnoughLength,
+          isVideoEmpty,
+          isTooLong,
+          hasBackGroundImg,
+        }}
         onPublishClick={handlePublishClick}
         onPreviewClick={() => {
           setPreviewing(!previewing);
         }}
         previewing={previewing}
-        disabled={Object.values(typing).some((i) => i)}
       />
     </>
   );
