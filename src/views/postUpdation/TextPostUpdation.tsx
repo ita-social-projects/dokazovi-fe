@@ -7,6 +7,7 @@ import { DropEvent, FileRejection } from 'react-dropzone';
 import { PageTitle } from 'components/Page/PageTitle';
 import { useSelector } from 'react-redux';
 import { CarouselImagesWrapper } from 'views/postCreation/CarouselImagesWrapper';
+import { StatusesForActions } from 'models/adminLab/types';
 import { sanitizeHtml } from '../../old/lib/utilities/sanitizeHtml';
 import { getAllExperts, updatePost } from '../../old/lib/utilities/API/api';
 import {
@@ -15,7 +16,6 @@ import {
   IPost,
   PostStatusForApi,
 } from '../../old/lib/types';
-import { StatusesForActions } from 'models/adminLab/types';
 import { PostCreationButtons } from '../postCreation/PostCreationButtons';
 import {
   ExpertResponseType,
@@ -280,7 +280,7 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
 
   const handleSaveClick = async () => {
     if (post.status !== undefined) {
-      updatedPost.postStatus = StatusesForActions[post.status];
+      updatedPost.postStatus = StatusesForActions[post.status] as number;
     } else {
       updatedPost.postStatus = 0;
     }
