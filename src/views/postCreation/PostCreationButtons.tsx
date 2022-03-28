@@ -99,7 +99,7 @@ export const PostCreationButtons: React.FC<IPostCreationButtonsProps> = ({
           }?`}
           buttonText={cancelButtonText}
           onConfirmButtonClick={onCancelClick}
-          disabled={disabled}
+          disabled={loading || false}
           loading={loading}
         />
       )}
@@ -108,7 +108,7 @@ export const PostCreationButtons: React.FC<IPostCreationButtonsProps> = ({
         <Button
           style={{ marginRight: '10px' }}
           variant="contained"
-          disabled={disabled || loading}
+          disabled={loading || false}
           onClick={onPreviewClick}
         >
           {previewButtonText}

@@ -49,8 +49,8 @@ export const getMaterialsAction = createAsyncThunk(
           statuses: setFilter(filters.statuses, statuses),
           sort: [`${sort.sortBy},${sort.order}`],
           ...textFields,
-          startDate: parsDate(date.start),
-          endDate: parsDate(date.end),
+          startDate: date.start!,
+          endDate: date.end!,
         },
       });
       // console.log(parsDate(date.start), parsDate(date.start)?.length);

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
 import _ from 'lodash';
 import { Box, TextField, Typography } from '@material-ui/core';
@@ -72,7 +72,7 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
   const [selectedOrigins, setSelectedOrigins] = useState<IOrigin[]>(
     post.origins,
   );
-  const [htmlContent, setHtmlContent] = useState(post.content);
+
   const [previewImageUrl, setPreviewImageUrl] = useState(
     post.previewImageUrl ?? '',
   );
@@ -88,6 +88,8 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
     error: '',
   });
 
+  const [htmlContent, setHtmlContent] = useState<string>(post.content);
+
   const [authors, setAuthors] = useState<ExpertResponseType[]>([]);
   const [authorId, setAuthorId] = useState<number | null>(null);
   const [author, setAuthor] = useState<ExpertResponseType>();
@@ -98,6 +100,47 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
   const [typing, setTyping] = useState({ content: false, preview: false });
   const [previewing, setPreviewing] = useState(false);
   const [isDisplayTable, setIsDisplayTable] = useState(false);
+  const [isDisabled, setIsDisabled] = useState<boolean>(true);
+
+  const postCurrentState = {
+    selectedDirections,
+    selectedOrigins,
+    previewImageUrl,
+    importantImageUrl,
+    importantMobileImageUrl,
+    title: title.value,
+    htmlContent,
+    preview,
+  };
+
+  const postInitialState = useRef({
+    selectedDirections: post.directions,
+    selectedOrigins: post.origins,
+    previewImageUrl: post.previewImageUrl,
+    importantImageUrl: post.importantImageUrl,
+    importantMobileImageUrl: '',
+    title: post.title,
+    htmlContent: post.content,
+    preview: post.preview,
+  });
+
+  useEffect(() => {
+    if (
+      JSON.stringify(postInitialState.current) !==
+      JSON.stringify(postCurrentState)
+    ) {
+      setIsDisabled(false);
+    }
+  }, [
+    selectedDirections,
+    selectedOrigins,
+    previewImageUrl,
+    importantImageUrl,
+    importantMobileImageUrl,
+    title,
+    htmlContent,
+    preview,
+  ]);
 
   const { t } = useTranslation();
 
@@ -365,7 +408,7 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
           setPreviewing(!previewing);
         }}
         previewing={previewing}
-        disabled={Object.values(typing).some((i) => i)}
+        disabled={isDisabled}
         post={post}
       />
     </>

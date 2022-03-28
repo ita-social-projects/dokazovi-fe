@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useEffect } from 'react';
+import React, { useCallback, useState, useEffect, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
 import _ from 'lodash';
 import { Box, TextField, Typography } from '@material-ui/core';
@@ -86,6 +86,41 @@ export const VideoPostUpdation: React.FC<ITextPostUpdationProps> = ({
   const [typing, setTyping] = useState({ content: false, preview: false });
   const [previewing, setPreviewing] = useState(false);
   const [isDisplayTable, setIsDisplayTable] = useState(false);
+  const [isDisabled, setIsDisabled] = useState<boolean>(true);
+
+  const postCurrentState = {
+    selectedDirections,
+    selectedOrigins,
+    title: title.value,
+    htmlContent,
+    preview,
+    videoUrl,
+  };
+
+  const postInitialState = useRef({
+    selectedDirections: post.directions,
+    selectedOrigins: post.origins,
+    title: post.title,
+    htmlContent: post.content,
+    preview: post.preview,
+    videoUrl: post.videoUrl,
+  });
+  console.log(post);
+  useEffect(() => {
+    if (
+      JSON.stringify(postInitialState.current) !==
+      JSON.stringify(postCurrentState)
+    ) {
+      setIsDisabled(false);
+    }
+  }, [
+    selectedDirections,
+    selectedOrigins,
+    title,
+    htmlContent,
+    preview,
+    videoUrl,
+  ]);
 
   const { t } = useTranslation();
 
@@ -308,7 +343,7 @@ export const VideoPostUpdation: React.FC<ITextPostUpdationProps> = ({
           setPreviewing(!previewing);
         }}
         previewing={previewing}
-        disabled={Object.values(typing).some((i) => i)}
+        disabled={isDisabled}
         post={post}
       />
     </>

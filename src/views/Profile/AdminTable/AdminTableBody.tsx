@@ -63,7 +63,7 @@ const AdminTableBody: React.FC = () => {
         <TableCell>{id}</TableCell>
         <TableCell className={classes.titleCol}>
           <Chip label={typeName} className={classes[chipClass] as string} />
-          <Typography variant="h6" component="p">
+          <Typography variant="h6" component="p" className={classes.title}>
             {title}
           </Typography>
         </TableCell>

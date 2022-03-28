@@ -233,7 +233,7 @@ export interface IFooterStyleProps {
   isProfilePage: boolean;
 }
 
-export type AdminMenuType = 'important';
+export type AdminMenuType = 'important' | 'materials';
 
 export interface IAdminMenuOption {
   section: string;

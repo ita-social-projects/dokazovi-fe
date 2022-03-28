@@ -7,7 +7,7 @@ export const useStyles = makeStyles(
       position: 'relative',
       minHeight: '455px',
       marginTop: theme.spacing(-8),
-      paddingLeft: '210px',
+      paddingLeft: '110px',
       '& .adminInitialView': {
         position: 'absolute',
         top: '30%',
