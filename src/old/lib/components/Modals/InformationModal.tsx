@@ -18,6 +18,8 @@ export interface IConfirmationModalWithButtonProps {
   buttonIcon?: JSX.Element;
   loading?: boolean;
   disabled?: boolean;
+  onClose: () => void;
+  isOpen: boolean;
 }
 
 export const InformationModal: React.FC<IConfirmationModalWithButtonProps> = ({
@@ -26,14 +28,16 @@ export const InformationModal: React.FC<IConfirmationModalWithButtonProps> = ({
   buttonIcon,
   loading,
   disabled,
+  onClose,
+  isOpen,
 }) => {
   const { t } = useTranslation();
   const classes = useStyles();
-  const [open, setOpen] = useState(false);
+  // const [open, setOpen] = useState(true);
 
   return (
     <div>
-      {buttonIcon && (
+      {/* {buttonIcon && (
         <IconButton
           style={{ padding: '0px' }}
           onClick={() => setOpen(true)}
@@ -50,10 +54,10 @@ export const InformationModal: React.FC<IConfirmationModalWithButtonProps> = ({
         >
           {!loading ? buttonText : <CircularProgress size={20} />}
         </Button>
-      )}
+      )} */}
       <Dialog
-        open={open}
-        onClose={() => setOpen(false)}
+        open={isOpen}
+        onClose={onClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
@@ -68,7 +72,7 @@ export const InformationModal: React.FC<IConfirmationModalWithButtonProps> = ({
           className={classes.btnContainer}
         >
           <Button
-            onClick={() => setOpen(false)}
+            onClick={onClose}
             color="primary"
             autoFocus
             style={{ marginLeft: '0' }}

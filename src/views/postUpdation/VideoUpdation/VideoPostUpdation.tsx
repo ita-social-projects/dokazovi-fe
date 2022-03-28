@@ -303,6 +303,7 @@ export const VideoPostUpdation: React.FC<ITextPostUpdationProps> = ({
           history.goBack();
         }}
         onPublishClick={handlePublishClick}
+        onSaveClick={handlePublishClick}
         onPreviewClick={() => {
           setPreviewing(!previewing);
         }}

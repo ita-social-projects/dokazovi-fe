@@ -305,6 +305,11 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
     history.push(`/posts/${response.data.id}`);
   };
 
+  const handleSaveClick = async () => {
+    newPost.postStatus = PostStatusForApi['Чернетка'];
+    const response = await createPost(newPost);
+    history.push(`/posts/${response.data.id}`);
+  };
   let extraFieldsForTranslation: ExtraFieldsType = null;
 
   if (savedPostDraft.origins[0]) {
@@ -460,6 +465,7 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
         action="creating"
         isModal={{ isEmpty, isEnoughLength, isTooLong, hasBackGroundImg }}
         onPublishClick={handlePublishClick}
+        onSaveClick={handleSaveClick}
         onPreviewClick={() => {
           setPreviewing(!previewing);
         }}

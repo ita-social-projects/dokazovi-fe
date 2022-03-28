@@ -424,6 +424,7 @@ export const VideoPostCreation: React.FC<IVideoPostCreationProps> = ({
         action="creating"
         isModal={{ isEmpty, isEnoughLength, isVideoEmpty, isTooLong }}
         onPublishClick={handlePublishClick}
+        onSaveClick={handlePublishClick}
         onPreviewClick={() => {
           setPreviewing(!previewing);
         }}

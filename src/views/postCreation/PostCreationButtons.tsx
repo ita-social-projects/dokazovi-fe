@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Box, Button } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
 import { ConfirmationModalWithButton } from '../../old/lib/components/Modals/ConfirmationModalWithButton';
@@ -19,10 +19,12 @@ export interface IPostCreationButtonsProps {
   onCancelClick?: () => void;
   onPublishClick: () => void;
   onPreviewClick: () => void;
+  onSaveClick: () => void;
   previewing?: boolean;
   disabled?: boolean;
   loading?: boolean;
   isModal?: IIsModal;
+  isAdmin?: boolean;
   post?: IPost;
 }
 
@@ -31,13 +33,17 @@ export const PostCreationButtons: React.FC<IPostCreationButtonsProps> = ({
   onCancelClick,
   onPublishClick,
   onPreviewClick,
+  onSaveClick,
   previewing,
   disabled,
   loading,
   isModal,
+  isAdmin,
   post,
 }) => {
   const { t } = useTranslation();
+  const [modalMessage, setModalMessage] = useState<string>('');
+  const [openModal, setOpenModal] = useState<boolean>(false);
 
   const cancelButtonText =
     action === 'creating'
@@ -46,29 +52,19 @@ export const PostCreationButtons: React.FC<IPostCreationButtonsProps> = ({
   const previewButtonText = previewing
     ? t(langTokens.editor.backToUpdation)
     : t(langTokens.editor.preview);
-  const saveButtonText =
-    action === 'creating'
-      ? t(langTokens.editor.publish)
-      : t(langTokens.editor.save);
-  const publishButtonText =
-    action === 'updating'
-      ? t(langTokens.editor.publish)
-      : t(langTokens.editor.save);
+  const saveButtonText = t(langTokens.editor.save);
+  const publishButtonText = t(langTokens.editor.publish);
 
   const modalMaker = (message: string) => {
-    return (
-      <InformationModal
-        message={message}
-        buttonIcon={
-          <Button variant="contained" disabled={disabled || loading}>
-            {saveButtonText}
-          </Button>
-        }
-      />
-    );
+    setModalMessage(message);
+    setOpenModal(true);
   };
 
-  const switchModalText = () => {
+  const onModalClose = () => {
+    setOpenModal(false);
+  };
+
+  const switchPublishModalText = () => {
     switch (true) {
       case isModal?.isTooLong:
         return modalMaker(t(langTokens.editor.toMuchTitleLength));
@@ -81,16 +77,15 @@ export const PostCreationButtons: React.FC<IPostCreationButtonsProps> = ({
       case isModal?.hasBackGroundImg:
         return modalMaker(t(langTokens.editor.noBgImg));
       default:
-        return (
-          <Button
-            variant="contained"
-            disabled={disabled || loading}
-            onClick={onPublishClick}
-          >
-            {saveButtonText}
-          </Button>
-        );
+        return onPublishClick();
     }
+  };
+
+  const switchSaveModalText = () => {
+    if (isModal?.isEmpty) {
+      return modalMaker(t(langTokens.editor.requiredField));
+    }
+    return onSaveClick();
   };
 
   return (
@@ -118,19 +113,30 @@ export const PostCreationButtons: React.FC<IPostCreationButtonsProps> = ({
         >
           {previewButtonText}
         </Button>
-        {switchModalText()}
+        <Button
+          variant="contained"
+          disabled={disabled || loading}
+          onClick={switchSaveModalText}
+        >
+          {saveButtonText}
+        </Button>
       </Box>
 
       <Box display="flex" flexDirection="row" marginLeft="10px">
-        {action === 'updating' &&
-        (post?.status === 'ARCHIVED' ||
-          post?.status === 'PLANNED' ||
-          post?.status === 'MODERATION_SECOND_SIGN') ? (
+        {(isAdmin &&
+          action === 'updating' &&
+          (post?.status === 'ARCHIVED' ||
+            post?.status === 'PLANNED' ||
+            post?.status === 'MODERATION_SECOND_SIGN' ||
+            post?.status === 'DRAFT')) ||
+        (action === 'updating' && post?.status === 'DRAFT') ||
+        post?.status === 'NEEDS_EDITING' ||
+        action === 'creating' ? (
           <Button
             style={{ marginRight: '10px' }}
             variant="outlined"
             disabled={disabled || loading}
-            onClick={onPublishClick}
+            onClick={switchPublishModalText}
           >
             {publishButtonText}
           </Button>
@@ -138,6 +144,13 @@ export const PostCreationButtons: React.FC<IPostCreationButtonsProps> = ({
           ''
         )}
       </Box>
+      {openModal && (
+        <InformationModal
+          onClose={onModalClose}
+          message={modalMessage}
+          isOpen={openModal}
+        />
+      )}
     </Box>
   );
 };

@@ -15,6 +15,7 @@ import {
   IPost,
   PostStatusForApi,
 } from '../../old/lib/types';
+import { StatusesForActions } from 'models/adminLab/types';
 import { PostCreationButtons } from '../postCreation/PostCreationButtons';
 import {
   ExpertResponseType,
@@ -234,6 +235,16 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
     history.push(`/posts/${response.data.id}`);
   };
 
+  const handleSaveClick = async () => {
+    if (post.status !== undefined) {
+      updatedPost.postStatus = StatusesForActions[post.status];
+    } else {
+      updatedPost.postStatus = 0;
+    }
+    const response = await updatePost(updatedPost);
+    history.push(`/posts/${response.data.id}`);
+  };
+
   const postOriginSelector = isAdmin && (
     <PostOriginsSelector
       selectedOrigins={selectedOrigins}
@@ -342,12 +353,14 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
       )}
 
       <PostCreationButtons
+        isAdmin={isAdmin}
         action="updating"
         isModal={{ isEmpty, isEnoughLength, isTooLong, hasBackGroundImg }}
         onCancelClick={() => {
           history.goBack();
         }}
         onPublishClick={handlePublishClick}
+        onSaveClick={handleSaveClick}
         onPreviewClick={() => {
           setPreviewing(!previewing);
         }}

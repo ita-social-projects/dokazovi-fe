@@ -117,6 +117,7 @@ export default function ContentSection(prop: {
               <PostCreationButtons
                 action="updating"
                 onCancelClick={closeEditor}
+                onSaveClick={saveContent}
                 onPublishClick={saveContent}
                 onPreviewClick={() => setEdit(!edit)}
               />
