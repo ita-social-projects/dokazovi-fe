@@ -3,6 +3,8 @@ import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
+import { useSelector } from 'react-redux';
+import { selectAuthorities } from '../../models/authorities';
 import i18n, { langTokens } from '../../locales/localizationInit';
 import { IProfileMenuOption } from '../../old/lib/types';
 import { useStyles } from './styles/Sidemenu.styles';
@@ -16,12 +18,12 @@ interface ISidemenuProps {
 
 const profileMenuOptions: IProfileMenuOption[] = [
   {
-    label: i18n.t(langTokens.common.materials),
-    value: 'materials',
-  },
-  {
     label: i18n.t(langTokens.common.myInfo),
     value: 'info',
+  },
+  {
+    label: i18n.t(langTokens.common.materials),
+    value: 'materials',
   },
   {
     label: i18n.t(langTokens.common.passwordChange),
@@ -33,9 +35,16 @@ const profileMenuOptions: IProfileMenuOption[] = [
   },
 ];
 
+const adminMenuOptions = profileMenuOptions.filter(
+  (option) => option.value !== 'materials',
+);
+
 export const Sidemenu: React.FC<ISidemenuProps> = (props) => {
   const { selectedOption, changeOption } = props;
   const classes = useStyles();
+
+  const authorities = useSelector(selectAuthorities);
+  const isAdmin = authorities.data?.includes('SET_IMPORTANCE');
 
   return (
     <Drawer
@@ -46,7 +55,7 @@ export const Sidemenu: React.FC<ISidemenuProps> = (props) => {
       }}
     >
       <List className={classes.sidemenuList}>
-        {profileMenuOptions.map((option) => (
+        {(isAdmin ? adminMenuOptions : profileMenuOptions).map((option) => (
           <ListItem
             button
             key={option.value}
