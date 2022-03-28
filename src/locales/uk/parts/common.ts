@@ -2,7 +2,7 @@ export const common = {
   projectName: 'Доказові',
   main: 'Головна',
   materials: 'Матеріали',
-  myInfo: 'Моя інфо',
+  myInfo: 'Персональна інформація',
   passwordChange: 'Зміна паролю',
   mail: 'Mail',
   profile: 'Особистий кабінет',
