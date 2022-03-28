@@ -73,6 +73,7 @@ export const getMaterialsAction = createAsyncThunk(
           posts[post.id] = post;
         }
       });
+
       return {
         totalPages,
         posts,

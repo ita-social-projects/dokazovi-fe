@@ -16,6 +16,10 @@ interface ISidemenuProps {
 
 const profileMenuOptions: IProfileMenuOption[] = [
   {
+    label: i18n.t(langTokens.common.materials),
+    value: 'materials',
+  },
+  {
     label: i18n.t(langTokens.common.myInfo),
     value: 'info',
   },

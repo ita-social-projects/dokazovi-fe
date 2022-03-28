@@ -76,12 +76,7 @@ const AdminTableBody: React.FC = () => {
         <TableCell>{views}</TableCell>
         <TableCell>{realViews}</TableCell>
         <TableCell>
-          <ActionButtons
-            id={id}
-            title={title}
-            status={status}
-            // postDate={newPostPublicationDate}
-          />
+          <ActionButtons id={id} title={title} status={status} />
         </TableCell>
       </TableRow>
     );

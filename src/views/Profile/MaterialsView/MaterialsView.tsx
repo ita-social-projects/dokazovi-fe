@@ -15,13 +15,5 @@ export const MaterialsView: React.FC<IExpertProfileViewProps> = ({
 }) => {
   const authorities = useSelector(selectAuthorities);
   const isAdmin = authorities.data?.includes('SET_IMPORTANCE');
-
-  return isAdmin ? (
-    <AdminTable />
-  ) : (
-    <>
-      <MaterialsDraft expertId={expert.id} expert={expert} />
-      <MaterialsPublished expertId={expert.id} expert={expert} />
-    </>
-  );
+  return <AdminTable />;
 };

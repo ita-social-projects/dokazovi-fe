@@ -9,8 +9,8 @@ const Profile: React.FC = () => {
   const [selectedOption, changeOption] = useState<
     IProfileMenuOption | Record<string, never>
   >({
-    label: i18n.t(langTokens.common.myInfo),
-    value: 'info',
+    label: i18n.t(langTokens.common.materials),
+    value: 'materials',
   });
 
   return (

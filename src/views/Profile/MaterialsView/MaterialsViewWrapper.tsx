@@ -32,6 +32,6 @@ export const MaterialsViewWrapper: React.FC = () => {
   if (statusCode === 404) {
     history.push(ERROR_404);
   }
-
+  console.log(loadedExpert);
   return <>{loadedExpert && <MaterialsView expert={loadedExpert} />}</>;
 };
