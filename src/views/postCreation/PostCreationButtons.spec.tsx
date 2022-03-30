@@ -96,7 +96,7 @@ describe('PostCreationButton test', () => {
     render(
       <PostCreationButtons
         action="updating"
-        isAdmin={true}
+        isAdmin
         onPublishClick={publish}
         onPreviewClick={jest.fn}
         onSaveClick={jest.fn}
@@ -112,7 +112,7 @@ describe('PostCreationButton test', () => {
     render(
       <PostCreationButtons
         action="updating"
-        isAdmin={true}
+        isAdmin
         onPublishClick={publish}
         onPreviewClick={jest.fn}
         onSaveClick={jest.fn}
