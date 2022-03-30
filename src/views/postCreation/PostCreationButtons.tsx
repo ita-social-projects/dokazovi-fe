@@ -129,13 +129,15 @@ export const PostCreationButtons: React.FC<IPostCreationButtonsProps> = ({
             post?.status === 'PLANNED' ||
             post?.status === 'MODERATION_SECOND_SIGN' ||
             post?.status === 'DRAFT')) ||
-        (action === 'updating' && post?.status === 'DRAFT') ||
+        (isAdmin === false &&
+          action === 'updating' &&
+          post?.status === 'DRAFT') ||
         post?.status === 'NEEDS_EDITING' ||
         action === 'creating' ? (
           <Button
             style={{ marginRight: '10px' }}
             variant="outlined"
-            disabled={disabled || loading}
+            disabled={loading || false}
             onClick={switchPublishModalText}
           >
             {publishButtonText}
