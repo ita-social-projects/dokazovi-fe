@@ -1,13 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import {
-  Box,
-  CircularProgress,
-  IconButton,
-  Typography,
-} from '@material-ui/core';
+import { Box, Typography } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
 import { useStyles } from './confirmationModalWithButton.style';
 import { langTokens } from '../../../../locales/localizationInit';
@@ -24,37 +19,14 @@ export interface IConfirmationModalWithButtonProps {
 
 export const InformationModal: React.FC<IConfirmationModalWithButtonProps> = ({
   message,
-  buttonText,
-  buttonIcon,
-  loading,
-  disabled,
   onClose,
   isOpen,
 }) => {
   const { t } = useTranslation();
   const classes = useStyles();
-  // const [open, setOpen] = useState(true);
 
   return (
     <div>
-      {/* {buttonIcon && (
-        <IconButton
-          style={{ padding: '0px' }}
-          onClick={() => setOpen(true)}
-          disabled={disabled || loading}
-        >
-          {!loading ? buttonIcon : <CircularProgress size={20} />}
-        </IconButton>
-      )}
-      {buttonText && (
-        <Button
-          variant="contained"
-          disabled={disabled || loading}
-          onClick={() => setOpen(true)}
-        >
-          {!loading ? buttonText : <CircularProgress size={20} />}
-        </Button>
-      )} */}
       <Dialog
         open={isOpen}
         onClose={onClose}

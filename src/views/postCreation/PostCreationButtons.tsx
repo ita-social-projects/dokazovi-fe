@@ -131,8 +131,7 @@ export const PostCreationButtons: React.FC<IPostCreationButtonsProps> = ({
             post?.status === 'DRAFT')) ||
         (isAdmin === false &&
           action === 'updating' &&
-          post?.status === 'DRAFT') ||
-        post?.status === 'NEEDS_EDITING' ||
+          (post?.status === 'DRAFT' || post?.status === 'NEEDS_EDITING')) ||
         action === 'creating' ? (
           <Button
             style={{ marginRight: '10px' }}

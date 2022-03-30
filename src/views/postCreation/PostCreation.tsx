@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import { Box, TextField, Typography } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
 import { PageTitle } from 'components/Page/PageTitle';
+import { StatusesForActions } from 'models/adminLab/types';
 import { RootStateType } from '../../models/rootReducer';
 import {
   resetDraft,
@@ -307,8 +308,17 @@ export const PostCreation: React.FC<IPostCreationProps> = ({
   );
 
   const handlePublishClick = async () => {
+    newPost.postStatus = isAdmin
+      ? StatusesForActions.PUBLISHED
+      : StatusesForActions.MODERATION_SECOND_SIGN;
     const response = await createPost(newPost);
     boundResetDraft(postType.type);
+    history.push(`/posts/${response.data.id}`);
+  };
+
+  const handleSaveClick = async () => {
+    newPost.postStatus = StatusesForActions.DRAFT;
+    const response = await createPost(newPost);
     history.push(`/posts/${response.data.id}`);
   };
 
@@ -493,6 +503,7 @@ export const PostCreation: React.FC<IPostCreationProps> = ({
           hasBackGroundImg,
         }}
         onPublishClick={handlePublishClick}
+        onSaveClick={handleSaveClick}
         onPreviewClick={() => {
           setPreviewing(!previewing);
         }}

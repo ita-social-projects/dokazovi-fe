@@ -7,6 +7,7 @@ import { DropEvent, FileRejection } from 'react-dropzone';
 import { PageTitle } from 'components/Page/PageTitle';
 import { useSelector } from 'react-redux';
 import { CarouselImagesWrapper } from 'views/postCreation/CarouselImagesWrapper';
+import { StatusesForActions } from 'models/adminLab/types';
 import { sanitizeHtml } from '../../old/lib/utilities/sanitizeHtml';
 import { getAllExperts, updatePost } from '../../old/lib/utilities/API/api';
 import { IDirection, IOrigin, IPost } from '../../old/lib/types';
@@ -250,6 +251,8 @@ export const AllPostTypesUpdation: React.FC<IAllPostTypesUpdation> = ({
     updatedPost?.origins[0]?.id !== 1 &&
     !updatedPost.previewImageUrl;
 
+  const isVideoEmpty = !updatedPost.videoUrl;
+
   const previewPost: IPost = {
     ...post,
     author: {
@@ -273,6 +276,19 @@ export const AllPostTypesUpdation: React.FC<IAllPostTypesUpdation> = ({
   };
 
   const handlePublishClick = async () => {
+    updatedPost.postStatus = isAdmin
+      ? StatusesForActions.PUBLISHED
+      : StatusesForActions.MODERATION_SECOND_SIGN;
+    const response = await updatePost(updatedPost);
+    history.push(`/posts/${response.data.id}`);
+  };
+
+  const handleSaveClick = async () => {
+    if (post.status !== undefined) {
+      updatedPost.postStatus = StatusesForActions[post.status] as number;
+    } else {
+      updatedPost.postStatus = 0;
+    }
     const response = await updatePost(updatedPost);
     history.push(`/posts/${response.data.id}`);
   };
@@ -401,11 +417,19 @@ export const AllPostTypesUpdation: React.FC<IAllPostTypesUpdation> = ({
 
       <PostCreationButtons
         action="updating"
-        isModal={{ isEmpty, isEnoughLength, isTooLong, hasBackGroundImg }}
+        isAdmin={isAdmin}
+        isModal={{
+          isEmpty,
+          isEnoughLength,
+          isVideoEmpty,
+          isTooLong,
+          hasBackGroundImg,
+        }}
         onCancelClick={() => {
           history.goBack();
         }}
         onPublishClick={handlePublishClick}
+        onSaveClick={handleSaveClick}
         onPreviewClick={() => {
           setPreviewing(!previewing);
         }}
