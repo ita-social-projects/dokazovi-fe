@@ -9,5 +9,5 @@ export interface IExpertProfileViewProps {
 export const MaterialsView: React.FC<IExpertProfileViewProps> = ({
   expert,
 }) => {
-  return <AdminTable />;
+  return <AdminTable expertId={expert.id} />;
 };

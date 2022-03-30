@@ -14,11 +14,15 @@ import { PostTypeEnum } from '../../../old/lib/types';
 import ActionButtons from './ActionButtons';
 import { langTokens } from '../../../locales/localizationInit';
 
-const AdminTableBody: React.FC = () => {
+interface IAdminTableBodyProps {
+  isAdmin: boolean | undefined;
+}
+
+const AdminTableBody: React.FC<IAdminTableBodyProps> = ({ isAdmin }) => {
   const classes = useStyles();
   const { t } = useTranslation();
-  const { postIds, posts } = useSelector(selectAdminLab);
   const { newPostPublicationDate } = useSelector(selectModifications);
+  const { postIds, posts } = useSelector(selectAdminLab);
 
   const rows = postIds.map((postId) => {
     const {
@@ -72,11 +76,21 @@ const AdminTableBody: React.FC = () => {
           {newPostPublicationDate ? publishedAt : modifiedAt}
         </TableCell>
         <TableCell>{directionsList}</TableCell>
-        <TableCell>{fullName}</TableCell>
-        <TableCell>{views}</TableCell>
+        {isAdmin && (
+          <>
+            <TableCell>{fullName}</TableCell>
+            <TableCell>{views}</TableCell>
+          </>
+        )}
         <TableCell>{realViews}</TableCell>
         <TableCell>
-          <ActionButtons id={id} title={title} status={status} />
+          <ActionButtons
+            id={id}
+            title={title}
+            status={status}
+            isAdmin={isAdmin}
+            // postDate={newPostPublicationDate}
+          />
         </TableCell>
       </TableRow>
     );
