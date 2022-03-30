@@ -32,7 +32,6 @@ import VideoUrlInputModal from '../../../components/Editor/CustomModules/VideoUr
 import { parseVideoIdFromUrl } from '../../../old/lib/utilities/parseVideoIdFromUrl';
 import PostView from '../../../old/modules/posts/components/PostView';
 import { TextPostEditor } from '../../../components/Editor/Editors/TextPostEditor';
-import { IEditorToolbarProps } from '../../../components/Editor/types';
 import { PostDirectionsSelector } from '../../postCreation/PostDirectionsSelector';
 import { PostOriginsSelector } from '../../postCreation/PostOriginsSelector';
 import { PostAuthorSelection } from '../../postCreation/PostAuthorSelection/PostAuthorSelection';
@@ -45,7 +44,6 @@ export interface ITextPostUpdationProps {
   pageTitle: string;
   titleInputLabel: string;
   contentInputLabel: string;
-  editorToolbar: React.ComponentType<IEditorToolbarProps>;
   post: IPost;
 }
 
@@ -53,7 +51,6 @@ export const VideoPostUpdation: React.FC<ITextPostUpdationProps> = ({
   pageTitle,
   titleInputLabel,
   contentInputLabel,
-  editorToolbar,
   post,
 }) => {
   const history = useHistory();
@@ -105,7 +102,7 @@ export const VideoPostUpdation: React.FC<ITextPostUpdationProps> = ({
     preview: post.preview,
     videoUrl: post.videoUrl,
   });
-  console.log(post);
+
   useEffect(() => {
     if (
       JSON.stringify(postInitialState.current) !==
@@ -258,7 +255,6 @@ export const VideoPostUpdation: React.FC<ITextPostUpdationProps> = ({
   return (
     <>
       <PageTitle title={pageTitle} />
-
       {!previewing ? (
         <>
           <PostDirectionsSelector
@@ -307,7 +303,6 @@ export const VideoPostUpdation: React.FC<ITextPostUpdationProps> = ({
               {contentInputLabel}
             </Typography>
             <TextPostEditor
-              toolbar={editorToolbar}
               initialHtmlContent={htmlContent}
               initialPreview={preview}
               onHtmlContentChange={(value) => {

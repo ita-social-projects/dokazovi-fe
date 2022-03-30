@@ -5,6 +5,7 @@ import {
   INewArticlePostDraft,
   INewDopysPostDraft,
   INewVideoPostDraft,
+  INewPostDraft,
 } from './types';
 
 export const selectVideoUrl = (state: RootStateType): string =>
@@ -18,3 +19,6 @@ export const selectTextPostDraft = (
   state: RootStateType,
   type,
 ): INewArticlePostDraft | INewDopysPostDraft => state.newPostDraft[type];
+
+export const selectPostDraft = (state: RootStateType, type): INewPostDraft =>
+  state.newPostDraft[type];
