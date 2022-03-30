@@ -16,20 +16,20 @@ export const PostUpdation: React.FC<IPostUpdationProps> = ({ post }) => {
     {
       type: 1,
       pageTitle: t(langTokens.editor.articleUpdation),
-      titleInputLabel: t(langTokens.editor.articleTitle),
-      contentInputLabel: t(langTokens.editor.articleText),
+      titleInputLabel: `${t(langTokens.editor.articleTitle)}:`,
+      contentInputLabel: `${t(langTokens.editor.articleText)}:`,
     },
     {
       type: 2,
       pageTitle: t(langTokens.editor.videoUpdation),
-      titleInputLabel: t(langTokens.editor.videoTitle),
-      contentInputLabel: t(langTokens.editor.videoDescription),
+      titleInputLabel: `${t(langTokens.editor.videoTitle)}:`,
+      contentInputLabel: `${t(langTokens.editor.videoDescription)}:`,
     },
     {
       type: 3,
       pageTitle: t(langTokens.editor.noteUpdation),
-      titleInputLabel: t(langTokens.editor.noteTitle),
-      contentInputLabel: t(langTokens.editor.noteText),
+      titleInputLabel: `${t(langTokens.editor.noteTitle)}:`,
+      contentInputLabel: `${t(langTokens.editor.noteText)}:`,
     },
   ];
 

@@ -5,6 +5,33 @@ import { PostCreationButtons } from './PostCreationButtons';
 
 describe('PostCreationButton test', () => {
   const publish = jest.fn();
+  const mockPost = {
+    id: 8,
+    title: 'Як підготуватися до вакцинації',
+    content:
+      '<p>https://st2.depositphotos.com/1064024/10755/i/950/depositphotos_107559180-stock-photo-little-boy-illustration.jpghttps://st2.depositphotos.com/1064024/10755/i/950/depositphotos_107559180-stock-photo-little-boy-illustration.jpghttps://st2.depositphotos.com/1064024/10755/i/950/depositphotos_107559180-stock-photo-little-boy-illustration.jpghttps://st2.depositphotos.com/1064024/10755/i/950/depositphotos_107559180-stock-photo-little-boy-illustration.jpghttps://st2.depositphotos.com/1064024/10755/i...',
+    author: {
+      firstName: 'Bill',
+      id: 56,
+      lastName: 'Yamamoto',
+      mainInstitution: {
+        city: {
+          id: 190,
+          name: 'Київ',
+        },
+        id: 10,
+        name: 'UNICEF Ukraine',
+      },
+    },
+    directions: [{ id: 7, name: 'pediatrics' }],
+    type: { id: 1, name: 'Стаття' },
+    status: 'ARCHIVED',
+    createdAt: '25.10.2021',
+    publishedAt: '25.10.2021',
+    origins: [{ id: 1, name: 'Думка експерта', parameter: null }],
+    preview:
+      'cvj;qdksjn;ckjnqsd;jkcvnq;sjdhcfn;wejqnhc;vksdnc;jkasdn;jkfd;skcn',
+  };
 
   it('should render properly', () => {
     const { asFragment } = render(
@@ -12,6 +39,7 @@ describe('PostCreationButton test', () => {
         action="creating"
         onPublishClick={publish}
         onPreviewClick={jest.fn}
+        onSaveClick={jest.fn}
       />,
     );
     expect(asFragment()).toMatchSnapshot();
@@ -22,6 +50,7 @@ describe('PostCreationButton test', () => {
         action="creating"
         onPublishClick={publish}
         onPreviewClick={jest.fn}
+        onSaveClick={jest.fn}
         isModal={{ isTooLong: true, isEmpty: false, isEnoughLength: false }}
       />,
     );
@@ -35,10 +64,11 @@ describe('PostCreationButton test', () => {
         action="creating"
         onPublishClick={publish}
         onPreviewClick={jest.fn}
+        onSaveClick={jest.fn}
         isModal={{ isEmpty: true, isEnoughLength: false }}
       />,
     );
-    const publishButton = screen.getByText('Опублікувати');
+    const publishButton = screen.getByText('Зберегти');
     userEvent.click(publishButton);
     expect(
       screen.getByText(
@@ -52,6 +82,7 @@ describe('PostCreationButton test', () => {
         action="creating"
         onPublishClick={publish}
         onPreviewClick={jest.fn}
+        onSaveClick={jest.fn}
         isModal={{ isEmpty: false, isEnoughLength: true }}
       />,
     );
@@ -65,12 +96,15 @@ describe('PostCreationButton test', () => {
     render(
       <PostCreationButtons
         action="updating"
+        isAdmin={true}
         onPublishClick={publish}
         onPreviewClick={jest.fn}
+        onSaveClick={jest.fn}
         isModal={{ isEmpty: false, isEnoughLength: false, isVideoEmpty: true }}
+        post={mockPost}
       />,
     );
-    const publishButton = screen.getByText('Зберегти');
+    const publishButton = screen.getByText('Опублікувати');
     userEvent.click(publishButton);
     expect(screen.getByText('Додайте, будь ласка, відео')).toBeInTheDocument();
   });
@@ -78,17 +112,20 @@ describe('PostCreationButton test', () => {
     render(
       <PostCreationButtons
         action="updating"
+        isAdmin={true}
         onPublishClick={publish}
         onPreviewClick={jest.fn}
+        onSaveClick={jest.fn}
         previewing
         isModal={{
           isEmpty: false,
           isEnoughLength: false,
           hasBackGroundImg: true,
         }}
+        post={mockPost}
       />,
     );
-    const publishButton = screen.getByText('Зберегти');
+    const publishButton = screen.getByText('Опублікувати');
     userEvent.click(publishButton);
     expect(
       screen.getByText(`Фонове зображення обов'язкове`),
@@ -102,6 +139,7 @@ describe('PostCreationButton test', () => {
         onPublishClick={publish}
         onCancelClick={cancelHandlerClick}
         onPreviewClick={jest.fn}
+        onSaveClick={jest.fn}
         previewing
       />,
     );
@@ -119,6 +157,7 @@ describe('PostCreationButton test', () => {
         onPublishClick={publish}
         onCancelClick={cancelHandlerClick}
         onPreviewClick={jest.fn}
+        onSaveClick={jest.fn}
         previewing
       />,
     );

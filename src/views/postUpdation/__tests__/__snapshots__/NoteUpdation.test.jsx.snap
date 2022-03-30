@@ -355,7 +355,14 @@ exports[`NoteUpdation tests should NoteUpdation render 1`] = `
             >
               <span
                 class="ql-picker-item"
-                data-label="Заголовок"
+                data-label="Заголовок 1"
+                data-value="2"
+                role="button"
+                tabindex="0"
+              />
+              <span
+                class="ql-picker-item"
+                data-label="Заголовок 2"
                 data-value="3"
                 role="button"
                 tabindex="0"
@@ -388,9 +395,14 @@ exports[`NoteUpdation tests should NoteUpdation render 1`] = `
             style="display: none;"
           >
             <option
+              value="2"
+            >
+              Заголовок 1
+            </option>
+            <option
               value="3"
             >
-              Заголовок
+              Заголовок 2
             </option>
             <option
               value="4"
