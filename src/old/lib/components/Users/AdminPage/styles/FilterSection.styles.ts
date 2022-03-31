@@ -3,7 +3,7 @@ import { makeStyles, Theme } from '@material-ui/core';
 export const useStyles = makeStyles(
   (theme: Theme) => ({
     filterSection: {
-      width: '100%',
+      width: '1100px',
       boxSizing: 'border-box',
       display: 'flex',
       flexDirection: 'row',
