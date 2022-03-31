@@ -2,7 +2,6 @@ import { makeStyles, Theme } from '@material-ui/core';
 
 export const useStyles = makeStyles((theme: Theme) => ({
   titleCol: {
-    width: '1110px',
     overflowX: 'hidden',
     '& .MuiChip-root': {
       borderRadius: 0,

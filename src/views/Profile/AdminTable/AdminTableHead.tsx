@@ -58,15 +58,15 @@ const content: IContent[] = [
     isSortable: true,
     sortKey: SortBy.views,
     initialSortOrder: Order.desc,
-    tooltip: i18n.t(langTokens.admin.viewsFull),
+    // tooltip: i18n.t(langTokens.admin.viewsFull),
     icon: <Visibility />,
   },
   {
-    label: i18n.t(langTokens.admin.realViews),
+    label: i18n.t(langTokens.admin.realViewsFull),
     isSortable: true,
     sortKey: SortBy.real_views,
     initialSortOrder: Order.desc,
-    tooltip: i18n.t(langTokens.admin.realViewsFull),
+    // tooltip: i18n.t(langTokens.admin.realViewsFull),
     icon: <Visibility />,
   },
   {
@@ -106,7 +106,12 @@ const AdminTableHead: React.FC = () => {
         placement="right"
         classes={{ tooltip: classes.tooltip }}
       >
-        <TableCell sortDirection={sortBy === sortKey ? order : false}>
+        <TableCell
+          sortDirection={sortBy === sortKey ? order : false}
+          className={
+            label === i18n.t(langTokens.admin.title) ? classes.titleCell : ''
+          }
+        >
           {isSortable ? (
             <TableSortLabel
               active={sortBy === sortKey}
