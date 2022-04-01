@@ -5,8 +5,8 @@ export const admin = {
   dateOfStatusChange: 'Дата зміни статусу',
   direction: 'Тема',
   author: 'Автор',
+  realViews: 'Реальна кількість переглядів',
   views: 'Кількість переглядів, що відображається',
-  realViews: 'Реальні перегляди',
   viewsFull: 'Кількість переглядів, що відображається',
   realViewsFull: 'Реальна кількість переглядів',
   actions: 'Дії',
@@ -58,4 +58,6 @@ export const admin = {
   selectedImportantMaterials: 'Зараз використовуються:',
   selectOption: `Оберіть об'єкт налаштування у меню`,
   resetTableFilters: `Скинути всі фільтри`,
+  searchTitlePlaceholder: `Пошук по назві`,
+  searchAuthorPlaceholder: `Пошук по автору`,
 };
