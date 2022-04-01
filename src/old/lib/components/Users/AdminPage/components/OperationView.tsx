@@ -32,16 +32,10 @@ const OperationView: React.FC<IOperationViewProps> = (props) => {
         return operationView;
       }
       case 'materials': {
-        const operationView = (
-          <>
-            <AdminTable />
-          </>
-        );
-
-        return operationView;
+        return <AdminTable />;
       }
       default: {
-        return <div>{t(langTokens.admin.selectOption)}</div>;
+        return <AdminTable />;
       }
     }
   };
