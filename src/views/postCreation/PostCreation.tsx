@@ -273,7 +273,8 @@ export const PostCreation: React.FC<IPostCreationProps> = ({
     !newPost.title ||
     !newPost.directions.length ||
     !newPost.content ||
-    !newPost.authorId;
+    !newPost.authorId ||
+    !newPost.preview;
 
   const isEnoughLength =
     contentText.length <= MIN_CONTENT_LENGTH ||
@@ -285,7 +286,7 @@ export const PostCreation: React.FC<IPostCreationProps> = ({
     newPost?.origins[0]?.id !== 1 &&
     !newPost.previewImageUrl;
 
-  const isVideoEmpty = !newPost.videoUrl;
+  const isVideoEmpty = isVideoPost ? !newPost.videoUrl : false;
 
   const isTooLong = newPost.title.length > MAX_TITLE_LENGTH;
 

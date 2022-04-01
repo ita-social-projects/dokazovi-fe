@@ -237,7 +237,8 @@ export const AllPostTypesUpdation: React.FC<IAllPostTypesUpdation> = ({
     !updatedPost.title ||
     !updatedPost.content ||
     !updatedPost.directions.length ||
-    !updatedPost.authorId;
+    !updatedPost.authorId ||
+    !updatedPost.preview;
 
   const isEnoughLength =
     contentText.length <= MIN_CONTENT_LENGTH ||
@@ -251,7 +252,7 @@ export const AllPostTypesUpdation: React.FC<IAllPostTypesUpdation> = ({
     updatedPost?.origins[0]?.id !== 1 &&
     !updatedPost.previewImageUrl;
 
-  const isVideoEmpty = !updatedPost.videoUrl;
+  const isVideoEmpty = isVideoPost ? !updatedPost.videoUrl : false;
 
   const previewPost: IPost = {
     ...post,
