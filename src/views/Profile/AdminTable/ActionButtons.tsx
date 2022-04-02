@@ -132,7 +132,6 @@ const ActionButtons: React.FC<IActionButtons> = ({
         MODERATION_SECOND_SIGN,
         ARCHIVED,
         DRAFT,
-        NEEDS_EDITING,
         PLANNED,
       ],
       authorUseStatuses: [DRAFT, NEEDS_EDITING],
@@ -160,7 +159,7 @@ const ActionButtons: React.FC<IActionButtons> = ({
         onConfirmButtonClick: handlePublishConfirm,
       },
       adminUseStatuses: [MODERATION_SECOND_SIGN, ARCHIVED, PLANNED],
-      authorUseStatuses: [DRAFT],
+      authorUseStatuses: [DRAFT, NEEDS_EDITING],
     },
     {
       id: 'schedulePublishBtn',
@@ -180,7 +179,7 @@ const ActionButtons: React.FC<IActionButtons> = ({
       // eslint-disable-next-line no-console
       handler: () => console.log('changePublicationDateBtn handler'),
       modal: null,
-      adminUseStatuses: [PUBLISHED, MODERATION_SECOND_SIGN, ARCHIVED, PLANNED],
+      adminUseStatuses: [PLANNED],
       authorUseStatuses: [],
     },
     {
@@ -214,8 +213,8 @@ const ActionButtons: React.FC<IActionButtons> = ({
         title: t(langTokens.admin.deleteTitle),
         onConfirmButtonClick: handleDeleteConfirm,
       },
-      adminUseStatuses: [PUBLISHED, ARCHIVED, NEEDS_EDITING, PLANNED],
-      authorUseStatuses: [DRAFT],
+      adminUseStatuses: [PUBLISHED, ARCHIVED, PLANNED, DRAFT],
+      authorUseStatuses: [DRAFT, NEEDS_EDITING],
     },
   ];
 
