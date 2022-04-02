@@ -21,7 +21,6 @@ export interface IPreviewInputProps {
 
 const PreviewInput: React.FC<IPreviewInputProps> = ({
   initialPreview,
-  editorTextContent,
   initialWasManuallyChanged,
   onPreviewChange,
   onManuallyChanged,

@@ -1,6 +1,5 @@
 import React from 'react';
 import { GeneralEditor } from '../GeneralEditor';
-import { VideoEditorToolbar } from './VideoEditorToolbar';
 
 interface IVideoEditorProps {
   initialHtmlContent?: string;
@@ -16,7 +15,6 @@ const VideoEditor: React.FC<IVideoEditorProps> = ({
       <GeneralEditor
         initialHtmlContent={initialHtmlContent}
         onHtmlContentChange={onHtmlContentChange}
-        toolbar={VideoEditorToolbar}
       />
     </>
   );

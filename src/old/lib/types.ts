@@ -132,6 +132,7 @@ export interface IPost {
   publishedAt: string;
   modifiedAt?: string;
   origins: IOrigin[];
+  postStatus?: number;
   preview: string;
   previewImageUrl?: string;
   importantImageUrl?: string;

@@ -1,11 +1,10 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
-import React, { useContext } from 'react';
+import React from 'react';
 import { Skeleton } from '@material-ui/lab';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import { useHistory } from 'react-router-dom';
-import { ScreenContext } from 'old/provider/MobileProvider/ScreenContext';
 import { IDirection, IOrigin, IPostType } from '../../../old/lib/types';
 import { useStyles } from './PostInfo.styles';
 
@@ -23,7 +22,6 @@ export default function PostInfo({ info }: IPostInfo): JSX.Element {
   const { directions, origins, type, publishedAt, realViews } = info;
   const classes = useStyles();
   const history = useHistory();
-  const { mobile } = useContext(ScreenContext);
 
   const redirectToMaterialsFiltered = (id: number, root: string) => {
     history.push({ pathname: '/materials', search: `?${root}=${id}` });

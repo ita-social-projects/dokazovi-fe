@@ -5,10 +5,9 @@ import PreviewInput from '../PreviewInput';
 import { GeneralEditor } from '../GeneralEditor';
 import { PostPreviewCard } from '../../Posts/Cards/PostPreviewCard';
 import { IPost } from '../../../old/lib/types';
-import { IEditorToolbarProps } from '../types';
 
 interface ITextPostEditorProps {
-  toolbar: React.ComponentType<IEditorToolbarProps>;
+  isVideoPost?: boolean;
   initialHtmlContent?: string;
   initialPreview: string;
   onHtmlContentChange: (value: string) => void;
@@ -20,7 +19,7 @@ interface ITextPostEditorProps {
 }
 
 const PostEditor: React.FC<ITextPostEditorProps> = ({
-  toolbar,
+  isVideoPost,
   initialHtmlContent,
   initialPreview,
   onHtmlContentChange,
@@ -37,7 +36,7 @@ const PostEditor: React.FC<ITextPostEditorProps> = ({
       <GeneralEditor
         initialHtmlContent={initialHtmlContent}
         onHtmlContentChange={onHtmlContentChange}
-        toolbar={toolbar}
+        isVideoPost={isVideoPost}
         onTextContentChange={setTextContent}
       />
       <BorderBottom />

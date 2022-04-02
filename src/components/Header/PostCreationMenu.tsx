@@ -20,7 +20,7 @@ const menuItems = [
   },
   {
     id: 'dopys',
-    label: i18n.t(langTokens.common.post).toLowerCase(),
+    label: i18n.t(langTokens.common.note).toLowerCase(),
     url: '/create-note',
   },
   {

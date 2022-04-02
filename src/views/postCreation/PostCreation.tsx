@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import { Box, TextField, Typography } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
 import { PageTitle } from 'components/Page/PageTitle';
+import { StatusesForActions } from 'models/adminLab/types';
 import { RootStateType } from '../../models/rootReducer';
 import {
   resetDraft,
@@ -20,13 +21,17 @@ import {
   setPostPreviewManuallyChanged,
   setPostPreviewText,
   setPostTitle,
+  selectVideoUrl,
+  setVideoUrl,
 } from '../../models/postCreation';
 import { IDirection, IOrigin, IPost, PostTypeEnum } from '../../old/lib/types';
 import { sanitizeHtml } from '../../old/lib/utilities/sanitizeHtml';
+import { parseVideoIdFromUrl } from '../../old/lib/utilities/parseVideoIdFromUrl';
+import VideoUrlInputModal from '../../components/Editor/CustomModules/VideoUrlInputModal';
 import { PostCreationButtons } from './PostCreationButtons';
 import {
-  CreateTextPostRequestType,
   ExpertResponseType,
+  CreatePostRequestType,
 } from '../../old/lib/utilities/API/types';
 import { createPost, getAllExperts } from '../../old/lib/utilities/API/api';
 import {
@@ -42,7 +47,6 @@ import {
 import PostView from '../../old/modules/posts/components/PostView';
 import { CarouselImagesWrapper } from './CarouselImagesWrapper';
 import { TextPostEditor } from '../../components/Editor/Editors/TextPostEditor';
-import { IEditorToolbarProps } from '../../components/Editor/types';
 import { PostDirectionsSelector } from './PostDirectionsSelector';
 import { PostOriginsSelector } from './PostOriginsSelector';
 import { BorderBottom } from '../../old/lib/components/Border';
@@ -50,7 +54,7 @@ import { fileSelectorHandler } from './fileSelectorHandler';
 import { BackgroundImageContainer } from '../../components/Editor/CustomModules/BackgroundImageContainer/BackgroundImageContainer';
 import { PostAuthorSelection } from './PostAuthorSelection/PostAuthorSelection';
 import { selectCurrentUser } from '../../models/user';
-import { selectTextPostDraft } from '../../models/postCreation/selectors';
+import { selectPostDraft } from '../../models/postCreation/selectors';
 import { useActions } from '../../shared/hooks';
 import { langTokens } from '../../locales/localizationInit';
 import { useStyle } from './RequiredFieldsStyle';
@@ -61,26 +65,25 @@ interface IPostCreationProps {
   titleInputLabel?: string;
   contentInputLabel?: string;
   postType: { type: PostTypeEnum; name: string };
-  editorToolbar: React.ComponentType<IEditorToolbarProps>;
 }
 
 type ExtraFieldsType = null | JSX.Element;
 
-export const TextPostCreation: React.FC<IPostCreationProps> = ({
+export const PostCreation: React.FC<IPostCreationProps> = ({
   pageTitle,
   titleInputLabel,
   contentInputLabel,
   postType,
-  editorToolbar,
 }) => {
   const { t } = useTranslation();
   const history = useHistory();
   const classes = useStyle();
   const authorities = useSelector(selectAuthorities);
   const isAdmin = authorities.data?.includes('SET_IMPORTANCE');
+  const isVideoPost = postType.type === PostTypeEnum.VIDEO;
 
   const savedPostDraft = useSelector((state: RootStateType) =>
-    selectTextPostDraft(state, postType.type),
+    selectPostDraft(state, postType.type),
   );
   const user = useSelector(selectCurrentUser);
 
@@ -106,6 +109,10 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
   const [searchValue, setSearchValue] = useState('');
   const [authorLength, setAuthorLength] = useState<number | null>(null);
 
+  const videoUrl = useSelector(selectVideoUrl);
+
+  const videoId = parseVideoIdFromUrl(videoUrl);
+
   const [
     boundSetPostDirections,
     boundSetPostOrigin,
@@ -120,6 +127,7 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
     boundResetDraft,
     boundSetImportantImageUrl,
     boundSetImportantMobileImageUrl,
+    boundSetVideoUrl,
   ] = useActions([
     setPostDirections,
     setPostOrigin,
@@ -134,6 +142,7 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
     resetDraft,
     setImportantImageUrl,
     setImportantMobileImageUrl,
+    setVideoUrl,
   ]);
 
   const handleDirectionsChange = (value: IDirection[]) => {
@@ -156,6 +165,10 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
 
   const handleAuthorsDetailsChange = (value: string) => {
     boundSetAuthorsDetails({ postType: postType.type, value });
+  };
+
+  const handleVideoUrlChange = (url: string) => {
+    boundSetVideoUrl(url);
   };
 
   const dispatchImageUrl = (previewImageUrl: string): void => {
@@ -238,7 +251,7 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
     boundSetPostPreviewManuallyChanged(postType.type);
   };
 
-  const newPost: CreateTextPostRequestType = {
+  const newPost: CreatePostRequestType = {
     authorId: isAdmin ? savedPostDraft.authorId : user.data?.id,
     previewImageUrl: savedPostDraft.previewImageUrl,
     importantImageUrl: savedPostDraft.importantImageUrl,
@@ -250,6 +263,7 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
     title: savedPostDraft.title,
     authorsName: savedPostDraft.authorsName,
     authorsDetails: savedPostDraft.authorsDetails,
+    videoUrl: savedPostDraft.videoUrl,
     type: { id: postType.type },
   };
 
@@ -259,7 +273,8 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
     !newPost.title ||
     !newPost.directions.length ||
     !newPost.content ||
-    !newPost.authorId;
+    !newPost.authorId ||
+    !newPost.preview;
 
   const isEnoughLength =
     contentText.length <= MIN_CONTENT_LENGTH ||
@@ -270,6 +285,8 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
     !!newPost?.origins?.length &&
     newPost?.origins[0]?.id !== 1 &&
     !newPost.previewImageUrl;
+
+  const isVideoEmpty = isVideoPost ? !newPost.videoUrl : false;
 
   const isTooLong = newPost.title.length > MAX_TITLE_LENGTH;
 
@@ -285,14 +302,24 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
         directions: savedPostDraft.directions,
         origins: savedPostDraft.origins,
         title: savedPostDraft.title,
+        videoUrl: savedPostDraft.videoUrl,
         type: { id: postType.type, name: postType.name },
       } as IPost),
     [user, savedPostDraft],
   );
 
   const handlePublishClick = async () => {
+    newPost.postStatus = isAdmin
+      ? StatusesForActions.PUBLISHED
+      : StatusesForActions.MODERATION_SECOND_SIGN;
     const response = await createPost(newPost);
     boundResetDraft(postType.type);
+    history.push(`/posts/${response.data.id}`);
+  };
+
+  const handleSaveClick = async () => {
+    newPost.postStatus = StatusesForActions.DRAFT;
+    const response = await createPost(newPost);
     history.push(`/posts/${response.data.id}`);
   };
 
@@ -395,8 +422,10 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
               </div>
             )}
           </Box>
+
           {postAuthorSelection}
-          {isAdmin && (
+
+          {isAdmin && !isVideoPost && (
             <>
               <Box className={classes.backgroundImagesContainer}>
                 <Box className={classes.backgroundImageWrapper}>
@@ -416,15 +445,33 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
                 setImportantImageUrl={dispatchImportantImageUrl}
                 setImportantMobileImageUrl={dispatchImportantMobileImageUrl}
               />
-              <BorderBottom />
             </>
           )}
+
+          {isVideoPost && (
+            <>
+              <Box mt={2}>
+                <VideoUrlInputModal dispatchVideoUrl={handleVideoUrlChange} />
+                {videoId && (
+                  <iframe
+                    title="video"
+                    width="360"
+                    height="240"
+                    src={`https://www.youtube.com/embed/${videoId}`}
+                    frameBorder="0"
+                    allowFullScreen
+                  />
+                )}
+              </Box>
+            </>
+          )}
+          <BorderBottom />
           <Box mt={2}>
             <Typography className={classes.requiredField} variant="h5">
               {contentInputLabel}
             </Typography>
             <TextPostEditor
-              toolbar={editorToolbar}
+              isVideoPost
               initialHtmlContent={savedPostDraft.htmlContent}
               initialPreview={savedPostDraft.preview.value}
               onHtmlContentChange={(value) => {
@@ -449,13 +496,19 @@ export const TextPostCreation: React.FC<IPostCreationProps> = ({
 
       <PostCreationButtons
         action="creating"
-        isModal={{ isEmpty, isEnoughLength, isTooLong, hasBackGroundImg }}
+        isModal={{
+          isEmpty,
+          isEnoughLength,
+          isVideoEmpty,
+          isTooLong,
+          hasBackGroundImg,
+        }}
         onPublishClick={handlePublishClick}
+        onSaveClick={handleSaveClick}
         onPreviewClick={() => {
           setPreviewing(!previewing);
         }}
         previewing={previewing}
-        disabled={Object.values(typing).some((i) => i)}
       />
     </>
   );

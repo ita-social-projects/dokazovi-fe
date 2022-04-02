@@ -50,10 +50,7 @@ const AdminTableFilters: React.FC = () => {
           placement="bottom"
           classes={{ tooltip: classes.tooltip }}
         >
-          <IconButton
-            onClick={resetFilters}
-            className={classes.clearButton}
-          >
+          <IconButton onClick={resetFilters} className={classes.clearButton}>
             <HighlightOffRoundedIcon fontSize="large" />
           </IconButton>
         </Tooltip>
