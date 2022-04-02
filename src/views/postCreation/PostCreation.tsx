@@ -463,15 +463,16 @@ export const PostCreation: React.FC<IPostCreationProps> = ({
                   />
                 )}
               </Box>
+              <BorderBottom />
             </>
           )}
-          <BorderBottom />
+
           <Box mt={2}>
             <Typography className={classes.requiredField} variant="h5">
               {contentInputLabel}
             </Typography>
             <TextPostEditor
-              isVideoPost
+              isVideoPost={isVideoPost}
               initialHtmlContent={savedPostDraft.htmlContent}
               initialPreview={savedPostDraft.preview.value}
               onHtmlContentChange={(value) => {
