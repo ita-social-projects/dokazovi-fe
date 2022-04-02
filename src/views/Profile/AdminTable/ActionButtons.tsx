@@ -47,7 +47,7 @@ const ActionButtons: React.FC<IActionButtons> = ({
 
   const {
     DRAFT,
-    MODERATION_FIRST_SIGN,
+    // MODERATION_FIRST_SIGN,
     MODERATION_SECOND_SIGN,
     PUBLISHED,
     PLANNED,
@@ -159,7 +159,7 @@ const ActionButtons: React.FC<IActionButtons> = ({
         title: t(langTokens.admin.publishTitle),
         onConfirmButtonClick: handlePublishConfirm,
       },
-      adminUseStatuses: [MODERATION_SECOND_SIGN, ARCHIVED],
+      adminUseStatuses: [MODERATION_SECOND_SIGN, ARCHIVED, PLANNED],
       authorUseStatuses: [DRAFT],
     },
     {
@@ -214,7 +214,7 @@ const ActionButtons: React.FC<IActionButtons> = ({
         title: t(langTokens.admin.deleteTitle),
         onConfirmButtonClick: handleDeleteConfirm,
       },
-      adminUseStatuses: [PUBLISHED, ARCHIVED, NEEDS_EDITING],
+      adminUseStatuses: [PUBLISHED, ARCHIVED, NEEDS_EDITING, PLANNED],
       authorUseStatuses: [DRAFT],
     },
   ];
