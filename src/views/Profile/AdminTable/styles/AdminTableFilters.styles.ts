@@ -3,7 +3,7 @@ import { makeStyles, Theme } from '@material-ui/core';
 export const useStyles = makeStyles((theme: Theme) => ({
   filterSection: {
     display: 'flex',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-start',
     backgroundColor: 'white',
     padding: theme.spacing(1.4, 6),
     borderRadius: theme.spacing(0.8),
@@ -17,5 +17,9 @@ export const useStyles = makeStyles((theme: Theme) => ({
     '&:hover': {
       color: theme.palette.action.hover,
     },
+  },
+  tooltip: {
+    backgroundColor: theme.palette.common.black,
+    ...theme.typography.button,
   },
 }));

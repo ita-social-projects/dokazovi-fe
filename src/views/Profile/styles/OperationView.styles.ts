@@ -7,7 +7,7 @@ export const useStyles = makeStyles(
       position: 'relative',
       minHeight: '455px',
       marginTop: theme.spacing(-8),
-      paddingLeft: '110px',
+      paddingLeft: '210px',
       paddingTop: '40px',
     },
   }),

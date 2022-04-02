@@ -28,7 +28,7 @@ const MenuProps = {
 interface IMaterialsDate {
   start: string | undefined;
   end: string | undefined;
-  setChanges: (payload: any) => void;
+  setChanges: (...params: any[]) => void;
 }
 
 export const AdminDatePicker: React.FC<IMaterialsDate> = ({

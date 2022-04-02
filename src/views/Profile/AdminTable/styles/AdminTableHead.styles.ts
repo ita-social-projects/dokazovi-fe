@@ -14,4 +14,7 @@ export const useStyles = makeStyles((theme: Theme) => ({
     backgroundColor: theme.palette.common.black,
     ...theme.typography.button,
   },
+  titleCell: {
+    width: '320px',
+  },
 }));

@@ -5,7 +5,10 @@ import ImageHandlersContainer from '../CustomModules/ImageHandlersContainer';
 import '../generalEditor.styles.css';
 import { IEditorToolbarProps } from '../types';
 
-const ArticleEditorToolbar: React.FC<IEditorToolbarProps> = ({ editor }) => {
+export const EditorToolbar: React.FC<IEditorToolbarProps> = ({
+  editor,
+  isVideoPost,
+}) => {
   const { t } = useTranslation();
 
   return (
@@ -49,9 +52,7 @@ const ArticleEditorToolbar: React.FC<IEditorToolbarProps> = ({ editor }) => {
         <button title="Quote" type="button" className="ql-blockquote" />
         <button type="button" className="ql-link" />
       </span>
-      <ImageHandlersContainer editor={editor} />
+      {!isVideoPost && <ImageHandlersContainer editor={editor} />}
     </div>
   );
 };
-
-export default ArticleEditorToolbar;

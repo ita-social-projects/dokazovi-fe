@@ -7,6 +7,7 @@ import { DropEvent, FileRejection } from 'react-dropzone';
 import { PageTitle } from 'components/Page/PageTitle';
 import { useSelector } from 'react-redux';
 import { CarouselImagesWrapper } from 'views/postCreation/CarouselImagesWrapper';
+import { StatusesForActions } from 'models/adminLab/types';
 import { sanitizeHtml } from '../../old/lib/utilities/sanitizeHtml';
 import { getAllExperts, updatePost } from '../../old/lib/utilities/API/api';
 import { IDirection, IOrigin, IPost } from '../../old/lib/types';
@@ -25,9 +26,10 @@ import {
   MIN_TITLE_LENGTH,
   PREVIEW_DEBOUNCE_TIMEOUT,
 } from '../../old/lib/constants/editors';
+import VideoUrlInputModal from '../../components/Editor/CustomModules/VideoUrlInputModal';
+import { parseVideoIdFromUrl } from '../../old/lib/utilities/parseVideoIdFromUrl';
 import PostView from '../../old/modules/posts/components/PostView';
 import { TextPostEditor } from '../../components/Editor/Editors/TextPostEditor';
-import { IEditorToolbarProps } from '../../components/Editor/types';
 import { PostDirectionsSelector } from '../postCreation/PostDirectionsSelector';
 import { PostOriginsSelector } from '../postCreation/PostOriginsSelector';
 import { PostAuthorSelection } from '../postCreation/PostAuthorSelection/PostAuthorSelection';
@@ -39,19 +41,17 @@ import { langTokens } from '../../locales/localizationInit';
 import { useStyle } from '../postCreation/RequiredFieldsStyle';
 import { selectAuthorities } from '../../models/authorities';
 
-export interface ITextPostUpdationProps {
+export interface IAllPostTypesUpdation {
   pageTitle: string;
   titleInputLabel: string;
   contentInputLabel: string;
-  editorToolbar: React.ComponentType<IEditorToolbarProps>;
   post: IPost;
 }
 
-export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
+export const AllPostTypesUpdation: React.FC<IAllPostTypesUpdation> = ({
   pageTitle,
   titleInputLabel,
   contentInputLabel,
-  editorToolbar,
   post,
 }) => {
   const history = useHistory();
@@ -59,6 +59,7 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
   const authorities = useSelector(selectAuthorities);
   const isAdmin = authorities.data?.includes('SET_IMPORTANCE');
   const [autoChanges, setAutoChanges] = useState(true);
+  const isVideoPost = post.type.id === 2;
 
   const [selectedDirections, setSelectedDirections] = useState<IDirection[]>(
     post.directions,
@@ -81,6 +82,7 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
     value: post.title,
     error: '',
   });
+  const [videoUrl, setVideoUrl] = useState<string>(post.videoUrl as string);
 
   const [htmlContent, setHtmlContent] = useState<string>(post.content);
 
@@ -97,25 +99,27 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
   const [isDisabled, setIsDisabled] = useState<boolean>(true);
 
   const postCurrentState = {
+    title: title.value,
+    htmlContent,
+    preview,
     selectedDirections,
     selectedOrigins,
     previewImageUrl,
     importantImageUrl,
     importantMobileImageUrl,
-    title: title.value,
-    htmlContent,
-    preview,
+    videoUrl,
   };
 
   const postInitialState = useRef({
+    title: post.title,
+    htmlContent: post.content,
+    preview: post.preview,
     selectedDirections: post.directions,
     selectedOrigins: post.origins,
     previewImageUrl: post.previewImageUrl,
     importantImageUrl: post.importantImageUrl,
-    importantMobileImageUrl: '',
-    title: post.title,
-    htmlContent: post.content,
-    preview: post.preview,
+    importantMobileImageUrl: post.importantMobileImageUrl,
+    videoUrl: post.videoUrl,
   });
 
   useEffect(() => {
@@ -126,14 +130,15 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
       setIsDisabled(false);
     }
   }, [
+    title,
+    htmlContent,
+    preview,
     selectedDirections,
     selectedOrigins,
     previewImageUrl,
     importantImageUrl,
     importantMobileImageUrl,
-    title,
-    htmlContent,
-    preview,
+    videoUrl,
   ]);
 
   const { t } = useTranslation();
@@ -209,6 +214,8 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
       });
   };
 
+  const videoId = parseVideoIdFromUrl(videoUrl);
+
   const updatedPost: UpdateTextPostRequestType = {
     id: post.id,
     content: htmlContent,
@@ -221,6 +228,7 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
     title: title.value,
     type: post.type,
     authorId: authorId ?? post.author.id,
+    videoUrl,
   };
 
   const contentText = updatedPost.content.replace(CLEAR_HTML_REG_EXP, '');
@@ -229,7 +237,8 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
     !updatedPost.title ||
     !updatedPost.content ||
     !updatedPost.directions.length ||
-    !updatedPost.authorId;
+    !updatedPost.authorId ||
+    !updatedPost.preview;
 
   const isEnoughLength =
     contentText.length <= MIN_CONTENT_LENGTH ||
@@ -242,6 +251,8 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
     !!updatedPost?.origins?.length &&
     updatedPost?.origins[0]?.id !== 1 &&
     !updatedPost.previewImageUrl;
+
+  const isVideoEmpty = isVideoPost ? !updatedPost.videoUrl : false;
 
   const previewPost: IPost = {
     ...post,
@@ -262,9 +273,23 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
     origins: selectedOrigins,
     title: title.value,
     type: post.type,
+    videoUrl,
   };
 
   const handlePublishClick = async () => {
+    updatedPost.postStatus = isAdmin
+      ? StatusesForActions.PUBLISHED
+      : StatusesForActions.MODERATION_SECOND_SIGN;
+    const response = await updatePost(updatedPost);
+    history.push(`/posts/${response.data.id}`);
+  };
+
+  const handleSaveClick = async () => {
+    if (post.status !== undefined) {
+      updatedPost.postStatus = StatusesForActions[post.status] as number;
+    } else {
+      updatedPost.postStatus = 0;
+    }
     const response = await updatePost(updatedPost);
     history.push(`/posts/${response.data.id}`);
   };
@@ -306,7 +331,7 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
               helperText={title.error}
               fullWidth
               required
-              id="post-name"
+              id={isVideoPost ? 'video-name' : 'post-name'}
               value={title.value}
               inputProps={{
                 'data-testid': 'text-field',
@@ -322,7 +347,7 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
             )}
           </Box>
           {postAuthorSelection}
-          {isAdmin && (
+          {isAdmin && !isVideoPost && (
             <>
               <Box className={classes.backgroundImagesContainer}>
                 <Box className={classes.backgroundImageWrapper}>
@@ -344,15 +369,30 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
                 setImportantImageUrl={setImportantImageUrl}
                 setImportantMobileImageUrl={setImportantMobileImageUrl}
               />
-              <BorderBottom />
             </>
           )}
+          {isVideoPost && (
+            <Box mt={2}>
+              <VideoUrlInputModal dispatchVideoUrl={setVideoUrl} />
+              {videoId && (
+                <iframe
+                  title="video"
+                  width="360"
+                  height="240"
+                  src={`https://www.youtube.com/embed/${videoId}`}
+                  frameBorder="0"
+                  allowFullScreen
+                />
+              )}
+            </Box>
+          )}
+          <BorderBottom />
           <Box mt={2}>
             <Typography className={classes.requiredField} variant="h5">
               {contentInputLabel}
             </Typography>
             <TextPostEditor
-              toolbar={editorToolbar}
+              isVideoPost={isVideoPost}
               initialHtmlContent={htmlContent}
               initialPreview={preview}
               onHtmlContentChange={(value) => {
@@ -378,11 +418,19 @@ export const TextPostUpdation: React.FC<ITextPostUpdationProps> = ({
 
       <PostCreationButtons
         action="updating"
-        isModal={{ isEmpty, isEnoughLength, isTooLong, hasBackGroundImg }}
+        isAdmin={isAdmin}
+        isModal={{
+          isEmpty,
+          isEnoughLength,
+          isVideoEmpty,
+          isTooLong,
+          hasBackGroundImg,
+        }}
         onCancelClick={() => {
           history.goBack();
         }}
         onPublishClick={handlePublishClick}
+        onSaveClick={handleSaveClick}
         onPreviewClick={() => {
           setPreviewing(!previewing);
         }}

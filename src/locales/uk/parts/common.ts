@@ -24,7 +24,7 @@ export const common = {
   article: 'Стаття',
   article_1: 'Статті',
   aritcle_2: 'Статті',
-  post: 'Допис',
+  note: 'Допис',
   yes: 'Так',
   no: 'Ні',
   close: 'Закрити',
