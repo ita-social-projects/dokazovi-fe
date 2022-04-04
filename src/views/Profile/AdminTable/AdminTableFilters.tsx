@@ -98,7 +98,7 @@ const AdminTableFilters: React.FC = () => {
             <AdminTextField
               field={FieldEnum.TITLE}
               setChanges={boundedSetField}
-              inputValue={textFields.author}
+              inputValue={textFields.title}
             />
           </Grid>
           <Grid item md={2}>
