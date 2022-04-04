@@ -48,7 +48,8 @@ export const ImportantContainer: React.FC<IImportantContainer> = ({
               <ImportantPostPreviewCard
                 post={post}
                 key={post.title}
-                size={mobile ? 'mobile' : 'large'}
+                forDeviceType={mobile ? 'mobile' : 'desktop'}
+                size={mobile ? 'small' : 'large'}
               />
             ))}
           </Carousel>

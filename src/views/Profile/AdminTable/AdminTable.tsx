@@ -3,6 +3,7 @@ import { Paper, Table, TableContainer } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 import {
   getMaterialsAction,
+  getAuthorMaterialsAction,
   selectAdminLab,
   selectMeta,
   setStateToInit,
@@ -12,12 +13,24 @@ import AdminTableHead from './AdminTableHead';
 import AdminTableBody from './AdminTableBody';
 import AdminTableFilters from './AdminTableFilters';
 import AdminTablePagination from './AdminTablePagination';
+import { selectAuthorities } from '../../../models/authorities';
 import { useActions } from '../../../shared/hooks';
 
-export const AdminTable: React.FC = () => {
+interface IAdminTable {
+  expertId?: number;
+}
+
+export const AdminTable: React.FC<IAdminTable> = ({ expertId }) => {
   const classes = useStyles();
-  const [boundedGetMaterialsAction, boundedSetStateToInit] = useActions([
+  const authorities = useSelector(selectAuthorities);
+  const isAdmin = authorities.data?.includes('SET_IMPORTANCE');
+  const [
+    boundedGetMaterialsAction,
+    boundGetAuthorMaterialsAction,
+    boundedSetStateToInit,
+  ] = useActions([
     getMaterialsAction,
+    getAuthorMaterialsAction,
     setStateToInit,
   ]);
   const { totalPages } = useSelector(selectAdminLab);
@@ -31,7 +44,11 @@ export const AdminTable: React.FC = () => {
   );
 
   useEffect(() => {
-    boundedGetMaterialsAction();
+    if (isAdmin) {
+      boundedGetMaterialsAction();
+    } else {
+      boundGetAuthorMaterialsAction(expertId);
+    }
   }, [meta]);
 
   return (
@@ -42,8 +59,8 @@ export const AdminTable: React.FC = () => {
         classes={{ root: classes.tableContainer }}
       >
         <Table>
-          <AdminTableHead />
-          <AdminTableBody />
+          <AdminTableHead isAdmin={isAdmin} />
+          <AdminTableBody isAdmin={isAdmin} />
         </Table>
       </TableContainer>
       {totalPages > 1 && <AdminTablePagination />}

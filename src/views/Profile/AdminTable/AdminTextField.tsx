@@ -1,28 +1,37 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import FormControl from '@material-ui/core/FormControl';
+import TextField from '@material-ui/core/TextField';
 import { FieldEnum, IField } from '../../../models/adminLab/types';
-import { TextFieldWithDebounce } from './TextFieldWithDebounce';
+import i18, { langTokens } from '../../../locales/localizationInit';
 
 interface IMaterialsTextField {
   field: FieldEnum;
-  placeholder: string;
   setChanges: (payload: IField) => void;
+  inputValue: string;
 }
 
 export const AdminTextField: React.FC<IMaterialsTextField> = ({
   field,
-  placeholder,
   setChanges,
+  inputValue,
 }) => {
-  const [text, setText] = useState<string>('');
-
-  useEffect(() => {
-    setChanges({ field, text });
-  }, [text]);
+  const handleChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
+  ) => {
+    setChanges({
+      field: field || '',
+      text: event.target.value || '',
+    });
+  };
 
   return (
     <FormControl>
-      <TextFieldWithDebounce placeholder={placeholder} setInput={setText} />
+      <TextField
+        type="text"
+        value={inputValue}
+        placeholder={i18.t(langTokens.admin[field])}
+        onChange={(event) => handleChange(event)}
+      />
     </FormControl>
   );
 };

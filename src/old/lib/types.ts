@@ -10,6 +10,7 @@ export enum PostStatus {
   PUBLISHED = 'PUBLISHED',
   ARCHIVED = 'ARCHIVED',
   PLANNED = 'PLANNED',
+  NEEDS_EDITING = 'NEEDS_EDITING',
 }
 
 export enum OriginTypeEnum {

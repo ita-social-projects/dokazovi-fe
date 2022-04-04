@@ -54,6 +54,7 @@ export const admin = {
   imagesMobile: 'Зображення для телефона',
   imagesTablet: 'Зображення для планшета',
   review: 'Переглянути',
+  sendForReview: 'Відправити на модерацію',
   close: 'Закрити',
   selectedImportantMaterials: 'Зараз використовуються:',
   selectOption: `Оберіть об'єкт налаштування у меню`,

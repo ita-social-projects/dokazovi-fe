@@ -19,7 +19,6 @@ import {
   QueryTypeEnum,
   filtersStateEnum,
 } from '../../types';
-// import { configureStore } from '@reduxjs/toolkit';
 
 interface IFilter {
   id: string | number;

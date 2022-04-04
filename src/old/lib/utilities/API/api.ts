@@ -90,6 +90,17 @@ export const getPosts = async (
   });
 };
 
+export const getAuthorPosts = async (
+  id: number,
+  postsRequestType: GetPostsRequestType,
+  config?: GetPostsConfigType | GetPostsAdminConfigType,
+): Promise<AxiosResponse<PostsResponseType>> => {
+  return instance.get(`/post/all-posts/${id}`, {
+    ...defaultConfig,
+    ...config,
+  });
+};
+
 export const getActivePostTypes = async (
   userId: number,
   status?: string,
@@ -130,28 +141,6 @@ export const getAllExperts = async (
   return instance.get('/user/all-experts', { ...defaultConfig, ...config });
 };
 
-// Now this info will be sent with all info about a post
-
-// export const getUniquePostViewsCounter = async (
-//   id: number,
-// ): Promise<AxiosResponse<number>> => {
-//   return instance.get('/post/post-view-count', {
-//     params: {
-//       url: `/posts/${id}`,
-//     },
-//   });
-// };
-
-// export const getFakePostViewsCounter = async (
-//   id: number,
-// ): Promise<AxiosResponse<number>> => {
-//   return instance.get('/post/post-fake-view-count', {
-//     params: {
-//       url: `/posts/${id}`,
-//     },
-//   });
-// };
-
 export const setFakePostViewsCounter = async (
   id: number,
   views: number,
@@ -161,9 +150,6 @@ export const setFakePostViewsCounter = async (
       views,
     },
   });
-  // const result = instance.post(`/post/set-fake-view/${id}?views=${views}`);
-  // console.log(result);
-  // return result;
 };
 
 export const archivePost = async (
