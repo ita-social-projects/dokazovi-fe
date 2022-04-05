@@ -9,8 +9,6 @@ import { langTokens } from '../../../../locales/localizationInit';
 
 export interface IConfirmationModalWithButtonProps {
   message: string | JSX.Element;
-  buttonText?: string;
-  buttonIcon?: JSX.Element;
   loading?: boolean;
   disabled?: boolean;
   onClose: () => void;
@@ -21,6 +19,8 @@ export const InformationModal: React.FC<IConfirmationModalWithButtonProps> = ({
   message,
   onClose,
   isOpen,
+  disabled,
+  loading,
 }) => {
   const { t } = useTranslation();
   const classes = useStyles();
