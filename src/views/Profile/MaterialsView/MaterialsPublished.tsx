@@ -41,8 +41,6 @@ import { useStyles } from './styles/MaterialsByStatus.styles';
 
 export interface IMaterialsPublishedProps {
   expertId: number;
-  expert: IExpert;
-  onDelete?: (arg0: number, arg1: string) => void;
 }
 
 const MaterialsPublished: React.FC<IMaterialsPublishedProps> = ({

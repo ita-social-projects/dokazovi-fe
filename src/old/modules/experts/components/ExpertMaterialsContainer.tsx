@@ -418,7 +418,6 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
     <>
       <CheckboxLeftsideFilterForm
         disabledPostTypes={disabledPostTypes}
-        expertId={expertId}
         onFormChange={(checked, disabled) =>
           setFilters(checked, FilterTypeEnum.POST_TYPES, disabled)
         }
@@ -433,7 +432,6 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
       />
       <CheckboxLeftsideFilterForm
         disabledDirections={disabledDirections}
-        expertId={expertId}
         onFormChange={(checked, disabled) =>
           setFilters(checked, FilterTypeEnum.DIRECTIONS, disabled)
         }

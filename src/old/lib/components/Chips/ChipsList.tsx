@@ -11,8 +11,8 @@ export interface IChipsListProps {
 
 const ChipsList: React.FC<IChipsListProps> = ({
   checkedNames,
-  // isLabelItem,
-  // max,
+  isLabelItem,
+  max,
 }) => {
   const { directions } = useSelector(
     (state: RootStateType) => state.properties,

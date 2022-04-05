@@ -97,11 +97,7 @@ const PostViewWrapper: React.FC = () => {
         <>
           <PageTitle title={loadedPost.title} />
 
-          <PostView
-            post={loadedPost}
-            modificationAllowed
-            onDelete={handlePostDeletion}
-          />
+          <PostView post={loadedPost} onDelete={handlePostDeletion} />
         </>
       )}
     </>

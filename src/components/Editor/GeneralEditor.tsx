@@ -17,6 +17,7 @@ const Editor: React.FC<IQuillEditorProps> = (props) => {
     initialHtmlContent,
     onHtmlContentChange,
     onTextContentChange,
+    toolbar,
   } = props;
   const editorRef = useRef<ReactQuill>(null);
   const [editor, setEditor] = useState<Quill>();
