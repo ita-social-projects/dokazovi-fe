@@ -54,7 +54,7 @@ describe('PostInfo tests', () => {
           name: 'Стаття',
         },
         publishedAt: '05.10.2021',
-        uniqueViewsCounter: 9,
+        realViews: 9,
       },
     };
   });
@@ -122,7 +122,7 @@ describe('PostInfo tests', () => {
   });
 
   it('should Skeleton be visible', () => {
-    delete mocks.info.uniqueViewsCounter;
+    delete mocks.info.realViews;
 
     const { asFragment } = render(<PostInfo info={mocks.info} />);
 

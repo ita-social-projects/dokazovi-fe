@@ -20,7 +20,6 @@ import { selectAuthorities } from '../../../../models/authorities';
 
 export interface IPostViewProps {
   post: IPost;
-  modificationAllowed?: boolean;
   onDelete?: () => void;
   isPreview?: boolean;
 }
@@ -46,7 +45,7 @@ const PostView: React.FC<IPostViewProps> = ({ isPreview, post, onDelete }) => {
     origins: post.origins,
     type: post.type,
     publishedAt: post.publishedAt,
-    uniqueViewsCounter: post.uniqueViewsCounter,
+    realViews: post.realViews,
     videoUrl: post.videoUrl,
   };
 

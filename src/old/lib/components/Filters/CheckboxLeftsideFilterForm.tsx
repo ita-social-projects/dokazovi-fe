@@ -35,8 +35,6 @@ export interface ICheckboxLeftsideFilterFormProps {
   selectedFilters?: IFilter[] | filtersStateEnum;
   filterTitle: string;
   allTitle: string;
-  handleDelete?: () => void;
-  expertId?: number;
   disabledDirections?: IDirection[] | undefined;
   disabledPostTypes?: IPostType[] | undefined;
   setTheOnlyAvailableFilter?: (name: string) => void;

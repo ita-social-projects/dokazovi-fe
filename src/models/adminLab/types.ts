@@ -1,7 +1,7 @@
 import { IPost, LoadingStatusEnum, QueryTypeEnum } from '../../old/lib/types';
 
 export interface IAdminPost extends IPost {
-  modifiedViewsCounter?: number;
+  // modifiedViewsCounter?: number;
   status: string;
 }
 
@@ -14,6 +14,7 @@ export interface IAdminLab {
   data: IAdminLabData;
   meta: IAdminLabMeta;
   loading: LoadingStatusEnum;
+  modifications: IAdminLabModifications;
   error: string | null;
 }
 
@@ -27,6 +28,17 @@ export interface IAdminLabMeta {
   textFields: {
     [key in FieldEnum]: string;
   };
+  date: IDate;
+}
+
+export interface IAdminLabModifications {
+  fakeViews: number;
+  newPostPublicationDate: string;
+}
+
+interface IDate {
+  start: string | undefined;
+  end: string | undefined;
 }
 
 export interface IFilter {
@@ -69,9 +81,26 @@ export enum SortBy {
   created_at = 'created_at',
   modified_at = 'modified_at',
   'author.firstName' = 'author.firstName',
+  real_views = 'real_views',
+  views = 'views',
 }
 
 export enum Order {
   desc = 'desc',
   asc = 'asc',
+}
+
+export interface IDateManipulation {
+  date: string | undefined;
+  option: 'end' | 'start';
+}
+
+export enum StatusesForActions {
+  DRAFT,
+  NEEDS_EDITING,
+  MODERATION_FIRST_SIGN,
+  MODERATION_SECOND_SIGN,
+  PLANNED,
+  PUBLISHED,
+  ARCHIVED,
 }

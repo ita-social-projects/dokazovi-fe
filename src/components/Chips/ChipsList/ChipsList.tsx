@@ -6,8 +6,6 @@ import { ChipFilterType, IOrigin, IPostType } from '../../../old/lib/types';
 
 export interface IChipsListProps {
   checkedNames: string;
-  isLabelItem?: boolean;
-  max?: boolean;
   chipsListType?: ChipFilterType;
   filtersPlural?: IOrigin[] | IPostType[];
   handleDelete?: (

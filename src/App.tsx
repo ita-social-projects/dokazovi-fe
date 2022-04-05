@@ -7,6 +7,8 @@ import {
   CssBaseline,
   ThemeProvider,
 } from '@material-ui/core';
+import DateFnsUtils from '@date-io/date-fns';
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import { MAIN_THEME } from 'styles/theme';
 import {
   ROUTER_CONFIG,
@@ -84,18 +86,20 @@ export const App: React.FC = () => {
               <ScreenProvider>
               <BreadcrumbsProvider configs={breadcrumbsConfigs}>
                 <Header />
-                <Suspense
-                  fallback={
-                    <div className="mainLoading">
-                      <CircularProgress />
-                    </div>
-                  }
-                >
-                  <RenderRoutes
-                    routes={ROUTER_CONFIG}
-                    adminRouterConfig={ADMIN_ROUTER_CONFIG}
-                  />
-                </Suspense>
+                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                  <Suspense
+                    fallback={
+                      <div className="mainLoading">
+                        <CircularProgress />
+                      </div>
+                    }
+                  >
+                    <RenderRoutes
+                      routes={ROUTER_CONFIG}
+                      adminRouterConfig={ADMIN_ROUTER_CONFIG}
+                    />
+                  </Suspense>
+                </MuiPickersUtilsProvider>
                 <Footer />
               </BreadcrumbsProvider>
               </ScreenProvider>

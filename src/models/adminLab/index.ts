@@ -8,6 +8,15 @@ export {
   setPage,
   setFiltersToInit,
   setField,
+  setDate,
+  setFakeViewsInput,
+  setNewPostDateInput,
 } from './reducers';
-export { getMaterialsAction, archiveAdminPost } from './asyncActions';
-export { selectAdminLab, selectMeta } from './selectors';
+export {
+  getMaterialsAction,
+  deleteAdminPost,
+  setPostStatus,
+  setFakeViews,
+  setNewPostDate,
+} from './asyncActions';
+export { selectAdminLab, selectMeta, selectModifications } from './selectors';

@@ -15,12 +15,12 @@ export interface IPostInfo {
     origins: IOrigin[];
     type: IPostType;
     publishedAt: string;
-    uniqueViewsCounter?: number;
+    realViews?: number;
   };
 }
 
 export default function PostInfo({ info }: IPostInfo): JSX.Element {
-  const { directions, origins, type, publishedAt, uniqueViewsCounter } = info;
+  const { directions, origins, type, publishedAt, realViews } = info;
   const classes = useStyles();
   const history = useHistory();
   const { mobile } = useContext(ScreenContext);
@@ -73,10 +73,10 @@ export default function PostInfo({ info }: IPostInfo): JSX.Element {
             <VisibilityIcon fontSize="small" />
           </li>
           <li className={classes.counter} data-testid="counter">
-            {uniqueViewsCounter === undefined ? (
+            {realViews === undefined ? (
               <Skeleton width={40} height={20} data-testid="skeleton" />
             ) : (
-              uniqueViewsCounter
+              realViews
             )}
           </li>
         </>

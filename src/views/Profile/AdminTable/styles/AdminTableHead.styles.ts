@@ -10,4 +10,8 @@ export const useStyles = makeStyles((theme: Theme) => ({
       color: theme.palette.action.hover,
     },
   },
+  tooltip: {
+    backgroundColor: theme.palette.common.black,
+    ...theme.typography.button,
+  },
 }));
