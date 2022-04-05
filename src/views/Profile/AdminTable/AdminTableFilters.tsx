@@ -1,8 +1,8 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Grid, IconButton } from '@material-ui/core';
+import { Grid, IconButton, Tooltip } from '@material-ui/core';
 import HighlightOffRoundedIcon from '@material-ui/icons/HighlightOffRounded';
-
+import { selectAuthorities } from '../../../models/authorities';
 import { QueryTypeEnum } from '../../../old/lib/types';
 import { FieldEnum } from '../../../models/adminLab/types';
 import {
@@ -34,19 +34,28 @@ const AdminTableFilters: React.FC = () => {
   const allDirections = useSelector(selectDirections);
   const allPostTypes = useSelector(selectPostTypes);
   const allPostStatuses = useSelector(selectPostStatuses);
-  const { filters, date } = useSelector(selectMeta);
+  const { filters, date, textFields } = useSelector(selectMeta);
+
+  const authorities = useSelector(selectAuthorities);
+  const isAdmin = authorities.data?.includes('SET_IMPORTANCE');
 
   const classes = useStyles();
+  const resetFilters = () => {
+    boundedSetFiltersToInit();
+  };
 
   return (
     <Grid className={classes.filterSection} container direction="row">
       <Grid item>
-        <IconButton
-          onClick={boundedSetFiltersToInit}
-          className={classes.clearButton}
+        <Tooltip
+          title="Скинути всі фільтри"
+          placement="bottom"
+          classes={{ tooltip: classes.tooltip }}
         >
-          <HighlightOffRoundedIcon fontSize="large" />
-        </IconButton>
+          <IconButton onClick={resetFilters} className={classes.clearButton}>
+            <HighlightOffRoundedIcon fontSize="large" />
+          </IconButton>
+        </Tooltip>
       </Grid>
       <Grid item>
         <AdminFilter
@@ -56,21 +65,25 @@ const AdminTableFilters: React.FC = () => {
           filter={QueryTypeEnum.DIRECTIONS}
         />
       </Grid>
-      <Grid item>
-        <AdminFilter
-          setChanges={boundedSetFilter}
-          allOptions={allPostStatuses}
-          selected={filters.statuses}
-          filter={QueryTypeEnum.STATUSES}
-        />
-      </Grid>
-      <Grid item md={3}>
-        <AdminDatePicker
-          start={date.start}
-          end={date.end}
-          setChanges={boundedSetDate}
-        />
-      </Grid>
+      {isAdmin && (
+        <>
+          <Grid item>
+            <AdminFilter
+              setChanges={boundedSetFilter}
+              allOptions={allPostStatuses}
+              selected={filters.statuses}
+              filter={QueryTypeEnum.STATUSES}
+            />
+          </Grid>
+          <Grid item md={3}>
+            <AdminDatePicker
+              start={date.start}
+              end={date.end}
+              setChanges={boundedSetDate}
+            />
+          </Grid>
+        </>
+      )}
       <Grid item>
         <AdminFilter
           setChanges={boundedSetFilter}
@@ -79,12 +92,24 @@ const AdminTableFilters: React.FC = () => {
           filter={QueryTypeEnum.POST_TYPES}
         />
       </Grid>
-      <Grid item md={2}>
-        <AdminTextField field={FieldEnum.TITLE} setChanges={boundedSetField} />
-      </Grid>
-      <Grid item md={2}>
-        <AdminTextField field={FieldEnum.AUTHOR} setChanges={boundedSetField} />
-      </Grid>
+      {isAdmin && (
+        <>
+          <Grid item md={2}>
+            <AdminTextField
+              field={FieldEnum.TITLE}
+              setChanges={boundedSetField}
+              inputValue={textFields.title}
+            />
+          </Grid>
+          <Grid item md={2}>
+            <AdminTextField
+              field={FieldEnum.AUTHOR}
+              setChanges={boundedSetField}
+              inputValue={textFields.author}
+            />
+          </Grid>
+        </>
+      )}
     </Grid>
   );
 };

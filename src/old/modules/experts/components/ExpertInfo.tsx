@@ -1,4 +1,4 @@
-import { Avatar, Grid, Typography, Box, CardMedia } from '@material-ui/core';
+import { Avatar, Grid, Typography, Box } from '@material-ui/core';
 import React, { useContext } from 'react';
 import { IExpert } from '../../../lib/types';
 import { useStyles } from '../styles/ExpertInfo.styles';

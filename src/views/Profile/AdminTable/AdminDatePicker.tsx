@@ -28,7 +28,7 @@ const MenuProps = {
 interface IMaterialsDate {
   start: string | undefined;
   end: string | undefined;
-  setChanges: (payload: any) => void;
+  setChanges: (...params: any[]) => void;
 }
 
 export const AdminDatePicker: React.FC<IMaterialsDate> = ({
@@ -65,7 +65,7 @@ export const AdminDatePicker: React.FC<IMaterialsDate> = ({
               onChange={(value) =>
                 setChanges({
                   option: 'start',
-                  date: value && value.toString(),
+                  date: value && value.toISOString(),
                 })
               }
               format="dd-mm-yyyy"
@@ -80,7 +80,7 @@ export const AdminDatePicker: React.FC<IMaterialsDate> = ({
               onChange={(value) =>
                 setChanges({
                   option: 'end',
-                  date: value && value.toString(),
+                  date: value && value.toISOString(),
                 })
               }
               format="dd-mm-yyyy"

@@ -15,6 +15,7 @@ import {
 import { LoadingStatusEnum } from '../../old/lib/types';
 import {
   getMaterialsAction,
+  getAuthorMaterialsAction,
   deleteAdminPost,
   setPostStatus,
   setFakeViews,
@@ -76,6 +77,7 @@ const adminLabSlice = createSlice({
       state.meta.filters = initialState.meta.filters;
       state.meta.textFields = initialState.meta.textFields;
       state.meta.page = initialState.meta.page;
+      state.meta.date = initialState.meta.date;
     },
     setSort: (state, action: PayloadAction<ISort>) => {
       state.meta.sort = action.payload;
@@ -122,6 +124,7 @@ const adminLabSlice = createSlice({
     ...getAsyncActionsReducer(setPostStatus as any),
     ...getAsyncActionsReducer(setFakeViews as any),
     ...getAsyncActionsReducer(setNewPostDate as any),
+    ...getAsyncActionsReducer(getAuthorMaterialsAction as any),
     [deleteAdminPost.fulfilled.type]: (
       state,
       action: PayloadAction<string>,
@@ -153,8 +156,6 @@ const adminLabSlice = createSlice({
       action: PayloadAction<{ id: number; fakeViews: number }>,
     ) => {
       const { id, fakeViews } = action.payload;
-      console.log('hello from reducer! ID:', fakeViews);
-      console.log('hello again! Views:', fakeViews);
       state.data.posts[id] = {
         ...state.data.posts[id],
         views: state.modifications.fakeViews,

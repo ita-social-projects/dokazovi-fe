@@ -23,6 +23,10 @@ interface IContent {
   icon?: JSX.Element;
 }
 
+interface IAdminTableHeadProps {
+  isAdmin: boolean | undefined;
+}
+
 const content: IContent[] = [
   {
     label: i18n.t(langTokens.admin.id),
@@ -50,22 +54,23 @@ const content: IContent[] = [
   },
   {
     label: i18n.t(langTokens.admin.author),
-    isSortable: false,
+    isSortable: true,
+    sortKey: SortBy.first_name,
   },
   {
     label: i18n.t(langTokens.admin.views),
     isSortable: true,
     sortKey: SortBy.views,
     initialSortOrder: Order.desc,
-    tooltip: i18n.t(langTokens.admin.viewsFull),
+    // tooltip: i18n.t(langTokens.admin.viewsFull),
     icon: <Visibility />,
   },
   {
-    label: i18n.t(langTokens.admin.realViews),
+    label: i18n.t(langTokens.admin.realViewsFull),
     isSortable: true,
     sortKey: SortBy.real_views,
     initialSortOrder: Order.desc,
-    tooltip: i18n.t(langTokens.admin.realViewsFull),
+    // tooltip: i18n.t(langTokens.admin.realViewsFull),
     icon: <Visibility />,
   },
   {
@@ -74,7 +79,7 @@ const content: IContent[] = [
   },
 ];
 
-const AdminTableHead: React.FC = () => {
+const AdminTableHead: React.FC<IAdminTableHeadProps> = ({ isAdmin }) => {
   const classes = useStyles();
   const [boundedSetSort] = useActions([setSort]);
   const {
@@ -96,6 +101,15 @@ const AdminTableHead: React.FC = () => {
   };
 
   const cells = content.map((cell) => {
+    if (
+      !isAdmin &&
+      [
+        i18n.t(langTokens.admin.views),
+        i18n.t(langTokens.admin.author),
+      ].includes(cell.label)
+    ) {
+      return null;
+    }
     const { label, isSortable, sortKey, tooltip, icon } = cell;
 
     return (
@@ -105,7 +119,12 @@ const AdminTableHead: React.FC = () => {
         placement="right"
         classes={{ tooltip: classes.tooltip }}
       >
-        <TableCell sortDirection={sortBy === sortKey ? order : false}>
+        <TableCell
+          sortDirection={sortBy === sortKey ? order : false}
+          className={
+            label === i18n.t(langTokens.admin.title) ? classes.titleCell : ''
+          }
+        >
           {isSortable ? (
             <TableSortLabel
               active={sortBy === sortKey}

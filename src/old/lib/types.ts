@@ -10,6 +10,7 @@ export enum PostStatus {
   PUBLISHED = 'PUBLISHED',
   ARCHIVED = 'ARCHIVED',
   PLANNED = 'PLANNED',
+  NEEDS_EDITING = 'NEEDS_EDITING',
 }
 
 export enum OriginTypeEnum {
@@ -132,6 +133,7 @@ export interface IPost {
   publishedAt: string;
   modifiedAt?: string;
   origins: IOrigin[];
+  postStatus?: number;
   preview: string;
   previewImageUrl?: string;
   importantImageUrl?: string;
@@ -232,7 +234,7 @@ export interface IFooterStyleProps {
   isProfilePage: boolean;
 }
 
-export type AdminMenuType = 'important';
+export type AdminMenuType = 'important' | 'materials';
 
 export interface IAdminMenuOption {
   section: string;

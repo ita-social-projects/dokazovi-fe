@@ -19,18 +19,25 @@ interface IActionButtons {
   id: number;
   status: string;
   title: string;
+  isAdmin: boolean | undefined;
 }
 
 interface IButton {
   id: string;
   label: string;
   handler: (string) => void;
-  allowedStatuses: string[];
   modal?: IModalSettings | null;
   onConfirmButtonClick?: () => void;
+  adminUseStatuses: string[];
+  authorUseStatuses: string[];
 }
 
-const ActionButtons: React.FC<IActionButtons> = ({ id, status, title }) => {
+const ActionButtons: React.FC<IActionButtons> = ({
+  id,
+  status,
+  title,
+  isAdmin,
+}) => {
   const { t } = useTranslation();
   const [
     boundedDeleteAdminPost,
@@ -40,11 +47,12 @@ const ActionButtons: React.FC<IActionButtons> = ({ id, status, title }) => {
 
   const {
     DRAFT,
-    MODERATION_FIRST_SIGN,
+    // MODERATION_FIRST_SIGN,
     MODERATION_SECOND_SIGN,
     PUBLISHED,
     PLANNED,
     ARCHIVED,
+    NEEDS_EDITING,
   } = PostStatus;
 
   const editPostLink = `/edit-post?id=${id}`;
@@ -115,26 +123,33 @@ const ActionButtons: React.FC<IActionButtons> = ({ id, status, title }) => {
     {
       id: 'editBtn',
       label: t(langTokens.admin.edit),
-      allowedStatuses: [PUBLISHED, MODERATION_SECOND_SIGN, ARCHIVED],
       modal: null,
       handler: () => {
         window.open(editPostLink);
       },
+      adminUseStatuses: [
+        PUBLISHED,
+        MODERATION_SECOND_SIGN,
+        ARCHIVED,
+        DRAFT,
+        PLANNED,
+      ],
+      authorUseStatuses: [DRAFT, NEEDS_EDITING],
     },
     {
       id: 'returnToAuthorBtn',
       label: t(langTokens.admin.returnToAuthor),
-      allowedStatuses: [MODERATION_SECOND_SIGN, PUBLISHED, ARCHIVED, PLANNED],
       handler: (btnId) => openModal(btnId),
       modal: {
         title: t(langTokens.admin.returnToAuthorTitle, { title }),
         onConfirmButtonClick: handleReturnConfirm,
       },
+      adminUseStatuses: [PUBLISHED, MODERATION_SECOND_SIGN, ARCHIVED, PLANNED],
+      authorUseStatuses: [],
     },
     {
       id: 'publishBtn',
       label: t(langTokens.admin.publish),
-      allowedStatuses: [MODERATION_SECOND_SIGN, ARCHIVED],
       // handler: () => {
       //   window.open(editPostLink);
       // },
@@ -143,61 +158,72 @@ const ActionButtons: React.FC<IActionButtons> = ({ id, status, title }) => {
         title: t(langTokens.admin.publishTitle),
         onConfirmButtonClick: handlePublishConfirm,
       },
+      adminUseStatuses: [MODERATION_SECOND_SIGN, ARCHIVED, PLANNED],
+      authorUseStatuses: [DRAFT, NEEDS_EDITING],
     },
     {
       id: 'schedulePublishBtn',
       label: t(langTokens.admin.schedulePublish),
-      allowedStatuses: [MODERATION_SECOND_SIGN, ARCHIVED],
       // eslint-disable-next-line no-console
       handler: (btnId) => openModal(btnId),
       modal: {
         title: t(langTokens.admin.schedulePublishTitle),
         onConfirmButtonClick: handlerSchedulePublish,
       },
+      adminUseStatuses: [MODERATION_SECOND_SIGN, ARCHIVED],
+      authorUseStatuses: [],
     },
     {
       id: 'changePublicationDateBtn',
       label: t(langTokens.admin.changePublicationDate),
-      allowedStatuses: [MODERATION_SECOND_SIGN, PUBLISHED, ARCHIVED, PLANNED],
       // eslint-disable-next-line no-console
       handler: () => console.log('changePublicationDateBtn handler'),
       modal: null,
+      adminUseStatuses: [PLANNED],
+      authorUseStatuses: [],
     },
     {
       id: 'changeViewsCountBtn',
       label: t(langTokens.admin.changeViewsCount),
-      allowedStatuses: [PUBLISHED],
       handler: (btnId) => openModal(btnId),
       modal: {
         title: t(langTokens.admin.changeViewsCountTitle),
         content: <ChangeViewsCountModal id={id} />,
         onConfirmButtonClick: handlerSetFakeViewsConfirm,
       },
+      adminUseStatuses: [PUBLISHED],
+      authorUseStatuses: [],
     },
     {
       id: 'archiveBtn',
       label: t(langTokens.admin.archive),
-      allowedStatuses: [PUBLISHED],
       handler: (btnId) => openModal(btnId),
       modal: {
         title: t(langTokens.admin.archiveTitle),
         onConfirmButtonClick: handleArchiveConfirm,
       },
+      adminUseStatuses: [PUBLISHED],
+      authorUseStatuses: [],
     },
     {
       id: 'deleteBtn',
       label: t(langTokens.admin.delete),
-      allowedStatuses: [PUBLISHED, ARCHIVED],
       handler: (btnId) => openModal(btnId),
       modal: {
         title: t(langTokens.admin.deleteTitle),
         onConfirmButtonClick: handleDeleteConfirm,
       },
+      adminUseStatuses: [PUBLISHED, ARCHIVED, PLANNED, DRAFT],
+      authorUseStatuses: [DRAFT, NEEDS_EDITING],
     },
   ];
 
   const buttonsRendered = buttons
-    .filter((btn) => btn.allowedStatuses?.includes(status as PostStatus))
+    .filter((btn) =>
+      (isAdmin ? btn.adminUseStatuses : btn.authorUseStatuses).includes(
+        status as PostStatus,
+      ),
+    )
     .map((btn) => (
       <MenuItem key={btn.label} onClick={() => handleButtonClick(btn)}>
         {btn.label}
@@ -205,7 +231,6 @@ const ActionButtons: React.FC<IActionButtons> = ({ id, status, title }) => {
     ));
 
   const activeBtn = buttons.find((el) => el.id === activeModal);
-
   return buttonsRendered.length > 0 ? (
     <>
       <ActionMenu buttonsRendered={buttonsRendered} />

@@ -4,7 +4,7 @@ export const useStyles = makeStyles((theme: Theme) => ({
   tableContainer: {
     marginBottom: '1rem',
     '& .MuiTableCell-root': {
-      padding: theme.spacing(1.8),
+      padding: theme.spacing(1.5),
       ...theme.typography.h6,
     },
     '& .MuiTableCell-head': {

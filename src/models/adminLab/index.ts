@@ -18,5 +18,6 @@ export {
   setPostStatus,
   setFakeViews,
   setNewPostDate,
+  getAuthorMaterialsAction,
 } from './asyncActions';
 export { selectAdminLab, selectMeta, selectModifications } from './selectors';

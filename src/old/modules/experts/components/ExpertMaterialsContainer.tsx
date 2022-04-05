@@ -139,7 +139,7 @@ const ExpertMaterialsContainer: React.FC<IExpertMaterialsContainerProps> = ({
       enumerable: false,
       configurable: true,
       writable: true,
-      value: `${t(langTokens.common.post, defaultPlural)}`,
+      value: `${t(langTokens.common.note, defaultPlural)}`,
     });
 
     postTypesInPlural.push(el1, el2, el3);

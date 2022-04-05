@@ -31,7 +31,7 @@ exports[`PostCreationButton test should render properly 1`] = `
         <span
           class="MuiButton-label"
         >
-          Опублікувати
+          Зберегти
         </span>
         <span
           class="MuiTouchRipple-root"
@@ -40,7 +40,23 @@ exports[`PostCreationButton test should render properly 1`] = `
     </div>
     <div
       class="MuiBox-root MuiBox-root-3"
-    />
+    >
+      <button
+        class="MuiButtonBase-root MuiButton-root MuiButton-outlined"
+        style="margin-right: 10px;"
+        tabindex="0"
+        type="button"
+      >
+        <span
+          class="MuiButton-label"
+        >
+          Опублікувати
+        </span>
+        <span
+          class="MuiTouchRipple-root"
+        />
+      </button>
+    </div>
   </div>
 </DocumentFragment>
 `;

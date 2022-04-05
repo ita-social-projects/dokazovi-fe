@@ -7,6 +7,7 @@ export type CreatePostRequestType = {
   content: string;
   directions: IDirection[];
   origins?: IOrigin[];
+  postStatus?: number;
   preview: string;
   type: {
     id: number;

@@ -1,13 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import {
-  Box,
-  CircularProgress,
-  IconButton,
-  Typography,
-} from '@material-ui/core';
+import { Box, Typography } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
 import { useStyles } from './confirmationModalWithButton.style';
 import { langTokens } from '../../../../locales/localizationInit';
@@ -18,42 +13,23 @@ export interface IConfirmationModalWithButtonProps {
   buttonIcon?: JSX.Element;
   loading?: boolean;
   disabled?: boolean;
+  onClose: () => void;
+  isOpen: boolean;
 }
 
 export const InformationModal: React.FC<IConfirmationModalWithButtonProps> = ({
   message,
-  buttonText,
-  buttonIcon,
-  loading,
-  disabled,
+  onClose,
+  isOpen,
 }) => {
   const { t } = useTranslation();
   const classes = useStyles();
-  const [open, setOpen] = useState(false);
 
   return (
     <div>
-      {buttonIcon && (
-        <IconButton
-          style={{ padding: '0px' }}
-          onClick={() => setOpen(true)}
-          disabled={disabled || loading}
-        >
-          {!loading ? buttonIcon : <CircularProgress size={20} />}
-        </IconButton>
-      )}
-      {buttonText && (
-        <Button
-          variant="contained"
-          disabled={disabled || loading}
-          onClick={() => setOpen(true)}
-        >
-          {!loading ? buttonText : <CircularProgress size={20} />}
-        </Button>
-      )}
       <Dialog
-        open={open}
-        onClose={() => setOpen(false)}
+        open={isOpen}
+        onClose={onClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
@@ -68,7 +44,7 @@ export const InformationModal: React.FC<IConfirmationModalWithButtonProps> = ({
           className={classes.btnContainer}
         >
           <Button
-            onClick={() => setOpen(false)}
+            onClick={onClose}
             color="primary"
             autoFocus
             style={{ marginLeft: '0' }}

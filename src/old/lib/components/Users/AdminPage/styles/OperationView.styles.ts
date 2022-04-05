@@ -6,8 +6,10 @@ export const useStyles = makeStyles(
       fontFamily: 'Raleway',
       position: 'relative',
       minHeight: '455px',
+      width: '1100px',
       marginTop: theme.spacing(-8),
-      paddingLeft: '210px',
+      marginLeft: '210px',
+      padding: 0,
       '& .adminInitialView': {
         position: 'absolute',
         top: '30%',

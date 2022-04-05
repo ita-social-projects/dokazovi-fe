@@ -1,18 +1,21 @@
-import React, { useCallback, useState, useEffect } from 'react';
+import React, { useCallback, useEffect, useState, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
 import _ from 'lodash';
 import { Box, TextField, Typography } from '@material-ui/core';
+import { useTranslation } from 'react-i18next';
+import { DropEvent, FileRejection } from 'react-dropzone';
 import { PageTitle } from 'components/Page/PageTitle';
 import { useSelector } from 'react-redux';
-import { useTranslation } from 'react-i18next';
-import { sanitizeHtml } from '../../../old/lib/utilities/sanitizeHtml';
-import { updatePost, getAllExperts } from '../../../old/lib/utilities/API/api';
-import { IDirection, IPost, IOrigin } from '../../../old/lib/types';
-import { PostCreationButtons } from '../../postCreation/PostCreationButtons';
+import { CarouselImagesWrapper } from 'views/postCreation/CarouselImagesWrapper';
+import { StatusesForActions } from 'models/adminLab/types';
+import { sanitizeHtml } from '../../old/lib/utilities/sanitizeHtml';
+import { getAllExperts, updatePost } from '../../old/lib/utilities/API/api';
+import { IDirection, IOrigin, IPost } from '../../old/lib/types';
+import { PostCreationButtons } from '../postCreation/PostCreationButtons';
 import {
-  UpdateVideoPostRequestType,
   ExpertResponseType,
-} from '../../../old/lib/utilities/API/types';
+  UpdateTextPostRequestType,
+} from '../../old/lib/utilities/API/types';
 import {
   CLEAR_HTML_REG_EXP,
   CONTENT_DEBOUNCE_TIMEOUT,
@@ -22,54 +25,66 @@ import {
   MIN_PREVIEW_LENGTH,
   MIN_TITLE_LENGTH,
   PREVIEW_DEBOUNCE_TIMEOUT,
-} from '../../../old/lib/constants/editors';
-import VideoUrlInputModal from '../../../components/Editor/CustomModules/VideoUrlInputModal';
-import { parseVideoIdFromUrl } from '../../../old/lib/utilities/parseVideoIdFromUrl';
-import PostView from '../../../old/modules/posts/components/PostView';
-import { TextPostEditor } from '../../../components/Editor/Editors/TextPostEditor';
-import { IEditorToolbarProps } from '../../../components/Editor/types';
-import { PostDirectionsSelector } from '../../postCreation/PostDirectionsSelector';
-import { PostOriginsSelector } from '../../postCreation/PostOriginsSelector';
-import { PostAuthorSelection } from '../../postCreation/PostAuthorSelection/PostAuthorSelection';
-import { BorderBottom } from '../../../old/lib/components/Border';
-import { useStyle } from '../../postCreation/RequiredFieldsStyle';
-import { selectAuthorities } from '../../../models/authorities';
-import { langTokens } from '../../../locales/localizationInit';
+} from '../../old/lib/constants/editors';
+import VideoUrlInputModal from '../../components/Editor/CustomModules/VideoUrlInputModal';
+import { parseVideoIdFromUrl } from '../../old/lib/utilities/parseVideoIdFromUrl';
+import PostView from '../../old/modules/posts/components/PostView';
+import { TextPostEditor } from '../../components/Editor/Editors/TextPostEditor';
+import { PostDirectionsSelector } from '../postCreation/PostDirectionsSelector';
+import { PostOriginsSelector } from '../postCreation/PostOriginsSelector';
+import { PostAuthorSelection } from '../postCreation/PostAuthorSelection/PostAuthorSelection';
+import { BorderBottom } from '../../old/lib/components/Border';
+import { getStringFromFile } from '../../old/lib/utilities/Imgur/getStringFromFile';
+import { uploadImageToImgur } from '../../old/lib/utilities/Imgur/uploadImageToImgur';
+import { BackgroundImageContainer } from '../../components/Editor/CustomModules/BackgroundImageContainer/BackgroundImageContainer';
+import { langTokens } from '../../locales/localizationInit';
+import { useStyle } from '../postCreation/RequiredFieldsStyle';
+import { selectAuthorities } from '../../models/authorities';
 
-export interface ITextPostUpdationProps {
+export interface IAllPostTypesUpdation {
   pageTitle: string;
   titleInputLabel: string;
   contentInputLabel: string;
-  editorToolbar: React.ComponentType<IEditorToolbarProps>;
   post: IPost;
 }
 
-export const VideoPostUpdation: React.FC<ITextPostUpdationProps> = ({
+export const AllPostTypesUpdation: React.FC<IAllPostTypesUpdation> = ({
   pageTitle,
   titleInputLabel,
   contentInputLabel,
-  editorToolbar,
   post,
 }) => {
   const history = useHistory();
   const classes = useStyle();
   const authorities = useSelector(selectAuthorities);
   const isAdmin = authorities.data?.includes('SET_IMPORTANCE');
-
   const [autoChanges, setAutoChanges] = useState(true);
+  const isVideoPost = post.type.id === 2;
+
   const [selectedDirections, setSelectedDirections] = useState<IDirection[]>(
     post.directions,
   );
   const [selectedOrigins, setSelectedOrigins] = useState<IOrigin[]>(
     post.origins,
   );
-  const [htmlContent, setHtmlContent] = useState(post.content);
-  const [videoUrl, setVideoUrl] = useState<string>(post.videoUrl as string);
+
+  const [previewImageUrl, setPreviewImageUrl] = useState(
+    post.previewImageUrl ?? '',
+  );
+  const [importantImageUrl, setImportantImageUrl] = useState<string>(
+    post.importantImageUrl ?? '',
+  );
+  const [importantMobileImageUrl, setImportantMobileImageUrl] = useState<
+    string
+  >(post.importantMobileImageUrl ?? '');
   const [preview, setPreview] = useState(post.preview);
   const [title, setTitle] = useState({
     value: post.title,
     error: '',
   });
+  const [videoUrl, setVideoUrl] = useState<string>(post.videoUrl as string);
+
+  const [htmlContent, setHtmlContent] = useState<string>(post.content);
 
   const [authors, setAuthors] = useState<ExpertResponseType[]>([]);
   const [authorId, setAuthorId] = useState<number | null>(null);
@@ -81,6 +96,50 @@ export const VideoPostUpdation: React.FC<ITextPostUpdationProps> = ({
   const [typing, setTyping] = useState({ content: false, preview: false });
   const [previewing, setPreviewing] = useState(false);
   const [isDisplayTable, setIsDisplayTable] = useState(false);
+  const [isDisabled, setIsDisabled] = useState<boolean>(true);
+
+  const postCurrentState = {
+    title: title.value,
+    htmlContent,
+    preview,
+    selectedDirections,
+    selectedOrigins,
+    previewImageUrl,
+    importantImageUrl,
+    importantMobileImageUrl,
+    videoUrl,
+  };
+
+  const postInitialState = useRef({
+    title: post.title,
+    htmlContent: post.content,
+    preview: post.preview,
+    selectedDirections: post.directions,
+    selectedOrigins: post.origins,
+    previewImageUrl: post.previewImageUrl,
+    importantImageUrl: post.importantImageUrl,
+    importantMobileImageUrl: post.importantMobileImageUrl,
+    videoUrl: post.videoUrl,
+  });
+
+  useEffect(() => {
+    if (
+      JSON.stringify(postInitialState.current) !==
+      JSON.stringify(postCurrentState)
+    ) {
+      setIsDisabled(false);
+    }
+  }, [
+    title,
+    htmlContent,
+    preview,
+    selectedDirections,
+    selectedOrigins,
+    previewImageUrl,
+    importantImageUrl,
+    importantMobileImageUrl,
+    videoUrl,
+  ]);
 
   const { t } = useTranslation();
 
@@ -139,27 +198,47 @@ export const VideoPostUpdation: React.FC<ITextPostUpdationProps> = ({
     setSearchValue(authorFullName);
   };
 
+  const fileSelectorHandler = (
+    dispatchFunc: (arg: string) => void,
+  ): (<T extends File>(
+    acceptedFiles: T[],
+    fileRejections: FileRejection[],
+    event: DropEvent,
+  ) => void) => (files) => {
+    getStringFromFile(files)
+      .then((str) => uploadImageToImgur(str))
+      .then((res) => {
+        if (res.data.status === 200) {
+          dispatchFunc(res.data.data.link);
+        }
+      });
+  };
+
   const videoId = parseVideoIdFromUrl(videoUrl);
 
-  const updatedPost: UpdateVideoPostRequestType = {
+  const updatedPost: UpdateTextPostRequestType = {
     id: post.id,
     content: htmlContent,
     directions: selectedDirections,
     origins: selectedOrigins,
     preview,
-    videoUrl,
+    previewImageUrl,
+    importantImageUrl,
+    importantMobileImageUrl,
     title: title.value,
     type: post.type,
     authorId: authorId ?? post.author.id,
+    videoUrl,
   };
 
-  const contentText = updatedPost.content.replaceAll(CLEAR_HTML_REG_EXP, '');
+  const contentText = updatedPost.content.replace(CLEAR_HTML_REG_EXP, '');
 
   const isEmpty =
     !updatedPost.title ||
-    !updatedPost.directions.length ||
     !updatedPost.content ||
-    !updatedPost.authorId;
+    !updatedPost.directions.length ||
+    !updatedPost.authorId ||
+    !updatedPost.preview;
 
   const isEnoughLength =
     contentText.length <= MIN_CONTENT_LENGTH ||
@@ -168,7 +247,12 @@ export const VideoPostUpdation: React.FC<ITextPostUpdationProps> = ({
 
   const isTooLong = updatedPost.title.length > MAX_TITLE_LENGTH;
 
-  const isVideoEmpty = !updatedPost.videoUrl;
+  const hasBackGroundImg =
+    !!updatedPost?.origins?.length &&
+    updatedPost?.origins[0]?.id !== 1 &&
+    !updatedPost.previewImageUrl;
+
+  const isVideoEmpty = isVideoPost ? !updatedPost.videoUrl : false;
 
   const previewPost: IPost = {
     ...post,
@@ -182,14 +266,30 @@ export const VideoPostUpdation: React.FC<ITextPostUpdationProps> = ({
     },
     content: htmlContent,
     preview,
-    videoUrl,
+    previewImageUrl,
+    importantImageUrl,
+    importantMobileImageUrl,
     directions: selectedDirections,
     origins: selectedOrigins,
     title: title.value,
     type: post.type,
+    videoUrl,
   };
 
   const handlePublishClick = async () => {
+    updatedPost.postStatus = isAdmin
+      ? StatusesForActions.PUBLISHED
+      : StatusesForActions.MODERATION_SECOND_SIGN;
+    const response = await updatePost(updatedPost);
+    history.push(`/posts/${response.data.id}`);
+  };
+
+  const handleSaveClick = async () => {
+    if (post.status !== undefined) {
+      updatedPost.postStatus = StatusesForActions[post.status] as number;
+    } else {
+      updatedPost.postStatus = 0;
+    }
     const response = await updatePost(updatedPost);
     history.push(`/posts/${response.data.id}`);
   };
@@ -215,7 +315,6 @@ export const VideoPostUpdation: React.FC<ITextPostUpdationProps> = ({
   return (
     <>
       <PageTitle title={pageTitle} />
-
       {!previewing ? (
         <>
           <PostDirectionsSelector
@@ -232,8 +331,11 @@ export const VideoPostUpdation: React.FC<ITextPostUpdationProps> = ({
               helperText={title.error}
               fullWidth
               required
-              id="video-name"
+              id={isVideoPost ? 'video-name' : 'post-name'}
               value={title.value}
+              inputProps={{
+                'data-testid': 'text-field',
+              }}
               onChange={(e) => {
                 setTitle({ ...title, value: e.target.value });
               }}
@@ -245,32 +347,58 @@ export const VideoPostUpdation: React.FC<ITextPostUpdationProps> = ({
             )}
           </Box>
           {postAuthorSelection}
-          <Box mt={2}>
-            <VideoUrlInputModal dispatchVideoUrl={setVideoUrl} />
-            {videoId && (
-              <iframe
-                title="video"
-                width="360"
-                height="240"
-                src={`https://www.youtube.com/embed/${videoId}`}
-                frameBorder="0"
-                allowFullScreen
+          {isAdmin && !isVideoPost && (
+            <>
+              <Box className={classes.backgroundImagesContainer}>
+                <Box className={classes.backgroundImageWrapper}>
+                  <BackgroundImageContainer
+                    dispatchImageUrl={setPreviewImageUrl}
+                    fileSelectorHandler={fileSelectorHandler(
+                      setPreviewImageUrl,
+                    )}
+                    title={t(langTokens.editor.backgroundImage)}
+                    imgUrl={previewPost?.previewImageUrl}
+                    reminder
+                    forMobilePic={false}
+                  />
+                </Box>
+              </Box>
+              <BorderBottom />
+              <CarouselImagesWrapper
+                post={previewPost}
+                setImportantImageUrl={setImportantImageUrl}
+                setImportantMobileImageUrl={setImportantMobileImageUrl}
               />
-            )}
-          </Box>
+            </>
+          )}
+          {isVideoPost && (
+            <Box mt={2}>
+              <VideoUrlInputModal dispatchVideoUrl={setVideoUrl} />
+              {videoId && (
+                <iframe
+                  title="video"
+                  width="360"
+                  height="240"
+                  src={`https://www.youtube.com/embed/${videoId}`}
+                  frameBorder="0"
+                  allowFullScreen
+                />
+              )}
+            </Box>
+          )}
           <BorderBottom />
           <Box mt={2}>
             <Typography className={classes.requiredField} variant="h5">
               {contentInputLabel}
             </Typography>
             <TextPostEditor
-              toolbar={editorToolbar}
+              isVideoPost={isVideoPost}
               initialHtmlContent={htmlContent}
               initialPreview={preview}
               onHtmlContentChange={(value) => {
                 setTyping({ ...typing, content: true });
                 handleHtmlContentChange(value);
-                if (!htmlContent.replaceAll(CLEAR_HTML_REG_EXP, '').length) {
+                if (!htmlContent.replace(CLEAR_HTML_REG_EXP, '').length) {
                   setAutoChanges(false);
                 }
               }}
@@ -290,16 +418,25 @@ export const VideoPostUpdation: React.FC<ITextPostUpdationProps> = ({
 
       <PostCreationButtons
         action="updating"
-        isModal={{ isEmpty, isEnoughLength, isVideoEmpty, isTooLong }}
+        isAdmin={isAdmin}
+        isModal={{
+          isEmpty,
+          isEnoughLength,
+          isVideoEmpty,
+          isTooLong,
+          hasBackGroundImg,
+        }}
         onCancelClick={() => {
           history.goBack();
         }}
         onPublishClick={handlePublishClick}
+        onSaveClick={handleSaveClick}
         onPreviewClick={() => {
           setPreviewing(!previewing);
         }}
         previewing={previewing}
-        disabled={Object.values(typing).some((i) => i)}
+        disabled={isDisabled}
+        post={post}
       />
     </>
   );

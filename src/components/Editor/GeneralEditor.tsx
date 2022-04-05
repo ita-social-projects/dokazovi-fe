@@ -3,10 +3,10 @@ import Quill from 'quill';
 import ReactQuill from 'react-quill';
 import { modules, formats } from './utilities';
 import 'react-quill/dist/quill.snow.css';
-import { IEditorToolbarProps } from './types';
+import { EditorToolbar } from './Editors/EditorToolbar';
 
 export interface IQuillEditorProps {
-  toolbar: React.ComponentType<IEditorToolbarProps>;
+  isVideoPost?: boolean;
   initialHtmlContent?: string;
   onHtmlContentChange: (htmlContent: string) => void;
   onTextContentChange?: (textContent: string) => void;
@@ -17,7 +17,7 @@ const Editor: React.FC<IQuillEditorProps> = (props) => {
     initialHtmlContent,
     onHtmlContentChange,
     onTextContentChange,
-    toolbar,
+    isVideoPost,
   } = props;
   const editorRef = useRef<ReactQuill>(null);
   const [editor, setEditor] = useState<Quill>();
@@ -37,7 +37,7 @@ const Editor: React.FC<IQuillEditorProps> = (props) => {
 
   return (
     <div className="text-editor" data-testid="text-editor_test">
-      <props.toolbar editor={editor} />
+      <EditorToolbar editor={editor} isVideoPost={isVideoPost} />
       <ReactQuill
         theme="snow"
         defaultValue={initialHtmlContent}

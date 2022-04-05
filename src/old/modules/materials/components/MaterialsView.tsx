@@ -132,7 +132,7 @@ const MaterialsView: React.FC = () => {
       const translations = {
         '1': `${t(langTokens.common.article_1, defaultPlural)}`,
         '2': `${t(langTokens.common.video)}`,
-        '3': `${t(langTokens.common.post, defaultPlural)}`,
+        '3': `${t(langTokens.common.note, defaultPlural)}`,
       };
       const translatedPostType = { ...postType };
       translatedPostType.name = translations[postType.id] || postType.name;

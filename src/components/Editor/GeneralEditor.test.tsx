@@ -7,7 +7,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { GeneralEditor } from './GeneralEditor';
-import { VideoEditorToolbar } from './Editors/VideoEditorToolbar';
+import { EditorToolbar } from './Editors/EditorToolbar';
 
 global.document.execCommand = jest.fn();
 const mockHtmlContentCange = jest.fn();
@@ -19,7 +19,7 @@ test('component renders with all props setted', () => {
     <GeneralEditor
       onHtmlContentChange={mockHtmlContentCange}
       onTextContentChange={mockTextContantChange}
-      toolbar={VideoEditorToolbar}
+      toolbar={EditorToolbar}
       initialHtmlContent="<p>test</p>"
     />,
   );
@@ -32,7 +32,7 @@ test('component renders innitial HTML content', () => {
     <GeneralEditor
       onHtmlContentChange={mockHtmlContentCange}
       onTextContentChange={mockTextContantChange}
-      toolbar={VideoEditorToolbar}
+      toolbar={EditorToolbar}
       initialHtmlContent="<p>test111</p>"
     />,
   );
@@ -43,7 +43,7 @@ test('component renders without non required props', () => {
   render(
     <GeneralEditor
       onHtmlContentChange={mockHtmlContentCange}
-      toolbar={VideoEditorToolbar}
+      toolbar={EditorToolbar}
     />,
   );
   expect(screen.getByTestId('text-editor_test')).toBeInTheDocument();
