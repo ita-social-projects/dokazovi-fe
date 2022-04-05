@@ -20,7 +20,6 @@ import { selectAuthorities } from '../../../../models/authorities';
 
 export interface IPostViewProps {
   post: IPost;
-  modificationAllowed?: boolean;
   onDelete?: () => void;
   isPreview?: boolean;
 }

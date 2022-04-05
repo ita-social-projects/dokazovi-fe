@@ -6,7 +6,6 @@ import { useStyles } from './PostDirectionChip.styles';
 
 export interface IPostDirectionChipProps {
   labelName?: string;
-  backgroundColor?: string;
   handleClick?: () => void;
   handleDelete?: (arg0: string | undefined) => void;
   theOnlyAvailable?: boolean;

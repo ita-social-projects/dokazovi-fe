@@ -21,8 +21,8 @@ interface IAdminTableBodyProps {
 const AdminTableBody: React.FC<IAdminTableBodyProps> = ({ isAdmin }) => {
   const classes = useStyles();
   const { t } = useTranslation();
-  const { newPostPublicationDate } = useSelector(selectModifications);
   const { postIds, posts } = useSelector(selectAdminLab);
+  const { newPostPublicationDate } = useSelector(selectModifications);
 
   const rows = postIds.map((postId) => {
     const {
