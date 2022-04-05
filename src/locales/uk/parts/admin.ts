@@ -61,4 +61,6 @@ export const admin = {
   resetTableFilters: `Скинути всі фільтри`,
   searchTitlePlaceholder: `Пошук по назві`,
   searchAuthorPlaceholder: `Пошук по автору`,
+  removeFromCarousel: `Ви дійсно хочете видалити цей матеріал з Важливих?`,
+  maxImportantPostCountReached: `Досягнуто максимум важливих постів`,
 };

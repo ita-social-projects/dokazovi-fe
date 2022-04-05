@@ -19,6 +19,7 @@ export interface IConfirmationModalWithButtonProps {
   onConfirmButtonClick: () => void;
   loading?: boolean;
   disabled?: boolean;
+  iconStyle?: Record<string, unknown>;
 }
 
 export const ConfirmationModalWithButton: React.FC<IConfirmationModalWithButtonProps> = ({
@@ -28,6 +29,7 @@ export const ConfirmationModalWithButton: React.FC<IConfirmationModalWithButtonP
   onConfirmButtonClick,
   loading,
   disabled,
+  iconStyle,
 }) => {
   const { t } = useTranslation();
   const classes = useStyles();
@@ -37,7 +39,7 @@ export const ConfirmationModalWithButton: React.FC<IConfirmationModalWithButtonP
     <div data-testid="confirmation-modal">
       {buttonIcon && (
         <IconButton
-          style={{ padding: '0px' }}
+          style={iconStyle}
           onClick={() => setOpen(true)}
           disabled={disabled || loading}
         >
