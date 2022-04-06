@@ -16,16 +16,11 @@ export const useStyles = makeStyles(
         pointerEvents: 'none',
       },
     },
-    iconButton: {
+    cardButtons: {
+      width: '100%',
       position: 'absolute',
-      top: theme.spacing(1),
-      right: theme.spacing(1),
-      backgroundColor: '#fff',
-      color: '#000',
-      '&:hover': {
-        backgroundColor: '#e3e3e3',
-      },
     },
+
     orderNumberInput: (props: IPostPreviewStyle) => ({
       position: 'absolute',
       top: theme.spacing(1),

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import Box from '@material-ui/core/Box';
-import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/DeleteOutlineRounded';
 import Typography from '@material-ui/core/Typography';
 import Input from '@material-ui/core/Input';
@@ -17,6 +16,7 @@ import { ImportantPostPreviewCard } from '../../../../../../components/Posts/Car
 import { IPost, ViewModsType } from '../../../../types';
 import { useActions } from '../../../../../../shared/hooks';
 import { langTokens } from '../../../../../../locales/localizationInit';
+import { ConfirmationModalWithButton } from '../../../Modals/ConfirmationModalWithButton';
 
 interface IPostPreviewWrapper {
   post: IPost;
@@ -52,7 +52,7 @@ const PostPreviewWrapper: React.FC<IPostPreviewWrapper> = ({
 
   const addPostToImportant = (newPost: IPost) => {
     if (postsAmount === 99) {
-      toast.warn('Досягнуто максимум важливих постів');
+      toast.warn(t(langTokens.admin.maxImportantPostCountReached));
       return;
     }
 
@@ -60,11 +60,7 @@ const PostPreviewWrapper: React.FC<IPostPreviewWrapper> = ({
     updateRemovedPosts(newPost, viewMode);
   };
 
-  const confirmPostRemovalFromImportant = () =>
-    window.confirm('Ви дійсно хочете видалити цей матеріал з Важливих?');
-
   const removePostFromImportant = (newPost: IPost) => {
-    if (!confirmPostRemovalFromImportant()) return;
     boundRemoveFromImportant(newPost);
     updateRemovedPosts(newPost, viewMode);
   };
@@ -94,6 +90,15 @@ const PostPreviewWrapper: React.FC<IPostPreviewWrapper> = ({
     changePosition(updatedPosition);
   };
 
+  const deleteIconStyle = {
+    padding: '3px',
+    color: '#000',
+    position: 'absolute',
+    top: '5px',
+    right: '5px',
+    backgroundColor: '#fff',
+  };
+
   return (
     <Box
       className={`${classes.postPreviewWrapper} postPreview`}
@@ -104,7 +109,7 @@ const PostPreviewWrapper: React.FC<IPostPreviewWrapper> = ({
       onMouseLeave={() => switchHover(false)}
     >
       {viewMode === 'selected' && (
-        <>
+        <Box className={classes.cardButtons}>
           <Input
             className={classes.orderNumberInput}
             disableUnderline
@@ -114,14 +119,13 @@ const PostPreviewWrapper: React.FC<IPostPreviewWrapper> = ({
             onKeyUp={(e) => e.key === 'Enter' && swapPosts()}
             onBlur={swapPosts}
           />
-          <IconButton
-            size="small"
-            classes={{ root: classes.iconButton }}
-            onClick={() => removePostFromImportant(post)}
-          >
-            <DeleteIcon />
-          </IconButton>
-        </>
+          <ConfirmationModalWithButton
+            message={t(langTokens.admin.removeFromCarousel)}
+            onConfirmButtonClick={() => removePostFromImportant(post)}
+            buttonIcon={<DeleteIcon />}
+            iconStyle={deleteIconStyle}
+          />
+        </Box>
       )}
       {viewMode === 'preview' &&
         (isHovered ||

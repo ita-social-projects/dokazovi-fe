@@ -152,13 +152,11 @@ export const setPostStatus = createAsyncThunk(
         },
       } = getState() as RootStateType;
       const setStatusOnPost = posts[id];
-      console.log(id);
       await updatePost({
         ...setStatusOnPost,
         postStatus,
         authorId: setStatusOnPost.author.id,
       });
-      console.log('done');
       return { id, status: postStatus };
     } catch (error) {
       return rejectWithValue(error.response?.data);
