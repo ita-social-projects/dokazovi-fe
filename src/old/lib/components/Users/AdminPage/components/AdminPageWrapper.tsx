@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
+import { Box } from '@material-ui/core';
+import { useStyles } from '../styles/AdminPageWrapper.styles';
 import OperationView from './OperationView';
 import Sidemenu from './Sidemenu';
 import { IAdminMenuOption } from '../../../../types';
@@ -14,6 +16,7 @@ const AdminPage: React.FC = () => {
     label: 'Керування матеріалами',
     value: 'materials',
   });
+  const classes = useStyles();
 
   const authorities = useSelector(selectAuthorities).data?.includes(
     'SET_IMPORTANCE',
