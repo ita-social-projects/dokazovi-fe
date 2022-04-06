@@ -23,10 +23,10 @@ const AdminPage: React.FC = () => {
   );
 
   return authorities ? (
-    <>
+    <Box className={classes.container}>
       <Sidemenu selectedOption={selectedOption} changeOption={changeOption} />
       <OperationView selectedOption={selectedOption} />
-    </>
+    </Box>
   ) : (
     <>
       <Page404 />
