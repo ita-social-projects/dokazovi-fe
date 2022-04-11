@@ -3,6 +3,8 @@ import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+
 import SearchIcon from '@material-ui/icons/Search';
 import { useStyles } from './Header.styles';
 import { Logo } from './Logo';
@@ -10,7 +12,8 @@ import { BurgerMenu } from '../BurgerMenu/BurgerMenu';
 import { navElements } from './navElements';
 
 interface IToolbarMobile {
-  setInput: React.Dispatch<React.SetStateAction<string>>;
+  // setInput: React.Dispatch<React.SetStateAction<string>>;
+  setInput: (...params: any[]) => void;
 }
 
 export const ToolbarMobile: React.FC<IToolbarMobile> = ({ setInput }) => {
@@ -21,8 +24,12 @@ export const ToolbarMobile: React.FC<IToolbarMobile> = ({ setInput }) => {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      setInput(value);
-    }, 300);
+      setInput({
+        field: 'title',
+        text: value,
+      });
+    }, 400);
+
     return () => clearTimeout(timer);
   }, [value, setInput]);
 

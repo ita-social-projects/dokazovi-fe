@@ -1,4 +1,5 @@
 import React, { useContext, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Container, Slide } from '@material-ui/core';
 import { useStyles } from './Header.styles';
 import { ScreenContext } from '../../old/provider/MobileProvider/ScreenContext';
@@ -9,18 +10,36 @@ import {
   makeHeaderInvisible,
   makeHeaderVisible,
 } from '../../models/headerVisibility';
+import {
+  setField,
+  selectAdminLab,
+  getMaterialsAction,
+  selectMeta,
+} from '../../models/adminLab';
+import { useEffectExceptOnMount } from '../../old/lib/hooks/useEffectExceptOnMount';
 
 export const Header: React.FC = () => {
   const classes = useStyles();
   const [visible, setVisible] = useState<boolean>(true);
   const [oldPageOffsetY, setOldPageOffsetY] = useState<number>(0);
   const { mobile } = useContext(ScreenContext);
-  const [boundMakeHeaderVisible, boundMakeHeaderInvisible] = useActions([
+  const [
+    boundMakeHeaderVisible,
+    boundMakeHeaderInvisible,
+    boundedSetField,
+    boundedGetMaterialsAction,
+  ] = useActions([
     makeHeaderVisible,
     makeHeaderInvisible,
+    setField,
+    getMaterialsAction,
   ]);
+  const meta = useSelector(selectMeta);
+  useEffectExceptOnMount(() => boundedGetMaterialsAction(), [meta]);
 
-  const [searchInputValue, setSearchInputValue] = useState<string>('');
+  const { postIds, posts } = useSelector(selectAdminLab);
+
+  // const [searchInputValue, setSearchInputValue] = useState<string>('');
 
   if (mobile) {
     window.onscroll = () => {
@@ -45,7 +64,7 @@ export const Header: React.FC = () => {
       >
         <Container className={classes.container}>
           {mobile ? (
-            <ToolbarMobile setInput={setSearchInputValue} />
+            <ToolbarMobile setInput={boundedSetField} />
           ) : (
             <ToolbarDesktop />
           )}
