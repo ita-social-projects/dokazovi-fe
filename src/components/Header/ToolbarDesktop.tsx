@@ -29,9 +29,11 @@ export const ToolbarDesktop: React.FC = () => {
         </Box>
       </div>
       <Box className={classes.actionsContainer}>
-        {authenticated && <PostCreationMenu />}
         {authenticated ? (
-          <AccountMenu />
+          <>
+            <PostCreationMenu />
+            <AccountMenu />
+          </>
         ) : (
           <Route path="/opendoctorgate">
             <LoginModal />

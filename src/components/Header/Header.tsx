@@ -20,6 +20,8 @@ export const Header: React.FC = () => {
     makeHeaderInvisible,
   ]);
 
+  const [searchInputValue, setSearchInputValue] = useState<string>('');
+
   if (mobile) {
     window.onscroll = () => {
       setOldPageOffsetY(visualViewport.pageTop);
@@ -42,7 +44,11 @@ export const Header: React.FC = () => {
         className={mobile ? classes.headerMobile : classes.header}
       >
         <Container className={classes.container}>
-          {mobile ? <ToolbarMobile /> : <ToolbarDesktop />}
+          {mobile ? (
+            <ToolbarMobile setInput={setSearchInputValue} />
+          ) : (
+            <ToolbarDesktop />
+          )}
         </Container>
       </div>
     </Slide>
