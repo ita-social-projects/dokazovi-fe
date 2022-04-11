@@ -11,12 +11,28 @@ import { Logo } from './Logo';
 import { BurgerMenu } from '../BurgerMenu/BurgerMenu';
 import { navElements } from './navElements';
 
+import { IPostsOBJ } from '../../models/adminLab/types';
+import { IPost } from '../../old/lib/types';
+
+interface IPostTitleId {
+  id: number;
+  title: string;
+}
+
 interface IToolbarMobile {
   // setInput: React.Dispatch<React.SetStateAction<string>>;
   setInput: (...params: any[]) => void;
+  posts?: IPostsOBJ;
+  postIds?: number[];
+  titles: IPostTitleId[];
 }
 
-export const ToolbarMobile: React.FC<IToolbarMobile> = ({ setInput }) => {
+export const ToolbarMobile: React.FC<IToolbarMobile> = ({
+  setInput,
+  posts,
+  postIds,
+  titles,
+}) => {
   const classes = useStyles();
   const [isSearchVisible, setIsSearchVisible] = useState<boolean>(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
@@ -52,20 +68,28 @@ export const ToolbarMobile: React.FC<IToolbarMobile> = ({ setInput }) => {
       {isSearchVisible ? (
         <>
           <ClickAwayListener onClickAway={() => setIsSearchVisible(false)}>
-            <TextField
-              fullWidth
-              value={theValue}
-              variant="standard"
-              className={classes.searchInput}
-              onChange={(event) => handleChange(event)}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <SearchIcon className={classes.searchInputIcon} />
-                  </InputAdornment>
-                ),
-                disableUnderline: true,
-              }}
+            <Autocomplete
+              freeSolo
+              options={titles.map((title) => title.title)}
+              renderInput={(params) => (
+                <TextField
+                  // eslint-disable-next-line react/jsx-props-no-spreading
+                  {...params}
+                  // fullWidth
+                  value={theValue}
+                  variant="standard"
+                  className={classes.searchInput}
+                  onChange={(event) => handleChange(event)}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <SearchIcon className={classes.searchInputIcon} />
+                      </InputAdornment>
+                    ),
+                    disableUnderline: true,
+                  }}
+                />
+              )}
             />
           </ClickAwayListener>
         </>

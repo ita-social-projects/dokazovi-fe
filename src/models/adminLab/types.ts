@@ -1,7 +1,6 @@
 import { IPost, LoadingStatusEnum, QueryTypeEnum } from '../../old/lib/types';
 
 export interface IAdminPost extends IPost {
-  // modifiedViewsCounter?: number;
   status: string;
 }
 

@@ -17,6 +17,8 @@ import {
   selectMeta,
 } from '../../models/adminLab';
 import { useEffectExceptOnMount } from '../../old/lib/hooks/useEffectExceptOnMount';
+// import { IPostsOBJ } from '../../models/adminLab/types';
+// import { IPost } from '../../old/lib/types';
 
 export const Header: React.FC = () => {
   const classes = useStyles();
@@ -38,6 +40,11 @@ export const Header: React.FC = () => {
   useEffectExceptOnMount(() => boundedGetMaterialsAction(), [meta]);
 
   const { postIds, posts } = useSelector(selectAdminLab);
+
+  const titles = postIds.map((postId) => {
+    return { id: posts[postId].id, title: posts[postId].title };
+  });
+  console.log(titles);
 
   // const [searchInputValue, setSearchInputValue] = useState<string>('');
 
@@ -64,7 +71,12 @@ export const Header: React.FC = () => {
       >
         <Container className={classes.container}>
           {mobile ? (
-            <ToolbarMobile setInput={boundedSetField} />
+            <ToolbarMobile
+              setInput={boundedSetField}
+              posts={posts}
+              postIds={postIds}
+              titles={titles}
+            />
           ) : (
             <ToolbarDesktop />
           )}
