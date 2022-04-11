@@ -20,18 +20,15 @@ export const Header: React.FC = () => {
     makeHeaderInvisible,
   ]);
 
-  const transitionDuration = {
-    enter: 200,
-    exit: 200,
-  };
-
   if (mobile) {
     window.onscroll = () => {
       setOldPageOffsetY(visualViewport.pageTop);
-      if (visualViewport.pageTop >= oldPageOffsetY) {
+
+      if (visualViewport.pageTop >= oldPageOffsetY && visible) {
         setVisible(false);
         boundMakeHeaderInvisible();
-      } else {
+      }
+      if (visualViewport.pageTop <= oldPageOffsetY && !visible) {
         setVisible(true);
         boundMakeHeaderVisible();
       }
@@ -39,7 +36,7 @@ export const Header: React.FC = () => {
   }
 
   return (
-    <Slide in={!mobile || visible} timeout={transitionDuration}>
+    <Slide in={!mobile || visible} timeout={{ enter: 200, exit: 200 }}>
       <div
         id="header"
         className={mobile ? classes.headerMobile : classes.header}
