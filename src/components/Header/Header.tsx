@@ -1,5 +1,4 @@
 import React, { useContext, useState } from 'react';
-import { useSelector } from 'react-redux';
 import { Container, Slide } from '@material-ui/core';
 import { useStyles } from './Header.styles';
 import { ScreenContext } from '../../old/provider/MobileProvider/ScreenContext';
@@ -10,41 +9,16 @@ import {
   makeHeaderInvisible,
   makeHeaderVisible,
 } from '../../models/headerVisibility';
-import // setField,
-// selectAdminLab,
-// getMaterialsAction,
-// selectMeta,
-'../../models/adminLab';
-// import { useEffectExceptOnMount } from '../../old/lib/hooks/useEffectExceptOnMount';
-// import { IPostsOBJ } from '../../models/adminLab/types';
-// import { IPost } from '../../old/lib/types';
 
 export const Header: React.FC = () => {
   const classes = useStyles();
   const [visible, setVisible] = useState<boolean>(true);
   const [oldPageOffsetY, setOldPageOffsetY] = useState<number>(0);
   const { mobile } = useContext(ScreenContext);
-  const [
-    boundMakeHeaderVisible,
-    boundMakeHeaderInvisible,
-    // boundedSetField,
-    // boundedGetMaterialsAction,
-  ] = useActions([
+  const [boundMakeHeaderVisible, boundMakeHeaderInvisible] = useActions([
     makeHeaderVisible,
     makeHeaderInvisible,
-    // setField,
-    // getMaterialsAction,
   ]);
-  // const meta = useSelector(selectMeta);
-  // useEffectExceptOnMount(() => boundedGetMaterialsAction(), [meta]);
-
-  // const { postIds, posts } = useSelector(selectAdminLab);
-
-  // const titles = postIds.map((postId) => {
-  //   return { id: posts[postId].id, title: posts[postId].title };
-  // });
-
-  // const [searchInputValue, setSearchInputValue] = useState<string>('');
 
   if (mobile) {
     window.onscroll = () => {
@@ -68,16 +42,7 @@ export const Header: React.FC = () => {
         className={mobile ? classes.headerMobile : classes.header}
       >
         <Container className={classes.container}>
-          {mobile ? (
-            <ToolbarMobile
-            // setInput={boundedSetField}
-            // posts={posts}
-            // postIds={postIds}
-            // titles={titles}
-            />
-          ) : (
-            <ToolbarDesktop />
-          )}
+          {mobile ? <ToolbarMobile /> : <ToolbarDesktop />}
         </Container>
       </div>
     </Slide>
