@@ -10,13 +10,12 @@ import {
   makeHeaderInvisible,
   makeHeaderVisible,
 } from '../../models/headerVisibility';
-import {
-  setField,
-  selectAdminLab,
-  getMaterialsAction,
-  selectMeta,
-} from '../../models/adminLab';
-import { useEffectExceptOnMount } from '../../old/lib/hooks/useEffectExceptOnMount';
+import // setField,
+// selectAdminLab,
+// getMaterialsAction,
+// selectMeta,
+'../../models/adminLab';
+// import { useEffectExceptOnMount } from '../../old/lib/hooks/useEffectExceptOnMount';
 // import { IPostsOBJ } from '../../models/adminLab/types';
 // import { IPost } from '../../old/lib/types';
 
@@ -28,23 +27,22 @@ export const Header: React.FC = () => {
   const [
     boundMakeHeaderVisible,
     boundMakeHeaderInvisible,
-    boundedSetField,
-    boundedGetMaterialsAction,
+    // boundedSetField,
+    // boundedGetMaterialsAction,
   ] = useActions([
     makeHeaderVisible,
     makeHeaderInvisible,
-    setField,
-    getMaterialsAction,
+    // setField,
+    // getMaterialsAction,
   ]);
-  const meta = useSelector(selectMeta);
-  useEffectExceptOnMount(() => boundedGetMaterialsAction(), [meta]);
+  // const meta = useSelector(selectMeta);
+  // useEffectExceptOnMount(() => boundedGetMaterialsAction(), [meta]);
 
-  const { postIds, posts } = useSelector(selectAdminLab);
+  // const { postIds, posts } = useSelector(selectAdminLab);
 
-  const titles = postIds.map((postId) => {
-    return { id: posts[postId].id, title: posts[postId].title };
-  });
-  console.log(titles);
+  // const titles = postIds.map((postId) => {
+  //   return { id: posts[postId].id, title: posts[postId].title };
+  // });
 
   // const [searchInputValue, setSearchInputValue] = useState<string>('');
 
@@ -72,10 +70,10 @@ export const Header: React.FC = () => {
         <Container className={classes.container}>
           {mobile ? (
             <ToolbarMobile
-              setInput={boundedSetField}
-              posts={posts}
-              postIds={postIds}
-              titles={titles}
+            // setInput={boundedSetField}
+            // posts={posts}
+            // postIds={postIds}
+            // titles={titles}
             />
           ) : (
             <ToolbarDesktop />

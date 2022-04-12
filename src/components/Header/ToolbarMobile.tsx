@@ -10,52 +10,60 @@ import { useStyles } from './Header.styles';
 import { Logo } from './Logo';
 import { BurgerMenu } from '../BurgerMenu/BurgerMenu';
 import { navElements } from './navElements';
+import { ArticleSearch } from './ArticleSearch';
 
 import { IPostsOBJ } from '../../models/adminLab/types';
 import { IPost } from '../../old/lib/types';
 
-interface IPostTitleId {
-  id: number;
-  title: string;
-}
+// interface IPostTitleId {
+//   id: number;
+//   title: string;
+// }
 
-interface IToolbarMobile {
-  // setInput: React.Dispatch<React.SetStateAction<string>>;
-  setInput: (...params: any[]) => void;
-  posts?: IPostsOBJ;
-  postIds?: number[];
-  titles: IPostTitleId[];
-}
+// interface IToolbarMobile {
+//   // setInput: React.Dispatch<React.SetStateAction<string>>;
+//   setInput: (...params: any[]) => void;
+//   posts?: IPostsOBJ;
+//   postIds?: number[];
+//   titles: IPostTitleId[];
+// }
 
-export const ToolbarMobile: React.FC<IToolbarMobile> = ({
-  setInput,
-  posts,
-  postIds,
-  titles,
-}) => {
+export const ToolbarMobile = () => {
   const classes = useStyles();
   const [isSearchVisible, setIsSearchVisible] = useState<boolean>(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
-  const [value, setValue] = useState<string>('');
+  // const [open, setOpen] = useState<boolean>(false);
+  // const loading = open && titles.length === 0;
+  // const [value, setValue] = useState<string>('');
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setInput({
-        field: 'title',
-        text: value,
-      });
-    }, 400);
+  // useEffect(() => {
+  //   const timer = setTimeout(() => {
+  //     setInput({
+  //       field: 'title',
+  //       text: value,
+  //     });
+  //     console.log(titles);
+  //   }, 400);
 
-    return () => clearTimeout(timer);
-  }, [value, setInput]);
+  //   return () => clearTimeout(timer);
+  // }, [value, setInput]);
 
-  const theValue = value;
+  // // useEffect(() => {
+  // //   if (!open) {
+  // //     setOptions([]);
+  // //   }
+  // // }, [open]);
 
-  function handleChange(
-    event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
-  ) {
-    setValue(event.target.value);
-  }
+  // const theValue = value;
+
+  // function handleChange(
+  //   event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
+  // ) {
+  //   if (event.target.value !== "" || event.target.value !== null) {
+  //     console.log(event.target.value);
+  //     setValue(event.target.value);
+  //   }
+  // }
 
   return (
     <>
@@ -67,9 +75,17 @@ export const ToolbarMobile: React.FC<IToolbarMobile> = ({
       <Logo isOnMobile isSearchVisible={isSearchVisible} />
       {isSearchVisible ? (
         <>
-          <ClickAwayListener onClickAway={() => setIsSearchVisible(false)}>
+          <ArticleSearch setVisibility={setIsSearchVisible} />
+          {/* <ClickAwayListener onClickAway={() => setIsSearchVisible(false)}>
             <Autocomplete
-              freeSolo
+              // filterOptions={(x) => x}
+              open={open}
+              onOpen={() => {
+                setOpen(true);
+              }}
+              onClose={() => {
+                setOpen(false);
+              }}
               options={titles.map((title) => title.title)}
               renderInput={(params) => (
                 <TextField
@@ -91,7 +107,7 @@ export const ToolbarMobile: React.FC<IToolbarMobile> = ({
                 />
               )}
             />
-          </ClickAwayListener>
+          </ClickAwayListener> */}
         </>
       ) : (
         <>
