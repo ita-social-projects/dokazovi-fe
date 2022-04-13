@@ -14,6 +14,7 @@ import {
   selectMeta,
 } from '../../models/adminLab';
 import { useEffectExceptOnMount } from '../../old/lib/hooks/useEffectExceptOnMount';
+import { RootStateType } from '../../models/rootReducer';
 
 // import { IPostsOBJ } from '../../models/adminLab/types';
 // import { IPost } from '../../old/lib/types';
@@ -27,14 +28,16 @@ interface IOptions {
   title: string;
 }
 
+const getOptions = (state: RootStateType) => {
+  const { posts } = selectAdminLab(state);
+
+  return Object.values(posts).map((post) => post.title);
+};
+
 export const ArticleSearch: React.FC<IArticleSearch> = ({ setVisibility }) => {
   const classes = useStyles();
   const [open, setOpen] = useState<boolean>(false);
   const [value, setValue] = useState<string>('');
-  const theValue = value;
-
-  const [options, setOptions] = useState<IOptions[]>([]);
-  // const loading = open && options.length === 0;
 
   const [boundedSetField, boundedGetMaterialsAction] = useActions([
     setField,
@@ -42,17 +45,10 @@ export const ArticleSearch: React.FC<IArticleSearch> = ({ setVisibility }) => {
   ]);
 
   const meta = useSelector(selectMeta);
+
   useEffectExceptOnMount(boundedGetMaterialsAction, [meta]);
 
-  const { postIds, posts } = useSelector(selectAdminLab);
-
-  useEffect(() => {
-    const titles = postIds.map((postId) => {
-      const { id, title } = { ...posts[postId] };
-      return { id, title };
-    });
-    setOptions(titles);
-  }, [meta]);
+  const options = useSelector(getOptions);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -64,12 +60,6 @@ export const ArticleSearch: React.FC<IArticleSearch> = ({ setVisibility }) => {
 
     return () => clearTimeout(timer);
   }, [value, boundedSetField]);
-
-  useEffect(() => {
-    if (!open) {
-      setOptions([]);
-    }
-  }, [open]);
 
   const handleChange = (
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
@@ -84,23 +74,19 @@ export const ArticleSearch: React.FC<IArticleSearch> = ({ setVisibility }) => {
       <Autocomplete
         filterOptions={(x) => x}
         fullWidth
-        open={open}
-        onOpen={() => {
-          setOpen(true);
-        }}
-        onClose={() => {
-          setOpen(false);
-        }}
-        options={options.map((option) => option.title)}
+        disableClearable
+        freeSolo
+        options={options}
         renderInput={(params) => (
           <TextField
             // eslint-disable-next-line react/jsx-props-no-spreading
             {...params}
-            value={theValue}
+            value={meta.textFields.title}
             variant="standard"
             className={classes.searchInput}
             onChange={(event) => handleChange(event)}
             InputProps={{
+              ...params.InputProps,
               endAdornment: (
                 <InputAdornment position="end">
                   <SearchIcon className={classes.searchInputIcon} />
