@@ -3,11 +3,7 @@ import { toast } from 'react-toastify';
 import { useHistory, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { PageTitle } from 'components/Page/PageTitle';
-import {
-  deletePostById,
-  getPostById,
-  // getUniquePostViewsCounter,
-} from '../../../lib/utilities/API/api';
+import { deletePostById, getPostById } from '../../../lib/utilities/API/api';
 import {
   IPost,
   LoadingStatusEnum,
@@ -19,7 +15,7 @@ import { setGALocation } from '../../../../utilities/setGALocation';
 import { ERROR_404 } from '../../../lib/constants/routes';
 import { langTokens } from '../../../../locales/localizationInit';
 
-const PostViewWrapper: React.FC = () => {
+const PostViewContainer: React.FC = () => {
   const { t } = useTranslation();
 
   const { postId } = useParams<{ postId: string }>();
@@ -73,20 +69,6 @@ const PostViewWrapper: React.FC = () => {
       });
   }, []);
 
-  // useEffect(() => {
-  //   getUniquePostViewsCounter(Number(postId))
-  //     .then((res) => {
-  //       const uniqueViewsCounter = res.data;
-  //       setLoadedPost((post) => {
-  //         return { ...post, uniqueViewsCounter } as IPost;
-  //       });
-  //     })
-  //     .catch((err) => {
-  //       // eslint-disable-next-line no-console
-  //       console.error(err);
-  //     });
-  // }, []);
-
   if (statusCode === 404) {
     history.push(ERROR_404);
   }
@@ -102,6 +84,12 @@ const PostViewWrapper: React.FC = () => {
       )}
     </>
   );
+};
+
+const PostViewWrapper = () => {
+  const { postId } = useParams<{ postId: string }>();
+
+  return <PostViewContainer key={postId} />;
 };
 
 export default PostViewWrapper;

@@ -91,12 +91,24 @@ export const useStyles = makeStyles(
       backgroundColor: theme.palette.common.white,
       marginRight: theme.spacing(1),
       fontSize: 32,
+      position: 'relative',
+      top: '1px',
     },
     paper: {
       width: '70%',
     },
     label: {
       padding: 0,
+    },
+    inputAdornment: {
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    myPopper: {
+      textOverflow: 'ellipsis',
+      overflow: 'hidden',
+      whiteSpace: 'nowrap',
     },
   }),
   { name: 'Header' },
