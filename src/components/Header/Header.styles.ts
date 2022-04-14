@@ -79,6 +79,9 @@ export const useStyles = makeStyles(
       color: theme.palette.common.white,
       fontSize: 48,
     },
+    searchInputWrapper: {
+      width: '100%',
+    },
     searchInput: {
       background: theme.palette.common.white,
       display: 'flex',
@@ -104,11 +107,6 @@ export const useStyles = makeStyles(
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
-    },
-    myPopper: {
-      textOverflow: 'ellipsis',
-      overflow: 'hidden',
-      whiteSpace: 'nowrap',
     },
   }),
   { name: 'Header' },

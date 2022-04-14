@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import TextField from '@material-ui/core/TextField';
 import Popper from '@material-ui/core/Popper';
+import Box from '@material-ui/core/Box';
+
 import InputAdornment from '@material-ui/core/InputAdornment';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import { Autocomplete, createFilterOptions } from '@material-ui/lab';
@@ -11,7 +13,7 @@ import { useEffectExceptOnMount } from '../../old/lib/hooks/useEffectExceptOnMou
 import { fetchPostsByTitle } from './fetchPostsByTitle';
 
 // import { IPostsOBJ } from '../../models/adminLab/types';
-import { IPost } from '../../old/lib/types';
+// import { IPost } from '../../old/lib/types';
 
 interface IArticleSearch {
   setVisibility: React.Dispatch<React.SetStateAction<boolean>>;
@@ -34,7 +36,6 @@ export const ArticleSearch: React.FC<IArticleSearch> = ({ setVisibility }) => {
   const defaultFilterOptions = createFilterOptions();
   const OPTIONS_LIMIT = 10;
   const [postOptions, setPostOptions] = useState<IOption[]>([]);
-
   const [inputValue, setInputValue] = useState<string>('');
 
   const handleInputChange = (
@@ -56,10 +57,9 @@ export const ArticleSearch: React.FC<IArticleSearch> = ({ setVisibility }) => {
         const { id, title } = { ...post };
         return { id, title };
       });
-      // console.log(titleOptions);
+
       setPostOptions(titleOptions);
     };
-    console.log(postOptions);
     getTitles();
   }, [inputValue]);
 
@@ -69,10 +69,9 @@ export const ArticleSearch: React.FC<IArticleSearch> = ({ setVisibility }) => {
   // };
 
   const PopperMy = (props) => {
-    // eslint-disable-next-line react/jsx-props-no-spreading
     return (
       <Popper
-        className={classes.myPopper}
+        // eslint-disable-next-line react/jsx-props-no-spreading
         {...props}
         style={{
           marginTop: '22px',
@@ -92,36 +91,41 @@ export const ArticleSearch: React.FC<IArticleSearch> = ({ setVisibility }) => {
   };
 
   return (
-    // <ClickAwayListener onClickAway={() => setVisibility(false)}>
-    <Autocomplete
-      filterOptions={(x) => x}
-      fullWidth
-      disableClearable
-      freeSolo
-      options={postOptions}
-      PopperComponent={PopperMy}
-      getOptionLabel={(option: IOption) => option.title}
-      onChange={(e, value) => handleOnChange(e, value)}
-      renderInput={(params) => (
-        <TextField
-          // eslint-disable-next-line react/jsx-props-no-spreading
-          {...params}
-          value={inputValue}
-          variant="standard"
-          className={classes.searchInput}
-          onChange={(event) => handleInputChange(event)}
-          InputProps={{
-            ...params.InputProps,
-            endAdornment: (
-              <InputAdornment position="end" className={classes.inputAdornment}>
-                <SearchIcon className={classes.searchInputIcon} />
-              </InputAdornment>
-            ),
-            disableUnderline: true,
-          }}
+    <ClickAwayListener onClickAway={() => setVisibility(false)}>
+      <Box className={classes.searchInputWrapper}>
+        <Autocomplete
+          filterOptions={(x) => x}
+          fullWidth
+          disableClearable
+          freeSolo
+          options={postOptions}
+          PopperComponent={PopperMy}
+          getOptionLabel={(option: IOption) => option.title}
+          onChange={(e, value) => handleOnChange(e, value)}
+          renderInput={(params) => (
+            <TextField
+              // eslint-disable-next-line react/jsx-props-no-spreading
+              {...params}
+              value={inputValue}
+              variant="standard"
+              className={classes.searchInput}
+              onChange={(event) => handleInputChange(event)}
+              InputProps={{
+                ...params.InputProps,
+                endAdornment: (
+                  <InputAdornment
+                    position="end"
+                    className={classes.inputAdornment}
+                  >
+                    <SearchIcon className={classes.searchInputIcon} />
+                  </InputAdornment>
+                ),
+                disableUnderline: true,
+              }}
+            />
+          )}
         />
-      )}
-    />
-    // </ClickAwayListener>
+      </Box>
+    </ClickAwayListener>
   );
 };
