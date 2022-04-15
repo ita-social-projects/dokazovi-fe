@@ -76,6 +76,11 @@ export const ROUTER_CONFIG: IRouteConfig[] = [
     component: MaterialsView,
   },
   {
+    path: '/materials/search',
+    key: 'MATERIALS_SEARCH',
+    component: MaterialsView,
+  },
+  {
     path: '/experts',
     key: 'EXPERTS_LIST',
     component: ExpertsView,

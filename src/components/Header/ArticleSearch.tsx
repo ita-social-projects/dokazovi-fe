@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import TextField from '@material-ui/core/TextField';
 import Popper from '@material-ui/core/Popper';
 import Box from '@material-ui/core/Box';
-
+import { useActions } from 'shared/hooks';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import { Autocomplete, createFilterOptions } from '@material-ui/lab';
@@ -11,6 +11,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import { useStyles } from './Header.styles';
 import { useEffectExceptOnMount } from '../../old/lib/hooks/useEffectExceptOnMount';
 import { fetchPostsByTitle } from './fetchPostsByTitle';
+import { searchTitle } from '../../models/materials/reducers';
 
 // import { IPostsOBJ } from '../../models/adminLab/types';
 // import { IPost } from '../../old/lib/types';
@@ -33,6 +34,7 @@ interface IOption {
 export const ArticleSearch: React.FC<IArticleSearch> = ({ setVisibility }) => {
   const classes = useStyles();
   const history = useHistory();
+  const [boundedSearchTitle] = useActions([searchTitle]);
   const defaultFilterOptions = createFilterOptions();
   const OPTIONS_LIMIT = 10;
   const [postOptions, setPostOptions] = useState<IOption[]>([]);
@@ -90,6 +92,16 @@ export const ArticleSearch: React.FC<IArticleSearch> = ({ setVisibility }) => {
     setInputValue('');
   };
 
+  const handleSearch = () => {
+    boundedSearchTitle({ title: 'glory' });
+    setVisibility(false);
+    setInputValue('');
+    history.push({
+      pathname: `/materials/search`,
+      state: { request: inputValue },
+    });
+  };
+
   return (
     <ClickAwayListener onClickAway={() => setVisibility(false)}>
       <Box className={classes.searchInputWrapper}>
@@ -117,7 +129,10 @@ export const ArticleSearch: React.FC<IArticleSearch> = ({ setVisibility }) => {
                     position="end"
                     className={classes.inputAdornment}
                   >
-                    <SearchIcon className={classes.searchInputIcon} />
+                    <SearchIcon
+                      className={classes.searchInputIcon}
+                      onClick={handleSearch}
+                    />
                   </InputAdornment>
                 ),
                 disableUnderline: true,

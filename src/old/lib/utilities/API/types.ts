@@ -244,6 +244,7 @@ export type RequestParamsType = {
   userName?: string;
   posts?: string;
   status?: string;
+  title?: string;
 };
 
 export type GetFilteredPostsType = {

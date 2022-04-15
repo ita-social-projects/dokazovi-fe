@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { LoadingStatusEnum } from '../../old/lib/types';
 import { IMaterialsState } from './types';
 import { fetchMaterials } from './asyncActions';
@@ -16,7 +16,9 @@ const initialState: IMaterialsState = {
       totalPages: 0,
     },
     filters: {},
+    title: '',
   },
+  title: '',
   loading: LoadingStatusEnum.idle,
   error: null,
 };
@@ -25,6 +27,10 @@ export const materialsSlice = createSlice({
   name: 'materials',
   initialState,
   reducers: {
+    searchTitle: (state, action: PayloadAction<{ title: string }>) => {
+      const { title } = action.payload;
+      state.title = title;
+    },
     resetMaterials: (state) => {
       state.data = initialState.data;
       state.loading = initialState.loading;
@@ -36,6 +42,6 @@ export const materialsSlice = createSlice({
   },
 });
 
-export const { resetMaterials } = materialsSlice.actions;
+export const { searchTitle, resetMaterials } = materialsSlice.actions;
 
 export const materialsReducer = materialsSlice.reducer;

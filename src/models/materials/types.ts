@@ -10,6 +10,7 @@ export interface IMaterialsData {
   filters?: {
     [key in QueryTypeEnum]?: number[];
   };
+  title?: string;
 }
 
 export interface IMaterialsState {
@@ -29,6 +30,7 @@ export interface IFetchMaterialsOptions {
   appendPosts: boolean;
   url: GetPostsRequestType;
   statuses: string;
+  title: string;
 }
 
 export interface IMaterialsMeta {

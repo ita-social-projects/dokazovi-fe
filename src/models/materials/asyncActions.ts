@@ -19,10 +19,11 @@ export const fetchMaterials = createAsyncThunk(
   'materials/fetchMaterials',
   async (options: IFetchMaterialsOptions, { getState, rejectWithValue }) => {
     try {
-      const { filters, page, appendPosts, url = 'all-posts' } = options;
+      const { title, filters, page, appendPosts, url = 'all-posts' } = options;
 
       const response = await getPosts(url, {
         params: {
+          title: title,
           page: page,
           size: LOAD_POSTS_LIMIT,
           types: filters.postTypes,

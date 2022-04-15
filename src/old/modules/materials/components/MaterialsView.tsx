@@ -4,7 +4,7 @@ import { Box, Grid, Typography } from '@material-ui/core';
 import { isEmpty, uniq } from 'lodash';
 import React, { useContext, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { PageTitle } from 'components/Page/PageTitle';
 import { ScreenContext } from 'old/provider/MobileProvider/ScreenContext';
@@ -56,6 +56,14 @@ import { sortByAlphabet } from '../../../lib/utilities/sorting';
 import MaterialsViewMobile from './MaterialsViewMobile';
 
 const MaterialsView: React.FC = () => {
+  const location = useLocation();
+
+  useEffect(() => {
+    console.log(location.pathname);
+
+    console.log(location.state);
+  }, [location]);
+
   const { t } = useTranslation();
   const {
     loading,
