@@ -4,7 +4,7 @@ import { Box, Grid, Typography } from '@material-ui/core';
 import { isEmpty, uniq } from 'lodash';
 import React, { useContext, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { PageTitle } from 'components/Page/PageTitle';
 import { ScreenContext } from 'old/provider/MobileProvider/ScreenContext';
@@ -55,19 +55,12 @@ import {
 import { sortByAlphabet } from '../../../lib/utilities/sorting';
 import MaterialsViewMobile from './MaterialsViewMobile';
 
-const MaterialsView: React.FC = () => {
-  const location = useLocation();
-
-  useEffect(() => {
-    console.log(location.pathname);
-
-    console.log(location.state);
-  }, [location]);
-
+const MaterialsContainer: React.FC = () => {
   const { t } = useTranslation();
   const {
     loading,
     data: {
+      title,
       postIds,
       meta: { isLastPage, pageNumber, totalElements, totalPages },
     },
@@ -207,15 +200,13 @@ const MaterialsView: React.FC = () => {
       query.get(QueryTypeEnum.DIRECTIONS) !== '0'
         ? query.get(QueryTypeEnum.DIRECTIONS)
         : stringOfDirections();
-
     const filters = {
       page,
       origins: mapQueryIdsStringToArray(originsQuery),
       postTypes: mapQueryIdsStringToArray(postTypesQuery),
       directions: mapQueryIdsStringToArray(directionsQuery),
     };
-
-    boundFetchMaterials({ filters, page, appendPosts });
+    boundFetchMaterials({ filters, page, appendPosts, title });
   };
 
   const setFilters = (
@@ -636,6 +627,15 @@ const MaterialsView: React.FC = () => {
       </Grid>
     </>
   );
+};
+
+const MaterialsView = () => {
+  const {
+    data: { title },
+  } = useSelector(selectMaterials);
+  console.log(title);
+
+  return <MaterialsContainer key={title} />;
 };
 
 export default MaterialsView;

@@ -56,6 +56,7 @@ export const fetchMaterials = createAsyncThunk(
           totalPages: response.data.totalPages,
         },
         filters,
+        title: '',
       };
     } catch (err) {
       return rejectWithValue(err.response?.data);

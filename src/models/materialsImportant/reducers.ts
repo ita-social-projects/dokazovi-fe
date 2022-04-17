@@ -16,6 +16,7 @@ const initialState: IMaterialsState = {
       totalPages: 0,
     },
     filters: {},
+    title: '',
   },
   loading: LoadingStatusEnum.idle,
   error: null,

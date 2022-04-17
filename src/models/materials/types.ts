@@ -10,7 +10,7 @@ export interface IMaterialsData {
   filters?: {
     [key in QueryTypeEnum]?: number[];
   };
-  title?: string;
+  title: string;
 }
 
 export interface IMaterialsState {

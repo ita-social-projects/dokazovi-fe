@@ -21,6 +21,7 @@ const initialState: IMaterialsStateByStatus = {
       isAllFiltersChecked: true,
       filterConfig: allCheckedFilterConfig,
     },
+    title: '',
     status,
   },
   loading: LoadingStatusEnum.idle,

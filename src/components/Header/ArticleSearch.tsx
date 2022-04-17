@@ -1,17 +1,19 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import TextField from '@material-ui/core/TextField';
 import Popper from '@material-ui/core/Popper';
 import Box from '@material-ui/core/Box';
 import { useActions } from 'shared/hooks';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
-import { Autocomplete, createFilterOptions } from '@material-ui/lab';
+import { Autocomplete } from '@material-ui/lab';
 import SearchIcon from '@material-ui/icons/Search';
 import { useStyles } from './Header.styles';
 import { useEffectExceptOnMount } from '../../old/lib/hooks/useEffectExceptOnMount';
 import { fetchPostsByTitle } from './fetchPostsByTitle';
 import { searchTitle } from '../../models/materials/reducers';
+import { selectMaterials } from '../../models/materials';
 
 // import { IPostsOBJ } from '../../models/adminLab/types';
 // import { IPost } from '../../old/lib/types';
@@ -25,50 +27,34 @@ interface IOption {
   title: string;
 }
 
-// const getOptions = (state: RootStateType) => {
-//   const { posts } = selectAdminLab(state);
-
-//   return Object.values(posts).map((post) => post.title);
-// };
-
 export const ArticleSearch: React.FC<IArticleSearch> = ({ setVisibility }) => {
   const classes = useStyles();
   const history = useHistory();
   const [boundedSearchTitle] = useActions([searchTitle]);
-  const defaultFilterOptions = createFilterOptions();
-  const OPTIONS_LIMIT = 10;
   const [postOptions, setPostOptions] = useState<IOption[]>([]);
-  const [inputValue, setInputValue] = useState<string>('');
+  const [title, setTitle] = useState('');
 
   const handleInputChange = (
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
   ) => {
-    if (event.target.value !== '' || event.target.value !== null) {
-      setInputValue(event.target.value);
-    }
+    setTitle(event.target.value);
   };
 
   useEffectExceptOnMount(() => {
-    if (inputValue === '') {
+    if (!title) {
       setPostOptions([]);
       return;
     }
     const getTitles = async () => {
-      const posts = await fetchPostsByTitle(inputValue);
+      const posts = await fetchPostsByTitle(title);
       const titleOptions = posts.map((post) => {
-        const { id, title } = { ...post };
-        return { id, title };
+        const { id, title: titleOption } = post;
+        return { id, title: titleOption };
       });
-
       setPostOptions(titleOptions);
     };
     getTitles();
-  }, [inputValue]);
-
-  // const filterOptions = (options, state: FilterOptionsState<IOption>) => {
-  //   console.log(state);
-  //   return defaultFilterOptions(options, state).slice(0, OPTIONS_LIMIT);
-  // };
+  }, [title]);
 
   const PopperMy = (props) => {
     return (
@@ -86,24 +72,25 @@ export const ArticleSearch: React.FC<IArticleSearch> = ({ setVisibility }) => {
     );
   };
 
-  const handleOnChange = (e, value) => {
+  const handleChange = (e, value) => {
     history.push(`/posts/${value.id}`);
     setVisibility(false);
-    setInputValue('');
+    boundedSearchTitle({ title: '' });
   };
 
   const handleSearch = () => {
-    boundedSearchTitle({ title: 'glory' });
     setVisibility(false);
-    setInputValue('');
-    history.push({
-      pathname: `/materials/search`,
-      state: { request: inputValue },
-    });
+    boundedSearchTitle({ title });
+    history.push(`/materials/search`);
+  };
+
+  const handleClickAway = () => {
+    boundedSearchTitle({ title: '' });
+    setVisibility(false);
   };
 
   return (
-    <ClickAwayListener onClickAway={() => setVisibility(false)}>
+    <ClickAwayListener onClickAway={handleClickAway}>
       <Box className={classes.searchInputWrapper}>
         <Autocomplete
           filterOptions={(x) => x}
@@ -113,12 +100,12 @@ export const ArticleSearch: React.FC<IArticleSearch> = ({ setVisibility }) => {
           options={postOptions}
           PopperComponent={PopperMy}
           getOptionLabel={(option: IOption) => option.title}
-          onChange={(e, value) => handleOnChange(e, value)}
+          onChange={(e, value) => handleChange(e, value)}
           renderInput={(params) => (
             <TextField
               // eslint-disable-next-line react/jsx-props-no-spreading
               {...params}
-              value={inputValue}
+              value={title}
               variant="standard"
               className={classes.searchInput}
               onChange={(event) => handleInputChange(event)}

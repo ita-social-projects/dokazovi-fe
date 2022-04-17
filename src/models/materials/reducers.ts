@@ -18,7 +18,7 @@ const initialState: IMaterialsState = {
     filters: {},
     title: '',
   },
-  title: '',
+
   loading: LoadingStatusEnum.idle,
   error: null,
 };
@@ -29,7 +29,7 @@ export const materialsSlice = createSlice({
   reducers: {
     searchTitle: (state, action: PayloadAction<{ title: string }>) => {
       const { title } = action.payload;
-      state.title = title;
+      state.data.title = title;
     },
     resetMaterials: (state) => {
       state.data = initialState.data;
