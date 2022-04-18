@@ -15,6 +15,7 @@ export const useStyles = makeStyles((theme: Theme) => ({
   },
   title: {
     wordWrap: 'break-word',
+    width: '285px',
   },
   default: {
     backgroundColor: theme.palette.background.default,
@@ -28,4 +29,7 @@ export const useStyles = makeStyles((theme: Theme) => ({
   post: {
     backgroundColor: '#a3c9ad',
   },
+  // date: {
+  //   maxWidth: '78px',
+  // }
 }));
