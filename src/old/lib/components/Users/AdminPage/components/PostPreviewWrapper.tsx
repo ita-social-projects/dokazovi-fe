@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import Box from '@material-ui/core/Box';
 import DeleteIcon from '@material-ui/icons/DeleteOutlineRounded';
+import EditIcon from '@material-ui/icons/Edit';
+import AddOutlined from '@material-ui/icons/AddOutlined';
+
 import Typography from '@material-ui/core/Typography';
 import Input from '@material-ui/core/Input';
 import { toast } from 'react-toastify';
@@ -90,13 +93,23 @@ const PostPreviewWrapper: React.FC<IPostPreviewWrapper> = ({
     changePosition(updatedPosition);
   };
 
-  const deleteIconStyle = {
+  const buttonIconStyle = {
     padding: '3px',
     color: '#000',
     position: 'absolute',
     top: '5px',
     right: '5px',
     backgroundColor: '#fff',
+  };
+
+  const handleAddClick = () => {
+    addPostToImportant(post);
+  };
+
+  const handleEditClick = () => {
+    history.push(`/edit-post?id=${post.id}`, {
+      from: history.location.pathname,
+    });
   };
 
   return (
@@ -123,39 +136,38 @@ const PostPreviewWrapper: React.FC<IPostPreviewWrapper> = ({
             message={t(langTokens.admin.removeFromCarousel)}
             onConfirmButtonClick={() => removePostFromImportant(post)}
             buttonIcon={<DeleteIcon />}
-            iconStyle={deleteIconStyle}
+            iconStyle={buttonIconStyle}
           />
         </Box>
       )}
-      {viewMode === 'preview' &&
-        (isHovered ||
-          !post.importantImageUrl ||
-          !post.importantMobileImageUrl) && (
-          <div className={classes.cardHoverView}>
-            {post.importantImageUrl && post.importantMobileImageUrl && (
-              <Typography
-                className={classes.cardHoverButtons}
-                display="block"
-                variant="button"
-                onClick={() => addPostToImportant(post)}
-              >
-                {t(langTokens.admin.addToCarousel)}
-              </Typography>
-            )}
-            <Typography
-              className={classes.cardHoverButtons}
-              display="block"
-              variant="button"
-              onClick={() =>
-                history.push(`/edit-post?id=${post.id}`, {
-                  from: history.location.pathname,
-                })
-              }
-            >
-              {t(langTokens.admin.edit)}
-            </Typography>
-          </div>
-        )}
+
+      {viewMode === 'preview' && isHovered && (
+        <>
+          <Box className={classes.cardButtons}>
+            <AddOutlined
+              className={classes.leftTopButton}
+              onClick={handleAddClick}
+            />
+            <EditIcon
+              className={classes.rightTopButton}
+              onClick={handleEditClick}
+            />
+          </Box>
+        </>
+      )}
+
+      {viewMode === 'preview' && !isHovered && (
+        <>
+          <Typography
+            className={classes.previwTitle}
+            variant="h4"
+            align="center"
+          >
+            {post.title}
+          </Typography>
+        </>
+      )}
+
       <Box className="unclicable">
         <ImportantPostPreviewCard
           post={post}
