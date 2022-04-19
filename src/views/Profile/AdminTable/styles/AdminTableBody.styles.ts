@@ -16,6 +16,7 @@ export const useStyles = makeStyles(
     },
     title: {
       wordWrap: 'break-word',
+      width: '320px',
     },
     default: {
       backgroundColor: theme.palette.background.default,
