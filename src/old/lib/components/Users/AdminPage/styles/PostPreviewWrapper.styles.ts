@@ -19,23 +19,18 @@ export const useStyles = makeStyles(
     cardButtons: {
       width: '100%',
       position: 'absolute',
+      '& .right': {
+        right: '5px',
+      },
+      '& .left': {
+        left: '5px',
+      },
     },
-    leftTopButton: {
+    topButton: {
       padding: '3px',
       color: '#000',
       position: 'absolute',
       top: '5px',
-      left: '5px',
-      backgroundColor: '#fff',
-      borderRadius: '50%',
-      fontSize: '30px',
-    },
-    rightTopButton: {
-      padding: '3px',
-      color: '#000',
-      position: 'absolute',
-      top: '5px',
-      right: '5px',
       backgroundColor: '#fff',
       borderRadius: '50%',
       fontSize: '30px',

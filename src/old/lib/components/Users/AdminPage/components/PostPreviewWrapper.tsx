@@ -141,15 +141,15 @@ const PostPreviewWrapper: React.FC<IPostPreviewWrapper> = ({
         </Box>
       )}
 
-      {viewMode === 'preview' && isHovered && (
+      {viewMode === 'preview' && (
         <>
           <Box className={classes.cardButtons}>
             <AddOutlined
-              className={classes.leftTopButton}
+              className={`${classes.topButton} left`}
               onClick={handleAddClick}
             />
             <EditIcon
-              className={classes.rightTopButton}
+              className={`${classes.topButton} right`}
               onClick={handleEditClick}
             />
           </Box>
