@@ -116,7 +116,7 @@ export interface IAdminLabExpert extends IExpert {
   dateOfEdition?: string;
 }
 export interface IAdminExpertsList {
-  experts: {
+  authors: {
     [id: string]: IAdminLabExpert;
   };
 }
