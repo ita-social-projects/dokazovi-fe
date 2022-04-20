@@ -65,4 +65,9 @@ export const admin = {
   searchAuthorPlaceholder: `Пошук по автору`,
   removeFromCarousel: `Ви дійсно хочете видалити цей матеріал з Важливих?`,
   maxImportantPostCountReached: `Досягнуто максимум важливих постів`,
+  dateOfCreation: `Дата створення`,
+  dateOfEdition: `Дата редагування`,
+  region: `Регіон`,
+  city: `Місто`,
+  fullName: `Ім'я та Прізвище`,
 };
