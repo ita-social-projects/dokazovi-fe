@@ -1,4 +1,9 @@
-import { IPost, LoadingStatusEnum, QueryTypeEnum } from '../../old/lib/types';
+import {
+  IPost,
+  LoadingStatusEnum,
+  QueryTypeEnum,
+  IExpert,
+} from '../../old/lib/types';
 
 export interface IAdminPost extends IPost {
   // modifiedViewsCounter?: number;
@@ -103,4 +108,15 @@ export enum StatusesForActions {
   PLANNED,
   PUBLISHED,
   ARCHIVED,
+}
+
+export interface IAdminLabExpert extends IExpert {
+  region?: string;
+  dateOfCreation?: string;
+  dateOfEdition?: string;
+}
+export interface IAdminExpertsList {
+  experts: {
+    [id: string]: IAdminLabExpert;
+  };
 }

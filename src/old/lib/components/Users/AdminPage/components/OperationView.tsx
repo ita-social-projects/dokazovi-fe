@@ -6,6 +6,7 @@ import { useStyles } from '../styles/OperationView.styles';
 import { IAdminMenuOption } from '../../../../types';
 import { langTokens } from '../../../../../../locales/localizationInit';
 import { AdminTable } from '../../../../../../views/Profile/AdminTable/AdminTable';
+import { AuthorsList } from '../../../../../../views/Profile/AuthorsList/AuthorsList';
 
 interface IOperationViewProps {
   selectedOption: IAdminMenuOption | Record<string, never>;
@@ -33,6 +34,9 @@ const OperationView: React.FC<IOperationViewProps> = (props) => {
       }
       case 'materials': {
         return <AdminTable />;
+      }
+      case 'authors': {
+        return <AuthorsList />;
       }
       default: {
         return <AdminTable />;
