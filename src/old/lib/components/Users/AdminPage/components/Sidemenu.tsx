@@ -17,6 +17,11 @@ interface ISidemenuProps {
 const adminMenuOptions: IAdminMenuOption[] = [
   {
     section: 'Головна',
+    label: 'Список авторів',
+    value: 'authors',
+  },
+  {
+    section: 'Головна',
     label: 'Керування матеріалами',
     value: 'materials',
   },

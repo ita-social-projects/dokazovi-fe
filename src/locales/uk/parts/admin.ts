@@ -61,4 +61,9 @@ export const admin = {
   resetTableFilters: `Скинути всі фільтри`,
   searchTitlePlaceholder: `Пошук по назві`,
   searchAuthorPlaceholder: `Пошук по автору`,
+  dateOfCreation: `Дата створення`,
+  dateOfEdition: `Дата редагування`,
+  region: `Регіон`,
+  city: `Місто`,
+  fullName: `Ім'я та Прізвище`,
 };

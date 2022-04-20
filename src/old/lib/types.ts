@@ -234,7 +234,7 @@ export interface IFooterStyleProps {
   isProfilePage: boolean;
 }
 
-export type AdminMenuType = 'important' | 'materials';
+export type AdminMenuType = 'authors' | 'important' | 'materials';
 
 export interface IAdminMenuOption {
   section: string;
