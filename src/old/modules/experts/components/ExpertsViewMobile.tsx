@@ -4,6 +4,7 @@ import { LoadingContainer } from 'old/lib/components/Loading/LoadingContainer';
 import FiltersMenu from 'components/FiltersMenuMobile/FiltersMenu';
 import FiltersButton from 'old/lib/components/FiltersButton/FiltersButton';
 import { LoadingStatusType, LoadingStatusEnum, IExpert } from 'old/lib/types';
+import UpButton from 'old/lib/components/UpButton/UpButton';
 import { useStyles } from '../styles/ExpertsViewMobile.styles';
 import { ExpertsList } from '../../../lib/components/Experts/ExpertsList';
 
@@ -55,6 +56,7 @@ const ExpertsViewMobile: FC<IExpertsViewMobileProps> = ({
           </>
         )}
       </Grid>
+      <UpButton />
       <FiltersButton
         filtersMenuOpen={filtersMenuOpen}
         setFiltersMenuOpen={setFiltersMenuOpen}
