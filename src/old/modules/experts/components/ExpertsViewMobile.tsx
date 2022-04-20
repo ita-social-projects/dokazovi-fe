@@ -5,7 +5,7 @@ import FiltersMenu from 'components/FiltersMenuMobile/FiltersMenu';
 import FiltersButton from 'old/lib/components/FiltersButton/FiltersButton';
 import { LoadingStatusType, LoadingStatusEnum, IExpert } from 'old/lib/types';
 import { useStyles } from '../styles/ExpertsViewMobile.styles';
-import { AutoPaginationExpertsList } from './AutoPaginationExpertsList';
+import { ExpertsList } from '../../../lib/components/Experts/ExpertsList';
 
 interface IExpertsViewMobileProps {
   page: number;
@@ -16,6 +16,7 @@ interface IExpertsViewMobileProps {
   SelectedTypes: JSX.Element;
   FilterCheckboxes: JSX.Element | false;
   setPage: () => void;
+  LoadMoreButton: JSX.Element;
 }
 
 const ExpertsViewMobile: FC<IExpertsViewMobileProps> = ({
@@ -27,6 +28,7 @@ const ExpertsViewMobile: FC<IExpertsViewMobileProps> = ({
   SelectedTypes,
   FilterCheckboxes,
   setPage,
+  LoadMoreButton,
 }) => {
   const classes = useStyles();
 
@@ -45,7 +47,12 @@ const ExpertsViewMobile: FC<IExpertsViewMobileProps> = ({
         {page === 0 && loading === LoadingStatusEnum.pending ? (
           <LoadingContainer loading={loading} expand />
         ) : (
-          <AutoPaginationExpertsList experts={experts} setPage={setPage} />
+          <>
+            <ExpertsList experts={experts} />
+            <Grid container justify="center">
+              {LoadMoreButton}
+            </Grid>
+          </>
         )}
       </Grid>
       <FiltersButton
