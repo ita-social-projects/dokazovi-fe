@@ -48,7 +48,7 @@ const content: IContent[] = [
   },
 ];
 
-const AuthorsListTableHead: React.FC = () => {
+const AuthorsTableHead: React.FC = () => {
   //   const classes = useStyles();
   //   const [boundedSetSort] = useActions([setSort]);
   //   const {
@@ -120,4 +120,4 @@ const AuthorsListTableHead: React.FC = () => {
   );
 };
 
-export default AuthorsListTableHead;
+export default AuthorsTableHead;
