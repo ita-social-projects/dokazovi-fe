@@ -56,22 +56,6 @@ export const ArticleSearch: React.FC<IArticleSearch> = ({ setVisibility }) => {
     getTitles();
   }, [title]);
 
-  const PopperMy = (props) => {
-    return (
-      <Popper
-        // eslint-disable-next-line react/jsx-props-no-spreading
-        {...props}
-        style={{
-          marginTop: '22px',
-          width: '100%',
-          textOverflow: 'ellipsis',
-          overflow: 'hidden',
-          whiteSpace: 'nowrap',
-        }}
-      />
-    );
-  };
-
   const handlePickOption = (e, value) => {
     history.push(`/posts/${value.id}`);
     setVisibility(false);
@@ -87,6 +71,22 @@ export const ArticleSearch: React.FC<IArticleSearch> = ({ setVisibility }) => {
   const handleClickAway = () => {
     boundedSearchTitle({ title: '' });
     setVisibility(false);
+  };
+
+  const PopperMy = (props) => {
+    return (
+      <Popper
+        // eslint-disable-next-line react/jsx-props-no-spreading
+        {...props}
+        style={{
+          marginTop: '22px',
+          width: '100%',
+          textOverflow: 'ellipsis',
+          overflow: 'hidden',
+          whiteSpace: 'nowrap',
+        }}
+      />
+    );
   };
 
   return (

@@ -54,9 +54,11 @@ import {
 } from '../../utilities/utilityFunctions';
 import { sortByAlphabet } from '../../../lib/utilities/sorting';
 import MaterialsViewMobile from './MaterialsViewMobile';
+import useEffectFirstChange from '../../../lib/hooks/useEffectFirstChange';
 
 const MaterialsContainer: React.FC = () => {
   const { t } = useTranslation();
+
   const {
     loading,
     data: {
