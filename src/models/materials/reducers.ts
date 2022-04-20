@@ -30,6 +30,7 @@ export const materialsSlice = createSlice({
     searchTitle: (state, action: PayloadAction<{ title: string }>) => {
       const { title } = action.payload;
       state.data.title = title;
+      console.log(state.data.title);
     },
     resetMaterials: (state) => {
       state.data = initialState.data;

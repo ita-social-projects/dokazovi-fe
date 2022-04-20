@@ -72,7 +72,7 @@ export const ArticleSearch: React.FC<IArticleSearch> = ({ setVisibility }) => {
     );
   };
 
-  const handleChange = (e, value) => {
+  const handlePickOption = (e, value) => {
     history.push(`/posts/${value.id}`);
     setVisibility(false);
     boundedSearchTitle({ title: '' });
@@ -100,7 +100,7 @@ export const ArticleSearch: React.FC<IArticleSearch> = ({ setVisibility }) => {
           options={postOptions}
           PopperComponent={PopperMy}
           getOptionLabel={(option: IOption) => option.title}
-          onChange={(e, value) => handleChange(e, value)}
+          onChange={(e, value) => handlePickOption(e, value)}
           renderInput={(params) => (
             <TextField
               // eslint-disable-next-line react/jsx-props-no-spreading

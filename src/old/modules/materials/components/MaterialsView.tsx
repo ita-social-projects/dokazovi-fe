@@ -633,6 +633,7 @@ const MaterialsView = () => {
   const {
     data: { title },
   } = useSelector(selectMaterials);
+
   console.log(title);
 
   return <MaterialsContainer key={title} />;
