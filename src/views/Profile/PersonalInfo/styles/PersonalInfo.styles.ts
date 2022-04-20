@@ -5,8 +5,9 @@ export const useStyles = makeStyles(
     (theme: Theme) => ({
       PersonalInfo: {
         // marginTop: theme.spacing(2),
-        '& .BasicInput-basicInput' : {
-            marginTop: '8px',
+          '& .MuiFormControl-root' : {
+            marginTop: theme.spacing(1),
+            marginBottom: theme.spacing(1),
           },
         '& .MuiFormLabel-root':{
           fontFamily: 'Raleway',
@@ -25,7 +26,7 @@ export const useStyles = makeStyles(
           // margin: theme.spacing(1),
           
           '& .MuiInputBase-input': {
-            marginTop: theme.spacing(2), // '8px auto'
+            marginTop: theme.spacing(1), // '8px auto'
             fontSize: theme.spacing(3.6),
             height: '1px',
           },

@@ -12,26 +12,34 @@ export const PersonalInfo: React.FC = () => {
     const classes = useStyles();
     const { expertId } = useParams<{ expertId: string }>();
     const [loadedExpert, setLoadedExpert] = useState<IExpert>();
+    const [expertInfo, setExpertInfo] = useState<IExpert>();
     const [statusCode, setStatusCode] = useState<number>();
     const history = useHistory();
     
     const fetchExpert = useCallback(async () => {
         try {
           const expertResponse = await getCurrentUser();
+          console.log(expertResponse.data, 'data');
           setLoadedExpert(expertResponse.data);
           console.log(loadedExpert, 'expert');
         } catch (error) {
           setStatusCode(404);
         }
-      }, [expertId]);
+    }, [expertId]);
 
-      useEffect(() => {
+    useEffect(() => {
         fetchExpert();
-      }, [fetchExpert]);
+    }, [fetchExpert]);
 
-      if (statusCode === 404) {
-        history.push(ERROR_404);
-      }
+    if (statusCode === 404) {
+     history.push(ERROR_404);
+    }
+
+    const inputChangeHandler = (event: { target: { value : string } }, inputIdetifier: string) => {
+        const updatedExpert: IExpert| undefined = { ...loadedExpert } as IExpert;
+        updatedExpert[inputIdetifier] = event.target.value;
+        setLoadedExpert(updatedExpert);
+    };
 
 
     return (
@@ -40,42 +48,77 @@ export const PersonalInfo: React.FC = () => {
 
                     <Grid xs={4} >
                     <Avatar alt='Pic' 
+                    className={classes.Avatar}
                     src= {loadedExpert?.avatar}/>
                     </Grid>
                     <Grid item  xs={4}>
-                        <BasicInput/>
+                        <TextField 
+                        variant="outlined"
+                        label="Прізвище"
+                        fullWidth
+                        value={loadedExpert?.lastName}
+                        onChange={(event) => inputChangeHandler(event, 'lastName')}/>
                         <TextField
                         select 
-                        // size="small"
                         variant="outlined"
-                        // margin="normal"
+                        label="Регіон"
                         fullWidth/>
                     </Grid>
                     <Grid item xs={4}>
-                        <BasicInput label="Ім'я" inputRef={loadedExpert?.firstName}/>
+                        <TextField
+                        label="Ім'я" 
+                        variant="outlined"
+                        fullWidth
+                        value={loadedExpert?.firstName}
+                        onChange={(event) => inputChangeHandler(event, 'firstName')}/>
                         <TextField
                         select 
-                        size="medium"
                         variant="outlined"
-                        // margin="dense"
+                        label="Місто"
                         fullWidth/>
                     </Grid>
 
 
                     <Grid item direction="column" xs={4} className={classes.Contacts}>
                         <InputLabel>Посилання на персогальні сторінки</InputLabel>
-                        <BasicInput/>
-                        <BasicInput/>
-                        <BasicInput/>
-                        <BasicInput/>
-                        <BasicInput/>
-                        <BasicInput/>
+                        <TextField
+                        variant="outlined"
+                        fullWidth
+                        placeholder="Єлектонна пошта"
+                        value = {loadedExpert?.email}/>
+                        <TextField
+                        variant="outlined"
+                        fullWidth
+                        placeholder="https://www.facebook.com"
+                        value = {loadedExpert?.socialNetwork}/>
+                        <TextField
+                        variant="outlined"
+                        fullWidth
+                        placeholder="https://www.instagram.com"/>
+                        <TextField
+                        variant="outlined"
+                        fullWidth
+                        placeholder="https://www.youtube.com"/>
+                        <TextField
+                        variant="outlined"
+                        fullWidth
+                        placeholder="https://www.twitter.com"/>
+                        <TextField
+                        variant="outlined"
+                        fullWidth
+                        placeholder="https://www.linkedin.com"/>
                     </Grid>
                     <Grid item xs = {8}>
-                        <InputLabel>Основне мысце роботи</InputLabel>
-                        <BasicInput/>
+                        <InputLabel>Основне місце роботи</InputLabel>
+                        <TextField
+                        variant="outlined"
+                        fullWidth
+                        value={loadedExpert?.mainInstitution?.name}/>
                         <InputLabel>Біографія</InputLabel>
-                        <BasicInput/>
+                        <TextField
+                        variant="outlined"
+                        fullWidth
+                        value={loadedExpert?.bio}/>
                     </Grid>
 
             </Grid>
