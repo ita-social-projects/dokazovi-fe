@@ -26,6 +26,7 @@ export const useStyles = makeStyles<Theme, IStyleProps>(
       display: 'flex',
       marginLeft: 'auto',
       alignItems: 'center',
+      gap: '2em',
     },
     contentRoot: (props) => ({
       minHeight: '550px',
@@ -65,6 +66,8 @@ export const useStyles = makeStyles<Theme, IStyleProps>(
     },
     iconBlack: {
       color: 'black',
+      width: '1.5em',
+      height: '1.5em',
     },
     content: {
       ...theme.typography.body1,
