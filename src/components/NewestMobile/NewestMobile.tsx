@@ -165,7 +165,7 @@ export const NewestMobile: React.FC = () => {
                   wrapper: classes.wrapper,
                   selected: classes.selected,
                 }}
-                label={t(langTokens.common.translation)}
+                label={t(langTokens.common.translation_1)}
                 {...a11yProps(1)}
               />
               <Tab
