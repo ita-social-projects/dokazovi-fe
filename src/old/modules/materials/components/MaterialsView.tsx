@@ -630,16 +630,12 @@ const MaterialsContainer: React.FC = () => {
   );
 };
 
-const MaterialsView = () => {
+const MaterialsView = (): JSX.Element => {
   const {
     data: { title },
   } = useSelector(selectMaterials);
 
-  const materials = useMemo(() => {
-    return <MaterialsContainer key={title} />;
-  }, [title]);
-
-  return materials;
+  return <MaterialsContainer key={title} />;
 };
 
 export default MaterialsView;
