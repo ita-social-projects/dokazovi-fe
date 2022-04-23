@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { Box, Grid, Typography } from '@material-ui/core';
 import { isEmpty, uniq } from 'lodash';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -636,9 +636,11 @@ const MaterialsView = () => {
     data: { title },
   } = useSelector(selectMaterials);
 
-  console.log(title);
+  const materials = useMemo(() => {
+    return <MaterialsContainer key={title} />;
+  }, [title]);
 
-  return <MaterialsContainer key={title} />;
+  return materials;
 };
 
 export default MaterialsView;

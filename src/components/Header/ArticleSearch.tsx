@@ -63,6 +63,7 @@ export const ArticleSearch: React.FC<IArticleSearch> = ({ setVisibility }) => {
   };
 
   const handleSearch = () => {
+    if (!title) return;
     setVisibility(false);
     boundedSearchTitle({ title });
     history.push(`/materials/search`);
