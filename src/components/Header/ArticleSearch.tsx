@@ -113,6 +113,7 @@ export const ArticleSearch: React.FC<IArticleSearch> = ({ setVisibility }) => {
             <TextField
               // eslint-disable-next-line react/jsx-props-no-spreading
               {...params}
+              autoFocus
               value={title}
               variant="standard"
               className={classes.searchInput}
