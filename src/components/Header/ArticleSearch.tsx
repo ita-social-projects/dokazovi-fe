@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import _ from 'lodash';
 import TextField from '@material-ui/core/TextField';
 import Popper from '@material-ui/core/Popper';
 import Box from '@material-ui/core/Box';
@@ -13,10 +13,6 @@ import { useStyles } from './Header.styles';
 import { useEffectExceptOnMount } from '../../old/lib/hooks/useEffectExceptOnMount';
 import { fetchPostsByTitle } from './fetchPostsByTitle';
 import { searchTitle } from '../../models/materials/reducers';
-import { selectMaterials } from '../../models/materials';
-
-// import { IPostsOBJ } from '../../models/adminLab/types';
-// import { IPost } from '../../old/lib/types';
 
 interface IArticleSearch {
   setVisibility: React.Dispatch<React.SetStateAction<boolean>>;
@@ -34,10 +30,15 @@ export const ArticleSearch: React.FC<IArticleSearch> = ({ setVisibility }) => {
   const [postOptions, setPostOptions] = useState<IOption[]>([]);
   const [title, setTitle] = useState('');
 
+  const debouncedInputChange = useCallback(
+    _.debounce((val: string) => setTitle(val), 600),
+    [],
+  );
+
   const handleInputChange = (
     event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
   ) => {
-    setTitle(event.target.value);
+    debouncedInputChange(event.target.value);
   };
 
   useEffectExceptOnMount(() => {
@@ -56,21 +57,27 @@ export const ArticleSearch: React.FC<IArticleSearch> = ({ setVisibility }) => {
     getTitles();
   }, [title]);
 
-  const handlePickOption = (e, value) => {
-    history.push(`/posts/${value.id}`);
-    setVisibility(false);
-    boundedSearchTitle({ title: '' });
+  const isAnOption = (obj: any): obj is IOption => {
+    return 'id' in obj && 'title' in obj;
+  };
+
+  const handlePickOption = (value: string | IOption) => {
+    if (isAnOption(value)) {
+      history.push(`/posts/${value.id}`);
+      // boundedSearchTitle({ title: '' });
+      setVisibility(false);
+    }
   };
 
   const handleSearch = () => {
     if (!title) return;
-    setVisibility(false);
     boundedSearchTitle({ title });
     history.push(`/materials/search`);
+    setVisibility(false);
   };
 
   const handleClickAway = () => {
-    boundedSearchTitle({ title: '' });
+    // boundedSearchTitle({ title: '' });
     setVisibility(false);
   };
 
@@ -101,7 +108,7 @@ export const ArticleSearch: React.FC<IArticleSearch> = ({ setVisibility }) => {
           options={postOptions}
           PopperComponent={PopperMy}
           getOptionLabel={(option: IOption) => option.title}
-          onChange={(e, value) => handlePickOption(e, value)}
+          onChange={(e, value) => handlePickOption(value)}
           renderInput={(params) => (
             <TextField
               // eslint-disable-next-line react/jsx-props-no-spreading
