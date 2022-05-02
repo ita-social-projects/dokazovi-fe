@@ -227,14 +227,21 @@ const MaterialsView: React.FC = () => {
     const isQuerySame = uniq(Object.values(checked)).length === 1; // removing the query if user checks/unchecks the last box
     query.set(queryType, checkedIds.join(','));
     if (!checkedIds.length || isQuerySame) {
-      query.set(queryType, '0');
+      query.delete(queryType);
     }
 
     setPage(0);
 
-    history.push({
-      search: query.toString(),
-    });
+    if (isQuerySame && uniq(Object.values(checked))[0] === false) {
+      query.set(queryType, '0');
+      history.push({
+        search: query.toString(),
+      });
+    } else {
+      history.push({
+        search: query.toString(),
+      });
+    }
   };
 
   const loadMore = () => {
@@ -265,10 +272,7 @@ const MaterialsView: React.FC = () => {
     query.get(QueryTypeEnum.DIRECTIONS),
   ]);
 
-  const selectedOriginsString =
-    query.get(QueryTypeEnum.ORIGINS) === '0'
-      ? stringOfOrigins().split(' ')
-      : query.get(QueryTypeEnum.ORIGINS)?.split(',');
+  const selectedOriginsString = query.get(QueryTypeEnum.ORIGINS)?.split(',');
 
   let selectedOrigins:
     | IOrigin[]
@@ -286,10 +290,9 @@ const MaterialsView: React.FC = () => {
     }
   }
 
-  const selectedDirectionsString =
-    query.get(QueryTypeEnum.DIRECTIONS) === '0'
-      ? stringOfPostTypes().split(' ')
-      : query.get(QueryTypeEnum.DIRECTIONS)?.split(',');
+  const selectedDirectionsString = query
+    .get(QueryTypeEnum.DIRECTIONS)
+    ?.split(',');
 
   let selectedDirections:
     | IDirection[]
@@ -308,10 +311,9 @@ const MaterialsView: React.FC = () => {
     }
   }
 
-  const selectedPostTypesString =
-    query.get(QueryTypeEnum.POST_TYPES) === '0'
-      ? stringOfPostTypes().split(' ')
-      : query.get(QueryTypeEnum.POST_TYPES)?.split(',');
+  const selectedPostTypesString = query
+    .get(QueryTypeEnum.POST_TYPES)
+    ?.split(',');
 
   let selectedPostTypes:
     | IPostType[]
