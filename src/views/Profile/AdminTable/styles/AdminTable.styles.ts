@@ -11,4 +11,7 @@ export const useStyles = makeStyles((theme: Theme) => ({
       ...theme.typography.button,
     },
   },
+  // width: {
+  //   width: '1100px',
+  // }
 }));
