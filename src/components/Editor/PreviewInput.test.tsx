@@ -24,7 +24,7 @@ test('component renders properly with all props', () => {
       initialPreview="initial preview text"
       initialWasManuallyChanged={false}
       onPreviewChange={mockOnPreviewChange}
-      editorTextContent="Editor text content"
+      // editorTextContent="Editor text content"
       onManuallyChanged={mockOnManuallyChanged}
     />,
   );

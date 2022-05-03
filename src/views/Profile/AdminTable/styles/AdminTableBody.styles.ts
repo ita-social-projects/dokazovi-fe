@@ -33,3 +33,4 @@ export const useStyles = makeStyles(
   }),
   { name: 'AdminTableBody' },
 );
+

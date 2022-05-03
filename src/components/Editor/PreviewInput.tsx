@@ -12,7 +12,6 @@ const truncText = (str: string) => {
 
 export interface IPreviewInputProps {
   initialPreview: string;
-  editorTextContent?: string;
   initialWasManuallyChanged: boolean;
   onPreviewChange: (value: string) => void;
   onManuallyChanged?: () => void;
