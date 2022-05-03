@@ -73,20 +73,6 @@ describe('PostUpdationWrapper tests', () => {
     );
   });
 
-  it('should render editor', async () => {
-    render(
-      <MemoryRouter>
-        <PostUpdationWrapper />
-      </MemoryRouter>,
-    );
-
-    await waitFor(() => {
-      expect(screen.getByText('Заголовок статті:')).toBeInTheDocument();
-      expect(screen.getByText('Фонове зображення')).toBeInTheDocument();
-      expect(screen.getByText('Текст статті:')).toBeInTheDocument();
-    });
-  });
-
   it('should render permission error notification', async () => {
     useSelector.mockImplementation(() => {
       return { data: ' ' };

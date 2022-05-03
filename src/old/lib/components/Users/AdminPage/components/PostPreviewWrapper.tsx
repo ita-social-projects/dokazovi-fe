@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import Box from '@material-ui/core/Box';
-import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/DeleteOutlineRounded';
+import EditIcon from '@material-ui/icons/Edit';
+import AddOutlined from '@material-ui/icons/AddOutlined';
+
 import Typography from '@material-ui/core/Typography';
 import Input from '@material-ui/core/Input';
 import { toast } from 'react-toastify';
@@ -17,6 +19,7 @@ import { ImportantPostPreviewCard } from '../../../../../../components/Posts/Car
 import { IPost, ViewModsType } from '../../../../types';
 import { useActions } from '../../../../../../shared/hooks';
 import { langTokens } from '../../../../../../locales/localizationInit';
+import { ConfirmationModalWithButton } from '../../../Modals/ConfirmationModalWithButton';
 
 interface IPostPreviewWrapper {
   post: IPost;
@@ -52,7 +55,7 @@ const PostPreviewWrapper: React.FC<IPostPreviewWrapper> = ({
 
   const addPostToImportant = (newPost: IPost) => {
     if (postsAmount === 99) {
-      toast.warn('Досягнуто максимум важливих постів');
+      toast.warn(t(langTokens.admin.maxImportantPostCountReached));
       return;
     }
 
@@ -60,11 +63,7 @@ const PostPreviewWrapper: React.FC<IPostPreviewWrapper> = ({
     updateRemovedPosts(newPost, viewMode);
   };
 
-  const confirmPostRemovalFromImportant = () =>
-    window.confirm('Ви дійсно хочете видалити цей матеріал з Важливих?');
-
   const removePostFromImportant = (newPost: IPost) => {
-    if (!confirmPostRemovalFromImportant()) return;
     boundRemoveFromImportant(newPost);
     updateRemovedPosts(newPost, viewMode);
   };
@@ -94,6 +93,25 @@ const PostPreviewWrapper: React.FC<IPostPreviewWrapper> = ({
     changePosition(updatedPosition);
   };
 
+  const buttonIconStyle = {
+    padding: '3px',
+    color: '#000',
+    position: 'absolute',
+    top: '5px',
+    right: '5px',
+    backgroundColor: '#fff',
+  };
+
+  const handleAddClick = () => {
+    addPostToImportant(post);
+  };
+
+  const handleEditClick = () => {
+    history.push(`/edit-post?id=${post.id}`, {
+      from: history.location.pathname,
+    });
+  };
+
   return (
     <Box
       className={`${classes.postPreviewWrapper} postPreview`}
@@ -104,7 +122,7 @@ const PostPreviewWrapper: React.FC<IPostPreviewWrapper> = ({
       onMouseLeave={() => switchHover(false)}
     >
       {viewMode === 'selected' && (
-        <>
+        <Box className={classes.cardButtons}>
           <Input
             className={classes.orderNumberInput}
             disableUnderline
@@ -114,44 +132,42 @@ const PostPreviewWrapper: React.FC<IPostPreviewWrapper> = ({
             onKeyUp={(e) => e.key === 'Enter' && swapPosts()}
             onBlur={swapPosts}
           />
-          <IconButton
-            size="small"
-            classes={{ root: classes.iconButton }}
-            onClick={() => removePostFromImportant(post)}
-          >
-            <DeleteIcon />
-          </IconButton>
+          <ConfirmationModalWithButton
+            message={t(langTokens.admin.removeFromCarousel)}
+            onConfirmButtonClick={() => removePostFromImportant(post)}
+            buttonIcon={<DeleteIcon />}
+            iconStyle={buttonIconStyle}
+          />
+        </Box>
+      )}
+
+      {viewMode === 'preview' && (
+        <>
+          <Box className={classes.cardButtons}>
+            <AddOutlined
+              className={`${classes.topButton} left`}
+              onClick={handleAddClick}
+            />
+            <EditIcon
+              className={`${classes.topButton} right`}
+              onClick={handleEditClick}
+            />
+          </Box>
         </>
       )}
-      {viewMode === 'preview' &&
-        (isHovered ||
-          !post.importantImageUrl ||
-          !post.importantMobileImageUrl) && (
-          <div className={classes.cardHoverView}>
-            {post.importantImageUrl && post.importantMobileImageUrl && (
-              <Typography
-                className={classes.cardHoverButtons}
-                display="block"
-                variant="button"
-                onClick={() => addPostToImportant(post)}
-              >
-                {t(langTokens.admin.addToCarousel)}
-              </Typography>
-            )}
-            <Typography
-              className={classes.cardHoverButtons}
-              display="block"
-              variant="button"
-              onClick={() =>
-                history.push(`/edit-post?id=${post.id}`, {
-                  from: history.location.pathname,
-                })
-              }
-            >
-              {t(langTokens.admin.edit)}
-            </Typography>
-          </div>
-        )}
+
+      {viewMode === 'preview' && !isHovered && (
+        <>
+          <Typography
+            className={classes.previwTitle}
+            variant="h4"
+            align="center"
+          >
+            {post.title}
+          </Typography>
+        </>
+      )}
+
       <Box className="unclicable">
         <ImportantPostPreviewCard
           post={post}

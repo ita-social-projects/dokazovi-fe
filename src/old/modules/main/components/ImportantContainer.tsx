@@ -49,7 +49,7 @@ export const ImportantContainer: React.FC<IImportantContainer> = ({
                 post={post}
                 key={post.title}
                 forDeviceType={mobile ? 'mobile' : 'desktop'}
-                size={mobile ? 'small' : 'large'}
+                size={mobile ? 'mobile' : 'large'}
               />
             ))}
           </Carousel>

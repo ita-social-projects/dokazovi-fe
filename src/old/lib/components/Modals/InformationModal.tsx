@@ -19,8 +19,6 @@ export const InformationModal: React.FC<IConfirmationModalWithButtonProps> = ({
   message,
   onClose,
   isOpen,
-  disabled,
-  loading,
 }) => {
   const { t } = useTranslation();
   const classes = useStyles();
