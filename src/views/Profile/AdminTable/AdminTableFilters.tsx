@@ -2,6 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { Grid, IconButton, Tooltip } from '@material-ui/core';
 import HighlightOffRoundedIcon from '@material-ui/icons/HighlightOffRounded';
+import i18, { langTokens } from '../../../locales/localizationInit';
 import { selectAuthorities } from '../../../models/authorities';
 import { QueryTypeEnum } from '../../../old/lib/types';
 import { FieldEnum } from '../../../models/adminLab/types';
@@ -48,7 +49,7 @@ const AdminTableFilters: React.FC = () => {
     <Grid className={classes.filterSection} container direction="row">
       <Grid item>
         <Tooltip
-          title="Скинути всі фільтри"
+          title={`${i18.t(langTokens.admin.resetTableFilters)}`}
           placement="bottom"
           classes={{ tooltip: classes.tooltip }}
         >
@@ -94,16 +95,18 @@ const AdminTableFilters: React.FC = () => {
       </Grid>
       {isAdmin && (
         <>
-          <Grid item md={2}>
+          <Grid item md={2} className={classes.textField}>
             <AdminTextField
               field={FieldEnum.TITLE}
+              placeholder={i18.t(langTokens.admin.searchTitlePlaceholder)}
               setChanges={boundedSetField}
               inputValue={textFields.title}
             />
           </Grid>
-          <Grid item md={2}>
+          <Grid item md={2} className={classes.textField}>
             <AdminTextField
               field={FieldEnum.AUTHOR}
+              placeholder={i18.t(langTokens.admin.searchAuthorPlaceholder)}
               setChanges={boundedSetField}
               inputValue={textFields.author}
             />

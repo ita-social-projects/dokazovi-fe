@@ -19,6 +19,21 @@ export const useStyles = makeStyles(
     cardButtons: {
       width: '100%',
       position: 'absolute',
+      '& .right': {
+        right: '5px',
+      },
+      '& .left': {
+        left: '5px',
+      },
+    },
+    topButton: {
+      padding: '3px',
+      color: '#000',
+      position: 'absolute',
+      top: '5px',
+      backgroundColor: '#fff',
+      borderRadius: '50%',
+      fontSize: '30px',
     },
 
     orderNumberInput: (props: IPostPreviewStyle) => ({
@@ -42,13 +57,16 @@ export const useStyles = makeStyles(
         padding: '3px 0 7px',
       },
     }),
-    cardHoverView: {
+    previwTitle: {
       zIndex: 2,
       backgroundColor: '#e3e3e3CC',
       position: 'absolute',
       width: '100%',
       height: '100%',
-      paddingTop: '15%',
+      // paddingTop: '15%',
+      padding: '15% 10px 0',
+      overflowX: 'hidden',
+      overflowWrap: 'break-word',
     },
     cardHoverButtons: {
       width: '30%',

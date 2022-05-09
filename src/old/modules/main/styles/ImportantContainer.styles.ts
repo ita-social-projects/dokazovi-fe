@@ -6,7 +6,7 @@ export const useStyles = makeStyles(
       minHeight: 455,
     },
     containerMobile: {
-      minHeight: 'calc(100vh - 200px)',
+      minHeight: 585,
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'center',

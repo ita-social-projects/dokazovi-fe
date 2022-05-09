@@ -22,4 +22,7 @@ export const useStyles = makeStyles((theme: Theme) => ({
     backgroundColor: theme.palette.common.black,
     ...theme.typography.button,
   },
+  textField: {
+    marginLeft: '15px',
+  },
 }));
