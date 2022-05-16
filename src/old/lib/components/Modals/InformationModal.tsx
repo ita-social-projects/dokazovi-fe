@@ -9,8 +9,6 @@ import { langTokens } from '../../../../locales/localizationInit';
 
 export interface IConfirmationModalWithButtonProps {
   message: string | JSX.Element;
-  buttonText?: string;
-  buttonIcon?: JSX.Element;
   loading?: boolean;
   disabled?: boolean;
   onClose: () => void;

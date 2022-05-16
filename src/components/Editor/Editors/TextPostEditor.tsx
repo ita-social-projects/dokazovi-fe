@@ -53,9 +53,9 @@ const PostEditor: React.FC<ITextPostEditorProps> = ({
           <PreviewInput
             disableAutoChanges={disableAutoChanges}
             initialPreview={initialPreview}
-            editorTextContent={
-              !initialWasPreviewManuallyChanged ? textContent : undefined // optimizing rerenders when we don't need editor content
-            }
+            // editorTextContent={
+            //   !initialWasPreviewManuallyChanged ? textContent : undefined // optimizing rerenders when we don't need editor content
+            // }
             initialWasManuallyChanged={initialWasPreviewManuallyChanged}
             onManuallyChanged={onPreviewManuallyChanged}
             onPreviewChange={onPreviewChange}

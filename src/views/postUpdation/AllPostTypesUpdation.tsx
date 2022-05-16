@@ -100,7 +100,7 @@ export const AllPostTypesUpdation: React.FC<IAllPostTypesUpdation> = ({
 
   const postCurrentState = {
     title: title.value,
-    htmlContent,
+    htmlContent: htmlContent.replaceAll(CLEAR_HTML_REG_EXP, ''),
     preview,
     selectedDirections,
     selectedOrigins,
@@ -112,7 +112,7 @@ export const AllPostTypesUpdation: React.FC<IAllPostTypesUpdation> = ({
 
   const postInitialState = useRef({
     title: post.title,
-    htmlContent: post.content,
+    htmlContent: post.content.replaceAll(CLEAR_HTML_REG_EXP, ''),
     preview: post.preview,
     selectedDirections: post.directions,
     selectedOrigins: post.origins,

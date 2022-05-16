@@ -351,6 +351,18 @@ const ExpertsView: React.FC = () => {
     </>
   );
 
+  const LoadMoreButtonEl = (
+    <LoadMoreButton
+      clicked={loadMore}
+      isLastPage={isLastPage}
+      loading={loading}
+      totalPages={totalPages}
+      totalElements={totalElements}
+      pageNumber={pageNumber}
+      textType={LoadMoreButtonTextType.EXPERT}
+    />
+  );
+
   if (mobile) {
     return (
       <ExpertsViewMobile
@@ -362,6 +374,7 @@ const ExpertsView: React.FC = () => {
         SelectedTypes={SelectedTypes}
         FilterCheckboxes={FilterCheckboxes}
         setPage={loadMore}
+        LoadMoreButton={LoadMoreButtonEl}
       />
     );
   }
@@ -411,15 +424,7 @@ const ExpertsView: React.FC = () => {
             <>
               <ExpertsList experts={experts} />
               <Grid container justify="center">
-                <LoadMoreButton
-                  clicked={loadMore}
-                  isLastPage={isLastPage}
-                  loading={loading}
-                  totalPages={totalPages}
-                  totalElements={totalElements}
-                  pageNumber={pageNumber}
-                  textType={LoadMoreButtonTextType.EXPERT}
-                />
+                {LoadMoreButtonEl}
               </Grid>
             </>
           )}

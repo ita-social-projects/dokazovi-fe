@@ -72,6 +72,7 @@ const adminLabSlice = createSlice({
     setField: (state, action: PayloadAction<IField>) => {
       const { text, field } = action.payload;
       state.meta.textFields[field] = text;
+      state.meta.page = 0;
     },
     setFiltersToInit: (state) => {
       state.meta.filters = initialState.meta.filters;

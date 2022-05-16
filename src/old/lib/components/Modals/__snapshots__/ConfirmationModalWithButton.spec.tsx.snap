@@ -41,7 +41,6 @@ exports[`ConditionsNav Events should open when icon button icon is clicked 1`] =
   >
     <button
       class="MuiButtonBase-root MuiIconButton-root"
-      style="padding: 0px;"
       tabindex="0"
       type="button"
     >
@@ -90,7 +89,6 @@ exports[`ConfirmationModalWithButton should render correctly and match the snaps
   >
     <button
       class="MuiButtonBase-root MuiIconButton-root"
-      style="padding: 0px;"
       tabindex="0"
       type="button"
     >
