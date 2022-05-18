@@ -9,6 +9,9 @@ export const useStyles = makeStyles(
             marginTop: theme.spacing(1),
             marginBottom: theme.spacing(1),
           },
+          '& .MuiInputBase-input': {
+            // padding: theme.spacing(4)
+          },
         '& .MuiFormLabel-root':{
           fontFamily: 'Raleway',
           color: 'black',
@@ -16,19 +19,32 @@ export const useStyles = makeStyles(
           fontSize: theme.spacing(3.6),
           // lineHeight: theme.spacing(4.4),
         },
+        
       },
+        AvatarContainer: {
+          display: "inline-flex",
+          position: "relative",
+          padding: 0,
+        },
+        Icon: {
+          right: 0,
+          bottom: 0,
+          position: "absolute",
+          padding: 0,
+        },
         Avatar: {
-          height: 200,
-          width: 200,
-          marginright: 1000,
+          height: 225,
+          width: 225,
+          // marginright: 100,
         },
         Contacts: {
           // margin: theme.spacing(1),
           
           '& .MuiInputBase-input': {
-            marginTop: theme.spacing(1), // '8px auto'
-            fontSize: theme.spacing(3.6),
-            height: '1px',
+            padding: '10px',
+            // marginTop: theme.spacing(1), // '8px auto'
+            fontSize: theme.spacing(3),
+            height: theme.spacing(4),
           },
           
         },

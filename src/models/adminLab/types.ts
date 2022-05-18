@@ -110,8 +110,16 @@ export enum StatusesForActions {
   ARCHIVED,
 }
 
-export interface IAdminLabExpert extends IExpert {
-  region?: string;
+export interface IAdminLabExpert extends Omit<IExpert, 'socialNetwork' > {
+  socialNetwork?: {
+    facebook?: string,
+    instagram?: string,
+    youtube?: string,
+    twitter?: string,
+    linkedin?: string,
+  }; 
+  region?: IExpertRegion
+  city?: ICity
   dateOfCreation?: string;
   dateOfEdition?: string;
 }
@@ -119,4 +127,14 @@ export interface IAdminExpertsList {
   authors: {
     [id: string]: IAdminLabExpert;
   };
+}
+
+export interface ICity{
+  name: string;
+  id: number;
+}
+
+export interface IExpertRegion {
+  name: string;
+  id: number;
 }
