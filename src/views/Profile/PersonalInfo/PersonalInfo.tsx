@@ -1,128 +1,217 @@
-import React, { useState, useEffect, useCallback } from 'react';
+/* eslint-disable react/jsx-props-no-spreading */
+import React, { useState, useEffect, useCallback, SyntheticEvent, ChangeEvent } from 'react';
+import { cloneDeep } from 'lodash'
 import { useHistory, useParams } from 'react-router-dom';
-import { Avatar, Container, Grid, Select, TextField, InputLabel} from '@material-ui/core';
+import { useSelector } from 'react-redux';
+import { Avatar, Container, Grid, Select, TextField, InputLabel, FormControl, Input, Badge, Icon, Chip, IconButton } from '@material-ui/core';
+import PhotoCameraIcon from '@material-ui/icons//PhotoCamera';
+import { Autocomplete } from '@material-ui/lab';
+import { selectAuthorities } from '../../../models/authorities';
 import { BasicInput } from '../../../components/Form';
 import { useStyles } from './styles/PersonalInfo.styles';
 import { IExpert } from '../../../old/lib/types';
-// import { getExpertById } from '../../../old/lib/utilities/API/api';
-import { getCurrentUser } from '../../../old/lib/utilities/API/api';
-import { ERROR_404 } from '../../../old/lib/constants/routes';
+import { IAdminLabExpert, IExpertRegion, ICity } from '../../../models/adminLab/types';
 
-export const PersonalInfo: React.FC = () => {
+ 
+interface IProfileInfoProps {
+  expert: IExpert;
+}
+
+
+
+const testExpert: IAdminLabExpert = 
+  {
+    id: 10,
+    firstName: 'Марія',
+    lastName: 'Марієнко',
+    region: {
+      name: 'Київська область',
+      id: 2,
+    },
+    city: { 
+      id: 3,
+      name: "Київ",
+    },
+    dateOfCreation: '12.03.2022',
+    email: 'somemail@gmail.com',
+    socialNetwork: {
+      facebook: 'www.facebook.com',
+      instagram: 'www.instagram.com',
+      youtube: 'www.youtube.com',
+      twitter: 'www.twitter.com',
+      linkedin: 'www.linkedin.com',
+    },
+    dateOfEdition: '12.03.2022',
+    bio: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit',
+    mainInstitution: {
+      id: 5,
+      city: {
+        id: 55,
+        name: 'Бровари',
+      },
+      name: 'Medical Idea',
+    },
+  };
+  
+  const mockRegions = [
+      { 
+        name: 'Київська область',
+        id:2,
+      },
+      { 
+        name:'Львівська' ,
+        id:1,
+      },
+      { 
+        name: 'Одеська',
+        id:3,
+      }, 
+    ];
+
+    const mockCities: ICity[] = [
+      { 
+        name: 'Київ',
+        id: 3,
+      },
+      { 
+        name:'Львів' ,
+        id:1,
+      },
+      { 
+        name: 'Одеса',
+        id:2,
+      }, 
+    ];
+
+export const PersonalInfo: React.FC<IProfileInfoProps> = ({ expert }) => {
     const classes = useStyles();
-    const { expertId } = useParams<{ expertId: string }>();
-    const [loadedExpert, setLoadedExpert] = useState<IExpert>();
-    const [expertInfo, setExpertInfo] = useState<IExpert>();
-    const [statusCode, setStatusCode] = useState<number>();
-    const history = useHistory();
-    
-    const fetchExpert = useCallback(async () => {
-        try {
-          const expertResponse = await getCurrentUser();
-          console.log(expertResponse.data, 'data');
-          setLoadedExpert(expertResponse.data);
-          console.log(loadedExpert, 'expert');
-        } catch (error) {
-          setStatusCode(404);
-        }
-    }, [expertId]);
+    const [expertInfo, setExpertInfo] = useState<IAdminLabExpert>(testExpert);
+    // const [expertInfo, setExpertInfo] = useState<IExpert>();
+    const authorities = useSelector(selectAuthorities);
+    const isAdmin = authorities.data?.includes('SET_IMPORTANCE');
 
-    useEffect(() => {
-        fetchExpert();
-    }, [fetchExpert]);
-
-    if (statusCode === 404) {
-     history.push(ERROR_404);
-    }
-
-    const inputChangeHandler = (event: { target: { value : string } }, inputIdetifier: string) => {
-        const updatedExpert: IExpert| undefined = { ...loadedExpert } as IExpert;
-        updatedExpert[inputIdetifier] = event.target.value;
-        setLoadedExpert(updatedExpert);
+    const inputChangeHandler = (event: SyntheticEvent | any, inputIdetifier: string, value?: IExpertRegion | null) => {
+        const updatedExpert: IAdminLabExpert = cloneDeep(expertInfo);
+        console.log(event, value);
+        updatedExpert[inputIdetifier] = value || event.target?.value as unknown;
+        setExpertInfo(updatedExpert);
     };
 
+    const inputProps =  {
+        variant: 'outlined' as 'outlined',
+        fullWidth: true,
+        disabled: !{ isAdmin },
+    };
 
     return (
         <form>
             <Grid container  spacing={6} className={classes.PersonalInfo}>
 
-                    <Grid xs={4} >
-                    <Avatar alt='Pic' 
-                    className={classes.Avatar}
-                    src= {loadedExpert?.avatar}/>
+                    <Grid item xs={4}  >
+                      <Container className={classes.AvatarContainer}>
+                      {/* <Badge badgeContent={<PhotoCameraIcon/>} anchorOrigin = {{ vertical: 'bottom', horizontal: 'right', }} > */}
+                        <Avatar alt='Pic' 
+                        className={classes.Avatar}
+                        src= {expertInfo?.avatar}/> 
+                        <label htmlFor="file-input>">
+                          <input accept ="image/*"  id="file-input" type="file" />
+                        <IconButton color="secondary" aria-label="upload picture" component="span" className={classes.Icon}>
+                          <PhotoCameraIcon />
+                          
+                        </IconButton>
+                        </label>
+                        {/* <PhotoCameraIcon className={classes.Icon}/> */}
+                        {/* <Chip icon = {<PhotoCameraIcon/>} variant='outlined'/> */}
+                      {/* </Badge> */}
+                      </Container>
                     </Grid>
                     <Grid item  xs={4}>
                         <TextField 
-                        variant="outlined"
+                        // eslint-disable-next-line react/jsx-props-no-spreading
+                        {...inputProps}
                         label="Прізвище"
-                        fullWidth
-                        value={loadedExpert?.lastName}
+                        value={expertInfo?.lastName}
                         onChange={(event) => inputChangeHandler(event, 'lastName')}/>
-                        <TextField
-                        select 
-                        variant="outlined"
-                        label="Регіон"
-                        fullWidth/>
+                        <Autocomplete
+                        onChange={(event, value) => inputChangeHandler(event, 'region', value)}
+                        options={mockRegions}
+                        getOptionLabel= {(option: IExpertRegion)=> option.name ?? option}
+                        value={mockRegions.find(region => region.id === expertInfo.region?.id)}
+                        getOptionSelected={(option, value) => option === value}
+                        disabled = { !isAdmin }
+                        // eslint-disable-next-line react/jsx-props-no-spreading
+                        renderInput={ (params) => <TextField {...params} {...inputProps} label='Регіон' />}
+                        />
                     </Grid>
                     <Grid item xs={4}>
                         <TextField
                         label="Ім'я" 
-                        variant="outlined"
-                        fullWidth
-                        value={loadedExpert?.firstName}
+                        {...inputProps}
+                        value={expertInfo?.firstName}
                         onChange={(event) => inputChangeHandler(event, 'firstName')}/>
-                        <TextField
-                        select 
-                        variant="outlined"
-                        label="Місто"
-                        fullWidth/>
+                        <Autocomplete
+                        onChange={(event, value) => inputChangeHandler(event, 'city', value)}
+                        options={mockCities}
+                        getOptionLabel= {(option: ICity)=> option.name ?? option}
+                        value={mockCities.find(city => city.id === expertInfo.city?.id)}
+                        getOptionSelected={(option, value) => option === value}
+                        disabled = { !isAdmin }
+                        // eslint-disable-next-line react/jsx-props-no-spreading
+                        renderInput={ (params) => <TextField {...params} {...inputProps} label='Регіон' />}
+                        />
                     </Grid>
 
 
-                    <Grid item direction="column" xs={4} className={classes.Contacts}>
+                    <Grid item  xs={4} className={classes.Contacts}>
                         <InputLabel>Посилання на персогальні сторінки</InputLabel>
                         <TextField
-                        variant="outlined"
-                        fullWidth
+                        {...inputProps}
                         placeholder="Єлектонна пошта"
-                        value = {loadedExpert?.email}/>
+                        value = {expertInfo?.email}
+                        onChange={(event) => inputChangeHandler(event, 'email')}/>
                         <TextField
-                        variant="outlined"
-                        fullWidth
+                        {...inputProps}
                         placeholder="https://www.facebook.com"
-                        value = {loadedExpert?.socialNetwork}/>
+                        value = {expertInfo.socialNetwork?.facebook}
+                        onChange={(event) => inputChangeHandler(event, 'socialNetwork')}/>
                         <TextField
-                        variant="outlined"
-                        fullWidth
+                        {...inputProps}
+                        value = {expertInfo.socialNetwork?.instagram}
+                        onChange={(event) => inputChangeHandler(event, 'socialNetwork')}
                         placeholder="https://www.instagram.com"/>
                         <TextField
-                        variant="outlined"
-                        fullWidth
+                        {...inputProps}
+                        value = {expertInfo.socialNetwork?.youtube}
+                        onChange={(event) => inputChangeHandler(event, 'socialNetwork')}
                         placeholder="https://www.youtube.com"/>
                         <TextField
-                        variant="outlined"
-                        fullWidth
+                        {...inputProps}
                         placeholder="https://www.twitter.com"/>
                         <TextField
-                        variant="outlined"
-                        fullWidth
+                        {...inputProps}
                         placeholder="https://www.linkedin.com"/>
                     </Grid>
                     <Grid item xs = {8}>
                         <InputLabel>Основне місце роботи</InputLabel>
                         <TextField
+                        rows = {2}
+                        multiline
                         variant="outlined"
                         fullWidth
-                        value={loadedExpert?.mainInstitution?.name}/>
+                        value={expertInfo?.mainInstitution?.name}
+                        // onChange={(event) => inputChangeHandler(event, 'mainInstitution')}
+                        />
                         <InputLabel>Біографія</InputLabel>
                         <TextField
                         variant="outlined"
+                        rows = {8}
+                        multiline
                         fullWidth
-                        value={loadedExpert?.bio}/>
+                        value={expertInfo?.bio}
+                        onChange={(event) => inputChangeHandler(event, 'bio')}/>
                     </Grid>
 
             </Grid>
-           
         </form>
     );
 };
