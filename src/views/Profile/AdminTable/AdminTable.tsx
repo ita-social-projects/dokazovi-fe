@@ -20,6 +20,8 @@ interface IAdminTable {
   expertId?: number;
 }
 
+console.log('for thest purposes');
+
 export const AdminTable: React.FC<IAdminTable> = ({ expertId }) => {
   const classes = useStyles();
   const authorities = useSelector(selectAuthorities);
