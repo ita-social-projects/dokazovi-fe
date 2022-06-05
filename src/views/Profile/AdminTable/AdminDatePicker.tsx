@@ -41,7 +41,7 @@ export const AdminDatePicker: React.FC<IMaterialsDate> = ({
 
   return (
     <div>
-      <FormControl>
+      <FormControl data-testid="select">
         <Select
           multiple
           value={[]}
