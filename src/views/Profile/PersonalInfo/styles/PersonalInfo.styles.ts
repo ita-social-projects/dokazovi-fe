@@ -5,6 +5,9 @@ export const useStyles = makeStyles(
     (theme: Theme) => ({
       PersonalInfo: {
         // marginTop: theme.spacing(2),
+        '& .MuiButton-root' : {
+          borderRadius: '4px',
+        },
           '& .MuiFormControl-root' : {
             marginTop: theme.spacing(1),
             marginBottom: theme.spacing(1),
@@ -22,7 +25,8 @@ export const useStyles = makeStyles(
         
       },
         AvatarContainer: {
-          display: "inline-flex",
+          display: "table-row",
+          
           position: "relative",
           padding: 0,
         },
