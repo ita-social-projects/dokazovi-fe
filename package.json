@@ -54,7 +54,8 @@
     "prettier-format": "prettier --write",
     "prettier-format:all": "prettier --write 'src/**/*.{js,jsx,json,ts,tsx,css,md}'",
     "assemble": "yarn install --immutable && npm run lint && npm run build --if-present && npm run coverage",
-    "coverage": "npm test -- --coverage --watchAll=false"
+    "coverage": "npm test -- --coverage --watchAll=false",
+    "preinstall": "npm install --package-lock-only --ignore-scripts && npx npm-force-resolutions"
   },
   "browserslist": {
     "production": [
@@ -67,6 +68,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "resolutions": {
+    "@types/react": "^16.14.8"
   },
   "devDependencies": {
     "@testing-library/react": "^11.2.7",
