@@ -3,6 +3,7 @@ import { Paper, Table, TableContainer, Box, Button } from '@material-ui/core';
 import { IAdminLabExpert } from 'models/adminLab/types';
 import AuthorsTableHead from './AuthorsTableHead';
 import AuthorsTableBody from './AuthorsTableBody';
+import { AuthorsTablePagination } from './AuthorsTablePagination';
 import { useStyles } from './styles/AuthorsList.styles';
 
 export const AuthorsList: React.FC = () => {
@@ -108,6 +109,9 @@ export const AuthorsList: React.FC = () => {
           <AuthorsTableBody authors={authors} />
         </Table>
       </TableContainer>
+      <Box display="flex" flexDirection="row" justifyContent="flex-end">
+        <AuthorsTablePagination />
+      </Box>
     </>
   );
 };
