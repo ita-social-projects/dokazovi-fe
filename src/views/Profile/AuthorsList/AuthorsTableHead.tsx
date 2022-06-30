@@ -20,27 +20,27 @@ interface IContent {
 const content: IContent[] = [
   {
     label: i18n.t(langTokens.admin.id),
-    isSortable: false,
+    isSortable: true,
   },
   {
     label: i18n.t(langTokens.admin.fullName),
-    isSortable: false,
+    isSortable: true,
   },
   {
     label: i18n.t(langTokens.admin.region),
-    isSortable: false,
+    isSortable: true,
   },
   {
     label: i18n.t(langTokens.admin.city),
-    isSortable: false,
+    isSortable: true,
   },
   {
     label: i18n.t(langTokens.admin.dateOfCreation),
-    isSortable: false,
+    isSortable: true,
   },
   {
     label: i18n.t(langTokens.admin.dateOfEdition),
-    isSortable: false,
+    isSortable: true,
   },
   {
     label: i18n.t(langTokens.admin.actions),

@@ -1,14 +1,29 @@
 import React from 'react';
-import { Paper, Table, TableContainer, Box, Button } from '@material-ui/core';
+import {
+  Paper,
+  Table,
+  TableContainer,
+  Box,
+  Button,
+  Typography,
+} from '@material-ui/core';
 import { IAdminLabExpert } from 'models/adminLab/types';
 import AuthorsTableHead from './AuthorsTableHead';
 import AuthorsTableBody from './AuthorsTableBody';
 import { AuthorsTablePagination } from './AuthorsTablePagination';
+import { AuthorsListFilters } from './AuthorsListFilters';
 import { useStyles } from './styles/AuthorsList.styles';
+import i18n, { langTokens } from '../../../locales/localizationInit';
 
 export const AuthorsList: React.FC = () => {
   const classes = useStyles();
   /* Temporary Mock for authors info until getting API */
+
+  const notesCount = {
+    from: '1',
+    to: '4',
+    total: '4',
+  };
 
   const authors: IAdminLabExpert[] = [
     {
@@ -92,7 +107,8 @@ export const AuthorsList: React.FC = () => {
 
   return (
     <>
-      <Box display="flex" flexDirection="row" justifyContent="flex-end">
+      <Box className={classes.listFunctionalityPanel}>
+        <AuthorsListFilters />
         <Button
           variant="contained"
           onClick={() => {
@@ -100,16 +116,21 @@ export const AuthorsList: React.FC = () => {
           }}
           className={classes.mainButton}
         >
-          Створити нового автора
+          {i18n.t(langTokens.admin.createNewAuthor)}
         </Button>
       </Box>
-      <TableContainer component={Paper}>
+      <TableContainer component={Paper} className={classes.tableContainer}>
         <Table>
           <AuthorsTableHead />
           <AuthorsTableBody authors={authors} />
         </Table>
       </TableContainer>
-      <Box display="flex" flexDirection="row" justifyContent="flex-end">
+      <Box display="flex" flexDirection="row" justifyContent="space-between">
+        <Typography>
+          {/* need to add langToken */}
+          {`Відображено від ${notesCount.from} до ${notesCount.to} записів з
+          ${notesCount.total} доступних`}
+        </Typography>
         <AuthorsTablePagination />
       </Box>
     </>
