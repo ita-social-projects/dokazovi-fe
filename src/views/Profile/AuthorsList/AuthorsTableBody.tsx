@@ -1,19 +1,23 @@
 import React from 'react';
 import {
   Chip,
+  IconButton,
   TableBody,
   TableCell,
   TableRow,
   Typography,
+  Box,
 } from '@material-ui/core';
-import { useTranslation } from 'react-i18next';
+import { DeleteOutlined, EditOutlined } from '@material-ui/icons';
 import { IAdminExpertsList, IAdminLabExpert } from 'models/adminLab/types';
+import { useStyles } from './styles/AuthorsTable.styles';
 
 interface IAuthorsTableBodyProps {
   authors: Array<IAdminLabExpert>;
 }
 
 const AuthorsTableBody: React.FC<IAuthorsTableBodyProps> = ({ authors }) => {
+  const classes = useStyles();
   const rows = authors.map((author) => {
     const {
       id,
@@ -23,7 +27,17 @@ const AuthorsTableBody: React.FC<IAuthorsTableBodyProps> = ({ authors }) => {
       dateOfCreation,
       dateOfEdition,
     } = author;
+
     const fullName = `${firstName} ${lastName}`;
+
+    const handleChangeClick = (arg: number) => {
+      alert(`author${arg} changing toggled`);
+    };
+
+    const handleDeleteClick = (arg: number) => {
+      alert(`author${arg} deletion toggled`);
+    };
+
     return (
       <TableRow key={id}>
         <TableCell>{id}</TableCell>
@@ -37,7 +51,22 @@ const AuthorsTableBody: React.FC<IAuthorsTableBodyProps> = ({ authors }) => {
         <TableCell>{dateOfCreation}</TableCell>
 
         <TableCell>{dateOfEdition}</TableCell>
-        <TableCell>Action</TableCell>
+        <TableCell>
+          <IconButton
+            aria-label="edit profile"
+            onClick={() => handleChangeClick(id)}
+            className={classes.editButton}
+          >
+            <EditOutlined />
+          </IconButton>
+          <IconButton
+            aria-label="delete profile"
+            onClick={() => handleDeleteClick(id)}
+            className={classes.deleteButton}
+          >
+            <DeleteOutlined />
+          </IconButton>
+        </TableCell>
       </TableRow>
     );
   });
