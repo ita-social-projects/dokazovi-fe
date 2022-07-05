@@ -1,7 +1,7 @@
+import userEvent, { TargetElement } from '@testing-library/user-event';
 import React from 'react';
 import { render } from '@testing-library/react';
 import { BasicButton } from '../BasicButton';
-import userEvent, { TargetElement } from '@testing-library/user-event';
 
 describe('Test for BasicButton component.', () => {
   it('Should renders a BasicButton with accept type.', () => {
