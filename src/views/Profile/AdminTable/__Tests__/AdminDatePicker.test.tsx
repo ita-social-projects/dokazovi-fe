@@ -5,7 +5,7 @@ import { AdminDatePicker } from '../AdminDatePicker';
 const mockOnSetChanged = jest.fn();
 
 test('component renders properly with all props', () => {
-  render(
+  const { asFragment } = render(
     <AdminDatePicker
       start="01-01-2000"
       end="01-02-2000"
@@ -14,5 +14,6 @@ test('component renders properly with all props', () => {
   );
 
   expect(screen.getByTestId('select')).toBeInTheDocument();
-  expect(screen.getByTestId('select')).toMatchSnapshot();
+
+  expect(asFragment()).toMatchSnapshot();
 });
