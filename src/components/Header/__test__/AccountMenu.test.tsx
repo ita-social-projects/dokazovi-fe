@@ -100,7 +100,7 @@ describe('should render AccountMenu component', () => {
 
   it("should log out from current user profile by clicking on the button 'Вийти'", () => {
     openAccounMenu();
-    menuLinkClick(1);
+    menuLinkClick(2);
     expect(AuthContextMock.removeAuthorization).toHaveBeenCalled();
   });
 
