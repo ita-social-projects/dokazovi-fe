@@ -28,7 +28,9 @@ export const useStyles = makeStyles<Theme, IStyleProps>(
       lineHeight: '28px',
       fontWeight: 'bold',
       backgroundColor: theme.palette.primary.light,
+      zIndex: 'auto',
     },
+
     selectedFilters: {
       margin: '0px 15px 15px 0px',
       fontFamily: 'Raleway',
@@ -67,6 +69,8 @@ export const useStyles = makeStyles<Theme, IStyleProps>(
     scrollabelContainer: {
       position: 'sticky',
       top: 80 + top,
+      backgroundColor: theme.palette.primary.light,
+      zIndex: 1,
       overflowY: 'hidden',
       maxHeight: ({ pageYOffset }) =>
         `calc(100vh + ${
