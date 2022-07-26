@@ -29,6 +29,7 @@ export const VideoPostPreviewCard: React.FC<IPostPreviewCardProps> = ({
           <Box className={classes.play} data-testid="videoIcon" />
         )}
         <iframe
+          style={{ pointerEvents: post.videoUrl ? 'inherit' : 'none' }}
           src={url}
           width="100%"
           height="100%"
