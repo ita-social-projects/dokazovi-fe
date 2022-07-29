@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   Paper,
   Table,
@@ -8,6 +8,7 @@ import {
   Typography,
 } from '@material-ui/core';
 import { IAdminLabExpert } from 'models/adminLab/types';
+import { getDoctorsList } from 'old/lib/utilities/API/api';
 import AuthorsTableHead from './AuthorsTableHead';
 import AuthorsTableBody from './AuthorsTableBody';
 import { AuthorsTablePagination } from './AuthorsTablePagination';
@@ -104,6 +105,14 @@ export const AuthorsList: React.FC = () => {
   ];
 
   /* End of Mock section */
+
+  useEffect(() => {
+    const fetchDoctorsList = async () => {
+      const response = await getDoctorsList();
+      console.log(response);
+    };
+    fetchDoctorsList().catch((err) => console.error(err));
+  }, []);
 
   return (
     <>

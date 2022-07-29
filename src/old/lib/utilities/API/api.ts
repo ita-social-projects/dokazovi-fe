@@ -311,3 +311,7 @@ export const updatePlatformInformation = async (
 ): Promise<AxiosResponse<PlatformInformationType>> => {
   return instance.put(`/platform-information/`, requestBody);
 };
+
+export const getDoctorsList = async (): Promise<AxiosResponse> => {
+  return instance.get('/user/doctors');
+};
