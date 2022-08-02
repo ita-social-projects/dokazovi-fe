@@ -25,7 +25,7 @@ export const fetchExperts = createAsyncThunk(
           size: LOAD_EXPERTS_LIMIT,
           regions: regions.some((region) => region === 0) ? [] : regions,
           directions: directions.some((dir) => dir === 0) ? [] : directions,
-          sort: ['lastName,asc'],
+          sort: 'lastName',
         },
       });
 
