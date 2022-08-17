@@ -168,7 +168,7 @@ const ActionButtons: React.FC<IActionButtons> = ({
         onConfirmButtonClick: handlePublishConfirm,
       },
       adminUseStatuses: [MODERATION_SECOND_SIGN, ARCHIVED, PLANNED],
-      authorUseStatuses: [DRAFT, NEEDS_EDITING],
+      authorUseStatuses: [],
     },
     {
       id: 'sentToModerationBtn',
