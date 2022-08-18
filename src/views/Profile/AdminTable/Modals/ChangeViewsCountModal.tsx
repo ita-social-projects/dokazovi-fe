@@ -24,7 +24,7 @@ const ChangeViewsCountModal: React.FC<IChangeViewsCountModal> = ({ id }) => {
   }, []);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const viewsCount = event.target.value.replace(/\D/g, '');
+    const viewsCount = event.target.valueAsNumber;
     boundSetFakeViewsInput({ fakeViews: viewsCount });
   };
 
@@ -35,6 +35,7 @@ const ChangeViewsCountModal: React.FC<IChangeViewsCountModal> = ({ id }) => {
         variant="outlined"
         value={fakeViews}
         onChange={handleInputChange}
+        InputProps={{ inputProps: { min: 0 } }}
       />
     </Box>
   );

@@ -95,6 +95,15 @@ const ActionButtons: React.FC<IActionButtons> = ({
     closeModal();
   };
 
+  const handleSendToReviewConfirm = () => {
+    boundedSetPostStatus({
+      id,
+      postStatus: StatusesForActions.MODERATION_SECOND_SIGN,
+    });
+    toast.success(t(langTokens.admin.sendForReviewSuccess));
+    closeModal();
+  };
+
   const handleReturnConfirm = () => {
     boundedSetPostStatus({
       id,
@@ -159,6 +168,17 @@ const ActionButtons: React.FC<IActionButtons> = ({
         onConfirmButtonClick: handlePublishConfirm,
       },
       adminUseStatuses: [MODERATION_SECOND_SIGN, ARCHIVED, PLANNED],
+      authorUseStatuses: [],
+    },
+    {
+      id: 'sentToModerationBtn',
+      label: t(langTokens.admin.sendForReview),
+      handler: (btnId) => openModal(btnId),
+      modal: {
+        title: t(langTokens.admin.sendForReviewTitle),
+        onConfirmButtonClick: handleSendToReviewConfirm,
+      },
+      adminUseStatuses: [],
       authorUseStatuses: [DRAFT, NEEDS_EDITING],
     },
     {

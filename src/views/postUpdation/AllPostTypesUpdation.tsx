@@ -100,7 +100,9 @@ export const AllPostTypesUpdation: React.FC<IAllPostTypesUpdation> = ({
 
   const postCurrentState = {
     title: title.value,
-    htmlContent: htmlContent.replaceAll(CLEAR_HTML_REG_EXP, ''),
+    htmlContent: htmlContent
+      .replaceAll(CLEAR_HTML_REG_EXP, '')
+      .replace(/  +/g, ' '),
     preview,
     selectedDirections,
     selectedOrigins,
@@ -112,7 +114,9 @@ export const AllPostTypesUpdation: React.FC<IAllPostTypesUpdation> = ({
 
   const postInitialState = useRef({
     title: post.title,
-    htmlContent: post.content.replaceAll(CLEAR_HTML_REG_EXP, ''),
+    htmlContent: post.content
+      .replaceAll(CLEAR_HTML_REG_EXP, '')
+      .replace(/  +/g, ' '),
     preview: post.preview,
     selectedDirections: post.directions,
     selectedOrigins: post.origins,
@@ -128,6 +132,8 @@ export const AllPostTypesUpdation: React.FC<IAllPostTypesUpdation> = ({
       JSON.stringify(postCurrentState)
     ) {
       setIsDisabled(false);
+    } else {
+      setIsDisabled(true);
     }
   }, [
     title,

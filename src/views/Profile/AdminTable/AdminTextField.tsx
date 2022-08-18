@@ -3,7 +3,6 @@ import FormControl from '@material-ui/core/FormControl';
 import TextField from '@material-ui/core/TextField';
 import { FieldEnum, IField } from '../../../models/adminLab/types';
 
-
 interface IMaterialsTextField {
   field: FieldEnum;
   setChanges: (payload: IField) => void;
@@ -29,6 +28,7 @@ export const AdminTextField: React.FC<IMaterialsTextField> = ({
   return (
     <FormControl>
       <TextField
+        data-testid="admin-text-filter"
         type="text"
         value={inputValue}
         placeholder={placeholder}

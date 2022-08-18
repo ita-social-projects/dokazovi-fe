@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test for BasicButton component. Should renders a BasicButton with accept type. 1`] = `
+<div>
+  <button
+    class="MuiButtonBase-root MuiButton-root MuiButton-contained BasicInput-basicAcceptButton-1 MuiButton-fullWidth"
+    tabindex="0"
+    type="submit"
+  >
+    <span
+      class="MuiButton-label"
+    />
+    <span
+      class="MuiTouchRipple-root"
+    />
+  </button>
+</div>
+`;

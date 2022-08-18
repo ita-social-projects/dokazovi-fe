@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`component renders properly with all props 1`] = `
+<div
+  class="MuiFormControl-root MuiTextField-root"
+  data-testid="admin-text-filter"
+>
+  <div
+    class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-formControl MuiInput-formControl"
+  >
+    <input
+      aria-invalid="false"
+      class="MuiInputBase-input MuiInput-input"
+      placeholder="test"
+      type="text"
+      value="test"
+    />
+  </div>
+</div>
+`;
