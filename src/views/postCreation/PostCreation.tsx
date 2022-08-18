@@ -509,6 +509,7 @@ export const PostCreation: React.FC<IPostCreationProps> = ({
         onPreviewClick={() => {
           setPreviewing(!previewing);
         }}
+        isAdmin={isAdmin}
         previewing={previewing}
       />
     </>
