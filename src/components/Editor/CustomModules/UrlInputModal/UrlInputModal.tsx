@@ -120,10 +120,10 @@ export const UrlInputModal: React.FC<IUrlInputModalProps> = ({
             />
 
             <DialogActions>
-              <Button onClick={handleClose} color="primary">
+              <Button variant="contained" onClick={handleClose}>
                 {t(langTokens.common.cancel)}
               </Button>
-              <Button color="primary" type="submit">
+              <Button variant="contained" type="submit" disabled={!url}>
                 {t(langTokens.common.add)}
               </Button>
             </DialogActions>
