@@ -53,7 +53,9 @@ export const PostCreationButtons: React.FC<IPostCreationButtonsProps> = ({
     ? t(langTokens.editor.backToUpdation)
     : t(langTokens.editor.preview);
   const saveButtonText = t(langTokens.editor.save);
-  const publishButtonText = t(langTokens.editor.publish);
+  const publishButtonText = isAdmin
+    ? t(langTokens.editor.publish)
+    : t(langTokens.editor.sendToReview);
 
   const modalMaker = (message: string) => {
     setModalMessage(message);

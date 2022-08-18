@@ -12,6 +12,7 @@ export const editor = {
   preview: 'Попередній перегляд',
   publish: 'Опублікувати',
   save: 'Зберегти',
+  sendToReview: 'Відправити на модерацію',
   creation: 'Створення',
   updation: 'Редагування',
   videoTitle: 'Заголовок відео',
