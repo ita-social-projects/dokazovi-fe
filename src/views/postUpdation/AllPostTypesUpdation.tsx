@@ -128,6 +128,8 @@ export const AllPostTypesUpdation: React.FC<IAllPostTypesUpdation> = ({
       JSON.stringify(postCurrentState)
     ) {
       setIsDisabled(false);
+    } else {
+      setIsDisabled(true);
     }
   }, [
     title,
