@@ -15,7 +15,7 @@ export const useStyles = makeStyles(
       height: '100%',
       paddingTop: theme.spacing(2),
       backgroundColor: '#e5e5e5',
-      position: 'absolute',
+      position: 'static',
       border: 'none',
     },
     menuCategory: {
