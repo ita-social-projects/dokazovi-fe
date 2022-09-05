@@ -50,12 +50,20 @@ instance.interceptors.request.use(
 );
 
 instance.interceptors.response.use(undefined, (error: AxiosError) => {
+  const jwtToken = getToken();
+
   if (error.message === 'Network Error' && !error.response) {
     toast.error("The server isn't responding...");
   }
 
   if (!error.response) {
     throw error;
+  }
+
+  if (error.response.status === 401 && jwtToken) {
+    localStorage.removeItem('ACCESS_TOKEN');
+    localStorage.removeItem('PERMISSIONS');
+    document.location.href = '/opendoctorgate';
   }
 
   if (error.response.status === 500) {
