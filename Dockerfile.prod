@@ -5,9 +5,8 @@ ENV PATH /app/node_modules/.bin:$PATH
 ARG REACT_APP_BASE_URL
 ARG REACT_APP_GOOGLE_ID
 ARG REACT_APP_IMGUR_CLIENT_ID
-COPY package.json ./
-RUN yarn install --immutable
 COPY . ./
+RUN yarn install --immutable
 RUN npm run build
 
 # production environment
