@@ -44,7 +44,7 @@ const PostView: React.FC<IPostViewProps> = ({ isPreview, post, onDelete }) => {
     directions: post.directions,
     origins: post.origins,
     type: post.type,
-    publishedAt: post.publishedAt,
+    publishedAt: post.createdAt,
     displayViews: post.views,
     videoUrl: post.videoUrl,
   };

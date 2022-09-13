@@ -5,7 +5,7 @@ export const useStyles = makeStyles(
     root: {
       display: 'flex',
       marginBottom: theme.spacing(8),
-      [theme.breakpoints.down('xs')]: {
+      [theme.breakpoints.down('sm')]: {
         flexDirection: 'column',
         marginBottom: theme.spacing(6),
       },
@@ -15,7 +15,8 @@ export const useStyles = makeStyles(
       display: 'flex',
       marginRight: '20px',
       height: '32px',
-      [theme.breakpoints.down('xs')]: {
+      minWidth: 'fit-content',
+      [theme.breakpoints.down('sm')]: {
         margin: '0 0 30px',
         flexWrap: 'wrap',
         height: 'auto',
@@ -25,11 +26,11 @@ export const useStyles = makeStyles(
       },
       '& > li': {
         padding: '5px 12px',
-        color: '#ffffff',
-        backgroundColor: '#73DDFF',
+        color: '#fff',
+        backgroundColor: '#73ddff',
         cursor: 'pointer',
-        [theme.breakpoints.down('xs')]: {
-          marginRight: '3px',
+        [theme.breakpoints.down('sm')]: {
+          margin: '0 3px 3px 0',
           fontSize: '14px',
           lineHeight: '1,19',
         },
@@ -41,7 +42,7 @@ export const useStyles = makeStyles(
       display: 'flex',
       marginRight: '20px',
       height: '32px',
-      [theme.breakpoints.down('xs')]: {
+      [theme.breakpoints.down('sm')]: {
         flexWrap: 'wrap',
         height: 'auto',
       },
@@ -51,25 +52,26 @@ export const useStyles = makeStyles(
       },
       '& > li': {
         padding: '5px 12px',
-        cursor: 'pointer',
-        [theme.breakpoints.down('xs')]: {
+        minWidth: 'fit-content',
+        [theme.breakpoints.down('sm')]: {
           fontSize: '14px',
           padding: '0 15px',
           marginBottom: '5px',
         },
       },
       '& > *:first-child': {
-        borderRightColor: '#FF5C00',
+        borderRightColor: '#ff5c00',
         borderRightStyle: 'solid',
         borderRightWidth: '1px',
-        [theme.breakpoints.down('xs')]: {
+        [theme.breakpoints.down('sm')]: {
           paddingLeft: '0px',
         },
       },
     },
 
     origin: {
-      color: '#FF5C00',
+      color: '#ff5c00',
+      cursor: 'pointer',
     },
 
     createdAt: {
@@ -79,10 +81,14 @@ export const useStyles = makeStyles(
       borderLeftWidth: '1px',
     },
 
+    views: {
+      display: 'flex',
+    },
+
     icon: {
       '& > svg': {
         fill: '#767676',
-        marginRight: '-20px',
+        marginRight: '10px',
       },
     },
 
