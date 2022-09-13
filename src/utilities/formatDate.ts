@@ -26,7 +26,6 @@ export const formatDateTime = (dateString = ''): string => {
     const [time, date] = dateString.split(' ');
     const [day, month, year] = date.split('.');
     return `${time}, ${day} ${monthNames[+month]} ${year}`;
-  } else {
-    return dateString;
   }
+  return dateString;
 };

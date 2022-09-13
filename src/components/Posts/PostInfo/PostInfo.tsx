@@ -5,8 +5,8 @@ import React from 'react';
 import { Skeleton } from '@material-ui/lab';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import { useHistory } from 'react-router-dom';
-import { IDirection, IOrigin, IPostType } from '../../../old/lib/types';
 import { formatDateTime } from 'utilities/formatDate';
+import { IDirection, IOrigin, IPostType } from '../../../old/lib/types';
 import { useStyles } from './PostInfo.styles';
 
 export interface IPostInfo {
