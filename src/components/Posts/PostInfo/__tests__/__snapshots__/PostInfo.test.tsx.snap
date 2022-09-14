@@ -39,28 +39,32 @@ exports[`PostInfo tests should PostInfo render correctly 1`] = `
       <li
         class="PostInfo-createdAt-5"
       >
-        05.10.2021
+        11:24, 05 жовтня 2021
       </li>
       <li
-        class="PostInfo-icon-6"
-        data-testid="icon"
+        class="PostInfo-views-6"
       >
-        <svg
-          aria-hidden="true"
-          class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
-          focusable="false"
-          viewBox="0 0 24 24"
+        <span
+          class="PostInfo-icon-7"
+          data-testid="icon"
         >
-          <path
-            d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"
-          />
-        </svg>
-      </li>
-      <li
-        class="PostInfo-counter-7"
-        data-testid="counter"
-      >
-        9
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"
+            />
+          </svg>
+        </span>
+        <span
+          class="PostInfo-counter-8"
+          data-testid="counter"
+        >
+          9
+        </span>
       </li>
     </ul>
   </div>
@@ -70,10 +74,10 @@ exports[`PostInfo tests should PostInfo render correctly 1`] = `
 exports[`PostInfo tests should Skeleton be visible 1`] = `
 <DocumentFragment>
   <div
-    class="PostInfo-root-43"
+    class="PostInfo-root-49"
   >
     <ul
-      class="PostInfo-topics-44"
+      class="PostInfo-topics-50"
       data-testid="topics"
     >
       <li
@@ -88,50 +92,54 @@ exports[`PostInfo tests should Skeleton be visible 1`] = `
       </li>
     </ul>
     <ul
-      class="PostInfo-origins-45"
+      class="PostInfo-origins-51"
       data-testid="origins"
     >
       <li
-        class="PostInfo-origin-46"
+        class="PostInfo-origin-52"
         data-testid="origin"
       >
         Медитека
       </li>
       <li
-        class="PostInfo-origin-46"
+        class="PostInfo-origin-52"
         data-testid="type"
       >
         Стаття
       </li>
       <li
-        class="PostInfo-createdAt-47"
+        class="PostInfo-createdAt-53"
       >
-        05.10.2021
+        11:24, 05 жовтня 2021
       </li>
       <li
-        class="PostInfo-icon-48"
-        data-testid="icon"
-      >
-        <svg
-          aria-hidden="true"
-          class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
-          focusable="false"
-          viewBox="0 0 24 24"
-        >
-          <path
-            d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"
-          />
-        </svg>
-      </li>
-      <li
-        class="PostInfo-counter-49"
-        data-testid="counter"
+        class="PostInfo-views-54"
       >
         <span
-          class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
-          data-testid="skeleton"
-          style="width: 40px; height: 20px;"
-        />
+          class="PostInfo-icon-55"
+          data-testid="icon"
+        >
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"
+            />
+          </svg>
+        </span>
+        <span
+          class="PostInfo-counter-56"
+          data-testid="counter"
+        >
+          <span
+            class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse"
+            data-testid="skeleton"
+            style="width: 40px; height: 20px;"
+          />
+        </span>
       </li>
     </ul>
   </div>
@@ -141,10 +149,10 @@ exports[`PostInfo tests should Skeleton be visible 1`] = `
 exports[`PostInfo tests should mobile be with Views Counter 1`] = `
 <DocumentFragment>
   <div
-    class="PostInfo-root-36"
+    class="PostInfo-root-41"
   >
     <ul
-      class="PostInfo-topics-37"
+      class="PostInfo-topics-42"
       data-testid="topics"
     >
       <li
@@ -159,46 +167,50 @@ exports[`PostInfo tests should mobile be with Views Counter 1`] = `
       </li>
     </ul>
     <ul
-      class="PostInfo-origins-38"
+      class="PostInfo-origins-43"
       data-testid="origins"
     >
       <li
-        class="PostInfo-origin-39"
+        class="PostInfo-origin-44"
         data-testid="origin"
       >
         Медитека
       </li>
       <li
-        class="PostInfo-origin-39"
+        class="PostInfo-origin-44"
         data-testid="type"
       >
         Стаття
       </li>
       <li
-        class="PostInfo-createdAt-40"
+        class="PostInfo-createdAt-45"
       >
-        05.10.2021
+        11:24, 05 жовтня 2021
       </li>
       <li
-        class="PostInfo-icon-41"
-        data-testid="icon"
+        class="PostInfo-views-46"
       >
-        <svg
-          aria-hidden="true"
-          class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
-          focusable="false"
-          viewBox="0 0 24 24"
+        <span
+          class="PostInfo-icon-47"
+          data-testid="icon"
         >
-          <path
-            d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"
-          />
-        </svg>
-      </li>
-      <li
-        class="PostInfo-counter-42"
-        data-testid="counter"
-      >
-        9
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"
+            />
+          </svg>
+        </span>
+        <span
+          class="PostInfo-counter-48"
+          data-testid="counter"
+        >
+          9
+        </span>
       </li>
     </ul>
   </div>

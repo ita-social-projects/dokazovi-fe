@@ -23,7 +23,7 @@ export const formatDate = (dateString = ''): string => {
 
 export const formatDateTime = (dateString = ''): string => {
   if (dateString.length) {
-    const [time, date] = dateString.split(' ');
+    const [time, date = ''] = dateString.split(' ');
     const [day, month, year] = date.split('.');
     return `${time}, ${day} ${monthNames[+month]} ${year}`;
   }
