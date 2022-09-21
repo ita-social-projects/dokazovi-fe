@@ -40,6 +40,7 @@ const VideoUrlInputModal: React.FC<IVideoUrlInputModalProps> = ({
 
   const handleClose = () => {
     setOpen(false);
+    setVideoUrl('');
   };
 
   const canParseId = (url: string) => Boolean(parseVideoIdFromUrl(url));
@@ -119,10 +120,15 @@ const VideoUrlInputModal: React.FC<IVideoUrlInputModalProps> = ({
               })}
             />
             <DialogActions>
-              <Button onClick={handleClose} color="primary">
+              <Button variant="contained" onClick={handleClose} color="primary">
                 {t(langTokens.common.cancel)}
               </Button>
-              <Button color="primary" type="submit">
+              <Button
+                variant="contained"
+                color="primary"
+                type="submit"
+                disabled={!videoUrl}
+              >
                 {t(langTokens.common.add)}
               </Button>
             </DialogActions>
