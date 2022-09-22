@@ -53,7 +53,7 @@ describe('PostInfo tests', () => {
           id: 1,
           name: 'Стаття',
         },
-        publishedAt: '05.10.2021',
+        publishedAt: '05.10.2021 11:24',
         displayViews: 9,
       },
     };

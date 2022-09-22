@@ -66,7 +66,7 @@ const posts: IPost[] = [
     ],
     createdAt: '01.10.2021',
     modifiedAt: '01.10.2021',
-    publishedAt: '01.10.2021',
+    publishedAt: '01.10.2021 11:24',
     importantImageUrl: '',
   },
 ];
