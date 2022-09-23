@@ -18,14 +18,8 @@ const monthNames: { [index: string]: string } = {
 export const formatDate = (dateString = '', time = false): string => {
   if (dateString.length) {
     const fullDate = new Date(dateString);
-    const hours =
-      fullDate.getHours() < 10
-        ? `0${fullDate.getHours()}`
-        : fullDate.getHours();
-    const mins =
-      fullDate.getMinutes() < 10
-        ? `0${fullDate.getMinutes()}`
-        : fullDate.getMinutes();
+    const hours = fullDate.getHours().toString().padStart(2, '0');
+    const mins = fullDate.getMinutes().toString().padStart(2, '0');
     const displayDate = time
       ? `${hours}:${mins}, ${fullDate.getDate()} ${
           monthNames[fullDate.getMonth() + 1]
