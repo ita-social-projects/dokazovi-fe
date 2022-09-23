@@ -7,10 +7,13 @@ const propsMock = {
   email: 'masha@mail.com',
   phone: '+380956456969',
   socialNetwork: 'https://www.youtube.com',
+  socialNetworks: ['www.facebook.com'],
 };
 
 const propsIncompleteMock = {
   phone: '+380956456969',
+  email: '',
+  socialNetworks: [],
 };
 
 describe('Accordion tests', () => {

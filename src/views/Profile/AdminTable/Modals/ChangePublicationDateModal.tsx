@@ -30,7 +30,7 @@ const ChangePublicationDateModal: React.FC<IChangeViewsCountModal> = ({
   }, []);
 
   const handleInputChange = (event) => {
-    const date = new Date(event).toLocaleDateString();
+    const date = new Date(event).getTime();
     boundSetPostDateInput({ newPublicationDate: date });
   };
 
@@ -43,13 +43,13 @@ const ChangePublicationDateModal: React.FC<IChangeViewsCountModal> = ({
     >
       <Typography>{t(langTokens.admin.currentPublicationDate)}</Typography>
       <Typography className={classes.currentDate}>
-        {posts[id].createdAt}
+        {posts[id].publishedAt}
       </Typography>
       <Typography>{t(langTokens.admin.newPublicationDate)}</Typography>
       <DatePicker
-        value={newPostPublicationDate.split('.').reverse().join('-')}
+        value={new Date(newPostPublicationDate)}
         variant="inline"
-        format="dd.MM.yyyy"
+        format="dd.MM.yyyy HH:mm"
         InputProps={{ disableUnderline: true }}
         onChange={handleInputChange}
       />

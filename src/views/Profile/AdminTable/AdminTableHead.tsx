@@ -17,7 +17,7 @@ import i18n, { langTokens } from '../../../locales/localizationInit';
 interface IContent {
   label: string;
   isSortable: boolean;
-  sortKey?: keyof typeof SortBy;
+  sortKey?: SortBy;
   initialSortOrder?: keyof typeof Order;
   tooltip?: string;
   icon?: JSX.Element;

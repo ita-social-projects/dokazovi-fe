@@ -21,7 +21,7 @@ const POST_MOCK: IPost = {
       name: 'Адоніс',
     },
   },
-  publishedAt: '11.09.2020',
+  publishedAt: '09.11.2020 12:02',
   createdAt: '13.12.2020',
   title: 'Ultrices eros in cursus',
   directions: [
