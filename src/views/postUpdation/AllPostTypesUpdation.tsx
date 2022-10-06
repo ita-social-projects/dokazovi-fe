@@ -287,7 +287,8 @@ export const AllPostTypesUpdation: React.FC<IAllPostTypesUpdation> = ({
       ? StatusesForActions.PUBLISHED
       : StatusesForActions.MODERATION_SECOND_SIGN;
     const response = await updatePost(updatedPost);
-    history.push(`/posts/${response.data.id}`);
+    console.log(response.data);
+    history.push(`/posts/${updatedPost.id}`);
   };
 
   const handleSaveClick = async () => {
@@ -297,7 +298,8 @@ export const AllPostTypesUpdation: React.FC<IAllPostTypesUpdation> = ({
       updatedPost.postStatus = 0;
     }
     const response = await updatePost(updatedPost);
-    history.push(`/posts/${response.data.id}`);
+    console.log(response.data);
+    history.push(`/posts/${updatedPost.id}`);
   };
 
   const postOriginSelector = isAdmin && (
