@@ -34,6 +34,7 @@ const ChangeViewsCountModal: React.FC<IChangeViewsCountModal> = ({ id }) => {
         type="number"
         variant="outlined"
         value={fakeViews}
+        defaultValue="0"
         onChange={handleInputChange}
         InputProps={{ inputProps: { min: 0 } }}
       />

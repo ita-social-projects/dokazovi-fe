@@ -23,7 +23,6 @@ import {
   selectExpertsByIds,
 } from '../../../models/experts';
 import { useActions } from '../../../shared/hooks';
-import { selectAuthorities } from '../../../models/authorities';
 
 export const AuthorsList: React.FC = () => {
   const classes = useStyles();

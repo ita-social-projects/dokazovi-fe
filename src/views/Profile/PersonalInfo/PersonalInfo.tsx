@@ -1,17 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
-import {
-  Avatar,
-  Container,
-  Grid,
-  Select,
-  TextField,
-  InputLabel,
-} from '@material-ui/core';
-import { BasicInput } from '../../../components/Form';
+import { Avatar, Grid, TextField, InputLabel } from '@material-ui/core';
 import { useStyles } from './styles/PersonalInfo.styles';
 import { IExpert } from '../../../old/lib/types';
-// import { getExpertById } from '../../../old/lib/utilities/API/api';
 import { getCurrentUser } from '../../../old/lib/utilities/API/api';
 import { ERROR_404 } from '../../../old/lib/constants/routes';
 
@@ -19,16 +10,13 @@ export const PersonalInfo: React.FC = () => {
   const classes = useStyles();
   const { expertId } = useParams<{ expertId: string }>();
   const [loadedExpert, setLoadedExpert] = useState<IExpert>();
-  const [expertInfo, setExpertInfo] = useState<IExpert>();
   const [statusCode, setStatusCode] = useState<number>();
   const history = useHistory();
 
   const fetchExpert = useCallback(async () => {
     try {
       const expertResponse = await getCurrentUser();
-      console.log(expertResponse.data, 'data');
       setLoadedExpert(expertResponse.data);
-      console.log(loadedExpert, 'expert');
     } catch (error) {
       setStatusCode(404);
     }
