@@ -7,40 +7,59 @@ import {
   Tooltip,
 } from '@material-ui/core';
 import i18n, { langTokens } from '../../../locales/localizationInit';
+import { useActions } from '../../../shared/hooks';
+import { setSort } from '../../../models/experts';
+import { useStyles } from './styles/AuthorsTableHead.styles';
+import {
+  AutorsListOrder,
+  AutorsListSortBy,
+  ISortAutorsList,
+} from '../../../models/experts/types';
 
 interface IContent {
   label: string;
   isSortable: boolean;
-  //   sortKey?: keyof typeof SortBy;
-  //   initialSortOrder?: keyof typeof Order;
+  sortKey?: string;
+  initialSortOrder?: keyof typeof AutorsListOrder;
   tooltip?: string;
-  icon?: JSX.Element;
 }
 
 const content: IContent[] = [
   {
     label: i18n.t(langTokens.admin.id),
+    sortKey: AutorsListSortBy.autorId,
     isSortable: true,
+    initialSortOrder: AutorsListOrder.desc,
   },
   {
     label: i18n.t(langTokens.admin.fullName),
+    sortKey: `${AutorsListSortBy.firstName},${AutorsListSortBy.lastName}`,
     isSortable: true,
+    initialSortOrder: AutorsListOrder.desc,
   },
   {
     label: i18n.t(langTokens.admin.region),
+    sortKey: AutorsListSortBy.region,
     isSortable: true,
+    initialSortOrder: AutorsListOrder.desc,
   },
   {
     label: i18n.t(langTokens.admin.city),
+    sortKey: AutorsListSortBy.city,
     isSortable: true,
+    initialSortOrder: AutorsListOrder.desc,
   },
   {
     label: i18n.t(langTokens.admin.dateOfCreation),
+    sortKey: AutorsListSortBy.createdAt,
     isSortable: true,
+    initialSortOrder: AutorsListOrder.desc,
   },
   {
     label: i18n.t(langTokens.admin.dateOfEdition),
+    sortKey: AutorsListSortBy.editedAt,
     isSortable: true,
+    initialSortOrder: AutorsListOrder.desc,
   },
   {
     label: i18n.t(langTokens.admin.actions),
@@ -48,53 +67,45 @@ const content: IContent[] = [
   },
 ];
 
-const AuthorsTableHead: React.FC = () => {
-  //   const classes = useStyles();
-  //   const [boundedSetSort] = useActions([setSort]);
-  //   const {
-  //     sort: { order, sortBy },
-  //   } = useSelector(selectMeta);
+const AuthorsTableHead: React.FC<ISortAutorsList> = (props) => {
+  const classes = useStyles();
+  const [boundedSetSort] = useActions([setSort]);
+  const { order, sortBy } = props;
 
-  //   const handleSort = (cell: IContent) => {
-  //     const { sortKey, initialSortOrder } = cell;
-  //     let newOrder: keyof typeof Order = initialSortOrder || Order.asc;
+  const handleSort = (cell: IContent) => {
+    const { sortKey, initialSortOrder } = cell;
+    let newOrder: keyof typeof AutorsListOrder =
+      initialSortOrder || AutorsListOrder.asc;
 
-  //     if (sortKey === sortBy) {
-  //       newOrder = order === Order.desc ? Order.asc : Order.desc;
-  //     }
-
-  //     boundedSetSort({
-  //       sortBy: sortKey as keyof typeof SortBy,
-  //       order: newOrder,
-  //     });
-  //   };
+    if (sortKey === sortBy) {
+      newOrder =
+        order === AutorsListOrder.desc
+          ? AutorsListOrder.asc
+          : AutorsListOrder.desc;
+    }
+    boundedSetSort({
+      order: newOrder,
+      sortBy: sortKey as keyof typeof AutorsListSortBy,
+    });
+  };
 
   const cells = content.map((cell) => {
-    // if (
-    //   !isAdmin &&
-    //   [
-    //     i18n.t(langTokens.admin.views),
-    //     i18n.t(langTokens.admin.author),
-    //   ].includes(cell.label)
-    // ) {
-    //   return null;
-    // }
-    const { label, isSortable } = cell;
+    const { label, isSortable, sortKey } = cell;
 
     return (
       <Tooltip
         key={label}
         title=""
         placement="right"
-        // classes={{ tooltip: classes.tooltip }}
+        classes={{ tooltip: classes.tooltip }}
       >
         <TableCell
-        //   sortDirection={sortBy === sortKey ? order : false}
-        //   className={
-        //     label === i18n.t(langTokens.admin.title) ? classes.titleCell : ''
-        //   }
+          sortDirection={sortBy === sortKey ? order : false}
+          className={
+            label === i18n.t(langTokens.admin.title) ? classes.titleCell : ''
+          }
         >
-          {/* {isSortable ? (
+          {isSortable ? (
             <TableSortLabel
               active={sortBy === sortKey}
               direction={order}
@@ -104,10 +115,8 @@ const AuthorsTableHead: React.FC = () => {
               {label}
             </TableSortLabel>
           ) : (
-            label
-          )} */}
-          {/* {icon} */}
-          {label}
+            <div className={classes.actions}>{label}</div>
+          )}
         </TableCell>
       </Tooltip>
     );

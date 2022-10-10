@@ -18,13 +18,15 @@ import {
 } from '../../../lib/types';
 import {
   fetchExperts,
-  selectExperts,
+  selectExpertsData,
+  selectExpertsMeta,
   selectExpertsLoading,
+  setExpertsStateToInit,
+  selectExpertsByIds,
 } from '../../../../models/experts';
 import { RootStateType } from '../../../../models/rootReducer';
 import { ExpertsList } from '../../../lib/components/Experts/ExpertsList';
 import { LoadMoreButton } from '../../../lib/components/LoadMoreButton/LoadMoreButton';
-import { selectExpertsByIds } from '../../../../models/helpers/selectors';
 import { CheckboxFormStateType } from '../../../lib/components/Filters/CheckboxFilterForm';
 import {
   getQueryTypeByFilterType,
@@ -46,12 +48,11 @@ import { ScreenContext } from '../../../provider/MobileProvider/ScreenContext';
 
 const ExpertsView: React.FC = () => {
   const { t } = useTranslation();
-  const {
-    data: {
-      expertIds,
-      meta: { totalPages, pageNumber, totalElements, isLastPage },
-    },
-  } = useSelector(selectExperts);
+  const { expertIds, totalPages, totalElements, isLastPage } = useSelector(
+    selectExpertsData,
+  );
+  const { pageNumber } = useSelector(selectExpertsMeta);
+
   const loading = useSelector(selectExpertsLoading);
 
   const [page, setPage] = useState(pageNumber);
@@ -61,7 +62,6 @@ const ExpertsView: React.FC = () => {
   const [checkedFiltersRegions, setCheckedFiltersRegions] = useState<
     CheckboxFormStateType
   >();
-
   const [pageYOffset, setPageYOffset] = useState<number>(0);
 
   const handleScroll = () => {
@@ -70,6 +70,7 @@ const ExpertsView: React.FC = () => {
   };
 
   useEffect(() => {
+    boundExpertsStateToInit();
     setGALocation(window);
     window.addEventListener('scroll', handleScroll, { passive: true });
     return function cleanup() {
@@ -94,7 +95,10 @@ const ExpertsView: React.FC = () => {
   );
   const propertiesLoaded = !isEmpty(regions) && !isEmpty(directions);
 
-  const [boundFetchExperts] = useActions([fetchExperts]);
+  const [boundFetchExperts, boundExpertsStateToInit] = useActions([
+    fetchExperts,
+    setExpertsStateToInit,
+  ]);
 
   const fetchData = (appendExperts = false) => {
     const regionsQuery = query.get(QueryTypeEnum.REGIONS);

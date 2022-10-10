@@ -77,31 +77,34 @@ const Accordion: React.FC<IAccordion> = ({ expert }) => {
               </Typography>
             </div>
           ) : null}
-          {expert.socialNetwork ? (
-            <div
-              style={{ display: 'flex' }}
-              className={classes.accordionDetailsItem}
-            >
-              <img
-                className={classes.contactIcons}
-                src={facebook}
-                alt="facebook"
-                height="16px"
-                width="16px"
-              />
-              <Typography variant="body1" className={classes.contacts}>
-                <NavLink
-                  to={{
-                    pathname: `${expert.socialNetwork}`,
-                  }}
-                  target="_blank"
-                  className={classes.links}
+          {expert?.socialNetworks && expert.socialNetworks.length > 0
+            ? expert.socialNetworks.map((socialNetwork) => (
+                <div
+                  style={{ display: 'flex' }}
+                  className={classes.accordionDetailsItem}
+                  key={socialNetwork}
                 >
-                  {expert.socialNetwork}
-                </NavLink>
-              </Typography>
-            </div>
-          ) : null}
+                  <img
+                    className={classes.contactIcons}
+                    src={facebook}
+                    alt="facebook"
+                    height="16px"
+                    width="16px"
+                  />
+                  <Typography variant="body1" className={classes.contacts}>
+                    <NavLink
+                      to={{
+                        pathname: `${socialNetwork}`,
+                      }}
+                      target="_blank"
+                      className={classes.links}
+                    >
+                      {socialNetwork}
+                    </NavLink>
+                  </Typography>
+                </div>
+              ))
+            : null}
         </div>
       </div>
     </>

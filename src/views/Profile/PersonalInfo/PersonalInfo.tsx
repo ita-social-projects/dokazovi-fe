@@ -94,7 +94,7 @@ export const PersonalInfo: React.FC = () => {
             variant="outlined"
             fullWidth
             placeholder="https://www.facebook.com"
-            value={loadedExpert?.socialNetwork}
+            value={loadedExpert?.socialNetworks?.[0]}
           />
           <TextField
             variant="outlined"

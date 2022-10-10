@@ -1,22 +1,23 @@
 import React from 'react';
 import {
-  Chip,
   IconButton,
   TableBody,
   TableCell,
   TableRow,
   Typography,
-  Box,
 } from '@material-ui/core';
-import { DeleteOutlined, EditOutlined } from '@material-ui/icons';
-import { IAdminExpertsList, IAdminLabExpert } from 'models/adminLab/types';
+import { EditOutlined } from '@material-ui/icons';
+import { IAdminLabExpert } from 'models/adminLab/types';
+import { format, parseISO } from 'date-fns';
 import { useStyles } from './styles/AuthorsTable.styles';
+import AuthorsDeletingDialog from './AuthorsDeletingDialog';
 
 interface IAuthorsTableBodyProps {
   authors: Array<IAdminLabExpert>;
 }
 
-const AuthorsTableBody: React.FC<IAuthorsTableBodyProps> = ({ authors }) => {
+const AuthorsTableBody: React.FC<IAuthorsTableBodyProps> = (props) => {
+  const { authors } = props;
   const classes = useStyles();
   const rows = authors.map((author) => {
     const {
@@ -24,18 +25,21 @@ const AuthorsTableBody: React.FC<IAuthorsTableBodyProps> = ({ authors }) => {
       firstName,
       lastName,
       region,
-      dateOfCreation,
-      dateOfEdition,
+      createdAt,
+      editedAt,
+      mainInstitution,
+      isAllowedToDelete,
     } = author;
+
+    const parsedCreatedAt = format(parseISO(createdAt as string), 'd.MM.yyyy');
+    const parsedEditedAt = editedAt
+      ? format(parseISO(editedAt), 'd.MM.yyyy')
+      : parsedCreatedAt;
 
     const fullName = `${firstName} ${lastName}`;
 
     const handleChangeClick = (arg: number) => {
       alert(`author${arg} changing toggled`);
-    };
-
-    const handleDeleteClick = (arg: number) => {
-      alert(`author${arg} deletion toggled`);
     };
 
     return (
@@ -46,26 +50,26 @@ const AuthorsTableBody: React.FC<IAuthorsTableBodyProps> = ({ authors }) => {
             {fullName}
           </Typography>
         </TableCell>
-        <TableCell>{region}</TableCell>
-        <TableCell>City</TableCell>
-        <TableCell>{dateOfCreation}</TableCell>
+        <TableCell>{region?.name}</TableCell>
+        <TableCell>{mainInstitution?.city.name}</TableCell>
+        <TableCell>{parsedCreatedAt}</TableCell>
 
-        <TableCell>{dateOfEdition}</TableCell>
+        <TableCell>{parsedEditedAt}</TableCell>
         <TableCell>
-          <IconButton
-            aria-label="edit profile"
-            onClick={() => handleChangeClick(id)}
-            className={classes.editButton}
-          >
-            <EditOutlined />
-          </IconButton>
-          <IconButton
-            aria-label="delete profile"
-            onClick={() => handleDeleteClick(id)}
-            className={classes.deleteButton}
-          >
-            <DeleteOutlined />
-          </IconButton>
+          <div className={classes.modifSection}>
+            <IconButton
+              aria-label="edit profile"
+              onClick={() => handleChangeClick(id)}
+              className={classes.editButton}
+            >
+              <EditOutlined />
+            </IconButton>
+            <AuthorsDeletingDialog
+              id={id}
+              fullName={fullName}
+              isAllowedToDelete={isAllowedToDelete}
+            />
+          </div>
         </TableCell>
       </TableRow>
     );

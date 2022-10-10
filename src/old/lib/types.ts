@@ -150,6 +150,12 @@ export interface IExpert {
   qualification?: string;
   phone?: string;
   email?: string;
+  region?: {
+    id: number;
+    name: string;
+    usersPresent: boolean;
+  };
+  city?: string;
   bio: string;
   mainInstitution?: IInstitution;
   mainDirection?: IDirection;
@@ -158,8 +164,15 @@ export interface IExpert {
     id: number;
     title: string;
   };
-  socialNetwork?: string;
+  socialNetworks?: string[];
+  isAllowedToDelete?: boolean;
+  postStatuses?: PostStatusType[] | [];
 }
+
+export type PostStatusType = {
+  id: number;
+  status: string;
+};
 
 export interface IPostTag {
   id: number;

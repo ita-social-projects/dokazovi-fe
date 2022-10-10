@@ -1,6 +1,6 @@
 /* eslint-disable */
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { IFetchExpertsOptions } from './types';
+import { IFetchExpertsOptions, IExpertsAutorsListOptions } from './types';
 import { getAllExperts } from '../../old/lib/utilities/API/api';
 import { LOAD_EXPERTS_LIMIT } from '../../old/lib/constants/experts';
 import { IExpert } from '../../old/lib/types';
@@ -48,13 +48,69 @@ export const fetchExperts = createAsyncThunk(
       return {
         expertIds: appendIds,
         experts,
-        meta: {
-          pageNumber: response.data.number,
-          totalPages: response.data.totalPages,
-          totalElements: response.data.totalElements,
-          isLastPage: response.data.last,
-          appendExperts,
+        totalPages: response.data.totalPages,
+        totalElements: response.data.totalElements,
+        isLastPage: response.data.last,
+        appendExperts,
+      };
+    } catch (err) {
+      return rejectWithValue(err.response?.data);
+    }
+  },
+);
+
+export const fetchExpertsAutorsList = createAsyncThunk(
+  'experts/loadExpertsAuthorsList',
+  async (options: IExpertsAutorsListOptions, { getState, rejectWithValue }) => {
+    try {
+      const {
+        experts: {
+          data,
+          meta: {
+            size,
+            textFields: { author },
+            sort: { order, sortBy },
+          },
         },
+      } = getState() as any;
+
+      const isSearchByAuthorexists = (arg: string) => {
+        if (!arg) {
+          return `${sortBy.split(',')}` + `,${order}`;
+        }
+        return;
+      };
+
+      const { page } = options;
+      const response = await getAllExperts({
+        params: {
+          page,
+          size: Number(size),
+          sort: isSearchByAuthorexists(author),
+          userName: author,
+        },
+      });
+
+      response.data.content.forEach((expert) => {
+        expert['isAllowedToDelete'] = expert.postStatuses.every(
+          (postStatus) => postStatus.status === 'DRAFT',
+        );
+      });
+
+      const { mappedExperts, ids } = mapFetchedExperts(response.data.content);
+      const experts = { ...data.experts };
+      mappedExperts.forEach((expert) => {
+        if (experts && expert.id) {
+          experts[expert.id] = expert;
+        }
+      });
+
+      return {
+        expertIds: ids,
+        experts,
+        totalPages: response.data.totalPages,
+        totalElements: response.data.totalElements,
+        isLastPage: response.data.last,
       };
     } catch (err) {
       return rejectWithValue(err.response?.data);

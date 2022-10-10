@@ -1,8 +1,16 @@
 /* eslint-disable import/no-cycle */
-export { fetchExperts } from './asyncActions';
-export { expertsReducer } from './reducers';
+export { fetchExperts, fetchExpertsAutorsList } from './asyncActions';
 export {
-  selectExperts,
+  expertsReducer,
+  setSize,
+  setPageNumber,
+  setField,
+  setSort,
+  setExpertsStateToInit,
+} from './reducers';
+export {
+  selectExpertsData,
+  selectExpertsMeta,
   selectExpertsLoading,
-  selectExpertById,
+  selectExpertsByIds,
 } from './selectors';

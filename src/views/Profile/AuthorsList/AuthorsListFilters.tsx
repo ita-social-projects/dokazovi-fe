@@ -2,26 +2,28 @@ import React, { useState } from 'react';
 import { Typography, Box } from '@material-ui/core';
 import i18, { langTokens } from '../../../locales/localizationInit';
 import { AdminTextField } from '../AdminTable/AdminTextField';
-import { FieldEnum } from '../../../models/adminLab/types';
+import { TextFieldsEnum } from '../../../models/experts/types';
 import { AuthorListDropdown } from './AuthorListDropdown';
 import { useStyles } from './styles/AuthorsListFilters.styles';
+import { setSize, setField } from '../../../models/experts';
+import { useActions } from '../../../shared/hooks';
 
-const optionsToShow = ['10', '25', '50', '100'];
+interface IAuthorsListFiltersProps {
+  size: number;
+  author: string;
+}
 
-export const AuthorsListFilters: React.FC = () => {
-  const [searchValue, setSearchValue] = useState({ field: '', text: '' });
-  const [notesToShowAmount, setNotesToShowAmount] = useState(optionsToShow[0]);
+const optionsToShow = [10, 25, 50, 100];
 
+export const AuthorsListFilters: React.FC<IAuthorsListFiltersProps> = (
+  props,
+) => {
   const classes = useStyles();
-
-  const handleAuthorSearch = (obj) => {
-    setSearchValue(obj);
-    console.log(`author search with`, searchValue);
-  };
+  const { size, author } = props;
+  const [boundedSetSize, boundedSetField] = useActions([setSize, setField]);
 
   const handleNotesToShowChange = (val) => {
-    setNotesToShowAmount(val);
-    console.log(val, `notes are shown`);
+    boundedSetSize(val);
   };
 
   return (
@@ -31,16 +33,16 @@ export const AuthorsListFilters: React.FC = () => {
         <span>
           <AuthorListDropdown
             options={optionsToShow}
-            selected={notesToShowAmount}
+            selected={size}
             setChanges={handleNotesToShowChange}
           />
         </span>
         {i18.t(langTokens.admin.showNotesAmount).split(' ')[1]}
       </Typography>
       <AdminTextField
-        field={FieldEnum.AUTHOR}
-        setChanges={handleAuthorSearch}
-        inputValue={searchValue.text}
+        field={TextFieldsEnum.AUTHOR}
+        setChanges={boundedSetField}
+        inputValue={author}
         placeholder={i18.t(langTokens.admin.searchAuthorPlaceholder)}
       />
     </Box>

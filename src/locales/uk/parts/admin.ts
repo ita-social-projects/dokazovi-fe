@@ -71,8 +71,6 @@ export const admin = {
   region: `Регіон`,
   city: `Місто`,
   fullName: `Ім'я та Прізвище`,
-  removeFromCarousel: `Ви дійсно хочете видалити цей матеріал з Важливих?`,
-  maxImportantPostCountReached: `Досягнуто максимум важливих постів`,
   createNewAuthor: `Створити нового автора`,
   showNotesAmount: `Відобразити записів`,
 };
