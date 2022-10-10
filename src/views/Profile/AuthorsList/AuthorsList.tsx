@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import {
   Paper,
   Table,
@@ -7,117 +8,59 @@ import {
   Button,
   Typography,
 } from '@material-ui/core';
-import { IAdminLabExpert } from 'models/adminLab/types';
-import { getDoctorsList } from 'old/lib/utilities/API/api';
+
 import AuthorsTableHead from './AuthorsTableHead';
 import AuthorsTableBody from './AuthorsTableBody';
 import { AuthorsTablePagination } from './AuthorsTablePagination';
 import { AuthorsListFilters } from './AuthorsListFilters';
 import { useStyles } from './styles/AuthorsList.styles';
 import i18n, { langTokens } from '../../../locales/localizationInit';
+import {
+  fetchExpertsAutorsList,
+  selectExpertsData,
+  selectExpertsMeta,
+  setExpertsStateToInit,
+  selectExpertsByIds,
+} from '../../../models/experts';
+import { useActions } from '../../../shared/hooks';
 
 export const AuthorsList: React.FC = () => {
   const classes = useStyles();
-  /* Temporary Mock for authors info until getting API */
+  const [boundFetchExpertsAutorsList, boundExpertsStateToInit] = useActions([
+    fetchExpertsAutorsList,
+    setExpertsStateToInit,
+  ]);
 
-  const notesCount = {
-    from: '1',
-    to: '4',
-    total: '4',
-  };
+  const { expertIds, totalPages, totalElements } = useSelector(
+    selectExpertsData,
+  );
+  const {
+    pageNumber,
+    size,
+    sort: { order, sortBy },
+    textFields: { author },
+  } = useSelector(selectExpertsMeta);
+  const experts = selectExpertsByIds(expertIds);
 
-  const authors: IAdminLabExpert[] = [
-    {
-      id: 10,
-      firstName: 'Марія',
-      lastName: 'Марієнко',
-      region: 'Київська область',
-      dateOfCreation: '12.03.2022',
-      dateOfEdition: '12.03.2022',
-      bio: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit',
-      mainInstitution: {
-        id: 5,
-        city: {
-          id: 55,
-          name: 'Бровари',
-        },
-        name: 'Medical Idea',
-      },
-    },
-    {
-      id: 6,
-      firstName: 'Палана',
-      lastName: 'Литвинова',
-      region: 'Дніпропетровська область',
-      dateOfCreation: '12.03.2022',
-      dateOfEdition: '12.03.2022',
-      bio:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ',
-      mainInstitution: {
-        id: 4,
-        city: {
-          id: 119,
-          name: 'Дніпро',
-        },
-        name: 'Медікум',
-      },
-    },
-    {
-      id: 6,
-      firstName: 'Таржеман',
-      lastName: 'Соколов',
-      region: 'Дніпропетровська область',
-      dateOfCreation: '12.03.2022',
-      dateOfEdition: '12.03.2022',
-      bio:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor ',
-
-      mainInstitution: {
-        id: 4,
-        city: {
-          id: 119,
-          name: 'Дніпро',
-        },
-        name: 'Медікум',
-      },
-      lastAddedPost: {
-        id: 246,
-        title: 'Sit amet consectetur',
-      },
-    },
-    {
-      id: 16,
-      firstName: 'Олег',
-      lastName: 'Петренко',
-      region: 'Київська область',
-      dateOfCreation: '12.03.2022',
-      dateOfEdition: '12.03.2022',
-      bio: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit',
-      mainInstitution: {
-        id: 5,
-        city: {
-          id: 55,
-          name: 'Бровари',
-        },
-        name: 'Medical Idea',
-      },
-    },
-  ];
-
-  /* End of Mock section */
+  const maxCouldBePerPage = (pageNumber + 1) * Number(size);
+  const from =
+    pageNumber === 0 ? pageNumber + 1 : maxCouldBePerPage - (Number(size) - 1);
+  const to = totalPages === pageNumber + 1 ? totalElements : maxCouldBePerPage;
 
   useEffect(() => {
-    const fetchDoctorsList = async () => {
-      const response = await getDoctorsList();
-      console.log(response);
-    };
-    fetchDoctorsList().catch((err) => console.error(err));
+    boundExpertsStateToInit();
   }, []);
+
+  useEffect(() => {
+    boundFetchExpertsAutorsList({
+      page: pageNumber,
+    });
+  }, [size, pageNumber, order, sortBy, author]);
 
   return (
     <>
       <Box className={classes.listFunctionalityPanel}>
-        <AuthorsListFilters />
+        <AuthorsListFilters size={size} author={author} />
         <Button
           variant="contained"
           onClick={() => {
@@ -130,17 +73,22 @@ export const AuthorsList: React.FC = () => {
       </Box>
       <TableContainer component={Paper} className={classes.tableContainer}>
         <Table>
-          <AuthorsTableHead />
-          <AuthorsTableBody authors={authors} />
+          <AuthorsTableHead order={order} sortBy={sortBy} />
+          <AuthorsTableBody authors={experts} />
         </Table>
       </TableContainer>
       <Box display="flex" flexDirection="row" justifyContent="space-between">
         <Typography>
           {/* need to add langToken */}
-          {`Відображено від ${notesCount.from} до ${notesCount.to} записів з
-          ${notesCount.total} доступних`}
+          {`Відображено від ${from} до ${to} записів з
+          ${totalElements} доступних`}
         </Typography>
-        <AuthorsTablePagination />
+        {totalPages > 1 && (
+          <AuthorsTablePagination
+            pageNumber={pageNumber}
+            totalPages={totalPages}
+          />
+        )}
       </Box>
     </>
   );

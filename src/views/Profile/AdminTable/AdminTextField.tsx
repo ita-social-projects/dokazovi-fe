@@ -2,9 +2,10 @@ import React from 'react';
 import FormControl from '@material-ui/core/FormControl';
 import TextField from '@material-ui/core/TextField';
 import { FieldEnum, IField } from '../../../models/adminLab/types';
+import { TextFieldsEnum } from '../../../models/experts/types';
 
 interface IMaterialsTextField {
-  field: FieldEnum;
+  field: FieldEnum | TextFieldsEnum;
   setChanges: (payload: IField) => void;
   inputValue: string;
   placeholder: string;

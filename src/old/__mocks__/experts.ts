@@ -25,6 +25,7 @@ export const experts: IExpert[] = [
     avatar:
       'https://purepng.com/public/uploads/large/purepng.com-manmanadult-malemale-childboy-beingmens-1421526920869cscbo.png',
     bio: 'Dolor sit amet consectetur adipiscing elit ut aliquam purus bio',
+    socialNetworks: ['https://www.facebook.com'],
   },
   {
     id: 2,
@@ -50,6 +51,7 @@ export const experts: IExpert[] = [
     avatar:
       'https://purepng.com/public/uploads/large/purepng.com-manmanadult-malemale-childboy-beingmens-1421526920869cscbo.png',
     bio: 'Dolor sit amet consectetur adipiscing elit ut aliquam purus bio',
+    socialNetworks: ['https://www.facebook.com'],
   },
   {
     id: 3,
@@ -75,6 +77,7 @@ export const experts: IExpert[] = [
     avatar:
       'https://purepng.com/public/uploads/large/purepng.com-manmanadult-malemale-childboy-beingmens-1421526920869cscbo.png',
     bio: 'Dolor sit amet consectetur adipiscing elit ut aliquam purus bio',
+    socialNetworks: ['https://www.facebook.com'],
   },
   {
     id: 4,
@@ -100,6 +103,7 @@ export const experts: IExpert[] = [
     avatar:
       'https://purepng.com/public/uploads/large/purepng.com-manmanadult-malemale-childboy-beingmens-1421526920869cscbo.png',
     bio: 'Dolor sit amet consectetur adipiscing elit ut aliquam purus bio',
+    socialNetworks: ['https://www.facebook.com'],
   },
   {
     id: 5,
@@ -125,6 +129,7 @@ export const experts: IExpert[] = [
     avatar:
       'https://purepng.com/public/uploads/large/purepng.com-manmanadult-malemale-childboy-beingmens-1421526920869cscbo.png',
     bio: 'Dolor sit amet consectetur adipiscing elit ut aliquam purus bio',
+    socialNetworks: ['https://www.facebook.com'],
   },
   {
     id: 6,
@@ -150,6 +155,7 @@ export const experts: IExpert[] = [
     avatar:
       'https://purepng.com/public/uploads/large/purepng.com-manmanadult-malemale-childboy-beingmens-1421526920869cscbo.png',
     bio: 'Dolor sit amet consectetur adipiscing elit ut aliquam purus bio',
+    socialNetworks: ['https://www.facebook.com'],
   },
   {
     id: 7,
@@ -175,6 +181,7 @@ export const experts: IExpert[] = [
     avatar:
       'https://purepng.com/public/uploads/large/purepng.com-manmanadult-malemale-childboy-beingmens-1421526920869cscbo.png',
     bio: 'Dolor sit amet consectetur adipiscing elit ut aliquam purus bio',
+    socialNetworks: ['https://www.facebook.com'],
   },
   {
     id: 8,
@@ -200,6 +207,7 @@ export const experts: IExpert[] = [
     avatar:
       'https://purepng.com/public/uploads/large/purepng.com-manmanadult-malemale-childboy-beingmens-1421526920869cscbo.png',
     bio: 'Dolor sit amet consectetur adipiscing elit ut aliquam purus bio',
+    socialNetworks: ['https://www.facebook.com'],
   },
   {
     id: 9,
@@ -225,6 +233,7 @@ export const experts: IExpert[] = [
     avatar:
       'https://purepng.com/public/uploads/large/purepng.com-manmanadult-malemale-childboy-beingmens-1421526920869cscbo.png',
     bio: 'Dolor sit amet consectetur adipiscing elit ut aliquam purus bio',
+    socialNetworks: ['https://www.facebook.com'],
   },
   {
     id: 10,
@@ -250,6 +259,7 @@ export const experts: IExpert[] = [
     avatar:
       'https://purepng.com/public/uploads/large/purepng.com-manmanadult-malemale-childboy-beingmens-1421526920869cscbo.png',
     bio: 'Dolor sit amet consectetur adipiscing elit ut aliquam purus bio',
+    socialNetworks: ['https://www.facebook.com'],
   },
   {
     id: 11,
@@ -275,5 +285,6 @@ export const experts: IExpert[] = [
     avatar:
       'https://purepng.com/public/uploads/large/purepng.com-manmanadult-malemale-childboy-beingmens-1421526920869cscbo.png',
     bio: 'Dolor sit amet consectetur adipiscing elit ut aliquam purus bio',
+    socialNetworks: ['https://www.facebook.com'],
   },
 ];

@@ -111,10 +111,10 @@ export enum StatusesForActions {
 }
 
 export interface IAdminLabExpert extends IExpert {
-  region?: string;
-  dateOfCreation?: string;
-  dateOfEdition?: string;
+  createdAt?: string;
+  editedAt?: string;
 }
+
 export interface IAdminExpertsList {
   authors: {
     [id: string]: IAdminLabExpert;
