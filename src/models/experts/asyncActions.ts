@@ -75,7 +75,7 @@ export const fetchExpertsAutorsList = createAsyncThunk(
 
       const isSearchByAuthorexists = (arg: string) => {
         if (!arg) {
-          return `${sortBy.split(',')}` + `,${order}`;
+          return `${sortBy},${order}`;
         }
         return;
       };
@@ -84,7 +84,7 @@ export const fetchExpertsAutorsList = createAsyncThunk(
       const response = await getAllExperts({
         params: {
           page,
-          size: Number(size),
+          size: size,
           sort: isSearchByAuthorexists(author),
           userName: author,
         },

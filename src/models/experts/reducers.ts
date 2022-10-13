@@ -4,7 +4,7 @@ import { LoadingStatusEnum } from '../../old/lib/types';
 import {
   IExpertsState,
   AutorsListOrder,
-  AutorsListSortBy,
+  AuthorsListSortBy,
   ISortAutorsList,
   ITextFields,
 } from './types';
@@ -27,7 +27,7 @@ const initialState: IExpertsState = {
     },
     sort: {
       order: AutorsListOrder.desc,
-      sortBy: AutorsListSortBy.editedAt,
+      sortBy: AuthorsListSortBy.editedAt,
     },
   },
   loading: LoadingStatusEnum.idle,

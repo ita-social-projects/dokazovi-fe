@@ -2,7 +2,6 @@
 import { RootStateType } from '../rootReducer';
 import { IExpertsData, IExpertMeta } from './types';
 import { IExpert, LoadingStatusEnum } from '../../old/lib/types';
-import { store } from '../store';
 
 export const selectExpertsData = (state: RootStateType): IExpertsData =>
   state.experts.data;
@@ -13,5 +12,5 @@ export const selectExpertsMeta = (state: RootStateType): IExpertMeta =>
 export const selectExpertsLoading = (state: RootStateType): LoadingStatusEnum =>
   state.experts.loading;
 
-export const selectExpertsByIds = (ids: number[]): IExpert[] =>
-  ids.map((id) => store.getState().experts.data.experts[id]);
+export const selectExpertsByIds = (state: RootStateType): IExpert[] =>
+  state.experts.data.expertIds.map((id) => state.experts.data.experts[id]);

@@ -7,69 +7,48 @@ import {
   DialogContentText,
   DialogTitle,
   IconButton,
-  Tooltip,
 } from '@material-ui/core';
 import { DeleteOutlined } from '@material-ui/icons';
 import { useStyles } from './styles/AuthorsTable.styles';
+import i18n, { langTokens } from '../../../locales/localizationInit';
 
-interface IAuthorsDeletingDialogProps {
+interface IAuthorsDelDialogProps {
   id: number;
   fullName: string;
   isAllowedToDelete?: boolean;
 }
 
-const AuthorsDeletingDialog: React.FC<IAuthorsDeletingDialogProps> = (
-  props,
-) => {
-  const { id, fullName, isAllowedToDelete } = props;
+const AuthorsDeletingDialog: React.FC<IAuthorsDelDialogProps> = (props) => {
   const classes = useStyles();
+  const { id, fullName, isAllowedToDelete } = props;
   const [openDialog, setOpenDialog] = useState(false);
-  const [openTooltip, setOpenTooltip] = useState(false);
 
-  const handleChanges = (type: string, value: boolean) => {
-    switch (type) {
-      case 'dialog':
-        setOpenDialog(value);
-        break;
-      case 'tooltip':
-        setOpenTooltip(value);
-        break;
-      default:
-        break;
-    }
+  const handleOpenDialog = () => {
+    setOpenDialog(true);
+  };
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
   };
 
   return (
     <>
-      <Tooltip
-        open={openTooltip && !isAllowedToDelete}
-        onClose={() => handleChanges('tooltip', false)}
-        onOpen={() => handleChanges('tooltip', true)}
-        placement="bottom-end"
-        title={
-          'Дозволяється видаляти тільки тих авторів, які не мають постів або всі пости мають статус "Чернетка"!'
-        }
+      <IconButton
+        aria-label="delete profile"
+        onClick={handleOpenDialog}
+        className={classes.deleteButton}
+        disabled={!isAllowedToDelete}
       >
-        <div>
-          <IconButton
-            aria-label="delete profile"
-            onClick={() => handleChanges('dialog', true)}
-            className={classes.deleteButton}
-            disabled={!isAllowedToDelete}
-          >
-            <DeleteOutlined />
-          </IconButton>
-        </div>
-      </Tooltip>
+        <DeleteOutlined />
+      </IconButton>
       <Dialog
         open={openDialog}
-        onClose={() => handleChanges('dialog', false)}
+        onClose={handleCloseDialog}
         aria-labelledby="dialog-title"
         aria-describedby="dialog-description"
         PaperProps={{ classes: { root: classes.dialogSection } }}
       >
         <DialogTitle className={classes.dialogTitle} id="dialog-title">
-          Ви насправді хочете видалити автора?
+          {i18n.t(langTokens.admin.removeAuthor)}
         </DialogTitle>
         <DialogTitle className={classes.dialogFullname} id="dialog-fullname">
           {`${fullName} (${id})`}
@@ -79,22 +58,21 @@ const AuthorsDeletingDialog: React.FC<IAuthorsDeletingDialogProps> = (
             className={classes.dialogContentText}
             id="dialog-description"
           >
-            {`Після підтвердження даної дії всі чернетки автора будуть видалені
-            та автора не буде відображатися у "Список авторів"`}
+            {i18n.t(langTokens.admin.removeAuthorAftermath)}
           </DialogContentText>
         </DialogContent>
         <DialogActions className={classes.dialogActions}>
           <Button
             className={classes.dialogActionsButtons}
-            onClick={() => handleChanges('dialog', false)}
+            onClick={handleCloseDialog}
           >
-            ТAK
+            {i18n.t(langTokens.admin.confirmRemoveAuthor)}
           </Button>
           <Button
             className={classes.dialogActionsButtons}
-            onClick={() => handleChanges('dialog', false)}
+            onClick={handleCloseDialog}
           >
-            Ні
+            {i18n.t(langTokens.admin.discardRemoveAuthor)}
           </Button>
         </DialogActions>
       </Dialog>

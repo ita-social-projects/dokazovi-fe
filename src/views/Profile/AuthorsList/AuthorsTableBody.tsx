@@ -7,13 +7,13 @@ import {
   Typography,
 } from '@material-ui/core';
 import { EditOutlined } from '@material-ui/icons';
-import { IAdminLabExpert } from 'models/adminLab/types';
 import { format, parseISO } from 'date-fns';
+import { IExpert } from '../../../old/lib/types';
 import { useStyles } from './styles/AuthorsTable.styles';
-import AuthorsDeletingDialog from './AuthorsDeletingDialog';
+import AuthorsDeleteBtn from './AuthorsDeleteBtn';
 
 interface IAuthorsTableBodyProps {
-  authors: Array<IAdminLabExpert>;
+  authors: Array<IExpert>;
 }
 
 const AuthorsTableBody: React.FC<IAuthorsTableBodyProps> = (props) => {
@@ -31,16 +31,14 @@ const AuthorsTableBody: React.FC<IAuthorsTableBodyProps> = (props) => {
       isAllowedToDelete,
     } = author;
 
-    const parsedCreatedAt = format(parseISO(createdAt as string), 'd.MM.yyyy');
+    const parsedCreatedAt = format(parseISO(createdAt), 'd.MM.yyyy');
     const parsedEditedAt = editedAt
       ? format(parseISO(editedAt), 'd.MM.yyyy')
       : parsedCreatedAt;
 
     const fullName = `${firstName} ${lastName}`;
 
-    const handleChangeClick = (arg: number) => {
-      alert(`author${arg} changing toggled`);
-    };
+    const handleChangeClick = (arg: number) => {};
 
     return (
       <TableRow key={id}>
@@ -64,7 +62,7 @@ const AuthorsTableBody: React.FC<IAuthorsTableBodyProps> = (props) => {
             >
               <EditOutlined />
             </IconButton>
-            <AuthorsDeletingDialog
+            <AuthorsDeleteBtn
               id={id}
               fullName={fullName}
               isAllowedToDelete={isAllowedToDelete}

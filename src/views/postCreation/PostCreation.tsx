@@ -292,7 +292,7 @@ export const PostCreation: React.FC<IPostCreationProps> = ({
 
   const previewPost = React.useMemo(
     () =>
-      ({
+      (({
         author: user.data,
         content: savedPostDraft.htmlContent,
         preview: savedPostDraft.preview.value,
@@ -304,7 +304,7 @@ export const PostCreation: React.FC<IPostCreationProps> = ({
         title: savedPostDraft.title,
         videoUrl: savedPostDraft.videoUrl,
         type: { id: postType.type, name: postType.name },
-      } as IPost),
+      } as unknown) as IPost),
     [user, savedPostDraft],
   );
 

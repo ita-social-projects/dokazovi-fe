@@ -48,7 +48,7 @@ import { ScreenContext } from '../../../provider/MobileProvider/ScreenContext';
 
 const ExpertsView: React.FC = () => {
   const { t } = useTranslation();
-  const { expertIds, totalPages, totalElements, isLastPage } = useSelector(
+  const { totalPages, totalElements, isLastPage } = useSelector(
     selectExpertsData,
   );
   const { pageNumber } = useSelector(selectExpertsMeta);
@@ -85,7 +85,7 @@ const ExpertsView: React.FC = () => {
   const classes = useStyles({ pageYOffset });
   const { mobile } = useContext(ScreenContext);
 
-  const experts = selectExpertsByIds(expertIds);
+  const experts = useSelector(selectExpertsByIds);
 
   const regions = useSelector(
     (state: RootStateType) => state.properties.regions,

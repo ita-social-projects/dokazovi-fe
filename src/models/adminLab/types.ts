@@ -110,13 +110,8 @@ export enum StatusesForActions {
   ARCHIVED,
 }
 
-export interface IAdminLabExpert extends IExpert {
-  createdAt?: string;
-  editedAt?: string;
-}
-
 export interface IAdminExpertsList {
   authors: {
-    [id: string]: IAdminLabExpert;
+    [id: string]: IExpert;
   };
 }

@@ -150,23 +150,25 @@ export interface IExpert {
   qualification?: string;
   phone?: string;
   email?: string;
-  region?: {
+  region: {
     id: number;
     name: string;
     usersPresent: boolean;
   };
   city?: string;
   bio: string;
-  mainInstitution?: IInstitution;
+  mainInstitution: IInstitution;
   mainDirection?: IDirection;
   directions?: IDirection[];
   lastAddedPost?: {
     id: number;
     title: string;
   };
-  socialNetworks?: string[];
+  socialNetworks: string[];
   isAllowedToDelete?: boolean;
-  postStatuses?: PostStatusType[] | [];
+  postStatuses?: PostStatusType[];
+  createdAt: string;
+  editedAt?: string;
 }
 
 export type PostStatusType = {

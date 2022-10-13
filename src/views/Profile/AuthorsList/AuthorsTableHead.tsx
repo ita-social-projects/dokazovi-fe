@@ -12,7 +12,7 @@ import { setSort } from '../../../models/experts';
 import { useStyles } from './styles/AuthorsTableHead.styles';
 import {
   AutorsListOrder,
-  AutorsListSortBy,
+  AuthorsListSortBy,
   ISortAutorsList,
 } from '../../../models/experts/types';
 
@@ -27,37 +27,37 @@ interface IContent {
 const content: IContent[] = [
   {
     label: i18n.t(langTokens.admin.id),
-    sortKey: AutorsListSortBy.autorId,
+    sortKey: AuthorsListSortBy.autorId,
     isSortable: true,
     initialSortOrder: AutorsListOrder.desc,
   },
   {
     label: i18n.t(langTokens.admin.fullName),
-    sortKey: `${AutorsListSortBy.firstName},${AutorsListSortBy.lastName}`,
+    sortKey: AuthorsListSortBy.fullName,
     isSortable: true,
     initialSortOrder: AutorsListOrder.desc,
   },
   {
     label: i18n.t(langTokens.admin.region),
-    sortKey: AutorsListSortBy.region,
+    sortKey: AuthorsListSortBy.region,
     isSortable: true,
     initialSortOrder: AutorsListOrder.desc,
   },
   {
     label: i18n.t(langTokens.admin.city),
-    sortKey: AutorsListSortBy.city,
+    sortKey: AuthorsListSortBy.city,
     isSortable: true,
     initialSortOrder: AutorsListOrder.desc,
   },
   {
     label: i18n.t(langTokens.admin.dateOfCreation),
-    sortKey: AutorsListSortBy.createdAt,
+    sortKey: AuthorsListSortBy.createdAt,
     isSortable: true,
     initialSortOrder: AutorsListOrder.desc,
   },
   {
     label: i18n.t(langTokens.admin.dateOfEdition),
-    sortKey: AutorsListSortBy.editedAt,
+    sortKey: AuthorsListSortBy.editedAt,
     isSortable: true,
     initialSortOrder: AutorsListOrder.desc,
   },
@@ -85,7 +85,7 @@ const AuthorsTableHead: React.FC<ISortAutorsList> = (props) => {
     }
     boundedSetSort({
       order: newOrder,
-      sortBy: sortKey as keyof typeof AutorsListSortBy,
+      sortBy: sortKey as keyof typeof AuthorsListSortBy,
     });
   };
 

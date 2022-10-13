@@ -14,16 +14,16 @@ export const AuthorListDropdown: React.FC<IAuthorListDropdownProps> = ({
   setChanges,
 }) => {
   const classes = useStyles();
-  const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setChanges(event.target.value as number);
+  const handleChange = (
+    event: React.ChangeEvent<{ value: number | unknown }>,
+  ) => {
+    setChanges(event.target.value);
   };
 
   return (
     <>
       <FormControl variant="standard">
         <Select
-          labelId="demo-customized-select-label"
-          id="demo-customized-select"
           value={selected}
           onChange={handleChange}
           input={<InputBase />}

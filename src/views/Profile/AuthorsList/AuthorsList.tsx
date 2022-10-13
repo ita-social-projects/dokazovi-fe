@@ -31,20 +31,18 @@ export const AuthorsList: React.FC = () => {
     setExpertsStateToInit,
   ]);
 
-  const { expertIds, totalPages, totalElements } = useSelector(
-    selectExpertsData,
-  );
+  const { totalPages, totalElements } = useSelector(selectExpertsData);
   const {
     pageNumber,
     size,
     sort: { order, sortBy },
     textFields: { author },
   } = useSelector(selectExpertsMeta);
-  const experts = selectExpertsByIds(expertIds);
+  const experts = useSelector(selectExpertsByIds);
 
-  const maxCouldBePerPage = (pageNumber + 1) * Number(size);
+  const maxCouldBePerPage = (pageNumber + 1) * size;
   const from =
-    pageNumber === 0 ? pageNumber + 1 : maxCouldBePerPage - (Number(size) - 1);
+    pageNumber === 0 ? pageNumber + 1 : maxCouldBePerPage - (size - 1);
   const to = totalPages === pageNumber + 1 ? totalElements : maxCouldBePerPage;
 
   useEffect(() => {
@@ -63,9 +61,7 @@ export const AuthorsList: React.FC = () => {
         <AuthorsListFilters size={size} author={author} />
         <Button
           variant="contained"
-          onClick={() => {
-            alert('clicked');
-          }}
+          onClick={() => {}}
           className={classes.mainButton}
         >
           {i18n.t(langTokens.admin.createNewAuthor)}
@@ -79,9 +75,11 @@ export const AuthorsList: React.FC = () => {
       </TableContainer>
       <Box display="flex" flexDirection="row" justifyContent="space-between">
         <Typography>
-          {/* need to add langToken */}
-          {`Відображено від ${from} до ${to} записів з
-          ${totalElements} доступних`}
+          {i18n.t(langTokens.admin.authorsPerPageInfo, {
+            from,
+            to,
+            totalElements,
+          })}
         </Typography>
         {totalPages > 1 && (
           <AuthorsTablePagination

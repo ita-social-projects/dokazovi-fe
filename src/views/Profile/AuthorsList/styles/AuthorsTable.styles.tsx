@@ -38,7 +38,7 @@ export const useStyles = makeStyles((theme: Theme) => ({
 
   dialogContentText: {
     '& .MuiDialogContent-root': {
-      padding: '0px 0px 0px 0px',
+      padding: 0,
     },
     fontFamily: 'Raleway',
     color: 'black',

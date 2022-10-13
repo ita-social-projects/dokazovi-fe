@@ -101,15 +101,17 @@ export type ExpertResponseType = {
     name: string;
   };
   qualification: string;
-  region?: {
+  region: {
     id: number;
     name: string;
     usersPresent: boolean;
   };
   city?: string;
   email?: string;
-  socialNetworks?: string[];
+  socialNetworks: string[];
   postStatuses: PostStatusType[];
+  createdAt: string;
+  editedAt?: string;
 };
 
 export type ActivePostType = {

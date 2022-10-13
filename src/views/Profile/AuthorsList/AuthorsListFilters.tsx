@@ -1,5 +1,6 @@
 import React from 'react';
 import { Typography, Box } from '@material-ui/core';
+import { Trans } from 'react-i18next';
 import i18, { langTokens } from '../../../locales/localizationInit';
 import { AdminTextField } from '../AdminTable/AdminTextField';
 import { TextFieldsEnum } from '../../../models/experts/types';
@@ -29,15 +30,18 @@ export const AuthorsListFilters: React.FC<IAuthorsListFiltersProps> = (
   return (
     <Box className={classes.filtersBox}>
       <Typography variant="body1" className={classes.notesToShowPanel}>
-        {i18.t(langTokens.admin.showNotesAmount).split(' ')[0]}
-        <span>
-          <AuthorListDropdown
-            options={optionsToShow}
-            selected={size}
-            setChanges={handleNotesToShowChange}
-          />
-        </span>
-        {i18.t(langTokens.admin.showNotesAmount).split(' ')[1]}
+        <Trans
+          i18nKey={langTokens.admin.showNotesAmount}
+          components={{
+            dropDown: (
+              <AuthorListDropdown
+                options={optionsToShow}
+                selected={size}
+                setChanges={handleNotesToShowChange}
+              />
+            ),
+          }}
+        />
       </Typography>
       <AdminTextField
         field={TextFieldsEnum.AUTHOR}

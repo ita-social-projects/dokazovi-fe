@@ -77,34 +77,31 @@ const Accordion: React.FC<IAccordion> = ({ expert }) => {
               </Typography>
             </div>
           ) : null}
-          {expert?.socialNetworks && expert.socialNetworks.length > 0
-            ? expert.socialNetworks.map((socialNetwork) => (
-                <div
-                  style={{ display: 'flex' }}
-                  className={classes.accordionDetailsItem}
-                  key={socialNetwork}
+          {expert.socialNetworks.map((socialNetwork) => (
+            <div
+              style={{ display: 'flex' }}
+              className={classes.accordionDetailsItem}
+              key={socialNetwork}
+            >
+              <img
+                className={classes.contactIcons}
+                src={facebook}
+                alt="facebook"
+                height="16px"
+                width="16px"
+              />
+              <Typography variant="body1" className={classes.contacts}>
+                <a
+                  href={socialNetwork}
+                  target="_blank"
+                  rel="noreferrer"
+                  className={classes.links}
                 >
-                  <img
-                    className={classes.contactIcons}
-                    src={facebook}
-                    alt="facebook"
-                    height="16px"
-                    width="16px"
-                  />
-                  <Typography variant="body1" className={classes.contacts}>
-                    <NavLink
-                      to={{
-                        pathname: `${socialNetwork}`,
-                      }}
-                      target="_blank"
-                      className={classes.links}
-                    >
-                      {socialNetwork}
-                    </NavLink>
-                  </Typography>
-                </div>
-              ))
-            : null}
+                  {socialNetwork}
+                </a>
+              </Typography>
+            </div>
+          ))}
         </div>
       </div>
     </>

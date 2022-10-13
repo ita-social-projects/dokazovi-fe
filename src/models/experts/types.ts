@@ -17,15 +17,16 @@ export interface IExpertsData {
   totalElements: number;
 }
 
-export enum AutorsListSortBy {
-  autorId = 'id',
-  firstName = 'firstName',
-  lastName = 'lastName',
-  region = 'doctor.mainInstitution.city.region.name',
-  city = 'doctor.mainInstitution.city.name',
-  createdAt = 'createdAt',
-  editedAt = 'editedAt',
-}
+export const AuthorsListSortBy = {
+  autorId: 'id',
+  fullName: 'firstName,lastName',
+  firstName: 'firstName',
+  lastName: 'lastName',
+  region: 'doctor.mainInstitution.city.region.name',
+  city: 'doctor.mainInstitution.city.name',
+  createdAt: 'createdAt',
+  editedAt: 'editedAt',
+};
 
 export enum AutorsListOrder {
   desc = 'desc',
