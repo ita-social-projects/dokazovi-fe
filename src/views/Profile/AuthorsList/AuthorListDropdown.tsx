@@ -3,13 +3,13 @@ import { FormControl, Select, InputBase, MenuItem } from '@material-ui/core';
 import { useStyles } from './styles/AuthorListDropdown.styles';
 
 interface IAuthorListDropdownProps {
-  options: number[];
+  pageSizes: number[];
   selected: number;
   setChanges: (payload: any) => void;
 }
 
 export const AuthorListDropdown: React.FC<IAuthorListDropdownProps> = ({
-  options,
+  pageSizes,
   selected,
   setChanges,
 }) => {
@@ -29,7 +29,7 @@ export const AuthorListDropdown: React.FC<IAuthorListDropdownProps> = ({
           input={<InputBase />}
           className={classes.dropdown}
         >
-          {options.map((val) => (
+          {pageSizes.map((val) => (
             <MenuItem value={val} key={val}>
               {val}
             </MenuItem>

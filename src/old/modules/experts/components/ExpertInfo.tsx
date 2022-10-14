@@ -36,7 +36,7 @@ const ExpertInfo: React.FC<IExpertInfoProps> = ({ expert }) => {
           </Box>
         </Box>
         <Grid container item className={classes.accordionWrapper}>
-          {expert.email || expert.socialNetworks.length > 0 ? (
+          {expert.email || expert.socialNetworks.length !== 0 ? (
             <Accordion expert={expert} />
           ) : null}
         </Grid>
@@ -64,7 +64,7 @@ const ExpertInfo: React.FC<IExpertInfoProps> = ({ expert }) => {
           {expert.bio}
         </Typography>
         <Grid container item className={classes.accordionWrapper}>
-          {expert.email || expert.socialNetworks?.length !== 0 ? (
+          {expert.email || expert.socialNetworks.length !== 0 ? (
             <Accordion expert={expert} />
           ) : null}
         </Grid>

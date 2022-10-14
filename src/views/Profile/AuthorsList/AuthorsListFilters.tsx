@@ -14,7 +14,7 @@ interface IAuthorsListFiltersProps {
   author: string;
 }
 
-const optionsToShow = [10, 25, 50, 100];
+const pageSizes = [10, 25, 50, 100];
 
 export const AuthorsListFilters: React.FC<IAuthorsListFiltersProps> = (
   props,
@@ -35,7 +35,7 @@ export const AuthorsListFilters: React.FC<IAuthorsListFiltersProps> = (
           components={{
             dropDown: (
               <AuthorListDropdown
-                options={optionsToShow}
+                pageSizes={pageSizes}
                 selected={size}
                 setChanges={handleNotesToShowChange}
               />

@@ -41,9 +41,10 @@ export const AuthorsList: React.FC = () => {
   const experts = useSelector(selectExpertsByIds);
 
   const maxCouldBePerPage = (pageNumber + 1) * size;
-  const from =
+  const rangeStart =
     pageNumber === 0 ? pageNumber + 1 : maxCouldBePerPage - (size - 1);
-  const to = totalPages === pageNumber + 1 ? totalElements : maxCouldBePerPage;
+  const rangeEnd =
+    totalPages === pageNumber + 1 ? totalElements : maxCouldBePerPage;
 
   useEffect(() => {
     boundExpertsStateToInit();
@@ -76,8 +77,8 @@ export const AuthorsList: React.FC = () => {
       <Box display="flex" flexDirection="row" justifyContent="space-between">
         <Typography>
           {i18n.t(langTokens.admin.authorsPerPageInfo, {
-            from,
-            to,
+            rangeStart,
+            rangeEnd,
             totalElements,
           })}
         </Typography>

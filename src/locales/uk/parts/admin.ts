@@ -73,7 +73,7 @@ export const admin = {
   confirmRemoveAuthor: `ТAK`,
   discardRemoveAuthor: `Ні`,
   removeAuthorWarning: `Дозволяється видаляти тільки тих авторів, які не мають постів або всі пости мають статус "Чернетка"!`,
-  authorsPerPageInfo: `Відображено від {{from}} до {{to}} записів з {{totalElements}} доступних`,
+  authorsPerPageInfo: `Відображено від {{rangeStart}} до {{rangeEnd}} записів з {{totalElements}} доступних`,
   maxImportantPostCountReached: `Досягнуто максимум важливих постів`,
   createNewAuthor: `Створити нового автора`,
   showNotesAmount: `Відобразити <dropDown/> записів`,
