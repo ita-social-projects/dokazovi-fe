@@ -15,9 +15,9 @@ const monthNames: { [index: string]: string } = {
   '12': i18n.t(langTokens.date.decemberGenitiveCase),
 };
 
-export const formatDate = (dateString = '', time = false): string => {
-  if (dateString.length) {
-    const fullDate = new Date(dateString);
+export const formatDate = (dateValue = '', time = false): string => {
+  if (dateValue) {
+    const fullDate = new Date(dateValue);
     const hours = fullDate.getHours().toString().padStart(2, '0');
     const mins = fullDate.getMinutes().toString().padStart(2, '0');
     const displayDate = time
@@ -27,5 +27,16 @@ export const formatDate = (dateString = '', time = false): string => {
       : `${fullDate.getDate()} ${monthNames[fullDate.getMonth() + 1]}`;
     return displayDate;
   }
-  return dateString;
+  return dateValue;
+};
+
+export const displayShortDate = (dateValue = ''): string => {
+  const shortDate: Date = new Date(dateValue);
+  return `${shortDate
+    .getDate()
+    .toString()
+    .padStart(2, '0')}.${shortDate
+    .getMonth()
+    .toString()
+    .padStart(2, '0')}.${shortDate.getFullYear()}`;
 };
