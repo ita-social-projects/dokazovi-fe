@@ -25,6 +25,13 @@ export const experts: IExpert[] = [
     avatar:
       'https://purepng.com/public/uploads/large/purepng.com-manmanadult-malemale-childboy-beingmens-1421526920869cscbo.png',
     bio: 'Dolor sit amet consectetur adipiscing elit ut aliquam purus bio',
+    socialNetworks: ['https://www.facebook.com'],
+    createdAt: '2021-02-16T03:56:37.444+00:00',
+    region: {
+      id: 10,
+      name: 'Київська область',
+      usersPresent: true,
+    },
   },
   {
     id: 2,
@@ -50,6 +57,13 @@ export const experts: IExpert[] = [
     avatar:
       'https://purepng.com/public/uploads/large/purepng.com-manmanadult-malemale-childboy-beingmens-1421526920869cscbo.png',
     bio: 'Dolor sit amet consectetur adipiscing elit ut aliquam purus bio',
+    socialNetworks: ['https://www.facebook.com'],
+    createdAt: '2021-02-16T03:56:37.444+00:00',
+    region: {
+      id: 10,
+      name: 'Київська область',
+      usersPresent: true,
+    },
   },
   {
     id: 3,
@@ -75,6 +89,13 @@ export const experts: IExpert[] = [
     avatar:
       'https://purepng.com/public/uploads/large/purepng.com-manmanadult-malemale-childboy-beingmens-1421526920869cscbo.png',
     bio: 'Dolor sit amet consectetur adipiscing elit ut aliquam purus bio',
+    socialNetworks: ['https://www.facebook.com'],
+    createdAt: '2021-02-16T03:56:37.444+00:00',
+    region: {
+      id: 10,
+      name: 'Київська область',
+      usersPresent: true,
+    },
   },
   {
     id: 4,
@@ -100,6 +121,13 @@ export const experts: IExpert[] = [
     avatar:
       'https://purepng.com/public/uploads/large/purepng.com-manmanadult-malemale-childboy-beingmens-1421526920869cscbo.png',
     bio: 'Dolor sit amet consectetur adipiscing elit ut aliquam purus bio',
+    socialNetworks: ['https://www.facebook.com'],
+    createdAt: '2021-02-16T03:56:37.444+00:00',
+    region: {
+      id: 10,
+      name: 'Київська область',
+      usersPresent: true,
+    },
   },
   {
     id: 5,
@@ -125,6 +153,13 @@ export const experts: IExpert[] = [
     avatar:
       'https://purepng.com/public/uploads/large/purepng.com-manmanadult-malemale-childboy-beingmens-1421526920869cscbo.png',
     bio: 'Dolor sit amet consectetur adipiscing elit ut aliquam purus bio',
+    socialNetworks: ['https://www.facebook.com'],
+    createdAt: '2021-02-16T03:56:37.444+00:00',
+    region: {
+      id: 10,
+      name: 'Київська область',
+      usersPresent: true,
+    },
   },
   {
     id: 6,
@@ -150,6 +185,13 @@ export const experts: IExpert[] = [
     avatar:
       'https://purepng.com/public/uploads/large/purepng.com-manmanadult-malemale-childboy-beingmens-1421526920869cscbo.png',
     bio: 'Dolor sit amet consectetur adipiscing elit ut aliquam purus bio',
+    socialNetworks: ['https://www.facebook.com'],
+    createdAt: '2021-02-16T03:56:37.444+00:00',
+    region: {
+      id: 10,
+      name: 'Київська область',
+      usersPresent: true,
+    },
   },
   {
     id: 7,
@@ -175,6 +217,13 @@ export const experts: IExpert[] = [
     avatar:
       'https://purepng.com/public/uploads/large/purepng.com-manmanadult-malemale-childboy-beingmens-1421526920869cscbo.png',
     bio: 'Dolor sit amet consectetur adipiscing elit ut aliquam purus bio',
+    socialNetworks: ['https://www.facebook.com'],
+    createdAt: '2021-02-16T03:56:37.444+00:00',
+    region: {
+      id: 10,
+      name: 'Київська область',
+      usersPresent: true,
+    },
   },
   {
     id: 8,
@@ -200,6 +249,13 @@ export const experts: IExpert[] = [
     avatar:
       'https://purepng.com/public/uploads/large/purepng.com-manmanadult-malemale-childboy-beingmens-1421526920869cscbo.png',
     bio: 'Dolor sit amet consectetur adipiscing elit ut aliquam purus bio',
+    socialNetworks: ['https://www.facebook.com'],
+    createdAt: '2021-02-16T03:56:37.444+00:00',
+    region: {
+      id: 10,
+      name: 'Київська область',
+      usersPresent: true,
+    },
   },
   {
     id: 9,
@@ -225,6 +281,13 @@ export const experts: IExpert[] = [
     avatar:
       'https://purepng.com/public/uploads/large/purepng.com-manmanadult-malemale-childboy-beingmens-1421526920869cscbo.png',
     bio: 'Dolor sit amet consectetur adipiscing elit ut aliquam purus bio',
+    socialNetworks: ['https://www.facebook.com'],
+    createdAt: '2021-02-16T03:56:37.444+00:00',
+    region: {
+      id: 10,
+      name: 'Київська область',
+      usersPresent: true,
+    },
   },
   {
     id: 10,
@@ -250,6 +313,13 @@ export const experts: IExpert[] = [
     avatar:
       'https://purepng.com/public/uploads/large/purepng.com-manmanadult-malemale-childboy-beingmens-1421526920869cscbo.png',
     bio: 'Dolor sit amet consectetur adipiscing elit ut aliquam purus bio',
+    socialNetworks: ['https://www.facebook.com'],
+    createdAt: '2021-02-16T03:56:37.444+00:00',
+    region: {
+      id: 10,
+      name: 'Київська область',
+      usersPresent: true,
+    },
   },
   {
     id: 11,
@@ -275,5 +345,12 @@ export const experts: IExpert[] = [
     avatar:
       'https://purepng.com/public/uploads/large/purepng.com-manmanadult-malemale-childboy-beingmens-1421526920869cscbo.png',
     bio: 'Dolor sit amet consectetur adipiscing elit ut aliquam purus bio',
+    socialNetworks: ['https://www.facebook.com'],
+    createdAt: '2021-02-16T03:56:37.444+00:00',
+    region: {
+      id: 10,
+      name: 'Київська область',
+      usersPresent: true,
+    },
   },
 ];

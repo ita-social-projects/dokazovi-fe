@@ -1,29 +1,45 @@
 import React from 'react';
 import {
-  Chip,
+  IconButton,
   TableBody,
   TableCell,
   TableRow,
   Typography,
 } from '@material-ui/core';
-import { useTranslation } from 'react-i18next';
-import { IAdminExpertsList, IAdminLabExpert } from 'models/adminLab/types';
+import { EditOutlined } from '@material-ui/icons';
+import { format, parseISO } from 'date-fns';
+import { IExpert } from '../../../old/lib/types';
+import { useStyles } from './styles/AuthorsTable.styles';
+import AuthorsDeleteBtn from './AuthorsDeleteBtn';
 
 interface IAuthorsTableBodyProps {
-  authors: Array<IAdminLabExpert>;
+  authors: Array<IExpert>;
 }
 
-const AuthorsTableBody: React.FC<IAuthorsTableBodyProps> = ({ authors }) => {
+const AuthorsTableBody: React.FC<IAuthorsTableBodyProps> = (props) => {
+  const { authors } = props;
+  const classes = useStyles();
   const rows = authors.map((author) => {
     const {
       id,
       firstName,
       lastName,
       region,
-      dateOfCreation,
-      dateOfEdition,
+      createdAt,
+      editedAt,
+      mainInstitution,
+      isAllowedToDelete,
     } = author;
+
+    const parsedCreatedAt = format(parseISO(createdAt), 'd.MM.yyyy');
+    const parsedEditedAt = editedAt
+      ? format(parseISO(editedAt), 'd.MM.yyyy')
+      : parsedCreatedAt;
+
     const fullName = `${firstName} ${lastName}`;
+
+    const handleChangeClick = (arg: number) => {};
+
     return (
       <TableRow key={id}>
         <TableCell>{id}</TableCell>
@@ -32,12 +48,27 @@ const AuthorsTableBody: React.FC<IAuthorsTableBodyProps> = ({ authors }) => {
             {fullName}
           </Typography>
         </TableCell>
-        <TableCell>{region}</TableCell>
-        <TableCell>City</TableCell>
-        <TableCell>{dateOfCreation}</TableCell>
+        <TableCell>{region?.name}</TableCell>
+        <TableCell>{mainInstitution?.city.name}</TableCell>
+        <TableCell>{parsedCreatedAt}</TableCell>
 
-        <TableCell>{dateOfEdition}</TableCell>
-        <TableCell>Action</TableCell>
+        <TableCell>{parsedEditedAt}</TableCell>
+        <TableCell>
+          <div className={classes.modifSection}>
+            <IconButton
+              aria-label="edit profile"
+              onClick={() => handleChangeClick(id)}
+              className={classes.editButton}
+            >
+              <EditOutlined />
+            </IconButton>
+            <AuthorsDeleteBtn
+              id={id}
+              fullName={fullName}
+              isAllowedToDelete={isAllowedToDelete}
+            />
+          </div>
+        </TableCell>
       </TableRow>
     );
   });

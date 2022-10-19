@@ -1,113 +1,94 @@
-import React from 'react';
-import { Paper, Table, TableContainer, Box, Button } from '@material-ui/core';
-import { IAdminLabExpert } from 'models/adminLab/types';
+import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import {
+  Paper,
+  Table,
+  TableContainer,
+  Box,
+  Button,
+  Typography,
+} from '@material-ui/core';
+
 import AuthorsTableHead from './AuthorsTableHead';
 import AuthorsTableBody from './AuthorsTableBody';
+import { AuthorsTablePagination } from './AuthorsTablePagination';
+import { AuthorsListFilters } from './AuthorsListFilters';
 import { useStyles } from './styles/AuthorsList.styles';
+import i18n, { langTokens } from '../../../locales/localizationInit';
+import {
+  fetchExpertsAutorsList,
+  selectExpertsData,
+  selectExpertsMeta,
+  setExpertsStateToInit,
+  selectExpertsByIds,
+} from '../../../models/experts';
+import { useActions } from '../../../shared/hooks';
 
 export const AuthorsList: React.FC = () => {
   const classes = useStyles();
-  /* Temporary Mock for authors info until getting API */
+  const [boundFetchExpertsAutorsList, boundExpertsStateToInit] = useActions([
+    fetchExpertsAutorsList,
+    setExpertsStateToInit,
+  ]);
 
-  const authors: IAdminLabExpert[] = [
-    {
-      id: 10,
-      firstName: 'Марія',
-      lastName: 'Марієнко',
-      region: 'Київська область',
-      dateOfCreation: '12.03.2022',
-      dateOfEdition: '12.03.2022',
-      bio: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit',
-      mainInstitution: {
-        id: 5,
-        city: {
-          id: 55,
-          name: 'Бровари',
-        },
-        name: 'Medical Idea',
-      },
-    },
-    {
-      id: 6,
-      firstName: 'Палана',
-      lastName: 'Литвинова',
-      region: 'Дніпропетровська область',
-      dateOfCreation: '12.03.2022',
-      dateOfEdition: '12.03.2022',
-      bio:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ',
-      mainInstitution: {
-        id: 4,
-        city: {
-          id: 119,
-          name: 'Дніпро',
-        },
-        name: 'Медікум',
-      },
-    },
-    {
-      id: 6,
-      firstName: 'Таржеман',
-      lastName: 'Соколов',
-      region: 'Дніпропетровська область',
-      dateOfCreation: '12.03.2022',
-      dateOfEdition: '12.03.2022',
-      bio:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor ',
+  const { totalPages, totalElements, isLastPage, pageNumber } = useSelector(
+    selectExpertsData,
+  );
+  const {
+    size,
+    sort: { order, sortBy },
+    textFields: { author },
+  } = useSelector(selectExpertsMeta);
+  const experts = useSelector(selectExpertsByIds);
 
-      mainInstitution: {
-        id: 4,
-        city: {
-          id: 119,
-          name: 'Дніпро',
-        },
-        name: 'Медікум',
-      },
-      lastAddedPost: {
-        id: 246,
-        title: 'Sit amet consectetur',
-      },
-    },
-    {
-      id: 16,
-      firstName: 'Олег',
-      lastName: 'Петренко',
-      region: 'Київська область',
-      dateOfCreation: '12.03.2022',
-      dateOfEdition: '12.03.2022',
-      bio: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit',
-      mainInstitution: {
-        id: 5,
-        city: {
-          id: 55,
-          name: 'Бровари',
-        },
-        name: 'Medical Idea',
-      },
-    },
-  ];
+  const rangeStart = pageNumber * size + 1;
+  const rangeEnd = isLastPage ? totalElements : (pageNumber + 1) * size;
 
-  /* End of Mock section */
+  useEffect(() => {
+    boundExpertsStateToInit();
+  }, []);
+
+  useEffect(() => {
+    boundFetchExpertsAutorsList({
+      page: pageNumber,
+    });
+  }, [size, order, sortBy, author]);
 
   return (
     <>
-      <Box display="flex" flexDirection="row" justifyContent="flex-end">
+      <Box className={classes.listFunctionalityPanel}>
+        <AuthorsListFilters size={size} author={author} />
         <Button
           variant="contained"
-          onClick={() => {
-            alert('clicked');
-          }}
+          onClick={() => {}}
           className={classes.mainButton}
         >
-          Створити нового автора
+          {i18n.t(langTokens.admin.createNewAuthor)}
         </Button>
       </Box>
-      <TableContainer component={Paper}>
+      <TableContainer component={Paper} className={classes.tableContainer}>
         <Table>
-          <AuthorsTableHead />
-          <AuthorsTableBody authors={authors} />
+          <AuthorsTableHead order={order} sortBy={sortBy} />
+          <AuthorsTableBody authors={experts} />
         </Table>
       </TableContainer>
+      <Box display="flex" flexDirection="row" justifyContent="space-between">
+        {totalElements > 0 && (
+          <Typography>
+            {i18n.t(langTokens.admin.authorsPerPageInfo, {
+              rangeStart,
+              rangeEnd,
+              totalElements,
+            })}
+          </Typography>
+        )}
+        {totalPages > 1 && (
+          <AuthorsTablePagination
+            pageNumber={pageNumber}
+            totalPages={totalPages}
+          />
+        )}
+      </Box>
     </>
   );
 };

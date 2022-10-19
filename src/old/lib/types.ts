@@ -150,16 +150,31 @@ export interface IExpert {
   qualification?: string;
   phone?: string;
   email?: string;
+  region: {
+    id: number;
+    name: string;
+    usersPresent: boolean;
+  };
+  city?: string;
   bio: string;
-  mainInstitution?: IInstitution;
+  mainInstitution: IInstitution;
   mainDirection?: IDirection;
   directions?: IDirection[];
   lastAddedPost?: {
     id: number;
     title: string;
   };
-  socialNetwork?: string;
+  socialNetworks: string[];
+  isAllowedToDelete?: boolean;
+  postStatuses?: PostStatusType[];
+  createdAt: string;
+  editedAt?: string;
 }
+
+export type PostStatusType = {
+  id: number;
+  status: string;
+};
 
 export interface IPostTag {
   id: number;
