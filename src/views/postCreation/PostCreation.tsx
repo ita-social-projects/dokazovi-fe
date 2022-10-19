@@ -289,10 +289,12 @@ export const PostCreation: React.FC<IPostCreationProps> = ({
   const isVideoEmpty = isVideoPost ? !newPost.videoUrl : false;
 
   const isTooLong = newPost.title.length > MAX_TITLE_LENGTH;
+  let postId: number;
 
   const previewPost = React.useMemo(
     () =>
-      (({
+      ({
+        id: postId,
         author: user.data,
         content: savedPostDraft.htmlContent,
         preview: savedPostDraft.preview.value,
@@ -304,7 +306,7 @@ export const PostCreation: React.FC<IPostCreationProps> = ({
         title: savedPostDraft.title,
         videoUrl: savedPostDraft.videoUrl,
         type: { id: postType.type, name: postType.name },
-      } as unknown) as IPost),
+      } as IPost),
     [user, savedPostDraft],
   );
 
@@ -314,13 +316,15 @@ export const PostCreation: React.FC<IPostCreationProps> = ({
       : StatusesForActions.MODERATION_SECOND_SIGN;
     const response = await createPost(newPost);
     boundResetDraft(postType.type);
-    history.push(`/posts/${response.data.id}`);
+    postId = response.data.id;
+    history.push(`/posts/${postId}`);
   };
 
   const handleSaveClick = async () => {
     newPost.postStatus = StatusesForActions.DRAFT;
     const response = await createPost(newPost);
-    history.push(`/posts/${response.data.id}`);
+    postId = response.data.id;
+    history.push(`/posts/${postId}`);
   };
 
   let extraFieldsForTranslation: ExtraFieldsType = null;
