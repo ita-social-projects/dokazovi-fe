@@ -15,6 +15,7 @@ export interface IExpertsData {
   totalPages: number;
   isLastPage: boolean;
   totalElements: number;
+  pageNumber: number;
 }
 
 export const AuthorsListSortBy = {
@@ -48,7 +49,6 @@ export enum TextFieldsEnum {
 }
 
 export interface IExpertMeta {
-  pageNumber: number;
   size: number;
   sort: ISortAutorsList;
   textFields: {

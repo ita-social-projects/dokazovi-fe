@@ -31,20 +31,18 @@ export const AuthorsList: React.FC = () => {
     setExpertsStateToInit,
   ]);
 
-  const { totalPages, totalElements } = useSelector(selectExpertsData);
+  const { totalPages, totalElements, isLastPage, pageNumber } = useSelector(
+    selectExpertsData,
+  );
   const {
-    pageNumber,
     size,
     sort: { order, sortBy },
     textFields: { author },
   } = useSelector(selectExpertsMeta);
   const experts = useSelector(selectExpertsByIds);
 
-  const maxCouldBePerPage = (pageNumber + 1) * size;
-  const rangeStart =
-    pageNumber === 0 ? pageNumber + 1 : maxCouldBePerPage - (size - 1);
-  const rangeEnd =
-    totalPages === pageNumber + 1 ? totalElements : maxCouldBePerPage;
+  const rangeStart = pageNumber * size + 1;
+  const rangeEnd = isLastPage ? totalElements : (pageNumber + 1) * size;
 
   useEffect(() => {
     boundExpertsStateToInit();
@@ -54,7 +52,7 @@ export const AuthorsList: React.FC = () => {
     boundFetchExpertsAutorsList({
       page: pageNumber,
     });
-  }, [size, pageNumber, order, sortBy, author]);
+  }, [size, order, sortBy, author]);
 
   return (
     <>
@@ -75,13 +73,15 @@ export const AuthorsList: React.FC = () => {
         </Table>
       </TableContainer>
       <Box display="flex" flexDirection="row" justifyContent="space-between">
-        <Typography>
-          {i18n.t(langTokens.admin.authorsPerPageInfo, {
-            rangeStart,
-            rangeEnd,
-            totalElements,
-          })}
-        </Typography>
+        {totalElements > 0 && (
+          <Typography>
+            {i18n.t(langTokens.admin.authorsPerPageInfo, {
+              rangeStart,
+              rangeEnd,
+              totalElements,
+            })}
+          </Typography>
+        )}
         {totalPages > 1 && (
           <AuthorsTablePagination
             pageNumber={pageNumber}

@@ -18,9 +18,9 @@ const initialState: IExpertsState = {
     totalPages: 0,
     isLastPage: true,
     totalElements: 0,
+    pageNumber: 0,
   },
   meta: {
-    pageNumber: 0,
     size: 25,
     textFields: {
       author: '',
@@ -48,19 +48,19 @@ export const expertsSlice = createSlice({
     },
     setSize: (state, action: PayloadAction<number>) => {
       state.meta.size = action.payload;
-      state.meta.pageNumber = initialState.meta.pageNumber;
+      state.data.pageNumber = initialState.data.pageNumber;
     },
     setPageNumber: (state, action: PayloadAction<number>) => {
-      state.meta.pageNumber = action.payload;
+      state.data.pageNumber = action.payload;
     },
     setField: (state, action: PayloadAction<ITextFields>) => {
       const { text, field } = action.payload;
       state.meta.textFields[field] = text;
-      state.meta.pageNumber = 0;
+      state.data.pageNumber = 0;
     },
     setSort: (state, action: PayloadAction<ISortAutorsList>) => {
       state.meta.sort = action.payload;
-      state.meta.pageNumber = initialState.meta.pageNumber;
+      state.data.pageNumber = initialState.data.pageNumber;
     },
   },
   extraReducers: {

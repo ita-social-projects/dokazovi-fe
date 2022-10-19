@@ -103,6 +103,7 @@ export const fetchExpertsAutorsList = createAsyncThunk(
         totalPages: response.data.totalPages,
         totalElements: response.data.totalElements,
         isLastPage: response.data.last,
+        pageNumber: response.data.number,
       };
     } catch (err) {
       return rejectWithValue(err.response?.data);

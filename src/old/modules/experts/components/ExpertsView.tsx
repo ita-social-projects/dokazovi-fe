@@ -19,7 +19,6 @@ import {
 import {
   fetchExperts,
   selectExpertsData,
-  selectExpertsMeta,
   selectExpertsLoading,
   setExpertsStateToInit,
   selectExpertsByIds,
@@ -48,10 +47,9 @@ import { ScreenContext } from '../../../provider/MobileProvider/ScreenContext';
 
 const ExpertsView: React.FC = () => {
   const { t } = useTranslation();
-  const { totalPages, totalElements, isLastPage } = useSelector(
+  const { totalPages, totalElements, isLastPage, pageNumber } = useSelector(
     selectExpertsData,
   );
-  const { pageNumber } = useSelector(selectExpertsMeta);
 
   const loading = useSelector(selectExpertsLoading);
 

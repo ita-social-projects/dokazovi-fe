@@ -1,7 +1,7 @@
 import React from 'react';
 import { Pagination } from '@material-ui/lab';
 import { useActions } from '../../../shared/hooks';
-import { setPageNumber } from '../../../models/experts';
+import { fetchExpertsAutorsList } from '../../../models/experts';
 
 interface IAuthorsTablePaginationProps {
   totalPages: number;
@@ -13,10 +13,12 @@ export const AuthorsTablePagination: React.FC<IAuthorsTablePaginationProps> = (
 ) => {
   const { totalPages, pageNumber } = props;
 
-  const [boundSetPageNumber] = useActions([setPageNumber]);
+  const [boundFetchExpertsAutorsList] = useActions([fetchExpertsAutorsList]);
 
   const handlePageSelection = (_: unknown, page: number) => {
-    boundSetPageNumber(page - 1);
+    boundFetchExpertsAutorsList({
+      page: page - 1,
+    });
   };
 
   return (
