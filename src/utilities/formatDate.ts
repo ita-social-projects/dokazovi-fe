@@ -1,3 +1,4 @@
+import { format } from 'date-fns';
 import i18n, { langTokens } from '../locales/localizationInit';
 
 const monthNames: { [index: string]: string } = {
@@ -21,25 +22,17 @@ export const formatDate = (
 ): string => {
   if (dateValue) {
     const fullDate = new Date(dateValue);
-    const hours = fullDate.getHours().toString().padStart(2, '0');
-    const mins = fullDate.getMinutes().toString().padStart(2, '0');
     const displayDate = time
-      ? `${hours}:${mins}, ${fullDate.getDate()} ${
-          monthNames[fullDate.getMonth() + 1]
-        } ${fullDate.getFullYear()}`
-      : `${fullDate.getDate()} ${monthNames[fullDate.getMonth() + 1]}`;
+      ? format(fullDate, `HH:mm, d ${monthNames[fullDate.getMonth() + 1]} yyyy`)
+      : format(fullDate, `d ${monthNames[fullDate.getMonth() + 1]}`);
     return displayDate;
   }
   return `${dateValue}`;
 };
 
 export const displayShortDate = (dateValue: number | string = ''): string => {
-  const shortDate: Date = new Date(dateValue);
-  return `${shortDate
-    .getDate()
-    .toString()
-    .padStart(2, '0')}.${shortDate
-    .getMonth()
-    .toString()
-    .padStart(2, '0')}.${shortDate.getFullYear()}`;
+  if (dateValue) {
+    return format(new Date(dateValue), 'dd.LL.yyyy');
+  }
+  return `${dateValue}`;
 };
