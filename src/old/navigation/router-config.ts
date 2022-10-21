@@ -95,6 +95,13 @@ export const ROUTER_CONFIG: IRouteConfig[] = [
     exact: true,
   },
   {
+    path: '/profile/:expertId',
+    key: 'EXPERT_PERSONAL_INFO',
+    component: Profile,
+    private: true,
+    exact: true,
+  },
+  {
     path: '/create-article',
     key: 'CREATE_ARTICLE',
     component: ArticleCreation,

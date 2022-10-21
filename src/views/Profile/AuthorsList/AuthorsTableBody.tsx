@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import {
   IconButton,
   TableBody,
@@ -55,13 +56,15 @@ const AuthorsTableBody: React.FC<IAuthorsTableBodyProps> = (props) => {
         <TableCell>{parsedEditedAt}</TableCell>
         <TableCell>
           <div className={classes.modifSection}>
-            <IconButton
-              aria-label="edit profile"
-              onClick={() => handleChangeClick(id)}
-              className={classes.editButton}
-            >
-              <EditOutlined />
-            </IconButton>
+            <Link to={`/profile/${id}`}>
+              <IconButton
+                aria-label="edit profile"
+                onClick={() => handleChangeClick(id)}
+                className={classes.editButton}
+              >
+                <EditOutlined />
+              </IconButton>
+            </Link>
             <AuthorsDeleteBtn
               id={id}
               fullName={fullName}

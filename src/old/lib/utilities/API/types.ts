@@ -106,7 +106,6 @@ export type ExpertResponseType = {
     name: string;
     usersPresent: boolean;
   };
-  city?: string;
   email?: string;
   socialNetworks: string[];
   postStatuses: PostStatusType[];
@@ -155,8 +154,15 @@ export type OriginResponseType = {
 };
 
 export type RegionResponseType = {
+  usersPresent: boolean;
   id: number;
   name: string;
+};
+
+export type CityResponseType = {
+  id: number;
+  name: string;
+  regionId: number;
 };
 
 export type PostTypeResponseType = {

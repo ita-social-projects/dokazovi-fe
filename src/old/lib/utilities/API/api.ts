@@ -20,6 +20,7 @@ import {
   PostsResponseType,
   PostTypeResponseType,
   RegionResponseType,
+  CityResponseType,
   TagResponseType,
   UpdatePostRequestUnionType,
   VersionResponseType,
@@ -209,6 +210,12 @@ export const getRegions = async (): Promise<
   AxiosResponse<RegionResponseType[]>
 > => {
   return instance.get(`/region`);
+};
+
+export const getCitiesByRegionId = async (
+  id: number,
+): Promise<AxiosResponse<CityResponseType[]>> => {
+  return instance.get(`/city/${id}`);
 };
 
 export const getDirections = async (): Promise<

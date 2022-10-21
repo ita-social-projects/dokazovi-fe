@@ -4,6 +4,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import { useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import { selectAuthorities } from '../../models/authorities';
 import i18n, { langTokens } from '../../locales/localizationInit';
 import { IProfileMenuOption } from '../../old/lib/types';
@@ -35,13 +36,14 @@ const profileMenuOptions: IProfileMenuOption[] = [
   },
 ];
 
-const adminMenuOptions = profileMenuOptions.filter(
-  (option) => option.value !== 'materials',
-);
-
 export const Sidemenu: React.FC<ISidemenuProps> = (props) => {
   const { selectedOption, changeOption } = props;
   const classes = useStyles();
+  const { expertId } = useParams<{ expertId: string }>();
+
+  const adminMenuOptions = profileMenuOptions.filter((option) =>
+    expertId ? option.value === 'info' : option.value !== 'materials',
+  );
 
   const authorities = useSelector(selectAuthorities);
   const isAdmin = authorities.data?.includes('SET_IMPORTANCE');
