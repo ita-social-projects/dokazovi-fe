@@ -6,7 +6,6 @@ export const useStyles = makeStyles(
       fontFamily: 'Raleway',
       position: 'relative',
       minHeight: '455px',
-      paddingLeft: '110px',
       '& .adminInitialView': {
         position: 'absolute',
         top: '30%',

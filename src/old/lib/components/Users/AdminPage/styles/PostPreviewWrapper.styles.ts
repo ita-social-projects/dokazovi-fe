@@ -55,6 +55,7 @@ export const useStyles = makeStyles(
       },
       '& input': {
         padding: '3px 0 7px',
+        MozAppearance: 'textfield',
       },
     }),
     previwTitle: {

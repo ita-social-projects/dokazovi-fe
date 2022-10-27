@@ -56,6 +56,8 @@ export const admin = {
   imagesTablet: 'Зображення для планшета',
   review: 'Переглянути',
   sendForReview: 'Відправити на модерацію',
+  sendForReviewTitle: 'Відправити публікацію на модерацію?',
+  sendForReviewSuccess: 'Ваша стаття була успішно відправлена на модерацію',
   close: 'Закрити',
   selectedImportantMaterials: 'Зараз використовуються:',
   selectOption: `Оберіть об'єкт налаштування у меню`,

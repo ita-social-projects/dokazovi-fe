@@ -5,8 +5,15 @@ import { Avatar, Button, Typography } from '@material-ui/core';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import { useTranslation } from 'react-i18next';
 import { useStyles } from './AccountMenu.styles';
-import { StyledMenu, StyledMenuItem } from '../../old/lib/components/Menu/StyledMenu';
-import { getUserAsyncAction, selectCurrentUser, signOutAction } from '../../models/user';
+import {
+  StyledMenu,
+  StyledMenuItem,
+} from '../../old/lib/components/Menu/StyledMenu';
+import {
+  getUserAsyncAction,
+  selectCurrentUser,
+  signOutAction,
+} from '../../models/user';
 import { useActions } from '../../shared/hooks';
 import { AuthContext } from '../../old/provider/AuthProvider/AuthContext';
 import { AccountIcon } from '../../old/lib/components/icons/AccountIcon';
@@ -88,13 +95,6 @@ export const AccountMenu: React.FC = () => {
             </Typography>
           </StyledMenuItem>
         </Link>
-        <Link to="/">
-          <StyledMenuItem onClick={onLogoutHandler}>
-            <Typography variant="button" color="inherit">
-              {t(langTokens.common.exit)}
-            </Typography>
-          </StyledMenuItem>
-        </Link>
         {authorities ? (
           <Link to="/admin">
             <StyledMenuItem onClick={handleClose}>
@@ -104,6 +104,13 @@ export const AccountMenu: React.FC = () => {
             </StyledMenuItem>
           </Link>
         ) : null}
+        <Link to="/">
+          <StyledMenuItem onClick={onLogoutHandler}>
+            <Typography variant="button" color="inherit">
+              {t(langTokens.common.exit)}
+            </Typography>
+          </StyledMenuItem>
+        </Link>
       </StyledMenu>
     </>
   );

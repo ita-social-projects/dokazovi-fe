@@ -38,6 +38,7 @@ const ChangeViewsCountModal: React.FC<IChangeViewsCountModal> = ({ id }) => {
         value={fakeViews}
         defaultValue="0"
         onChange={handleInputChange}
+        InputProps={{ inputProps: { min: 0 } }}
       />
     </Box>
   );

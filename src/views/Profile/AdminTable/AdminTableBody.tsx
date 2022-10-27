@@ -13,6 +13,7 @@ import { useStyles } from './styles/AdminTableBody.styles';
 import { PostTypeEnum } from '../../../old/lib/types';
 import ActionButtons from './ActionButtons';
 import { langTokens } from '../../../locales/localizationInit';
+import { displayShortDate } from '../../../utilities/formatDate';
 
 interface IAdminTableBodyProps {
   isAdmin: boolean | undefined;
@@ -73,7 +74,9 @@ const AdminTableBody: React.FC<IAdminTableBodyProps> = ({ isAdmin }) => {
         </TableCell>
         <TableCell>{t(langTokens.admin[status])}</TableCell>
         <TableCell>
-          {newPostPublicationDate ? publishedAt : modifiedAt}
+          {newPostPublicationDate
+            ? displayShortDate(publishedAt)
+            : displayShortDate(modifiedAt)}
         </TableCell>
         <TableCell>{directionsList}</TableCell>
         {isAdmin && (

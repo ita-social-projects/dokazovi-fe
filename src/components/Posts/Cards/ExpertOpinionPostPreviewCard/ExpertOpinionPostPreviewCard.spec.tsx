@@ -29,7 +29,7 @@ const POST_MOCK: IPost = {
       name: 'Хірургія',
     },
   ],
-  publishedAt: '27.11.2020',
+  publishedAt: '11.27.2020 11:24',
   type: {
     id: 1,
     name: 'Стаття',

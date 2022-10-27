@@ -27,7 +27,7 @@ describe('PostCreationButton test', () => {
     type: { id: 1, name: 'Стаття' },
     status: 'ARCHIVED',
     createdAt: '25.10.2021',
-    publishedAt: '25.10.2021',
+    publishedAt: '10.25.2021 18:04',
     origins: [{ id: 1, name: 'Думка експерта', parameter: null }],
     preview:
       'cvj;qdksjn;ckjnqsd;jkcvnq;sjdhcfn;wejqnhc;vksdnc;jkasdn;jkfd;skcn',
@@ -40,6 +40,7 @@ describe('PostCreationButton test', () => {
         onPublishClick={publish}
         onPreviewClick={jest.fn}
         onSaveClick={jest.fn}
+        isAdmin
       />,
     );
     expect(asFragment()).toMatchSnapshot();
@@ -52,6 +53,7 @@ describe('PostCreationButton test', () => {
         onPreviewClick={jest.fn}
         onSaveClick={jest.fn}
         isModal={{ isTooLong: true, isEmpty: false, isEnoughLength: false }}
+        isAdmin
       />,
     );
     const publishButton = screen.getByText('Опублікувати');
@@ -66,6 +68,7 @@ describe('PostCreationButton test', () => {
         onPreviewClick={jest.fn}
         onSaveClick={jest.fn}
         isModal={{ isEmpty: true, isEnoughLength: false }}
+        isAdmin
       />,
     );
     const publishButton = screen.getByText('Зберегти');
@@ -84,6 +87,7 @@ describe('PostCreationButton test', () => {
         onPreviewClick={jest.fn}
         onSaveClick={jest.fn}
         isModal={{ isEmpty: false, isEnoughLength: true }}
+        isAdmin
       />,
     );
     const publishButton = screen.getByText('Опублікувати');
@@ -112,7 +116,6 @@ describe('PostCreationButton test', () => {
     render(
       <PostCreationButtons
         action="updating"
-        isAdmin
         onPublishClick={publish}
         onPreviewClick={jest.fn}
         onSaveClick={jest.fn}
@@ -123,6 +126,7 @@ describe('PostCreationButton test', () => {
           hasBackGroundImg: true,
         }}
         post={mockPost}
+        isAdmin
       />,
     );
     const publishButton = screen.getByText('Опублікувати');
@@ -141,6 +145,7 @@ describe('PostCreationButton test', () => {
         onPreviewClick={jest.fn}
         onSaveClick={jest.fn}
         previewing
+        isAdmin
       />,
     );
     const cancelButton = screen.getByText('Відмінити створення');
@@ -166,5 +171,17 @@ describe('PostCreationButton test', () => {
     expect(
       screen.getByText(`Ви дійсно бажаєте відмінити Редагування?`),
     ).toBeInTheDocument();
+  });
+  it('should render sendToReview Button for Author user', () => {
+    render(
+      <PostCreationButtons
+        action="creating"
+        onPublishClick={publish}
+        onPreviewClick={jest.fn}
+        onSaveClick={jest.fn}
+        isAdmin={false}
+      />,
+    );
+    expect(screen.getByText('Відправити на модерацію')).toBeInTheDocument();
   });
 });

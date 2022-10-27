@@ -29,6 +29,7 @@ export const AdminTextField: React.FC<IMaterialsTextField> = ({
   return (
     <FormControl>
       <TextField
+        data-testid="admin-text-filter"
         type="text"
         value={inputValue}
         placeholder={placeholder}

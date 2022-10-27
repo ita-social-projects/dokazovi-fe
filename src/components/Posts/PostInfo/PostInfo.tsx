@@ -5,6 +5,7 @@ import React from 'react';
 import { Skeleton } from '@material-ui/lab';
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import { useHistory } from 'react-router-dom';
+import { formatDate } from 'utilities/formatDate';
 import { IDirection, IOrigin, IPostType } from '../../../old/lib/types';
 import { useStyles } from './PostInfo.styles';
 
@@ -14,12 +15,12 @@ export interface IPostInfo {
     origins: IOrigin[];
     type: IPostType;
     publishedAt: string;
-    realViews?: number;
+    displayViews?: number;
   };
 }
 
 export default function PostInfo({ info }: IPostInfo): JSX.Element {
-  const { directions, origins, type, publishedAt, realViews } = info;
+  const { directions, origins, type, publishedAt, displayViews } = info;
   const classes = useStyles();
   const history = useHistory();
 
@@ -65,19 +66,19 @@ export default function PostInfo({ info }: IPostInfo): JSX.Element {
             {type.name}
           </li>
         )}
-        <li className={classes.createdAt}>{publishedAt}</li>
-        <>
-          <li className={classes.icon} data-testid="icon">
+        <li className={classes.createdAt}>{formatDate(publishedAt, true)}</li>
+        <li className={classes.views}>
+          <span className={classes.icon} data-testid="icon">
             <VisibilityIcon fontSize="small" />
-          </li>
-          <li className={classes.counter} data-testid="counter">
-            {realViews === undefined ? (
+          </span>
+          <span className={classes.counter} data-testid="counter">
+            {displayViews === undefined ? (
               <Skeleton width={40} height={20} data-testid="skeleton" />
             ) : (
-              realViews
+              displayViews
             )}
-          </li>
-        </>
+          </span>
+        </li>
       </ul>
     </div>
   );
