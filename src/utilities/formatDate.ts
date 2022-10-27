@@ -1,3 +1,4 @@
+import { format } from 'date-fns';
 import i18n, { langTokens } from '../locales/localizationInit';
 
 const monthNames: { [index: string]: string } = {
@@ -15,17 +16,23 @@ const monthNames: { [index: string]: string } = {
   '12': i18n.t(langTokens.date.decemberGenitiveCase),
 };
 
-export const formatDate = (dateString = '', time = false): string => {
-  if (dateString.length) {
-    const fullDate = new Date(dateString);
-    const hours = fullDate.getHours().toString().padStart(2, '0');
-    const mins = fullDate.getMinutes().toString().padStart(2, '0');
+export const formatDate = (
+  dateValue: number | string = '',
+  time = false,
+): string => {
+  if (dateValue) {
+    const fullDate = new Date(dateValue);
     const displayDate = time
-      ? `${hours}:${mins}, ${fullDate.getDate()} ${
-          monthNames[fullDate.getMonth() + 1]
-        } ${fullDate.getFullYear()}`
-      : `${fullDate.getDate()} ${monthNames[fullDate.getMonth() + 1]}`;
+      ? format(fullDate, `HH:mm, d ${monthNames[fullDate.getMonth() + 1]} yyyy`)
+      : format(fullDate, `d ${monthNames[fullDate.getMonth() + 1]}`);
     return displayDate;
   }
-  return dateString;
+  return `${dateValue}`;
+};
+
+export const displayShortDate = (dateValue: number | string = ''): string => {
+  if (dateValue) {
+    return format(new Date(dateValue), 'dd.LL.yyyy');
+  }
+  return `${dateValue}`;
 };
