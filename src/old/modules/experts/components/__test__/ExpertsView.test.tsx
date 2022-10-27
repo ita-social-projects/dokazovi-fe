@@ -131,7 +131,7 @@ describe('ExpertsView component renders correctly', () => {
     expect(screen.queryAllByRole('link')).toHaveLength(12);
   });
   it('Experts number renders correctly', () => {
-    expect(screen.getByText(/14 авторів/)).toBeInTheDocument();
+    expect(screen.getByText(/12 авторів/)).toBeInTheDocument();
   });
 });
 

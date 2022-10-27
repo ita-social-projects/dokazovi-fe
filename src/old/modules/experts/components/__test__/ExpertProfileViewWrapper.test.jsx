@@ -112,6 +112,7 @@ describe('ExpertProfileViewWrapper component tests', () => {
           qualification: 'Лікар вищої категорії',
           phone: '+380956456969',
           email: 'masha@mail.com',
+          socialNetworks: ['facebook/link'],
         },
       }),
     );
