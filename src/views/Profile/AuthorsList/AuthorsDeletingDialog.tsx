@@ -51,7 +51,7 @@ const AuthorsDeletingDialog: React.FC<IAuthorsDelDialogProps> = (props) => {
           {i18n.t(langTokens.admin.removeAuthor)}
         </DialogTitle>
         <DialogTitle className={classes.dialogFullname} id="dialog-fullname">
-          {`${fullName} (${id})`}
+          {i18n.t(`${fullName} (${id})`)}
         </DialogTitle>
         <DialogContent className={classes.dialogContent}>
           <DialogContentText

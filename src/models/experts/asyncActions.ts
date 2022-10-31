@@ -92,11 +92,7 @@ export const fetchExpertsAutorsList = createAsyncThunk(
 
       const { mappedExperts, ids } = mapFetchedExperts(response.data.content);
       const experts = { ...data.experts };
-      mappedExperts.forEach((expert) => {
-        if (experts && expert.id) {
-          experts[expert.id] = expert;
-        }
-      });
+      mappedExperts.forEach((expert) => (experts[expert.id] = expert));
 
       return {
         expertIds: ids,

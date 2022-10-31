@@ -10,7 +10,6 @@ export const PersonalInfo: React.FC = () => {
   const classes = useStyles();
   const { expertId } = useParams<{ expertId: string }>();
   const [loadedExpert, setLoadedExpert] = useState<IExpert>();
-  const [statusCode, setStatusCode] = useState<number>();
   const history = useHistory();
 
   const fetchExpert = useCallback(async () => {
@@ -18,17 +17,13 @@ export const PersonalInfo: React.FC = () => {
       const expertResponse = await getCurrentUser();
       setLoadedExpert(expertResponse.data);
     } catch (error) {
-      setStatusCode(404);
+      history.push(ERROR_404);
     }
   }, [expertId]);
 
   useEffect(() => {
     fetchExpert();
   }, [fetchExpert]);
-
-  if (statusCode === 404) {
-    history.push(ERROR_404);
-  }
 
   const inputChangeHandler = (
     event: { target: { value: string } },

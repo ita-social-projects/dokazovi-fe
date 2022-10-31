@@ -115,7 +115,7 @@ const AuthorsTableHead: React.FC<ISortAutorsList> = (props) => {
               {label}
             </TableSortLabel>
           ) : (
-            <div className={classes.actions}>{label}</div>
+            <label className={classes.actions}>{label}</label>
           )}
         </TableCell>
       </Tooltip>

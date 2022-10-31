@@ -3,8 +3,8 @@ import { makeStyles, Theme } from '@material-ui/core';
 export const useStyles = makeStyles((theme: Theme) => ({
   mainButton: {
     padding: theme.spacing(2, 3),
-    color: '#ffffff',
-    backgroundColor: '#73DDFF',
+    color: theme.palette.common.white,
+    backgroundColor: '#73ddff',
     cursor: 'pointer',
     marginBlock: 'auto',
   },
