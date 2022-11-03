@@ -4,7 +4,7 @@ export const useStyles = makeStyles((theme: Theme) => ({
   mainButton: {
     padding: theme.spacing(2, 3),
     color: theme.palette.common.white,
-    backgroundColor: '#73ddff',
+    backgroundColor: theme.palette.custom.colorAquaBlue,
     cursor: 'pointer',
     marginBlock: 'auto',
   },

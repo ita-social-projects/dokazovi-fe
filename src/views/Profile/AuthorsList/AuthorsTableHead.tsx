@@ -85,7 +85,7 @@ const AuthorsTableHead: React.FC<ISortAutorsList> = (props) => {
     }
     boundedSetSort({
       order: newOrder,
-      sortBy: sortKey as keyof typeof AuthorsListSortBy,
+      sortBy: sortKey,
     });
   };
 

@@ -35,4 +35,7 @@ export const PALETTE: PaletteOptions = {
     hover: '#83E1FF',
   },
   divider: '#000',
+  custom: {
+    colorAquaBlue: '#73ddff',
+  },
 };

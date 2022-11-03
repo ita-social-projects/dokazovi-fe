@@ -40,7 +40,7 @@ export const useStyles = makeStyles(
           fontSize: '16px',
         },
         '& .MuiSvgIcon-root': {
-          color: '#73DDFF',
+          color: theme.palette.custom.colorAquaBlue,
           marginRight: theme.spacing(2),
           transform: 'rotate(43deg)',
         },
