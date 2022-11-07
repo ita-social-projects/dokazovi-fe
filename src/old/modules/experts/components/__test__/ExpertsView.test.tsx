@@ -2,9 +2,11 @@ import React from 'react';
 import { render, screen, fireEvent, act } from '@testing-library/react';
 import { Router } from 'react-router-dom';
 import { Provider } from 'react-redux';
+import { ThemeProvider } from '@material-ui/core';
 import { store } from 'models/store';
 import { createMemoryHistory } from 'history';
 import ExpertsView from '../ExpertsView';
+import { MAIN_THEME } from '../../../../../styles/theme';
 
 const history = createMemoryHistory();
 jest.mock('models/store');
@@ -117,11 +119,13 @@ store.getState = () => mockedState;
 describe('ExpertsView component renders correctly', () => {
   beforeEach(() => {
     render(
-      <Provider store={store}>
-        <Router history={history}>
-          <ExpertsView />
-        </Router>
-      </Provider>,
+      <ThemeProvider theme={MAIN_THEME}>
+        <Provider store={store}>
+          <Router history={history}>
+            <ExpertsView />
+          </Router>
+        </Provider>
+      </ThemeProvider>,
     );
   });
   it('Component renders with page title', () => {
@@ -138,11 +142,13 @@ describe('ExpertsView component renders correctly', () => {
 describe('Checkboxes work correctly', () => {
   beforeEach(() => {
     render(
-      <Provider store={store}>
-        <Router history={history}>
-          <ExpertsView />
-        </Router>
-      </Provider>,
+      <ThemeProvider theme={MAIN_THEME}>
+        <Provider store={store}>
+          <Router history={history}>
+            <ExpertsView />
+          </Router>
+        </Provider>
+      </ThemeProvider>,
     );
   });
   it('Check direction', async () => {
@@ -174,11 +180,13 @@ describe('Load more button click', () => {
       value: mockVisualViewport,
     });
     render(
-      <Provider store={store}>
-        <Router history={history}>
-          <ExpertsView />
-        </Router>
-      </Provider>,
+      <ThemeProvider theme={MAIN_THEME}>
+        <Provider store={store}>
+          <Router history={history}>
+            <ExpertsView />
+          </Router>
+        </Provider>
+      </ThemeProvider>,
     );
     const loadMoreBtn = screen.getByText(/Показати ще/);
     act(() => {
@@ -191,11 +199,13 @@ describe('Load more button click', () => {
 describe('Chip deleting', () => {
   it('Direction chip deleting', () => {
     const { container } = render(
-      <Provider store={store}>
-        <Router history={history}>
-          <ExpertsView />
-        </Router>
-      </Provider>,
+      <ThemeProvider theme={MAIN_THEME}>
+        <Provider store={store}>
+          <Router history={history}>
+            <ExpertsView />
+          </Router>
+        </Provider>
+      </ThemeProvider>,
     );
     const chip = container.querySelector('.MuiChip-deleteIcon');
     const allDirectionsCheckbox = screen.getByLabelText('Всі теми');
@@ -208,11 +218,13 @@ describe('Chip deleting', () => {
 
   it('Region chip deleting', () => {
     const { container } = render(
-      <Provider store={store}>
-        <Router history={history}>
-          <ExpertsView />
-        </Router>
-      </Provider>,
+      <ThemeProvider theme={MAIN_THEME}>
+        <Provider store={store}>
+          <Router history={history}>
+            <ExpertsView />
+          </Router>
+        </Provider>
+      </ThemeProvider>,
     );
     const allRegionsCheckbox = screen.getByLabelText('Всі регіони');
     const kyivRegCheckbox = screen.getByLabelText('Київська область');
