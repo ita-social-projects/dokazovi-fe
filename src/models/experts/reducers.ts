@@ -78,3 +78,5 @@ export const {
 } = expertsSlice.actions;
 
 export const expertsReducer = expertsSlice.reducer;
+console.log('expertsReducer alionas');
+console.log(expertsReducer);

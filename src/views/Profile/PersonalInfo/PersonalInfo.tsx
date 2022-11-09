@@ -66,11 +66,11 @@ export const PersonalInfo: React.FC = () => {
         </Grid>
 
         <Grid item direction="column" xs={4} className={classes.Contacts}>
-          <InputLabel>Посилання на персогальні сторінки</InputLabel>
+          <InputLabel>Посилання на персональні сторінки</InputLabel>
           <TextField
             variant="outlined"
             fullWidth
-            placeholder="Єлектонна пошта"
+            placeholder="Електонна пошта"
             value={loadedExpert?.email}
           />
           <TextField
