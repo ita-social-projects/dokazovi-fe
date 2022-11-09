@@ -26,5 +26,10 @@ export const MAIN_THEME = createMuiTheme({
         textTransform: 'none',
       },
     },
+    MuiIconButton: {
+      root: {
+        color: 'initial',
+      },
+    },
   },
 });

@@ -30,9 +30,15 @@ export const formatDate = (
   return `${dateValue}`;
 };
 
-export const displayShortDate = (dateValue: number | string = ''): string => {
+export const displayShortDate = (
+  dateValue: number | string = '',
+  time = false,
+): string => {
   if (dateValue) {
-    return format(new Date(dateValue), 'dd.LL.yyyy');
+    const displayDate = time
+      ? format(new Date(dateValue), 'dd.LL.yyyy HH:mm')
+      : format(new Date(dateValue), 'dd.LL.yyyy');
+    return displayDate;
   }
   return `${dateValue}`;
 };

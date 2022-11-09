@@ -27,6 +27,7 @@ export const admin = {
   changeViewsCount: 'Змінити кількість переглядів',
   currentPublicationDate: 'Поточна дата публікації',
   newPublicationDate: 'Нова дата публікації',
+  choosePublicationDate: 'Обрати дату, час',
   returnToAuthor: 'Надіслати автору на редагування',
   statuses: 'Статуси',
   directions: 'Теми',

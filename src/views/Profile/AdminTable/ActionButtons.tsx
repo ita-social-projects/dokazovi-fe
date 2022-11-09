@@ -14,6 +14,7 @@ import { langTokens } from '../../../locales/localizationInit';
 import ActionModal, { IModalSettings } from './ActionModal';
 import ActionMenu from './ActionMenu';
 import ChangeViewsCountModal from './Modals/ChangeViewsCountModal';
+import SetPublicationDateModal from './Modals/SetPublicationDateModal';
 
 interface IActionButtons {
   id: number;
@@ -124,7 +125,7 @@ const ActionButtons: React.FC<IActionButtons> = ({
       id,
       postStatus: StatusesForActions.PLANNED,
     });
-    toast.success(t(langTokens.admin.archiveSuccess));
+    toast.success(t(langTokens.admin.scheduleDateSuccess));
     closeModal();
   };
 
@@ -188,6 +189,7 @@ const ActionButtons: React.FC<IActionButtons> = ({
       handler: (btnId) => openModal(btnId),
       modal: {
         title: t(langTokens.admin.schedulePublishTitle),
+        content: <SetPublicationDateModal id={id} />,
         onConfirmButtonClick: handlerSchedulePublish,
       },
       adminUseStatuses: [MODERATION_SECOND_SIGN, ARCHIVED],
