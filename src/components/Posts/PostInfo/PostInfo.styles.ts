@@ -26,8 +26,8 @@ export const useStyles = makeStyles(
       },
       '& > li': {
         padding: '5px 12px',
-        color: '#fff',
-        backgroundColor: '#73ddff',
+        color: theme.palette.common.white,
+        backgroundColor: theme.palette.custom.colorAquaBlue,
         cursor: 'pointer',
         [theme.breakpoints.down('sm')]: {
           margin: '0 3px 3px 0',

@@ -18,7 +18,7 @@ const TEST_DATA: IExpert = {
   phone: '+38(044)7777777',
   email: 'j.doe@gmail.com',
   bio: 'Lorem ipsum dolor sit amet consectur',
-  socialNetwork: 'www.facebook.com',
+  socialNetworks: ['www.facebook.com'],
 };
 
 describe('ExpertsProfileView component renders correctly', () => {

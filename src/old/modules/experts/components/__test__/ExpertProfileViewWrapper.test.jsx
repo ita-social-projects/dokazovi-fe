@@ -12,6 +12,8 @@ import {
 } from './mocks/expertProfileWrapper';
 import ExpertProfileViewWrapper from '../ExpertProfileViewWrapper';
 import { getExpertById } from '../../../../lib/utilities/API/api';
+import { ThemeProvider } from '@material-ui/core';
+import { MAIN_THEME } from '../../../../../styles/theme';
 
 const mockedStore = {
   expertMaterials: mockExpertMaterials,
@@ -112,16 +114,19 @@ describe('ExpertProfileViewWrapper component tests', () => {
           qualification: 'Лікар вищої категорії',
           phone: '+380956456969',
           email: 'masha@mail.com',
+          socialNetworks: ['facebook/link'],
         },
       }),
     );
 
     render(
-      <Provider store={mockStr}>
-        <MemoryRouter>
-          <ExpertProfileViewWrapper />
-        </MemoryRouter>
-      </Provider>,
+      <ThemeProvider theme={MAIN_THEME}>
+        <Provider store={mockStr}>
+          <MemoryRouter>
+            <ExpertProfileViewWrapper />
+          </MemoryRouter>
+        </Provider>
+      </ThemeProvider>,
     );
 
     await waitFor(() =>

@@ -3,6 +3,7 @@ import React from 'react';
 import { MemoryRouter, Router } from 'react-router-dom';
 import { render, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
+import { ThemeProvider } from '@material-ui/core';
 import userEvent from '@testing-library/user-event';
 import { createMemoryHistory } from 'history';
 import { combineReducers, configureStore, createSlice } from '@reduxjs/toolkit';
@@ -10,6 +11,7 @@ import { store } from '../../../../../models/store';
 import { IPost, LoadingStatusEnum } from '../../../../lib/types';
 import PostView from '../PostView';
 import { IUserState } from '../../../../../models/user/types';
+import { MAIN_THEME } from '../../../../../styles/theme';
 
 const MOCK_USER = {
   loading: LoadingStatusEnum.idle,
@@ -285,11 +287,13 @@ const deleteHandler = jest.fn();
 describe('PostView component test', () => {
   it('should render when post has no content ', () => {
     render(
-      <Provider store={store}>
-        <MemoryRouter>
-          <PostView post={DEFAULT_POST_WITHOUT_POSTCONTENT_MOCK} />
-        </MemoryRouter>
-      </Provider>,
+      <ThemeProvider theme={MAIN_THEME}>
+        <Provider store={store}>
+          <MemoryRouter>
+            <PostView post={DEFAULT_POST_WITHOUT_POSTCONTENT_MOCK} />
+          </MemoryRouter>
+        </Provider>
+      </ThemeProvider>,
     );
     expect(screen.getByText('There is no post content')).toBeInTheDocument();
   });
@@ -308,11 +312,13 @@ describe('edit and delete button should be available', () => {
       reducer: combineReducers({ currentUser: mockSignInSlice.reducer }),
     });
     render(
-      <Provider store={mockStore}>
-        <Router history={history}>
-          <PostView post={DEFAULT_POST_MOCK} onDelete={deleteHandler} />
-        </Router>
-      </Provider>,
+      <ThemeProvider theme={MAIN_THEME}>
+        <Provider store={mockStore}>
+          <Router history={history}>
+            <PostView post={DEFAULT_POST_MOCK} onDelete={deleteHandler} />
+          </Router>
+        </Provider>
+      </ThemeProvider>,
     );
   });
 
@@ -339,11 +345,13 @@ describe('edit and delete button should be available', () => {
 describe('PostView component renders', () => {
   beforeEach(() => {
     render(
-      <Provider store={store}>
-        <MemoryRouter>
-          <PostView post={DEFAULT_POST_MOCK} />
-        </MemoryRouter>
-      </Provider>,
+      <ThemeProvider theme={MAIN_THEME}>
+        <Provider store={store}>
+          <MemoryRouter>
+            <PostView post={DEFAULT_POST_MOCK} />
+          </MemoryRouter>
+        </Provider>
+      </ThemeProvider>,
     );
   });
   it('renders breadcrumbs', () => {
@@ -363,11 +371,13 @@ describe('PostView component renders', () => {
 describe('PostView component renders video post', () => {
   beforeEach(() => {
     render(
-      <Provider store={store}>
-        <MemoryRouter>
-          <PostView post={VIDEO_POST_MOCK} />
-        </MemoryRouter>
-      </Provider>,
+      <ThemeProvider theme={MAIN_THEME}>
+        <Provider store={store}>
+          <MemoryRouter>
+            <PostView post={VIDEO_POST_MOCK} />
+          </MemoryRouter>
+        </Provider>
+      </ThemeProvider>,
     );
   });
   it('renders video post', () => {
@@ -380,11 +390,13 @@ describe('PostView component renders video post', () => {
 describe('PostView component renders expert opinion post', () => {
   beforeEach(() => {
     render(
-      <Provider store={store}>
-        <MemoryRouter>
-          <PostView post={EXPERT_OPINION_POST_MOCK} />
-        </MemoryRouter>
-      </Provider>,
+      <ThemeProvider theme={MAIN_THEME}>
+        <Provider store={store}>
+          <MemoryRouter>
+            <PostView post={EXPERT_OPINION_POST_MOCK} />
+          </MemoryRouter>
+        </Provider>
+      </ThemeProvider>,
     );
   });
   it('renders expert opinion post', () => {
@@ -397,11 +409,13 @@ describe('PostView component renders expert opinion post', () => {
 describe('PostView component renders media post', () => {
   beforeEach(() => {
     render(
-      <Provider store={store}>
-        <MemoryRouter>
-          <PostView post={MEDIA_POST_MOCK} />
-        </MemoryRouter>
-      </Provider>,
+      <ThemeProvider theme={MAIN_THEME}>
+        <Provider store={store}>
+          <MemoryRouter>
+            <PostView post={MEDIA_POST_MOCK} />
+          </MemoryRouter>
+        </Provider>
+      </ThemeProvider>,
     );
   });
   it('renders media post', () => {
@@ -414,11 +428,13 @@ describe('PostView component renders media post', () => {
 describe('PostView component renders translation post', () => {
   beforeEach(() => {
     render(
-      <Provider store={store}>
-        <MemoryRouter>
-          <PostView post={TRANSLATION_POST_MOCK} />
-        </MemoryRouter>
-      </Provider>,
+      <ThemeProvider theme={MAIN_THEME}>
+        <Provider store={store}>
+          <MemoryRouter>
+            <PostView post={TRANSLATION_POST_MOCK} />
+          </MemoryRouter>
+        </Provider>
+      </ThemeProvider>,
     );
   });
   it('renders translation post', () => {
