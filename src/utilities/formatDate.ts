@@ -18,11 +18,11 @@ const monthNames: { [index: string]: string } = {
 
 export const formatDate = (
   dateValue: number | string = '',
-  time = false,
+  showTime = false,
 ): string => {
   if (dateValue) {
     const fullDate = new Date(dateValue);
-    const displayDate = time
+    const displayDate = showTime
       ? format(fullDate, `HH:mm, d ${monthNames[fullDate.getMonth() + 1]} yyyy`)
       : format(fullDate, `d ${monthNames[fullDate.getMonth() + 1]}`);
     return displayDate;
@@ -32,10 +32,10 @@ export const formatDate = (
 
 export const displayShortDate = (
   dateValue: number | string = '',
-  time = false,
+  showTime = false,
 ): string => {
   if (dateValue) {
-    const displayDate = time
+    const displayDate = showTime
       ? format(new Date(dateValue), 'dd.LL.yyyy HH:mm')
       : format(new Date(dateValue), 'dd.LL.yyyy');
     return displayDate;

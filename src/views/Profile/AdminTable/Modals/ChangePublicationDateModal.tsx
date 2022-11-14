@@ -49,7 +49,7 @@ const ChangePublicationDateModal: React.FC<IChangeViewsCountModal> = ({
       <DatePicker
         value={new Date(newPostPublicationDate)}
         variant="inline"
-        format="dd.MM.yyyy  HH:mm"
+        format="dd.MM.yyyy HH:mm"
         InputProps={{ disableUnderline: true }}
         onChange={handleInputChange}
       />
