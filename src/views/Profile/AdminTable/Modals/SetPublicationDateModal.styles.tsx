@@ -1,8 +1,5 @@
 import { makeStyles, Theme } from '@material-ui/core';
 
-// eslint-disable-next-line
-const datePickerIcon: string = require('./icons/dateRange.svg').default;
-
 export const useStyles = makeStyles((theme: Theme) => ({
   wrapper: {
     marginBottom: theme.spacing(6),
@@ -31,7 +28,7 @@ export const useStyles = makeStyles((theme: Theme) => ({
     border: 'solid 1px #c4c4c4',
     borderRadius: '4px',
     padding: '18px 14px',
-    background: `url(${datePickerIcon}) right 13px center no-repeat transparent`,
+    background: `url(${process.env.PUBLIC_URL}/dateRange.svg) right 13px center no-repeat transparent`,
     '&:hover': {
       borderColor: theme.palette.common.black,
       cursor: 'pointer',
