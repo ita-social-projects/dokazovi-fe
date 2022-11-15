@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
-import { Box, Typography } from '@material-ui/core';
+import { Box } from '@material-ui/core';
 import { useSelector } from 'react-redux';
-import { DatePicker } from '@material-ui/pickers';
+import { DateTimePicker } from '@material-ui/pickers';
 import { langTokens } from 'locales/localizationInit';
 import { useTranslation } from 'react-i18next';
-import { useStyles } from './ChangePublicationDateModal.styles';
+import { useStyles } from './SetPublicationDateModal.styles';
 import {
   selectAdminLab,
   selectModifications,
@@ -16,9 +16,7 @@ interface IChangeViewsCountModal {
   id: number;
 }
 
-const ChangePublicationDateModal: React.FC<IChangeViewsCountModal> = ({
-  id,
-}) => {
+const SetPublicationDateModal: React.FC<IChangeViewsCountModal> = ({ id }) => {
   const classes = useStyles();
   const { t } = useTranslation();
   const { posts } = useSelector(selectAdminLab);
@@ -41,20 +39,24 @@ const ChangePublicationDateModal: React.FC<IChangeViewsCountModal> = ({
       justifyContent="center"
       className={classes.wrapper}
     >
-      <Typography>{t(langTokens.admin.currentPublicationDate)}</Typography>
-      <Typography className={classes.currentDate}>
-        {posts[id].publishedAt}
-      </Typography>
-      <Typography>{t(langTokens.admin.newPublicationDate)}</Typography>
-      <DatePicker
+      <DateTimePicker
+        label={t(langTokens.admin.choosePublicationDate)}
         value={new Date(newPostPublicationDate)}
         variant="inline"
         format="dd.MM.yyyy HH:mm"
+        ampm={false}
         InputProps={{ disableUnderline: true }}
+        inputProps={{
+          placeholder: 'дд.мм.рррр гг:хх',
+          type: 'datetime',
+          variant: 'outlined',
+          className: classes.currentDate,
+        }}
         onChange={handleInputChange}
+        className={classes.datePicker}
       />
     </Box>
   );
 };
 
-export default ChangePublicationDateModal;
+export default SetPublicationDateModal;
