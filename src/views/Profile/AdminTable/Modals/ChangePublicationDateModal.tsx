@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Box, Typography } from '@material-ui/core';
 import { useSelector } from 'react-redux';
-import { DatePicker } from '@material-ui/pickers';
+import { DateTimePicker } from '@material-ui/pickers';
 import { langTokens } from 'locales/localizationInit';
 import { useTranslation } from 'react-i18next';
 import { useStyles } from './ChangePublicationDateModal.styles';
@@ -11,6 +11,7 @@ import {
   setNewPostDateInput,
 } from '../../../../models/adminLab';
 import { useActions } from '../../../../shared/hooks';
+import { displayShortDate } from '../../../../utilities/formatDate';
 
 interface IChangeViewsCountModal {
   id: number;
@@ -43,15 +44,23 @@ const ChangePublicationDateModal: React.FC<IChangeViewsCountModal> = ({
     >
       <Typography>{t(langTokens.admin.currentPublicationDate)}</Typography>
       <Typography className={classes.currentDate}>
-        {posts[id].publishedAt}
+        {displayShortDate(posts[id].publishedAt, true)}
       </Typography>
       <Typography>{t(langTokens.admin.newPublicationDate)}</Typography>
-      <DatePicker
+      <DateTimePicker
         value={new Date(newPostPublicationDate)}
         variant="inline"
         format="dd.MM.yyyy HH:mm"
         InputProps={{ disableUnderline: true }}
+        ampm={false}
+        inputProps={{
+          placeholder: 'дд.мм.рррр гг:хх',
+          type: 'datetime',
+          variant: 'outlined',
+          className: classes.newDate,
+        }}
         onChange={handleInputChange}
+        className={classes.datePicker}
       />
     </Box>
   );

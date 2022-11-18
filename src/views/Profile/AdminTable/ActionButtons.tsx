@@ -15,6 +15,7 @@ import ActionModal, { IModalSettings } from './ActionModal';
 import ActionMenu from './ActionMenu';
 import ChangeViewsCountModal from './Modals/ChangeViewsCountModal';
 import SetPublicationDateModal from './Modals/SetPublicationDateModal';
+import ChangePublicationDateModal from './Modals/ChangePublicationDateModal';
 
 interface IActionButtons {
   id: number;
@@ -199,8 +200,12 @@ const ActionButtons: React.FC<IActionButtons> = ({
       id: 'changePublicationDateBtn',
       label: t(langTokens.admin.changePublicationDate),
       // eslint-disable-next-line no-console
-      handler: () => console.log('changePublicationDateBtn handler'),
-      modal: null,
+      handler: (btnId) => openModal(btnId),
+      modal: {
+        title: t(langTokens.admin.changePublishDateTitle),
+        content: <ChangePublicationDateModal id={id} />,
+        onConfirmButtonClick: handlerSchedulePublish,
+      },
       adminUseStatuses: [PLANNED],
       authorUseStatuses: [],
     },
