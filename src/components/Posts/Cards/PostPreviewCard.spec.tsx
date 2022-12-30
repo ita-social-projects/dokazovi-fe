@@ -20,7 +20,7 @@ const TRANSLATION_POST_MOCK: IPost = {
       name: 'Адоніс',
     },
   },
-  publishedAt: '11.09.2020',
+  publishedAt: '09.11.2020 12:02',
   createdAt: '27.11.2020',
   title: 'Ultrices eros in cursus',
   directions: [
@@ -61,7 +61,7 @@ const MEDIA_POST_MOCK: IPost = {
       name: 'Адоніс',
     },
   },
-  publishedAt: '11.09.2020',
+  publishedAt: '09.11.2020 12:02',
   createdAt: '27.11.2020',
   title: 'Ultrices eros in cursus',
   directions: [
@@ -102,7 +102,7 @@ const EXPERT_OPINION_POST_MOCK: IPost = {
       name: 'Адоніс',
     },
   },
-  publishedAt: '11.09.2020',
+  publishedAt: '09.11.2020 12:02',
   createdAt: '27.11.2020',
   title: 'Ultrices eros in cursus',
   directions: [
@@ -143,7 +143,7 @@ const VIDEO_POST_MOCK: IPost = {
       name: 'Адоніс',
     },
   },
-  publishedAt: '11.09.2020',
+  publishedAt: '09.11.2020 12:02',
   createdAt: '27.11.2020',
   title: 'Ultrices eros in cursus',
   directions: [
@@ -184,7 +184,7 @@ const DEFAULT_POST_MOCK: IPost = {
       name: 'Адоніс',
     },
   },
-  publishedAt: '11.09.2020',
+  publishedAt: '09.11.2020 12:02',
   createdAt: '27.11.2020',
   title: 'Ultrices eros in cursus',
   directions: [

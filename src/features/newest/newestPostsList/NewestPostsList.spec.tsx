@@ -24,7 +24,7 @@ const PROPS_MOCK: INewestPostsListProps = {
           name: 'Адоніс',
         },
       },
-      publishedAt: '11.09.2020',
+      publishedAt: '09.11.2020 13:25',
       createdAt: '27.11.2020',
       title: 'Some Test Title',
       directions: [

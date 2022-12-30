@@ -1,4 +1,4 @@
-import { IDirection, IOrigin, IPost } from '../../types';
+import { IDirection, IOrigin, IPost, PostStatusType } from '../../types';
 
 export type CreatePostRequestType = {
   title: string;
@@ -101,6 +101,17 @@ export type ExpertResponseType = {
     name: string;
   };
   qualification: string;
+  region: {
+    id: number;
+    name: string;
+    usersPresent: boolean;
+  };
+  city?: string;
+  email?: string;
+  socialNetworks: string[];
+  postStatuses: PostStatusType[];
+  createdAt: string;
+  editedAt?: string;
 };
 
 export type ActivePostType = {

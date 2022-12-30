@@ -240,7 +240,7 @@ export const createPost = async (
 export const updatePost = async (
   requestBody: UpdatePostRequestUnionType,
 ): Promise<AxiosResponse<PostResponseType>> => {
-  return instance.post(`/post`, requestBody);
+  return instance.put(`/post`, requestBody);
 };
 
 export const login = async (

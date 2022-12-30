@@ -77,10 +77,11 @@ const Accordion: React.FC<IAccordion> = ({ expert }) => {
               </Typography>
             </div>
           ) : null}
-          {expert.socialNetwork ? (
+          {expert.socialNetworks.map((socialNetwork) => (
             <div
               style={{ display: 'flex' }}
               className={classes.accordionDetailsItem}
+              key={socialNetwork}
             >
               <img
                 className={classes.contactIcons}
@@ -90,18 +91,17 @@ const Accordion: React.FC<IAccordion> = ({ expert }) => {
                 width="16px"
               />
               <Typography variant="body1" className={classes.contacts}>
-                <NavLink
-                  to={{
-                    pathname: `${expert.socialNetwork}`,
-                  }}
+                <a
+                  href={socialNetwork}
                   target="_blank"
+                  rel="noreferrer"
                   className={classes.links}
                 >
-                  {expert.socialNetwork}
-                </NavLink>
+                  {socialNetwork}
+                </a>
               </Typography>
             </div>
-          ) : null}
+          ))}
         </div>
       </div>
     </>

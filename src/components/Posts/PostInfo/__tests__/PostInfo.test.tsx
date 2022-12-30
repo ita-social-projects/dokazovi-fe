@@ -1,10 +1,12 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { ThemeProvider } from '@material-ui/core';
 import { createMemoryHistory } from 'history';
 import { Router } from 'react-router-dom';
 import { ScreenContext } from 'old/provider/MobileProvider/ScreenContext';
 import PostInfo, { IPostInfo } from '../PostInfo';
+import { MAIN_THEME } from '../../../../styles/theme';
 
 describe('PostInfo tests', () => {
   let mocks: IPostInfo;
@@ -13,9 +15,11 @@ describe('PostInfo tests', () => {
     const history = createMemoryHistory();
 
     render(
-      <Router history={history}>
-        <PostInfo info={mocks.info} />
-      </Router>,
+      <ThemeProvider theme={MAIN_THEME}>
+        <Router history={history}>
+          <PostInfo info={mocks.info} />
+        </Router>
+      </ThemeProvider>,
     );
 
     return { history };
@@ -53,20 +57,28 @@ describe('PostInfo tests', () => {
           id: 1,
           name: 'Стаття',
         },
-        publishedAt: '05.10.2021',
+        publishedAt: '05.10.2021 11:24',
         displayViews: 9,
       },
     };
   });
 
   it('should PostInfo render correctly', () => {
-    const { asFragment } = render(<PostInfo info={mocks.info} />);
+    const { asFragment } = render(
+      <ThemeProvider theme={MAIN_THEME}>
+        <PostInfo info={mocks.info} />
+      </ThemeProvider>,
+    );
 
     expect(asFragment()).toMatchSnapshot();
   });
 
   it('should main blocks be in the component', () => {
-    render(<PostInfo info={mocks.info} />);
+    render(
+      <ThemeProvider theme={MAIN_THEME}>
+        <PostInfo info={mocks.info} />
+      </ThemeProvider>,
+    );
 
     expect(screen.getByTestId('topics')).toBeInTheDocument();
     expect(screen.getByTestId('origins')).toBeInTheDocument();
@@ -110,9 +122,11 @@ describe('PostInfo tests', () => {
 
   it('should mobile be with Views Counter', () => {
     const { asFragment } = render(
-      <ScreenContext.Provider value={{ mobile: true, tablet: null }}>
-        <PostInfo info={mocks.info} />
-      </ScreenContext.Provider>,
+      <ThemeProvider theme={MAIN_THEME}>
+        <ScreenContext.Provider value={{ mobile: true, tablet: null }}>
+          <PostInfo info={mocks.info} />
+        </ScreenContext.Provider>
+      </ThemeProvider>,
     );
 
     expect(screen.queryByTestId('icon')).toBeInTheDocument();
@@ -124,7 +138,11 @@ describe('PostInfo tests', () => {
   it('should Skeleton be visible', () => {
     delete mocks.info.displayViews;
 
-    const { asFragment } = render(<PostInfo info={mocks.info} />);
+    const { asFragment } = render(
+      <ThemeProvider theme={MAIN_THEME}>
+        <PostInfo info={mocks.info} />
+      </ThemeProvider>,
+    );
 
     expect(screen.getByTestId('skeleton')).toBeInTheDocument();
     expect(asFragment()).toMatchSnapshot();

@@ -12,7 +12,7 @@ const EXPERT_INFO_MOCK: IExpert = {
   phone: '+38(044)1111111',
   email: 'j.doe@gmail.com',
   bio: 'Lorem ipsum dolor sit amet',
-  socialNetwork: 'facebook/link',
+  socialNetworks: ['facebook/link'],
 };
 
 const EXPERT_INFO_WITHOUT_CONTACTS_MOCK: IExpert = {
@@ -22,6 +22,7 @@ const EXPERT_INFO_WITHOUT_CONTACTS_MOCK: IExpert = {
   avatar: 'avatar',
   phone: '+38(044)7777777',
   bio: 'Lorem ipsum dolor sit amet consectur',
+  socialNetworks: [],
 };
 
 describe('ExpertsInfo component renders with all props', () => {

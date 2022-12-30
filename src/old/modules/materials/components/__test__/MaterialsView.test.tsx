@@ -2,9 +2,11 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
+import { ThemeProvider } from '@material-ui/core';
 import { store } from 'models/store';
 import { LoadingStatusEnum } from 'old/lib/types';
 import MaterialsView from '../MaterialsView';
+import { MAIN_THEME } from '../../../../../styles/theme';
 
 const mockedState = {
   page: 1,
@@ -93,7 +95,7 @@ const mockedState = {
           ],
           createdAt: '16.02.2021',
           modifiedAt: '16.02.2021',
-          publishedAt: '20.10.2021',
+          publishedAt: '10.20.2021 15:45',
           importanceOrder: null,
           importantImageUrl: '',
           importantMobileImageUrl: '',
@@ -131,7 +133,7 @@ const mockedState = {
           ],
           createdAt: '06.01.2022',
           modifiedAt: '06.01.2022',
-          publishedAt: '22.10.2021',
+          publishedAt: '10.22.2021 14:44',
           importanceOrder: null,
           importantImageUrl: '',
           importantMobileImageUrl: '',
@@ -152,11 +154,13 @@ store.getState = () => mockedState;
 describe('MaterialsView component renders correctly', () => {
   beforeEach(() => {
     render(
-      <Provider store={store}>
-        <MemoryRouter>
-          <MaterialsView />
-        </MemoryRouter>
-      </Provider>,
+      <ThemeProvider theme={MAIN_THEME}>
+        <Provider store={store}>
+          <MemoryRouter>
+            <MaterialsView />
+          </MemoryRouter>
+        </Provider>
+      </ThemeProvider>,
     );
   });
 

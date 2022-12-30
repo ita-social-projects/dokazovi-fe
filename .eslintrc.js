@@ -28,6 +28,7 @@ module.exports = {
     'prettier/react',
   ],
   rules: {
+    'react/jsx-no-duplicate-props': [2, { "ignoreCase": false }],
     'react-hooks/exhaustive-deps': 'off',
     '@typescript-eslint/no-empty-interface': [
       'warn',

@@ -22,7 +22,7 @@ const POST_MOCK: IPost = {
   },
   createdAt: '11.09.2020',
   title: 'Ultrices eros in title',
-  publishedAt: '11.09.2020',
+  publishedAt: '09.11.2020 13:48',
   directions: [
     {
       id: 1,

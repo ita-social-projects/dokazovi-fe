@@ -27,7 +27,7 @@ describe('PostCreationButton test', () => {
     type: { id: 1, name: 'Стаття' },
     status: 'ARCHIVED',
     createdAt: '25.10.2021',
-    publishedAt: '25.10.2021',
+    publishedAt: '10.25.2021 18:04',
     origins: [{ id: 1, name: 'Думка експерта', parameter: null }],
     preview:
       'cvj;qdksjn;ckjnqsd;jkcvnq;sjdhcfn;wejqnhc;vksdnc;jkasdn;jkfd;skcn',
