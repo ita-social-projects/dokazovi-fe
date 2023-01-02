@@ -1,0 +1,1052 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ArticleUpdation tests should ArticleUpdation render 1`] = `
+<DocumentFragment>
+  <div
+    class="MuiCircularProgress-root MuiCircularProgress-colorPrimary MuiCircularProgress-indeterminate"
+    role="progressbar"
+    style="width: 40px; height: 40px;"
+  >
+    <svg
+      class="MuiCircularProgress-svg"
+      viewBox="22 22 44 44"
+    >
+      <circle
+        class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate"
+        cx="44"
+        cy="44"
+        fill="none"
+        r="20.2"
+        stroke-width="3.6"
+      />
+    </svg>
+  </div>
+  <div
+    class="MuiCircularProgress-root MuiCircularProgress-colorPrimary MuiCircularProgress-indeterminate"
+    role="progressbar"
+    style="width: 40px; height: 40px;"
+  >
+    <svg
+      class="MuiCircularProgress-svg"
+      viewBox="22 22 44 44"
+    >
+      <circle
+        class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate"
+        cx="44"
+        cy="44"
+        fill="none"
+        r="20.2"
+        stroke-width="3.6"
+      />
+    </svg>
+  </div>
+  <div
+    class="MuiBox-root MuiBox-root-8"
+  >
+    <h5
+      class="MuiTypography-root makeStyles-requiredField-1 MuiTypography-h5"
+    >
+      Заголовок статті:
+    </h5>
+    <div
+      class="MuiFormControl-root MuiTextField-root MuiFormControl-fullWidth"
+    >
+      <div
+        class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-fullWidth MuiInput-fullWidth MuiInputBase-formControl MuiInput-formControl"
+      >
+        <input
+          aria-invalid="false"
+          class="MuiInputBase-input MuiInput-input"
+          data-testid="text-field"
+          id="post-name"
+          required=""
+          type="text"
+          value="Як підготуватися до вакцинації"
+        />
+      </div>
+    </div>
+  </div>
+  <div
+    class="MuiFormControl-root"
+  >
+    <label
+      class="MuiFormLabel-root MuiInputLabel-root makeStyles-requiredAuthorField-2 MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiFormLabel-filled"
+      data-shrink="true"
+      for="author-input"
+    >
+      Find post author
+    </label>
+    <div
+      aria-label="author-input"
+      class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-formControl MuiInput-formControl"
+    >
+      <input
+        aria-describedby="component-helper-text"
+        aria-invalid="false"
+        class="MuiInputBase-input MuiInput-input"
+        id="author-input"
+        placeholder="Choose some author"
+        type="inputTypeSearch"
+        value="Bill Yamamoto"
+      />
+    </div>
+  </div>
+  <div
+    style="margin-bottom: 24px;"
+  />
+  <div
+    class="MuiBox-root MuiBox-root-9 makeStyles-backgroundImagesContainer-5"
+  >
+    <div
+      class="MuiBox-root MuiBox-root-10 makeStyles-backgroundImageWrapper-6"
+    >
+      <div
+        class="MuiBox-root MuiBox-root-21"
+      >
+        <h5
+          class="MuiTypography-root makeStyles-addImage-20 MuiTypography-h5"
+        >
+          Фонове зображення
+        </h5>
+        <h6
+          class="MuiTypography-root makeStyles-requiredField-19 MuiTypography-h6"
+        >
+          (тільки для перекладу або медитеки)
+        </h6>
+        <div
+          class="MuiBox-root MuiBox-root-22"
+        >
+          <div>
+            <div
+              class="MuiPaper-root makeStyles-root-24 MuiPaper-outlined MuiPaper-rounded"
+            >
+              <button
+                class="MuiButtonBase-root MuiIconButton-root"
+                tabindex="0"
+                title="За посиланням"
+                type="button"
+              >
+                <span
+                  class="MuiIconButton-label"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root makeStyles-icon-25"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z"
+                    />
+                  </svg>
+                </span>
+              </button>
+              <h6
+                class="MuiTypography-root makeStyles-imgInputText-26 MuiTypography-subtitle1"
+              >
+                Додати посилання на зображення із зовнішнього ресурсу
+              </h6>
+            </div>
+          </div>
+          <div
+            class="MuiPaper-root makeStyles-root-27 MuiPaper-outlined MuiPaper-rounded"
+            tabindex="0"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root makeStyles-icon-28"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zm-5.04-6.71l-2.75 3.54-1.96-2.36L6.5 17h11l-3.54-4.71z"
+              />
+            </svg>
+            <input
+              autocomplete="off"
+              data-testid="file-input"
+              multiple=""
+              style="display: none;"
+              tabindex="-1"
+              type="file"
+            />
+            <h6
+              class="MuiTypography-root makeStyles-imgInputText-29 MuiTypography-subtitle1"
+            >
+              Зображення для компʼютера
+            </h6>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="BorderBottom-customBorder-30"
+  />
+  <div
+    class="MuiBox-root MuiBox-root-31"
+  >
+    <h5
+      class="MuiTypography-root MuiTypography-h5"
+    >
+      Зображення для каруселі
+    </h5>
+    <h6
+      class="MuiTypography-root makeStyles-imageSizeText-7 MuiTypography-subtitle2"
+    >
+      Для візуалізації зображень статті в каруселі потрібно завантажити усі варіації зображень картинки для статті (‘Зображення для компʼютера’ та ‘Зображення для телефона’)
+    </h6>
+    <div
+      class="MuiBox-root MuiBox-root-32 makeStyles-carouselImagesContainer-3"
+    >
+      <div
+        class="MuiBox-root MuiBox-root-33 makeStyles-carouselImageWrapper-4"
+      >
+        <div
+          class="MuiBox-root MuiBox-root-34"
+        >
+          <h5
+            class="MuiTypography-root makeStyles-addImage-20 MuiTypography-h5"
+          />
+          <div
+            class="MuiBox-root MuiBox-root-35"
+          >
+            <div
+              class="MuiPaper-root makeStyles-root-27 MuiPaper-outlined MuiPaper-rounded"
+              tabindex="0"
+            >
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root makeStyles-icon-28"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zm-5.04-6.71l-2.75 3.54-1.96-2.36L6.5 17h11l-3.54-4.71z"
+                />
+              </svg>
+              <input
+                autocomplete="off"
+                data-testid="file-input"
+                multiple=""
+                style="display: none;"
+                tabindex="-1"
+                type="file"
+              />
+              <h6
+                class="MuiTypography-root makeStyles-imgInputText-29 MuiTypography-subtitle1"
+              >
+                Зображення для компʼютера
+              </h6>
+            </div>
+          </div>
+        </div>
+        <h6
+          class="MuiTypography-root makeStyles-imageSizeText-7 MuiTypography-subtitle2"
+        >
+          (Рекомендоване розширення зображення - 1305x455)
+        </h6>
+      </div>
+      <div
+        class="MuiBox-root MuiBox-root-36 makeStyles-carouselImageWrapper-4"
+      >
+        <div
+          class="MuiBox-root MuiBox-root-37"
+        >
+          <h5
+            class="MuiTypography-root makeStyles-addImage-20 MuiTypography-h5"
+          />
+          <div
+            class="MuiBox-root MuiBox-root-38"
+          >
+            <div
+              class="MuiPaper-root makeStyles-root-27 MuiPaper-outlined MuiPaper-rounded"
+              tabindex="0"
+            >
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root makeStyles-icon-28"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M17 1.01L7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14z"
+                />
+              </svg>
+              <input
+                autocomplete="off"
+                data-testid="file-input"
+                multiple=""
+                style="display: none;"
+                tabindex="-1"
+                type="file"
+              />
+              <h6
+                class="MuiTypography-root makeStyles-imgInputText-29 MuiTypography-subtitle1"
+              >
+                Зображення для телефона
+              </h6>
+            </div>
+          </div>
+        </div>
+        <h6
+          class="MuiTypography-root makeStyles-imageSizeText-7 MuiTypography-subtitle2"
+        >
+          (Рекомендоване розширення зображення - 414x585)
+        </h6>
+      </div>
+    </div>
+  </div>
+  <div
+    class="BorderBottom-customBorder-30"
+  />
+  <div
+    class="MuiBox-root MuiBox-root-39"
+  >
+    <h5
+      class="MuiTypography-root makeStyles-requiredField-1 MuiTypography-h5"
+    >
+      Текст статті:
+    </h5>
+    <div
+      class="text-editor"
+      data-testid="text-editor_test"
+    >
+      <div
+        class="ql-toolbar ql-snow"
+        id="toolbar"
+      >
+        <span
+          class="ql-formats"
+        >
+          <span
+            class="ql-header ql-picker"
+          >
+            <span
+              aria-controls="ql-picker-options-0"
+              aria-expanded="false"
+              class="ql-picker-label"
+              data-label="Звичайний"
+              data-value=""
+              role="button"
+              tabindex="0"
+            >
+              <svg
+                viewBox="0 0 18 18"
+              >
+                 
+                <polygon
+                  class="ql-stroke"
+                  points="7 11 9 13 11 11 7 11"
+                />
+                 
+                <polygon
+                  class="ql-stroke"
+                  points="7 7 9 5 11 7 7 7"
+                />
+                 
+              </svg>
+            </span>
+            <span
+              aria-hidden="true"
+              class="ql-picker-options"
+              id="ql-picker-options-0"
+              tabindex="-1"
+            >
+              <span
+                class="ql-picker-item"
+                data-label="Заголовок 1"
+                data-value="2"
+                role="button"
+                tabindex="0"
+              />
+              <span
+                class="ql-picker-item"
+                data-label="Заголовок 2"
+                data-value="3"
+                role="button"
+                tabindex="0"
+              />
+              <span
+                class="ql-picker-item"
+                data-label="Вступ"
+                data-value="4"
+                role="button"
+                tabindex="0"
+              />
+              <span
+                class="ql-picker-item"
+                data-label="Примітка"
+                data-value="5"
+                role="button"
+                tabindex="0"
+              />
+              <span
+                class="ql-picker-item"
+                data-label="Звичайний"
+                data-value=""
+                role="button"
+                tabindex="0"
+              />
+            </span>
+          </span>
+          <select
+            class="ql-header"
+            style="display: none;"
+          >
+            <option
+              value="2"
+            >
+              Заголовок 1
+            </option>
+            <option
+              value="3"
+            >
+              Заголовок 2
+            </option>
+            <option
+              value="4"
+            >
+              Вступ
+            </option>
+            <option
+              value="5"
+            >
+              Примітка
+            </option>
+            <option
+              selected=""
+              value=""
+            >
+              Звичайний
+            </option>
+          </select>
+        </span>
+        <span
+          class="ql-formats"
+        >
+          <button
+            class="ql-bold"
+            title="Bold"
+            type="button"
+          >
+            <svg
+              viewBox="0 0 18 18"
+            >
+               
+              <path
+                class="ql-stroke"
+                d="M5,4H9.5A2.5,2.5,0,0,1,12,6.5v0A2.5,2.5,0,0,1,9.5,9H5A0,0,0,0,1,5,9V4A0,0,0,0,1,5,4Z"
+              />
+               
+              <path
+                class="ql-stroke"
+                d="M5,9h5.5A2.5,2.5,0,0,1,13,11.5v0A2.5,2.5,0,0,1,10.5,14H5a0,0,0,0,1,0,0V9A0,0,0,0,1,5,9Z"
+              />
+               
+            </svg>
+          </button>
+          <button
+            class="ql-italic"
+            title="Italic"
+            type="button"
+          >
+            <svg
+              viewBox="0 0 18 18"
+            >
+               
+              <line
+                class="ql-stroke"
+                x1="7"
+                x2="13"
+                y1="4"
+                y2="4"
+              />
+               
+              <line
+                class="ql-stroke"
+                x1="5"
+                x2="11"
+                y1="14"
+                y2="14"
+              />
+               
+              <line
+                class="ql-stroke"
+                x1="8"
+                x2="10"
+                y1="14"
+                y2="4"
+              />
+               
+            </svg>
+          </button>
+          <button
+            class="ql-underline"
+            title="Underline"
+            type="button"
+          >
+            <svg
+              viewBox="0 0 18 18"
+            >
+               
+              <path
+                class="ql-stroke"
+                d="M5,3V9a4.012,4.012,0,0,0,4,4H9a4.012,4.012,0,0,0,4-4V3"
+              />
+               
+              <rect
+                class="ql-fill"
+                height="1"
+                rx="0.5"
+                ry="0.5"
+                width="12"
+                x="3"
+                y="15"
+              />
+               
+            </svg>
+          </button>
+        </span>
+        <span
+          class="ql-formats"
+        >
+          <button
+            class="ql-list"
+            title="Ordered List"
+            type="button"
+            value="ordered"
+          >
+            <svg
+              viewBox="0 0 18 18"
+            >
+               
+              <line
+                class="ql-stroke"
+                x1="7"
+                x2="15"
+                y1="4"
+                y2="4"
+              />
+               
+              <line
+                class="ql-stroke"
+                x1="7"
+                x2="15"
+                y1="9"
+                y2="9"
+              />
+               
+              <line
+                class="ql-stroke"
+                x1="7"
+                x2="15"
+                y1="14"
+                y2="14"
+              />
+               
+              <line
+                class="ql-stroke ql-thin"
+                x1="2.5"
+                x2="4.5"
+                y1="5.5"
+                y2="5.5"
+              />
+               
+              <path
+                class="ql-fill"
+                d="M3.5,6A0.5,0.5,0,0,1,3,5.5V3.085l-0.276.138A0.5,0.5,0,0,1,2.053,3c-0.124-.247-0.023-0.324.224-0.447l1-.5A0.5,0.5,0,0,1,4,2.5v3A0.5,0.5,0,0,1,3.5,6Z"
+              />
+               
+              <path
+                class="ql-stroke ql-thin"
+                d="M4.5,10.5h-2c0-.234,1.85-1.076,1.85-2.234A0.959,0.959,0,0,0,2.5,8.156"
+              />
+               
+              <path
+                class="ql-stroke ql-thin"
+                d="M2.5,14.846a0.959,0.959,0,0,0,1.85-.109A0.7,0.7,0,0,0,3.75,14a0.688,0.688,0,0,0,.6-0.736,0.959,0.959,0,0,0-1.85-.109"
+              />
+               
+            </svg>
+          </button>
+          <button
+            class="ql-list"
+            title="Unordered List"
+            type="button"
+            value="bullet"
+          >
+            <svg
+              viewBox="0 0 18 18"
+            >
+               
+              <line
+                class="ql-stroke"
+                x1="6"
+                x2="15"
+                y1="4"
+                y2="4"
+              />
+               
+              <line
+                class="ql-stroke"
+                x1="6"
+                x2="15"
+                y1="9"
+                y2="9"
+              />
+               
+              <line
+                class="ql-stroke"
+                x1="6"
+                x2="15"
+                y1="14"
+                y2="14"
+              />
+               
+              <line
+                class="ql-stroke"
+                x1="3"
+                x2="3"
+                y1="4"
+                y2="4"
+              />
+               
+              <line
+                class="ql-stroke"
+                x1="3"
+                x2="3"
+                y1="9"
+                y2="9"
+              />
+               
+              <line
+                class="ql-stroke"
+                x1="3"
+                x2="3"
+                y1="14"
+                y2="14"
+              />
+               
+            </svg>
+          </button>
+        </span>
+        <span
+          class="ql-formats"
+        >
+          <button
+            class="ql-script"
+            title="Super"
+            type="button"
+            value="super"
+          >
+            <svg
+              viewBox="0 0 18 18"
+            >
+               
+              <path
+                class="ql-fill"
+                d="M15.5,7H13.861a4.015,4.015,0,0,0,1.914-2.975,1.8,1.8,0,0,0-1.6-1.751A1.922,1.922,0,0,0,12.021,3.7a0.5,0.5,0,1,0,.957.291,0.917,0.917,0,0,1,1.053-.725,0.81,0.81,0,0,1,.744.762c0,1.077-1.164,1.925-1.934,2.486A1.423,1.423,0,0,0,12,7.5a0.5,0.5,0,0,0,.5.5h3A0.5,0.5,0,0,0,15.5,7Z"
+              />
+               
+              <path
+                class="ql-fill"
+                d="M9.651,5.241a1,1,0,0,0-1.41.108L6,7.964,3.759,5.349a1,1,0,1,0-1.519,1.3L4.683,9.5,2.241,12.35a1,1,0,1,0,1.519,1.3L6,11.036,8.241,13.65a1,1,0,0,0,1.519-1.3L7.317,9.5,9.759,6.651A1,1,0,0,0,9.651,5.241Z"
+              />
+               
+            </svg>
+          </button>
+          <button
+            class="ql-script"
+            title="Sub"
+            type="button"
+            value="sub"
+          >
+            <svg
+              viewBox="0 0 18 18"
+            >
+               
+              <path
+                class="ql-fill"
+                d="M15.5,15H13.861a3.858,3.858,0,0,0,1.914-2.975,1.8,1.8,0,0,0-1.6-1.751A1.921,1.921,0,0,0,12.021,11.7a0.50013,0.50013,0,1,0,.957.291h0a0.914,0.914,0,0,1,1.053-.725,0.81,0.81,0,0,1,.744.762c0,1.076-1.16971,1.86982-1.93971,2.43082A1.45639,1.45639,0,0,0,12,15.5a0.5,0.5,0,0,0,.5.5h3A0.5,0.5,0,0,0,15.5,15Z"
+              />
+               
+              <path
+                class="ql-fill"
+                d="M9.65,5.241a1,1,0,0,0-1.409.108L6,7.964,3.759,5.349A1,1,0,0,0,2.192,6.59178Q2.21541,6.6213,2.241,6.649L4.684,9.5,2.241,12.35A1,1,0,0,0,3.71,13.70722q0.02557-.02768.049-0.05722L6,11.036,8.241,13.65a1,1,0,1,0,1.567-1.24277Q9.78459,12.3777,9.759,12.35L7.316,9.5,9.759,6.651A1,1,0,0,0,9.65,5.241Z"
+              />
+               
+            </svg>
+          </button>
+          <button
+            class="ql-blockquote"
+            title="Quote"
+            type="button"
+          >
+            <svg
+              viewBox="0 0 18 18"
+            >
+               
+              <rect
+                class="ql-fill ql-stroke"
+                height="3"
+                width="3"
+                x="4"
+                y="5"
+              />
+               
+              <rect
+                class="ql-fill ql-stroke"
+                height="3"
+                width="3"
+                x="11"
+                y="5"
+              />
+               
+              <path
+                class="ql-even ql-fill ql-stroke"
+                d="M7,8c0,4.031-3,5-3,5"
+              />
+               
+              <path
+                class="ql-even ql-fill ql-stroke"
+                d="M14,8c0,4.031-3,5-3,5"
+              />
+               
+            </svg>
+          </button>
+          <button
+            class="ql-link"
+            type="button"
+          >
+            <svg
+              viewBox="0 0 18 18"
+            >
+               
+              <line
+                class="ql-stroke"
+                x1="7"
+                x2="11"
+                y1="7"
+                y2="11"
+              />
+               
+              <path
+                class="ql-even ql-stroke"
+                d="M8.9,4.577a3.476,3.476,0,0,1,.36,4.679A3.476,3.476,0,0,1,4.577,8.9C3.185,7.5,2.035,6.4,4.217,4.217S7.5,3.185,8.9,4.577Z"
+              />
+               
+              <path
+                class="ql-even ql-stroke"
+                d="M13.423,9.1a3.476,3.476,0,0,0-4.679-.36,3.476,3.476,0,0,0,.36,4.679c1.392,1.392,2.5,2.542,4.679.36S14.815,10.5,13.423,9.1Z"
+              />
+               
+            </svg>
+          </button>
+        </span>
+        <span
+          class="ql-formats"
+        >
+          <button
+            class="MuiButtonBase-root MuiIconButton-root"
+            tabindex="0"
+            title="Додати зображення"
+            type="button"
+          >
+            <span
+              class="MuiIconButton-label"
+            >
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall"
+                focusable="false"
+                style="width: 18px; height: 18px; color: rgb(0, 0, 0);"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zm-5.04-6.71l-2.75 3.54-1.96-2.36L6.5 17h11l-3.54-4.71z"
+                />
+              </svg>
+            </span>
+            <span
+              class="MuiTouchRipple-root"
+            />
+          </button>
+          <div
+            class="ImageHandlersContainer hide"
+          >
+            <button
+              class="ql-image MuiButtonBase-root MuiIconButton-root"
+              tabindex="0"
+              title="З комп'ютера"
+              type="button"
+            >
+              <div
+                style="width: 18px; height: 18px;"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="customSVGIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M20 18c1.1 0 1.99-.9 1.99-2L22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6z"
+                  />
+                </svg>
+              </div>
+            </button>
+            <div>
+              <button
+                class="MuiButtonBase-root MuiIconButton-root"
+                tabindex="0"
+                title="За посиланням"
+                type="button"
+              >
+                <span
+                  class="MuiIconButton-label"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root customSVGIcon MuiSvgIcon-fontSizeSmall"
+                    focusable="false"
+                    style="width: 18px; height: 18px;"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zm-5.04-6.71l-2.75 3.54-1.96-2.36L6.5 17h11l-3.54-4.71z"
+                    />
+                  </svg>
+                </span>
+              </button>
+            </div>
+          </div>
+        </span>
+      </div>
+      <div
+        class="quill "
+      >
+        <div
+          class="ql-container ql-snow"
+          style="position: relative;"
+        >
+          <div
+            class="ql-editor"
+            contenteditable="true"
+            data-gramm="false"
+            data-placeholder="Write something awesome..."
+          >
+            <p>
+              https://st2.depositphotos.com/1064024/10755/i/950/depositphotos_107559180-stock-photo-little-boy-illustration.jpghttps://st2.depositphotos.com/1064024/10755/i/950/depositphotos_107559180-stock-photo-little-boy-illustration.jpghttps://st2.depositphotos.com/1064024/10755/i/950/depositphotos_107559180-stock-photo-little-boy-illustration.jpghttps://st2.depositphotos.com/1064024/10755/i/950/depositphotos_107559180-stock-photo-little-boy-illustration.jpghttps://st2.depositphotos.com/1064024/10755/i...
+            </p>
+          </div>
+          <div
+            class="ql-clipboard"
+            contenteditable="true"
+            tabindex="-1"
+          />
+          <div
+            class="ql-tooltip ql-hidden"
+          >
+            <a
+              class="ql-preview"
+              href="about:blank"
+              rel="noopener noreferrer"
+              target="_blank"
+            />
+            <input
+              data-formula="e=mc^2"
+              data-link="https://quilljs.com"
+              data-video="Embed URL"
+              type="text"
+            />
+            <a
+              class="ql-action"
+            />
+            <a
+              class="ql-remove"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="BorderBottom-customBorder-30"
+    />
+    <div
+      class="MuiGrid-root MuiGrid-container"
+    >
+      <div
+        class="MuiGrid-root MuiGrid-container MuiGrid-item MuiGrid-direction-xs-column MuiGrid-grid-xs-12 MuiGrid-grid-md-6 MuiGrid-grid-lg-8"
+      >
+        <div
+          aria-label="minimum height"
+          class="MuiFormControl-root MuiTextField-root"
+          data-testid="preview-input"
+          style="width: 100%;"
+        >
+          <label
+            class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl makeStyles-requiredAuthorField-2 MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-filled"
+            data-shrink="true"
+          >
+            Текст картки матеріалу
+          </label>
+          <div
+            class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-formControl MuiInputBase-multiline MuiOutlinedInput-multiline"
+          >
+            <textarea
+              aria-invalid="false"
+              class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputMultiline MuiOutlinedInput-inputMultiline"
+              rows="1"
+              style="height: 165px; overflow: hidden;"
+            >
+              cvj;qdksjn;ckjnqsd;jkcvnq;sjdhcfn;wejqnhc;vksdnc;jkasdn;jkfd;skcn
+            </textarea>
+            <textarea
+              aria-hidden="true"
+              class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputMultiline MuiOutlinedInput-inputMultiline"
+              readonly=""
+              style="visibility: hidden; position: absolute; overflow: hidden; height: 165px; top: 0px; left: 0px; transform: translateZ(0); width: 100%;"
+              tabindex="-1"
+            />
+            <fieldset
+              aria-hidden="true"
+              class="PrivateNotchedOutline-root-40 MuiOutlinedInput-notchedOutline"
+            >
+              <legend
+                class="PrivateNotchedOutline-legendLabelled-42 PrivateNotchedOutline-legendNotched-43"
+              >
+                <span>
+                  Текст картки матеріалу
+                </span>
+              </legend>
+            </fieldset>
+          </div>
+          <p
+            class="MuiFormHelperText-root MuiFormHelperText-contained MuiFormHelperText-filled"
+          >
+            Мінімальна довжина 50 символів. Довжина тексту: 65 символів
+          </p>
+        </div>
+      </div>
+      <div
+        class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-12 MuiGrid-grid-md-6 MuiGrid-grid-lg-4"
+      >
+        <div
+          class="MuiPaper-root MuiCard-root ExpertOpinionPostPreviewCard-root-44 MuiPaper-elevation1 MuiPaper-rounded"
+        >
+          <div
+            class="MuiBox-root MuiBox-root-53 ExpertOpinionPostPreviewCard-header-47"
+          >
+            <div
+              class="MuiBox-root MuiBox-root-54"
+            >
+              <div
+                class="MuiBox-root MuiBox-root-55"
+              >
+                <span
+                  class="MuiTypography-root ExpertOpinionPostPreviewCard-postType-51 MuiTypography-overline"
+                >
+                  Думка експерта
+                </span>
+                <span
+                  class="MuiTypography-root ExpertOpinionPostPreviewCard-authorFullName-46 MuiTypography-h5"
+                >
+                  Bill Yamamoto
+                </span>
+              </div>
+              <div
+                class="MuiCardMedia-root ExpertOpinionPostPreviewCard-avatar-45"
+                data-testid="avatar"
+                title="Bill Yamamoto"
+              />
+            </div>
+            <span
+              class="MuiTypography-root MuiTypography-subtitle2 MuiTypography-colorTextSecondary MuiTypography-gutterBottom"
+            />
+          </div>
+          <div
+            class="MuiBox-root MuiBox-root-56 ExpertOpinionPostPreviewCard-body-48"
+          >
+            <div
+              class="MuiCardContent-root ExpertOpinionPostPreviewCard-content-52"
+            >
+              <h3
+                class="MuiTypography-root ExpertOpinionPostPreviewCard-textHeader-49 MuiTypography-h4 MuiTypography-gutterBottom"
+              >
+                Як підготуватися до вакцинації
+              </h3>
+              <p
+                class="MuiTypography-root ExpertOpinionPostPreviewCard-textBody-50 MuiTypography-body2 MuiTypography-colorTextPrimary MuiTypography-gutterBottom"
+              >
+                cvj;qdksjn;ckjnqsd;jkcvnq;sjdhcfn;wejqnhc;vksdnc;jkasdn;jkfd;skcn
+              </p>
+            </div>
+            <div
+              class="MuiBox-root MuiBox-root-57"
+            >
+              <span
+                class="MuiTypography-root MuiTypography-caption MuiTypography-colorTextSecondary"
+              >
+                25 жовтня
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="MuiBox-root MuiBox-root-58"
+  >
+    <div
+      data-testid="confirmation-modal"
+    >
+      <button
+        class="MuiButtonBase-root MuiButton-root MuiButton-contained Mui-disabled Mui-disabled"
+        disabled=""
+        tabindex="-1"
+        type="button"
+      >
+        <span
+          class="MuiButton-label"
+        >
+          Відмінити редагування
+        </span>
+      </button>
+    </div>
+    <div
+      class="MuiBox-root MuiBox-root-65"
+    >
+      <button
+        class="MuiButtonBase-root MuiButton-root MuiButton-contained Mui-disabled Mui-disabled"
+        disabled=""
+        style="margin-right: 10px;"
+        tabindex="-1"
+        type="button"
+      >
+        <span
+          class="MuiButton-label"
+        >
+          Попередній перегляд
+        </span>
+      </button>
+      <button
+        class="MuiButtonBase-root MuiButton-root MuiButton-contained Mui-disabled Mui-disabled"
+        disabled=""
+        tabindex="-1"
+        type="button"
+      >
+        <span
+          class="MuiButton-label"
+        >
+          Зберегти
+        </span>
+      </button>
+    </div>
+    <div
+      class="MuiBox-root MuiBox-root-66"
+    />
+  </div>
+</DocumentFragment>
+`;

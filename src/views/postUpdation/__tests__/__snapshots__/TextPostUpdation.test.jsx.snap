@@ -1,0 +1,635 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TextPostUpdation tests should render component 1`] = `
+<DocumentFragment>
+  <div
+    class="MuiBox-root MuiBox-root-8"
+  >
+    <div
+      class="MuiPaper-root MuiAccordion-root MuiAccordion-rounded MuiPaper-elevation1 MuiPaper-rounded"
+    >
+      <div
+        aria-controls="panel1bh-content"
+        aria-disabled="false"
+        aria-expanded="false"
+        class="MuiButtonBase-root MuiAccordionSummary-root"
+        id="panel1bh-header"
+        role="button"
+        tabindex="0"
+      >
+        <div
+          class="MuiAccordionSummary-content"
+        >
+          <div
+            class="MuiGrid-root MuiGrid-container"
+          >
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-2"
+              style="margin-right: -30px;"
+            >
+              <h5
+                class="MuiTypography-root makeStyles-requiredField-1 MuiTypography-h5"
+              >
+                Теми: 
+              </h5>
+            </div>
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-10"
+            />
+          </div>
+        </div>
+        <div
+          aria-disabled="false"
+          aria-hidden="true"
+          class="MuiButtonBase-root MuiIconButton-root MuiAccordionSummary-expandIcon MuiIconButton-edgeEnd"
+        >
+          <span
+            class="MuiIconButton-label"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"
+              />
+            </svg>
+          </span>
+          <span
+            class="MuiTouchRipple-root"
+          />
+        </div>
+      </div>
+      <div
+        class="MuiCollapse-root MuiCollapse-hidden"
+        style="min-height: 0px;"
+      >
+        <div
+          class="MuiCollapse-wrapper"
+        >
+          <div
+            class="MuiCollapse-wrapperInner"
+          >
+            <div
+              aria-labelledby="panel1bh-header"
+              id="panel1bh-content"
+              role="region"
+            >
+              <div
+                class="MuiAccordionDetails-root"
+              >
+                <div
+                  class="MuiGrid-root MuiGrid-container"
+                >
+                  <div
+                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-2"
+                    style="margin-right: -30px;"
+                  />
+                  <div
+                    class="MuiFormGroup-root"
+                    style="height: 450px; display: flex; flex-direction: column; flex-wrap: wrap;"
+                  >
+                    <label
+                      class="MuiFormControlLabel-root"
+                    >
+                      <span
+                        aria-disabled="false"
+                        class="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-11 MuiCheckbox-root MuiCheckbox-colorPrimary MuiIconButton-colorPrimary"
+                        data-testid="checkbox"
+                      >
+                        <span
+                          class="MuiIconButton-label"
+                        >
+                          <input
+                            class="PrivateSwitchBase-input-14"
+                            data-indeterminate="false"
+                            name="3"
+                            type="checkbox"
+                            value=""
+                          />
+                          <svg
+                            aria-hidden="true"
+                            class="MuiSvgIcon-root"
+                            focusable="false"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z"
+                            />
+                          </svg>
+                        </span>
+                        <span
+                          class="MuiTouchRipple-root"
+                        />
+                      </span>
+                      <span
+                        class="MuiTypography-root MuiFormControlLabel-label MuiTypography-body1"
+                      >
+                        <div
+                          class="MuiButtonBase-root MuiChip-root PostDirectionChip-directionChip-9 PostDirectionChip-directionChip-15 MuiChip-sizeSmall MuiChip-clickable"
+                          role="button"
+                          tabindex="0"
+                        >
+                          <span
+                            class="MuiChip-label MuiChip-labelSmall"
+                          >
+                            Хірургія
+                          </span>
+                          <span
+                            class="MuiTouchRipple-root"
+                          />
+                        </div>
+                      </span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="MuiBox-root MuiBox-root-16"
+  >
+    <div
+      class="MuiPaper-root MuiAccordion-root MuiAccordion-rounded MuiPaper-elevation1 MuiPaper-rounded"
+    >
+      <div
+        aria-controls="panel1bh-content"
+        aria-disabled="false"
+        aria-expanded="false"
+        class="MuiButtonBase-root MuiAccordionSummary-root"
+        id="panel1bh-header"
+        role="button"
+        tabindex="0"
+      >
+        <div
+          class="MuiAccordionSummary-content"
+        >
+          <div
+            class="MuiGrid-root MuiGrid-container"
+          >
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-2"
+              style="margin-right: -30px;"
+            >
+              <h5
+                class="MuiTypography-root MuiTypography-h5"
+              >
+                Джерела: 
+              </h5>
+            </div>
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-10"
+            />
+          </div>
+        </div>
+        <div
+          aria-disabled="false"
+          aria-hidden="true"
+          class="MuiButtonBase-root MuiIconButton-root MuiAccordionSummary-expandIcon MuiIconButton-edgeEnd"
+        >
+          <span
+            class="MuiIconButton-label"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M16.59 8.59L12 13.17 7.41 8.59 6 10l6 6 6-6z"
+              />
+            </svg>
+          </span>
+          <span
+            class="MuiTouchRipple-root"
+          />
+        </div>
+      </div>
+      <div
+        class="MuiCollapse-root MuiCollapse-hidden"
+        style="min-height: 0px;"
+      >
+        <div
+          class="MuiCollapse-wrapper"
+        >
+          <div
+            class="MuiCollapse-wrapperInner"
+          >
+            <div
+              aria-labelledby="panel1bh-header"
+              id="panel1bh-content"
+              role="region"
+            >
+              <div
+                class="MuiAccordionDetails-root"
+              >
+                <div
+                  class="MuiGrid-root MuiGrid-container"
+                >
+                  <div
+                    class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-2"
+                    style="margin-right: -30px;"
+                  />
+                  <div
+                    class="MuiFormGroup-root"
+                    style="height: 450px; display: flex; flex-direction: column; flex-wrap: wrap;"
+                  >
+                    <label
+                      class="MuiFormControlLabel-root"
+                    >
+                      <span
+                        aria-disabled="false"
+                        class="MuiButtonBase-root MuiIconButton-root PrivateSwitchBase-root-11 MuiCheckbox-root MuiCheckbox-colorPrimary PrivateSwitchBase-checked-12 Mui-checked MuiIconButton-colorPrimary"
+                        data-testid="checkbox"
+                      >
+                        <span
+                          class="MuiIconButton-label"
+                        >
+                          <input
+                            checked=""
+                            class="PrivateSwitchBase-input-14"
+                            data-indeterminate="false"
+                            name="1"
+                            type="checkbox"
+                            value=""
+                          />
+                          <svg
+                            aria-hidden="true"
+                            class="MuiSvgIcon-root"
+                            focusable="false"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.11 0 2-.9 2-2V5c0-1.1-.89-2-2-2zm-9 14l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
+                            />
+                          </svg>
+                        </span>
+                        <span
+                          class="MuiTouchRipple-root"
+                        />
+                      </span>
+                      <span
+                        class="MuiTypography-root MuiFormControlLabel-label MuiTypography-body1"
+                      >
+                        <div
+                          class="MuiButtonBase-root MuiChip-root PostDirectionChip-directionChip-9 PostDirectionChip-directionChip-18 MuiChip-sizeSmall MuiChip-clickable"
+                          role="button"
+                          tabindex="0"
+                        >
+                          <span
+                            class="MuiChip-label MuiChip-labelSmall"
+                          >
+                            Думка експерта
+                          </span>
+                          <span
+                            class="MuiTouchRipple-root"
+                          />
+                        </div>
+                      </span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="MuiBox-root MuiBox-root-19"
+  >
+    <h5
+      class="MuiTypography-root makeStyles-requiredField-1 MuiTypography-h5"
+    >
+      Заголовок допису:
+    </h5>
+    <div
+      class="MuiFormControl-root MuiTextField-root MuiFormControl-fullWidth"
+    >
+      <div
+        class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-fullWidth MuiInput-fullWidth MuiInputBase-formControl MuiInput-formControl"
+      >
+        <input
+          aria-invalid="false"
+          class="MuiInputBase-input MuiInput-input"
+          data-testid="text-field"
+          id="post-name"
+          required=""
+          type="text"
+          value="Діти та батьки і COVID-19"
+        />
+      </div>
+    </div>
+  </div>
+  <div
+    class="MuiFormControl-root"
+  >
+    <label
+      class="MuiFormLabel-root MuiInputLabel-root makeStyles-requiredAuthorField-2 MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiFormLabel-filled"
+      data-shrink="true"
+      for="author-input"
+    >
+      Find post author
+    </label>
+    <div
+      aria-label="author-input"
+      class="MuiInputBase-root MuiInput-root MuiInput-underline MuiInputBase-formControl MuiInput-formControl"
+    >
+      <input
+        aria-describedby="component-helper-text"
+        aria-invalid="false"
+        class="MuiInputBase-input MuiInput-input"
+        id="author-input"
+        placeholder="Choose some author"
+        type="inputTypeSearch"
+        value="Олена Шевченко"
+      />
+    </div>
+  </div>
+  <div
+    style="margin-bottom: 24px;"
+  />
+  <div
+    class="MuiBox-root MuiBox-root-20 makeStyles-backgroundImagesContainer-5"
+  >
+    <div
+      class="MuiBox-root MuiBox-root-21 makeStyles-backgroundImageWrapper-6"
+    >
+      <div
+        class="MuiBox-root MuiBox-root-32"
+      >
+        <h5
+          class="MuiTypography-root makeStyles-addImage-31 MuiTypography-h5"
+        >
+          Фонове зображення
+        </h5>
+        <h6
+          class="MuiTypography-root makeStyles-requiredField-30 MuiTypography-h6"
+        >
+          (тільки для перекладу або медитеки)
+        </h6>
+        <div
+          class="MuiBox-root MuiBox-root-33"
+        >
+          <div>
+            <div
+              class="MuiPaper-root makeStyles-root-35 MuiPaper-outlined MuiPaper-rounded"
+            >
+              <button
+                class="MuiButtonBase-root MuiIconButton-root"
+                tabindex="0"
+                title="За посиланням"
+                type="button"
+              >
+                <span
+                  class="MuiIconButton-label"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root makeStyles-icon-36"
+                    focusable="false"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z"
+                    />
+                  </svg>
+                </span>
+              </button>
+              <h6
+                class="MuiTypography-root makeStyles-imgInputText-37 MuiTypography-subtitle1"
+              >
+                Додати посилання на зображення із зовнішнього ресурсу
+              </h6>
+            </div>
+          </div>
+          <div
+            class="MuiPaper-root makeStyles-root-38 MuiPaper-outlined MuiPaper-rounded"
+            tabindex="0"
+          >
+            <svg
+              aria-hidden="true"
+              class="MuiSvgIcon-root makeStyles-icon-39"
+              focusable="false"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zm-5.04-6.71l-2.75 3.54-1.96-2.36L6.5 17h11l-3.54-4.71z"
+              />
+            </svg>
+            <input
+              autocomplete="off"
+              data-testid="file-input"
+              multiple=""
+              style="display: none;"
+              tabindex="-1"
+              type="file"
+            />
+            <h6
+              class="MuiTypography-root makeStyles-imgInputText-40 MuiTypography-subtitle1"
+            >
+              Зображення для компʼютера
+            </h6>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="BorderBottom-customBorder-41"
+  />
+  <div
+    class="MuiBox-root MuiBox-root-42"
+  >
+    <h5
+      class="MuiTypography-root MuiTypography-h5"
+    >
+      Зображення для каруселі
+    </h5>
+    <h6
+      class="MuiTypography-root makeStyles-imageSizeText-7 MuiTypography-subtitle2"
+    >
+      Для візуалізації зображень статті в каруселі потрібно завантажити усі варіації зображень картинки для статті (‘Зображення для компʼютера’ та ‘Зображення для телефона’)
+    </h6>
+    <div
+      class="MuiBox-root MuiBox-root-43 makeStyles-carouselImagesContainer-3"
+    >
+      <div
+        class="MuiBox-root MuiBox-root-44 makeStyles-carouselImageWrapper-4"
+      >
+        <div
+          class="MuiBox-root MuiBox-root-45"
+        >
+          <h5
+            class="MuiTypography-root makeStyles-addImage-31 MuiTypography-h5"
+          />
+          <div
+            class="MuiBox-root MuiBox-root-46"
+          >
+            <div
+              class="MuiPaper-root makeStyles-root-38 MuiPaper-outlined MuiPaper-rounded"
+              tabindex="0"
+            >
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root makeStyles-icon-39"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zm-5.04-6.71l-2.75 3.54-1.96-2.36L6.5 17h11l-3.54-4.71z"
+                />
+              </svg>
+              <input
+                autocomplete="off"
+                data-testid="file-input"
+                multiple=""
+                style="display: none;"
+                tabindex="-1"
+                type="file"
+              />
+              <h6
+                class="MuiTypography-root makeStyles-imgInputText-40 MuiTypography-subtitle1"
+              >
+                Зображення для компʼютера
+              </h6>
+            </div>
+          </div>
+        </div>
+        <h6
+          class="MuiTypography-root makeStyles-imageSizeText-7 MuiTypography-subtitle2"
+        >
+          (Рекомендоване розширення зображення - 1305x455)
+        </h6>
+      </div>
+      <div
+        class="MuiBox-root MuiBox-root-47 makeStyles-carouselImageWrapper-4"
+      >
+        <div
+          class="MuiBox-root MuiBox-root-48"
+        >
+          <h5
+            class="MuiTypography-root makeStyles-addImage-31 MuiTypography-h5"
+          />
+          <div
+            class="MuiBox-root MuiBox-root-49"
+          >
+            <div
+              class="MuiPaper-root makeStyles-root-38 MuiPaper-outlined MuiPaper-rounded"
+              tabindex="0"
+            >
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root makeStyles-icon-39"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M17 1.01L7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14z"
+                />
+              </svg>
+              <input
+                autocomplete="off"
+                data-testid="file-input"
+                multiple=""
+                style="display: none;"
+                tabindex="-1"
+                type="file"
+              />
+              <h6
+                class="MuiTypography-root makeStyles-imgInputText-40 MuiTypography-subtitle1"
+              >
+                Зображення для телефона
+              </h6>
+            </div>
+          </div>
+        </div>
+        <h6
+          class="MuiTypography-root makeStyles-imageSizeText-7 MuiTypography-subtitle2"
+        >
+          (Рекомендоване розширення зображення - 414x585)
+        </h6>
+      </div>
+    </div>
+  </div>
+  <div
+    class="BorderBottom-customBorder-41"
+  />
+  <div
+    class="MuiBox-root MuiBox-root-50"
+  >
+    <h5
+      class="MuiTypography-root makeStyles-requiredField-1 MuiTypography-h5"
+    >
+      Текст допису:
+    </h5>
+    <div />
+  </div>
+  <div
+    class="MuiBox-root MuiBox-root-51"
+  >
+    <div
+      data-testid="confirmation-modal"
+    >
+      <button
+        class="MuiButtonBase-root MuiButton-root MuiButton-contained"
+        tabindex="0"
+        type="button"
+      >
+        <span
+          class="MuiButton-label"
+        >
+          Відмінити редагування
+        </span>
+        <span
+          class="MuiTouchRipple-root"
+        />
+      </button>
+    </div>
+    <div
+      class="MuiBox-root MuiBox-root-58"
+    >
+      <button
+        class="MuiButtonBase-root MuiButton-root MuiButton-contained"
+        style="margin-right: 10px;"
+        tabindex="0"
+        type="button"
+      >
+        <span
+          class="MuiButton-label"
+        >
+          Попередній перегляд
+        </span>
+        <span
+          class="MuiTouchRipple-root"
+        />
+      </button>
+      <button
+        class="MuiButtonBase-root MuiButton-root MuiButton-contained"
+        tabindex="0"
+        type="button"
+      >
+        <span
+          class="MuiButton-label"
+        >
+          Зберегти
+        </span>
+        <span
+          class="MuiTouchRipple-root"
+        />
+      </button>
+    </div>
+    <div
+      class="MuiBox-root MuiBox-root-59"
+    />
+  </div>
+</DocumentFragment>
+`;
