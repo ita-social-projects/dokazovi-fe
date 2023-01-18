@@ -65,7 +65,7 @@ export const AdminDatePicker: React.FC<IMaterialsDate> = ({
               onChange={(value) =>
                 setChanges({
                   option: 'start',
-                  date: value && value.toISOString(),
+                  date: value && value.toISOString().substring(0, 10),
                 })
               }
               format="dd-mm-yyyy"
@@ -80,7 +80,7 @@ export const AdminDatePicker: React.FC<IMaterialsDate> = ({
               onChange={(value) =>
                 setChanges({
                   option: 'end',
-                  date: value && value.toISOString(),
+                  date: value && value.toISOString().substring(0, 10),
                 })
               }
               format="dd-mm-yyyy"
