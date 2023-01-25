@@ -1,7 +1,10 @@
 /* eslint-disable */
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { IFetchExpertsOptions, IExpertsAutorsListOptions } from './types';
-import { getAllExperts } from '../../old/lib/utilities/API/api';
+import {
+  deleteAuthorById,
+  getAllExperts,
+} from '../../old/lib/utilities/API/api';
 import { LOAD_EXPERTS_LIMIT } from '../../old/lib/constants/experts';
 import { IExpert } from '../../old/lib/types';
 import { ExpertResponseType } from '../../old/lib/utilities/API/types';
@@ -104,6 +107,19 @@ export const fetchExpertsAutorsList = createAsyncThunk(
       };
     } catch (err) {
       return rejectWithValue(err.response?.data);
+    }
+  },
+);
+
+export const deleteAuthor = createAsyncThunk(
+  'experts/deleteAuthor',
+  async (options: { id: number }, { rejectWithValue, dispatch }) => {
+    try {
+      const { id } = options;
+      await deleteAuthorById(id);
+      return id;
+    } catch (error) {
+      return rejectWithValue(error.response?.data);
     }
   },
 );

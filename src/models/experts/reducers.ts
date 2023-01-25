@@ -8,7 +8,11 @@ import {
   ISortAutorsList,
   ITextFields,
 } from './types';
-import { fetchExperts, fetchExpertsAutorsList } from './asyncActions';
+import {
+  deleteAuthor,
+  fetchExperts,
+  fetchExpertsAutorsList,
+} from './asyncActions';
 import { getAsyncActionsReducer } from '../helpers/asyncActions';
 
 const initialState: IExpertsState = {
@@ -66,6 +70,12 @@ export const expertsSlice = createSlice({
   extraReducers: {
     ...getAsyncActionsReducer(fetchExperts as any),
     ...getAsyncActionsReducer(fetchExpertsAutorsList as any),
+    ...getAsyncActionsReducer(deleteAuthor as any),
+    [deleteAuthor.fulfilled.type]: (state, action) => {
+      state.data.expertIds = state.data.expertIds.filter(
+        (id) => id !== action.payload,
+      );
+    },
   },
 });
 
