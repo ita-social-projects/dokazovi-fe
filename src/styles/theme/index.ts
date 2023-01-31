@@ -1,4 +1,5 @@
 import { createMuiTheme, Theme } from '@material-ui/core';
+import { findLastIndex } from 'lodash';
 import { PALETTE as palette } from './palette';
 import { TYPOGRAPHY as typography } from './typography';
 
@@ -29,6 +30,14 @@ export const MAIN_THEME = createMuiTheme({
     MuiIconButton: {
       root: {
         color: 'initial',
+      },
+    },
+    MuiFormLabel: {
+      asterisk: {
+        color: '#db3131',
+        '&$error': {
+          color: '#db3131',
+        },
       },
     },
   },

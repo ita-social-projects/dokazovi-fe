@@ -8,6 +8,7 @@ import {
   fetchPostsTags,
   fetchPostsTypes,
   fetchRegions,
+  fetchCities,
 } from './asyncActions';
 import { getAsyncActionsReducer } from '../helpers/asyncActions';
 
@@ -33,6 +34,7 @@ const propertiesSlice = createSlice({
   reducers: {},
   extraReducers: {
     ...getAsyncActionsReducer(fetchRegions, 'regions'),
+    ...getAsyncActionsReducer(fetchCities, 'regions'),
     ...getAsyncActionsReducer(fetchPostsTypes, 'postTypes'),
     ...getAsyncActionsReducer(fetchDirections, 'directions'),
     ...getAsyncActionsReducer(fetchOrigins, 'origins'),

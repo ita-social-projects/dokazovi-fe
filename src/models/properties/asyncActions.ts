@@ -5,6 +5,7 @@ import {
   getPostTypes,
   getRegions,
   getTagsByValue,
+  getCities,
 } from '../../old/lib/utilities/API/api';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
@@ -13,6 +14,18 @@ export const fetchRegions = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await getRegions();
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(err.response?.data);
+    }
+  },
+);
+
+export const fetchCities = createAsyncThunk(
+  'properties/fetchCities',
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await getCities();
       return response.data;
     } catch (err) {
       return rejectWithValue(err.response?.data);

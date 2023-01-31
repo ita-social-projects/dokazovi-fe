@@ -219,6 +219,12 @@ export const getRegions = async (): Promise<
   return instance.get(`/region`);
 };
 
+export const getCities = async (): Promise<
+  AxiosResponse<RegionResponseType[]>
+> => {
+  return instance.get(`/city`);
+};
+
 export const getDirections = async (): Promise<
   AxiosResponse<DirectionResponseType[]>
 > => {
