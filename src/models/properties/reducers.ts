@@ -22,6 +22,7 @@ const statuses = Object.keys(PostStatusForApi)
 const initialState: IPropertiesState = {
   postTypes: [],
   regions: [],
+  cities: [],
   postTags: [],
   directions: [],
   origins: [],
@@ -34,7 +35,7 @@ const propertiesSlice = createSlice({
   reducers: {},
   extraReducers: {
     ...getAsyncActionsReducer(fetchRegions, 'regions'),
-    ...getAsyncActionsReducer(fetchCities, 'regions'),
+    ...getAsyncActionsReducer(fetchCities, 'cities'),
     ...getAsyncActionsReducer(fetchPostsTypes, 'postTypes'),
     ...getAsyncActionsReducer(fetchDirections, 'directions'),
     ...getAsyncActionsReducer(fetchOrigins, 'origins'),

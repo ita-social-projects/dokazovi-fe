@@ -1,3 +1,4 @@
+import { AddAPhoto } from '@material-ui/icons';
 import { makeStyles, Theme, TextField, InputLabel } from '@material-ui/core';
 
 export const useStyles = makeStyles(
@@ -37,6 +38,24 @@ export const useStyles = makeStyles(
         display: 'flex',
         flexDirection: 'row-reverse',
         justifyContent: 'left',
+      },
+    },
+    PhotoCamera: {
+      '& ': {
+        color: theme.palette.custom.colorAquaBlue,
+      },
+    },
+    BasicButton: {
+      '& ': {
+        width: 300,
+        borderRadius: theme.spacing(0),
+      },
+    },
+    Box: {
+      '& ': {
+        width: 'fullwidth',
+        display: 'flex',
+        justifyContent: 'right',
       },
     },
   }),

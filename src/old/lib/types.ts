@@ -219,6 +219,12 @@ export interface IRegion {
   usersPresent?: boolean;
 }
 
+export interface ICity {
+  id: number;
+  name: string;
+  regionId: number;
+}
+
 export interface IInstitution {
   city: {
     id: number;
