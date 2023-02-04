@@ -1,5 +1,11 @@
 import { AddAPhoto } from '@material-ui/icons';
-import { makeStyles, Theme, TextField, InputLabel } from '@material-ui/core';
+import {
+  makeStyles,
+  Theme,
+  TextField,
+  InputLabel,
+  Typography,
+} from '@material-ui/core';
 
 export const useStyles = makeStyles(
   (theme: Theme) => ({
@@ -22,9 +28,10 @@ export const useStyles = makeStyles(
     },
     Contacts: {
       '& .MuiInputBase-input': {
-        marginTop: theme.spacing(1),
+        display: 'flex',
+        alignItems: 'center',
+        padding: theme.spacing(3),
         fontSize: theme.spacing(3.6),
-        height: '1px',
       },
     },
     TextField: {
@@ -38,6 +45,7 @@ export const useStyles = makeStyles(
         display: 'flex',
         flexDirection: 'row-reverse',
         justifyContent: 'left',
+        marginBottom: theme.spacing(1),
       },
     },
     PhotoCamera: {
@@ -47,15 +55,32 @@ export const useStyles = makeStyles(
     },
     BasicButton: {
       '& ': {
+        marginTop: theme.spacing(5),
         width: 300,
         borderRadius: theme.spacing(0),
       },
     },
-    Box: {
+    ButtonBox: {
       '& ': {
         width: 'fullwidth',
         display: 'flex',
         justifyContent: 'right',
+      },
+    },
+    WrapperBox: {
+      '& ': {
+        display: 'flex',
+        justifyContent: 'space-between',
+      },
+    },
+    Typography: {
+      '& ': {
+        color: 'red',
+        fontSize: '0.875rem',
+        height: theme.spacing(3),
+        display: 'flex',
+        alignItems: 'center',
+        marginBottom: theme.spacing(1),
       },
     },
   }),

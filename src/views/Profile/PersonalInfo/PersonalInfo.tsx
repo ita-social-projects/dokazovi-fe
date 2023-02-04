@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, ChangeEvent } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import {
   Avatar,
@@ -12,182 +12,224 @@ import {
 import { useSelector } from 'react-redux';
 import { RootStateType } from 'models/rootReducer';
 import { BasicButton } from 'components/Form';
-import { AddAPhoto, PhotoCamera } from '@material-ui/icons';
+import { PhotoCamera } from '@material-ui/icons';
 import { Autocomplete } from '@material-ui/lab';
-import InsertFromFile from 'components/Editor/CustomModules/ImageFromFileHandler';
-import { uploadImageToImgur } from 'old/lib/utilities/Imgur/uploadImageToImgur';
 import { useStyles } from './styles/PersonalInfo.styles';
-import { ICity, IExpert, IRegion } from '../../../old/lib/types';
-import {
-  getAllExperts,
-  getCurrentUser,
-} from '../../../old/lib/utilities/API/api';
-import { ERROR_404 } from '../../../old/lib/constants/routes';
+import { ICity, IRegion } from '../../../old/lib/types';
 import { ErrorField } from './ErrorField';
+import { regex } from './constants/regex';
+import { fields } from './constants/fields';
+import { INewAuthorValues } from './types';
 
 export const PersonalInfo: React.FC = () => {
   const classes = useStyles();
-  const { expertId } = useParams<{ expertId: string }>();
-  const [loadedExpert, setLoadedExpert] = useState<IExpert>();
-  const history = useHistory();
-
-  // const fetchExpert = useCallback(async () => {
-  //   try {
-  //     const expertResponse = await getCurrentUser();
-  //     setLoadedExpert(expertResponse.data);
-  //   } catch (error) {
-  //     history.push(ERROR_404);
-  //   }
-  // }, [expertId]);
-
-  // useEffect(() => {
-  //   fetchExpert();
-  // }, [fetchExpert]);
-
-  const inputChangeHandler = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
-    const updatedExpert: IExpert | undefined = { ...loadedExpert } as IExpert;
-    const inputIdetifier = event.target.name;
-    updatedExpert[inputIdetifier] = event.target.value;
-    setLoadedExpert(updatedExpert);
-    setNewAuthorValues({
-      ...newAuthorValues,
-      [inputIdetifier]: event.target.value,
-    });
-    if (!event.target.value) {
-      setErrorFields({ ...errorFields, [inputIdetifier]: minTwoSymbol });
-    } else {
-      setErrorFields({ ...errorFields, [inputIdetifier]: '' });
-    }
-  };
 
   const regions = useSelector(
     (state: RootStateType) => state.properties.regions,
   );
-
   const cities = useSelector((state: RootStateType) => state.properties.cities);
-
-  const [newAuthorValues, setNewAuthorValues] = useState({
+  const [newAuthorValues, setNewAuthorValues] = useState<INewAuthorValues>({
     avatar: '',
     firstName: '',
     lastName: '',
-    regionId: 0,
-    cityId: 0,
+    regionId: 1,
+    cityId: 1,
     bio: '',
     email: '',
-    socialNetwork: [],
+    /* eslint-disable-next-line */
+    socialNetwork: new Array(5).fill(null),
   });
-
-  const minTwoSymbol = 'Необхідно ввести мінімум 2 символи';
-  const emptyField = 'Поле не може бути порожнім';
-
   const [errorFields, setErrorFields] = useState({
-    avatar: 'Необхідно додати зображення',
-    lastName: minTwoSymbol,
-    firstName: minTwoSymbol,
-    region: emptyField,
-    city: emptyField,
-    email: emptyField,
+    avatar: fields.avatarRequired,
+    lastName: fields.emptyField,
+    firstName: fields.emptyField,
+    region: fields.emptyField,
+    city: fields.emptyField,
+    email: fields.emptyField,
+    work: fields.emptyField,
+    bio: fields.emptyField,
+    facebook: '',
+    instagram: '',
+    youtube: '',
+    twitter: '',
+    linkedin: '',
+    socialNetwoks: fields.socialNetworksEmpty,
   });
-
   const [visitFields, setVisitFields] = useState({
     lastName: false,
     firstName: false,
     region: false,
     city: false,
     email: false,
+    work: false,
+    bio: false,
+    facebook: false,
+    instagram: false,
+    youtube: false,
+    twitter: false,
+    linkedin: false,
   });
+  const [toggleButton, setToggleButton] = useState(true);
 
-  const handleAvatarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const inputIdetifier = event.target.name;
+  const validateInput = (
+    value: string,
+    inputIdentifier: string,
+    acceptedSymbols: string,
+    minSymbols: number,
+    maxSymbols: number,
+    regexp: RegExp,
+  ) => {
+    if (value && !regexp.test(value)) {
+      setErrorFields({ ...errorFields, [inputIdentifier]: acceptedSymbols });
+    } else if (!value || value.length < minSymbols) {
+      setErrorFields({
+        ...errorFields,
+        [inputIdentifier]: `Необхідно ввести мінімум ${minSymbols} символів`,
+      });
+    } else if (value.length > maxSymbols) {
+      setErrorFields({
+        ...errorFields,
+        [inputIdentifier]: `Можливо ввести максимум ${maxSymbols} символів`,
+      });
+    } else {
+      setErrorFields({ ...errorFields, [inputIdentifier]: '' });
+    }
+  };
+
+  const inputNameChangeHandler = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    const inputIdentifier = event.target.name;
+    const { value } = event.target;
+    setNewAuthorValues({
+      ...newAuthorValues,
+      [inputIdentifier]: value,
+    });
+    validateInput(
+      value,
+      inputIdentifier,
+      fields.acceptedSymbols,
+      2,
+      30,
+      regex.validUkrName,
+    );
+  };
+
+  const inputBioChangeHandler = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    const inputIdentifier = event.target.name;
+    const { value } = event.target;
+    setNewAuthorValues({
+      ...newAuthorValues,
+      [inputIdentifier]: value,
+    });
+    validateInput(
+      value,
+      inputIdentifier,
+      fields.acceptedSymbols,
+      3,
+      250,
+      regex.validUkrName,
+    );
+  };
+
+  const inputSocialNetworkChangeHandler = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    index: number,
+  ) => {
+    const inputIdentifier = event.target.name;
+    const { value } = event.target;
+    const newSocialNetworks = [...newAuthorValues.socialNetwork];
+    newSocialNetworks.splice(index, 1, value);
+    setNewAuthorValues({
+      ...newAuthorValues,
+      socialNetwork: newSocialNetworks,
+    });
+    if (!value) {
+      setErrorFields({ ...errorFields, [inputIdentifier]: null });
+    } else {
+      validateInput(
+        value,
+        inputIdentifier,
+        fields.acceptedSymbols,
+        10,
+        150,
+        regex.validEnName,
+      );
+    }
+  };
+
+  const inputAvatarChangeHandler = (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const inputIdentifier = event.target.name;
     if (event.target.files !== null && event.target?.files?.length > 0) {
       setNewAuthorValues({
         ...newAuthorValues,
-        [inputIdetifier]: URL.createObjectURL(event.target.files[0]),
+        [inputIdentifier]: URL.createObjectURL(event.target.files[0]),
       });
     }
   };
 
-  const handleEmailChange = (
-    event: { target: { value: string } },
-    inputIdetifier: string,
-  ) => {};
+  const inputEmailChangeHandler = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    const inputIdentifier = event.target.name;
+    const { value } = event.target;
+    setNewAuthorValues({
+      ...newAuthorValues,
+      [inputIdentifier]: value,
+    });
+    if (!value && visitFields.email) {
+      setErrorFields({ ...errorFields, [inputIdentifier]: fields.emptyField });
+    } else if (value && !regex.validEmail.test(value)) {
+      setErrorFields({
+        ...errorFields,
+        [inputIdentifier]: fields.acceptedEmail,
+      });
+    } else {
+      setErrorFields({ ...errorFields, [inputIdentifier]: '' });
+    }
+  };
 
-  interface INewAuthor {
-    authorId: number;
-    avatar: string;
-    bio: string;
-    email: string;
-    firstName: string;
-    lastName: string;
-    mainInstitutionId: number;
-    password: string;
-    qualification: string;
-    socialNetwork: string[];
-  }
-
-  const newAuthor: INewAuthor = {
-    authorId: 0,
-    avatar: newAuthorValues.avatar,
-    bio: '',
-    email: '',
-    firstName: '',
-    lastName: '',
-    mainInstitutionId: 0,
-    password: '',
-    qualification: '',
-    socialNetwork: [],
+  const inputRegionCityChangeHandler = (
+    _,
+    value: string,
+    inputIdentifier: string,
+  ) => {
+    setNewAuthorValues({ ...newAuthorValues, [inputIdentifier]: value });
+    console.log(regions.filter((region) => region.name === value)[0]?.id);
+    if (!value) {
+      setErrorFields({ ...errorFields, [inputIdentifier]: fields.emptyField });
+    } else {
+      setErrorFields({ ...errorFields, [inputIdentifier]: '' });
+    }
   };
 
   const blurHandler = (
     event: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const inputIdentifier = event.target.name;
-    // setVisitFields({ ...visitFields, [inputIdentifier]: true })
-    switch (inputIdentifier) {
-      case 'firstName':
-        setVisitFields({ ...visitFields, [inputIdentifier]: true });
-        break;
-      case 'lastName':
-        setVisitFields({ ...visitFields, [inputIdentifier]: true });
-        break;
-      case 'region':
-        setVisitFields({ ...visitFields, [inputIdentifier]: true });
-        break;
-      case 'city':
-        setVisitFields({ ...visitFields, [inputIdentifier]: true });
-        break;
-      default:
-        break;
-    }
+    setVisitFields({ ...visitFields, [inputIdentifier]: true });
   };
 
-  const changeRegionHandler = (_, value: string, inputIdetifier: string) => {
-    setNewAuthorValues({ ...newAuthorValues, [inputIdetifier]: value });
-    console.log(value);
-    if (!value) {
-      console.log(`value${inputIdetifier}`);
-      setErrorFields({ ...errorFields, [inputIdetifier]: emptyField });
-    } else {
-      setErrorFields({ ...errorFields, [inputIdetifier]: '' });
-    }
+  const buttonClickHandler = () => {
+    // TODO
   };
 
-  const changeCityHandler = (event: {
-    target: { name: string; value: string };
-  }) => {
-    const inputIdetifier = event.target.name;
-    setNewAuthorValues({
-      ...newAuthorValues,
-      [inputIdetifier]: event.target.value,
-    });
-    if (!event.target.value) {
-      console.log(`value${inputIdetifier}`);
-      setErrorFields({ ...errorFields, [inputIdetifier]: emptyField });
-    } else {
-      setErrorFields({ ...errorFields, [inputIdetifier]: '' });
+  useEffect(() => {
+    toggleButtonHandler();
+  }, [newAuthorValues]);
+
+  const toggleButtonHandler = () => {
+    /* eslint-disable-next-line */
+    for (const [value] of Object.entries(newAuthorValues)) {
+      if (value === '') {
+        return;
+      }
     }
+    setToggleButton(false);
   };
 
   console.log(newAuthorValues);
@@ -199,11 +241,7 @@ export const PersonalInfo: React.FC = () => {
           <Avatar
             alt="Avatar"
             className={classes.Avatar}
-            src={
-              loadedExpert?.avatar
-                ? loadedExpert.avatar
-                : newAuthorValues.avatar
-            }
+            src={newAuthorValues.avatar}
           />
           <Box display="flex" justifyContent="flex-end">
             <IconButton aria-label="upload picture" component="label">
@@ -213,7 +251,7 @@ export const PersonalInfo: React.FC = () => {
                 name="avatar"
                 accept="image/*"
                 type="file"
-                onChange={handleAvatarChange}
+                onChange={inputAvatarChangeHandler}
               />
               <PhotoCamera className={classes.PhotoCamera} />
             </IconButton>
@@ -231,8 +269,7 @@ export const PersonalInfo: React.FC = () => {
             label="Прізвище"
             name="lastName"
             fullWidth
-            value={loadedExpert?.lastName}
-            onChange={inputChangeHandler}
+            onChange={inputNameChangeHandler}
             onBlur={blurHandler}
           />
           <ErrorField
@@ -245,7 +282,7 @@ export const PersonalInfo: React.FC = () => {
             fullWidth
             getOptionLabel={(region: IRegion) => region.name}
             onInputChange={(_, value) =>
-              changeRegionHandler(_, value, 'region')
+              inputRegionCityChangeHandler(_, value, 'region')
             }
             renderInput={(params) => (
               <TextField
@@ -273,8 +310,7 @@ export const PersonalInfo: React.FC = () => {
             name="firstName"
             variant="outlined"
             fullWidth
-            value={loadedExpert?.firstName}
-            onChange={inputChangeHandler}
+            onChange={inputNameChangeHandler}
             onBlur={blurHandler}
           />
           <ErrorField
@@ -286,6 +322,9 @@ export const PersonalInfo: React.FC = () => {
             options={cities}
             fullWidth
             getOptionLabel={(city: ICity) => city.name}
+            onInputChange={(_, value) =>
+              inputRegionCityChangeHandler(_, value, 'city')
+            }
             renderInput={(params) => (
               <TextField
                 variant="outlined"
@@ -295,81 +334,100 @@ export const PersonalInfo: React.FC = () => {
                 {...params}
                 label="Місто"
                 name="city"
-                onChange={changeCityHandler}
                 onBlur={blurHandler}
               />
             )}
           />
         </Grid>
-
         <Grid item direction="column" xs={4} className={classes.Contacts}>
           <InputLabel required className={classes.InputLabel}>
             Посилання на персональні сторінки
           </InputLabel>
-          <TextField
-            variant="outlined"
-            required
-            fullWidth
-            placeholder="Електонна пошта"
-            value={loadedExpert?.email}
-            onChange={(event) => handleEmailChange(event, 'avatar')}
-          />
           {visitFields.email && errorFields.email && (
-            <Typography>{errorFields.email}</Typography>
+            <Typography className={classes.Typography}>
+              {errorFields.email}
+            </Typography>
           )}
           <TextField
+            className={classes.TextField}
             variant="outlined"
+            required
             fullWidth
-            placeholder="https://www.facebook.com"
-            value={loadedExpert?.socialNetworks?.[0]}
+            label="Електонна пошта"
+            name="email"
+            onChange={(event) => inputEmailChangeHandler(event)}
+            onBlur={blurHandler}
           />
-          <TextField
-            variant="outlined"
-            fullWidth
-            placeholder="https://www.instagram.com"
-          />
-          <TextField
-            variant="outlined"
-            fullWidth
-            placeholder="https://www.youtube.com"
-          />
-          <TextField
-            variant="outlined"
-            fullWidth
-            placeholder="https://www.twitter.com"
-          />
-          <TextField
-            variant="outlined"
-            fullWidth
-            placeholder="https://www.linkedin.com"
-          />
+          {fields.socialNetworks.map((sn, index) => {
+            return (
+              <Box key={sn.index}>
+                {errorFields[sn.name] && (
+                  <Typography className={classes.Typography}>
+                    {errorFields[sn.name]}
+                  </Typography>
+                )}
+                <TextField
+                  variant="outlined"
+                  fullWidth
+                  name={sn.name}
+                  placeholder={sn.placeholder}
+                  onChange={(event) =>
+                    inputSocialNetworkChangeHandler(event, index)
+                  }
+                  onBlur={blurHandler}
+                />
+              </Box>
+            );
+          })}
         </Grid>
         <Grid item xs={8}>
-          <InputLabel required className={classes.InputLabel}>
-            Основне місце роботи
-          </InputLabel>
+          <Box className={classes.WrapperBox}>
+            <InputLabel required className={classes.InputLabel}>
+              Основне місце роботи
+            </InputLabel>
+            {visitFields.work && errorFields.work && (
+              <Typography className={classes.Typography}>
+                {errorFields.work}
+              </Typography>
+            )}
+          </Box>
           <TextField
             variant="outlined"
             required
             fullWidth
-            value={loadedExpert?.mainInstitution?.name}
+            name="work"
+            onChange={inputBioChangeHandler}
+            onBlur={blurHandler}
           />
-          <InputLabel required className={classes.InputLabel}>
-            Біографія
-          </InputLabel>
+          <Box className={classes.WrapperBox}>
+            <InputLabel required className={classes.InputLabel}>
+              Біографія
+            </InputLabel>
+            {visitFields.bio && errorFields.bio && (
+              <Typography className={classes.Typography}>
+                {errorFields.bio}
+              </Typography>
+            )}
+          </Box>
           <TextField
+            multiline
+            minRows={11}
             variant="outlined"
             required
             fullWidth
-            value={loadedExpert?.bio}
+            name="bio"
+            onChange={inputBioChangeHandler}
+            onBlur={blurHandler}
           />
         </Grid>
       </Grid>
-      <Box className={classes.Box}>
+      <Box className={classes.ButtonBox}>
         <BasicButton
+          disabled={toggleButton}
           type="sign"
           label="Підтвердити зміни"
           className={classes.BasicButton}
+          onClick={buttonClickHandler}
         />
       </Box>
     </form>

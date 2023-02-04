@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box } from '@material-ui/core';
+import { Box, ThemeProvider } from '@material-ui/core';
 
 interface IErrorFieldProps {
   visitField: boolean;
@@ -10,16 +10,28 @@ export const ErrorField = ({ visitField, errorField }: IErrorFieldProps) => {
   const visibility = visitField && errorField ? 'visible' : 'hidden';
   return (
     <Box
-      component="span"
       sx={{
-        visibility,
-        my: 2,
-        p: 1,
-        fontSize: '0.875rem',
-        fontWeight: '700',
+        display: 'flex',
+        justifyContent: 'right',
+        alignItems: 'center',
+        m: 0,
+        p: 0,
+        height: '20px',
       }}
     >
-      {errorField || 'hidden'}
+      <Box
+        component="span"
+        sx={{
+          visibility,
+          my: 2,
+          p: 1,
+          fontSize: '0.875rem',
+          fontWeight: '700',
+          color: 'red',
+        }}
+      >
+        {errorField || 'hidden'}
+      </Box>
     </Box>
   );
 };
