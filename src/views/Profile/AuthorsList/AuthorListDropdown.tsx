@@ -3,8 +3,8 @@ import { FormControl, Select, InputBase, MenuItem } from '@material-ui/core';
 import { useStyles } from './styles/AuthorListDropdown.styles';
 
 interface IAuthorListDropdownProps {
-  pageSizes: number[];
-  selected: number;
+  pageSizes: Array<number | string>;
+  selected: number | string;
   setChanges: (payload: any) => void;
 }
 

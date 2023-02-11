@@ -41,4 +41,14 @@ export const useStyle = makeStyles(() => ({
       fontSize: '20px',
     },
   },
+  dropDown: {
+    marginTop: '0.5rem',
+    width: '8.5rem',
+    '& .MuiSelect-icon': {
+      color: 'black',
+    },
+    '& .MuiMenu-paper': {
+      top: '490px',
+    },
+  },
 }));

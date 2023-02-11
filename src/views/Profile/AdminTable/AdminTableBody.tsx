@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link, useHistory } from 'react-router-dom';
 import {
   Chip,
   TableBody,
@@ -68,9 +69,11 @@ const AdminTableBody: React.FC<IAdminTableBodyProps> = ({ isAdmin }) => {
         <TableCell>{id}</TableCell>
         <TableCell className={classes.titleCol}>
           <Chip label={typeName} className={classes[chipClass] as string} />
-          <Typography variant="h6" component="p" className={classes.title}>
-            {title}
-          </Typography>
+          <Link to={`/edit-post?id=${id}`} className={classes.title}>
+            <Typography variant="h6" component="p" className={classes.title}>
+              {title}
+            </Typography>
+          </Link>
         </TableCell>
         <TableCell>{t(langTokens.admin[status])}</TableCell>
         <TableCell>
@@ -92,7 +95,7 @@ const AdminTableBody: React.FC<IAdminTableBodyProps> = ({ isAdmin }) => {
             title={title}
             status={status}
             isAdmin={isAdmin}
-            // postDate={newPostPublicationDate}
+            //postDate={newPostPublicationDate}
           />
         </TableCell>
       </TableRow>

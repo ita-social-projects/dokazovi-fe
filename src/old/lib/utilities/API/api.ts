@@ -27,9 +27,11 @@ import {
   ActiveDirectionType,
   PlatformInformationType,
   UpdatePlatformInformationRequestType,
+  GetConfigType,
 } from './types';
 import { BASE_URL } from '../../../apiURL';
 import { getToken } from '../../../provider/AuthProvider/getToken';
+import { IChangeLog } from 'models/changeLog/types';
 
 export const instance = axios.create({
   baseURL: BASE_URL,
@@ -304,6 +306,16 @@ export const getPlatformInformation = async (
   id: number,
 ): Promise<AxiosResponse<PlatformInformationType>> => {
   return instance.get(`/platform-information/${id}`);
+};
+
+export const fetchMaterialsChange = async (
+  parametres?: IChangeLog,
+): Promise<AxiosRequestConfig> => {
+  return await instance.get(`/log/post-logs`, {
+    params: {
+      size: parametres?.size,
+    },
+  });
 };
 
 export const updatePlatformInformation = async (

@@ -1,15 +1,21 @@
 import React, { useCallback, useEffect, useState, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
 import _ from 'lodash';
-import { Box, TextField, Typography } from '@material-ui/core';
+import { Box, TextField, Typography, List, ListItem } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
 import { DropEvent, FileRejection } from 'react-dropzone';
 import { PageTitle } from 'components/Page/PageTitle';
 import { useSelector } from 'react-redux';
 import { CarouselImagesWrapper } from 'views/postCreation/CarouselImagesWrapper';
 import { StatusesForActions } from 'models/adminLab/types';
+import { setChangesSize } from 'models/changeLog';
+import { useActions } from 'shared/hooks';
 import { sanitizeHtml } from '../../old/lib/utilities/sanitizeHtml';
-import { getAllExperts, updatePost } from '../../old/lib/utilities/API/api';
+import {
+  fetchMaterialsChange,
+  getAllExperts,
+  updatePost,
+} from '../../old/lib/utilities/API/api';
 import { IDirection, IOrigin, IPost } from '../../old/lib/types';
 import { PostCreationButtons } from '../postCreation/PostCreationButtons';
 import {
@@ -40,6 +46,8 @@ import { BackgroundImageContainer } from '../../components/Editor/CustomModules/
 import { langTokens } from '../../locales/localizationInit';
 import { useStyle } from '../postCreation/RequiredFieldsStyle';
 import { selectAuthorities } from '../../models/authorities';
+import { AuthorListDropdown } from 'views/Profile/AuthorsList/AuthorListDropdown';
+import { selectSize } from 'models/changeLog';
 
 export interface IAllPostTypesUpdation {
   pageTitle: string;
@@ -318,6 +326,35 @@ export const AllPostTypesUpdation: React.FC<IAllPostTypesUpdation> = ({
     />
   );
 
+  type Changes = {
+    id: number;
+
+    title: string;
+    changes: string;
+    dateOfChange: Date;
+  };
+
+  const [changes, setChanges] = useState<Changes[]>([]);
+  const [setSizePerPage] = useActions([setChangesSize]);
+  const { size } = useSelector(selectSize);
+  const handleNotesToShowChange = (val) => {
+    setSizePerPage(val);
+  };
+
+  useEffect(() => {
+    const changedMaterials = async () => {
+      if (typeof size === 'string') {
+        const response = await fetchMaterialsChange();
+        return setChanges(response.data.content);
+      }
+      const response = await fetchMaterialsChange({ size });
+      return setChanges(response.data.content);
+    };
+    changedMaterials();
+  }, [size]);
+
+  const changesPerPage = [10, 25, 50, 'All'];
+
   return (
     <>
       <PageTitle title={pageTitle} />
@@ -444,6 +481,31 @@ export const AllPostTypesUpdation: React.FC<IAllPostTypesUpdation> = ({
         disabled={isDisabled}
         post={post}
       />
+      <BorderBottom />
+      <h1>Changes List</h1>
+      <Box mt={3}>
+        <AuthorListDropdown
+          pageSizes={changesPerPage}
+          setChanges={handleNotesToShowChange}
+          selected={
+            size === 0 ? changesPerPage[changesPerPage.length - 1] : size
+          }
+        />
+        <List>
+          {changes.length > 0 ? (
+            changes.map((item) => {
+              return (
+                <ListItem key={item.id}>
+                  {item.title} {item.changes}:{' '}
+                  {new Date(item.dateOfChange).toUTCString()}
+                </ListItem>
+              );
+            })
+          ) : (
+            <>No Chanages</>
+          )}
+        </List>
+      </Box>
     </>
   );
 };
