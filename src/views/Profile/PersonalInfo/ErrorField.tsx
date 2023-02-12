@@ -1,12 +1,15 @@
 import React from 'react';
-import { Box, ThemeProvider } from '@material-ui/core';
+import { Box } from '@material-ui/core';
 
 interface IErrorFieldProps {
   visitField: boolean;
   errorField: string;
 }
 
-export const ErrorField = ({ visitField, errorField }: IErrorFieldProps) => {
+export const ErrorField = ({
+  visitField,
+  errorField,
+}: IErrorFieldProps): React.ReactElement => {
   const visibility = visitField && errorField ? 'visible' : 'hidden';
   return (
     <Box

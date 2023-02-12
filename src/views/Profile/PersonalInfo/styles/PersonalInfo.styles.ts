@@ -1,11 +1,4 @@
-import { AddAPhoto } from '@material-ui/icons';
-import {
-  makeStyles,
-  Theme,
-  TextField,
-  InputLabel,
-  Typography,
-} from '@material-ui/core';
+import { makeStyles, Theme } from '@material-ui/core';
 
 export const useStyles = makeStyles(
   (theme: Theme) => ({
@@ -30,7 +23,7 @@ export const useStyles = makeStyles(
       '& .MuiInputBase-input': {
         display: 'flex',
         alignItems: 'center',
-        padding: theme.spacing(3),
+        padding: theme.spacing(2.95),
         fontSize: theme.spacing(3.6),
       },
     },
