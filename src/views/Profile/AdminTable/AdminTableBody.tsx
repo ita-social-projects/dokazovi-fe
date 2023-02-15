@@ -95,7 +95,7 @@ const AdminTableBody: React.FC<IAdminTableBodyProps> = ({ isAdmin }) => {
             title={title}
             status={status}
             isAdmin={isAdmin}
-            //postDate={newPostPublicationDate}
+            // postDate={newPostPublicationDate}
           />
         </TableCell>
       </TableRow>
