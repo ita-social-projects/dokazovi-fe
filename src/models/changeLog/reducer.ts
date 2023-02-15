@@ -1,20 +1,20 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { getAsyncActionsReducer } from 'models/helpers/asyncActions';
-import { fetchMaterialsChange } from 'old/lib/utilities/API/api';
+import { ChangeLogType } from 'old/lib/utilities/API/types';
 import { getChangeLog } from './asyncAction';
 
-const initialState = {
+const initialState: ChangeLogType = {
   size: 0,
-  pageNumber: 0,
+  content: [],
 };
 
 const changeLog = createSlice({
   name: 'changesLog',
   initialState,
   reducers: {
-    setChangesSize: (state, action) => {
-      state.size = action.payload;
-      state.pageNumber = initialState.pageNumber;
+    setChangesSize: (state, action: PayloadAction<number>) => {
+      const setChangeObj = state;
+      setChangeObj.size = action.payload;
     },
   },
   extraReducers: {
@@ -22,6 +22,7 @@ const changeLog = createSlice({
   },
 });
 
-export const { setChangesSize } = changeLog.actions;
+const { setChangesSize } = changeLog.actions;
 
-export const changeLogReducer = changeLog.reducer;
+const changeLogReducer = changeLog.reducer;
+export { setChangesSize, changeLogReducer };

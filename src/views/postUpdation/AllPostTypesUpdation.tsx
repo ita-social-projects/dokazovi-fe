@@ -5,10 +5,11 @@ import { Box, TextField, Typography, List, ListItem } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
 import { DropEvent, FileRejection } from 'react-dropzone';
 import { PageTitle } from 'components/Page/PageTitle';
+import { AuthorListDropdown } from 'views/Profile/AuthorsList/AuthorListDropdown';
 import { useSelector } from 'react-redux';
 import { CarouselImagesWrapper } from 'views/postCreation/CarouselImagesWrapper';
 import { StatusesForActions } from 'models/adminLab/types';
-import { setChangesSize } from 'models/changeLog';
+import { setChangesSize, selectSize } from 'models/changeLog';
 import { useActions } from 'shared/hooks';
 import { sanitizeHtml } from '../../old/lib/utilities/sanitizeHtml';
 import {
@@ -46,8 +47,6 @@ import { BackgroundImageContainer } from '../../components/Editor/CustomModules/
 import { langTokens } from '../../locales/localizationInit';
 import { useStyle } from '../postCreation/RequiredFieldsStyle';
 import { selectAuthorities } from '../../models/authorities';
-import { AuthorListDropdown } from 'views/Profile/AuthorsList/AuthorListDropdown';
-import { selectSize } from 'models/changeLog';
 
 export interface IAllPostTypesUpdation {
   pageTitle: string;
@@ -326,15 +325,14 @@ export const AllPostTypesUpdation: React.FC<IAllPostTypesUpdation> = ({
     />
   );
 
-  type Changes = {
+  type ContentChangesType = {
     id: number;
-
     title: string;
     changes: string;
     dateOfChange: Date;
   };
 
-  const [changes, setChanges] = useState<Changes[]>([]);
+  const [changes, setChanges] = useState<ContentChangesType[]>([]);
   const [setSizePerPage] = useActions([setChangesSize]);
   const { size } = useSelector(selectSize);
   const handleNotesToShowChange = (val) => {
@@ -344,16 +342,16 @@ export const AllPostTypesUpdation: React.FC<IAllPostTypesUpdation> = ({
   useEffect(() => {
     const changedMaterials = async () => {
       if (typeof size === 'string') {
-        const response = await fetchMaterialsChange();
-        return setChanges(response.data.content);
+        const { data } = await fetchMaterialsChange();
+        return setChanges(data.content);
       }
-      const response = await fetchMaterialsChange({ size });
-      return setChanges(response.data.content);
+      const { data } = await fetchMaterialsChange({ size });
+      return setChanges(data.content);
     };
     changedMaterials();
   }, [size]);
 
-  const changesPerPage = [10, 25, 50, 'All'];
+  const changesPerPage = [1, 2, 50, 'All'];
 
   return (
     <>

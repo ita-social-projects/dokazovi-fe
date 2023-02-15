@@ -277,3 +277,34 @@ export type UpdatePlatformInformationRequestType = {
   title?: string;
   text?: string;
 };
+
+export type ChangeLogType = {
+  empty?: boolean;
+  first?: boolean;
+  last?: boolean;
+  number?: number;
+  numberOfElements?: number;
+  size?: number;
+  totalElements?: number;
+  totalPages?: number;
+  content: [];
+};
+
+export type GetChangeLogType = ChangeLogType & {
+  changes?: string;
+  dateOfChange?: {
+    date: number;
+    day: number;
+    hours: number;
+    minutes: number;
+    month: number;
+    nanos: number;
+    seconds: number;
+    time: number;
+    timezoneOffset: number;
+    year: number;
+  };
+  id?: number;
+  nameOfChanger?: string;
+  title?: string;
+};

@@ -4,7 +4,7 @@ import { useStyles } from './styles/AuthorListDropdown.styles';
 
 interface IAuthorListDropdownProps {
   pageSizes: Array<number | string>;
-  selected: number | string;
+  selected: number | string | undefined;
   setChanges: (payload: any) => void;
 }
 

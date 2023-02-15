@@ -6,10 +6,10 @@ export const getChangeLog = createAsyncThunk(
   'getChangeLogActions',
   async (options: IChangeLog, { rejectWithValue }) => {
     try {
-      const changes = await fetchMaterialsChange(options);
-      return changes.data;
+      const { data } = await fetchMaterialsChange(options);
+      return data;
     } catch (error) {
-      return rejectWithValue(error.response.data);
+      return rejectWithValue(error);
     }
   },
 );
