@@ -1,6 +1,10 @@
 /* eslint-disable */
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { IFetchExpertsOptions, IExpertsAutorsListOptions } from './types';
+import {
+  IFetchExpertsOptions,
+  IExpertsAutorsListOptions,
+  IExpertsDeleteAutor,
+} from './types';
 import {
   deleteAuthorById,
   getAllExperts,
@@ -113,11 +117,15 @@ export const fetchExpertsAutorsList = createAsyncThunk(
 
 export const deleteAuthor = createAsyncThunk(
   'experts/deleteAuthor',
-  async (options: { id: number }, { rejectWithValue, dispatch }) => {
+  async (options: IExpertsDeleteAutor, { getState, rejectWithValue }) => {
     try {
       const { id } = options;
       await deleteAuthorById(id);
-      return id;
+      const {
+        experts: { data },
+      } = getState() as any;
+      const ids = data.expertIds.filter((expertId: number) => expertId !== id);
+      return { ...data, expertIds: ids };
     } catch (error) {
       return rejectWithValue(error.response?.data);
     }

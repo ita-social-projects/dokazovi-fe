@@ -71,11 +71,6 @@ export const expertsSlice = createSlice({
     ...getAsyncActionsReducer(fetchExperts as any),
     ...getAsyncActionsReducer(fetchExpertsAutorsList as any),
     ...getAsyncActionsReducer(deleteAuthor as any),
-    [deleteAuthor.fulfilled.type]: (state, action) => {
-      state.data.expertIds = state.data.expertIds.filter(
-        (id) => id !== action.payload,
-      );
-    },
   },
 });
 

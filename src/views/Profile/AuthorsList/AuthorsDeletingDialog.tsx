@@ -24,13 +24,13 @@ const AuthorsDeletingDialog: React.FC<IAuthorsDelDialogProps> = (props) => {
   const classes = useStyles();
   const { id, fullName, isAllowedToDelete } = props;
   const [openDialog, setOpenDialog] = useState(false);
-  const [bounddeleteAuthor] = useActions([deleteAuthor]);
+  const [boundDeleteAuthor] = useActions([deleteAuthor]);
 
   const handleOpenDialog = () => {
     setOpenDialog(true);
   };
   const handleCloseDialog = () => {
-    bounddeleteAuthor({ id });
+    boundDeleteAuthor({ id });
     setOpenDialog(false);
   };
 
