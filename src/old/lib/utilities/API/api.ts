@@ -311,3 +311,9 @@ export const updatePlatformInformation = async (
 ): Promise<AxiosResponse<PlatformInformationType>> => {
   return instance.put(`/platform-information/`, requestBody);
 };
+
+export const deleteAuthorById = async (
+  id: number,
+): Promise<AxiosResponse<PostsResponseType>> => {
+  return instance.delete(`/author/${id}`);
+};

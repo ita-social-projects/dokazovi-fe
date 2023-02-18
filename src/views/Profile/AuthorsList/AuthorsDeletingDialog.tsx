@@ -9,6 +9,8 @@ import {
   IconButton,
 } from '@material-ui/core';
 import { DeleteOutlined } from '@material-ui/icons';
+import { deleteAuthor } from 'models/experts/asyncActions';
+import { useActions } from 'shared/hooks/useActions';
 import { useStyles } from './styles/AuthorsTable.styles';
 import i18n, { langTokens } from '../../../locales/localizationInit';
 
@@ -22,11 +24,13 @@ const AuthorsDeletingDialog: React.FC<IAuthorsDelDialogProps> = (props) => {
   const classes = useStyles();
   const { id, fullName, isAllowedToDelete } = props;
   const [openDialog, setOpenDialog] = useState(false);
+  const [boundDeleteAuthor] = useActions([deleteAuthor]);
 
   const handleOpenDialog = () => {
     setOpenDialog(true);
   };
   const handleCloseDialog = () => {
+    boundDeleteAuthor({ id });
     setOpenDialog(false);
   };
 
