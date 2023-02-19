@@ -279,7 +279,7 @@ export type UpdatePlatformInformationRequestType = {
   text?: string;
 };
 
-export type ChangeLogType<T> = {
+export type ChangeLogType<T = any> = {
   empty?: boolean;
   first?: boolean;
   last?: boolean;

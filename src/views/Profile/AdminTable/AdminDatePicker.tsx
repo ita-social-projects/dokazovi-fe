@@ -39,7 +39,7 @@ export const AdminDatePicker: React.FC<IMaterialsDate> = ({
 }) => {
   const classes = useStyles();
   const { t } = useTranslation();
-  const handleDatePicker = (option: string, value?) => {
+  const handleDatePicker = (option: string, value) => {
     setChanges({
       option,
       date: requestDate(value),

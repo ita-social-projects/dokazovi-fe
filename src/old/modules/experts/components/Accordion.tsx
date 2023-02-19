@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
 import { Typography } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
 import { useStyles } from '../styles/Accordion.styles';

@@ -28,7 +28,6 @@ const ExpertsViewMobile: FC<IExpertsViewMobileProps> = ({
   totalElements,
   SelectedTypes,
   FilterCheckboxes,
-  setPage,
   LoadMoreButton,
 }) => {
   const classes = useStyles();

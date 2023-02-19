@@ -34,8 +34,6 @@ import {
   PlatformInformationType,
   UpdatePlatformInformationRequestType,
   GetChangeLogType,
-  ChangeLogType,
-  GetChangesLogResponseType,
 } from './types';
 import { BASE_URL } from '../../../apiURL';
 import { getToken } from '../../../provider/AuthProvider/getToken';
