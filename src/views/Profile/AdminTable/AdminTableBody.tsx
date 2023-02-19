@@ -69,7 +69,13 @@ const AdminTableBody: React.FC<IAdminTableBodyProps> = ({ isAdmin }) => {
         <TableCell>{id}</TableCell>
         <TableCell className={classes.titleCol}>
           <Chip label={typeName} className={classes[chipClass] as string} />
-          <Link to={`/edit-post?id=${id}`} className={classes.title}>
+          <Link
+            to={{
+              pathname: '/edit-post',
+              search: `id=${id}`,
+            }}
+            className={classes.title}
+          >
             <Typography variant="h6" component="p" className={classes.title}>
               {title}
             </Typography>

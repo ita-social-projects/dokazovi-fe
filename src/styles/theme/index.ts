@@ -1,4 +1,4 @@
-import { createMuiTheme, Theme } from '@material-ui/core';
+import { createTheme, Theme } from '@material-ui/core';
 import { PALETTE as palette } from './palette';
 import { TYPOGRAPHY as typography } from './typography';
 
@@ -10,7 +10,7 @@ export const SCREEN_BREAKPOINTS = {
   xl: 1920,
 };
 
-export const MAIN_THEME = createMuiTheme({
+export const MAIN_THEME = createTheme({
   palette,
   typography,
   spacing: 5,

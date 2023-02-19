@@ -1,8 +1,13 @@
 /* eslint-disable no-param-reassign */
-import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
+import axios, {
+  AxiosError,
+  AxiosRequestConfig,
+  AxiosResponse,
+  AxiosPromise,
+} from 'axios';
 import qs from 'qs';
 import { toast } from 'react-toastify';
-import { IChangeLog } from 'models/changeLog/types';
+import { IChangeLogOptions } from 'models/changeLog/types';
 import {
   CreatePostRequestUnionType,
   CreateTagRequestType,
@@ -29,6 +34,8 @@ import {
   PlatformInformationType,
   UpdatePlatformInformationRequestType,
   GetChangeLogType,
+  ChangeLogType,
+  GetChangesLogResponseType,
 } from './types';
 import { BASE_URL } from '../../../apiURL';
 import { getToken } from '../../../provider/AuthProvider/getToken';
@@ -308,9 +315,9 @@ export const getPlatformInformation = async (
   return instance.get(`/platform-information/${id}`);
 };
 
-export const fetchMaterialsChange = async (
-  parametres?: IChangeLog,
-): Promise<AxiosResponse<GetChangeLogType>> => {
+export const fetchChangeLog = (
+  parametres?: IChangeLogOptions,
+): AxiosPromise<GetChangeLogType> => {
   return instance.get(`/log/post-logs`, {
     params: {
       size: parametres?.size,

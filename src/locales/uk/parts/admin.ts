@@ -80,4 +80,6 @@ export const admin = {
   maxImportantPostCountReached: `Досягнуто максимум важливих постів`,
   createNewAuthor: `Створити нового автора`,
   showNotesAmount: `Відобразити <dropDown/> записів`,
+  changesList: `Зміни заголовку`,
+  noChangesLog: `Жодних змін не знайдено`,
 };

@@ -1,9 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { getAsyncActionsReducer } from 'models/helpers/asyncActions';
-import { ChangeLogType } from 'old/lib/utilities/API/types';
+import { GetChangesLogResponseType } from 'old/lib/utilities/API/types';
 import { getChangeLog } from './asyncAction';
 
-const initialState: ChangeLogType = {
+const initialState: GetChangesLogResponseType = {
   size: 0,
   content: [],
 };

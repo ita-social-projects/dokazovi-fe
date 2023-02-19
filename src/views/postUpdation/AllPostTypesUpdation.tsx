@@ -13,7 +13,7 @@ import { setChangesSize, selectSize } from 'models/changeLog';
 import { useActions } from 'shared/hooks';
 import { sanitizeHtml } from '../../old/lib/utilities/sanitizeHtml';
 import {
-  fetchMaterialsChange,
+  fetchChangeLog,
   getAllExperts,
   updatePost,
 } from '../../old/lib/utilities/API/api';
@@ -331,10 +331,11 @@ export const AllPostTypesUpdation: React.FC<IAllPostTypesUpdation> = ({
     changes: string;
     dateOfChange: Date;
   };
+  const changesPerPage = [10, 20, 50, 'All'];
 
   const [changes, setChanges] = useState<ContentChangesType[]>([]);
   const [setSizePerPage] = useActions([setChangesSize]);
-  const { size } = useSelector(selectSize);
+  const size = useSelector(selectSize);
   const handleNotesToShowChange = (val) => {
     setSizePerPage(val);
   };
@@ -342,16 +343,14 @@ export const AllPostTypesUpdation: React.FC<IAllPostTypesUpdation> = ({
   useEffect(() => {
     const changedMaterials = async () => {
       if (typeof size === 'string') {
-        const { data } = await fetchMaterialsChange();
+        const { data } = await fetchChangeLog();
         return setChanges(data.content);
       }
-      const { data } = await fetchMaterialsChange({ size });
+      const { data } = await fetchChangeLog({ size });
       return setChanges(data.content);
     };
     changedMaterials();
   }, [size]);
-
-  const changesPerPage = [1, 2, 50, 'All'];
 
   return (
     <>
@@ -480,27 +479,30 @@ export const AllPostTypesUpdation: React.FC<IAllPostTypesUpdation> = ({
         post={post}
       />
       <BorderBottom />
-      <h1>Changes List</h1>
+      <Typography component="h2" variant="h2">
+        {t(langTokens.admin.changesList)}
+      </Typography>
       <Box mt={3}>
         <AuthorListDropdown
           pageSizes={changesPerPage}
           setChanges={handleNotesToShowChange}
-          selected={
-            size === 0 ? changesPerPage[changesPerPage.length - 1] : size
-          }
+          selected={size || changesPerPage[changesPerPage.length - 1]}
         />
         <List>
-          {changes.length > 0 ? (
-            changes.map((item) => {
-              return (
-                <ListItem key={item.id}>
+          {changes.map((item) => {
+            return (
+              <ListItem key={item.id}>
+                <Typography variant="h6" component="h2">
                   {item.title} {item.changes}:{' '}
                   {new Date(item.dateOfChange).toUTCString()}
-                </ListItem>
-              );
-            })
-          ) : (
-            <>No Chanages</>
+                </Typography>
+              </ListItem>
+            );
+          })}
+          {changes.length === 0 && (
+            <Typography component="h2" variant="h2">
+              {t(langTokens.admin.noChangesLog)}
+            </Typography>
           )}
         </List>
       </Box>
