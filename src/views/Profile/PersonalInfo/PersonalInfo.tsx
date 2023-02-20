@@ -25,7 +25,7 @@ import { ErrorField } from './ErrorField';
 import { regex } from './constants/regex';
 import { fields } from './constants/fields';
 import { INewAuthorValues } from './types';
-
+import i18n, { langTokens } from '../../../locales/localizationInit';
 export const PersonalInfo: React.FC = () => {
   const classes = useStyles();
   const regions = useSelector(
@@ -44,24 +44,23 @@ export const PersonalInfo: React.FC = () => {
     cityId: 0,
     bio: '',
     email: '',
-    /* eslint-disable-next-line */
-    socialNetwork: new Array(5).fill(null),
+    socialNetwork: [null, null, null, null, null],
   });
   const [errorFields, setErrorFields] = useState({
-    avatar: fields.avatarRequired,
-    lastName: fields.emptyField,
-    firstName: fields.emptyField,
-    regionId: fields.emptyField,
-    cityId: fields.emptyField,
-    email: fields.emptyField,
-    work: fields.emptyField,
-    bio: fields.emptyField,
+    avatar: i18n.t(langTokens.admin.pictureRequired),
+    lastName: i18n.t(langTokens.admin.fieldCantBeEmpty),
+    firstName: i18n.t(langTokens.admin.fieldCantBeEmpty),
+    regionId: i18n.t(langTokens.admin.fieldCantBeEmpty),
+    cityId: i18n.t(langTokens.admin.fieldCantBeEmpty),
+    email: i18n.t(langTokens.admin.fieldCantBeEmpty),
+    work: i18n.t(langTokens.admin.fieldCantBeEmpty),
+    bio: i18n.t(langTokens.admin.fieldCantBeEmpty),
     facebook: '',
     instagram: '',
     youtube: '',
     twitter: '',
     linkedin: '',
-    socialNetwoks: fields.socialNetworksEmpty,
+    socialNetwoks: i18n.t(langTokens.admin.minimumOneLinkRequired),
   });
   const [visitFields, setVisitFields] = useState({
     lastName: false,
@@ -146,7 +145,7 @@ export const PersonalInfo: React.FC = () => {
     validateInput(
       value,
       inputIdentifier,
-      fields.acceptedSymbols,
+      i18n.t(langTokens.admin.allowedChar),
       2,
       30,
       regex.validUkrName,
@@ -165,7 +164,7 @@ export const PersonalInfo: React.FC = () => {
     validateInput(
       value,
       inputIdentifier,
-      fields.acceptedSymbols,
+      i18n.t(langTokens.admin.allowedChar),
       3,
       250,
       regex.validUkrName,
@@ -184,7 +183,7 @@ export const PersonalInfo: React.FC = () => {
       validateInput(
         value,
         inputIdentifier,
-        fields.acceptedSymbols,
+        i18n.t(langTokens.admin.allowedChar),
         10,
         150,
         regex.validEnName,
@@ -224,11 +223,14 @@ export const PersonalInfo: React.FC = () => {
     const { value } = event.target;
 
     if (!value && visitFields.email) {
-      setErrorFields({ ...errorFields, [inputIdentifier]: fields.emptyField });
+      setErrorFields({
+        ...errorFields,
+        [inputIdentifier]: i18n.t(langTokens.admin.fieldCantBeEmpty),
+      });
     } else if (value && !regex.validEmail.test(value)) {
       setErrorFields({
         ...errorFields,
-        [inputIdentifier]: fields.acceptedEmail,
+        [inputIdentifier]: i18n.t(langTokens.admin.wrongEmail),
       });
     } else {
       setErrorFields({ ...errorFields, [inputIdentifier]: '' });
@@ -245,7 +247,10 @@ export const PersonalInfo: React.FC = () => {
     inputIdentifier: string,
   ) => {
     if (!value) {
-      setErrorFields({ ...errorFields, [inputIdentifier]: fields.emptyField });
+      setErrorFields({
+        ...errorFields,
+        [inputIdentifier]: i18n.t(langTokens.admin.fieldCantBeEmpty),
+      });
       setIsCitySelect(false);
       setSelectRegions(null);
       if (!regionForValue) {
@@ -265,7 +270,10 @@ export const PersonalInfo: React.FC = () => {
     inputIdentifier: string,
   ) => {
     if (!value) {
-      setErrorFields({ ...errorFields, [inputIdentifier]: fields.emptyField });
+      setErrorFields({
+        ...errorFields,
+        [inputIdentifier]: i18n.t(langTokens.admin.fieldCantBeEmpty),
+      });
       setRegionForValue(null);
       setSelectCities(null);
       if (!isCitySelect) {
@@ -302,7 +310,7 @@ export const PersonalInfo: React.FC = () => {
 
   const toggleButtonHandler = () => {
     /* eslint-disable-next-line */
-    for (const [_, value] of Object.entries(errorFields)) {
+    for (const [, value] of Object.entries(errorFields)) {
       if (value) {
         setToggleButton(true);
         return;
@@ -349,7 +357,7 @@ export const PersonalInfo: React.FC = () => {
             className={classes.TextField}
             required
             variant="outlined"
-            label="Прізвище"
+            label={i18n.t(langTokens.admin.lastName)}
             name="lastName"
             fullWidth
             onChange={inputNameChangeHandler}
@@ -376,7 +384,7 @@ export const PersonalInfo: React.FC = () => {
                 required
                 // eslint-disable-next-line
                 {...params}
-                label="Регіон"
+                label={i18n.t(langTokens.admin.region)}
                 name="region"
                 onBlur={blurHandler}
               />
@@ -391,7 +399,7 @@ export const PersonalInfo: React.FC = () => {
           <TextField
             className={classes.TextField}
             required
-            label="Ім'я"
+            label={i18n.t(langTokens.admin.firstName)}
             name="firstName"
             variant="outlined"
             fullWidth
@@ -416,7 +424,7 @@ export const PersonalInfo: React.FC = () => {
                 required
                 // eslint-disable-next-line
                 {...params}
-                label="Місто"
+                label={i18n.t(langTokens.admin.city)}
                 name="city"
                 onBlur={blurHandler}
               />
@@ -431,7 +439,7 @@ export const PersonalInfo: React.FC = () => {
           className={classes.Contacts}
         >
           <InputLabel required className={classes.InputLabel}>
-            Посилання на персональні сторінки
+            {i18n.t(langTokens.admin.socialNetworkLinks)}
           </InputLabel>
           {visitFields.email && errorFields.email && (
             <Typography className={classes.Typography}>
@@ -443,13 +451,13 @@ export const PersonalInfo: React.FC = () => {
             variant="outlined"
             required
             fullWidth
-            label="Електонна пошта"
+            label={i18n.t(langTokens.admin.email)}
             name="email"
             onChange={(event) => inputEmailChangeHandler(event)}
             onBlur={blurHandler}
           />
           <InputLabel required className={classes.InputLabel}>
-            Необхідно додати мінімум одне посилання
+            {i18n.t(langTokens.admin.minimumOneLinkRequired)}
           </InputLabel>
           {fields.socialNetworks.map((sn, index) => {
             return (
@@ -476,7 +484,7 @@ export const PersonalInfo: React.FC = () => {
         <Grid item xs={8}>
           <Box className={classes.WrapperBox}>
             <InputLabel required className={classes.InputLabel}>
-              Основне місце роботи
+              {i18n.t(langTokens.admin.mainPlaceOfWork)}
             </InputLabel>
             {visitFields.work && errorFields.work && (
               <Typography className={classes.Typography}>
@@ -494,7 +502,7 @@ export const PersonalInfo: React.FC = () => {
           />
           <Box className={classes.WrapperBox}>
             <InputLabel required className={classes.InputLabel}>
-              Біографія
+              {i18n.t(langTokens.admin.biography)}
             </InputLabel>
             {visitFields.bio && errorFields.bio && (
               <Typography className={classes.Typography}>
@@ -518,7 +526,7 @@ export const PersonalInfo: React.FC = () => {
         <BasicButton
           disabled={toggleButton}
           type="sign"
-          label="Підтвердити зміни"
+          label={i18n.t(langTokens.common.acceptChanges)}
           className={classes.BasicButton}
           onClick={buttonClickHandler}
         />

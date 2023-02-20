@@ -13,6 +13,9 @@ export const useStyles = makeStyles(
         fontWeight: 600,
         fontSize: theme.spacing(3.6),
       },
+      '& .MuiFormLabel-asterisk.MuiInputLabel-asterisk': {
+        color: theme.palette.warning.main,
+      },
     },
     Avatar: {
       height: 200,
@@ -68,7 +71,7 @@ export const useStyles = makeStyles(
     },
     Typography: {
       '& ': {
-        color: 'red',
+        color: theme.palette.warning.main,
         fontSize: '0.875rem',
         height: theme.spacing(3),
         display: 'flex',

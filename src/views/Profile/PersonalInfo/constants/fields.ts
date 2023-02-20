@@ -1,9 +1,4 @@
 export const fields = {
-  emptyField: 'Поле не може бути порожнім',
-  socialNetworksEmpty: 'Необхідно заповнити мінімум одне поле',
-  acceptedSymbols: `Дозволені символи: (пробіл)"№'()-.,/&%:@`,
-  acceptedEmail: 'Неаправильна email адреса',
-  avatarRequired: 'Необхідно додати зображення',
   socialNetworks: [
     {
       index: 0,

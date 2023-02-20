@@ -33,7 +33,7 @@ export const ErrorField = ({
           color: 'red',
         }}
       >
-        {errorField || 'hidden'}
+        {errorField || ''}
       </Box>
     </Box>
   );

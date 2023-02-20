@@ -32,13 +32,5 @@ export const MAIN_THEME = createMuiTheme({
         color: 'initial',
       },
     },
-    MuiFormLabel: {
-      asterisk: {
-        color: '#db3131',
-        '&$error': {
-          color: '#db3131',
-        },
-      },
-    },
   },
 });
