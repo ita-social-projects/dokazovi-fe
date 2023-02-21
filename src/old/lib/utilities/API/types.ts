@@ -1,4 +1,3 @@
-import { IChangeLogOptions } from 'models/changeLog/types';
 import { IDirection, IOrigin, IPost, PostStatusType } from '../../types';
 
 export type CreatePostRequestType = {
@@ -279,7 +278,7 @@ export type UpdatePlatformInformationRequestType = {
   text?: string;
 };
 
-export type ChangeLogType<T = any> = {
+export type ChangeLogType = {
   empty?: boolean;
   first?: boolean;
   last?: boolean;
@@ -291,9 +290,7 @@ export type ChangeLogType<T = any> = {
   content: [];
 };
 
-export type GetChangesLogResponseType = ChangeLogType<IChangeLogOptions>;
-
-export type GetChangeLogType = GetChangesLogResponseType & {
+export type GetChangeLogType = ChangeLogType & {
   changes?: string;
   dateOfChange?: {
     date: number;

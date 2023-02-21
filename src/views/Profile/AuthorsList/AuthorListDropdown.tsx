@@ -2,8 +2,10 @@ import React from 'react';
 import { FormControl, Select, InputBase, MenuItem } from '@material-ui/core';
 import { useStyles } from './styles/AuthorListDropdown.styles';
 
+export type PageSizeType = number | 'All';
+
 interface IAuthorListDropdownProps {
-  pageSizes: Array<number | string>;
+  pageSizes: Array<PageSizeType>;
   selected: number | string | undefined;
   setChanges: (payload: number | unknown) => void;
 }

@@ -5,7 +5,10 @@ import { Box, TextField, Typography, List, ListItem } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
 import { DropEvent, FileRejection } from 'react-dropzone';
 import { PageTitle } from 'components/Page/PageTitle';
-import { AuthorListDropdown } from 'views/Profile/AuthorsList/AuthorListDropdown';
+import {
+  AuthorListDropdown,
+  PageSizeType,
+} from 'views/Profile/AuthorsList/AuthorListDropdown';
 import { useSelector } from 'react-redux';
 import { CarouselImagesWrapper } from 'views/postCreation/CarouselImagesWrapper';
 import { StatusesForActions } from 'models/adminLab/types';
@@ -331,7 +334,7 @@ export const AllPostTypesUpdation: React.FC<IAllPostTypesUpdation> = ({
     changes: string;
     dateOfChange: Date;
   };
-  const changesPerPage = [10, 20, 50, 'All'];
+  const changesPerPage: Array<PageSizeType> = [10, 20, 50, 'All'];
 
   const [changes, setChanges] = useState<ContentChangesType[]>([]);
   const [setSizePerPage] = useActions([setChangesSize]);
@@ -484,9 +487,9 @@ export const AllPostTypesUpdation: React.FC<IAllPostTypesUpdation> = ({
       </Typography>
       <Box mt={3}>
         <AuthorListDropdown
-          pageSizes={changesPerPage}
+          pageSizes={changesPerPage || 'All'}
           setChanges={handleNotesToShowChange}
-          selected={size || changesPerPage[changesPerPage.length - 1]}
+          selected={size || 'All'}
         />
         <List>
           {changes.map((item) => {
