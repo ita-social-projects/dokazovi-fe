@@ -334,7 +334,7 @@ export const AllPostTypesUpdation: React.FC<IAllPostTypesUpdation> = ({
     changes: string;
     dateOfChange: Date;
   };
-  const changesPerPage: Array<PageSizeType> = [10, 20, 50, 'All'];
+  const changesPerPage: PageSizeType = [10, 20, 50, 'All'];
 
   const [changes, setChanges] = useState<ContentChangesType[]>([]);
   const [setSizePerPage] = useActions([setChangesSize]);
