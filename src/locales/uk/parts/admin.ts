@@ -94,4 +94,6 @@ export const admin = {
   minRequired: `Необхідно ввести мінімум`,
   maxRequired: `Можливо ввести максимум`,
   symbols: `символів`,
+  changesList: `Зміни заголовку`,
+  noChangesLog: `Жодних змін не знайдено`,
 };

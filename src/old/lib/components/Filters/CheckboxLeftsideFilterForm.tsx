@@ -161,7 +161,7 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
     onFormChange(checkedFilters);
   };
 
-  const getUsersPresentProperty = (filterName: string | number | undefined) => {
+  const getUsersPresentProperty = (filterName: string | number | '') => {
     const allRegions = store.getState().properties.regions;
     const allDirections = store.getState().properties.directions;
     const allOrigins = store.getState().properties.origins;
@@ -180,7 +180,7 @@ export const CheckboxLeftsideFilterForm: React.FC<ICheckboxLeftsideFilterFormPro
 
     if (filterType === QueryTypeEnum.ORIGINS) {
       const originItem = allOrigins.map((origin) => origin.id);
-      const filterNameValue = +filterName!;
+      const filterNameValue = Number(filterName);
       result = originItem?.includes(filterNameValue);
     }
 

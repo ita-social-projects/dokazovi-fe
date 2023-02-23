@@ -42,3 +42,7 @@ export const displayShortDate = (
   }
   return `${dateValue}`;
 };
+
+export const requestDate = (value: Date): string => {
+  return value.toISOString().substring(0, 10);
+};

@@ -14,6 +14,7 @@ import { authoritiesReducer } from './authorities';
 import { mobileMaterialsReducer } from './newestPostsMobile';
 import { headerVisibilityReducer } from './headerVisibility/reducer';
 import { adminLabReducer } from './adminLab/index';
+import { changeLogReducer } from './changeLog';
 
 const rootReducer = combineReducers({
   main: mainReducer,
@@ -31,6 +32,7 @@ const rootReducer = combineReducers({
   mobileMaterials: mobileMaterialsReducer,
   headerVisibility: headerVisibilityReducer,
   adminLab: adminLabReducer,
+  changesLog: changeLogReducer,
 });
 
 export type RootStateType = ReturnType<typeof rootReducer>;

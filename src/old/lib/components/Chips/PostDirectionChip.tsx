@@ -20,7 +20,7 @@ const useStyles = makeStyles(
 
 const PostDirectionChip: React.FC<IPostDirectionChipProps> = (props) => {
   const classes = useStyles(props);
-  const { labelName, handleClick, backgroundColor } = props;
+  const { labelName, handleClick } = props;
 
   const onClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     e.stopPropagation();

@@ -9,11 +9,7 @@ export interface IChipsListProps {
   max?: boolean;
 }
 
-const ChipsList: React.FC<IChipsListProps> = ({
-  checkedNames,
-  isLabelItem,
-  max,
-}) => {
+const ChipsList: React.FC<IChipsListProps> = ({ checkedNames }) => {
   const { directions } = useSelector(
     (state: RootStateType) => state.properties,
   );

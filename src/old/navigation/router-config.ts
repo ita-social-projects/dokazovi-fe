@@ -43,8 +43,8 @@ const PasswordResetView = lazy(
 const PasswordUpdateView = lazy(
   () => import('../../views/PasswordUpdate/PasswordUpdateView'),
 );
-const AuthorCreation = lazy(
-  () => import('../../views/Profile/AuthorCreation/AuthorCreation'),
+const PersonalInfo = lazy(
+  () => import('../../views/Profile/PersonalInfo/PersonalInfo'),
 );
 
 export const ADMIN_ROUTER_CONFIG: IRouteConfig = {
@@ -121,7 +121,7 @@ export const ROUTER_CONFIG: IRouteConfig[] = [
   {
     path: '/create-author',
     key: 'CREATE_AUTHOR',
-    component: AuthorCreation,
+    component: PersonalInfo,
     private: true,
     exact: true,
   },

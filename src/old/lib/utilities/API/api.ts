@@ -1,7 +1,13 @@
 /* eslint-disable no-param-reassign */
-import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
+import axios, {
+  AxiosError,
+  AxiosRequestConfig,
+  AxiosResponse,
+  AxiosPromise,
+} from 'axios';
 import qs from 'qs';
 import { toast } from 'react-toastify';
+import { IChangeLogOptions } from 'models/changeLog/types';
 import {
   CreatePostRequestUnionType,
   CreateTagRequestType,
@@ -28,6 +34,7 @@ import {
   PlatformInformationType,
   UpdatePlatformInformationRequestType,
   CityResponseType,
+  GetChangeLogType,
 } from './types';
 import { BASE_URL } from '../../../apiURL';
 import { getToken } from '../../../provider/AuthProvider/getToken';
@@ -313,6 +320,16 @@ export const getPlatformInformation = async (
   return instance.get(`/platform-information/${id}`);
 };
 
+export const fetchChangeLog = (
+  parametres?: IChangeLogOptions,
+): AxiosPromise<GetChangeLogType> => {
+  return instance.get(`/log/post-logs`, {
+    params: {
+      size: parametres?.size,
+    },
+  });
+};
+
 export const updatePlatformInformation = async (
   requestBody: UpdatePlatformInformationRequestType,
 ): Promise<AxiosResponse<PlatformInformationType>> => {
@@ -329,4 +346,10 @@ export const getCitiesByRegionId = async (
   id: number,
 ): Promise<AxiosResponse<CityResponseType[]>> => {
   return instance.get(`/city/${id}`);
+};
+
+export const deleteAuthorById = async (
+  id: number,
+): Promise<AxiosResponse<PostsResponseType>> => {
+  return instance.delete(`/author/${id}`);
 };

@@ -66,3 +66,6 @@ export interface IFetchExpertsOptions {
 export interface IExpertsAutorsListOptions {
   page: number;
 }
+export interface IExpertsDeleteAutor {
+  id: number;
+}

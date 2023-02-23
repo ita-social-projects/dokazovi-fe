@@ -50,7 +50,7 @@ const ExpertsViewMobile: FC<IExpertsViewMobileProps> = ({
         ) : (
           <>
             <ExpertsList experts={experts} />
-            <Grid container justify="center">
+            <Grid container justifyContent="center">
               {LoadMoreButton}
             </Grid>
           </>

@@ -8,7 +8,7 @@ exports[`component renders properly with all props 1`] = `
   style="width: 100%;"
 >
   <label
-    class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl makeStyles-requiredAuthorField-13 MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-filled"
+    class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl makeStyles-requiredAuthorField-14 MuiInputLabel-animated MuiInputLabel-shrink MuiInputLabel-outlined MuiFormLabel-filled"
     data-shrink="true"
   >
     Текст картки матеріалу
@@ -33,10 +33,10 @@ exports[`component renders properly with all props 1`] = `
     />
     <fieldset
       aria-hidden="true"
-      class="PrivateNotchedOutline-root-19 MuiOutlinedInput-notchedOutline"
+      class="PrivateNotchedOutline-root-21 MuiOutlinedInput-notchedOutline"
     >
       <legend
-        class="PrivateNotchedOutline-legendLabelled-21 PrivateNotchedOutline-legendNotched-22"
+        class="PrivateNotchedOutline-legendLabelled-23 PrivateNotchedOutline-legendNotched-24"
       >
         <span>
           Текст картки матеріалу
@@ -85,10 +85,10 @@ exports[`component renders properly with only required props 1`] = `
     />
     <fieldset
       aria-hidden="true"
-      class="PrivateNotchedOutline-root-8 MuiOutlinedInput-notchedOutline"
+      class="PrivateNotchedOutline-root-9 MuiOutlinedInput-notchedOutline"
     >
       <legend
-        class="PrivateNotchedOutline-legendLabelled-10 PrivateNotchedOutline-legendNotched-11"
+        class="PrivateNotchedOutline-legendLabelled-11 PrivateNotchedOutline-legendNotched-12"
       >
         <span>
           Текст картки матеріалу

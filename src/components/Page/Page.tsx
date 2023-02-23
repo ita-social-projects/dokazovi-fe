@@ -9,7 +9,6 @@ export interface IPageProps {
 
 const Page: React.FC<IPageProps> = (props) => {
   const classes = useStyles();
-  const { component } = props;
 
   const { mobile } = useContext(ScreenContext);
 
