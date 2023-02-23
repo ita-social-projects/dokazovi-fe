@@ -14,6 +14,7 @@ import { CarouselImagesWrapper } from 'views/postCreation/CarouselImagesWrapper'
 import { StatusesForActions } from 'models/adminLab/types';
 import { setChangesSize, selectSize } from 'models/changeLog';
 import { useActions } from 'shared/hooks';
+import { Pagination } from '@material-ui/lab';
 import { sanitizeHtml } from '../../old/lib/utilities/sanitizeHtml';
 import {
   fetchChangeLog,
@@ -50,7 +51,6 @@ import { BackgroundImageContainer } from '../../components/Editor/CustomModules/
 import { langTokens } from '../../locales/localizationInit';
 import { useStyle } from '../postCreation/RequiredFieldsStyle';
 import { selectAuthorities } from '../../models/authorities';
-import { Pagination } from '@material-ui/lab';
 
 export interface IAllPostTypesUpdation {
   pageTitle: string;
