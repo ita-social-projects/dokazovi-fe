@@ -8,34 +8,23 @@ import {
   IconButton,
   Typography,
 } from '@material-ui/core';
-import { useSelector } from 'react-redux';
-import { RootStateType } from 'models/rootReducer';
 import { BasicButton } from 'components/Form';
 import { PhotoCamera } from '@material-ui/icons';
-import { Autocomplete } from '@material-ui/lab';
 import { uploadImageToImgur } from 'old/lib/utilities/Imgur/uploadImageToImgur';
 import { getStringFromFile } from 'old/lib/utilities/Imgur/getStringFromFile';
-import {
-  getCitiesByRegionId,
-  getRegionByCityId,
-} from 'old/lib/utilities/API/api';
 import { useStyles } from './styles/PersonalInfo.styles';
-import { ICity, IRegion } from '../../../old/lib/types';
 import { ErrorField } from './ErrorField';
 import { regex } from './constants/regex';
 import { fields } from './constants/fields';
-import { INewAuthorValues } from './types';
+import { IErrorFields, INewAuthorValues, IVisitFields } from './types';
 import i18n, { langTokens } from '../../../locales/localizationInit';
+import RegionCityHandler from './RegionCityHandler';
+import { validation } from './constants/validation';
+import { validateInput } from './utilities/validateInput';
+
 export const PersonalInfo: React.FC = () => {
   const classes = useStyles();
-  const regions = useSelector(
-    (state: RootStateType) => state.properties.regions,
-  );
-  const cities = useSelector((state: RootStateType) => state.properties.cities);
-  const [selectRegions, setSelectRegions] = useState<IRegion[] | null>(null);
-  const [regionForValue, setRegionForValue] = useState<IRegion | null>(null);
-  const [selectCities, setSelectCities] = useState<ICity[] | null>();
-  const [isCitySelect, setIsCitySelect] = useState<boolean>(false);
+
   const [newAuthorValues, setNewAuthorValues] = useState<INewAuthorValues>({
     avatar: '',
     firstName: '',
@@ -46,7 +35,7 @@ export const PersonalInfo: React.FC = () => {
     email: '',
     socialNetwork: [null, null, null, null, null],
   });
-  const [errorFields, setErrorFields] = useState({
+  const [errorFields, setErrorFields] = useState<IErrorFields>({
     avatar: i18n.t(langTokens.admin.pictureRequired),
     lastName: i18n.t(langTokens.admin.fieldCantBeEmpty),
     firstName: i18n.t(langTokens.admin.fieldCantBeEmpty),
@@ -62,7 +51,7 @@ export const PersonalInfo: React.FC = () => {
     linkedin: '',
     socialNetwoks: i18n.t(langTokens.admin.minimumOneLinkRequired),
   });
-  const [visitFields, setVisitFields] = useState({
+  const [visitFields, setVisitFields] = useState<IVisitFields>({
     lastName: false,
     firstName: false,
     region: false,
@@ -78,61 +67,6 @@ export const PersonalInfo: React.FC = () => {
   });
   const [toggleButton, setToggleButton] = useState(true);
 
-  const setRegionByCityId = async (id: number) => {
-    const regionResponse = await getRegionByCityId(id).then((res) => {
-      if (res.status === 200) {
-        return res.data;
-      }
-      return false;
-    });
-    if (regionResponse) {
-      setSelectRegions([regionResponse]);
-      setRegionForValue(regionResponse);
-    }
-  };
-
-  const setCitiesByRegionId = async (id: number) => {
-    const citiesResponse = await getCitiesByRegionId(id).then((res) => {
-      if (res.status === 200) {
-        return res.data;
-      }
-      return false;
-    });
-    if (citiesResponse) {
-      setSelectCities(citiesResponse);
-    }
-  };
-
-  const validateInput = (
-    value: string,
-    inputIdentifier: string,
-    acceptedSymbols: string,
-    minSymbols: number,
-    maxSymbols: number,
-    regexp: RegExp,
-  ): boolean => {
-    if (value && !regexp.test(value)) {
-      setErrorFields({ ...errorFields, [inputIdentifier]: acceptedSymbols });
-      return false;
-    }
-    if (!value || value.length < minSymbols) {
-      setErrorFields({
-        ...errorFields,
-        [inputIdentifier]: `Необхідно ввести мінімум ${minSymbols} символів`,
-      });
-      return false;
-    }
-    if (value.length > maxSymbols) {
-      setErrorFields({
-        ...errorFields,
-        [inputIdentifier]: `Можливо ввести максимум ${maxSymbols} символів`,
-      });
-      return false;
-    }
-    setErrorFields({ ...errorFields, [inputIdentifier]: '' });
-    return true;
-  };
-
   const inputNameChangeHandler = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
@@ -142,14 +76,13 @@ export const PersonalInfo: React.FC = () => {
       ...newAuthorValues,
       [inputIdentifier]: value,
     });
-    validateInput(
+    const validationRequest = validateInput(
       value,
-      inputIdentifier,
-      i18n.t(langTokens.admin.allowedChar),
-      2,
-      30,
-      regex.validUkrName,
+      validation.name.min,
+      validation.name.max,
+      validation.name.regexp,
     );
+    setErrorFields({ ...errorFields, [inputIdentifier]: validationRequest });
   };
 
   const inputBioChangeHandler = (
@@ -161,14 +94,13 @@ export const PersonalInfo: React.FC = () => {
       ...newAuthorValues,
       [inputIdentifier]: value,
     });
-    validateInput(
+    const validationRequest = validateInput(
       value,
-      inputIdentifier,
-      i18n.t(langTokens.admin.allowedChar),
-      3,
-      250,
-      regex.validUkrName,
+      validation.bio.min,
+      validation.bio.max,
+      validation.bio.regexp,
     );
+    setErrorFields({ ...errorFields, [inputIdentifier]: validationRequest });
   };
 
   const inputSocialNetworkChangeHandler = (
@@ -177,24 +109,29 @@ export const PersonalInfo: React.FC = () => {
   ) => {
     const inputIdentifier = event.target.name;
     const { value } = event.target;
-    if (!value) {
-      setErrorFields({ ...errorFields, [inputIdentifier]: null });
-    } else if (
-      validateInput(
+    if (value) {
+      const validationRequest = validateInput(
         value,
-        inputIdentifier,
-        i18n.t(langTokens.admin.allowedChar),
-        10,
-        150,
-        regex.validEnName,
-      )
-    ) {
-      const newSocialNetworks = [...newAuthorValues.socialNetwork];
-      newSocialNetworks.splice(index, 1, value);
-      setNewAuthorValues({
-        ...newAuthorValues,
-        socialNetwork: newSocialNetworks,
-      });
+        validation.sn.min,
+        validation.sn.max,
+        validation.sn.regexp,
+      );
+      if (validationRequest) {
+        setErrorFields({
+          ...errorFields,
+          [inputIdentifier]: validationRequest,
+        });
+      } else {
+        const newSocialNetworks = [...newAuthorValues.socialNetwork];
+        newSocialNetworks.splice(index, 1, value);
+        setNewAuthorValues({
+          ...newAuthorValues,
+          socialNetwork: newSocialNetworks,
+        });
+        setErrorFields({ ...errorFields, [inputIdentifier]: '' });
+      }
+    } else {
+      setErrorFields({ ...errorFields, [inputIdentifier]: '' });
     }
   };
 
@@ -241,58 +178,6 @@ export const PersonalInfo: React.FC = () => {
     }
   };
 
-  const inputCityChangeHandler = (
-    _,
-    value: ICity | null,
-    inputIdentifier: string,
-  ) => {
-    if (!value) {
-      setErrorFields({
-        ...errorFields,
-        [inputIdentifier]: i18n.t(langTokens.admin.fieldCantBeEmpty),
-      });
-      setIsCitySelect(false);
-      setSelectRegions(null);
-      if (!regionForValue) {
-        setSelectCities(null);
-      }
-    } else {
-      setErrorFields({ ...errorFields, [inputIdentifier]: '' });
-      setNewAuthorValues({ ...newAuthorValues, [inputIdentifier]: value.id });
-      setRegionByCityId(value.id);
-      setIsCitySelect(true);
-    }
-  };
-
-  const inputRegionChangeHandler = (
-    _,
-    value: string | '',
-    inputIdentifier: string,
-  ) => {
-    if (!value) {
-      setErrorFields({
-        ...errorFields,
-        [inputIdentifier]: i18n.t(langTokens.admin.fieldCantBeEmpty),
-      });
-      setRegionForValue(null);
-      setSelectCities(null);
-      if (!isCitySelect) {
-        setSelectRegions(null);
-      }
-    } else {
-      const regionFromValue = regions.find((region) => region.name === value);
-      if (regionFromValue) {
-        setErrorFields({ ...errorFields, [inputIdentifier]: '' });
-        setNewAuthorValues({
-          ...newAuthorValues,
-          [inputIdentifier]: regionFromValue.id,
-        });
-        setCitiesByRegionId(regionFromValue.id);
-        setRegionForValue(regionFromValue);
-      }
-    }
-  };
-
   const blurHandler = (
     event: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
@@ -304,10 +189,6 @@ export const PersonalInfo: React.FC = () => {
     // TODO dispatch new author to server
   };
 
-  useEffect(() => {
-    toggleButtonHandler();
-  }, [errorFields]);
-
   const toggleButtonHandler = () => {
     /* eslint-disable-next-line */
     for (const [, value] of Object.entries(errorFields)) {
@@ -318,6 +199,10 @@ export const PersonalInfo: React.FC = () => {
     }
     setToggleButton(false);
   };
+
+  useEffect(() => {
+    toggleButtonHandler();
+  }, [errorFields]);
 
   useEffect(() => {
     if (newAuthorValues.socialNetwork.some((network) => network != null)) {
@@ -348,87 +233,48 @@ export const PersonalInfo: React.FC = () => {
             </IconButton>
           </Box>
         </Grid>
-        <Grid item xs={4}>
-          <ErrorField
-            errorField={errorFields.lastName}
-            visitField={visitFields.lastName}
-          />
-          <TextField
-            className={classes.TextField}
-            required
-            variant="outlined"
-            label={i18n.t(langTokens.admin.lastName)}
-            name="lastName"
-            fullWidth
-            onChange={inputNameChangeHandler}
-            onBlur={blurHandler}
-          />
-          <ErrorField
-            errorField={errorFields.regionId}
-            visitField={visitFields.region}
-          />
-          <Autocomplete
-            disablePortal
-            options={selectRegions || regions}
-            fullWidth
-            value={regionForValue}
-            getOptionLabel={(region: IRegion) => region.name}
-            getOptionSelected={(option, value) => option.id === value.id}
-            onInputChange={(_, value) =>
-              inputRegionChangeHandler(_, value, 'regionId')
-            }
-            renderInput={(params) => (
+        <Grid item xs={8}>
+          <Grid container spacing={2}>
+            <Grid item xs={6}>
+              <ErrorField
+                errorField={errorFields.lastName}
+                visitField={visitFields.lastName}
+              />
               <TextField
-                variant="outlined"
                 className={classes.TextField}
                 required
-                // eslint-disable-next-line
-                {...params}
-                label={i18n.t(langTokens.admin.region)}
-                name="region"
+                variant="outlined"
+                label={i18n.t(langTokens.admin.lastName)}
+                name="lastName"
+                fullWidth
+                onChange={inputNameChangeHandler}
                 onBlur={blurHandler}
               />
-            )}
-          />
-        </Grid>
-        <Grid item xs={4}>
-          <ErrorField
-            errorField={errorFields.firstName}
-            visitField={visitFields.firstName}
-          />
-          <TextField
-            className={classes.TextField}
-            required
-            label={i18n.t(langTokens.admin.firstName)}
-            name="firstName"
-            variant="outlined"
-            fullWidth
-            onChange={inputNameChangeHandler}
-            onBlur={blurHandler}
-          />
-          <ErrorField
-            errorField={errorFields.cityId}
-            visitField={visitFields.city}
-          />
-          <Autocomplete
-            disablePortal
-            options={selectCities || cities}
-            fullWidth
-            getOptionLabel={(city: ICity) => city.name}
-            getOptionSelected={(option, value) => option.id === value.id}
-            onChange={(_, value) => inputCityChangeHandler(_, value, 'cityId')}
-            renderInput={(params) => (
+            </Grid>
+            <Grid item xs={6}>
+              <ErrorField
+                errorField={errorFields.firstName}
+                visitField={visitFields.firstName}
+              />
               <TextField
-                variant="outlined"
                 className={classes.TextField}
                 required
-                // eslint-disable-next-line
-                {...params}
-                label={i18n.t(langTokens.admin.city)}
-                name="city"
+                label={i18n.t(langTokens.admin.firstName)}
+                name="firstName"
+                variant="outlined"
+                fullWidth
+                onChange={inputNameChangeHandler}
                 onBlur={blurHandler}
               />
-            )}
+            </Grid>
+          </Grid>
+          <RegionCityHandler
+            newAuthorValues={newAuthorValues}
+            errorFields={errorFields}
+            visitFields={visitFields}
+            setNewAuthorValues={setNewAuthorValues}
+            setErrorFields={setErrorFields}
+            blurHandler={blurHandler}
           />
         </Grid>
         <Grid

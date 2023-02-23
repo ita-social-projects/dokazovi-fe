@@ -91,4 +91,7 @@ export const admin = {
   wrongEmail: `Неаправильна email адреса`,
   allowedChar: `Дозволені символи: (пробіл)"№'()-.,/&%:@`,
   pictureRequired: `Необхідно додати зображення`,
+  minRequired: `Необхідно ввести мінімум`,
+  maxRequired: `Можливо ввести максимум`,
+  symbols: `символів`,
 };
