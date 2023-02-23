@@ -16,13 +16,17 @@ const changeLog = createSlice({
       const setChangeObj = state;
       setChangeObj.size = action.payload;
     },
+    setPage: (state, action: PayloadAction<number>) => {
+      const setPageObj = state;
+      setPageObj.totalElements = action.payload;
+    },
   },
   extraReducers: {
     ...getAsyncActionsReducer(getChangeLog as any),
   },
 });
 
-const { setChangesSize } = changeLog.actions;
+const { setChangesSize, setPage } = changeLog.actions;
 
 const changeLogReducer = changeLog.reducer;
-export { setChangesSize, changeLogReducer };
+export { setChangesSize, setPage, changeLogReducer };

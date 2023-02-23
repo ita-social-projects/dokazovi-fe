@@ -307,4 +307,5 @@ export type GetChangeLogType = ChangeLogType & {
   id?: number;
   nameOfChanger?: string;
   title?: string;
+  totalPages: number;
 };

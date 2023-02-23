@@ -50,6 +50,7 @@ import { BackgroundImageContainer } from '../../components/Editor/CustomModules/
 import { langTokens } from '../../locales/localizationInit';
 import { useStyle } from '../postCreation/RequiredFieldsStyle';
 import { selectAuthorities } from '../../models/authorities';
+import { Pagination } from '@material-ui/lab';
 
 export interface IAllPostTypesUpdation {
   pageTitle: string;

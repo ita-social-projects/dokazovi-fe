@@ -3,7 +3,6 @@ import { Pagination } from '@material-ui/lab';
 import { useSelector } from 'react-redux';
 import { selectMeta, selectAdminLab, setPage } from '../../../models/adminLab';
 import { useActions } from '../../../shared/hooks';
-
 import { useStyles } from './styles/AdminTablePagination.styles';
 
 const AdminTablePagination: React.FC = () => {
