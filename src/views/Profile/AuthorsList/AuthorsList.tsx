@@ -59,7 +59,7 @@ export const AuthorsList: React.FC = () => {
     <>
       <Box className={classes.listFunctionalityPanel}>
         <AuthorsListFilters size={size} author={author} />
-        <Link href="/create-author" underline="none">
+        <Link href="/create-author" underline="none" target="_blank">
           <Button variant="contained" className={classes.mainButton}>
             {i18n.t(langTokens.admin.createNewAuthor)}
           </Button>

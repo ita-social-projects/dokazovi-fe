@@ -29,33 +29,36 @@ const RegionCityHandler = ({
   const cities = useSelector((state: RootStateType) => state.properties.cities);
   const [selectRegions, setSelectRegions] = useState<IRegion[] | null>(null);
   const [regionForValue, setRegionForValue] = useState<IRegion | null>(null);
-  const [selectCities, setSelectCities] = useState<ICity[] | null>();
+  const [selectCities, setSelectCities] = useState<ICity[] | null>(null);
   const [isCitySelect, setIsCitySelect] = useState<boolean>(false);
 
   const setRegionByCityId = async (id: number) => {
-    const regionResponse = await getRegionByCityId(id).then((res) => {
+    try {
+      const res = await getRegionByCityId(id);
       if (res.status === 200) {
-        return res.data;
+        const regionResponse = res.data;
+        setSelectRegions([regionResponse]);
+        setRegionForValue(regionResponse);
       }
-      return false;
-    });
-    if (regionResponse) {
-      setSelectRegions([regionResponse]);
-      setRegionForValue(regionResponse);
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error(error);
     }
   };
 
   const setCitiesByRegionId = async (id: number) => {
-    const citiesResponse = await getCitiesByRegionId(id).then((res) => {
+    try {
+      const res = await getCitiesByRegionId(id);
       if (res.status === 200) {
-        return res.data;
+        const citiesResponse = res.data;
+        setSelectCities(citiesResponse);
       }
-      return false;
-    });
-    if (citiesResponse) {
-      setSelectCities(citiesResponse);
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error(error);
     }
   };
+
   const inputCityChangeHandler = (
     _,
     value: ICity | null,
