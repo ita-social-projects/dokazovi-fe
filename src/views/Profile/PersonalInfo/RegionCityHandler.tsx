@@ -133,11 +133,11 @@ const RegionCityHandler = ({
               variant="outlined"
               className={classes.TextField}
               required
-              // eslint-disable-next-line
-              {...params}
               label={i18n.t(langTokens.admin.region)}
               name="region"
               onBlur={blurHandler}
+              // eslint-disable-next-line
+              {...params}
             />
           )}
         />
@@ -159,11 +159,11 @@ const RegionCityHandler = ({
               variant="outlined"
               className={classes.TextField}
               required
-              // eslint-disable-next-line
-              {...params}
               label={i18n.t(langTokens.admin.city)}
               name="city"
               onBlur={blurHandler}
+              // eslint-disable-next-line
+              {...params}
             />
           )}
         />
