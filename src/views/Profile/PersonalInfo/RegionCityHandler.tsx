@@ -136,7 +136,7 @@ const RegionCityHandler = ({
               label={i18n.t(langTokens.admin.region)}
               name="region"
               onBlur={blurHandler}
-              // eslint-disable-next-line
+              // eslint-disable-next-line react/jsx-props-no-spreading
               {...params}
             />
           )}
@@ -162,7 +162,7 @@ const RegionCityHandler = ({
               label={i18n.t(langTokens.admin.city)}
               name="city"
               onBlur={blurHandler}
-              // eslint-disable-next-line
+              // eslint-disable-next-line react/jsx-props-no-spreading
               {...params}
             />
           )}
