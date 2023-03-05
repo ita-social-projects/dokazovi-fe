@@ -304,6 +304,9 @@ export type GetChangeLogType = ChangeLogType & {
     timezoneOffset: number;
     year: number;
   };
+  pagabel?: {
+    pageNumber: number;
+  };
   id?: number;
   nameOfChanger?: string;
   title?: string;

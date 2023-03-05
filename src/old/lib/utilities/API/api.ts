@@ -319,6 +319,7 @@ export const fetchChangeLog = (
   return instance.get(`/log/post-logs`, {
     params: {
       size: parametres?.size,
+      page: parametres?.page,
     },
   });
 };
