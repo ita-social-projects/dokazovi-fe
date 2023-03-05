@@ -10,9 +10,7 @@ import {
 } from 'views/Profile/AuthorsList/AuthorListDropdown';
 import { useTranslation } from 'react-i18next';
 import { langTokens } from 'locales/localizationInit';
-import { Pagination } from '@material-ui/lab';
-import { selectInfoLoadingById } from 'models/info';
-import { type } from 'os';
+import { Pagination, Skeleton } from '@material-ui/lab';
 
 type ContentChangesType = {
   id: number;
@@ -31,7 +29,7 @@ export const ChangeLog: React.FC = () => {
   const [totalPages, setTotalPages] = useState(size);
   const { t } = useTranslation();
 
-  const handleNotesToShowChange = (val) => {
+  const handleNotesToShowChange = (val: number | unknown) => {
     setPages(0);
     setSizePerPage(val);
   };
@@ -41,12 +39,12 @@ export const ChangeLog: React.FC = () => {
       setIsLoading(true);
       if (typeof size === 'string') {
         const { data } = await fetchChangeLog();
-        setChanges(data.content);
+        setChanges(data?.content || []);
         return setIsLoading(false);
       }
       const { data } = await fetchChangeLog({ size, page: pages });
-      setTotalPages(data.totalPages);
-      setChanges(data.content);
+      setTotalPages(data?.totalPages || 0);
+      setChanges(data?.content || []);
       return setIsLoading(false);
     };
     changedMaterials();
@@ -64,27 +62,33 @@ export const ChangeLog: React.FC = () => {
           selected={size || 'All'}
         />
         <List>
-          {isLoading ? (
-            <>Loading...</>
-          ) : (
-            changes.map((item) => {
-              return (
-                <ListItem key={item.id}>
-                  <Typography variant="h6" component="h2">
-                    {item.title} {item.changes}:{' '}
-                    {new Date(item.dateOfChange).toUTCString()}
-                  </Typography>
-                </ListItem>
-              );
-            })
-          )}
-          {changes.length === 0 && (
+          {isLoading
+            ? changes.map((item) => {
+                return (
+                  <Skeleton key={item.id} width="40vw" component="div">
+                    <ListItem>
+                      <Typography variant="h6" component="h2" />
+                    </ListItem>
+                  </Skeleton>
+                );
+              })
+            : changes.map((item) => {
+                return (
+                  <ListItem key={item.id}>
+                    <Typography variant="h6" component="h2">
+                      {item.title} {item.changes}:{' '}
+                      {new Date(item.dateOfChange).toUTCString()}
+                    </Typography>
+                  </ListItem>
+                );
+              })}
+          {!changes.length && (
             <Typography component="h2" variant="h2">
               {t(langTokens.admin.noChangesLog)}
             </Typography>
           )}
         </List>
-        {totalPages && totalPages > 1 && (
+        {totalPages && totalPages > 1 && !isLoading && (
           <Pagination
             count={totalPages}
             onChange={(_, value: number) => setPages(value - 1)}
