@@ -65,7 +65,12 @@ export const ChangeLog: React.FC = () => {
           {isLoading
             ? changes.map((item) => {
                 return (
-                  <Skeleton key={item.id} width="40vw" component="div">
+                  <Skeleton
+                    key={item.id}
+                    width="65%"
+                    component="div"
+                    style={{ marginLeft: '16px' }}
+                  >
                     <ListItem>
                       <Typography variant="h6" component="h2" />
                     </ListItem>
