@@ -13,6 +13,9 @@ export const useStyles = makeStyles(
         fontWeight: 600,
         fontSize: theme.spacing(3.6),
       },
+      '& .MuiFormLabel-asterisk.MuiInputLabel-asterisk': {
+        color: theme.palette.warning.main,
+      },
     },
     Avatar: {
       height: 200,
@@ -21,9 +24,59 @@ export const useStyles = makeStyles(
     },
     Contacts: {
       '& .MuiInputBase-input': {
-        marginTop: theme.spacing(1),
+        display: 'flex',
+        alignItems: 'center',
+        padding: theme.spacing(2.95),
         fontSize: theme.spacing(3.6),
-        height: '1px',
+      },
+    },
+    TextField: {
+      '& .MuiInputLabel-root.Mui-required': {
+        display: 'flex',
+        flexDirection: 'row-reverse',
+      },
+    },
+    InputLabel: {
+      '& ': {
+        display: 'flex',
+        flexDirection: 'row-reverse',
+        justifyContent: 'left',
+        marginBottom: theme.spacing(1),
+      },
+    },
+    PhotoCamera: {
+      '& ': {
+        color: theme.palette.custom.colorAquaBlue,
+      },
+    },
+    BasicButton: {
+      '& ': {
+        marginTop: theme.spacing(5),
+        width: 300,
+        borderRadius: theme.spacing(0),
+      },
+    },
+    ButtonBox: {
+      '& ': {
+        width: 'fullwidth',
+        display: 'flex',
+        justifyContent: 'right',
+      },
+    },
+    WrapperBox: {
+      '& ': {
+        display: 'flex',
+        justifyContent: 'space-between',
+      },
+    },
+    Typography: {
+      '& ': {
+        color: theme.palette.warning.main,
+        fontSize: '0.875rem',
+        height: theme.spacing(3),
+        display: 'flex',
+        alignItems: 'center',
+        marginBottom: theme.spacing(1),
       },
     },
   }),

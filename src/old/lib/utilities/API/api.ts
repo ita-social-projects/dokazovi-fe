@@ -33,6 +33,7 @@ import {
   ActiveDirectionType,
   PlatformInformationType,
   UpdatePlatformInformationRequestType,
+  CityResponseType,
   GetChangeLogType,
 } from './types';
 import { BASE_URL } from '../../../apiURL';
@@ -226,6 +227,12 @@ export const getRegions = async (): Promise<
   return instance.get(`/region`);
 };
 
+export const getCities = async (): Promise<
+  AxiosResponse<RegionResponseType[]>
+> => {
+  return instance.get(`/city`);
+};
+
 export const getDirections = async (): Promise<
   AxiosResponse<DirectionResponseType[]>
 > => {
@@ -327,6 +334,18 @@ export const updatePlatformInformation = async (
   requestBody: UpdatePlatformInformationRequestType,
 ): Promise<AxiosResponse<PlatformInformationType>> => {
   return instance.put(`/platform-information/`, requestBody);
+};
+
+export const getRegionByCityId = async (
+  id: number,
+): Promise<AxiosResponse<RegionResponseType>> => {
+  return instance.get(`/region/${id}`);
+};
+
+export const getCitiesByRegionId = async (
+  id: number,
+): Promise<AxiosResponse<CityResponseType[]>> => {
+  return instance.get(`/city/${id}`);
 };
 
 export const deleteAuthorById = async (

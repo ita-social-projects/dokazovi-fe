@@ -157,6 +157,13 @@ export type OriginResponseType = {
 export type RegionResponseType = {
   id: number;
   name: string;
+  userPresent?: boolean;
+};
+
+export type CityResponseType = {
+  id: number;
+  name: string;
+  regionId: number;
 };
 
 export type PostTypeResponseType = {
