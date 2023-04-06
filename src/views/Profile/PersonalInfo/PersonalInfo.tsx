@@ -16,40 +16,58 @@ import { useStyles } from './styles/PersonalInfo.styles';
 import { ErrorField } from './ErrorField';
 import { regex } from './constants/regex';
 import { fields } from './constants/fields';
-import { IErrorFields, INewAuthorValues, IVisitFields } from './types';
+import {
+  IEditAuthorProps,
+  IErrorFields,
+  INewAuthorValues,
+  IVisitFields,
+} from './types';
 import i18n, { langTokens } from '../../../locales/localizationInit';
 import RegionCityHandler from './RegionCityHandler';
 import { validation } from './constants/validation';
 import { validateInput } from './utilities/validateInput';
 
-export const PersonalInfo: React.FC = () => {
+export const PersonalInfo: React.FC<IEditAuthorProps> = ({ author }) => {
   const classes = useStyles();
 
   const [newAuthorValues, setNewAuthorValues] = useState<INewAuthorValues>({
-    avatar: '',
-    firstName: '',
-    lastName: '',
-    regionId: 0,
-    cityId: 0,
-    bio: '',
-    email: '',
-    socialNetwork: [null, null, null, null, null],
+    avatar: author ? author.avatar : '',
+    firstName: author ? author.firstName : '',
+    lastName: author ? author.lastName : '',
+    regionId: author ? author.region.id : null,
+    cityId: author ? author.mainInstitution.city.id : null,
+    bio: author ? author.bio : '',
+    email: author ? author.email : '',
+    socialNetwork: author
+      ? author.socialNetworks
+      : [null, null, null, null, null],
+    work: author ? author.mainInstitution.name : null,
   });
   const [errorFields, setErrorFields] = useState<IErrorFields>({
-    avatar: i18n.t(langTokens.admin.pictureRequired),
-    lastName: i18n.t(langTokens.admin.fieldCantBeEmpty),
-    firstName: i18n.t(langTokens.admin.fieldCantBeEmpty),
-    regionId: i18n.t(langTokens.admin.fieldCantBeEmpty),
-    cityId: i18n.t(langTokens.admin.fieldCantBeEmpty),
-    email: i18n.t(langTokens.admin.fieldCantBeEmpty),
-    work: i18n.t(langTokens.admin.fieldCantBeEmpty),
-    bio: i18n.t(langTokens.admin.fieldCantBeEmpty),
+    avatar: author?.avatar ? '' : i18n.t(langTokens.admin.pictureRequired),
+    lastName: author?.lastName ? '' : i18n.t(langTokens.admin.fieldCantBeEmpty),
+    firstName: author?.firstName
+      ? ''
+      : i18n.t(langTokens.admin.fieldCantBeEmpty),
+    regionId: author?.region.id
+      ? ''
+      : i18n.t(langTokens.admin.fieldCantBeEmpty),
+    cityId: author?.mainInstitution.city.id
+      ? ''
+      : i18n.t(langTokens.admin.fieldCantBeEmpty),
+    email: author?.email ? '' : i18n.t(langTokens.admin.fieldCantBeEmpty),
+    work: author?.mainInstitution.name
+      ? ''
+      : i18n.t(langTokens.admin.fieldCantBeEmpty),
+    bio: author?.bio ? '' : i18n.t(langTokens.admin.fieldCantBeEmpty),
     facebook: '',
     instagram: '',
     youtube: '',
     twitter: '',
     linkedin: '',
-    socialNetwoks: i18n.t(langTokens.admin.minimumOneLinkRequired),
+    socialNetwoks: author?.socialNetworks
+      ? ''
+      : i18n.t(langTokens.admin.minimumOneLinkRequired),
   });
   const [visitFields, setVisitFields] = useState<IVisitFields>({
     lastName: false,
@@ -247,6 +265,7 @@ export const PersonalInfo: React.FC = () => {
                 label={i18n.t(langTokens.admin.lastName)}
                 name="lastName"
                 fullWidth
+                value={newAuthorValues.lastName}
                 onChange={inputNameChangeHandler}
                 onBlur={blurHandler}
               />
@@ -263,19 +282,22 @@ export const PersonalInfo: React.FC = () => {
                 name="firstName"
                 variant="outlined"
                 fullWidth
+                value={newAuthorValues.firstName}
                 onChange={inputNameChangeHandler}
                 onBlur={blurHandler}
               />
             </Grid>
           </Grid>
-          <RegionCityHandler
-            newAuthorValues={newAuthorValues}
-            errorFields={errorFields}
-            visitFields={visitFields}
-            setNewAuthorValues={setNewAuthorValues}
-            setErrorFields={setErrorFields}
-            blurHandler={blurHandler}
-          />
+          {author && (
+            <RegionCityHandler
+              newAuthorValues={newAuthorValues}
+              errorFields={errorFields}
+              visitFields={visitFields}
+              setNewAuthorValues={setNewAuthorValues}
+              setErrorFields={setErrorFields}
+              blurHandler={blurHandler}
+            />
+          )}
         </Grid>
         <Grid
           item
@@ -299,6 +321,7 @@ export const PersonalInfo: React.FC = () => {
             fullWidth
             label={i18n.t(langTokens.admin.email)}
             name="email"
+            value={newAuthorValues.email}
             onChange={(event) => inputEmailChangeHandler(event)}
             onBlur={blurHandler}
           />
@@ -318,6 +341,7 @@ export const PersonalInfo: React.FC = () => {
                   fullWidth
                   name={sn.name}
                   placeholder={sn.placeholder}
+                  value={newAuthorValues.socialNetwork[sn.index]}
                   onChange={(event) =>
                     inputSocialNetworkChangeHandler(event, index)
                   }
@@ -343,6 +367,7 @@ export const PersonalInfo: React.FC = () => {
             required
             fullWidth
             name="work"
+            value={newAuthorValues.work}
             onChange={inputBioChangeHandler}
             onBlur={blurHandler}
           />
@@ -363,6 +388,7 @@ export const PersonalInfo: React.FC = () => {
             required
             fullWidth
             name="bio"
+            value={newAuthorValues.bio}
             onChange={inputBioChangeHandler}
             onBlur={blurHandler}
           />

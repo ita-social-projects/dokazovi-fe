@@ -122,7 +122,11 @@ const RegionCityHandler = ({
           disablePortal
           options={selectRegions || regions}
           fullWidth
-          value={regionForValue}
+          value={
+            newAuthorValues.regionId
+              ? regions.find((region) => region.id === newAuthorValues.regionId)
+              : regionForValue
+          }
           getOptionLabel={(region: IRegion) => region.name}
           getOptionSelected={(option, value) => option.id === value.id}
           onInputChange={(_, value) =>
@@ -151,6 +155,11 @@ const RegionCityHandler = ({
           disablePortal
           options={selectCities || cities}
           fullWidth
+          value={
+            newAuthorValues.cityId
+              ? cities.find((city) => city.id === newAuthorValues.cityId)
+              : null
+          }
           getOptionLabel={(city: ICity) => city.name}
           getOptionSelected={(option, value) => option.id === value.id}
           onChange={(_, value) => inputCityChangeHandler(_, value, 'cityId')}

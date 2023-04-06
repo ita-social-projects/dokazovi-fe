@@ -1,12 +1,15 @@
+import { IExpert } from 'old/lib/types';
+
 export interface INewAuthorValues {
-  avatar: string;
+  avatar?: string;
   firstName: string;
   lastName: string;
-  regionId: number;
-  cityId: number;
+  regionId: number | null;
+  cityId: number | null;
   bio: string;
-  email: string;
+  email?: string;
   socialNetwork: (string | null)[];
+  work: string | null;
 }
 
 export interface IErrorFields {
@@ -50,4 +53,8 @@ export interface IRegionCityHandlerProps {
   blurHandler: (
     event: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => void;
+}
+
+export interface IEditAuthorProps {
+  author?: IExpert;
 }
