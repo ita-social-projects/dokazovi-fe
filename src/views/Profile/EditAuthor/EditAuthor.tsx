@@ -25,7 +25,6 @@ const EditAuthor = () => {
       const authorRespons = await getExpertById(id);
       const author = authorRespons.data;
       setLoadedAuthor(author);
-      console.log(author);
     } catch (error) {
       setStatusCode(404);
     }

@@ -43,6 +43,7 @@ export const PersonalInfo: React.FC<IEditAuthorProps> = ({ author }) => {
       : [null, null, null, null, null],
     work: author ? author.mainInstitution.name : null,
   });
+
   const [errorFields, setErrorFields] = useState<IErrorFields>({
     avatar: author?.avatar ? '' : i18n.t(langTokens.admin.pictureRequired),
     lastName: author?.lastName ? '' : i18n.t(langTokens.admin.fieldCantBeEmpty),

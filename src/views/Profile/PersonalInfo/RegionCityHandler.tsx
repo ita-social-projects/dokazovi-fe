@@ -28,7 +28,6 @@ const RegionCityHandler = ({
   );
   const cities = useSelector((state: RootStateType) => state.properties.cities);
   const [selectRegions, setSelectRegions] = useState<IRegion[] | null>(null);
-  const [regionForValue, setRegionForValue] = useState<IRegion | null>(null);
   const [selectCities, setSelectCities] = useState<ICity[] | null>(null);
   const [isCitySelect, setIsCitySelect] = useState<boolean>(false);
 
@@ -38,7 +37,11 @@ const RegionCityHandler = ({
       if (res.status === 200) {
         const regionResponse = res.data;
         setSelectRegions([regionResponse]);
-        setRegionForValue(regionResponse);
+        setNewAuthorValues({
+          ...newAuthorValues,
+          regionId: regionResponse.id,
+          cityId: id,
+        });
       }
     } catch (error) {
       // eslint-disable-next-line no-console
@@ -71,9 +74,10 @@ const RegionCityHandler = ({
       });
       setIsCitySelect(false);
       setSelectRegions(null);
-      if (!regionForValue) {
+      if (!newAuthorValues.regionId) {
         setSelectCities(null);
       }
+      setNewAuthorValues({ ...newAuthorValues, [inputIdentifier]: null });
     } else {
       setErrorFields({ ...errorFields, [inputIdentifier]: '' });
       setNewAuthorValues({ ...newAuthorValues, [inputIdentifier]: value.id });
@@ -92,7 +96,7 @@ const RegionCityHandler = ({
         ...errorFields,
         [inputIdentifier]: i18n.t(langTokens.admin.fieldCantBeEmpty),
       });
-      setRegionForValue(null);
+      setNewAuthorValues({ ...newAuthorValues, [inputIdentifier]: null });
       setSelectCities(null);
       if (!isCitySelect) {
         setSelectRegions(null);
@@ -106,7 +110,10 @@ const RegionCityHandler = ({
           [inputIdentifier]: regionFromValue.id,
         });
         setCitiesByRegionId(regionFromValue.id);
-        setRegionForValue(regionFromValue);
+        setNewAuthorValues({
+          ...newAuthorValues,
+          [inputIdentifier]: regionFromValue.id,
+        });
       }
     }
   };
@@ -125,7 +132,7 @@ const RegionCityHandler = ({
           value={
             newAuthorValues.regionId
               ? regions.find((region) => region.id === newAuthorValues.regionId)
-              : regionForValue
+              : null
           }
           getOptionLabel={(region: IRegion) => region.name}
           getOptionSelected={(option, value) => option.id === value.id}
