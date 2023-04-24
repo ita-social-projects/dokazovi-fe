@@ -15,10 +15,9 @@ import { IRegionCityHandlerProps } from './types';
 
 const RegionCityHandler = ({
   newAuthorValues,
-  errorFields,
   visitFields,
+  errorMessages,
   setNewAuthorValues,
-  setErrorFields,
   blurHandler,
 }: IRegionCityHandlerProps): JSX.Element => {
   const classes = useStyles();
@@ -68,10 +67,6 @@ const RegionCityHandler = ({
     inputIdentifier: string,
   ) => {
     if (!value) {
-      setErrorFields({
-        ...errorFields,
-        [inputIdentifier]: i18n.t(langTokens.admin.fieldCantBeEmpty),
-      });
       setIsCitySelect(false);
       setSelectRegions(null);
       if (!newAuthorValues.regionId) {
@@ -79,7 +74,6 @@ const RegionCityHandler = ({
       }
       setNewAuthorValues({ ...newAuthorValues, [inputIdentifier]: null });
     } else {
-      setErrorFields({ ...errorFields, [inputIdentifier]: '' });
       setNewAuthorValues({ ...newAuthorValues, [inputIdentifier]: value.id });
       setRegionByCityId(value.id);
       setIsCitySelect(true);
@@ -92,10 +86,6 @@ const RegionCityHandler = ({
     inputIdentifier: string,
   ) => {
     if (!value) {
-      setErrorFields({
-        ...errorFields,
-        [inputIdentifier]: i18n.t(langTokens.admin.fieldCantBeEmpty),
-      });
       setNewAuthorValues({ ...newAuthorValues, [inputIdentifier]: null });
       setSelectCities(null);
       if (!isCitySelect) {
@@ -104,7 +94,6 @@ const RegionCityHandler = ({
     } else {
       const regionFromValue = regions.find((region) => region.name === value);
       if (regionFromValue) {
-        setErrorFields({ ...errorFields, [inputIdentifier]: '' });
         setNewAuthorValues({
           ...newAuthorValues,
           [inputIdentifier]: regionFromValue.id,
@@ -122,7 +111,7 @@ const RegionCityHandler = ({
     <Grid container spacing={2}>
       <Grid item xs={6}>
         <ErrorField
-          errorField={errorFields.regionId}
+          errorField={errorMessages.regionId}
           visitField={visitFields.region}
         />
         <Autocomplete
@@ -155,7 +144,7 @@ const RegionCityHandler = ({
       </Grid>
       <Grid item xs={6}>
         <ErrorField
-          errorField={errorFields.cityId}
+          errorField={errorMessages.cityId}
           visitField={visitFields.city}
         />
         <Autocomplete

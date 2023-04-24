@@ -9,7 +9,7 @@ export interface INewAuthorValues {
   bio: string;
   email?: string;
   socialNetwork: (string | null)[];
-  work: string | null;
+  work: string;
 }
 
 export interface IErrorFields {
@@ -21,12 +21,8 @@ export interface IErrorFields {
   email: string;
   work: string;
   bio: string;
-  facebook: string;
-  instagram: string;
-  youtube: string;
-  twitter: string;
-  linkedin: string;
-  socialNetwoks: string;
+  socialNetworks: string[];
+  socialNetwoksRequired: string;
 }
 
 export interface IVisitFields {
@@ -46,10 +42,9 @@ export interface IVisitFields {
 
 export interface IRegionCityHandlerProps {
   newAuthorValues: INewAuthorValues;
-  errorFields: IErrorFields;
   visitFields: IVisitFields;
+  errorMessages: IErrorFields;
   setNewAuthorValues: React.Dispatch<React.SetStateAction<INewAuthorValues>>;
-  setErrorFields: React.Dispatch<React.SetStateAction<IErrorFields>>;
   blurHandler: (
     event: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => void;
