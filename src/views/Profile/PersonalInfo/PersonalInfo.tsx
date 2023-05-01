@@ -30,44 +30,46 @@ import { validateInput } from './utilities/validateInput';
 export const PersonalInfo: React.FC<IEditAuthorProps> = ({ author }) => {
   const classes = useStyles();
 
+  const [visitFields, setVisitFields] = useState<IVisitFields>({
+    lastName: false,
+    firstName: false,
+    region: false,
+    city: false,
+    email: false,
+    work: false,
+    bio: false,
+    facebook: false,
+    instagram: false,
+    youtube: false,
+    twitter: false,
+    linkedin: false,
+  });
+  const [toggleButton, setToggleButton] = useState(true);
+
   const [newAuthorValues, setNewAuthorValues] = useState<INewAuthorValues>({
-    avatar: author ? author.avatar : '',
-    firstName: author ? author.firstName : '',
-    lastName: author ? author.lastName : '',
-    regionId: author ? author.region.id : null,
-    cityId: author ? author.mainInstitution.city.id : null,
-    bio: author ? author.bio : '',
-    email: author ? author.email : '',
-    socialNetwork: author
-      ? author.socialNetworks
-      : [null, null, null, null, null],
-    work: author ? author.mainInstitution.name : '',
+    avatar: author?.avatar ?? '',
+    firstName: author?.firstName ?? '',
+    lastName: author?.lastName ?? '',
+    regionId: author?.region.id ?? null,
+    cityId: author?.mainInstitution.city.id ?? null,
+    bio: author?.bio ?? '',
+    email: author?.email ?? '',
+    socialNetwork: author?.socialNetworks ?? [null, null, null, null, null],
+    work: author?.mainInstitution.name ?? '',
   });
 
   const errorMessages = useMemo(() => {
     const errors: IErrorFields = {
-      avatar: author?.avatar ? '' : i18n.t(langTokens.admin.pictureRequired),
-      lastName: author?.lastName
-        ? ''
-        : i18n.t(langTokens.admin.fieldCantBeEmpty),
-      firstName: author?.firstName
-        ? ''
-        : i18n.t(langTokens.admin.fieldCantBeEmpty),
-      regionId: author?.region.id
-        ? ''
-        : i18n.t(langTokens.admin.fieldCantBeEmpty),
-      cityId: author?.mainInstitution.city.id
-        ? ''
-        : i18n.t(langTokens.admin.fieldCantBeEmpty),
-      email: author?.email ? '' : i18n.t(langTokens.admin.fieldCantBeEmpty),
-      work: author?.mainInstitution.name
-        ? ''
-        : i18n.t(langTokens.admin.fieldCantBeEmpty),
-      bio: author?.bio ? '' : i18n.t(langTokens.admin.fieldCantBeEmpty),
+      avatar: '',
+      lastName: '',
+      firstName: '',
+      regionId: '',
+      cityId: '',
+      email: '',
+      work: '',
+      bio: '',
       socialNetworks: ['', '', '', '', ''],
-      socialNetwoksRequired: author?.socialNetworks
-        ? ''
-        : i18n.t(langTokens.admin.minimumOneLinkRequired),
+      socialNetwoksRequired: '',
     };
     errors.avatar = newAuthorValues.avatar
       ? ''
@@ -120,30 +122,17 @@ export const PersonalInfo: React.FC<IEditAuthorProps> = ({ author }) => {
           validation.sn.max,
           validation.sn.regexp,
         );
-        if (!errors.socialNetworks[index]) {
-          errors.socialNetwoksRequired = '';
-        }
       }
     });
-
+    if (newAuthorValues.socialNetwork.some((socialNetwork) => socialNetwork)) {
+      errors.socialNetwoksRequired = '';
+    } else {
+      errors.socialNetwoksRequired = i18n.t(
+        langTokens.admin.minimumOneLinkRequired,
+      );
+    }
     return errors;
-  }, [newAuthorValues]);
-
-  const [visitFields, setVisitFields] = useState<IVisitFields>({
-    lastName: false,
-    firstName: false,
-    region: false,
-    city: false,
-    email: false,
-    work: false,
-    bio: false,
-    facebook: false,
-    instagram: false,
-    youtube: false,
-    twitter: false,
-    linkedin: false,
-  });
-  const [toggleButton, setToggleButton] = useState(true);
+  }, [newAuthorValues, author]);
 
   const inputChangeHandler = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -197,20 +186,19 @@ export const PersonalInfo: React.FC<IEditAuthorProps> = ({ author }) => {
     // TODO dispatch new author to server
   };
 
-  const toggleButtonHandler = () => {
-    /* eslint-disable-next-line */
-    for (const [, value] of Object.entries(errorMessages)) {
-      if (value) {
-        setToggleButton(true);
-        return;
-      }
-    }
-    setToggleButton(false);
-  };
-
-  useEffect(() => {
-    toggleButtonHandler();
-  }, [errorMessages]);
+  const isSaveDisabled = useMemo(
+    () =>
+      Object.keys(errorMessages).some((key) => {
+        if (key === 'socialNetworks') {
+          return errorMessages[key].some((socialNetwork) => socialNetwork);
+        }
+        if (errorMessages[key]) {
+          return true;
+        }
+        return false;
+      }),
+    [errorMessages],
+  );
 
   return (
     <form>
@@ -377,7 +365,7 @@ export const PersonalInfo: React.FC<IEditAuthorProps> = ({ author }) => {
       </Grid>
       <Box className={classes.ButtonBox}>
         <BasicButton
-          disabled={toggleButton}
+          disabled={isSaveDisabled}
           type="sign"
           label={i18n.t(langTokens.common.acceptChanges)}
           className={classes.BasicButton}
