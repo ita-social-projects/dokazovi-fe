@@ -6,22 +6,22 @@ export const fields = {
       placeholder: 'https://www.facebook.com',
     },
     {
-      index: 2,
+      index: 1,
       name: 'instagram',
       placeholder: 'https://www.instagram.com',
     },
     {
-      index: 3,
+      index: 2,
       name: 'youtube',
       placeholder: 'https://www.youtube.com',
     },
     {
-      index: 4,
+      index: 3,
       name: 'twitter',
       placeholder: 'https://www.twitter.com',
     },
     {
-      index: 5,
+      index: 4,
       name: 'linkedin',
       placeholder: 'https://www.linkedin.com',
     },

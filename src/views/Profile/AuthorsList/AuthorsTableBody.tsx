@@ -1,6 +1,7 @@
 import React from 'react';
 import {
   IconButton,
+  Link,
   TableBody,
   TableCell,
   TableRow,
@@ -55,13 +56,20 @@ const AuthorsTableBody: React.FC<IAuthorsTableBodyProps> = (props) => {
         <TableCell>{parsedEditedAt}</TableCell>
         <TableCell>
           <div className={classes.modifSection}>
-            <IconButton
-              aria-label="edit profile"
-              onClick={() => handleChangeClick(id)}
-              className={classes.editButton}
+            <Link
+              href={`/edit-author?id=${id}`}
+              underline="none"
+              target="_blank"
             >
-              <EditOutlined />
-            </IconButton>
+              <IconButton
+                aria-label="edit profile"
+                onClick={() => handleChangeClick(id)}
+                className={classes.editButton}
+              >
+                <EditOutlined />
+              </IconButton>
+            </Link>
+
             <AuthorsDeleteBtn
               id={id}
               fullName={fullName}

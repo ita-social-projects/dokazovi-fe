@@ -15,10 +15,9 @@ import { IRegionCityHandlerProps } from './types';
 
 const RegionCityHandler = ({
   newAuthorValues,
-  errorFields,
   visitFields,
+  errorMessages,
   setNewAuthorValues,
-  setErrorFields,
   blurHandler,
 }: IRegionCityHandlerProps): JSX.Element => {
   const classes = useStyles();
@@ -28,7 +27,6 @@ const RegionCityHandler = ({
   );
   const cities = useSelector((state: RootStateType) => state.properties.cities);
   const [selectRegions, setSelectRegions] = useState<IRegion[] | null>(null);
-  const [regionForValue, setRegionForValue] = useState<IRegion | null>(null);
   const [selectCities, setSelectCities] = useState<ICity[] | null>(null);
   const [isCitySelect, setIsCitySelect] = useState<boolean>(false);
 
@@ -38,7 +36,11 @@ const RegionCityHandler = ({
       if (res.status === 200) {
         const regionResponse = res.data;
         setSelectRegions([regionResponse]);
-        setRegionForValue(regionResponse);
+        setNewAuthorValues({
+          ...newAuthorValues,
+          regionId: regionResponse.id,
+          cityId: id,
+        });
       }
     } catch (error) {
       // eslint-disable-next-line no-console
@@ -65,17 +67,13 @@ const RegionCityHandler = ({
     inputIdentifier: string,
   ) => {
     if (!value) {
-      setErrorFields({
-        ...errorFields,
-        [inputIdentifier]: i18n.t(langTokens.admin.fieldCantBeEmpty),
-      });
       setIsCitySelect(false);
       setSelectRegions(null);
-      if (!regionForValue) {
+      if (!newAuthorValues.regionId) {
         setSelectCities(null);
       }
+      setNewAuthorValues({ ...newAuthorValues, [inputIdentifier]: null });
     } else {
-      setErrorFields({ ...errorFields, [inputIdentifier]: '' });
       setNewAuthorValues({ ...newAuthorValues, [inputIdentifier]: value.id });
       setRegionByCityId(value.id);
       setIsCitySelect(true);
@@ -88,11 +86,7 @@ const RegionCityHandler = ({
     inputIdentifier: string,
   ) => {
     if (!value) {
-      setErrorFields({
-        ...errorFields,
-        [inputIdentifier]: i18n.t(langTokens.admin.fieldCantBeEmpty),
-      });
-      setRegionForValue(null);
+      setNewAuthorValues({ ...newAuthorValues, [inputIdentifier]: null });
       setSelectCities(null);
       if (!isCitySelect) {
         setSelectRegions(null);
@@ -100,13 +94,15 @@ const RegionCityHandler = ({
     } else {
       const regionFromValue = regions.find((region) => region.name === value);
       if (regionFromValue) {
-        setErrorFields({ ...errorFields, [inputIdentifier]: '' });
         setNewAuthorValues({
           ...newAuthorValues,
           [inputIdentifier]: regionFromValue.id,
         });
         setCitiesByRegionId(regionFromValue.id);
-        setRegionForValue(regionFromValue);
+        setNewAuthorValues({
+          ...newAuthorValues,
+          [inputIdentifier]: regionFromValue.id,
+        });
       }
     }
   };
@@ -115,14 +111,18 @@ const RegionCityHandler = ({
     <Grid container spacing={2}>
       <Grid item xs={6}>
         <ErrorField
-          errorField={errorFields.regionId}
+          errorField={errorMessages.regionId}
           visitField={visitFields.region}
         />
         <Autocomplete
           disablePortal
           options={selectRegions || regions}
           fullWidth
-          value={regionForValue}
+          value={
+            newAuthorValues.regionId
+              ? regions.find((region) => region.id === newAuthorValues.regionId)
+              : null
+          }
           getOptionLabel={(region: IRegion) => region.name}
           getOptionSelected={(option, value) => option.id === value.id}
           onInputChange={(_, value) =>
@@ -144,13 +144,18 @@ const RegionCityHandler = ({
       </Grid>
       <Grid item xs={6}>
         <ErrorField
-          errorField={errorFields.cityId}
+          errorField={errorMessages.cityId}
           visitField={visitFields.city}
         />
         <Autocomplete
           disablePortal
           options={selectCities || cities}
           fullWidth
+          value={
+            newAuthorValues.cityId
+              ? cities.find((city) => city.id === newAuthorValues.cityId)
+              : null
+          }
           getOptionLabel={(city: ICity) => city.name}
           getOptionSelected={(option, value) => option.id === value.id}
           onChange={(_, value) => inputCityChangeHandler(_, value, 'cityId')}

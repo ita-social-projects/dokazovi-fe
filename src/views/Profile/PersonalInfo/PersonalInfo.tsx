@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import {
   Avatar,
   Grid,
@@ -16,41 +16,20 @@ import { useStyles } from './styles/PersonalInfo.styles';
 import { ErrorField } from './ErrorField';
 import { regex } from './constants/regex';
 import { fields } from './constants/fields';
-import { IErrorFields, INewAuthorValues, IVisitFields } from './types';
+import {
+  IEditAuthorProps,
+  IErrorFields,
+  INewAuthorValues,
+  IVisitFields,
+} from './types';
 import i18n, { langTokens } from '../../../locales/localizationInit';
 import RegionCityHandler from './RegionCityHandler';
 import { validation } from './constants/validation';
 import { validateInput } from './utilities/validateInput';
 
-export const PersonalInfo: React.FC = () => {
+export const PersonalInfo: React.FC<IEditAuthorProps> = ({ author }) => {
   const classes = useStyles();
 
-  const [newAuthorValues, setNewAuthorValues] = useState<INewAuthorValues>({
-    avatar: '',
-    firstName: '',
-    lastName: '',
-    regionId: 0,
-    cityId: 0,
-    bio: '',
-    email: '',
-    socialNetwork: [null, null, null, null, null],
-  });
-  const [errorFields, setErrorFields] = useState<IErrorFields>({
-    avatar: i18n.t(langTokens.admin.pictureRequired),
-    lastName: i18n.t(langTokens.admin.fieldCantBeEmpty),
-    firstName: i18n.t(langTokens.admin.fieldCantBeEmpty),
-    regionId: i18n.t(langTokens.admin.fieldCantBeEmpty),
-    cityId: i18n.t(langTokens.admin.fieldCantBeEmpty),
-    email: i18n.t(langTokens.admin.fieldCantBeEmpty),
-    work: i18n.t(langTokens.admin.fieldCantBeEmpty),
-    bio: i18n.t(langTokens.admin.fieldCantBeEmpty),
-    facebook: '',
-    instagram: '',
-    youtube: '',
-    twitter: '',
-    linkedin: '',
-    socialNetwoks: i18n.t(langTokens.admin.minimumOneLinkRequired),
-  });
   const [visitFields, setVisitFields] = useState<IVisitFields>({
     lastName: false,
     firstName: false,
@@ -67,25 +46,95 @@ export const PersonalInfo: React.FC = () => {
   });
   const [toggleButton, setToggleButton] = useState(true);
 
-  const inputNameChangeHandler = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
-    const inputIdentifier = event.target.name;
-    const { value } = event.target;
-    setNewAuthorValues({
-      ...newAuthorValues,
-      [inputIdentifier]: value,
-    });
-    const validationRequest = validateInput(
-      value,
+  const [newAuthorValues, setNewAuthorValues] = useState<INewAuthorValues>({
+    avatar: author?.avatar ?? '',
+    firstName: author?.firstName ?? '',
+    lastName: author?.lastName ?? '',
+    regionId: author?.region.id ?? null,
+    cityId: author?.mainInstitution.city.id ?? null,
+    bio: author?.bio ?? '',
+    email: author?.email ?? '',
+    socialNetwork: author?.socialNetworks ?? [null, null, null, null, null],
+    work: author?.mainInstitution.name ?? '',
+  });
+
+  const errorMessages = useMemo(() => {
+    const errors: IErrorFields = {
+      avatar: '',
+      lastName: '',
+      firstName: '',
+      regionId: '',
+      cityId: '',
+      email: '',
+      work: '',
+      bio: '',
+      socialNetworks: ['', '', '', '', ''],
+      socialNetwoksRequired: '',
+    };
+    errors.avatar = newAuthorValues.avatar
+      ? ''
+      : i18n.t(langTokens.admin.pictureRequired);
+    errors.regionId = newAuthorValues.regionId
+      ? ''
+      : i18n.t(langTokens.admin.fieldCantBeEmpty);
+    errors.cityId = newAuthorValues.cityId
+      ? ''
+      : i18n.t(langTokens.admin.fieldCantBeEmpty);
+    errors.lastName = validateInput(
+      newAuthorValues.lastName,
       validation.name.min,
       validation.name.max,
       validation.name.regexp,
     );
-    setErrorFields({ ...errorFields, [inputIdentifier]: validationRequest });
-  };
+    errors.firstName = validateInput(
+      newAuthorValues.firstName,
+      validation.name.min,
+      validation.name.max,
+      validation.name.regexp,
+    );
+    errors.bio = validateInput(
+      newAuthorValues.bio,
+      validation.bio.min,
+      validation.bio.max,
+      validation.bio.regexp,
+    );
+    errors.work = validateInput(
+      newAuthorValues.work,
+      validation.bio.min,
+      validation.bio.max,
+      validation.bio.regexp,
+    );
+    if (!newAuthorValues.email && visitFields.email) {
+      errors.email = i18n.t(langTokens.admin.fieldCantBeEmpty);
+    } else if (
+      newAuthorValues.email &&
+      !regex.validEmail.test(newAuthorValues.email)
+    ) {
+      errors.email = i18n.t(langTokens.admin.wrongEmail);
+    } else {
+      errors.email = '';
+    }
+    newAuthorValues.socialNetwork.forEach((sn, index) => {
+      if (sn) {
+        errors.socialNetworks[index] = validateInput(
+          sn,
+          validation.sn.min,
+          validation.sn.max,
+          validation.sn.regexp,
+        );
+      }
+    });
+    if (newAuthorValues.socialNetwork.some((socialNetwork) => socialNetwork)) {
+      errors.socialNetwoksRequired = '';
+    } else {
+      errors.socialNetwoksRequired = i18n.t(
+        langTokens.admin.minimumOneLinkRequired,
+      );
+    }
+    return errors;
+  }, [newAuthorValues, author]);
 
-  const inputBioChangeHandler = (
+  const inputChangeHandler = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     const inputIdentifier = event.target.name;
@@ -94,45 +143,19 @@ export const PersonalInfo: React.FC = () => {
       ...newAuthorValues,
       [inputIdentifier]: value,
     });
-    const validationRequest = validateInput(
-      value,
-      validation.bio.min,
-      validation.bio.max,
-      validation.bio.regexp,
-    );
-    setErrorFields({ ...errorFields, [inputIdentifier]: validationRequest });
   };
 
   const inputSocialNetworkChangeHandler = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     index: number,
   ) => {
-    const inputIdentifier = event.target.name;
     const { value } = event.target;
-    if (value) {
-      const validationRequest = validateInput(
-        value,
-        validation.sn.min,
-        validation.sn.max,
-        validation.sn.regexp,
-      );
-      if (validationRequest) {
-        setErrorFields({
-          ...errorFields,
-          [inputIdentifier]: validationRequest,
-        });
-      } else {
-        const newSocialNetworks = [...newAuthorValues.socialNetwork];
-        newSocialNetworks.splice(index, 1, value);
-        setNewAuthorValues({
-          ...newAuthorValues,
-          socialNetwork: newSocialNetworks,
-        });
-        setErrorFields({ ...errorFields, [inputIdentifier]: '' });
-      }
-    } else {
-      setErrorFields({ ...errorFields, [inputIdentifier]: '' });
-    }
+    const newSocialNetworks = [...newAuthorValues.socialNetwork];
+    newSocialNetworks.splice(index, 1, value);
+    setNewAuthorValues({
+      ...newAuthorValues,
+      socialNetwork: newSocialNetworks,
+    });
   };
 
   const inputAvatarChangeHandler = async (
@@ -143,37 +166,11 @@ export const PersonalInfo: React.FC = () => {
       const strFromFile = await getStringFromFile([...event.target.files]);
       uploadImageToImgur(strFromFile).then((res) => {
         if (res.data.status === 200) {
-          setErrorFields({ ...errorFields, [inputIdentifier]: '' });
           setNewAuthorValues({
             ...newAuthorValues,
             [inputIdentifier]: res.data.data.link,
           });
         }
-      });
-    }
-  };
-
-  const inputEmailChangeHandler = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
-    const inputIdentifier = event.target.name;
-    const { value } = event.target;
-
-    if (!value && visitFields.email) {
-      setErrorFields({
-        ...errorFields,
-        [inputIdentifier]: i18n.t(langTokens.admin.fieldCantBeEmpty),
-      });
-    } else if (value && !regex.validEmail.test(value)) {
-      setErrorFields({
-        ...errorFields,
-        [inputIdentifier]: i18n.t(langTokens.admin.wrongEmail),
-      });
-    } else {
-      setErrorFields({ ...errorFields, [inputIdentifier]: '' });
-      setNewAuthorValues({
-        ...newAuthorValues,
-        [inputIdentifier]: value,
       });
     }
   };
@@ -189,26 +186,19 @@ export const PersonalInfo: React.FC = () => {
     // TODO dispatch new author to server
   };
 
-  const toggleButtonHandler = () => {
-    /* eslint-disable-next-line */
-    for (const [, value] of Object.entries(errorFields)) {
-      if (value) {
-        setToggleButton(true);
-        return;
-      }
-    }
-    setToggleButton(false);
-  };
-
-  useEffect(() => {
-    toggleButtonHandler();
-  }, [errorFields]);
-
-  useEffect(() => {
-    if (newAuthorValues.socialNetwork.some((network) => network != null)) {
-      setErrorFields({ ...errorFields, socialNetwoks: '' });
-    }
-  }, [newAuthorValues.socialNetwork]);
+  const isSaveDisabled = useMemo(
+    () =>
+      Object.keys(errorMessages).some((key) => {
+        if (key === 'socialNetworks') {
+          return errorMessages[key].some((socialNetwork) => socialNetwork);
+        }
+        if (errorMessages[key]) {
+          return true;
+        }
+        return false;
+      }),
+    [errorMessages],
+  );
 
   return (
     <form>
@@ -237,7 +227,7 @@ export const PersonalInfo: React.FC = () => {
           <Grid container spacing={2}>
             <Grid item xs={6}>
               <ErrorField
-                errorField={errorFields.lastName}
+                errorField={errorMessages.lastName}
                 visitField={visitFields.lastName}
               />
               <TextField
@@ -247,13 +237,14 @@ export const PersonalInfo: React.FC = () => {
                 label={i18n.t(langTokens.admin.lastName)}
                 name="lastName"
                 fullWidth
-                onChange={inputNameChangeHandler}
+                value={newAuthorValues.lastName}
+                onChange={inputChangeHandler}
                 onBlur={blurHandler}
               />
             </Grid>
             <Grid item xs={6}>
               <ErrorField
-                errorField={errorFields.firstName}
+                errorField={errorMessages.firstName}
                 visitField={visitFields.firstName}
               />
               <TextField
@@ -263,17 +254,17 @@ export const PersonalInfo: React.FC = () => {
                 name="firstName"
                 variant="outlined"
                 fullWidth
-                onChange={inputNameChangeHandler}
+                value={newAuthorValues.firstName}
+                onChange={inputChangeHandler}
                 onBlur={blurHandler}
               />
             </Grid>
           </Grid>
           <RegionCityHandler
             newAuthorValues={newAuthorValues}
-            errorFields={errorFields}
             visitFields={visitFields}
+            errorMessages={errorMessages}
             setNewAuthorValues={setNewAuthorValues}
-            setErrorFields={setErrorFields}
             blurHandler={blurHandler}
           />
         </Grid>
@@ -287,9 +278,9 @@ export const PersonalInfo: React.FC = () => {
           <InputLabel required className={classes.InputLabel}>
             {i18n.t(langTokens.admin.socialNetworkLinks)}
           </InputLabel>
-          {visitFields.email && errorFields.email && (
+          {visitFields.email && errorMessages.email && (
             <Typography className={classes.Typography}>
-              {errorFields.email}
+              {errorMessages.email}
             </Typography>
           )}
           <TextField
@@ -299,7 +290,8 @@ export const PersonalInfo: React.FC = () => {
             fullWidth
             label={i18n.t(langTokens.admin.email)}
             name="email"
-            onChange={(event) => inputEmailChangeHandler(event)}
+            value={newAuthorValues.email}
+            onChange={(event) => inputChangeHandler(event)}
             onBlur={blurHandler}
           />
           <InputLabel required className={classes.InputLabel}>
@@ -308,9 +300,9 @@ export const PersonalInfo: React.FC = () => {
           {fields.socialNetworks.map((sn, index) => {
             return (
               <Box key={sn.index}>
-                {errorFields[sn.name] && (
+                {errorMessages[sn.name] && (
                   <Typography className={classes.Typography}>
-                    {errorFields[sn.name]}
+                    {errorMessages[sn.name]}
                   </Typography>
                 )}
                 <TextField
@@ -318,6 +310,7 @@ export const PersonalInfo: React.FC = () => {
                   fullWidth
                   name={sn.name}
                   placeholder={sn.placeholder}
+                  value={newAuthorValues.socialNetwork[sn.index]}
                   onChange={(event) =>
                     inputSocialNetworkChangeHandler(event, index)
                   }
@@ -332,9 +325,9 @@ export const PersonalInfo: React.FC = () => {
             <InputLabel required className={classes.InputLabel}>
               {i18n.t(langTokens.admin.mainPlaceOfWork)}
             </InputLabel>
-            {visitFields.work && errorFields.work && (
+            {visitFields.work && errorMessages.work && (
               <Typography className={classes.Typography}>
-                {errorFields.work}
+                {errorMessages.work}
               </Typography>
             )}
           </Box>
@@ -343,16 +336,17 @@ export const PersonalInfo: React.FC = () => {
             required
             fullWidth
             name="work"
-            onChange={inputBioChangeHandler}
+            value={newAuthorValues.work}
+            onChange={inputChangeHandler}
             onBlur={blurHandler}
           />
           <Box className={classes.WrapperBox}>
             <InputLabel required className={classes.InputLabel}>
               {i18n.t(langTokens.admin.biography)}
             </InputLabel>
-            {visitFields.bio && errorFields.bio && (
+            {visitFields.bio && errorMessages.bio && (
               <Typography className={classes.Typography}>
-                {errorFields.bio}
+                {errorMessages.bio}
               </Typography>
             )}
           </Box>
@@ -363,14 +357,15 @@ export const PersonalInfo: React.FC = () => {
             required
             fullWidth
             name="bio"
-            onChange={inputBioChangeHandler}
+            value={newAuthorValues.bio}
+            onChange={inputChangeHandler}
             onBlur={blurHandler}
           />
         </Grid>
       </Grid>
       <Box className={classes.ButtonBox}>
         <BasicButton
-          disabled={toggleButton}
+          disabled={isSaveDisabled}
           type="sign"
           label={i18n.t(langTokens.common.acceptChanges)}
           className={classes.BasicButton}
