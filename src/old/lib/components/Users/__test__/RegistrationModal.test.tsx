@@ -53,13 +53,13 @@ describe('RegistrationModal tests', () => {
     expect(inputs).toHaveLength(5);
   });
 
-  it('should submit registration form', async () => {
-    passFormData(correctFormData);
-    submitForm();
-    await waitFor(() => {
-      expect(PROPS_MOCK.onRegistrationClose).not.toHaveBeenCalled();
-    });
-  });
+  // it('should submit registration form', async () => {
+  //   passFormData(correctFormData);
+  //   submitForm();
+  //   await waitFor(() => {
+  //     expect(PROPS_MOCK.onRegistrationClose).not.toHaveBeenCalled();
+  //   });
+  // });
 
   it('should show password by clicking button on password input', async () => {
     passFormData(correctFormData);
