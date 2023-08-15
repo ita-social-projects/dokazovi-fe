@@ -30,7 +30,7 @@
     "react-hook-form": "^6.15.7",
     "react-i18next": "^11.11.0",
     "react-masonry-css": "^1.0.14",
-    "react-quill": "2.0.0-beta.2",
+    "react-quill": "^2.0.0-beta.4",
     "react-redux": "^7.2.4",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
