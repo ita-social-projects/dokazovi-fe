@@ -66,16 +66,16 @@ const AdminTableFilters: React.FC = () => {
           filter={QueryTypeEnum.DIRECTIONS}
         />
       </Grid>
+      <Grid item>
+        <AdminFilter
+          setChanges={boundedSetFilter}
+          allOptions={allPostStatuses}
+          selected={filters.statuses}
+          filter={QueryTypeEnum.STATUSES}
+        />
+      </Grid>
       {isAdmin && (
         <>
-          <Grid item>
-            <AdminFilter
-              setChanges={boundedSetFilter}
-              allOptions={allPostStatuses}
-              selected={filters.statuses}
-              filter={QueryTypeEnum.STATUSES}
-            />
-          </Grid>
           <Grid item md={3}>
             <AdminDatePicker
               start={date.start}
@@ -93,16 +93,6 @@ const AdminTableFilters: React.FC = () => {
           filter={QueryTypeEnum.POST_TYPES}
         />
       </Grid>
-      {!isAdmin && (
-        <Grid item>
-          <AdminFilter
-            setChanges={boundedSetFilter}
-            allOptions={allPostStatuses}
-            selected={filters.statuses}
-            filter={QueryTypeEnum.STATUSES}
-          />
-        </Grid>
-      )}
       {isAdmin && (
         <>
           <Grid item md={2} className={classes.textField}>
