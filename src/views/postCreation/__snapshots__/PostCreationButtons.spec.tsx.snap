@@ -57,6 +57,9 @@ exports[`PostCreationButton test should render properly 1`] = `
         />
       </button>
     </div>
+    <div
+      class="MuiBox-root MuiBox-root-3"
+    />
   </div>
 </DocumentFragment>
 `;
