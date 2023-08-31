@@ -166,6 +166,9 @@ export const setFakePostViewsCounter = async (
       views,
     },
   });
+  // const result = instance.post(`/post/set-fake-view/${id}?views=${views}`);
+  // console.log(result);
+  // return result;
 };
 
 export const archivePost = async (
