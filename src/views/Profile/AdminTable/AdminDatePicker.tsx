@@ -6,6 +6,7 @@ import { DatePicker } from '@material-ui/pickers';
 import { requestDate } from 'utilities/formatDate';
 import { useTranslation } from 'react-i18next';
 import { Box } from '@material-ui/core';
+import DateRangeOutlinedIcon from '@material-ui/icons/DateRangeOutlined';
 import { langTokens } from '../../../locales/localizationInit';
 import {
   useStyles,
@@ -138,12 +139,17 @@ export const AdminDatePicker: React.FC<IMaterialsDate> = ({
           value={[]}
           disableUnderline
           displayEmpty
-          renderValue={() => (
-            <div>
-              {t(langTokens.admin.from)} {parsDate(start)}{' '}
-              {t(langTokens.admin.to)} {parsDate(end)}
-            </div>
-          )}
+          renderValue={() =>
+            !datePickerState.firstSelectedDay.value &&
+            !datePickerState.secondSelectedDay.value ? (
+              <DateRangeOutlinedIcon />
+            ) : (
+              <div>
+                {t(langTokens.admin.from)} {parsDate(start)}{' '}
+                {t(langTokens.admin.to)} {parsDate(end)}
+              </div>
+            )
+          }
           MenuProps={MenuProps}
         >
           <Box display="flex" className={classes.pickersWrapper}>
