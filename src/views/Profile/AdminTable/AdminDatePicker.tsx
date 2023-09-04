@@ -35,49 +35,41 @@ interface IMaterialsDate {
   setChanges: (...params: any[]) => void;
 }
 
-interface ISelectedDay {
-  position: string;
-  bgColor: string;
-  value: string;
-}
+type ISelectedDayType = {
+  bgColor: 'transparent' | 'grey';
+  value: string | '';
+};
 
 const datePickerReducer = (
   state: {
-    firstSelectedDay: ISelectedDay;
-    secondSelectedDay: ISelectedDay;
+    firstSelectedDay: ISelectedDayType;
+    secondSelectedDay: ISelectedDayType;
   },
-  action: { type: string; payload: ISelectedDay },
+  action: { type: string; payload: ISelectedDayType },
 ): {
-  firstSelectedDay: ISelectedDay;
-  secondSelectedDay: ISelectedDay;
+  firstSelectedDay: ISelectedDayType;
+  secondSelectedDay: ISelectedDayType;
 } => {
   switch (action.type) {
-    case 'SET_SELECTED_DAY':
-      if (action.payload.position === 'start') {
-        return {
-          ...state,
-          firstSelectedDay: {
-            ...state.firstSelectedDay,
-            bgColor: action.payload.bgColor,
-            value: action.payload.value,
-          },
-        };
-      }
-      if (action.payload.position === 'end') {
-        return {
-          ...state,
-          secondSelectedDay: {
-            ...state.secondSelectedDay,
-            bgColor: action.payload.bgColor,
-            value: action.payload.value,
-          },
-        };
-      }
-      break;
+    case 'SET_START_DAY':
+      return {
+        ...state,
+        firstSelectedDay: {
+          bgColor: action.payload.bgColor,
+          value: action.payload.value,
+        },
+      };
+    case 'SET_END_DAY':
+      return {
+        ...state,
+        secondSelectedDay: {
+          bgColor: action.payload.bgColor,
+          value: action.payload.value,
+        },
+      };
     default:
       return state;
   }
-  return state;
 };
 
 export const AdminDatePicker: React.FC<IMaterialsDate> = ({
@@ -86,8 +78,8 @@ export const AdminDatePicker: React.FC<IMaterialsDate> = ({
   setChanges,
 }) => {
   const [datePickerState, dispatch] = useReducer(datePickerReducer, {
-    firstSelectedDay: { position: 'start', bgColor: 'transparent', value: '' },
-    secondSelectedDay: { position: 'end', bgColor: 'transparent', value: '' },
+    firstSelectedDay: { bgColor: 'transparent', value: '' },
+    secondSelectedDay: { bgColor: 'transparent', value: '' },
   });
 
   const classes = useStyles();
@@ -104,15 +96,16 @@ export const AdminDatePicker: React.FC<IMaterialsDate> = ({
   const handleDatePicker = (option: string, value: Date | null) => {
     if (value) {
       const changedValue = value.setHours(23, 59, 59, 0).toString();
-      if (
+      const condition =
         (option === 'start' &&
           changedValue !== datePickerState.firstSelectedDay.value) ||
         (option === 'end' &&
-          changedValue !== datePickerState.secondSelectedDay.value)
-      ) {
+          changedValue !== datePickerState.secondSelectedDay.value);
+
+      if (condition) {
         dispatch({
-          type: 'SET_SELECTED_DAY',
-          payload: { position: option, bgColor: 'grey', value: changedValue },
+          type: `SET_${option.toUpperCase()}_DAY`,
+          payload: { bgColor: 'grey', value: changedValue },
         });
         setChanges({
           option,
@@ -120,8 +113,8 @@ export const AdminDatePicker: React.FC<IMaterialsDate> = ({
         });
       } else {
         dispatch({
-          type: 'SET_SELECTED_DAY',
-          payload: { position: option, bgColor: 'transparent', value: '' },
+          type: `SET_${option.toUpperCase()}_DAY`,
+          payload: { bgColor: 'transparent', value: '' },
         });
         setChanges({
           option,
@@ -145,8 +138,10 @@ export const AdminDatePicker: React.FC<IMaterialsDate> = ({
               <DateRangeOutlinedIcon />
             ) : (
               <div>
-                {t(langTokens.admin.from)} {parsDate(start)}{' '}
-                {t(langTokens.admin.to)} {parsDate(end)}
+                {t(langTokens.admin.filterByDatePeriod, {
+                  rangeStart: parsDate(start),
+                  rangeEnd: parsDate(end),
+                })}
               </div>
             )
           }
