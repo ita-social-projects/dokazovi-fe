@@ -1,16 +1,16 @@
 import React, { useReducer } from 'react';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import { parsDate } from 'utilities/parsDate'; // Import as needed
-import { DatePicker } from '@material-ui/pickers'; // Import as needed
-import { requestDate } from 'utilities/formatDate'; // Import as needed
+import { parsDate } from 'utilities/parsDate';
+import { DatePicker } from '@material-ui/pickers';
+import { requestDate } from 'utilities/formatDate';
 import { useTranslation } from 'react-i18next';
 import { Box } from '@material-ui/core';
 import { langTokens } from '../../../locales/localizationInit';
 import {
   useStyles,
   useStylesForDatePicker,
-} from './styles/AdminDatePicker.styles'; // Import as needed
+} from './styles/AdminDatePicker.styles';
 
 type VerticalType = number | 'bottom' | 'top' | 'center';
 type HorizontalType = number | 'center' | 'left' | 'right';
@@ -34,19 +34,49 @@ interface IMaterialsDate {
   setChanges: (...params: any[]) => void;
 }
 
+interface ISelectedDay {
+  position: string;
+  bgColor: string;
+  value: string;
+}
+
 const datePickerReducer = (
-  state: { start: string; end: string },
-  action: { type: string; position: string },
-) => {
+  state: {
+    firstSelectedDay: ISelectedDay;
+    secondSelectedDay: ISelectedDay;
+  },
+  action: { type: string; payload: ISelectedDay },
+): {
+  firstSelectedDay: ISelectedDay;
+  secondSelectedDay: ISelectedDay;
+} => {
   switch (action.type) {
-    case 'SET_BG_COLOR':
-      return {
-        ...state,
-        [action.position]: 'grey',
-      };
+    case 'SET_SELECTED_DAY':
+      if (action.payload.position === 'start') {
+        return {
+          ...state,
+          firstSelectedDay: {
+            ...state.firstSelectedDay,
+            bgColor: action.payload.bgColor,
+            value: action.payload.value,
+          },
+        };
+      }
+      if (action.payload.position === 'end') {
+        return {
+          ...state,
+          secondSelectedDay: {
+            ...state.secondSelectedDay,
+            bgColor: action.payload.bgColor,
+            value: action.payload.value,
+          },
+        };
+      }
+      break;
     default:
       return state;
   }
+  return state;
 };
 
 export const AdminDatePicker: React.FC<IMaterialsDate> = ({
@@ -55,16 +85,16 @@ export const AdminDatePicker: React.FC<IMaterialsDate> = ({
   setChanges,
 }) => {
   const [datePickerState, dispatch] = useReducer(datePickerReducer, {
-    start: 'transparent',
-    end: 'transparent',
+    firstSelectedDay: { position: 'start', bgColor: 'transparent', value: '' },
+    secondSelectedDay: { position: 'end', bgColor: 'transparent', value: '' },
   });
 
   const classes = useStyles();
   const datepickerClassesStart = useStylesForDatePicker({
-    bgColorForDatePicker: datePickerState.start,
+    bgColorForDatePicker: datePickerState.firstSelectedDay.bgColor,
   });
   const datepickerClassesEnd = useStylesForDatePicker({
-    bgColorForDatePicker: datePickerState.end,
+    bgColorForDatePicker: datePickerState.secondSelectedDay.bgColor,
   });
 
   const { t } = useTranslation();
@@ -72,11 +102,31 @@ export const AdminDatePicker: React.FC<IMaterialsDate> = ({
 
   const handleDatePicker = (option: string, value: Date | null) => {
     if (value) {
-      dispatch({ type: 'SET_BG_COLOR', position: option });
-      setChanges({
-        option,
-        date: requestDate(value),
-      });
+      const changedValue = value.setHours(23, 59, 59, 0).toString();
+      if (
+        (option === 'start' &&
+          changedValue !== datePickerState.firstSelectedDay.value) ||
+        (option === 'end' &&
+          changedValue !== datePickerState.secondSelectedDay.value)
+      ) {
+        dispatch({
+          type: 'SET_SELECTED_DAY',
+          payload: { position: option, bgColor: 'grey', value: changedValue },
+        });
+        setChanges({
+          option,
+          date: requestDate(value),
+        });
+      } else {
+        dispatch({
+          type: 'SET_SELECTED_DAY',
+          payload: { position: option, bgColor: 'transparent', value: '' },
+        });
+        setChanges({
+          option,
+          date: undefined,
+        });
+      }
     }
   };
 
