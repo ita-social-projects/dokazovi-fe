@@ -69,30 +69,20 @@ const AdminTableFilters: React.FC = () => {
       <Grid item>
         <AdminFilter
           setChanges={boundedSetFilter}
-          allOptions={allPostStatuses}
-          selected={filters.statuses}
-          filter={QueryTypeEnum.STATUSES}
-        />
-      </Grid>
-      {isAdmin && (
-        <>
-          <Grid item md={3}>
-            <AdminDatePicker
-              start={date.start}
-              end={date.end}
-              setChanges={boundedSetDate}
-            />
-          </Grid>
-        </>
-      )}
-      <Grid item>
-        <AdminFilter
-          setChanges={boundedSetFilter}
           allOptions={allPostTypes}
           selected={filters.types}
           filter={QueryTypeEnum.POST_TYPES}
         />
       </Grid>
+      <Grid item>
+        <AdminFilter
+          setChanges={boundedSetFilter}
+          allOptions={allPostStatuses}
+          selected={filters.statuses}
+          filter={QueryTypeEnum.STATUSES}
+        />
+      </Grid>
+
       {isAdmin && (
         <>
           <Grid item md={2} className={classes.textField}>
@@ -109,6 +99,18 @@ const AdminTableFilters: React.FC = () => {
               placeholder={i18.t(langTokens.admin.searchAuthorPlaceholder)}
               setChanges={boundedSetField}
               inputValue={textFields.author}
+            />
+          </Grid>
+        </>
+      )}
+
+      {isAdmin && (
+        <>
+          <Grid item md={3}>
+            <AdminDatePicker
+              start={date.start}
+              end={date.end}
+              setChanges={boundedSetDate}
             />
           </Grid>
         </>
