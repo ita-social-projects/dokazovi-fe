@@ -13,7 +13,7 @@ import {
 import { getAsyncActionsReducer } from '../helpers/asyncActions';
 
 const statuses = Object.keys(PostStatusForApi)
-  .slice(0, 7)
+  .slice(0, 6)
   .map((key) => ({
     id: +key,
     name: PostStatusForApi[+key],
