@@ -7,6 +7,7 @@ import { requestDate } from 'utilities/formatDate';
 import { useTranslation } from 'react-i18next';
 import { Box } from '@material-ui/core';
 import DateRangeOutlinedIcon from '@material-ui/icons/DateRangeOutlined';
+import { ClassNameMap } from '@material-ui/core/styles/withStyles';
 import { langTokens } from '../../../locales/localizationInit';
 import {
   useStyles,
@@ -37,15 +38,17 @@ interface IMaterialsDate {
 
 type ISelectedDayType = {
   bgColor: 'transparent' | 'grey';
-  value: string | '';
+  value: string;
 };
+type ActionType = 'SET_START_DAY' | 'SET_END_DAY';
+type IDateValueType = Date | null;
 
 const datePickerReducer = (
   state: {
     firstSelectedDay: ISelectedDayType;
     secondSelectedDay: ISelectedDayType;
   },
-  action: { type: string; payload: ISelectedDayType },
+  action: { type: ActionType; payload: ISelectedDayType },
 ): {
   firstSelectedDay: ISelectedDayType;
   secondSelectedDay: ISelectedDayType;
@@ -83,19 +86,23 @@ export const AdminDatePicker: React.FC<IMaterialsDate> = ({
   });
 
   const classes = useStyles();
-  const datepickerClassesStart = useStylesForDatePicker({
-    bgColorForDatePicker: datePickerState.firstSelectedDay.bgColor,
-  });
-  const datepickerClassesEnd = useStylesForDatePicker({
-    bgColorForDatePicker: datePickerState.secondSelectedDay.bgColor,
-  });
+  const datepickerClassesStart: ClassNameMap<'datePicker'> = useStylesForDatePicker(
+    {
+      bgColorForDatePicker: datePickerState.firstSelectedDay.bgColor,
+    },
+  );
+  const datepickerClassesEnd: ClassNameMap<'datePicker'> = useStylesForDatePicker(
+    {
+      bgColorForDatePicker: datePickerState.secondSelectedDay.bgColor,
+    },
+  );
 
   const { t } = useTranslation();
   const today = new Date();
 
-  const handleDatePicker = (option: string, value: Date | null) => {
+  const handleDatePicker = (option: string, value: IDateValueType) => {
     if (value) {
-      const changedValue = value.setHours(23, 59, 59, 0).toString();
+      const changedValue = requestDate(value);
       const condition =
         (option === 'start' &&
           changedValue !== datePickerState.firstSelectedDay.value) ||
@@ -104,7 +111,7 @@ export const AdminDatePicker: React.FC<IMaterialsDate> = ({
 
       if (condition) {
         dispatch({
-          type: `SET_${option.toUpperCase()}_DAY`,
+          type: `SET_${option.toUpperCase()}_DAY` as ActionType,
           payload: { bgColor: 'grey', value: changedValue },
         });
         setChanges({
@@ -113,7 +120,7 @@ export const AdminDatePicker: React.FC<IMaterialsDate> = ({
         });
       } else {
         dispatch({
-          type: `SET_${option.toUpperCase()}_DAY`,
+          type: `SET_${option.toUpperCase()}_DAY` as ActionType,
           payload: { bgColor: 'transparent', value: '' },
         });
         setChanges({
@@ -159,7 +166,7 @@ export const AdminDatePicker: React.FC<IMaterialsDate> = ({
                   handleDatePicker('start', value);
                 }}
                 format="dd-mm-yyyy"
-                maxDate={today}
+                maxDate={end || today}
               />
             </Box>
             <Box className={datepickerClassesEnd.datePicker}>
