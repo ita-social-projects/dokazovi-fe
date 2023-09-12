@@ -49,6 +49,12 @@ export const AdminFilter: React.FC<IMaterialsFilter> = ({
 }) => {
   const ALL_OPTIONS_IDS = allOptions.map((e) => e.id);
 
+  const sortedOptions = [...allOptions].sort((a, b) => {
+    const labelA = a.label || '';
+    const labelB = b.label || '';
+    return labelA.localeCompare(labelB);
+  });
+
   const classes = useStyles();
   const { t } = useTranslation();
 
@@ -94,7 +100,7 @@ export const AdminFilter: React.FC<IMaterialsFilter> = ({
             <Checkbox checked={selected?.length === allOptions.length} />
             <ListItemText primary={t(langTokens.common.all)} />
           </MenuItem>
-          {allOptions.map((option) => (
+          {sortedOptions.map((option) => (
             <MenuItem key={option.id} value={option.id}>
               <Checkbox checked={!!selected?.includes(option.id)} />
               <ListItemText primary={option?.label ?? option.name} />
