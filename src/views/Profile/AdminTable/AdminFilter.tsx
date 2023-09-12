@@ -1,11 +1,10 @@
 /* eslint-disable */
-import React from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import ListItemText from '@material-ui/core/ListItemText';
 import Select from '@material-ui/core/Select';
 import Checkbox from '@material-ui/core/Checkbox';
-
 import { useStyles } from './styles/AdminFilter.styles';
 import { useTranslation } from 'react-i18next';
 import { langTokens } from '../../../locales/localizationInit';
@@ -51,6 +50,19 @@ export const AdminFilter: React.FC<IMaterialsFilter> = ({
 
   const classes = useStyles();
   const { t } = useTranslation();
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => handleClose();
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [open]);
+
+  const handleOpen = useCallback(() => setOpen(true), []);
+
+  const handleClose = useCallback(() => setOpen(false), []);
 
   const handleChange = ({ target }) => {
     if (target?.value) {
@@ -82,6 +94,9 @@ export const AdminFilter: React.FC<IMaterialsFilter> = ({
       <FormControl>
         <Select
           className={classes.filterHeader}
+          open={open}
+          onOpen={handleOpen}
+          onClose={handleClose}
           multiple
           disableUnderline
           displayEmpty
