@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { MenuItem } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
@@ -57,6 +58,7 @@ const ActionButtons: React.FC<IActionButtons> = ({
   } = PostStatus;
 
   const editPostLink = `/edit-post?id=${id}`;
+  const history = useHistory();
   const [activeModal, setActiveModal] = useState<null | string>(null);
 
   const openModal = (modal: string) => {
@@ -135,7 +137,7 @@ const ActionButtons: React.FC<IActionButtons> = ({
       label: t(langTokens.admin.edit),
       modal: null,
       handler: () => {
-        window.open(editPostLink);
+        history.push(editPostLink);
       },
       adminUseStatuses: [
         PUBLISHED,
