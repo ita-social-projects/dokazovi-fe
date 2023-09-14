@@ -16,11 +16,13 @@ export const useStyles = makeStyles(
       '& .MuiFormLabel-asterisk.MuiInputLabel-asterisk': {
         color: theme.palette.warning.main,
       },
+      '& .MuiSvgIcon-root': {
+        fontSize: '1.8rem',
+      },
     },
     Avatar: {
       height: 200,
       width: 200,
-      marginright: 1000,
     },
     Contacts: {
       '& .MuiInputBase-input': {
@@ -46,7 +48,14 @@ export const useStyles = makeStyles(
     },
     PhotoCamera: {
       '& ': {
+        borderRadius: '1rem',
+        padding: '1px',
+        border: '2px solid',
+        borderColor: theme.palette.custom.colorAquaBlue,
         color: theme.palette.custom.colorAquaBlue,
+      },
+      '&:hover': {
+        opacity: 0.7,
       },
     },
     BasicButton: {
