@@ -215,7 +215,7 @@ export const PersonalInfo: React.FC<IEditAuthorProps> = ({ author }) => {
                 hidden
                 required
                 name="avatar"
-                accept="image/*"
+                accept="image/jpeg, image/png, image/tiff, image/heic"
                 type="file"
                 onChange={inputAvatarChangeHandler}
               />
