@@ -13,3 +13,12 @@ export const useStyles = makeStyles((theme: Theme) => ({
     },
   },
 }));
+
+export const useStylesForDatePicker = makeStyles({
+  datePicker: {
+    '& .MuiPickersDay-daySelected': {
+      backgroundColor: (props: { bgColorForDatePicker: string }) =>
+        props.bgColorForDatePicker || 'transparent',
+    },
+  },
+});
