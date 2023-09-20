@@ -35,6 +35,7 @@ import {
   UpdatePlatformInformationRequestType,
   CityResponseType,
   GetChangeLogType,
+  CreateUpdateAuthorRequestType,
 } from './types';
 import { BASE_URL } from '../../../apiURL';
 import { getToken } from '../../../provider/AuthProvider/getToken';
@@ -355,4 +356,17 @@ export const deleteAuthorById = async (
   id: number,
 ): Promise<AxiosResponse<PostsResponseType>> => {
   return instance.delete(`/author/${id}`);
+};
+
+export const createAuthor = async (
+  requestBody: CreateUpdateAuthorRequestType,
+): Promise<AxiosResponse<ExpertResponseType>> => {
+  return instance.post(`/author`, requestBody);
+};
+
+export const updateAuthor = async (
+  id: number,
+  requestBody: CreateUpdateAuthorRequestType,
+): Promise<AxiosResponse<ExpertResponseType>> => {
+  return instance.put(`/author/${id}`, requestBody);
 };

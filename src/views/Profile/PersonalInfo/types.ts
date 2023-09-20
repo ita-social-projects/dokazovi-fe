@@ -8,8 +8,8 @@ export interface INewAuthorValues {
   cityId: number | null;
   bio: string;
   email?: string;
-  socialNetwork: (string | null)[];
-  work: string;
+  socialNetworks: (string | null)[];
+  mainWorkingPlace: string;
 }
 
 export interface IErrorFields {
@@ -19,7 +19,7 @@ export interface IErrorFields {
   regionId: string;
   cityId: string;
   email: string;
-  work: string;
+  mainWorkingPlace: string;
   bio: string;
   socialNetworks: string[];
   socialNetwoksRequired: string;
@@ -31,7 +31,7 @@ export interface IVisitFields {
   region: boolean;
   city: boolean;
   email: boolean;
-  work: boolean;
+  mainWorkingPlace: boolean;
   bio: boolean;
   facebook: boolean;
   instagram: boolean;

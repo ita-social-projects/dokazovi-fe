@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import {
   Avatar,
   Grid,
@@ -12,6 +12,8 @@ import { BasicButton } from 'components/Form';
 import { PhotoCamera } from '@material-ui/icons';
 import { uploadImageToImgur } from 'old/lib/utilities/Imgur/uploadImageToImgur';
 import { getStringFromFile } from 'old/lib/utilities/Imgur/getStringFromFile';
+import { createAuthor, updateAuthor } from 'old/lib/utilities/API/api';
+import { useHistory } from 'react-router-dom';
 import { useStyles } from './styles/PersonalInfo.styles';
 import { ErrorField } from './ErrorField';
 import { regex } from './constants/regex';
@@ -29,6 +31,7 @@ import { validateInput } from './utilities/validateInput';
 
 export const PersonalInfo: React.FC<IEditAuthorProps> = ({ author }) => {
   const classes = useStyles();
+  const history = useHistory();
 
   const [visitFields, setVisitFields] = useState<IVisitFields>({
     lastName: false,
@@ -36,7 +39,7 @@ export const PersonalInfo: React.FC<IEditAuthorProps> = ({ author }) => {
     region: false,
     city: false,
     email: false,
-    work: false,
+    mainWorkingPlace: false,
     bio: false,
     facebook: false,
     instagram: false,
@@ -44,7 +47,6 @@ export const PersonalInfo: React.FC<IEditAuthorProps> = ({ author }) => {
     twitter: false,
     linkedin: false,
   });
-  const [toggleButton, setToggleButton] = useState(true);
 
   const [newAuthorValues, setNewAuthorValues] = useState<INewAuthorValues>({
     avatar: author?.avatar ?? '',
@@ -54,8 +56,8 @@ export const PersonalInfo: React.FC<IEditAuthorProps> = ({ author }) => {
     cityId: author?.mainInstitution.city.id ?? null,
     bio: author?.bio ?? '',
     email: author?.email ?? '',
-    socialNetwork: author?.socialNetworks ?? [null, null, null, null, null],
-    work: author?.mainInstitution.name ?? '',
+    socialNetworks: author?.socialNetworks ?? [null, null, null, null, null],
+    mainWorkingPlace: author?.mainInstitution.name ?? '',
   });
 
   const errorMessages = useMemo(() => {
@@ -66,7 +68,7 @@ export const PersonalInfo: React.FC<IEditAuthorProps> = ({ author }) => {
       regionId: '',
       cityId: '',
       email: '',
-      work: '',
+      mainWorkingPlace: '',
       bio: '',
       socialNetworks: ['', '', '', '', ''],
       socialNetwoksRequired: '',
@@ -98,8 +100,8 @@ export const PersonalInfo: React.FC<IEditAuthorProps> = ({ author }) => {
       validation.bio.max,
       validation.bio.regexp,
     );
-    errors.work = validateInput(
-      newAuthorValues.work,
+    errors.mainWorkingPlace = validateInput(
+      newAuthorValues.mainWorkingPlace,
       validation.bio.min,
       validation.bio.max,
       validation.bio.regexp,
@@ -114,7 +116,7 @@ export const PersonalInfo: React.FC<IEditAuthorProps> = ({ author }) => {
     } else {
       errors.email = '';
     }
-    newAuthorValues.socialNetwork.forEach((sn, index) => {
+    newAuthorValues.socialNetworks.forEach((sn, index) => {
       if (sn) {
         errors.socialNetworks[index] = validateInput(
           sn,
@@ -124,7 +126,7 @@ export const PersonalInfo: React.FC<IEditAuthorProps> = ({ author }) => {
         );
       }
     });
-    if (newAuthorValues.socialNetwork.some((socialNetwork) => socialNetwork)) {
+    if (newAuthorValues.socialNetworks.some((socialNetwork) => socialNetwork)) {
       errors.socialNetwoksRequired = '';
     } else {
       errors.socialNetwoksRequired = i18n.t(
@@ -150,11 +152,11 @@ export const PersonalInfo: React.FC<IEditAuthorProps> = ({ author }) => {
     index: number,
   ) => {
     const { value } = event.target;
-    const newSocialNetworks = [...newAuthorValues.socialNetwork];
+    const newSocialNetworks = [...newAuthorValues.socialNetworks];
     newSocialNetworks.splice(index, 1, value);
     setNewAuthorValues({
       ...newAuthorValues,
-      socialNetwork: newSocialNetworks,
+      socialNetworks: newSocialNetworks,
     });
   };
 
@@ -182,8 +184,13 @@ export const PersonalInfo: React.FC<IEditAuthorProps> = ({ author }) => {
     setVisitFields({ ...visitFields, [inputIdentifier]: true });
   };
 
-  const buttonClickHandler = () => {
-    // TODO dispatch new author to server
+  const buttonClickHandler = async (event: { preventDefault: () => void }) => {
+    event.preventDefault();
+    const response = author
+      ? await updateAuthor(author.id, newAuthorValues)
+      : await createAuthor(newAuthorValues);
+    const authorId = response.data.id;
+    history.push(`/experts/${authorId}`);
   };
 
   const isSaveDisabled = useMemo(
@@ -213,7 +220,6 @@ export const PersonalInfo: React.FC<IEditAuthorProps> = ({ author }) => {
             <IconButton aria-label="upload picture" component="label">
               <input
                 hidden
-                required
                 name="avatar"
                 accept="image/jpeg, image/png, image/tiff, image/heic"
                 type="file"
@@ -310,7 +316,7 @@ export const PersonalInfo: React.FC<IEditAuthorProps> = ({ author }) => {
                   fullWidth
                   name={sn.name}
                   placeholder={sn.placeholder}
-                  value={newAuthorValues.socialNetwork[sn.index]}
+                  value={newAuthorValues.socialNetworks[sn.index]}
                   onChange={(event) =>
                     inputSocialNetworkChangeHandler(event, index)
                   }
@@ -325,9 +331,9 @@ export const PersonalInfo: React.FC<IEditAuthorProps> = ({ author }) => {
             <InputLabel required className={classes.InputLabel}>
               {i18n.t(langTokens.admin.mainPlaceOfWork)}
             </InputLabel>
-            {visitFields.work && errorMessages.work && (
+            {visitFields.mainWorkingPlace && errorMessages.mainWorkingPlace && (
               <Typography className={classes.Typography}>
-                {errorMessages.work}
+                {errorMessages.mainWorkingPlace}
               </Typography>
             )}
           </Box>
@@ -336,7 +342,7 @@ export const PersonalInfo: React.FC<IEditAuthorProps> = ({ author }) => {
             required
             fullWidth
             name="work"
-            value={newAuthorValues.work}
+            value={newAuthorValues.mainWorkingPlace}
             onChange={inputChangeHandler}
             onBlur={blurHandler}
           />
