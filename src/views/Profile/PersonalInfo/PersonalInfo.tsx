@@ -1,14 +1,14 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import {
   Avatar,
-  Grid,
-  TextField,
-  InputLabel,
   Box,
+  Grid,
   IconButton,
+  InputLabel,
+  TextField,
   Typography,
 } from '@material-ui/core';
-import { BasicButton } from 'components/Form';
+import { BasicButton, CancelButton } from 'components/Form';
 import { PhotoCamera } from '@material-ui/icons';
 import { uploadImageToImgur } from 'old/lib/utilities/Imgur/uploadImageToImgur';
 import { getStringFromFile } from 'old/lib/utilities/Imgur/getStringFromFile';
@@ -44,7 +44,7 @@ export const PersonalInfo: React.FC<IEditAuthorProps> = ({ author }) => {
     twitter: false,
     linkedin: false,
   });
-  const [toggleButton, setToggleButton] = useState(true);
+  const [toggleButton, setToggleButton] = useState(false);
 
   const [newAuthorValues, setNewAuthorValues] = useState<INewAuthorValues>({
     avatar: author?.avatar ?? '',
@@ -199,6 +199,19 @@ export const PersonalInfo: React.FC<IEditAuthorProps> = ({ author }) => {
       }),
     [errorMessages],
   );
+
+  useEffect(() => {
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      e.preventDefault();
+      e.returnValue =
+        'Зміни не збережені. Ви впевнені, що хочете залишити сторінку?';
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, []);
 
   return (
     <form>
@@ -363,7 +376,14 @@ export const PersonalInfo: React.FC<IEditAuthorProps> = ({ author }) => {
           />
         </Grid>
       </Grid>
+
       <Box className={classes.ButtonBox}>
+        {author && (
+          <CancelButton
+            label={i18n.t(langTokens.common.cancelChanges)}
+            onClick={() => window.close()}
+          />
+        )}
         <BasicButton
           disabled={isSaveDisabled}
           type="sign"
