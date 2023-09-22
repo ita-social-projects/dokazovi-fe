@@ -28,7 +28,6 @@ export const useStyles = makeStyles(
         flex: '0 1 auto',
         padding: theme.spacing(2, 3.1),
         '& .MuiButton-label': {
-          fontWeight: 600,
           fontSize: '15px',
         },
       },

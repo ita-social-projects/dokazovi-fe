@@ -17,7 +17,6 @@ export const useStyles = makeStyles(
       [theme.breakpoints.down('sm')]: {
         flex: '0 1 auto',
         '& .MuiButton-label': {
-          fontWeight: 600,
           fontSize: '15px',
         },
       },

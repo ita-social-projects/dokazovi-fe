@@ -12,6 +12,7 @@ import { BasicButton, CancelButton } from 'components/Form';
 import { PhotoCamera } from '@material-ui/icons';
 import { uploadImageToImgur } from 'old/lib/utilities/Imgur/uploadImageToImgur';
 import { getStringFromFile } from 'old/lib/utilities/Imgur/getStringFromFile';
+import _isEqual from 'lodash/isEqual';
 import { useStyles } from './styles/PersonalInfo.styles';
 import { ErrorField } from './ErrorField';
 import { regex } from './constants/regex';
@@ -26,6 +27,7 @@ import i18n, { langTokens } from '../../../locales/localizationInit';
 import RegionCityHandler from './RegionCityHandler';
 import { validation } from './constants/validation';
 import { validateInput } from './utilities/validateInput';
+import { usePrevious } from '../../../old/lib/hooks/usePrevious';
 
 export const PersonalInfo: React.FC<IEditAuthorProps> = ({ author }) => {
   const classes = useStyles();
@@ -57,6 +59,7 @@ export const PersonalInfo: React.FC<IEditAuthorProps> = ({ author }) => {
     socialNetwork: author?.socialNetworks ?? [null, null, null, null, null],
     work: author?.mainInstitution.name ?? '',
   });
+  const previousAuthorValues = usePrevious<INewAuthorValues>(newAuthorValues);
 
   const errorMessages = useMemo(() => {
     const errors: IErrorFields = {
@@ -202,16 +205,17 @@ export const PersonalInfo: React.FC<IEditAuthorProps> = ({ author }) => {
 
   useEffect(() => {
     const handleBeforeUnload = (e: BeforeUnloadEvent) => {
-      e.preventDefault();
-      e.returnValue =
-        'Зміни не збережені. Ви впевнені, що хочете залишити сторінку?';
+      if (!_isEqual(previousAuthorValues, newAuthorValues)) {
+        e.preventDefault();
+        e.returnValue =
+          'Зміни не збережені. Ви впевнені, що хочете залишити сторінку?';
+      }
     };
-
     window.addEventListener('beforeunload', handleBeforeUnload);
     return () => {
       window.removeEventListener('beforeunload', handleBeforeUnload);
     };
-  }, []);
+  }, [newAuthorValues]);
 
   return (
     <form>
