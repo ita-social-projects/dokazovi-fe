@@ -215,7 +215,7 @@ export const PersonalInfo: React.FC<IEditAuthorProps> = ({ author }) => {
     return () => {
       window.removeEventListener('beforeunload', handleBeforeUnload);
     };
-  }, [newAuthorValues]);
+  }, [newAuthorValues, previousAuthorValues]);
 
   return (
     <form>
