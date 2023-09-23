@@ -5,7 +5,6 @@ export const useStyles = makeStyles(
     basicAcceptButton: {
       marginTop: theme.spacing(7),
       padding: theme.spacing(3.7, 2.8),
-      fontFamily: 'Raleway',
       fontWeight: 600,
       fontSize: theme.spacing(3.6),
     },
@@ -19,7 +18,6 @@ export const useStyles = makeStyles(
         color: theme.palette.common.white,
         fontWeight: 700,
         fontSize: '18px',
-        fontFamily: 'Raleway',
       },
       '&:hover': {
         backgroundColor: '#ffaa00',

@@ -9,7 +9,6 @@ export const useStyles = makeStyles(
         color: theme.palette.common.white,
         fontWeight: 700,
         fontSize: '18px',
-        fontFamily: 'Raleway',
       },
       '&:hover': {
         backgroundColor: theme.palette.info.main,
