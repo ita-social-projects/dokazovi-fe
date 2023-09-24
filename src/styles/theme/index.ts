@@ -25,6 +25,9 @@ export const MAIN_THEME = createTheme({
         borderRadius: 0,
         textTransform: 'none',
       },
+      label: {
+        fontFamily: 'Raleway',
+      },
     },
     MuiIconButton: {
       root: {

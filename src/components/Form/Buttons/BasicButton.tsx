@@ -37,7 +37,6 @@ export const BasicButton: React.FC<IBasicButtonProps> = ({
       className={clsx(getRootClass(), className)}
       type="submit"
       variant="contained"
-      fullWidth
       disabled={disabled}
       onClick={onClick}
     >

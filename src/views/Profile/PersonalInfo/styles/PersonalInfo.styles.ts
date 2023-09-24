@@ -60,16 +60,20 @@ export const useStyles = makeStyles(
     },
     BasicButton: {
       '& ': {
-        marginTop: theme.spacing(5),
-        width: 300,
         borderRadius: theme.spacing(0),
       },
     },
     ButtonBox: {
       '& ': {
-        width: 'fullwidth',
         display: 'flex',
+        gap: '15px',
+        marginTop: theme.spacing(5),
         justifyContent: 'right',
+      },
+      [theme.breakpoints.down('xs')]: {
+        '& ': {
+          justifyContent: 'center',
+        },
       },
     },
     WrapperBox: {

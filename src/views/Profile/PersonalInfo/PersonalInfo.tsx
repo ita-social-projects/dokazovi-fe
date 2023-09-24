@@ -1,17 +1,18 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import {
   Avatar,
-  Grid,
-  TextField,
-  InputLabel,
   Box,
+  Grid,
   IconButton,
+  InputLabel,
+  TextField,
   Typography,
 } from '@material-ui/core';
-import { BasicButton } from 'components/Form';
+import { BasicButton, CancelButton } from 'components/Form';
 import { PhotoCamera } from '@material-ui/icons';
 import { uploadImageToImgur } from 'old/lib/utilities/Imgur/uploadImageToImgur';
 import { getStringFromFile } from 'old/lib/utilities/Imgur/getStringFromFile';
+import _isEqual from 'lodash/isEqual';
 import { useStyles } from './styles/PersonalInfo.styles';
 import { ErrorField } from './ErrorField';
 import { regex } from './constants/regex';
@@ -26,6 +27,7 @@ import i18n, { langTokens } from '../../../locales/localizationInit';
 import RegionCityHandler from './RegionCityHandler';
 import { validation } from './constants/validation';
 import { validateInput } from './utilities/validateInput';
+import { usePrevious } from '../../../old/lib/hooks/usePrevious';
 
 export const PersonalInfo: React.FC<IEditAuthorProps> = ({ author }) => {
   const classes = useStyles();
@@ -44,7 +46,7 @@ export const PersonalInfo: React.FC<IEditAuthorProps> = ({ author }) => {
     twitter: false,
     linkedin: false,
   });
-  const [toggleButton, setToggleButton] = useState(true);
+  const [toggleButton, setToggleButton] = useState(false);
 
   const [newAuthorValues, setNewAuthorValues] = useState<INewAuthorValues>({
     avatar: author?.avatar ?? '',
@@ -57,6 +59,7 @@ export const PersonalInfo: React.FC<IEditAuthorProps> = ({ author }) => {
     socialNetwork: author?.socialNetworks ?? [null, null, null, null, null],
     work: author?.mainInstitution.name ?? '',
   });
+  const previousAuthorValues = usePrevious<INewAuthorValues>(newAuthorValues);
 
   const errorMessages = useMemo(() => {
     const errors: IErrorFields = {
@@ -199,6 +202,20 @@ export const PersonalInfo: React.FC<IEditAuthorProps> = ({ author }) => {
       }),
     [errorMessages],
   );
+
+  useEffect(() => {
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      if (!_isEqual(previousAuthorValues, newAuthorValues)) {
+        e.preventDefault();
+        e.returnValue =
+          'Зміни не збережені. Ви впевнені, що хочете залишити сторінку?';
+      }
+    };
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, [newAuthorValues, previousAuthorValues]);
 
   return (
     <form>
@@ -363,7 +380,14 @@ export const PersonalInfo: React.FC<IEditAuthorProps> = ({ author }) => {
           />
         </Grid>
       </Grid>
+
       <Box className={classes.ButtonBox}>
+        {author && (
+          <CancelButton
+            label={i18n.t(langTokens.common.cancelChanges)}
+            onClick={() => window.close()}
+          />
+        )}
         <BasicButton
           disabled={isSaveDisabled}
           type="sign"
