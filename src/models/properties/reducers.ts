@@ -8,11 +8,12 @@ import {
   fetchPostsTags,
   fetchPostsTypes,
   fetchRegions,
+  fetchCities,
 } from './asyncActions';
 import { getAsyncActionsReducer } from '../helpers/asyncActions';
 
 const statuses = Object.keys(PostStatusForApi)
-  .slice(0, 7)
+  .slice(0, 6)
   .map((key) => ({
     id: +key,
     name: PostStatusForApi[+key],
@@ -21,6 +22,7 @@ const statuses = Object.keys(PostStatusForApi)
 const initialState: IPropertiesState = {
   postTypes: [],
   regions: [],
+  cities: [],
   postTags: [],
   directions: [],
   origins: [],
@@ -33,6 +35,7 @@ const propertiesSlice = createSlice({
   reducers: {},
   extraReducers: {
     ...getAsyncActionsReducer(fetchRegions, 'regions'),
+    ...getAsyncActionsReducer(fetchCities, 'cities'),
     ...getAsyncActionsReducer(fetchPostsTypes, 'postTypes'),
     ...getAsyncActionsReducer(fetchDirections, 'directions'),
     ...getAsyncActionsReducer(fetchOrigins, 'origins'),

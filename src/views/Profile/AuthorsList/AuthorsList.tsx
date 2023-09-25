@@ -7,6 +7,7 @@ import {
   Box,
   Button,
   Typography,
+  Link,
 } from '@material-ui/core';
 
 import AuthorsTableHead from './AuthorsTableHead';
@@ -58,13 +59,11 @@ export const AuthorsList: React.FC = () => {
     <>
       <Box className={classes.listFunctionalityPanel}>
         <AuthorsListFilters size={size} author={author} />
-        <Button
-          variant="contained"
-          onClick={() => {}}
-          className={classes.mainButton}
-        >
-          {i18n.t(langTokens.admin.createNewAuthor)}
-        </Button>
+        <Link href="/create-author" underline="none" target="_blank">
+          <Button variant="contained" className={classes.mainButton}>
+            {i18n.t(langTokens.admin.createNewAuthor)}
+          </Button>
+        </Link>
       </Box>
       <TableContainer component={Paper} className={classes.tableContainer}>
         <Table>

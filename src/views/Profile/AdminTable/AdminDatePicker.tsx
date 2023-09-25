@@ -3,6 +3,7 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import { parsDate } from 'utilities/parsDate';
 import { DatePicker } from '@material-ui/pickers';
+import { requestDate } from 'utilities/formatDate';
 import { useTranslation } from 'react-i18next';
 import { Box } from '@material-ui/core';
 import { langTokens } from '../../../locales/localizationInit';
@@ -38,6 +39,12 @@ export const AdminDatePicker: React.FC<IMaterialsDate> = ({
 }) => {
   const classes = useStyles();
   const { t } = useTranslation();
+  const handleDatePicker = (option: string, value) => {
+    setChanges({
+      option,
+      date: requestDate(value),
+    });
+  };
 
   return (
     <div>
@@ -62,12 +69,9 @@ export const AdminDatePicker: React.FC<IMaterialsDate> = ({
               variant="static"
               openTo="date"
               value={start}
-              onChange={(value) =>
-                setChanges({
-                  option: 'start',
-                  date: value && value.toISOString(),
-                })
-              }
+              onChange={(value) => {
+                handleDatePicker('start', value);
+              }}
               format="dd-mm-yyyy"
               maxDate={end}
             />
@@ -77,12 +81,9 @@ export const AdminDatePicker: React.FC<IMaterialsDate> = ({
               variant="static"
               openTo="date"
               value={end}
-              onChange={(value) =>
-                setChanges({
-                  option: 'end',
-                  date: value && value.toISOString(),
-                })
-              }
+              onChange={(value) => {
+                handleDatePicker('end', value);
+              }}
               format="dd-mm-yyyy"
               minDate={start}
             />

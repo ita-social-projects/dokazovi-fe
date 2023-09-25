@@ -20,6 +20,7 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import 'react-toastify/dist/ReactToastify.min.css';
 import {
+  fetchCities,
   fetchDirections,
   fetchOrigins,
   fetchPostsTypes,
@@ -46,12 +47,14 @@ export const App: React.FC = () => {
     boundFetchOrigins,
     boundFetchPostsTypes,
     boundFetchRegions,
+    boundFetchCities,
     boundAuthorities,
   ] = useActions([
     fetchDirections,
     fetchOrigins,
     fetchPostsTypes,
     fetchRegions,
+    fetchCities,
     getAuthoritiesAsyncAction,
   ]);
 
@@ -62,6 +65,7 @@ export const App: React.FC = () => {
       boundFetchOrigins();
       boundFetchPostsTypes();
       boundFetchRegions();
+      boundFetchCities();
     };
     fetchProperties();
     if (!localStorage.getItem('lang')) localStorage.setItem('lang', 'uk');
@@ -84,24 +88,24 @@ export const App: React.FC = () => {
           <div className="content">
             <AuthProvider>
               <ScreenProvider>
-              <BreadcrumbsProvider configs={breadcrumbsConfigs}>
-                <Header />
-                <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                  <Suspense
-                    fallback={
-                      <div className="mainLoading">
-                        <CircularProgress />
-                      </div>
-                    }
-                  >
-                    <RenderRoutes
-                      routes={ROUTER_CONFIG}
-                      adminRouterConfig={ADMIN_ROUTER_CONFIG}
-                    />
-                  </Suspense>
-                </MuiPickersUtilsProvider>
-                <Footer />
-              </BreadcrumbsProvider>
+                <BreadcrumbsProvider configs={breadcrumbsConfigs}>
+                  <Header />
+                  <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                    <Suspense
+                      fallback={
+                        <div className="mainLoading">
+                          <CircularProgress />
+                        </div>
+                      }
+                    >
+                      <RenderRoutes
+                        routes={ROUTER_CONFIG}
+                        adminRouterConfig={ADMIN_ROUTER_CONFIG}
+                      />
+                    </Suspense>
+                  </MuiPickersUtilsProvider>
+                  <Footer />
+                </BreadcrumbsProvider>
               </ScreenProvider>
             </AuthProvider>
           </div>

@@ -219,6 +219,12 @@ export interface IRegion {
   usersPresent?: boolean;
 }
 
+export interface ICity {
+  id: number;
+  name: string;
+  regionId: number;
+}
+
 export interface IInstitution {
   city: {
     id: number;
@@ -283,10 +289,9 @@ export type ConditionsContentSectionType =
 
 export enum PostStatusForApi {
   'Чернетка' = 0,
-  'Потребує модерації' = 1,
-  'Не переглянутий' = 2,
+  'Потребує редагування' = 1,
   'На модерації' = 3,
   'Заплановано' = 4,
   'Опубліковано' = 5,
-  'Архівований' = 6,
+  'В архіві' = 6,
 }

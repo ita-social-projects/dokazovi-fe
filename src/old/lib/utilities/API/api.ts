@@ -1,7 +1,13 @@
 /* eslint-disable no-param-reassign */
-import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
+import axios, {
+  AxiosError,
+  AxiosRequestConfig,
+  AxiosResponse,
+  AxiosPromise,
+} from 'axios';
 import qs from 'qs';
 import { toast } from 'react-toastify';
+import { IChangeLogOptions } from 'models/changeLog/types';
 import {
   CreatePostRequestUnionType,
   CreateTagRequestType,
@@ -27,6 +33,8 @@ import {
   ActiveDirectionType,
   PlatformInformationType,
   UpdatePlatformInformationRequestType,
+  CityResponseType,
+  GetChangeLogType,
 } from './types';
 import { BASE_URL } from '../../../apiURL';
 import { getToken } from '../../../provider/AuthProvider/getToken';
@@ -222,6 +230,12 @@ export const getRegions = async (): Promise<
   return instance.get(`/region`);
 };
 
+export const getCities = async (): Promise<
+  AxiosResponse<RegionResponseType[]>
+> => {
+  return instance.get(`/city`);
+};
+
 export const getDirections = async (): Promise<
   AxiosResponse<DirectionResponseType[]>
 > => {
@@ -309,8 +323,36 @@ export const getPlatformInformation = async (
   return instance.get(`/platform-information/${id}`);
 };
 
+export const fetchChangeLog = (
+  parametres?: IChangeLogOptions,
+): AxiosPromise<GetChangeLogType> => {
+  return instance.get(`/log/post-logs`, {
+    params: {
+      size: parametres?.size,
+    },
+  });
+};
+
 export const updatePlatformInformation = async (
   requestBody: UpdatePlatformInformationRequestType,
 ): Promise<AxiosResponse<PlatformInformationType>> => {
   return instance.put(`/platform-information/`, requestBody);
+};
+
+export const getRegionByCityId = async (
+  id: number,
+): Promise<AxiosResponse<RegionResponseType>> => {
+  return instance.get(`/region/${id}`);
+};
+
+export const getCitiesByRegionId = async (
+  id: number,
+): Promise<AxiosResponse<CityResponseType[]>> => {
+  return instance.get(`/city/${id}`);
+};
+
+export const deleteAuthorById = async (
+  id: number,
+): Promise<AxiosResponse<PostsResponseType>> => {
+  return instance.delete(`/author/${id}`);
 };

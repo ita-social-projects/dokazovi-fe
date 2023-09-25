@@ -15,8 +15,14 @@ export const useStyles = makeStyles(
       },
     },
     title: {
+      maxWidth: '250px',
+      '&:hover': {
+        textDecoration: 'underline',
+        cursor: 'pointer',
+      },
       wordWrap: 'break-word',
-      width: '320px',
+      width: 'fit-content',
+      display: 'block',
     },
     default: {
       backgroundColor: theme.palette.background.default,

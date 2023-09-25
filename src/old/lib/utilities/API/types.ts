@@ -157,6 +157,13 @@ export type OriginResponseType = {
 export type RegionResponseType = {
   id: number;
   name: string;
+  userPresent?: boolean;
+};
+
+export type CityResponseType = {
+  id: number;
+  name: string;
+  regionId: number;
 };
 
 export type PostTypeResponseType = {
@@ -276,4 +283,36 @@ export type UpdatePlatformInformationRequestType = {
   id: number;
   title?: string;
   text?: string;
+};
+
+export type ChangeLogType = {
+  empty?: boolean;
+  first?: boolean;
+  last?: boolean;
+  number?: number;
+  numberOfElements?: number;
+  size?: number;
+  totalElements?: number;
+  totalPages?: number;
+  content: [];
+};
+
+export type GetChangeLogType = ChangeLogType & {
+  changes?: string;
+  dateOfChange?: {
+    date: number;
+    day: number;
+    hours: number;
+    minutes: number;
+    month: number;
+    nanos: number;
+    seconds: number;
+    time: number;
+    timezoneOffset: number;
+    year: number;
+  };
+  id?: number;
+  nameOfChanger?: string;
+  title?: string;
+  totalPages: number;
 };
