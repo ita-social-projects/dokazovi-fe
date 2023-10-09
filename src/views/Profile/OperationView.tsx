@@ -1,11 +1,11 @@
 import React from 'react';
 import { Container } from '@material-ui/core';
+import { useSelector } from 'react-redux';
 import { MaterialsViewWrapper } from './MaterialsView/MaterialsViewWrapper';
 import { useStyles } from './styles/OperationView.styles';
 import { IProfileMenuOption } from '../../old/lib/types';
 import { PasswordChangeView } from './PasswordChangeView';
 import { PersonalInfo } from './PersonalInfo/PersonalInfo';
-import { useSelector } from 'react-redux';
 import { selectCurrentUser } from '../../models/user';
 
 interface IOperationViewProps {
