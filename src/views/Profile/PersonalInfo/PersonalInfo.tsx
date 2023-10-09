@@ -2,17 +2,19 @@ import React, { useEffect, useMemo, useState } from 'react';
 import {
   Avatar,
   Box,
+  Container,
   Grid,
   IconButton,
   InputLabel,
   TextField,
   Typography,
 } from '@material-ui/core';
-import { BasicButton, CancelButton } from 'components/Form';
+import { BasicButton, CancelButton, UserAccountButton } from 'components/Form';
 import { PhotoCamera } from '@material-ui/icons';
 import { uploadImageToImgur } from 'old/lib/utilities/Imgur/uploadImageToImgur';
 import { getStringFromFile } from 'old/lib/utilities/Imgur/getStringFromFile';
 import _isEqual from 'lodash/isEqual';
+import { useSelector } from 'react-redux';
 import { useStyles } from './styles/PersonalInfo.styles';
 import { ErrorField } from './ErrorField';
 import { regex } from './constants/regex';
@@ -28,9 +30,22 @@ import RegionCityHandler from './RegionCityHandler';
 import { validation } from './constants/validation';
 import { validateInput } from './utilities/validateInput';
 import { usePrevious } from '../../../old/lib/hooks/usePrevious';
+import { selectAuthorities } from '../../../models/authorities';
+import { CreateUserAccountForm } from '../../../components/Form/СreateUserAccountForm';
 
 export const PersonalInfo: React.FC<IEditAuthorProps> = ({ author }) => {
   const classes = useStyles();
+  const isAdmin = useSelector(selectAuthorities).data?.includes(
+    'SET_IMPORTANCE',
+  );
+
+  const enabled = false; // mock data
+  const activated = false; // mock data
+  const usersEmails = [
+    'hello2@gmail.com',
+    'hello@gmail.com',
+    'hello3@gmail.com',
+  ]; // mock data
 
   const [visitFields, setVisitFields] = useState<IVisitFields>({
     lastName: false,
@@ -47,6 +62,7 @@ export const PersonalInfo: React.FC<IEditAuthorProps> = ({ author }) => {
     linkedin: false,
   });
   const [toggleButton, setToggleButton] = useState(false);
+  const [openForm, setOpenForm] = useState(false);
 
   const [newAuthorValues, setNewAuthorValues] = useState<INewAuthorValues>({
     avatar: author?.avatar ?? '',
@@ -218,185 +234,260 @@ export const PersonalInfo: React.FC<IEditAuthorProps> = ({ author }) => {
   }, [newAuthorValues, previousAuthorValues]);
 
   return (
-    <form>
-      <Grid container spacing={6} className={classes.PersonalInfo}>
-        <Grid item xs={4} container direction="column" alignContent="center">
-          <Avatar
-            alt="Avatar"
-            className={classes.Avatar}
-            src={newAuthorValues.avatar}
-          />
-          <Box display="flex" justifyContent="flex-end">
-            <IconButton aria-label="upload picture" component="label">
-              <input
-                hidden
-                required
-                name="avatar"
-                accept="image/jpeg, image/png, image/tiff, image/heic"
-                type="file"
-                onChange={inputAvatarChangeHandler}
-              />
-              <PhotoCamera className={classes.PhotoCamera} />
-            </IconButton>
-          </Box>
-        </Grid>
-        <Grid item xs={8}>
-          <Grid container spacing={2}>
-            <Grid item xs={6}>
-              <ErrorField
-                errorField={errorMessages.lastName}
-                visitField={visitFields.lastName}
-              />
-              <TextField
-                className={classes.TextField}
-                required
-                variant="outlined"
-                label={i18n.t(langTokens.admin.lastName)}
-                name="lastName"
-                fullWidth
-                value={newAuthorValues.lastName}
-                onChange={inputChangeHandler}
-                onBlur={blurHandler}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <ErrorField
-                errorField={errorMessages.firstName}
-                visitField={visitFields.firstName}
-              />
-              <TextField
-                className={classes.TextField}
-                required
-                label={i18n.t(langTokens.admin.firstName)}
-                name="firstName"
-                variant="outlined"
-                fullWidth
-                value={newAuthorValues.firstName}
-                onChange={inputChangeHandler}
-                onBlur={blurHandler}
-              />
-            </Grid>
+    <>
+      <form>
+        <Grid container spacing={6} className={classes.PersonalInfo}>
+          <Grid item xs={4} container direction="column" alignContent="center">
+            <Avatar
+              alt="Avatar"
+              className={classes.Avatar}
+              src={newAuthorValues.avatar}
+            />
+            <Box display="flex" justifyContent="flex-end">
+              <IconButton aria-label="upload picture" component="label">
+                <input
+                  hidden
+                  required
+                  name="avatar"
+                  accept="image/jpeg, image/png, image/tiff, image/heic"
+                  type="file"
+                  onChange={inputAvatarChangeHandler}
+                />
+                <PhotoCamera className={classes.PhotoCamera} />
+              </IconButton>
+            </Box>
           </Grid>
-          <RegionCityHandler
-            newAuthorValues={newAuthorValues}
-            visitFields={visitFields}
-            errorMessages={errorMessages}
-            setNewAuthorValues={setNewAuthorValues}
-            blurHandler={blurHandler}
-          />
-        </Grid>
-        <Grid
-          item
-          container
-          direction="column"
-          xs={4}
-          className={classes.Contacts}
-        >
-          <InputLabel required className={classes.InputLabel}>
-            {i18n.t(langTokens.admin.socialNetworkLinks)}
-          </InputLabel>
-          {visitFields.email && errorMessages.email && (
-            <Typography className={classes.Typography}>
-              {errorMessages.email}
-            </Typography>
-          )}
-          <TextField
-            className={classes.TextField}
-            variant="outlined"
-            required
-            fullWidth
-            label={i18n.t(langTokens.admin.email)}
-            name="email"
-            value={newAuthorValues.email}
-            onChange={(event) => inputChangeHandler(event)}
-            onBlur={blurHandler}
-          />
-          <InputLabel required className={classes.InputLabel}>
-            {i18n.t(langTokens.admin.minimumOneLinkRequired)}
-          </InputLabel>
-          {fields.socialNetworks.map((sn, index) => {
-            return (
-              <Box key={sn.index}>
-                {errorMessages[sn.name] && (
-                  <Typography className={classes.Typography}>
-                    {errorMessages[sn.name]}
-                  </Typography>
-                )}
+          <Grid item xs={8}>
+            <Grid container spacing={2}>
+              <Grid item xs={6}>
+                <ErrorField
+                  errorField={errorMessages.lastName}
+                  visitField={visitFields.lastName}
+                />
                 <TextField
+                  className={classes.TextField}
+                  required
                   variant="outlined"
+                  label={i18n.t(langTokens.admin.lastName)}
+                  name="lastName"
                   fullWidth
-                  name={sn.name}
-                  placeholder={sn.placeholder}
-                  value={newAuthorValues.socialNetwork[sn.index]}
-                  onChange={(event) =>
-                    inputSocialNetworkChangeHandler(event, index)
-                  }
+                  value={newAuthorValues.lastName}
+                  onChange={inputChangeHandler}
                   onBlur={blurHandler}
                 />
-              </Box>
-            );
-          })}
-        </Grid>
-        <Grid item xs={8}>
-          <Box className={classes.WrapperBox}>
+              </Grid>
+              <Grid item xs={6}>
+                <ErrorField
+                  errorField={errorMessages.firstName}
+                  visitField={visitFields.firstName}
+                />
+                <TextField
+                  className={classes.TextField}
+                  required
+                  label={i18n.t(langTokens.admin.firstName)}
+                  name="firstName"
+                  variant="outlined"
+                  fullWidth
+                  value={newAuthorValues.firstName}
+                  onChange={inputChangeHandler}
+                  onBlur={blurHandler}
+                />
+              </Grid>
+            </Grid>
+            <RegionCityHandler
+              newAuthorValues={newAuthorValues}
+              visitFields={visitFields}
+              errorMessages={errorMessages}
+              setNewAuthorValues={setNewAuthorValues}
+              blurHandler={blurHandler}
+            />
+          </Grid>
+          <Grid
+            item
+            container
+            direction="column"
+            xs={4}
+            className={classes.Contacts}
+          >
             <InputLabel required className={classes.InputLabel}>
-              {i18n.t(langTokens.admin.mainPlaceOfWork)}
+              {i18n.t(langTokens.admin.socialNetworkLinks)}
             </InputLabel>
-            {visitFields.work && errorMessages.work && (
+            {visitFields.email && errorMessages.email && (
               <Typography className={classes.Typography}>
-                {errorMessages.work}
+                {errorMessages.email}
               </Typography>
             )}
-          </Box>
-          <TextField
-            variant="outlined"
-            required
-            fullWidth
-            name="work"
-            value={newAuthorValues.work}
-            onChange={inputChangeHandler}
-            onBlur={blurHandler}
-          />
-          <Box className={classes.WrapperBox}>
+            <TextField
+              className={classes.TextField}
+              variant="outlined"
+              required
+              fullWidth
+              label={i18n.t(langTokens.admin.email)}
+              name="email"
+              value={newAuthorValues.email}
+              onChange={(event) => inputChangeHandler(event)}
+              onBlur={blurHandler}
+            />
             <InputLabel required className={classes.InputLabel}>
-              {i18n.t(langTokens.admin.biography)}
+              {i18n.t(langTokens.admin.minimumOneLinkRequired)}
             </InputLabel>
-            {visitFields.bio && errorMessages.bio && (
-              <Typography className={classes.Typography}>
-                {errorMessages.bio}
-              </Typography>
+            {fields.socialNetworks.map((sn, index) => {
+              return (
+                <Box key={sn.index}>
+                  {errorMessages[sn.name] && (
+                    <Typography className={classes.Typography}>
+                      {errorMessages[sn.name]}
+                    </Typography>
+                  )}
+                  <TextField
+                    variant="outlined"
+                    fullWidth
+                    name={sn.name}
+                    placeholder={sn.placeholder}
+                    value={newAuthorValues.socialNetwork[sn.index]}
+                    onChange={(event) =>
+                      inputSocialNetworkChangeHandler(event, index)
+                    }
+                    onBlur={blurHandler}
+                  />
+                </Box>
+              );
+            })}
+          </Grid>
+          <Grid item xs={8}>
+            <Box className={classes.WrapperBox}>
+              <InputLabel required className={classes.InputLabel}>
+                {i18n.t(langTokens.admin.mainPlaceOfWork)}
+              </InputLabel>
+              {visitFields.work && errorMessages.work && (
+                <Typography className={classes.Typography}>
+                  {errorMessages.work}
+                </Typography>
+              )}
+            </Box>
+            <TextField
+              variant="outlined"
+              required
+              fullWidth
+              name="work"
+              value={newAuthorValues.work}
+              onChange={inputChangeHandler}
+              onBlur={blurHandler}
+            />
+            <Box className={classes.WrapperBox}>
+              <InputLabel required className={classes.InputLabel}>
+                {i18n.t(langTokens.admin.biography)}
+              </InputLabel>
+              {visitFields.bio && errorMessages.bio && (
+                <Typography className={classes.Typography}>
+                  {errorMessages.bio}
+                </Typography>
+              )}
+            </Box>
+            <TextField
+              multiline
+              minRows={12}
+              variant="outlined"
+              required
+              fullWidth
+              name="bio"
+              value={newAuthorValues.bio}
+              onChange={inputChangeHandler}
+              onBlur={blurHandler}
+            />
+          </Grid>
+        </Grid>
+        <Container>
+          <Box className={classes.ButtonBox}>
+            {author && (
+              <CancelButton
+                label={i18n.t(langTokens.common.cancelChanges)}
+                onClick={() => window.close()}
+              />
+            )}
+            <BasicButton
+              disabled={isSaveDisabled}
+              type="sign"
+              label={i18n.t(langTokens.common.acceptChanges)}
+              className={classes.BasicButton}
+              onClick={buttonClickHandler}
+            />
+          </Box>
+        </Container>
+      </form>
+      {isAdmin && author && (
+        <Container>
+          {toggleButton && (
+            <>
+              {!openForm && (
+                <>
+                  <Box className={classes.ButtonBox}>
+                    <Typography variant="h5">
+                      {i18n.t(langTokens.admin.activateOrCreateUserAccount)}
+                    </Typography>
+                  </Box>
+                  <Box className={classes.ButtonBox}>
+                    <UserAccountButton
+                      type="activate"
+                      label={i18n.t(langTokens.admin.activateExistingAccount)}
+                      onClick={() => console.log()}
+                    />
+                    <UserAccountButton
+                      type="create"
+                      label={i18n.t(langTokens.admin.createUserAccount)}
+                      onClick={() => setOpenForm(true)}
+                    />
+                  </Box>
+                </>
+              )}
+              {openForm && (
+                <Box className={classes.ButtonBox}>
+                  <CreateUserAccountForm
+                    usersEmails={usersEmails}
+                    onClick={() => console.log()}
+                    email="hello@gmail.com"
+                  />
+                </Box>
+              )}
+            </>
+          )}
+          <Box className={classes.ButtonBox}>
+            {enabled && activated && (
+              <UserAccountButton
+                type="deactivate"
+                label={i18n.t(langTokens.admin.deactivateUserAccount)}
+                onClick={() => console.log()}
+              />
+            )}
+            {enabled && !activated && !toggleButton && (
+              <UserAccountButton
+                type="activate"
+                label={i18n.t(langTokens.admin.activateUserAccount)}
+                onClick={() => setToggleButton(true)}
+              />
+            )}
+            {!enabled && !activated && (
+              <>
+                {!openForm && (
+                  <UserAccountButton
+                    type="create"
+                    label={i18n.t(langTokens.admin.createUserAccount)}
+                    onClick={() => setOpenForm(true)}
+                  />
+                )}
+                {openForm && (
+                  <CreateUserAccountForm
+                    usersEmails={usersEmails}
+                    onClick={() => console.log()}
+                    email="hello@gmail.com"
+                  />
+                )}
+              </>
             )}
           </Box>
-          <TextField
-            multiline
-            minRows={12}
-            variant="outlined"
-            required
-            fullWidth
-            name="bio"
-            value={newAuthorValues.bio}
-            onChange={inputChangeHandler}
-            onBlur={blurHandler}
-          />
-        </Grid>
-      </Grid>
-
-      <Box className={classes.ButtonBox}>
-        {author && (
-          <CancelButton
-            label={i18n.t(langTokens.common.cancelChanges)}
-            onClick={() => window.close()}
-          />
-        )}
-        <BasicButton
-          disabled={isSaveDisabled}
-          type="sign"
-          label={i18n.t(langTokens.common.acceptChanges)}
-          className={classes.BasicButton}
-          onClick={buttonClickHandler}
-        />
-      </Box>
-    </form>
+        </Container>
+      )}
+    </>
   );
 };
 

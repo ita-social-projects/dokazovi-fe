@@ -1,7 +1,7 @@
-import React, { useCallback, useEffect, useState, useRef } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import _ from 'lodash';
-import { Box, TextField, Typography, List, ListItem } from '@material-ui/core';
+import { Box, List, ListItem, TextField, Typography } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
 import { DropEvent, FileRejection } from 'react-dropzone';
 import { PageTitle } from 'components/Page/PageTitle';
@@ -12,9 +12,8 @@ import {
 import { useSelector } from 'react-redux';
 import { CarouselImagesWrapper } from 'views/postCreation/CarouselImagesWrapper';
 import { StatusesForActions } from 'models/adminLab/types';
-import { setChangesSize, selectSize } from 'models/changeLog';
+import { selectSize, setChangesSize } from 'models/changeLog';
 import { useActions } from 'shared/hooks';
-import { Pagination } from '@material-ui/lab';
 import { sanitizeHtml } from '../../old/lib/utilities/sanitizeHtml';
 import {
   fetchChangeLog,
@@ -471,7 +470,7 @@ export const AllPostTypesUpdation: React.FC<IAllPostTypesUpdation> = ({
           hasBackGroundImg,
         }}
         onCancelClick={() => {
-          history.goBack();
+          window.close();
         }}
         onPublishClick={handlePublishClick}
         onSaveClick={handleSaveClick}
