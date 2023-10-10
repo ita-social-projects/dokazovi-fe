@@ -6,24 +6,25 @@ import { CreateUserAccountForm } from '../CreateUserAccountForm';
 describe('Tests for CreateUserAccountForm', () => {
   it('Should render CreateUserAccountForm', () => {
     const handleClick = jest.fn();
+
+    const emails = {
+      publicEmails: [null, null, 'public@gmail.com'],
+      privateEmails: [null, 'hello2@gmail.com'],
+    };
     const { container } = render(
-      <CreateUserAccountForm
-        email="hello@gmail.com"
-        usersEmails={['hello2@gmail.com']}
-        onClick={handleClick}
-      />,
+      <CreateUserAccountForm usersEmails={emails} onClick={handleClick} />,
     );
     expect(container.firstChild).toHaveClass('CreateUserAccountForm-Form-2');
   });
 
   it('Should be able to write text in input', () => {
     const handleClick = jest.fn();
+    const emails = {
+      publicEmails: [null, null, 'public@gmail.com'],
+      privateEmails: [null, 'hello2@gmail.com'],
+    };
     render(
-      <CreateUserAccountForm
-        email="hello@gmail.com"
-        usersEmails={['hello2@gmail.com']}
-        onClick={handleClick}
-      />,
+      <CreateUserAccountForm usersEmails={emails} onClick={handleClick} />,
     );
 
     const input = screen.getByTestId('createAccountInput') as HTMLInputElement;
@@ -33,12 +34,12 @@ describe('Tests for CreateUserAccountForm', () => {
 
   it('Should display errors when email is incorrect', () => {
     const handleClick = jest.fn();
+    const emails = {
+      publicEmails: [null, null, 'public@gmail.com'],
+      privateEmails: [null, 'hello2@gmail.com'],
+    };
     const { container } = render(
-      <CreateUserAccountForm
-        email="hello@gmail.com"
-        usersEmails={['hello2@gmail.com']}
-        onClick={handleClick}
-      />,
+      <CreateUserAccountForm usersEmails={emails} onClick={handleClick} />,
     );
 
     const input = screen.getByTestId('createAccountInput') as HTMLInputElement;
@@ -46,7 +47,7 @@ describe('Tests for CreateUserAccountForm', () => {
     expect(container).toHaveTextContent('Неправильна email адреса');
 
     userEvent.clear(input);
-    userEvent.type(input, 'hello@gmail.com');
+    userEvent.type(input, 'public@gmail.com');
     expect(container).toHaveTextContent(
       'Пошта для акаунту має відрізнятися від публічної пошти',
     );
@@ -60,12 +61,12 @@ describe('Tests for CreateUserAccountForm', () => {
 
   it('Button should be disabled till correct email will be written in input', () => {
     const handleClick = jest.fn();
+    const emails = {
+      publicEmails: [null, null, 'public@gmail.com'],
+      privateEmails: [null, 'hello2@gmail.com'],
+    };
     const { container } = render(
-      <CreateUserAccountForm
-        email="hello@gmail.com"
-        usersEmails={['hello2@gmail.com']}
-        onClick={handleClick}
-      />,
+      <CreateUserAccountForm usersEmails={emails} onClick={handleClick} />,
     );
 
     const input = screen.getByTestId('createAccountInput') as HTMLInputElement;
@@ -76,7 +77,7 @@ describe('Tests for CreateUserAccountForm', () => {
 
     expect(button).toBeDisabled();
 
-    userEvent.type(input, 'hello@gmail.com');
+    userEvent.type(input, 'public@gmail.com');
     expect(button).toBeDisabled();
 
     userEvent.clear(input);

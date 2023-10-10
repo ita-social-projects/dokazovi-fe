@@ -7,8 +7,10 @@ import { useStyles } from './styles/CreateUserAccountForm.style';
 import { regex } from '../../../views/Profile/PersonalInfo/constants/regex';
 
 type CreateUserAccountFormPropsType = {
-  email: string;
-  usersEmails: string[];
+  usersEmails: {
+    publicEmails: (string | null)[];
+    privateEmails: (string | null)[];
+  };
   onClick: () => void;
 };
 type ErrorFieldsType = {
@@ -18,7 +20,6 @@ type VisitedFieldsType = {
   email: boolean;
 };
 export const CreateUserAccountForm: React.FC<CreateUserAccountFormPropsType> = ({
-  email,
   onClick,
   usersEmails,
 }) => {
@@ -43,15 +44,21 @@ export const CreateUserAccountForm: React.FC<CreateUserAccountFormPropsType> = (
       errors.email = i18n.t(langTokens.admin.fieldCantBeEmpty);
     } else if (userEmail && !regex.validEmail.test(userEmail)) {
       errors.email = i18n.t(langTokens.admin.wrongEmail);
-    } else if (userEmail && userEmail === email) {
+    } else if (
+      userEmail &&
+      usersEmails.publicEmails.some((mail) => mail === userEmail)
+    ) {
       errors.email = i18n.t(langTokens.admin.diffEmail);
     } else if (!userEmail && !visitFields.email) {
       errors.email = ' ';
-    } else if (userEmail && usersEmails.some((mail) => mail === userEmail)) {
+    } else if (
+      userEmail &&
+      usersEmails.privateEmails.some((mail) => mail === userEmail)
+    ) {
       errors.email = i18n.t(langTokens.admin.userEmailIsAlreadyExisting);
     }
     return errors;
-  }, [userEmail, email, visitFields, usersEmails]);
+  }, [userEmail, visitFields, usersEmails]);
 
   return (
     <form className={classes.Form}>

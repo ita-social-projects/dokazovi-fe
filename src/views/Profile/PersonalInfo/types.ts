@@ -53,3 +53,11 @@ export interface IRegionCityHandlerProps {
 export interface IEditAuthorProps {
   author?: IExpert;
 }
+
+export enum UserStatus {
+  NEW = 'NEW',
+  ACTIVE = 'ACTIVE',
+  DELETED = 'DELETED',
+}
+
+export type UserStatusType = 'NEW' | 'ACTIVE' | 'DELETED';

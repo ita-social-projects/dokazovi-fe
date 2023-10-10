@@ -24,6 +24,8 @@ import {
   IErrorFields,
   INewAuthorValues,
   IVisitFields,
+  UserStatus,
+  UserStatusType,
 } from './types';
 import i18n, { langTokens } from '../../../locales/localizationInit';
 import RegionCityHandler from './RegionCityHandler';
@@ -39,13 +41,17 @@ export const PersonalInfo: React.FC<IEditAuthorProps> = ({ author }) => {
     'SET_IMPORTANCE',
   );
 
-  const enabled = false; // mock data
-  const activated = false; // mock data
-  const usersEmails = [
-    'hello2@gmail.com',
-    'hello@gmail.com',
-    'hello3@gmail.com',
-  ]; // mock data
+  const enabled = true; // mock data
+  let activated: UserStatusType = UserStatus.ACTIVE; // mock data
+  const usersEmails = {
+    publicEmails: [null, null, 'public@gmail.com'],
+    privateEmails: [
+      'hello2@gmail.com',
+      'hello@gmail.com',
+      'hello3@gmail.com',
+      null,
+    ],
+  }; // mock data
 
   const [visitFields, setVisitFields] = useState<IVisitFields>({
     lastName: false,
@@ -430,7 +436,9 @@ export const PersonalInfo: React.FC<IEditAuthorProps> = ({ author }) => {
                     <UserAccountButton
                       type="activate"
                       label={i18n.t(langTokens.admin.activateExistingAccount)}
-                      onClick={() => console.log()}
+                      onClick={() => {
+                        activated = UserStatus.ACTIVE;
+                      }}
                     />
                     <UserAccountButton
                       type="create"
@@ -445,45 +453,47 @@ export const PersonalInfo: React.FC<IEditAuthorProps> = ({ author }) => {
                   <CreateUserAccountForm
                     usersEmails={usersEmails}
                     onClick={() => console.log()}
-                    email="hello@gmail.com"
                   />
                 </Box>
               )}
             </>
           )}
           <Box className={classes.ButtonBox}>
-            {enabled && activated && (
+            {enabled && activated === UserStatus.ACTIVE && (
               <UserAccountButton
                 type="deactivate"
                 label={i18n.t(langTokens.admin.deactivateUserAccount)}
-                onClick={() => console.log()}
+                onClick={() => {
+                  activated = UserStatus.DELETED;
+                }}
               />
             )}
-            {enabled && !activated && !toggleButton && (
+            {enabled && activated === UserStatus.DELETED && !toggleButton && (
               <UserAccountButton
                 type="activate"
                 label={i18n.t(langTokens.admin.activateUserAccount)}
                 onClick={() => setToggleButton(true)}
               />
             )}
-            {!enabled && !activated && (
-              <>
-                {!openForm && (
-                  <UserAccountButton
-                    type="create"
-                    label={i18n.t(langTokens.admin.createUserAccount)}
-                    onClick={() => setOpenForm(true)}
-                  />
-                )}
-                {openForm && (
-                  <CreateUserAccountForm
-                    usersEmails={usersEmails}
-                    onClick={() => console.log()}
-                    email="hello@gmail.com"
-                  />
-                )}
-              </>
-            )}
+            {!enabled &&
+              (activated === UserStatus.NEW ||
+                activated === UserStatus.DELETED) && (
+                <>
+                  {!openForm && (
+                    <UserAccountButton
+                      type="create"
+                      label={i18n.t(langTokens.admin.createUserAccount)}
+                      onClick={() => setOpenForm(true)}
+                    />
+                  )}
+                  {openForm && (
+                    <CreateUserAccountForm
+                      usersEmails={usersEmails}
+                      onClick={() => console.log()}
+                    />
+                  )}
+                </>
+              )}
           </Box>
         </Container>
       )}
