@@ -52,4 +52,5 @@ export interface IRegionCityHandlerProps {
 
 export interface IEditAuthorProps {
   author?: IExpert;
+  isCurrentUser?: boolean;
 }

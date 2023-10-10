@@ -29,7 +29,10 @@ import { validation } from './constants/validation';
 import { validateInput } from './utilities/validateInput';
 import { usePrevious } from '../../../old/lib/hooks/usePrevious';
 
-export const PersonalInfo: React.FC<IEditAuthorProps> = ({ author }) => {
+export const PersonalInfo: React.FC<IEditAuthorProps> = ({
+  author,
+  isCurrentUser,
+}) => {
   const classes = useStyles();
 
   const [visitFields, setVisitFields] = useState<IVisitFields>({
@@ -202,7 +205,6 @@ export const PersonalInfo: React.FC<IEditAuthorProps> = ({ author }) => {
       }),
     [errorMessages],
   );
-
   useEffect(() => {
     const handleBeforeUnload = (e: BeforeUnloadEvent) => {
       if (!_isEqual(previousAuthorValues, newAuthorValues)) {
@@ -382,7 +384,7 @@ export const PersonalInfo: React.FC<IEditAuthorProps> = ({ author }) => {
       </Grid>
 
       <Box className={classes.ButtonBox}>
-        {author && (
+        {author && !isCurrentUser && (
           <CancelButton
             label={i18n.t(langTokens.common.cancelChanges)}
             onClick={() => window.close()}
