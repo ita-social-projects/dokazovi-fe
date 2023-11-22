@@ -1,40 +1,42 @@
 /* eslint-disable no-param-reassign */
 import axios, {
   AxiosError,
+  AxiosPromise,
   AxiosRequestConfig,
   AxiosResponse,
-  AxiosPromise,
 } from 'axios';
 import qs from 'qs';
 import { toast } from 'react-toastify';
 import { IChangeLogOptions } from 'models/changeLog/types';
 import {
+  ActiveDirectionType,
+  ActivePostType,
+  CityResponseType,
+  CreateAuthorRequestType,
   CreatePostRequestUnionType,
   CreateTagRequestType,
   DirectionResponseType,
   ExpertResponseType,
   ExpertsResponseType,
+  GetChangeLogType,
   GetExpertsConfigType,
-  GetPostsConfigType,
-  GetPostsAdminConfigType,
   GetFilteredPostsType,
+  GetPostsAdminConfigType,
+  GetPostsConfigType,
   GetTagsConfigType,
   LoginResponseType,
   NewestPostsResponseType,
   OriginResponseType,
+  PlatformInformationType,
   PostResponseType,
   PostsResponseType,
   PostTypeResponseType,
   RegionResponseType,
   TagResponseType,
+  UpdateAuthorRequestType,
+  UpdatePlatformInformationRequestType,
   UpdatePostRequestUnionType,
   VersionResponseType,
-  ActivePostType,
-  ActiveDirectionType,
-  PlatformInformationType,
-  UpdatePlatformInformationRequestType,
-  CityResponseType,
-  GetChangeLogType,
 } from './types';
 import { BASE_URL } from '../../../apiURL';
 import { getToken } from '../../../provider/AuthProvider/getToken';
@@ -355,4 +357,16 @@ export const deleteAuthorById = async (
   id: number,
 ): Promise<AxiosResponse<PostsResponseType>> => {
   return instance.delete(`/author/${id}`);
+};
+
+export const createAuthor = async (
+  requestBody: CreateAuthorRequestType,
+): Promise<AxiosResponse<ExpertResponseType>> => {
+  return instance.post(`/author`, requestBody);
+};
+
+export const updateAuthorById = async (
+  requestBody: UpdateAuthorRequestType,
+): Promise<AxiosResponse<ExpertResponseType>> => {
+  return instance.put(`/author`, requestBody);
 };

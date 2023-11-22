@@ -7,6 +7,8 @@ import Sidemenu from './Sidemenu';
 import { IAdminMenuOption } from '../../../../types';
 import Page404 from '../../../Errors/Page404';
 import { selectAuthorities } from '../../../../../../models/authorities';
+import { PageTitle } from '../../../../../../components/Page/PageTitle';
+import appTitle from '../../../../constants/appTitle';
 
 const AdminPage: React.FC = () => {
   const [selectedOption, changeOption] = useState<
@@ -24,6 +26,7 @@ const AdminPage: React.FC = () => {
 
   return authorities ? (
     <Box className={classes.container}>
+      <PageTitle title={appTitle} />
       <Sidemenu selectedOption={selectedOption} changeOption={changeOption} />
       <OperationView selectedOption={selectedOption} />
     </Box>

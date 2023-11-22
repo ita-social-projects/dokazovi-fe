@@ -20,6 +20,7 @@ const Accordion: React.FC<IAccordion> = ({ expert }) => {
   ]);
 
   const classes = useStyles();
+
   function toggleDetails() {
     if (showDetails[0] === 'none') {
       setShowDetails(['block', t(langTokens.common.hideContacts), '-']);
@@ -29,8 +30,8 @@ const Accordion: React.FC<IAccordion> = ({ expert }) => {
   }
 
   let mailTo = '';
-  if (expert.email) {
-    mailTo = `mailto:${expert.email}`;
+  if (expert.publicEmail) {
+    mailTo = `mailto:${expert.publicEmail}`;
   }
 
   return (
@@ -57,7 +58,7 @@ const Accordion: React.FC<IAccordion> = ({ expert }) => {
           style={{ display: showDetails[0] }}
           className={classes.accordionDetails}
         >
-          {expert.email ? (
+          {expert.publicEmail ? (
             <div
               style={{ display: 'flex' }}
               className={classes.accordionDetailsItem}
@@ -71,7 +72,7 @@ const Accordion: React.FC<IAccordion> = ({ expert }) => {
               />
               <Typography variant="body1" className={classes.contacts}>
                 <a href={mailTo} className={classes.links}>
-                  {expert.email}
+                  {expert.publicEmail}
                 </a>
               </Typography>
             </div>
