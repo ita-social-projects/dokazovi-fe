@@ -15,6 +15,8 @@ import { getStringFromFile } from 'old/lib/utilities/Imgur/getStringFromFile';
 import _isEqual from 'lodash/isEqual';
 import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import axios from 'axios';
+import { toast } from 'react-toastify';
 import { useStyles } from './styles/PersonalInfo.styles';
 import { ErrorField } from './ErrorField';
 import { regex } from './constants/regex';
@@ -206,19 +208,29 @@ export const PersonalInfo: React.FC<IEditAuthorProps> = ({
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ) => {
     e.preventDefault();
-    setIsLoading(true);
-    const response = author
-      ? await updateAuthorById({ authorId: author.id, ...newAuthorValues })
-      : await createAuthor(newAuthorValues);
-    setIsLoading(false);
-    if (isCurrentUser) {
-      boundGetUserAsyncAction();
-    } else {
-      history.push(`experts/${response.data.id}`);
+    try {
+      setIsLoading(true);
+      const response = author
+        ? await updateAuthorById({ authorId: author.id, ...newAuthorValues })
+        : await createAuthor(newAuthorValues);
+      if (isCurrentUser) {
+        boundGetUserAsyncAction();
+      } else {
+        history.push(`experts/${response.data.id}`);
+      }
+    } catch (err) {
+      if (axios.isAxiosError(err)) {
+        console.error(err.response);
+      } else {
+        console.error(err);
+        toast.error('Error occurred...');
+      }
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  const isSaveDisabled = useMemo(
+  const anyFieldWithError = useMemo(
     () =>
       Object.keys(errorMessages).some((key) => {
         if (key === 'socialNetworks') {
@@ -227,13 +239,11 @@ export const PersonalInfo: React.FC<IEditAuthorProps> = ({
         if (errorMessages[key]) {
           return true;
         }
-        if (isLoading) {
-          return true;
-        }
         return false;
       }),
-    [errorMessages, isLoading],
+    [errorMessages],
   );
+  const isSaveDisabled = anyFieldWithError || isLoading;
   useEffect(() => {
     const handleBeforeUnload = (e: BeforeUnloadEvent) => {
       if (!_isEqual(previousAuthorValues, newAuthorValues)) {
@@ -427,7 +437,7 @@ export const PersonalInfo: React.FC<IEditAuthorProps> = ({
           type="sign"
           label={i18n.t(langTokens.common.acceptChanges)}
           className={classes.BasicButton}
-          onClick={(e) => buttonClickHandler(e)}
+          onClick={buttonClickHandler}
         />
       </Box>
     </form>
