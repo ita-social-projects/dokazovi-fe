@@ -14,6 +14,7 @@ import { uploadImageToImgur } from 'old/lib/utilities/Imgur/uploadImageToImgur';
 import { getStringFromFile } from 'old/lib/utilities/Imgur/getStringFromFile';
 import _isEqual from 'lodash/isEqual';
 import { useHistory } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { useStyles } from './styles/PersonalInfo.styles';
 import { ErrorField } from './ErrorField';
 import { regex } from './constants/regex';
@@ -33,7 +34,6 @@ import {
   createAuthor,
   updateAuthorById,
 } from '../../../old/lib/utilities/API/api';
-import { useSelector } from 'react-redux';
 import { selectAuthorities } from '../../../models/authorities';
 import { useActions } from '../../../shared/hooks';
 import { getUserAsyncAction } from '../../../models/user';
