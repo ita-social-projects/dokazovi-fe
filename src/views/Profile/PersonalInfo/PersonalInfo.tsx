@@ -13,8 +13,6 @@ import { PhotoCamera } from '@material-ui/icons';
 import { uploadImageToImgur } from 'old/lib/utilities/Imgur/uploadImageToImgur';
 import { getStringFromFile } from 'old/lib/utilities/Imgur/getStringFromFile';
 import _isEqual from 'lodash/isEqual';
-import { useHistory } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useStyles } from './styles/PersonalInfo.styles';
@@ -36,13 +34,12 @@ import {
   createAuthor,
   updateAuthorById,
 } from '../../../old/lib/utilities/API/api';
-import { selectAuthorities } from '../../../models/authorities';
-import { useActions } from '../../../shared/hooks';
-import { getUserAsyncAction } from '../../../models/user';
+import { useCheckAdmin } from '../../../old/lib/hooks/useCheckAdmin';
 
 export const PersonalInfo: React.FC<IEditAuthorProps> = ({
   author,
   isCurrentUser,
+  onSaveSuccessful,
 }) => {
   const classes = useStyles();
 
@@ -76,10 +73,7 @@ export const PersonalInfo: React.FC<IEditAuthorProps> = ({
   const previousAuthorValues = usePrevious<INewAuthorValues>(newAuthorValues);
   const [isLoading, setIsLoading] = useState(false);
 
-  const history = useHistory();
-  const authorities = useSelector(selectAuthorities);
-  const [boundGetUserAsyncAction] = useActions([getUserAsyncAction]);
-  const isAdmin = authorities.data?.includes('SET_IMPORTANCE');
+  const isAdmin = useCheckAdmin();
   const errorMessages = useMemo(() => {
     const errors: IErrorFields = {
       avatar: '',
@@ -213,10 +207,9 @@ export const PersonalInfo: React.FC<IEditAuthorProps> = ({
       const response = author
         ? await updateAuthorById({ authorId: author.id, ...newAuthorValues })
         : await createAuthor(newAuthorValues);
-      if (isCurrentUser) {
-        boundGetUserAsyncAction();
-      } else {
-        history.push(`experts/${response.data.id}`);
+
+      if (onSaveSuccessful) {
+        onSaveSuccessful(`experts/${response.data.id}`);
       }
     } catch (err) {
       if (axios.isAxiosError(err)) {

@@ -18,8 +18,8 @@ import { useActions } from '../../shared/hooks';
 import { AuthContext } from '../../old/provider/AuthProvider/AuthContext';
 import { AccountIcon } from '../../old/lib/components/icons/AccountIcon';
 import { langTokens } from '../../locales/localizationInit';
-import { selectAuthorities } from '../../models/authorities';
 import { clearAuthoritiesAction } from '../../models/authorities/reducers';
+import { useCheckAdmin } from '../../old/lib/hooks/useCheckAdmin';
 
 export const AccountMenu: React.FC = () => {
   const { t } = useTranslation();
@@ -32,9 +32,7 @@ export const AccountMenu: React.FC = () => {
   const [boundSignOutAction] = useActions([signOutAction]);
   const [boundGetUserAsyncAction] = useActions([getUserAsyncAction]);
   const [boundClearAuthorities] = useActions([clearAuthoritiesAction]);
-  const authorities = useSelector(selectAuthorities).data?.includes(
-    'SET_IMPORTANCE',
-  );
+  const authorities = useCheckAdmin();
 
   const onLogoutHandler = () => {
     boundSignOutAction();
