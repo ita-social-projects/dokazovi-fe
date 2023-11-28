@@ -25,7 +25,7 @@ export const OperationView: React.FC<IOperationViewProps> = (props) => {
       <PersonalInfo
         author={currentUser.data}
         isCurrentUser
-        onSaveSuccessful={boundGetUserAsyncAction}
+        onSaveSuccessful={() => boundGetUserAsyncAction()}
       />
     ),
     materials: <MaterialsViewWrapper />,
