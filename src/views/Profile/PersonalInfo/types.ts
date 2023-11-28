@@ -53,5 +53,5 @@ export interface IRegionCityHandlerProps {
 export interface IEditAuthorProps {
   author?: IExpert;
   isCurrentUser?: boolean;
-  onSaveSuccessful?: (path: string) => void;
+  onSaveSuccessful: (id?: number) => void;
 }

@@ -208,9 +208,7 @@ export const PersonalInfo: React.FC<IEditAuthorProps> = ({
         ? await updateAuthorById({ authorId: author.id, ...newAuthorValues })
         : await createAuthor(newAuthorValues);
 
-      if (onSaveSuccessful) {
-        onSaveSuccessful(`experts/${response.data.id}`);
-      }
+      onSaveSuccessful(response.data.id);
     } catch (err) {
       if (axios.isAxiosError(err)) {
         console.error(err.response);
