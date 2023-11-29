@@ -13,6 +13,8 @@ import { PhotoCamera } from '@material-ui/icons';
 import { uploadImageToImgur } from 'old/lib/utilities/Imgur/uploadImageToImgur';
 import { getStringFromFile } from 'old/lib/utilities/Imgur/getStringFromFile';
 import _isEqual from 'lodash/isEqual';
+import axios from 'axios';
+import { toast } from 'react-toastify';
 import { useStyles } from './styles/PersonalInfo.styles';
 import { ErrorField } from './ErrorField';
 import { regex } from './constants/regex';
@@ -28,10 +30,16 @@ import RegionCityHandler from './RegionCityHandler';
 import { validation } from './constants/validation';
 import { validateInput } from './utilities/validateInput';
 import { usePrevious } from '../../../old/lib/hooks/usePrevious';
+import {
+  createAuthor,
+  updateAuthorById,
+} from '../../../old/lib/utilities/API/api';
+import { useCheckAdmin } from '../../../old/lib/hooks/useCheckAdmin';
 
 export const PersonalInfo: React.FC<IEditAuthorProps> = ({
   author,
   isCurrentUser,
+  onSaveSuccessful,
 }) => {
   const classes = useStyles();
 
@@ -40,8 +48,8 @@ export const PersonalInfo: React.FC<IEditAuthorProps> = ({
     firstName: false,
     region: false,
     city: false,
-    email: false,
-    work: false,
+    publicEmail: false,
+    mainWorkingPlace: false,
     bio: false,
     facebook: false,
     instagram: false,
@@ -58,12 +66,14 @@ export const PersonalInfo: React.FC<IEditAuthorProps> = ({
     regionId: author?.region.id ?? null,
     cityId: author?.mainInstitution.city.id ?? null,
     bio: author?.bio ?? '',
-    email: author?.email ?? '',
-    socialNetwork: author?.socialNetworks ?? [null, null, null, null, null],
-    work: author?.mainInstitution.name ?? '',
+    publicEmail: author?.publicEmail ?? '',
+    socialNetworks: author?.socialNetworks ?? [null, null, null, null, null],
+    mainWorkingPlace: author?.mainInstitution.name ?? '',
   });
   const previousAuthorValues = usePrevious<INewAuthorValues>(newAuthorValues);
+  const [isLoading, setIsLoading] = useState(false);
 
+  const isAdmin = useCheckAdmin();
   const errorMessages = useMemo(() => {
     const errors: IErrorFields = {
       avatar: '',
@@ -71,8 +81,8 @@ export const PersonalInfo: React.FC<IEditAuthorProps> = ({
       firstName: '',
       regionId: '',
       cityId: '',
-      email: '',
-      work: '',
+      publicEmail: '',
+      mainWorkingPlace: '',
       bio: '',
       socialNetworks: ['', '', '', '', ''],
       socialNetwoksRequired: '',
@@ -104,23 +114,23 @@ export const PersonalInfo: React.FC<IEditAuthorProps> = ({
       validation.bio.max,
       validation.bio.regexp,
     );
-    errors.work = validateInput(
-      newAuthorValues.work,
+    errors.mainWorkingPlace = validateInput(
+      newAuthorValues.mainWorkingPlace,
       validation.bio.min,
       validation.bio.max,
       validation.bio.regexp,
     );
-    if (!newAuthorValues.email && visitFields.email) {
-      errors.email = i18n.t(langTokens.admin.fieldCantBeEmpty);
+    if (!newAuthorValues.publicEmail && visitFields.publicEmail) {
+      errors.publicEmail = i18n.t(langTokens.admin.fieldCantBeEmpty);
     } else if (
-      newAuthorValues.email &&
-      !regex.validEmail.test(newAuthorValues.email)
+      newAuthorValues.publicEmail &&
+      !regex.validEmail.test(newAuthorValues.publicEmail)
     ) {
-      errors.email = i18n.t(langTokens.admin.wrongEmail);
+      errors.publicEmail = i18n.t(langTokens.admin.wrongEmail);
     } else {
-      errors.email = '';
+      errors.publicEmail = '';
     }
-    newAuthorValues.socialNetwork.forEach((sn, index) => {
+    newAuthorValues.socialNetworks.forEach((sn, index) => {
       if (sn) {
         errors.socialNetworks[index] = validateInput(
           sn,
@@ -130,7 +140,7 @@ export const PersonalInfo: React.FC<IEditAuthorProps> = ({
         );
       }
     });
-    if (newAuthorValues.socialNetwork.some((socialNetwork) => socialNetwork)) {
+    if (newAuthorValues.socialNetworks.some((socialNetwork) => socialNetwork)) {
       errors.socialNetwoksRequired = '';
     } else {
       errors.socialNetwoksRequired = i18n.t(
@@ -156,11 +166,11 @@ export const PersonalInfo: React.FC<IEditAuthorProps> = ({
     index: number,
   ) => {
     const { value } = event.target;
-    const newSocialNetworks = [...newAuthorValues.socialNetwork];
+    const newSocialNetworks = [...newAuthorValues.socialNetworks];
     newSocialNetworks.splice(index, 1, value);
     setNewAuthorValues({
       ...newAuthorValues,
-      socialNetwork: newSocialNetworks,
+      socialNetworks: newSocialNetworks,
     });
   };
 
@@ -188,11 +198,30 @@ export const PersonalInfo: React.FC<IEditAuthorProps> = ({
     setVisitFields({ ...visitFields, [inputIdentifier]: true });
   };
 
-  const buttonClickHandler = () => {
-    // TODO dispatch new author to server
+  const buttonClickHandler = async (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+  ) => {
+    e.preventDefault();
+    try {
+      setIsLoading(true);
+      const response = author
+        ? await updateAuthorById({ authorId: author.id, ...newAuthorValues })
+        : await createAuthor(newAuthorValues);
+
+      onSaveSuccessful(response.data.id);
+    } catch (err) {
+      if (axios.isAxiosError(err)) {
+        console.error(err.response);
+      } else {
+        console.error(err);
+        toast.error('Error occurred...');
+      }
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const isSaveDisabled = useMemo(
+  const anyFieldWithError = useMemo(
     () =>
       Object.keys(errorMessages).some((key) => {
         if (key === 'socialNetworks') {
@@ -205,6 +234,7 @@ export const PersonalInfo: React.FC<IEditAuthorProps> = ({
       }),
     [errorMessages],
   );
+  const isSaveDisabled = anyFieldWithError || isLoading;
   useEffect(() => {
     const handleBeforeUnload = (e: BeforeUnloadEvent) => {
       if (!_isEqual(previousAuthorValues, newAuthorValues)) {
@@ -241,6 +271,7 @@ export const PersonalInfo: React.FC<IEditAuthorProps> = ({
               <PhotoCamera className={classes.PhotoCamera} />
             </IconButton>
           </Box>
+          <ErrorField errorField={errorMessages.avatar} visitField />
         </Grid>
         <Grid item xs={8}>
           <Grid container spacing={2}>
@@ -252,6 +283,7 @@ export const PersonalInfo: React.FC<IEditAuthorProps> = ({
               <TextField
                 className={classes.TextField}
                 required
+                disabled={!isAdmin}
                 variant="outlined"
                 label={i18n.t(langTokens.admin.lastName)}
                 name="lastName"
@@ -269,6 +301,7 @@ export const PersonalInfo: React.FC<IEditAuthorProps> = ({
               <TextField
                 className={classes.TextField}
                 required
+                disabled={!isAdmin}
                 label={i18n.t(langTokens.admin.firstName)}
                 name="firstName"
                 variant="outlined"
@@ -297,9 +330,9 @@ export const PersonalInfo: React.FC<IEditAuthorProps> = ({
           <InputLabel required className={classes.InputLabel}>
             {i18n.t(langTokens.admin.socialNetworkLinks)}
           </InputLabel>
-          {visitFields.email && errorMessages.email && (
+          {visitFields.publicEmail && errorMessages.publicEmail && (
             <Typography className={classes.Typography}>
-              {errorMessages.email}
+              {errorMessages.publicEmail}
             </Typography>
           )}
           <TextField
@@ -308,8 +341,8 @@ export const PersonalInfo: React.FC<IEditAuthorProps> = ({
             required
             fullWidth
             label={i18n.t(langTokens.admin.email)}
-            name="email"
-            value={newAuthorValues.email}
+            name="publicEmail"
+            value={newAuthorValues.publicEmail}
             onChange={(event) => inputChangeHandler(event)}
             onBlur={blurHandler}
           />
@@ -329,7 +362,7 @@ export const PersonalInfo: React.FC<IEditAuthorProps> = ({
                   fullWidth
                   name={sn.name}
                   placeholder={sn.placeholder}
-                  value={newAuthorValues.socialNetwork[sn.index]}
+                  value={newAuthorValues.socialNetworks[sn.index]}
                   onChange={(event) =>
                     inputSocialNetworkChangeHandler(event, index)
                   }
@@ -344,9 +377,9 @@ export const PersonalInfo: React.FC<IEditAuthorProps> = ({
             <InputLabel required className={classes.InputLabel}>
               {i18n.t(langTokens.admin.mainPlaceOfWork)}
             </InputLabel>
-            {visitFields.work && errorMessages.work && (
+            {visitFields.mainWorkingPlace && errorMessages.mainWorkingPlace && (
               <Typography className={classes.Typography}>
-                {errorMessages.work}
+                {errorMessages.mainWorkingPlace}
               </Typography>
             )}
           </Box>
@@ -354,8 +387,8 @@ export const PersonalInfo: React.FC<IEditAuthorProps> = ({
             variant="outlined"
             required
             fullWidth
-            name="work"
-            value={newAuthorValues.work}
+            name="mainWorkingPlace"
+            value={newAuthorValues.mainWorkingPlace}
             onChange={inputChangeHandler}
             onBlur={blurHandler}
           />

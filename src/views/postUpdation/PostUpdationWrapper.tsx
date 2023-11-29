@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { langTokens } from 'locales/localizationInit';
@@ -11,15 +11,14 @@ import { useQuery } from '../../old/lib/hooks/useQuery';
 import { setGALocation } from '../../utilities/setGALocation';
 import { ERROR_404 } from '../../old/lib/constants/routes';
 import { selectCurrentUser } from '../../models/user';
-import { selectAuthorities } from '../../models/authorities';
 import { Notification } from '../../components/Notifications/Notification';
+import { useCheckAdmin } from '../../old/lib/hooks/useCheckAdmin';
 
 const PostUpdationWrapper: React.FC = () => {
   const query = useQuery();
   const history = useHistory();
   const user = useSelector(selectCurrentUser);
-  const authorities = useSelector(selectAuthorities);
-  const isAdmin = authorities.data?.includes('SET_IMPORTANCE');
+  const isAdmin = useCheckAdmin();
 
   const { t } = useTranslation();
 

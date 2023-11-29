@@ -39,7 +39,10 @@ const EditAuthor = () => {
   }
 
   return loadedAuthor ? (
-    <PersonalInfo author={loadedAuthor} />
+    <PersonalInfo
+      author={loadedAuthor}
+      onSaveSuccessful={(id) => history.push(`experts/${id}`)}
+    />
   ) : (
     <LoadingInfo loading={loading} />
   );

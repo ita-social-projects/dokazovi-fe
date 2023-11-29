@@ -6,7 +6,8 @@ export interface IPageTitleProps {
 }
 
 export const PageTitle: React.FC<IPageTitleProps> = ({ title }) => {
-  const newTitle = title ? `${appTitle} | ${title}` : appTitle;
+  const newTitle =
+    title && title !== appTitle ? `${appTitle} | ${title}` : appTitle;
 
   useEffect(() => {
     document.title = newTitle;

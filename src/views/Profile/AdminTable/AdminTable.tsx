@@ -2,8 +2,8 @@ import React, { useEffect } from 'react';
 import { Paper, Table, TableContainer } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 import {
-  getMaterialsAction,
   getAuthorMaterialsAction,
+  getMaterialsAction,
   selectAdminLab,
   selectMeta,
   setStateToInit,
@@ -13,8 +13,8 @@ import AdminTableHead from './AdminTableHead';
 import AdminTableBody from './AdminTableBody';
 import AdminTableFilters from './AdminTableFilters';
 import AdminTablePagination from './AdminTablePagination';
-import { selectAuthorities } from '../../../models/authorities';
 import { useActions } from '../../../shared/hooks';
+import { useCheckAdmin } from '../../../old/lib/hooks/useCheckAdmin';
 
 interface IAdminTable {
   expertId?: number;
@@ -22,8 +22,7 @@ interface IAdminTable {
 
 export const AdminTable: React.FC<IAdminTable> = ({ expertId }) => {
   const classes = useStyles();
-  const authorities = useSelector(selectAuthorities);
-  const isAdmin = authorities.data?.includes('SET_IMPORTANCE');
+  const isAdmin = useCheckAdmin();
   const [
     boundedGetMaterialsAction,
     boundGetAuthorMaterialsAction,

@@ -1,9 +1,9 @@
 /* eslint-disable */
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import {
-  IFetchExpertsOptions,
   IExpertsAutorsListOptions,
   IExpertsDeleteAutor,
+  IFetchExpertsOptions,
 } from './types';
 import {
   deleteAuthorById,

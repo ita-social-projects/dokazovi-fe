@@ -3,6 +3,7 @@ export enum ExpertStatus {
   ACTIVE = 'ACTIVE',
   DELETED = 'DELETED',
 }
+
 export enum PostStatus {
   DRAFT = 'DRAFT',
   MODERATION_FIRST_SIGN = 'MODERATION_FIRST_SIGN',
@@ -149,6 +150,7 @@ export interface IExpert {
   avatar?: string;
   qualification?: string;
   phone?: string;
+  publicEmail?: string;
   email?: string;
   region: {
     id: number;
