@@ -19,12 +19,12 @@ export interface IExpertsData {
 }
 
 export const AuthorsListSortBy = {
-  autorId: 'id',
+  autorId: 'authorId',
   fullName: 'firstName,lastName',
   firstName: 'firstName',
   lastName: 'lastName',
-  region: 'doctor.mainInstitution.city.region.name',
-  city: 'doctor.mainInstitution.city.name',
+  region: 'author.mainInstitution.city.region.name',
+  city: 'author.mainInstitution.city.name',
   createdAt: 'createdAt',
   editedAt: 'editedAt',
 };
@@ -66,6 +66,7 @@ export interface IFetchExpertsOptions {
 export interface IExpertsAutorsListOptions {
   page: number;
 }
+
 export interface IExpertsDeleteAutor {
   id: number;
 }

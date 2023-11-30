@@ -16,7 +16,7 @@ import SecondTopSection from '../../../../components/Posts/SecondTopSection/Seco
 import { langTokens } from '../../../../locales/localizationInit';
 import { PostBreadcrumbs } from '../../../../components/Breadcrumbs/PostBreadcrumbs';
 import { selectCurrentUser } from '../../../../models/user';
-import { selectAuthorities } from '../../../../models/authorities';
+import { useCheckAdmin } from '../../../lib/hooks/useCheckAdmin';
 
 export interface IPostViewProps {
   post: IPost;
@@ -28,8 +28,7 @@ const PostView: React.FC<IPostViewProps> = ({ isPreview, post, onDelete }) => {
   const { t } = useTranslation();
 
   const user = useSelector(selectCurrentUser);
-  const authorities = useSelector(selectAuthorities);
-  const isAdmin = authorities?.data?.includes('SET_IMPORTANCE');
+  const isAdmin = useCheckAdmin();
   const permission = user?.data?.id === post?.author?.id || isAdmin;
 
   const isTopSectionShown =

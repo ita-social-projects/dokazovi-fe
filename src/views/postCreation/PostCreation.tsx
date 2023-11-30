@@ -9,6 +9,7 @@ import { StatusesForActions } from 'models/adminLab/types';
 import { RootStateType } from '../../models/rootReducer';
 import {
   resetDraft,
+  selectVideoUrl,
   setAuthorId,
   setAuthorsDetails,
   setAuthorsName,
@@ -21,7 +22,6 @@ import {
   setPostPreviewManuallyChanged,
   setPostPreviewText,
   setPostTitle,
-  selectVideoUrl,
   setVideoUrl,
 } from '../../models/postCreation';
 import { IDirection, IOrigin, IPost, PostTypeEnum } from '../../old/lib/types';
@@ -30,8 +30,8 @@ import { parseVideoIdFromUrl } from '../../old/lib/utilities/parseVideoIdFromUrl
 import VideoUrlInputModal from '../../components/Editor/CustomModules/VideoUrlInputModal';
 import { PostCreationButtons } from './PostCreationButtons';
 import {
-  ExpertResponseType,
   CreatePostRequestType,
+  ExpertResponseType,
 } from '../../old/lib/utilities/API/types';
 import { createPost, getAllExperts } from '../../old/lib/utilities/API/api';
 import {
@@ -58,7 +58,7 @@ import { selectPostDraft } from '../../models/postCreation/selectors';
 import { useActions } from '../../shared/hooks';
 import { langTokens } from '../../locales/localizationInit';
 import { useStyle } from './RequiredFieldsStyle';
-import { selectAuthorities } from '../../models/authorities';
+import { useCheckAdmin } from '../../old/lib/hooks/useCheckAdmin';
 
 interface IPostCreationProps {
   pageTitle?: string;
@@ -78,8 +78,7 @@ export const PostCreation: React.FC<IPostCreationProps> = ({
   const { t } = useTranslation();
   const history = useHistory();
   const classes = useStyle();
-  const authorities = useSelector(selectAuthorities);
-  const isAdmin = authorities.data?.includes('SET_IMPORTANCE');
+  const isAdmin = useCheckAdmin();
   const isVideoPost = postType.type === PostTypeEnum.VIDEO;
 
   const savedPostDraft = useSelector((state: RootStateType) =>

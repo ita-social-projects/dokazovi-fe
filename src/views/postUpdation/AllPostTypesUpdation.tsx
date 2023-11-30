@@ -49,7 +49,7 @@ import { uploadImageToImgur } from '../../old/lib/utilities/Imgur/uploadImageToI
 import { BackgroundImageContainer } from '../../components/Editor/CustomModules/BackgroundImageContainer/BackgroundImageContainer';
 import { langTokens } from '../../locales/localizationInit';
 import { useStyle } from '../postCreation/RequiredFieldsStyle';
-import { selectAuthorities } from '../../models/authorities';
+import { useCheckAdmin } from '../../old/lib/hooks/useCheckAdmin';
 
 export interface IAllPostTypesUpdation {
   pageTitle: string;
@@ -66,8 +66,7 @@ export const AllPostTypesUpdation: React.FC<IAllPostTypesUpdation> = ({
 }) => {
   const history = useHistory();
   const classes = useStyle();
-  const authorities = useSelector(selectAuthorities);
-  const isAdmin = authorities.data?.includes('SET_IMPORTANCE');
+  const isAdmin = useCheckAdmin();
   const [autoChanges, setAutoChanges] = useState(true);
   const isVideoPost = post.type.id === 2;
 

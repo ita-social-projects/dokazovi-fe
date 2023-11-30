@@ -3,26 +3,26 @@ import { useSelector } from 'react-redux';
 import { Grid, IconButton, Tooltip } from '@material-ui/core';
 import HighlightOffRoundedIcon from '@material-ui/icons/HighlightOffRounded';
 import i18, { langTokens } from '../../../locales/localizationInit';
-import { selectAuthorities } from '../../../models/authorities';
 import { QueryTypeEnum } from '../../../old/lib/types';
 import { FieldEnum } from '../../../models/adminLab/types';
 import {
   selectDirections,
-  selectPostTypes,
   selectPostStatuses,
+  selectPostTypes,
 } from '../../../models/properties';
 import {
   selectMeta,
-  setFiltersToInit,
-  setFilter,
-  setField,
   setDate,
+  setField,
+  setFilter,
+  setFiltersToInit,
 } from '../../../models/adminLab';
 import { AdminFilter } from './AdminFilter';
 import { AdminDatePicker } from './AdminDatePicker';
 import { AdminTextField } from './AdminTextField';
 import { useStyles } from './styles/AdminTableFilters.styles';
 import { useActions } from '../../../shared/hooks';
+import { useCheckAdmin } from '../../../old/lib/hooks/useCheckAdmin';
 
 const AdminTableFilters: React.FC = () => {
   const [
@@ -37,8 +37,7 @@ const AdminTableFilters: React.FC = () => {
   const allPostStatuses = useSelector(selectPostStatuses);
   const { filters, date, textFields } = useSelector(selectMeta);
 
-  const authorities = useSelector(selectAuthorities);
-  const isAdmin = authorities.data?.includes('SET_IMPORTANCE');
+  const isAdmin = useCheckAdmin();
 
   const classes = useStyles();
   const resetFilters = () => {

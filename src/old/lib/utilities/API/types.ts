@@ -316,3 +316,18 @@ export type GetChangeLogType = ChangeLogType & {
   title?: string;
   totalPages: number;
 };
+
+export type CreateAuthorRequestType = {
+  avatar?: string;
+  firstName: string;
+  lastName: string;
+  cityId: number | null;
+  bio: string;
+  publicEmail?: string;
+  socialNetworks: (string | null)[];
+  mainWorkingPlace: string;
+};
+
+export type UpdateAuthorRequestType = {
+  authorId: number;
+} & CreateAuthorRequestType;
