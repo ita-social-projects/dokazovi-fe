@@ -1,5 +1,10 @@
-import { IDirection, IOrigin, IPost, PostStatusType } from '../../types';
-import { UserStatusType } from '../../../../views/Profile/PersonalInfo/types';
+import {
+  IDirection,
+  IOrigin,
+  IPost,
+  PostStatusType,
+  UserStatusType,
+} from '../../types';
 
 export type CreatePostRequestType = {
   title: string;

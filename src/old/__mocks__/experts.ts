@@ -1,5 +1,4 @@
-import { IExpert } from '../lib/types';
-import { UserStatus } from '../../views/Profile/PersonalInfo/types';
+import { IExpert, UserStatus } from '../lib/types';
 
 export const experts: IExpert[] = [
   {

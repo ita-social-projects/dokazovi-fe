@@ -1,10 +1,13 @@
-import { UserStatusType } from '../../views/Profile/PersonalInfo/types';
-
-export enum ExpertStatus {
+export enum UserStatus {
   NEW = 'NEW',
   ACTIVE = 'ACTIVE',
   DELETED = 'DELETED',
 }
+
+export type UserStatusType =
+  | UserStatus.NEW
+  | UserStatus.ACTIVE
+  | UserStatus.DELETED;
 
 export enum PostStatus {
   DRAFT = 'DRAFT',

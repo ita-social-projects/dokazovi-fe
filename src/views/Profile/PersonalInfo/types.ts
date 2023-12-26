@@ -56,17 +56,6 @@ export interface IEditAuthorProps {
   onSaveSuccessful: (id: number) => void;
 }
 
-export enum UserStatus {
-  NEW = 'NEW',
-  ACTIVE = 'ACTIVE',
-  DELETED = 'DELETED',
-}
-
-export type UserStatusType =
-  | UserStatus.NEW
-  | UserStatus.ACTIVE
-  | UserStatus.DELETED;
-
 export type UserEmailType = {
   publicEmail: (null | string)[];
   privateEmail: (null | string)[];

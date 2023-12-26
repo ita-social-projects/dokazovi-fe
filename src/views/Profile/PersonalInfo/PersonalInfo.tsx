@@ -26,7 +26,6 @@ import {
   INewAuthorValues,
   IVisitFields,
   UserEmailType,
-  UserStatus,
 } from './types';
 import i18n, { langTokens } from '../../../locales/localizationInit';
 import RegionCityHandler from './RegionCityHandler';
@@ -42,6 +41,7 @@ import {
 } from '../../../old/lib/utilities/API/api';
 import { useCheckAdmin } from '../../../old/lib/hooks/useCheckAdmin';
 import { CreateUserAccountForm } from '../../../components/Form/СreateUserAccountForm';
+import { UserStatus } from '../../../old/lib/types';
 
 export const PersonalInfo: React.FC<IEditAuthorProps> = ({
   author,
