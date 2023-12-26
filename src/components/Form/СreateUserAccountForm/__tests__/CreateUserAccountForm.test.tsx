@@ -8,8 +8,8 @@ describe('Tests for CreateUserAccountForm', () => {
     const handleClick = jest.fn();
 
     const emails = {
-      publicEmails: [null, null, 'public@gmail.com'],
-      privateEmails: [null, 'hello2@gmail.com'],
+      publicEmail: [null, null, 'public@gmail.com'],
+      privateEmail: [null, 'hello2@gmail.com'],
     };
     const { container } = render(
       <CreateUserAccountForm usersEmails={emails} onClick={handleClick} />,
@@ -20,8 +20,8 @@ describe('Tests for CreateUserAccountForm', () => {
   it('Should be able to write text in input', () => {
     const handleClick = jest.fn();
     const emails = {
-      publicEmails: [null, null, 'public@gmail.com'],
-      privateEmails: [null, 'hello2@gmail.com'],
+      publicEmail: [null, null, 'public@gmail.com'],
+      privateEmail: [null, 'hello2@gmail.com'],
     };
     render(
       <CreateUserAccountForm usersEmails={emails} onClick={handleClick} />,
@@ -35,8 +35,8 @@ describe('Tests for CreateUserAccountForm', () => {
   it('Should display errors when email is incorrect', () => {
     const handleClick = jest.fn();
     const emails = {
-      publicEmails: [null, null, 'public@gmail.com'],
-      privateEmails: [null, 'hello2@gmail.com'],
+      publicEmail: [null, null, 'public@gmail.com'],
+      privateEmail: [null, 'hello2@gmail.com'],
     };
     const { container } = render(
       <CreateUserAccountForm usersEmails={emails} onClick={handleClick} />,
@@ -62,8 +62,8 @@ describe('Tests for CreateUserAccountForm', () => {
   it('Button should be disabled till correct email will be written in input', () => {
     const handleClick = jest.fn();
     const emails = {
-      publicEmails: [null, null, 'public@gmail.com'],
-      privateEmails: [null, 'hello2@gmail.com'],
+      publicEmail: [null, null, 'public@gmail.com'],
+      privateEmail: [null, 'hello2@gmail.com'],
     };
     const { container } = render(
       <CreateUserAccountForm usersEmails={emails} onClick={handleClick} />,

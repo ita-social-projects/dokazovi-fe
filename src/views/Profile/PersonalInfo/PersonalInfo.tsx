@@ -25,8 +25,8 @@ import {
   IErrorFields,
   INewAuthorValues,
   IVisitFields,
+  UserEmailType,
   UserStatus,
-  UserStatusType,
 } from './types';
 import i18n, { langTokens } from '../../../locales/localizationInit';
 import RegionCityHandler from './RegionCityHandler';
@@ -34,7 +34,10 @@ import { validation } from './constants/validation';
 import { validateInput } from './utilities/validateInput';
 import { usePrevious } from '../../../old/lib/hooks/usePrevious';
 import {
+  changeEnabledOfUser,
   createAuthor,
+  getAllEmails,
+  sendActivationTokenToUser,
   updateAuthorById,
 } from '../../../old/lib/utilities/API/api';
 import { useCheckAdmin } from '../../../old/lib/hooks/useCheckAdmin';
@@ -47,17 +50,13 @@ export const PersonalInfo: React.FC<IEditAuthorProps> = ({
 }) => {
   const classes = useStyles();
 
-  const enabled = true; // mock data
-  let activated: UserStatusType = UserStatus.ACTIVE; // mock data
-  const usersEmails = {
-    publicEmails: [null, null, 'public@gmail.com'],
-    privateEmails: [
-      'hello2@gmail.com',
-      'hello@gmail.com',
-      'hello3@gmail.com',
-      null,
-    ],
-  }; // mock data
+  const [enabled, setEnabled] = useState(author?.enabled);
+  const status = author?.status;
+
+  const [usersEmails, setUsersEmails] = useState<UserEmailType>({
+    publicEmail: [],
+    privateEmail: [],
+  });
 
   const [visitFields, setVisitFields] = useState<IVisitFields>({
     lastName: false,
@@ -251,6 +250,56 @@ export const PersonalInfo: React.FC<IEditAuthorProps> = ({
       }),
     [errorMessages],
   );
+
+  const fetchAllEmails = async () => {
+    try {
+      const response = await getAllEmails();
+      setUsersEmails(response.data);
+    } catch (err) {
+      toast.error('Failed to fetch emails');
+    }
+  };
+
+  const handleChangeEnabled = async () => {
+    try {
+      if (author) {
+        setIsLoading(true);
+        await changeEnabledOfUser({
+          enabled: !enabled,
+          id: author?.id,
+        });
+
+        setEnabled((prevState) => !prevState);
+        setToggleButton(false);
+      }
+    } catch (err) {
+      toast.error('Failed to activate/deactivate user');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  const handleActivateUser = async (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    email: string,
+  ) => {
+    e.preventDefault();
+    try {
+      if (author) {
+        setIsLoading(true);
+        await sendActivationTokenToUser({
+          email,
+          id: author.id,
+        });
+        toast.success('Token send successfully. Please Check Email');
+        await fetchAllEmails();
+      }
+    } catch (err) {
+      toast.error('Failed to send token');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const isSaveDisabled = anyFieldWithError || isLoading;
   useEffect(() => {
     const handleBeforeUnload = (e: BeforeUnloadEvent) => {
@@ -265,6 +314,10 @@ export const PersonalInfo: React.FC<IEditAuthorProps> = ({
       window.removeEventListener('beforeunload', handleBeforeUnload);
     };
   }, [newAuthorValues, previousAuthorValues]);
+
+  useEffect(() => {
+    fetchAllEmails();
+  }, []);
 
   return (
     <>
@@ -451,7 +504,7 @@ export const PersonalInfo: React.FC<IEditAuthorProps> = ({
           />
         </Box>
       </form>
-      {isAdmin && author && (
+      {isAdmin && author && !isCurrentUser && (
         <Container>
           {toggleButton && (
             <>
@@ -466,12 +519,12 @@ export const PersonalInfo: React.FC<IEditAuthorProps> = ({
                     <UserAccountButton
                       type="activate"
                       label={i18n.t(langTokens.admin.activateExistingAccount)}
-                      onClick={() => {
-                        activated = UserStatus.ACTIVE;
-                      }}
+                      onClick={handleChangeEnabled}
+                      disabled={isLoading}
                     />
                     <UserAccountButton
                       type="create"
+                      disabled={isLoading}
                       label={i18n.t(langTokens.admin.createUserAccount)}
                       onClick={() => setOpenForm(true)}
                     />
@@ -482,48 +535,48 @@ export const PersonalInfo: React.FC<IEditAuthorProps> = ({
                 <Box className={classes.ButtonBox}>
                   <CreateUserAccountForm
                     usersEmails={usersEmails}
-                    onClick={() => console.log()}
+                    onClick={handleActivateUser}
+                    isLoading={isLoading}
                   />
                 </Box>
               )}
             </>
           )}
           <Box className={classes.ButtonBox}>
-            {enabled && activated === UserStatus.ACTIVE && (
+            {enabled && status === UserStatus.ACTIVE && (
               <UserAccountButton
                 type="deactivate"
                 label={i18n.t(langTokens.admin.deactivateUserAccount)}
-                onClick={() => {
-                  activated = UserStatus.DELETED;
-                }}
+                onClick={handleChangeEnabled}
+                disabled={isLoading}
               />
             )}
-            {enabled && activated === UserStatus.DELETED && !toggleButton && (
+            {!enabled && !toggleButton && status === UserStatus.ACTIVE && (
               <UserAccountButton
                 type="activate"
                 label={i18n.t(langTokens.admin.activateUserAccount)}
                 onClick={() => setToggleButton(true)}
               />
             )}
-            {!enabled &&
-              (activated === UserStatus.NEW ||
-                activated === UserStatus.DELETED) && (
-                <>
-                  {!openForm && (
-                    <UserAccountButton
-                      type="create"
-                      label={i18n.t(langTokens.admin.createUserAccount)}
-                      onClick={() => setOpenForm(true)}
-                    />
-                  )}
-                  {openForm && (
-                    <CreateUserAccountForm
-                      usersEmails={usersEmails}
-                      onClick={() => console.log()}
-                    />
-                  )}
-                </>
-              )}
+            {!enabled && status === UserStatus.NEW && (
+              <>
+                {!openForm && (
+                  <UserAccountButton
+                    type="create"
+                    label={i18n.t(langTokens.admin.createUserAccount)}
+                    onClick={() => setOpenForm(true)}
+                  />
+                )}
+                {openForm && (
+                  <CreateUserAccountForm
+                    usersEmails={usersEmails}
+                    onClick={handleActivateUser}
+                    currentUserEmail={author.email}
+                    isLoading={isLoading}
+                  />
+                )}
+              </>
+            )}
           </Box>
         </Container>
       )}

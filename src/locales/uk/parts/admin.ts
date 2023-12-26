@@ -95,6 +95,7 @@ export const admin = {
   biography: `Біографія`,
   fieldCantBeEmpty: `Поле не може бути порожнім`,
   wrongEmail: `Неправильна email адреса`,
+  emailConfirmationWasSent: `Лист для активації висланий, пітвердіть пошту`,
   userEmailIsAlreadyExisting: `За цією поштою вже зареєстрований користувач`,
   diffEmail: `Пошта для акаунту має відрізнятися від публічної пошти`,
   allowedChar: `Дозволені символи: (пробіл)"№'()-.,/&%:@`,

@@ -62,4 +62,12 @@ export enum UserStatus {
   DELETED = 'DELETED',
 }
 
-export type UserStatusType = 'NEW' | 'ACTIVE' | 'DELETED';
+export type UserStatusType =
+  | UserStatus.NEW
+  | UserStatus.ACTIVE
+  | UserStatus.DELETED;
+
+export type UserEmailType = {
+  publicEmail: (null | string)[];
+  privateEmail: (null | string)[];
+};

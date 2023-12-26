@@ -7,7 +7,7 @@ type UserAccountButtonPropsType = {
   label: string;
   action?: 'submit';
   disabled?: boolean;
-  onClick?: () => void;
+  onClick?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 };
 export const UserAccountButton: React.FC<UserAccountButtonPropsType> = ({
   label,

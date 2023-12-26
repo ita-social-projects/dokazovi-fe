@@ -39,6 +39,7 @@ export const BasicButton: React.FC<IBasicButtonProps> = ({
       variant="contained"
       disabled={disabled}
       onClick={onClick}
+      data-testid="basic-button"
     >
       {label}
     </Button>

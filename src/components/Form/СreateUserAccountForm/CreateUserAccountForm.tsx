@@ -5,13 +5,16 @@ import { langTokens } from '../../../locales/localizationInit';
 import { UserAccountButton } from '../Buttons';
 import { useStyles } from './styles/CreateUserAccountForm.style';
 import { regex } from '../../../views/Profile/PersonalInfo/constants/regex';
+import { UserEmailType } from '../../../views/Profile/PersonalInfo/types';
 
 type CreateUserAccountFormPropsType = {
-  usersEmails: {
-    publicEmails: (string | null)[];
-    privateEmails: (string | null)[];
-  };
-  onClick: () => void;
+  usersEmails: UserEmailType;
+  onClick: (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    email: string,
+  ) => void;
+  currentUserEmail?: string;
+  isLoading?: boolean;
 };
 type ErrorFieldsType = {
   email: string;
@@ -22,6 +25,8 @@ type VisitedFieldsType = {
 export const CreateUserAccountForm: React.FC<CreateUserAccountFormPropsType> = ({
   onClick,
   usersEmails,
+  currentUserEmail,
+  isLoading,
 }) => {
   const [userEmail, setUserEmail] = useState('');
   const [visitFields, setVisitFields] = useState<VisitedFieldsType>({
@@ -40,26 +45,34 @@ export const CreateUserAccountForm: React.FC<CreateUserAccountFormPropsType> = (
       email: '',
     };
 
-    if (!userEmail && visitFields.email) {
+    if (currentUserEmail) {
+      errors.email = i18n.t(langTokens.admin.emailConfirmationWasSent);
+    } else if (!userEmail && visitFields.email) {
       errors.email = i18n.t(langTokens.admin.fieldCantBeEmpty);
     } else if (userEmail && !regex.validEmail.test(userEmail)) {
       errors.email = i18n.t(langTokens.admin.wrongEmail);
     } else if (
       userEmail &&
-      usersEmails.publicEmails.some((mail) => mail === userEmail)
+      usersEmails.publicEmail.some((mail) => mail === userEmail)
     ) {
       errors.email = i18n.t(langTokens.admin.diffEmail);
     } else if (!userEmail && !visitFields.email) {
       errors.email = ' ';
     } else if (
       userEmail &&
-      usersEmails.privateEmails.some((mail) => mail === userEmail)
+      usersEmails.privateEmail.some((mail) => mail === userEmail)
     ) {
       errors.email = i18n.t(langTokens.admin.userEmailIsAlreadyExisting);
     }
     return errors;
   }, [userEmail, visitFields, usersEmails]);
 
+  const handleSubmitForm = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+  ) => {
+    onClick(e, userEmail);
+  };
+  console.log(isLoading);
   return (
     <form className={classes.Form}>
       {visitFields.email && errorMessage.email && (
@@ -77,16 +90,16 @@ export const CreateUserAccountForm: React.FC<CreateUserAccountFormPropsType> = (
           onFocus={() => setVisitFields({ email: true })}
           label={i18n.t(langTokens.admin.email)}
           value={userEmail}
-          onChange={(e) => emailChangeHandler(e)}
+          onChange={emailChangeHandler}
           inputProps={{
             'data-testid': 'createAccountInput',
           }}
         />
         <UserAccountButton
-          disabled={!!errorMessage.email}
+          disabled={!!errorMessage.email || isLoading}
           type="create"
           action="submit"
-          onClick={onClick}
+          onClick={handleSubmitForm}
           label={i18n.t(langTokens.admin.sendEmailToCreateUserAccount)}
         />
       </Box>

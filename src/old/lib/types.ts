@@ -1,3 +1,5 @@
+import { UserStatusType } from '../../views/Profile/PersonalInfo/types';
+
 export enum ExpertStatus {
   NEW = 'NEW',
   ACTIVE = 'ACTIVE',
@@ -167,6 +169,8 @@ export interface IExpert {
     title: string;
   };
   socialNetworks: string[];
+  status: UserStatusType;
+  enabled: boolean;
   isAllowedToDelete?: boolean;
   postStatuses?: PostStatusType[];
   createdAt: string;
