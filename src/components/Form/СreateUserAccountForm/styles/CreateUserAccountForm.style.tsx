@@ -8,13 +8,9 @@ export const useStyles = makeStyles(
         gap: '15px',
       },
       '& .MuiFormLabel-root': {
-        fontFamily: 'Raleway',
         color: 'black',
         fontWeight: 600,
         fontSize: theme.spacing(3.2),
-      },
-      '& .MuiFormLabel-asterisk.MuiInputLabel-asterisk': {
-        color: theme.palette.warning.main,
       },
       [theme.breakpoints.down('xs')]: {
         '& ': {

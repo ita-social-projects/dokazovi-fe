@@ -25,15 +25,15 @@ export const useStyles = makeStyles(
       },
     },
     createButton: {
-      backgroundColor: '#73ddff',
+      backgroundColor: theme.palette.custom.main,
       '&:hover': {
-        backgroundColor: theme.palette.info.main,
+        backgroundColor: theme.palette.custom.light,
       },
     },
     deactivateButton: {
-      backgroundColor: theme.palette.error.main,
+      backgroundColor: theme.palette.warning.main,
       '&:hover': {
-        backgroundColor: theme.palette.error.light,
+        backgroundColor: theme.palette.warning.light,
       },
     },
   }),

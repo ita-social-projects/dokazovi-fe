@@ -51,8 +51,8 @@ export const useStyles = makeStyles(
         borderRadius: '1rem',
         padding: '1px',
         border: '2px solid',
-        borderColor: theme.palette.custom.colorAquaBlue,
-        color: theme.palette.custom.colorAquaBlue,
+        borderColor: theme.palette.custom.main,
+        color: theme.palette.custom.main,
       },
       '&:hover': {
         opacity: 0.7,

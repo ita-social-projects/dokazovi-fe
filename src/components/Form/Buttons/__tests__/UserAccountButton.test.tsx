@@ -1,62 +1,94 @@
 import React from 'react';
-import { render } from '@testing-library/react';
-import userEvent, { TargetElement } from '@testing-library/user-event';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { createTheme, ThemeProvider } from '@material-ui/core';
 import { UserAccountButton } from '../UserAccountButton';
 
 describe('Tests for UserAccountButton', () => {
+  const theme = createTheme({
+    palette: {
+      custom: {
+        main: '#00000',
+      },
+    },
+  });
+
   it('Should render UserAccountButton with activate type', () => {
-    const { container } = render(
-      <UserAccountButton type="activate" label="Hello world" />,
+    render(
+      <ThemeProvider theme={theme}>
+        <UserAccountButton type="activate" label="Hello world" />
+      </ThemeProvider>,
     );
-    expect(container.firstChild).toHaveClass(
-      'UserAccountButton-activateButton-2',
-    );
+
+    const button = screen.getByRole('button', {
+      name: 'Hello world',
+    });
+    expect(button).toHaveClass('UserAccountButton-activateButton-2');
   });
   it('Should render UserAccountButton with deactivate type', () => {
-    const { container } = render(
-      <UserAccountButton type="deactivate" label="Hello world" />,
+    render(
+      <ThemeProvider theme={theme}>
+        <UserAccountButton type="deactivate" label="Hello world" />
+      </ThemeProvider>,
     );
-
-    expect(container.firstChild).toHaveClass(
-      'UserAccountButton-deactivateButton-8',
-    );
+    const button = screen.getByRole('button', {
+      name: 'Hello world',
+    });
+    expect(button).toHaveClass('UserAccountButton-deactivateButton-8');
   });
   it('Should render UserAccountButton with create type', () => {
-    const { container } = render(
-      <UserAccountButton type="create" label="Hello world" />,
+    render(
+      <ThemeProvider theme={theme}>
+        <UserAccountButton type="create" label="Hello world" />
+      </ThemeProvider>,
     );
+    const button = screen.getByRole('button', {
+      name: 'Hello world',
+    });
 
-    expect(container.firstChild).toHaveClass(
-      'UserAccountButton-createButton-11',
-    );
+    expect(button).toHaveClass('UserAccountButton-createButton-11');
   });
   it('Should handle onClick', () => {
     const handleClick = jest.fn();
-    const { container } = render(
-      <UserAccountButton
-        type="activate"
-        label="Hello world"
-        onClick={handleClick}
-      />,
+    render(
+      <ThemeProvider theme={theme}>
+        <UserAccountButton
+          type="activate"
+          label="Hello world"
+          onClick={handleClick}
+        />
+      </ThemeProvider>,
     );
-    userEvent.click(container.firstChild as TargetElement);
+
+    const button = screen.getByRole('button', {
+      name: 'Hello world',
+    });
+    userEvent.click(button);
     expect(handleClick).toBeCalled();
   });
 
   it('Should not be active when disabled.', () => {
-    const { container } = render(
-      <UserAccountButton type="activate" label="Hello world" disabled />,
+    render(
+      <ThemeProvider theme={theme}>
+        <UserAccountButton type="activate" label="Hello world" disabled />
+      </ThemeProvider>,
     );
 
-    const button = container.firstChild as TargetElement;
+    const button = screen.getByRole('button', {
+      name: 'Hello world',
+    });
     expect(button).toBeDisabled();
   });
 
   it('Should render label in the button', () => {
-    const { container } = render(
-      <UserAccountButton type="activate" label="Hello world" />,
+    render(
+      <ThemeProvider theme={theme}>
+        <UserAccountButton type="activate" label="Hello world" />
+      </ThemeProvider>,
     );
-    const button = container.firstChild as TargetElement;
+    const button = screen.getByRole('button', {
+      name: 'Hello world',
+    });
     expect(button).toHaveTextContent('Hello world');
   });
 });

@@ -2,14 +2,13 @@ import React, { useEffect, useMemo, useState } from 'react';
 import {
   Avatar,
   Box,
-  Container,
   Grid,
   IconButton,
   InputLabel,
   TextField,
   Typography,
 } from '@material-ui/core';
-import { BasicButton, CancelButton, UserAccountButton } from 'components/Form';
+import { BasicButton, CancelButton } from 'components/Form';
 import { PhotoCamera } from '@material-ui/icons';
 import { uploadImageToImgur } from 'old/lib/utilities/Imgur/uploadImageToImgur';
 import { getStringFromFile } from 'old/lib/utilities/Imgur/getStringFromFile';
@@ -25,7 +24,6 @@ import {
   IErrorFields,
   INewAuthorValues,
   IVisitFields,
-  UserEmailType,
 } from './types';
 import i18n, { langTokens } from '../../../locales/localizationInit';
 import RegionCityHandler from './RegionCityHandler';
@@ -33,15 +31,11 @@ import { validation } from './constants/validation';
 import { validateInput } from './utilities/validateInput';
 import { usePrevious } from '../../../old/lib/hooks/usePrevious';
 import {
-  changeEnabledOfUser,
   createAuthor,
-  getAllEmails,
-  sendActivationTokenToUser,
   updateAuthorById,
 } from '../../../old/lib/utilities/API/api';
 import { useCheckAdmin } from '../../../old/lib/hooks/useCheckAdmin';
-import { CreateUserAccountForm } from '../../../components/Form/СreateUserAccountForm';
-import { UserStatus } from '../../../old/lib/types';
+import UserAccountFormHandler from './UserAccountFormHandler';
 
 export const PersonalInfo: React.FC<IEditAuthorProps> = ({
   author,
@@ -49,14 +43,6 @@ export const PersonalInfo: React.FC<IEditAuthorProps> = ({
   onSaveSuccessful,
 }) => {
   const classes = useStyles();
-
-  const [enabled, setEnabled] = useState(author?.enabled);
-  const status = author?.status;
-
-  const [usersEmails, setUsersEmails] = useState<UserEmailType>({
-    publicEmail: [],
-    privateEmail: [],
-  });
 
   const [visitFields, setVisitFields] = useState<IVisitFields>({
     lastName: false,
@@ -72,8 +58,6 @@ export const PersonalInfo: React.FC<IEditAuthorProps> = ({
     twitter: false,
     linkedin: false,
   });
-  const [toggleButton, setToggleButton] = useState(false);
-  const [openForm, setOpenForm] = useState(false);
 
   const [newAuthorValues, setNewAuthorValues] = useState<INewAuthorValues>({
     avatar: author?.avatar ?? '',
@@ -251,55 +235,6 @@ export const PersonalInfo: React.FC<IEditAuthorProps> = ({
     [errorMessages],
   );
 
-  const fetchAllEmails = async () => {
-    try {
-      const response = await getAllEmails();
-      setUsersEmails(response.data);
-    } catch (err) {
-      toast.error('Failed to fetch emails');
-    }
-  };
-
-  const handleChangeEnabled = async () => {
-    try {
-      if (author) {
-        setIsLoading(true);
-        await changeEnabledOfUser({
-          enabled: !enabled,
-          id: author?.id,
-        });
-
-        setEnabled((prevState) => !prevState);
-        setToggleButton(false);
-      }
-    } catch (err) {
-      toast.error('Failed to activate/deactivate user');
-    } finally {
-      setIsLoading(false);
-    }
-  };
-  const handleActivateUser = async (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-    email: string,
-  ) => {
-    e.preventDefault();
-    try {
-      if (author) {
-        setIsLoading(true);
-        await sendActivationTokenToUser({
-          email,
-          id: author.id,
-        });
-        toast.success('Token send successfully. Please Check Email');
-        await fetchAllEmails();
-      }
-    } catch (err) {
-      toast.error('Failed to send token');
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   const isSaveDisabled = anyFieldWithError || isLoading;
   useEffect(() => {
     const handleBeforeUnload = (e: BeforeUnloadEvent) => {
@@ -314,10 +249,6 @@ export const PersonalInfo: React.FC<IEditAuthorProps> = ({
       window.removeEventListener('beforeunload', handleBeforeUnload);
     };
   }, [newAuthorValues, previousAuthorValues]);
-
-  useEffect(() => {
-    fetchAllEmails();
-  }, []);
 
   return (
     <>
@@ -504,82 +435,13 @@ export const PersonalInfo: React.FC<IEditAuthorProps> = ({
           />
         </Box>
       </form>
-      {isAdmin && author && !isCurrentUser && (
-        <Container>
-          {toggleButton && (
-            <>
-              {!openForm && (
-                <>
-                  <Box className={classes.ButtonBox}>
-                    <Typography variant="h5">
-                      {i18n.t(langTokens.admin.activateOrCreateUserAccount)}
-                    </Typography>
-                  </Box>
-                  <Box className={classes.ButtonBox}>
-                    <UserAccountButton
-                      type="activate"
-                      label={i18n.t(langTokens.admin.activateExistingAccount)}
-                      onClick={handleChangeEnabled}
-                      disabled={isLoading}
-                    />
-                    <UserAccountButton
-                      type="create"
-                      disabled={isLoading}
-                      label={i18n.t(langTokens.admin.createUserAccount)}
-                      onClick={() => setOpenForm(true)}
-                    />
-                  </Box>
-                </>
-              )}
-              {openForm && (
-                <Box className={classes.ButtonBox}>
-                  <CreateUserAccountForm
-                    usersEmails={usersEmails}
-                    onClick={handleActivateUser}
-                    isLoading={isLoading}
-                  />
-                </Box>
-              )}
-            </>
-          )}
-          <Box className={classes.ButtonBox}>
-            {enabled && status === UserStatus.ACTIVE && (
-              <UserAccountButton
-                type="deactivate"
-                label={i18n.t(langTokens.admin.deactivateUserAccount)}
-                onClick={handleChangeEnabled}
-                disabled={isLoading}
-              />
-            )}
-            {!enabled && !toggleButton && status === UserStatus.ACTIVE && (
-              <UserAccountButton
-                type="activate"
-                label={i18n.t(langTokens.admin.activateUserAccount)}
-                onClick={() => setToggleButton(true)}
-              />
-            )}
-            {!enabled && status === UserStatus.NEW && (
-              <>
-                {!openForm && (
-                  <UserAccountButton
-                    type="create"
-                    label={i18n.t(langTokens.admin.createUserAccount)}
-                    onClick={() => setOpenForm(true)}
-                  />
-                )}
-                {openForm && (
-                  <CreateUserAccountForm
-                    usersEmails={usersEmails}
-                    onClick={handleActivateUser}
-                    currentUserEmail={author.email}
-                    isLoading={isLoading}
-                  />
-                )}
-              </>
-            )}
-          </Box>
-        </Container>
-      )}
+      <UserAccountFormHandler
+        isCurrentUser={isCurrentUser}
+        author={author}
+        isAdmin={isAdmin}
+        isLoading={isLoading}
+        setIsLoading={setIsLoading}
+      />
     </>
   );
 };

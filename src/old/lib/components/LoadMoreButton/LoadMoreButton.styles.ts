@@ -1,4 +1,4 @@
-import { makeStyles, createStyles } from '@material-ui/core';
+import { createStyles, makeStyles } from '@material-ui/core';
 
 export const useStyles = makeStyles(
   (theme) =>
@@ -40,7 +40,7 @@ export const useStyles = makeStyles(
           fontSize: '16px',
         },
         '& .MuiSvgIcon-root': {
-          color: theme.palette.custom.colorAquaBlue,
+          color: theme.palette.custom.main,
           marginRight: theme.spacing(2),
           transform: 'rotate(43deg)',
         },

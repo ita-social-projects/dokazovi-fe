@@ -16,11 +16,16 @@ type CreateUserAccountFormPropsType = {
   currentUserEmail?: string;
   isLoading?: boolean;
 };
+
+const initialValues = {
+  email: '',
+};
+
 type ErrorFieldsType = {
-  email: string;
+  [prop in keyof typeof initialValues]: string;
 };
 type VisitedFieldsType = {
-  email: boolean;
+  [prop in keyof typeof initialValues]: boolean;
 };
 export const CreateUserAccountForm: React.FC<CreateUserAccountFormPropsType> = ({
   onClick,
@@ -72,7 +77,6 @@ export const CreateUserAccountForm: React.FC<CreateUserAccountFormPropsType> = (
   ) => {
     onClick(e, userEmail);
   };
-  console.log(isLoading);
   return (
     <form className={classes.Form}>
       {visitFields.email && errorMessage.email && (

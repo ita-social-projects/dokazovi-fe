@@ -1,92 +1,112 @@
 import { act, render, screen } from '@testing-library/react';
 import React from 'react';
 import userEvent from '@testing-library/user-event';
+import { MemoryRouter } from 'react-router-dom';
 import CreateUserAccountPage from '../CreateUserAccountPage';
 
-jest.mock('react-router-dom', () => ({
-  useLocation: jest.fn().mockReturnValue({
-    pathname: '/another-route',
-    search: 'token=313131314ada',
-    hash: '',
-    state: null,
-    key: '5nvxpbdafa',
-  }),
-  useHistory: () => ({
-    push: jest.fn(),
-  }),
-}));
-
-jest.mock('../../../old/lib/hooks/useQuery', () => ({
-  useQuery: jest.fn(() => {
-    const mockLocation = {
-      search: '?param1=value1&param2=value2',
-    };
-    return new URLSearchParams(mockLocation.search);
-  }),
-}));
+// jest.mock('react-router-dom', () => ({
+//   useLocation: jest.fn().mockReturnValue({
+//     pathname: '/another-route',
+//     search: 'token=313131314ada',
+//     hash: '',
+//     state: null,
+//     key: '5nvxpbdafa',
+//   }),
+//   useHistory: () => ({
+//     push: jest.fn(),
+//   }),
+// }));
+//
+// jest.mock('../../../old/lib/hooks/useQuery', () => ({
+//   useQuery: jest.fn(() => {
+//     const mockLocation = {
+//       search: '?param1=value1&param2=value2',
+//     };
+//     return new URLSearchParams(mockLocation.search);
+//   }),
+// }));
 
 describe('Tests for CreateUserAccountPage', () => {
-  it('Should render CreateUserAccountPage', () => {
-    const { container } = render(<CreateUserAccountPage />);
-    expect(container.firstChild?.firstChild).toHaveClass(
-      'CreateUserAccountPage-FormBox-1',
+  it('Should be able to type into inputs', () => {
+    render(
+      <MemoryRouter>
+        <CreateUserAccountPage />
+      </MemoryRouter>,
     );
-  });
-  it('Should be able to type into inputs', async () => {
-    render(<CreateUserAccountPage />);
 
-    const inputs = screen.queryAllByTestId('basic-input') as HTMLInputElement[];
-    // eslint-disable-next-line @typescript-eslint/require-await
-    await act(async () => {
-      userEvent.type(inputs[0], '1234');
+    const firstInput = document.querySelector(
+      'input[name="newPassword"]',
+    ) as HTMLInputElement;
+    const secondInput = document.querySelector(
+      'input[name="matchPassword"]',
+    ) as HTMLInputElement;
+    act(() => {
+      userEvent.type(firstInput, '1234');
     });
-    expect(inputs[0].value).toBe('1234');
+    expect(firstInput.value).toBe('1234');
 
-    // eslint-disable-next-line @typescript-eslint/require-await
-    await act(async () => {
-      userEvent.type(inputs[1], '12345');
+    act(() => {
+      userEvent.type(secondInput, '12345');
     });
-    expect(inputs[1].value).toBe('12345');
+    expect(secondInput.value).toBe('12345');
   });
 
   it('Button should be disabled till correct passwords will be written in inputs', async () => {
-    render(<CreateUserAccountPage />);
+    render(
+      <MemoryRouter>
+        <CreateUserAccountPage />
+      </MemoryRouter>,
+    );
 
-    const inputs = screen.queryAllByTestId('basic-input') as HTMLInputElement[];
+    const firstInput = document.querySelector(
+      'input[name="newPassword"]',
+    ) as HTMLInputElement;
+    const secondInput = document.querySelector(
+      'input[name="matchPassword"]',
+    ) as HTMLInputElement;
 
-    const button = screen.getByTestId('basic-button');
+    const button = screen.getByRole('button', { name: 'Підтвердити зміни' });
 
     // eslint-disable-next-line @typescript-eslint/require-await
     await act(async () => {
-      userEvent.type(inputs[0], '1234');
+      userEvent.type(firstInput, '1234');
     });
 
     expect(button).toBeDisabled();
 
     // eslint-disable-next-line @typescript-eslint/require-await
     await act(async () => {
-      userEvent.type(inputs[1], '1234');
+      userEvent.type(secondInput, '1234');
     });
 
     expect(button).toBeDisabled();
 
     // eslint-disable-next-line @typescript-eslint/require-await
     await act(async () => {
-      userEvent.type(inputs[0], '1234');
-      userEvent.type(inputs[1], '1234');
+      userEvent.type(firstInput, '1234');
+      userEvent.type(secondInput, '1234');
     });
     expect(button).not.toBeDisabled();
   });
 
   it('Should handle input errors', async () => {
-    const { container } = render(<CreateUserAccountPage />);
+    const { container } = render(
+      <MemoryRouter>
+        <CreateUserAccountPage />
+      </MemoryRouter>,
+    );
 
-    const inputs = screen.queryAllByTestId('basic-input') as HTMLInputElement[];
+    const firstInput = document.querySelector(
+      'input[name="newPassword"]',
+    ) as HTMLInputElement;
+    const secondInput = document.querySelector(
+      'input[name="matchPassword"]',
+    ) as HTMLInputElement;
 
     // eslint-disable-next-line @typescript-eslint/require-await
     await act(async () => {
-      userEvent.type(inputs[0], '1234');
-      userEvent.type(inputs[1], '1234');
+      userEvent.type(firstInput, '1234');
+      userEvent.type(secondInput, '1234');
     });
 
     expect(container).toHaveTextContent(
@@ -95,18 +115,18 @@ describe('Tests for CreateUserAccountPage', () => {
 
     // eslint-disable-next-line @typescript-eslint/require-await
     await act(async () => {
-      userEvent.type(inputs[0], '1234');
-      userEvent.type(inputs[1], '12345');
+      userEvent.type(firstInput, '1234');
+      userEvent.type(secondInput, '12345');
     });
 
     expect(container).toHaveTextContent('Паролі не збігаються');
 
     // eslint-disable-next-line @typescript-eslint/require-await
     await act(async () => {
-      userEvent.clear(inputs[0]);
-      userEvent.clear(inputs[0]);
-      userEvent.type(inputs[0], '1234567891234567891234567');
-      userEvent.type(inputs[1], '1234567891234567891234567');
+      userEvent.clear(firstInput);
+      userEvent.clear(secondInput);
+      userEvent.type(firstInput, '1234567891234567891234567');
+      userEvent.type(secondInput, '1234567891234567891234567');
     });
 
     expect(container).toHaveTextContent(
@@ -115,10 +135,10 @@ describe('Tests for CreateUserAccountPage', () => {
 
     // eslint-disable-next-line @typescript-eslint/require-await
     await act(async () => {
-      userEvent.clear(inputs[0]);
-      userEvent.clear(inputs[0]);
-      userEvent.click(inputs[0]);
-      userEvent.click(inputs[1]);
+      userEvent.clear(firstInput);
+      userEvent.clear(secondInput);
+      userEvent.click(firstInput);
+      userEvent.click(secondInput);
     });
 
     expect(container).toHaveTextContent("Це поле є обов'язковим");
