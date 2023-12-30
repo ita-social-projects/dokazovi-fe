@@ -3,13 +3,13 @@ import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import { Box, CircularProgress } from '@material-ui/core';
 import { toast } from 'react-toastify';
+import i18n from 'i18next';
 import { useQuery } from '../../old/lib/hooks/useQuery';
 import { activateUser } from '../../old/lib/utilities/API/api';
 import { LoadingStatusEnum, LoadingStatusType } from '../../old/lib/types';
 import CreateUserAccountPageForm from './CreateUserAccountPageForm';
 import { ICreateUserAccount } from './types';
 import CreateUserAccountPageSuccess from './CreateUserAccountPageSuccess';
-import i18n from 'i18next';
 import { langTokens } from '../../locales/localizationInit';
 
 const CreateUserAccountPage = () => {
