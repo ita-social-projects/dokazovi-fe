@@ -3,19 +3,15 @@ import { makeStyles, Theme } from '@material-ui/core';
 export const useStyles = makeStyles(
   (theme: Theme) => ({
     FormBox: {
-      '& ': {
-        display: 'flex',
-        gap: '15px',
-      },
+      display: 'flex',
+      gap: '15px',
       '& .MuiFormLabel-root': {
         color: 'black',
         fontWeight: 600,
-        fontSize: theme.spacing(3.2),
+        fontSize: '16px',
       },
       [theme.breakpoints.down('xs')]: {
-        '& ': {
-          flexDirection: 'column',
-        },
+        flexDirection: 'column',
       },
     },
     Form: {

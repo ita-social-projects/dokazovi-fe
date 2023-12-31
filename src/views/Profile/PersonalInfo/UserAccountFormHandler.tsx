@@ -11,7 +11,7 @@ import {
   getAllEmails,
   sendActivationTokenToUser,
 } from '../../../old/lib/utilities/API/api';
-import { UserEmailType } from './types';
+import { ActionButtonType, UserEmailType } from './types';
 
 interface IUserAccountFormHandlerProps {
   isCurrentUser?: boolean;
@@ -37,6 +37,16 @@ const UserAccountFormHandler: React.FC<IUserAccountFormHandlerProps> = ({
   });
   const status = author?.status;
   const classes = useStyles();
+
+  let buttonTypeToShow: ActionButtonType = 'nothing';
+
+  if (enabled && status === UserStatus.ACTIVE) {
+    buttonTypeToShow = 'deactivate';
+  } else if (!enabled && !toggleButton && status === UserStatus.ACTIVE) {
+    buttonTypeToShow = 'activate';
+  } else if (!enabled && status === UserStatus.NEW) {
+    buttonTypeToShow = 'create';
+  }
 
   const fetchAllEmails = async () => {
     try {
@@ -131,7 +141,7 @@ const UserAccountFormHandler: React.FC<IUserAccountFormHandlerProps> = ({
           </>
         )}
         <Box className={classes.ButtonBox}>
-          {enabled && status === UserStatus.ACTIVE && (
+          {buttonTypeToShow === 'deactivate' && (
             <UserAccountButton
               type="deactivate"
               label={i18n.t(langTokens.admin.deactivateUserAccount)}
@@ -139,14 +149,14 @@ const UserAccountFormHandler: React.FC<IUserAccountFormHandlerProps> = ({
               disabled={isLoading}
             />
           )}
-          {!enabled && !toggleButton && status === UserStatus.ACTIVE && (
+          {buttonTypeToShow === 'activate' && (
             <UserAccountButton
               type="activate"
               label={i18n.t(langTokens.admin.activateUserAccount)}
               onClick={() => setToggleButton(true)}
             />
           )}
-          {!enabled && status === UserStatus.NEW && (
+          {buttonTypeToShow === 'create' && (
             <>
               {!openForm && (
                 <UserAccountButton

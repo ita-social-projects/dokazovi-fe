@@ -4,28 +4,6 @@ import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
 import CreateUserAccountPage from '../CreateUserAccountPage';
 
-// jest.mock('react-router-dom', () => ({
-//   useLocation: jest.fn().mockReturnValue({
-//     pathname: '/another-route',
-//     search: 'token=313131314ada',
-//     hash: '',
-//     state: null,
-//     key: '5nvxpbdafa',
-//   }),
-//   useHistory: () => ({
-//     push: jest.fn(),
-//   }),
-// }));
-//
-// jest.mock('../../../old/lib/hooks/useQuery', () => ({
-//   useQuery: jest.fn(() => {
-//     const mockLocation = {
-//       search: '?param1=value1&param2=value2',
-//     };
-//     return new URLSearchParams(mockLocation.search);
-//   }),
-// }));
-
 describe('Tests for CreateUserAccountPage', () => {
   it('Should be able to type into inputs', () => {
     render(
@@ -33,13 +11,13 @@ describe('Tests for CreateUserAccountPage', () => {
         <CreateUserAccountPage />
       </MemoryRouter>,
     );
-
     const firstInput = document.querySelector(
       'input[name="newPassword"]',
     ) as HTMLInputElement;
     const secondInput = document.querySelector(
       'input[name="matchPassword"]',
     ) as HTMLInputElement;
+
     act(() => {
       userEvent.type(firstInput, '1234');
     });

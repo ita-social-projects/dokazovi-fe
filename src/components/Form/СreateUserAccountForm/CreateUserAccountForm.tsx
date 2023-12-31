@@ -17,15 +17,11 @@ type CreateUserAccountFormPropsType = {
   isLoading?: boolean;
 };
 
-const initialValues = {
-  email: '',
-};
-
 type ErrorFieldsType = {
-  [prop in keyof typeof initialValues]: string;
+  email: string;
 };
 type VisitedFieldsType = {
-  [prop in keyof typeof initialValues]: boolean;
+  email: boolean;
 };
 export const CreateUserAccountForm: React.FC<CreateUserAccountFormPropsType> = ({
   onClick,

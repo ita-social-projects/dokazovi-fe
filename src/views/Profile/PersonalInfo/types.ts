@@ -60,3 +60,5 @@ export type UserEmailType = {
   publicEmail: (null | string)[];
   privateEmail: (null | string)[];
 };
+
+export type ActionButtonType = 'activate' | 'deactivate' | 'create' | 'nothing';
