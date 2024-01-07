@@ -11,6 +11,7 @@ import { IChangeLogOptions } from 'models/changeLog/types';
 import {
   ActiveDirectionType,
   ActivePostType,
+  ChangeEnabledType,
   CityResponseType,
   CreateAuthorRequestType,
   CreatePostRequestUnionType,
@@ -32,6 +33,7 @@ import {
   PostsResponseType,
   PostTypeResponseType,
   RegionResponseType,
+  SendTokenType,
   TagResponseType,
   UpdateAuthorRequestType,
   UpdatePlatformInformationRequestType,
@@ -40,6 +42,7 @@ import {
 } from './types';
 import { BASE_URL } from '../../../apiURL';
 import { getToken } from '../../../provider/AuthProvider/getToken';
+import { UserEmailType } from '../../../../views/Profile/PersonalInfo/types';
 
 export const instance = axios.create({
   baseURL: BASE_URL,
@@ -369,4 +372,29 @@ export const updateAuthorById = async (
   requestBody: UpdateAuthorRequestType,
 ): Promise<AxiosResponse<ExpertResponseType>> => {
   return instance.put(`/author`, requestBody);
+};
+
+export const getAllEmails = async (): Promise<AxiosResponse<UserEmailType>> => {
+  return instance.get('/user/all-emails');
+};
+
+export const changeEnabledOfUser = async (requestBody: ChangeEnabledType) => {
+  // NEED CHANGE URL WHEN BACKEND UPDATES
+  return instance.put('/user/-1', requestBody);
+};
+
+export const sendActivationTokenToUser = async (requestBody: SendTokenType) => {
+  return instance.post('/user/activate', requestBody);
+};
+
+export const activateUser = async (
+  token: string,
+  newPassword: string,
+  matchPassword: string,
+) => {
+  return instance.post('/user/activate-user-account', {
+    token,
+    newPassword,
+    matchPassword,
+  });
 };

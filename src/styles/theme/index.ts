@@ -29,6 +29,14 @@ export const MAIN_THEME = createTheme({
         fontFamily: 'Raleway',
       },
     },
+    MuiFormLabel: {
+      root: {
+        fontFamily: 'Raleway',
+        '& .MuiFormLabel-asterisk.MuiInputLabel-asterisk': {
+          color: palette.warning.main,
+        },
+      },
+    },
     MuiIconButton: {
       root: {
         color: 'initial',

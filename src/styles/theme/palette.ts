@@ -1,6 +1,4 @@
-import { PaletteOptions } from '@material-ui/core/styles/createPalette';
-
-export const PALETTE: PaletteOptions = {
+export const PALETTE = {
   common: {
     black: '#000',
     white: '#fff',
@@ -20,6 +18,7 @@ export const PALETTE: PaletteOptions = {
   },
   warning: {
     main: '#EB5757',
+    light: '#e57373',
     contrastText: '#fff',
   },
   text: {
@@ -36,6 +35,7 @@ export const PALETTE: PaletteOptions = {
   },
   divider: '#000',
   custom: {
-    colorAquaBlue: '#73ddff',
+    main: '#73ddff',
+    light: '#84dfff',
   },
 };

@@ -469,7 +469,7 @@ export const AllPostTypesUpdation: React.FC<IAllPostTypesUpdation> = ({
           hasBackGroundImg,
         }}
         onCancelClick={() => {
-          history.goBack();
+          window.close();
         }}
         onPublishClick={handlePublishClick}
         onSaveClick={handleSaveClick}

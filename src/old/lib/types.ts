@@ -1,8 +1,13 @@
-export enum ExpertStatus {
+export enum UserStatus {
   NEW = 'NEW',
   ACTIVE = 'ACTIVE',
   DELETED = 'DELETED',
 }
+
+export type UserStatusType =
+  | UserStatus.NEW
+  | UserStatus.ACTIVE
+  | UserStatus.DELETED;
 
 export enum PostStatus {
   DRAFT = 'DRAFT',
@@ -167,6 +172,8 @@ export interface IExpert {
     title: string;
   };
   socialNetworks: string[];
+  status: UserStatusType;
+  enabled: boolean;
   isAllowedToDelete?: boolean;
   postStatuses?: PostStatusType[];
   createdAt: string;

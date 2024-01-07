@@ -68,4 +68,11 @@ export const common = {
   permissionError: 'На жаль, Ви не можете редагувати цей пост',
   noFoundAuthors: 'Такого автора не знайдено',
   inputSearchPlaceholder: 'Слово або автор',
+  noTokenProvided: 'Не надано токен',
+  userWasActivated: 'Користувача було активовано',
+  errorActivatingUser: 'Помилка активації користувача',
+  failedToFetchEmails: 'Не вдалося отримати електронні пошти',
+  failedToChangeEnabled: 'Не вдалося активувати/деактивувати користувача',
+  emailConfirmationWasSent: 'Лист підтвердження було відправлено',
+  failedToSendEmail: 'Не вдалося відправити лист підтвердження',
 };

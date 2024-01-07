@@ -43,6 +43,10 @@ const PasswordResetView = lazy(
 const PasswordUpdateView = lazy(
   () => import('../../views/PasswordUpdate/PasswordUpdateView'),
 );
+
+const CreateUserAccView = lazy(
+  () => import('../../views/CreateUserAccountView/CreateUserAccountPage'),
+);
 const CreateAuthor = lazy(() => import('../../views/Profile/CreateAuthor'));
 const EditAuthor = lazy(
   () => import('../../views/Profile/EditAuthor/EditAuthor'),
@@ -73,6 +77,11 @@ export const ROUTER_CONFIG: IRouteConfig[] = [
     path: '/user/update-password',
     key: 'UPDATE_PASSWORD',
     component: PasswordUpdateView,
+  },
+  {
+    path: '/user/activate-user-account',
+    key: 'CREATE_USER_ACC',
+    component: CreateUserAccView,
   },
   {
     path: '/materials',

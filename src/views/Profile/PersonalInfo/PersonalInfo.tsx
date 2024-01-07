@@ -35,6 +35,7 @@ import {
   updateAuthorById,
 } from '../../../old/lib/utilities/API/api';
 import { useCheckAdmin } from '../../../old/lib/hooks/useCheckAdmin';
+import UserAccountFormHandler from './UserAccountFormHandler';
 
 export const PersonalInfo: React.FC<IEditAuthorProps> = ({
   author,
@@ -57,7 +58,6 @@ export const PersonalInfo: React.FC<IEditAuthorProps> = ({
     twitter: false,
     linkedin: false,
   });
-  const [toggleButton, setToggleButton] = useState(false);
 
   const [newAuthorValues, setNewAuthorValues] = useState<INewAuthorValues>({
     avatar: author?.avatar ?? '',
@@ -234,6 +234,7 @@ export const PersonalInfo: React.FC<IEditAuthorProps> = ({
       }),
     [errorMessages],
   );
+
   const isSaveDisabled = anyFieldWithError || isLoading;
   useEffect(() => {
     const handleBeforeUnload = (e: BeforeUnloadEvent) => {
@@ -250,188 +251,198 @@ export const PersonalInfo: React.FC<IEditAuthorProps> = ({
   }, [newAuthorValues, previousAuthorValues]);
 
   return (
-    <form>
-      <Grid container spacing={6} className={classes.PersonalInfo}>
-        <Grid item xs={4} container direction="column" alignContent="center">
-          <Avatar
-            alt="Avatar"
-            className={classes.Avatar}
-            src={newAuthorValues.avatar}
-          />
-          <Box display="flex" justifyContent="flex-end">
-            <IconButton aria-label="upload picture" component="label">
-              <input
-                hidden
-                required
-                name="avatar"
-                accept="image/jpeg, image/png, image/tiff, image/heic"
-                type="file"
-                onChange={inputAvatarChangeHandler}
-              />
-              <PhotoCamera className={classes.PhotoCamera} />
-            </IconButton>
-          </Box>
-          <ErrorField errorField={errorMessages.avatar} visitField />
-        </Grid>
-        <Grid item xs={8}>
-          <Grid container spacing={2}>
-            <Grid item xs={6}>
-              <ErrorField
-                errorField={errorMessages.lastName}
-                visitField={visitFields.lastName}
-              />
-              <TextField
-                className={classes.TextField}
-                required
-                disabled={!isAdmin}
-                variant="outlined"
-                label={i18n.t(langTokens.admin.lastName)}
-                name="lastName"
-                fullWidth
-                value={newAuthorValues.lastName}
-                onChange={inputChangeHandler}
-                onBlur={blurHandler}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <ErrorField
-                errorField={errorMessages.firstName}
-                visitField={visitFields.firstName}
-              />
-              <TextField
-                className={classes.TextField}
-                required
-                disabled={!isAdmin}
-                label={i18n.t(langTokens.admin.firstName)}
-                name="firstName"
-                variant="outlined"
-                fullWidth
-                value={newAuthorValues.firstName}
-                onChange={inputChangeHandler}
-                onBlur={blurHandler}
-              />
-            </Grid>
+    <>
+      <form>
+        <Grid container spacing={6} className={classes.PersonalInfo}>
+          <Grid item xs={4} container direction="column" alignContent="center">
+            <Avatar
+              alt="Avatar"
+              className={classes.Avatar}
+              src={newAuthorValues.avatar}
+            />
+            <Box display="flex" justifyContent="flex-end">
+              <IconButton aria-label="upload picture" component="label">
+                <input
+                  hidden
+                  required
+                  name="avatar"
+                  accept="image/jpeg, image/png, image/tiff, image/heic"
+                  type="file"
+                  onChange={inputAvatarChangeHandler}
+                />
+                <PhotoCamera className={classes.PhotoCamera} />
+              </IconButton>
+            </Box>
+            <ErrorField errorField={errorMessages.avatar} visitField />
           </Grid>
-          <RegionCityHandler
-            newAuthorValues={newAuthorValues}
-            visitFields={visitFields}
-            errorMessages={errorMessages}
-            setNewAuthorValues={setNewAuthorValues}
-            blurHandler={blurHandler}
-          />
-        </Grid>
-        <Grid
-          item
-          container
-          direction="column"
-          xs={4}
-          className={classes.Contacts}
-        >
-          <InputLabel required className={classes.InputLabel}>
-            {i18n.t(langTokens.admin.socialNetworkLinks)}
-          </InputLabel>
-          {visitFields.publicEmail && errorMessages.publicEmail && (
-            <Typography className={classes.Typography}>
-              {errorMessages.publicEmail}
-            </Typography>
-          )}
-          <TextField
-            className={classes.TextField}
-            variant="outlined"
-            required
-            fullWidth
-            label={i18n.t(langTokens.admin.email)}
-            name="publicEmail"
-            value={newAuthorValues.publicEmail}
-            onChange={(event) => inputChangeHandler(event)}
-            onBlur={blurHandler}
-          />
-          <InputLabel required className={classes.InputLabel}>
-            {i18n.t(langTokens.admin.minimumOneLinkRequired)}
-          </InputLabel>
-          {fields.socialNetworks.map((sn, index) => {
-            return (
-              <Box key={sn.index}>
-                {errorMessages[sn.name] && (
-                  <Typography className={classes.Typography}>
-                    {errorMessages[sn.name]}
-                  </Typography>
-                )}
+          <Grid item xs={8}>
+            <Grid container spacing={2}>
+              <Grid item xs={6}>
+                <ErrorField
+                  errorField={errorMessages.lastName}
+                  visitField={visitFields.lastName}
+                />
                 <TextField
+                  className={classes.TextField}
+                  required
+                  disabled={!isAdmin}
                   variant="outlined"
+                  label={i18n.t(langTokens.admin.lastName)}
+                  name="lastName"
                   fullWidth
-                  name={sn.name}
-                  placeholder={sn.placeholder}
-                  value={newAuthorValues.socialNetworks[sn.index]}
-                  onChange={(event) =>
-                    inputSocialNetworkChangeHandler(event, index)
-                  }
+                  value={newAuthorValues.lastName}
+                  onChange={inputChangeHandler}
                   onBlur={blurHandler}
                 />
-              </Box>
-            );
-          })}
-        </Grid>
-        <Grid item xs={8}>
-          <Box className={classes.WrapperBox}>
+              </Grid>
+              <Grid item xs={6}>
+                <ErrorField
+                  errorField={errorMessages.firstName}
+                  visitField={visitFields.firstName}
+                />
+                <TextField
+                  className={classes.TextField}
+                  required
+                  disabled={!isAdmin}
+                  label={i18n.t(langTokens.admin.firstName)}
+                  name="firstName"
+                  variant="outlined"
+                  fullWidth
+                  value={newAuthorValues.firstName}
+                  onChange={inputChangeHandler}
+                  onBlur={blurHandler}
+                />
+              </Grid>
+            </Grid>
+            <RegionCityHandler
+              newAuthorValues={newAuthorValues}
+              visitFields={visitFields}
+              errorMessages={errorMessages}
+              setNewAuthorValues={setNewAuthorValues}
+              blurHandler={blurHandler}
+            />
+          </Grid>
+          <Grid
+            item
+            container
+            direction="column"
+            xs={4}
+            className={classes.Contacts}
+          >
             <InputLabel required className={classes.InputLabel}>
-              {i18n.t(langTokens.admin.mainPlaceOfWork)}
+              {i18n.t(langTokens.admin.socialNetworkLinks)}
             </InputLabel>
-            {visitFields.mainWorkingPlace && errorMessages.mainWorkingPlace && (
+            {visitFields.publicEmail && errorMessages.publicEmail && (
               <Typography className={classes.Typography}>
-                {errorMessages.mainWorkingPlace}
+                {errorMessages.publicEmail}
               </Typography>
             )}
-          </Box>
-          <TextField
-            variant="outlined"
-            required
-            fullWidth
-            name="mainWorkingPlace"
-            value={newAuthorValues.mainWorkingPlace}
-            onChange={inputChangeHandler}
-            onBlur={blurHandler}
-          />
-          <Box className={classes.WrapperBox}>
+            <TextField
+              className={classes.TextField}
+              variant="outlined"
+              required
+              fullWidth
+              label={i18n.t(langTokens.admin.email)}
+              name="publicEmail"
+              value={newAuthorValues.publicEmail}
+              onChange={(event) => inputChangeHandler(event)}
+              onBlur={blurHandler}
+            />
             <InputLabel required className={classes.InputLabel}>
-              {i18n.t(langTokens.admin.biography)}
+              {i18n.t(langTokens.admin.minimumOneLinkRequired)}
             </InputLabel>
-            {visitFields.bio && errorMessages.bio && (
-              <Typography className={classes.Typography}>
-                {errorMessages.bio}
-              </Typography>
-            )}
-          </Box>
-          <TextField
-            multiline
-            minRows={12}
-            variant="outlined"
-            required
-            fullWidth
-            name="bio"
-            value={newAuthorValues.bio}
-            onChange={inputChangeHandler}
-            onBlur={blurHandler}
-          />
+            {fields.socialNetworks.map((sn, index) => {
+              return (
+                <Box key={sn.index}>
+                  {errorMessages[sn.name] && (
+                    <Typography className={classes.Typography}>
+                      {errorMessages[sn.name]}
+                    </Typography>
+                  )}
+                  <TextField
+                    variant="outlined"
+                    fullWidth
+                    name={sn.name}
+                    placeholder={sn.placeholder}
+                    value={newAuthorValues.socialNetworks[sn.index]}
+                    onChange={(event) =>
+                      inputSocialNetworkChangeHandler(event, index)
+                    }
+                    onBlur={blurHandler}
+                  />
+                </Box>
+              );
+            })}
+          </Grid>
+          <Grid item xs={8}>
+            <Box className={classes.WrapperBox}>
+              <InputLabel required className={classes.InputLabel}>
+                {i18n.t(langTokens.admin.mainPlaceOfWork)}
+              </InputLabel>
+              {visitFields.mainWorkingPlace &&
+                errorMessages.mainWorkingPlace && (
+                  <Typography className={classes.Typography}>
+                    {errorMessages.mainWorkingPlace}
+                  </Typography>
+                )}
+            </Box>
+            <TextField
+              variant="outlined"
+              required
+              fullWidth
+              name="mainWorkingPlace"
+              value={newAuthorValues.mainWorkingPlace}
+              onChange={inputChangeHandler}
+              onBlur={blurHandler}
+            />
+            <Box className={classes.WrapperBox}>
+              <InputLabel required className={classes.InputLabel}>
+                {i18n.t(langTokens.admin.biography)}
+              </InputLabel>
+              {visitFields.bio && errorMessages.bio && (
+                <Typography className={classes.Typography}>
+                  {errorMessages.bio}
+                </Typography>
+              )}
+            </Box>
+            <TextField
+              multiline
+              minRows={12}
+              variant="outlined"
+              required
+              fullWidth
+              name="bio"
+              value={newAuthorValues.bio}
+              onChange={inputChangeHandler}
+              onBlur={blurHandler}
+            />
+          </Grid>
         </Grid>
-      </Grid>
 
-      <Box className={classes.ButtonBox}>
-        {author && !isCurrentUser && (
-          <CancelButton
-            label={i18n.t(langTokens.common.cancelChanges)}
-            onClick={() => window.close()}
+        <Box className={classes.ButtonBox}>
+          {author && !isCurrentUser && (
+            <CancelButton
+              label={i18n.t(langTokens.common.cancelChanges)}
+              onClick={() => window.close()}
+            />
+          )}
+          <BasicButton
+            disabled={isSaveDisabled}
+            type="sign"
+            label={i18n.t(langTokens.common.acceptChanges)}
+            className={classes.BasicButton}
+            onClick={buttonClickHandler}
           />
-        )}
-        <BasicButton
-          disabled={isSaveDisabled}
-          type="sign"
-          label={i18n.t(langTokens.common.acceptChanges)}
-          className={classes.BasicButton}
-          onClick={buttonClickHandler}
-        />
-      </Box>
-    </form>
+        </Box>
+      </form>
+      <UserAccountFormHandler
+        isCurrentUser={isCurrentUser}
+        author={author}
+        isAdmin={isAdmin}
+        isLoading={isLoading}
+        setIsLoading={setIsLoading}
+      />
+    </>
   );
 };
 

@@ -55,3 +55,10 @@ export interface IEditAuthorProps {
   isCurrentUser?: boolean;
   onSaveSuccessful: (id: number) => void;
 }
+
+export type UserEmailType = {
+  publicEmail: (null | string)[];
+  privateEmail: (null | string)[];
+};
+
+export type ActionButtonType = 'activate' | 'deactivate' | 'create' | 'nothing';
