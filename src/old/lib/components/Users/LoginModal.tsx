@@ -26,6 +26,7 @@ import { BasicButton, BasicInput } from '../../../../components/Form';
 import { useActions } from '../../../../shared/hooks';
 import { getAuthoritiesAsyncAction } from '../../../../models/authorities';
 import './LoginModal.css';
+import { fetchCities } from '../../../../models/properties';
 
 export const LoginModal: React.FC = () => {
   const { t } = useTranslation();
@@ -42,6 +43,7 @@ export const LoginModal: React.FC = () => {
   });
 
   const [boundAuthorities] = useActions([getAuthoritiesAsyncAction]);
+  const [boundCities] = useActions([fetchCities]);
 
   const handleLoginOpen = () => {
     setLoginOpen(true);
@@ -71,6 +73,7 @@ export const LoginModal: React.FC = () => {
       .then((response) => {
         setAuthorization(response.data.accessToken);
         boundAuthorities();
+        boundCities();
         handleLoginClose();
         swalWithCustomButton
           .fire(

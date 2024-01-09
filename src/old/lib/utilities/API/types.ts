@@ -1,4 +1,10 @@
-import { IDirection, IOrigin, IPost, PostStatusType } from '../../types';
+import {
+  IDirection,
+  IOrigin,
+  IPost,
+  PostStatusType,
+  UserStatusType,
+} from '../../types';
 
 export type CreatePostRequestType = {
   title: string;
@@ -108,6 +114,9 @@ export type ExpertResponseType = {
   };
   city?: string;
   email?: string;
+  publicEmail?: string;
+  status: UserStatusType;
+  enabled: boolean;
   socialNetworks: string[];
   postStatuses: PostStatusType[];
   createdAt: string;
@@ -315,4 +324,29 @@ export type GetChangeLogType = ChangeLogType & {
   nameOfChanger?: string;
   title?: string;
   totalPages: number;
+};
+
+export type CreateAuthorRequestType = {
+  avatar?: string;
+  firstName: string;
+  lastName: string;
+  cityId: number | null;
+  bio: string;
+  publicEmail?: string;
+  socialNetworks: (string | null)[];
+  mainWorkingPlace: string;
+};
+
+export type UpdateAuthorRequestType = {
+  authorId: number;
+} & CreateAuthorRequestType;
+
+export type ChangeEnabledType = {
+  enabled: boolean;
+  id: number;
+};
+
+export type SendTokenType = {
+  email: string;
+  id: number;
 };

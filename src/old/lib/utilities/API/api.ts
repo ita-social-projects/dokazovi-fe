@@ -1,43 +1,48 @@
 /* eslint-disable no-param-reassign */
 import axios, {
   AxiosError,
+  AxiosPromise,
   AxiosRequestConfig,
   AxiosResponse,
-  AxiosPromise,
 } from 'axios';
 import qs from 'qs';
 import { toast } from 'react-toastify';
 import { IChangeLogOptions } from 'models/changeLog/types';
 import {
+  ActiveDirectionType,
+  ActivePostType,
+  ChangeEnabledType,
+  CityResponseType,
+  CreateAuthorRequestType,
   CreatePostRequestUnionType,
   CreateTagRequestType,
   DirectionResponseType,
   ExpertResponseType,
   ExpertsResponseType,
+  GetChangeLogType,
   GetExpertsConfigType,
-  GetPostsConfigType,
-  GetPostsAdminConfigType,
   GetFilteredPostsType,
+  GetPostsAdminConfigType,
+  GetPostsConfigType,
   GetTagsConfigType,
   LoginResponseType,
   NewestPostsResponseType,
   OriginResponseType,
+  PlatformInformationType,
   PostResponseType,
   PostsResponseType,
   PostTypeResponseType,
   RegionResponseType,
+  SendTokenType,
   TagResponseType,
+  UpdateAuthorRequestType,
+  UpdatePlatformInformationRequestType,
   UpdatePostRequestUnionType,
   VersionResponseType,
-  ActivePostType,
-  ActiveDirectionType,
-  PlatformInformationType,
-  UpdatePlatformInformationRequestType,
-  CityResponseType,
-  GetChangeLogType,
 } from './types';
 import { BASE_URL } from '../../../apiURL';
 import { getToken } from '../../../provider/AuthProvider/getToken';
+import { UserEmailType } from '../../../../views/Profile/PersonalInfo/types';
 
 export const instance = axios.create({
   baseURL: BASE_URL,
@@ -355,4 +360,41 @@ export const deleteAuthorById = async (
   id: number,
 ): Promise<AxiosResponse<PostsResponseType>> => {
   return instance.delete(`/author/${id}`);
+};
+
+export const createAuthor = async (
+  requestBody: CreateAuthorRequestType,
+): Promise<AxiosResponse<ExpertResponseType>> => {
+  return instance.post(`/author`, requestBody);
+};
+
+export const updateAuthorById = async (
+  requestBody: UpdateAuthorRequestType,
+): Promise<AxiosResponse<ExpertResponseType>> => {
+  return instance.put(`/author`, requestBody);
+};
+
+export const getAllEmails = async (): Promise<AxiosResponse<UserEmailType>> => {
+  return instance.get('/user/all-emails');
+};
+
+export const changeEnabledOfUser = async (requestBody: ChangeEnabledType) => {
+  // NEED CHANGE URL WHEN BACKEND UPDATES
+  return instance.put('/user/-1', requestBody);
+};
+
+export const sendActivationTokenToUser = async (requestBody: SendTokenType) => {
+  return instance.post('/user/activate', requestBody);
+};
+
+export const activateUser = async (
+  token: string,
+  newPassword: string,
+  matchPassword: string,
+) => {
+  return instance.post('/user/activate-user-account', {
+    token,
+    newPassword,
+    matchPassword,
+  });
 };

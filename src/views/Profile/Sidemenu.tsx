@@ -3,11 +3,10 @@ import Drawer from '@material-ui/core/Drawer';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import { useSelector } from 'react-redux';
-import { selectAuthorities } from '../../models/authorities';
 import i18n, { langTokens } from '../../locales/localizationInit';
 import { IProfileMenuOption } from '../../old/lib/types';
 import { useStyles } from './styles/Sidemenu.styles';
+import { useCheckAdmin } from '../../old/lib/hooks/useCheckAdmin';
 
 interface ISidemenuProps {
   selectedOption: IProfileMenuOption | Record<string, never>;
@@ -43,8 +42,7 @@ export const Sidemenu: React.FC<ISidemenuProps> = (props) => {
   const { selectedOption, changeOption } = props;
   const classes = useStyles();
 
-  const authorities = useSelector(selectAuthorities);
-  const isAdmin = authorities.data?.includes('SET_IMPORTANCE');
+  const isAdmin = useCheckAdmin();
 
   return (
     <Drawer

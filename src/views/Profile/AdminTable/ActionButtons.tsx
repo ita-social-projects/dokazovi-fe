@@ -6,8 +6,8 @@ import { toast } from 'react-toastify';
 import { StatusesForActions } from '../../../models/adminLab/types';
 import {
   deleteAdminPost,
-  setPostStatus,
   setFakeViews,
+  setPostStatus,
 } from '../../../models/adminLab';
 import { useActions } from '../../../shared/hooks';
 import { PostStatus } from '../../../old/lib/types';
@@ -137,7 +137,7 @@ const ActionButtons: React.FC<IActionButtons> = ({
       label: t(langTokens.admin.edit),
       modal: null,
       handler: () => {
-        history.push(editPostLink);
+        window.open(editPostLink);
       },
       adminUseStatuses: [
         PUBLISHED,

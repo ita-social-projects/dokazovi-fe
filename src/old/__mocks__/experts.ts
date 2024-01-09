@@ -1,4 +1,4 @@
-import { IExpert } from '../lib/types';
+import { IExpert, UserStatus } from '../lib/types';
 
 export const experts: IExpert[] = [
   {
@@ -27,6 +27,8 @@ export const experts: IExpert[] = [
     bio: 'Dolor sit amet consectetur adipiscing elit ut aliquam purus bio',
     socialNetworks: ['https://www.facebook.com'],
     createdAt: '2021-02-16T03:56:37.444+00:00',
+    enabled: true,
+    status: UserStatus.ACTIVE,
     region: {
       id: 10,
       name: 'Київська область',
@@ -59,6 +61,8 @@ export const experts: IExpert[] = [
     bio: 'Dolor sit amet consectetur adipiscing elit ut aliquam purus bio',
     socialNetworks: ['https://www.facebook.com'],
     createdAt: '2021-02-16T03:56:37.444+00:00',
+    enabled: true,
+    status: UserStatus.ACTIVE,
     region: {
       id: 10,
       name: 'Київська область',
@@ -91,6 +95,8 @@ export const experts: IExpert[] = [
     bio: 'Dolor sit amet consectetur adipiscing elit ut aliquam purus bio',
     socialNetworks: ['https://www.facebook.com'],
     createdAt: '2021-02-16T03:56:37.444+00:00',
+    enabled: true,
+    status: UserStatus.ACTIVE,
     region: {
       id: 10,
       name: 'Київська область',
@@ -123,6 +129,8 @@ export const experts: IExpert[] = [
     bio: 'Dolor sit amet consectetur adipiscing elit ut aliquam purus bio',
     socialNetworks: ['https://www.facebook.com'],
     createdAt: '2021-02-16T03:56:37.444+00:00',
+    enabled: true,
+    status: UserStatus.ACTIVE,
     region: {
       id: 10,
       name: 'Київська область',
@@ -155,6 +163,8 @@ export const experts: IExpert[] = [
     bio: 'Dolor sit amet consectetur adipiscing elit ut aliquam purus bio',
     socialNetworks: ['https://www.facebook.com'],
     createdAt: '2021-02-16T03:56:37.444+00:00',
+    enabled: true,
+    status: UserStatus.ACTIVE,
     region: {
       id: 10,
       name: 'Київська область',
@@ -187,6 +197,8 @@ export const experts: IExpert[] = [
     bio: 'Dolor sit amet consectetur adipiscing elit ut aliquam purus bio',
     socialNetworks: ['https://www.facebook.com'],
     createdAt: '2021-02-16T03:56:37.444+00:00',
+    enabled: true,
+    status: UserStatus.ACTIVE,
     region: {
       id: 10,
       name: 'Київська область',
@@ -219,6 +231,8 @@ export const experts: IExpert[] = [
     bio: 'Dolor sit amet consectetur adipiscing elit ut aliquam purus bio',
     socialNetworks: ['https://www.facebook.com'],
     createdAt: '2021-02-16T03:56:37.444+00:00',
+    enabled: true,
+    status: UserStatus.ACTIVE,
     region: {
       id: 10,
       name: 'Київська область',
@@ -251,6 +265,8 @@ export const experts: IExpert[] = [
     bio: 'Dolor sit amet consectetur adipiscing elit ut aliquam purus bio',
     socialNetworks: ['https://www.facebook.com'],
     createdAt: '2021-02-16T03:56:37.444+00:00',
+    enabled: true,
+    status: UserStatus.ACTIVE,
     region: {
       id: 10,
       name: 'Київська область',
@@ -283,6 +299,8 @@ export const experts: IExpert[] = [
     bio: 'Dolor sit amet consectetur adipiscing elit ut aliquam purus bio',
     socialNetworks: ['https://www.facebook.com'],
     createdAt: '2021-02-16T03:56:37.444+00:00',
+    enabled: true,
+    status: UserStatus.ACTIVE,
     region: {
       id: 10,
       name: 'Київська область',
@@ -315,6 +333,8 @@ export const experts: IExpert[] = [
     bio: 'Dolor sit amet consectetur adipiscing elit ut aliquam purus bio',
     socialNetworks: ['https://www.facebook.com'],
     createdAt: '2021-02-16T03:56:37.444+00:00',
+    enabled: true,
+    status: UserStatus.ACTIVE,
     region: {
       id: 10,
       name: 'Київська область',
@@ -347,6 +367,8 @@ export const experts: IExpert[] = [
     bio: 'Dolor sit amet consectetur adipiscing elit ut aliquam purus bio',
     socialNetworks: ['https://www.facebook.com'],
     createdAt: '2021-02-16T03:56:37.444+00:00',
+    enabled: true,
+    status: UserStatus.ACTIVE,
     region: {
       id: 10,
       name: 'Київська область',
